@@ -1,0 +1,93 @@
+#version 120
+/* MakeUp Ultra Fast - gbuffers_textured.fsh
+Render: Almost everything
+
+Javier Garduño - GNU Lesser General Public License v3.0
+*/
+
+#define REFLECTION 1 // [0 1] 0 = Off, 1 = On
+#define REFRACTION 1 // [0 1] 0 = Off, 1 = On
+
+#include "/lib/globals.glsl"
+#include "/lib/color_utils_nether.glsl"
+
+// Varyings (per thread shared variables)
+varying vec4 texcoord;
+varying vec4 lmcoord;
+varying vec4 tint_color;
+
+// 'Global' constants from system
+uniform sampler2D texture;
+// uniform sampler2D lightmap;
+uniform int isEyeInWater;
+uniform float nightVision;
+uniform float rainStrength;
+uniform float far;
+
+void main() {
+  // Custom light (lmcoord.x: candle, lmcoord.y: ambient) ----
+  vec2 illumination = lmcoord.xy;
+  // Tomamos el color de ambiente
+  vec3 ambient_currentlight = ambient_baselight;
+
+  illumination.y = pow(illumination.y, 3);  // Non-linear decay
+  illumination.y = (illumination.y * .92) + .08;  // Avoid absolute dark
+
+  // Ajuste de intensidad luminosa bajo el agua
+  if (isEyeInWater == 1.0) {
+    illumination.y = (illumination.y * .95) + .05;
+  }
+
+  vec3 ambient_color =
+    ambient_currentlight * illumination.y;
+  vec3 candle_color =
+    candle_baselight * pow(illumination.x, 4);  // Non-linear decay
+
+  // Se ajusta luz ambiental en tormenta
+  ambient_color = ambient_color * (1.0 - (rainStrength * .4));
+
+  vec3 real_light =
+    mix(ambient_color + candle_color, vec3(1.0), nightVision * .125) * 4.0;
+
+  // Toma el color puro del bloque
+  vec4 block_color = texture2D(texture, texcoord.xy);
+
+  // Se agrega mapa de color y sombreado nativo
+  block_color *= (tint_color * vec4(real_light, 1.0));
+
+  // Posproceso de la niebla
+  if (isEyeInWater == 1.0) {
+		block_color.rgb =
+      mix(
+        block_color.rgb,
+        waterfog_baselight,
+        1.0 - clamp(exp(-gl_Fog.density * gl_FogFragCoord), 0.0, 1.0)
+      );
+  } else if (isEyeInWater == 2.0) {
+    block_color.rgb =
+      mix(
+        block_color.rgb,
+        gl_Fog.color.rgb,
+        1.0 - clamp(exp(-gl_Fog.density * gl_FogFragCoord), 0.0, 1.0)
+      );
+	} else {
+    // Fog intensity calculation
+    float fog_intensity_coeff = fog_density;
+    float new_frog = (((gl_FogFragCoord / far) * (2.0 - fog_intensity_coeff)) - (1.0 - fog_intensity_coeff)) * far;
+    float frog_adjust = new_frog / far;
+
+    // Fog color calculation
+    vec3 current_fog_color = gl_Fog.color.rgb;
+
+    block_color.rgb =
+      mix(
+        block_color.rgb,
+        current_fog_color,
+        pow(clamp(frog_adjust, 0.0, 1.0), 2)
+      );
+  }
+
+  gl_FragData[0] = block_color;
+  gl_FragData[5] = block_color;
+	// gl_FragData[1] = vec4(0.0);  // Not needed. Performance trick
+}

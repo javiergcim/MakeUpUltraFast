@@ -1,0 +1,40 @@
+#Options
+#############################
+option.AA=FXAA quality
+value.AA.0=Off
+value.AA.4=Ultra sharp
+value.AA.6=Nice
+value.AA.12=Complete
+
+option.TonemapWhiteCurve=Tone map white curve
+option.TonemapLowerCurve=Tone map lower curve
+option.TonemapUpperCurve=Tone map upper curve
+
+option.NICE_WATER=Nice water
+value.NICE_WATER.0=Off
+value.NICE_WATER.1=On
+
+option.TINTED_WATER=Tinted water
+value.TINTED_WATER.0=No
+value.TINTED_WATER.1=Yes
+
+option.REFLECTION=Reflection
+value.REFLECTION.0=Off
+value.REFLECTION.1=On
+
+option.REFRACTION=Refraction
+value.REFRACTION.0=Off
+value.REFRACTION.1=On
+
+option.SSR_METHOD=Reflection method
+value.SSR_METHOD.0=Flipped image
+value.SSR_METHOD.1=Raytrace
+
+#Screens
+screen.AA_SCREEN=Antialiasing options
+screen.AA_SCREEN.comment=Toggle antialiasing (FXAA).
+
+screen.COLOR_MAP=Tonemapping options
+screen.COLOR_MAP.comment=Tonemapping options
+
+screen.EFFECTS=Effects options
