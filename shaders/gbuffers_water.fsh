@@ -153,13 +153,13 @@ void main() {
       vec3 fragposition0 = toNDC(vec3(gl_FragCoord.xy / vec2(viewWidth, viewHeight), gl_FragCoord.z));
 
       block_color = vec4(
-  			refraction(
-  				fragposition0,
-  				block_color.rgb,
-  				water_normal_base
-  			),
-  			1.0
-  		);
+        refraction(
+          fragposition0,
+          block_color.rgb,
+          water_normal_base
+        ),
+        1.0
+      );
 
       block_color.rgb = waterShader(
         fragposition0.xyz,
