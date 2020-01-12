@@ -74,7 +74,7 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 waterRefract) {
 }
 
 vec3 getNormals(vec3 bump) {
-  float NdotE = abs(dot(normal.xyz, normalize(position2.xyz)));
+  float NdotE = abs(dot(normal, normalize(position2.xyz)));
 
   bump *= vec3(NdotE) + vec3(0.0, 0.0, 1.0 - NdotE);
 
@@ -182,7 +182,7 @@ vec3 waterShader(vec3 fragpos, vec3 normal, vec3 color, float shading, vec3 skyR
   reflection = raytrace(fragpos, normal);
   #endif
 
-  float normalDotEye = dot(normal.rgb, normalize(fragpos));
+  float normalDotEye = dot(normal, normalize(fragpos));
   float fresnel = clamp(pow(1.0 + normalDotEye, 4.0) + 0.1, 0.0, 1.0);
 
   reflection.rgb = mix(skyReflection * pow(lmcoord.t, 2.0), reflection.rgb, reflection.a);

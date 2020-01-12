@@ -18,7 +18,6 @@ varying vec4 tint_color;
 
 // 'Global' constants from system
 uniform sampler2D texture;
-// uniform sampler2D lightmap;
 uniform int isEyeInWater;
 uniform float nightVision;
 uniform float rainStrength;

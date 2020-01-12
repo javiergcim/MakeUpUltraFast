@@ -19,8 +19,7 @@ const int noiseTextureResolution  = 128;
 varying vec4 texcoord;
 varying vec4 lmcoord;
 varying vec4 tint_color;
-varying vec3 my_normal;
-varying vec4 normal;
+varying vec3 normal;
 varying vec3 sun_vec;
 varying vec3 moon_vec;
 varying float iswater;
@@ -33,7 +32,6 @@ varying vec3 binormal;
 // 'Global' constants from system
 uniform int worldTime;
 uniform sampler2D texture;
-uniform sampler2D lightmap;
 uniform int isEyeInWater;
 uniform int entityId;
 uniform float nightVision;
@@ -99,22 +97,22 @@ void main() {
    // Si no estamos ocultos al cielo calculamos iluminación de dirección
   if (direct_light_coefficient > 0.0) {
     if ((worldTime >= 0 && worldTime <= 12700) || worldTime > 23000) {  // Día
-      direct_light_strenght = dot(my_normal, sun_vec);
+      direct_light_strenght = dot(normal, sun_vec);
     //
     } else if (worldTime > 12700 && worldTime <= 13400 ) { // Anochece
-      float sun_light_strenght = dot(my_normal, sun_vec);
-      float moon_light_strenght = dot(my_normal, moon_vec);
+      float sun_light_strenght = dot(normal, sun_vec);
+      float moon_light_strenght = dot(normal, moon_vec);
       float light_mix = (worldTime - 12700) / 700.0;
       // Calculamos la cantidad de mezcla de luz de sol y luna
       direct_light_strenght =
         mix(sun_light_strenght, moon_light_strenght, light_mix);
 
     } else if (worldTime > 13400 && worldTime <= 22300) {  // Noche
-      direct_light_strenght = dot(my_normal, moon_vec);
+      direct_light_strenght = dot(normal, moon_vec);
 
     } else if (worldTime > 22300) {  // Amanece
-      float sun_light_strenght = dot(my_normal, sun_vec);
-      float moon_light_strenght = dot(my_normal, moon_vec);
+      float sun_light_strenght = dot(normal, sun_vec);
+      float moon_light_strenght = dot(normal, moon_vec);
       float light_mix = (worldTime - 22300) / 700.0;
       // Calculamos la cantiidad de mezcla de luz de sol y luna
       direct_light_strenght =
