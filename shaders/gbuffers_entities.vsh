@@ -31,7 +31,7 @@ void main() {
 
   tint_color = gl_Color;
 
-  normal = gl_NormalMatrix * gl_Normal;
+  normal = normalize(gl_NormalMatrix * gl_Normal);
 
   sun_vec = normalize(sunPosition);
   moon_vec = normalize(moonPosition);

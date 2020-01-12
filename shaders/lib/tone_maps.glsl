@@ -1,7 +1,6 @@
 vec3 BSL_like(vec3 x){
-	x = x / pow(pow(x, vec3(TonemapWhiteCurve)) + 1.0, vec3(1.0 / TonemapWhiteCurve));
-	x = pow(x, mix(vec3(TonemapLowerCurve), vec3(TonemapUpperCurve), sqrt(x)));
-	return x;
+  x = x / pow(pow(x, vec3(3.0)) + 1.0, vec3(.333333333333333333333));
+  return x;
 }
 
 vec3 uchimura(vec3 x) {

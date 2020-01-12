@@ -6,13 +6,9 @@ Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 #define AA 4 // [0 4 6 12] Set antialiasing quality
-#define TONEMAP 0 // [0 1] Set tonemap
+#define TONEMAP 0 // [0 1 2 3] Set tonemap
 
 #include "/lib/globals.glsl"
-
-#define TonemapWhiteCurve 3.0 // [1.0 1.5 2.0 2.5 3.0 3.5 4.0] Tone map white curve
-#define TonemapLowerCurve 1.0 // [0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5] Tone map lower curve
-#define TonemapUpperCurve 1.0 // [0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5] Tone map upper curve
 
 // 'Global' constants from system
 uniform sampler2D G_COLOR;
@@ -47,13 +43,18 @@ void main() {
 	#if AA != 0
 		color = fxaa311(color, AA);
 	#endif
+
 	color *= exposure;
 
-	#if TONEMAP == 0
-		color = BSL_like(color);
-	#elif TONEMAP == 1
-		color = uncharted2(color);
-	#endif
+  #if TONEMAP == 0
+    color = BSL_like(color);
+  #elif TONEMAP == 1
+    color = uncharted2(color);
+  #elif TONEMAP == 2
+    color = uchimura(color);
+  #elif TONEMAP == 3
+    color = tonemapFilmic(color);
+  #endif
 
   gl_FragData[0] = vec4(color, 1.0);
 	gl_FragData[1] = vec4(0.0);

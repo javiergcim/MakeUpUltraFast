@@ -23,14 +23,14 @@ vec3 candle_baselight = vec3(.5, 0.38823529411764707, 0.1803921568627451);
 vec3 waterfog_baselight = vec3(0.09215686274509804, 0.23137254901960785, 0.3980392156862745);
 
 float luma(vec3 color) {
-	/* Calcula la luma del color dado.
+  /* Calcula la luma del color dado.
 
-	Args:
-		color (vec3). El color a calcular el luma.
+  Args:
+  color (vec3). El color a calcular el luma.
 
-	Returns:
-		float: La luma del color dado.
+  Returns:
+  float: La luma del color dado.
 
-		*/
-	return dot(color, vec3(0.299, 0.587, 0.114));
+  */
+  return dot(color, vec3(0.299, 0.587, 0.114));
 }

@@ -6,13 +6,11 @@ value.AA.4=Ultra sharp
 value.AA.6=Nice
 value.AA.12=Complete
 
-option.TonemapWhiteCurve=Tone map white curve
-option.TonemapLowerCurve=Tone map lower curve
-option.TonemapUpperCurve=Tone map upper curve
-
 option.TONEMAP=Tone map
 value.TONEMAP.0=BSL like
-value.TONEMAP.1=Uncharted 2 Tonemap
+value.TONEMAP.1=Uncharted 2
+value.TONEMAP.2=Uchimura
+value.TONEMAP.3=Filmic
 
 option.NICE_WATER=Nice water
 value.NICE_WATER.0=Off

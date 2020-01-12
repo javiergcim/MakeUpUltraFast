@@ -9,7 +9,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define REFRACTION 1 // [0 1] Activate refraction
 
 #include "/lib/globals.glsl"
-#include "/lib/color_utils.glsl"
 
 // Varyings (per thread shared variables)
 varying vec4 texcoord;
@@ -33,6 +32,8 @@ uniform float rainStrength;
 uniform float wetness;
 uniform float far;
 uniform vec3 skyColor;
+
+#include "/lib/color_utils.glsl"
 
 void main() {
   // Custom light (lmcoord.x: candle, lmcoord.y: ambient) ----
@@ -116,7 +117,7 @@ void main() {
 
   // Posproceso de la niebla
   if (isEyeInWater == 1.0) {
-		block_color.rgb =
+  block_color.rgb =
       mix(
         block_color.rgb,
         waterfog_baselight * real_light,
@@ -129,7 +130,7 @@ void main() {
         gl_Fog.color.rgb * real_light,
         1.0 - clamp(exp(-gl_Fog.density * gl_FogFragCoord), 0.0, 1.0)
       );
-	} else {
+  } else {
     // Fog intensity calculation
     float fog_intensity_coeff = mix(
       fog_density[int(floor(current_hour))],
@@ -157,6 +158,6 @@ void main() {
   }
 
   gl_FragData[0] = block_color;
+  gl_FragData[1] = vec4(0.0);  // Not needed. Performance trick
   gl_FragData[5] = block_color;
-	// gl_FragData[1] = vec4(0.0);  // Not needed. Performance trick
 }

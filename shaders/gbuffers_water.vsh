@@ -50,8 +50,8 @@ void main() {
   tint_color = gl_Color;
   texcoord = gl_MultiTexCoord0;
   lmcoord = gl_TextureMatrix[1] * gl_MultiTexCoord1;
-  my_normal = gl_NormalMatrix * gl_Normal;
-  normal = vec4(normalize(my_normal), 0.15);
+  my_normal = normalize(gl_NormalMatrix * gl_Normal);
+  normal = vec4(my_normal, 0.15);
   vec4 position = gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex;
   position2 = gl_ModelViewMatrix * gl_Vertex;
   worldposition = position + vec4(cameraPosition.xyz, 0.0);
