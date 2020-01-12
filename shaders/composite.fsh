@@ -10,9 +10,9 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #include "/lib/globals.glsl"
 
-#define TonemapWhiteCurve 3.0 //[1.0 1.5 2.0 2.5 3.0 3.5 4.0] Tone map white curve
-#define TonemapLowerCurve 1.0 //[0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5] Tone map lower curve
-#define TonemapUpperCurve 1.0 //[0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5] Tone map upper curve
+#define TonemapWhiteCurve 3.0 // [1.0 1.5 2.0 2.5 3.0 3.5 4.0] Tone map white curve
+#define TonemapLowerCurve 1.0 // [0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5] Tone map lower curve
+#define TonemapUpperCurve 1.0 // [0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5] Tone map upper curve
 
 // 'Global' constants from system
 uniform sampler2D G_COLOR;
@@ -45,7 +45,7 @@ void main() {
 
 	float exposure = (ambient_bright * exposure_coef) + candle_bright;
 
-	// Map to [1.0 - 0.0][1.0 - 4.0]
+	// Map from 1.0 - 0.0 to 1.0 - 4.0
 	exposure = (exposure * -3.0) + 4.0;
 
 	vec3 color = texture2D(G_COLOR, texcoord.xy).rgb;
@@ -58,7 +58,7 @@ void main() {
 	#if TONEMAP == 0
 		color = BSL_like(color);
 	#elif TONEMAP == 1
-		color = uncharted2Tonemap(color);
+		color = uncharted2(color);
 	#endif
 
   gl_FragData[0] = vec4(color, 1.0);

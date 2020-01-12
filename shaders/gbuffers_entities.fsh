@@ -5,8 +5,8 @@ Render: Droped objects and similar things
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define REFLECTION 1 // [0 1] 0 = Off, 1 = On
-#define REFRACTION 1 // [0 1] 0 = Off, 1 = On
+#define REFLECTION 1 // [0 1] Activate reflection
+#define REFRACTION 1 // [0 1] Activate refraction
 
 #include "/lib/globals.glsl"
 #include "/lib/color_utils.glsl"
