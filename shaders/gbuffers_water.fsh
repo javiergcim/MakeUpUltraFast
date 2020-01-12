@@ -71,7 +71,8 @@ void main() {
       fract(current_hour)
     ) * ambient_multiplier;
 
-  illumination.y = pow(illumination.y, 3);  // Non-linear decay
+  // illumination.y = pow(illumination.y, 3);  // Non-linear decay
+  illumination.y *= illumination.y;
   illumination.y = (illumination.y * .99) + .01;  // Avoid absolute dark
 
   // Ajuste de intensidad luminosa bajo el agua
@@ -82,7 +83,7 @@ void main() {
   vec3 ambient_color =
     ambient_currentlight * illumination.y;
   vec3 candle_color =
-    candle_baselight * pow(illumination.x, 4);  // Non-linear decay
+    candle_baselight * illumination.x * illumination.x * illumination.x;
 
   // Se ajusta luz ambiental en tormenta
   ambient_color = ambient_color * (1.0 - (rainStrength * .4));

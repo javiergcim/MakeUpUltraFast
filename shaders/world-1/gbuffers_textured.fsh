@@ -40,7 +40,7 @@ void main() {
   vec3 ambient_color =
     ambient_currentlight * illumination.y;
   vec3 candle_color =
-    candle_baselight * pow(illumination.x, 4);  // Non-linear decay
+    candle_baselight * illumination.x * illumination.x * illumination.x;
 
   // Se ajusta luz ambiental en tormenta
   ambient_color = ambient_color * (1.0 - (rainStrength * .4));
