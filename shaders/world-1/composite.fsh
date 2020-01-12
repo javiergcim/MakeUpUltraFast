@@ -5,7 +5,8 @@ Render: Composite after gbuffers
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define AA 6 // [0 4 6 12]
+#define AA 4 // [0 4 6 12] Set antialiasing quality
+#define TONEMAP 0 // [0 1] Set tonemap
 
 #include "/lib/globals.glsl"
 
@@ -48,9 +49,13 @@ void main() {
 	#if AA != 0
 		color = fxaa311(color, AA);
 	#endif
-	// color *= exposure;
-	// color = BSL_like(color);
-	color = uchimura(color);
+	color *= exposure;
+
+	#if TONEMAP == 0
+		color = BSL_like(color);
+	#elif TONEMAP == 1
+		color = uncharted2Tonemap(color);
+	#endif
 
   gl_FragData[0] = vec4(color, 1.0);
 	gl_FragData[1] = vec4(0.0);

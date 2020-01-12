@@ -10,6 +10,10 @@ option.TonemapWhiteCurve=Tone map white curve
 option.TonemapLowerCurve=Tone map lower curve
 option.TonemapUpperCurve=Tone map upper curve
 
+option.TONEMAP=Tone map
+value.TONEMAP.0=BSL like
+value.TONEMAP.1=Uncharted 2 Tonemap
+
 option.NICE_WATER=Nice water
 value.NICE_WATER.0=Off
 value.NICE_WATER.1=On

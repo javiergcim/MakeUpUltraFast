@@ -4,6 +4,12 @@ Usefull functions for color manipulation.
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+// #if TONEMAP == 0
+// 	float ambient_multiplier = 1.4;
+// #else
+// 	float ambient_multiplier = 1.0;
+// #endif
+
 float ambient_multiplier = 1.4;
 
 // Ambient colors per hour

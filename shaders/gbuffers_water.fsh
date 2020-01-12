@@ -8,11 +8,11 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // #extension GL_EXT_gpu_shader4 : enable
 // #extension GL_ARB_shader_texture_lod : enable
 
-#define NICE_WATER 1 // [0 1] 0 = No, 1 = Yes, Turn on for reflection and refraction capabilities.
-#define TINTED_WATER 1 // [0 1] 0 = No, 1 = Yes, Use the resource pack color for water.
-#define REFLECTION 1 // [0 1] 0 = Off, 1 = On
-#define REFRACTION 1 // [0 1] 0 = Off, 1 = On
-#define SSR_METHOD 0 // [0 1] 0 = Flipped image, 1 = Raytracer
+#define NICE_WATER 1 // [0 1] Turn on for reflection and refraction capabilities.
+#define TINTED_WATER 1 // [0 1] Use the resource pack color for water.
+#define REFLECTION 1 // [0 1] Activate reflectons
+#define REFRACTION 1 // [0 1] Activate refractions
+#define SSR_METHOD 0 // [0 1] Select reflection method
 
 const int noiseTextureResolution  = 128;
 
@@ -57,18 +57,7 @@ uniform sampler2D gcolor;
 uniform sampler2D gdepth;
 uniform sampler2D gnormal;
 uniform sampler2D composite;
-uniform sampler2D gaux1;
 uniform sampler2D gaux2;
-uniform sampler2D gaux3;
-uniform sampler2D gaux4;
-uniform sampler2D colortex0;
-uniform sampler2D colortex1;
-uniform sampler2D colortex2;
-uniform sampler2D colortex3;
-uniform sampler2D colortex4;
-uniform sampler2D colortex5;
-uniform sampler2D colortex6;
-uniform sampler2D colortex7;
 uniform sampler2D depthtex0;
 uniform sampler2D depthtex1;
 uniform vec3 sunPosition;
@@ -85,7 +74,7 @@ float waterWaves(vec3 worldPos) {
   worldPos.x += sin(worldPos.x) * 0.3;
 
   // Defined as: mat2 rotate_mat = mat2(cos(.5), -sin(.5), sin(.5), cos(.5));
-  const mat2 rotate_mat = mat2(0.8775825618903728, -0.479425538604203,  // CHECK AS GLOBAL
+  const mat2 rotate_mat = mat2(0.8775825618903728, -0.479425538604203,
                          -0.479425538604203, 0.8775825618903728);
 
   wave = texture2D(noisetex, worldPos.xz * 0.075 + vec2(frameTimeCounter * 0.015)).x * 0.1;
