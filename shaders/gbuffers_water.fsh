@@ -144,7 +144,11 @@ void main() {
     #if NICE_WATER == 1
 
       #if TINTED_WATER == 1
-        block_color.rgb = tint_color.rgb * direct_light_strenght;
+        block_color.rgb = mix(
+          tint_color.rgb * direct_light_strenght,
+          vec3(1.0),
+          .5
+        );
       #else
         block_color.rgb = vec3(1.0);
       #endif

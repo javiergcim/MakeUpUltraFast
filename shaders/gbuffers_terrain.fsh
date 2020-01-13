@@ -1,6 +1,6 @@
 #version 120
 /* MakeUp Ultra Fast - gbuffers_textured.fsh
-Render: Particles
+Render: Almost everything
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
@@ -70,6 +70,49 @@ void main() {
 
   // Se agrega mapa de color y sombreado nativo
   block_color *= (tint_color * vec4(real_light, 1.0));
+
+  if (emissive < 0.5) {  // No es bloque emisivo
+    // Indica cuanta iluminación basada en dirección de fuente de luz se usará
+    float direct_light_coefficient = clamp(lmcoord.y * 2.0 - 1.0, 0.0, 1.0);
+    float direct_light_strenght = 1.0;
+
+     // Si no estamos ocultos al cielo calculamos iluminación de dirección
+    if (direct_light_coefficient > 0.0) {
+      if ((worldTime >= 0 && worldTime <= 12700) || worldTime > 23000) {  // Día
+        direct_light_strenght = dot(normal, sun_vec);
+      //
+      } else if (worldTime > 12700 && worldTime <= 13400 ) { // Anochece
+        float sun_light_strenght = dot(normal, sun_vec);
+        float moon_light_strenght = dot(normal, moon_vec);
+        float light_mix = (worldTime - 12700) / 700.0;
+        // Calculamos la cantidad de mezcla de luz de sol y luna
+        direct_light_strenght =
+          mix(sun_light_strenght, moon_light_strenght, light_mix);
+
+      } else if (worldTime > 13400 && worldTime <= 22300) {  // Noche
+        direct_light_strenght = dot(normal, moon_vec);
+
+      } else if (worldTime > 22300) {  // Amanece
+        float sun_light_strenght = dot(normal, sun_vec);
+        float moon_light_strenght = dot(normal, moon_vec);
+        float light_mix = (worldTime - 22300) / 700.0;
+        // Calculamos la cantidad de mezcla de luz de sol y luna
+        direct_light_strenght =
+          mix(moon_light_strenght, sun_light_strenght, light_mix);
+      }
+
+      // Escalamos para evitar negros en zonas oscuras
+      direct_light_strenght = direct_light_strenght * .4 + .6;
+      direct_light_strenght =
+        mix(1.0, direct_light_strenght, direct_light_coefficient);
+    }
+
+    if (translucent < .5) {  // No es "planta"
+      block_color.rgb *= direct_light_strenght;
+    } else {
+      block_color.rgb *= mix(direct_light_strenght, 1.0, .4);
+    }
+  }
 
   // Posproceso de la niebla
   if (isEyeInWater == 1.0) {

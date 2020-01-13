@@ -1,6 +1,6 @@
 #version 120
 /* MakeUp Ultra Fast - gbuffers_textured.vsh
-Render: Particles
+Render: Small entities, hand objects
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
