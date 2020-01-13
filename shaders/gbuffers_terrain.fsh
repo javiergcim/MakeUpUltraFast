@@ -46,7 +46,7 @@ void main() {
       fract(current_hour)
     ) * ambient_multiplier;
 
-  illumination.y = pow(illumination.y, 3);  // Non-linear decay
+  illumination.y *= illumination.y * illumination.y;  // Non-linear decay
   illumination.y = (illumination.y * .99) + .01;  // Avoid absolute dark
 
   // Ajuste de intensidad luminosa bajo el agua
@@ -102,7 +102,7 @@ void main() {
       }
 
       // Escalamos para evitar negros en zonas oscuras
-      direct_light_strenght = direct_light_strenght * .4 + .6;
+      direct_light_strenght = direct_light_strenght * .5 + .5;
       direct_light_strenght =
         mix(1.0, direct_light_strenght, direct_light_coefficient);
     }

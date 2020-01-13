@@ -46,7 +46,7 @@ void main() {
       fract(current_hour)
     ) * ambient_multiplier;
 
-  illumination.y = pow(illumination.y, 3);  // Non-linear decay
+  illumination.y *= illumination.y * illumination.y;  // Non-linear decay
   illumination.y = (illumination.y * .99) + .01;  // Avoid absolute dark
 
   // Ajuste de intensidad luminosa bajo el agua
