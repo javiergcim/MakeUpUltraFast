@@ -57,7 +57,10 @@ uniform sampler2D depthtex1;
 uniform vec3 sunPosition;
 
 #include "/lib/color_utils.glsl"
-#include "/lib/water.glsl"
+
+#if NICE_WATER == 1
+  #include "/lib/water.glsl"
+#endif
 
 void main() {
   // Custom light (lmcoord.x: candle, lmcoord.y: ambient) ----
@@ -147,7 +150,7 @@ void main() {
         block_color.rgb = mix(
           tint_color.rgb * direct_light_strenght,
           vec3(1.0),
-          .5
+          .3
         );
       #else
         block_color.rgb = vec3(1.0);

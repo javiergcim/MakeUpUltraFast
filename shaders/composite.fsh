@@ -7,6 +7,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #define AA 4 // [0 4 6 12] Set antialiasing quality
 #define TONEMAP 0 // [0 1 2 3] Set tonemap
+#define CROSS 0 // [0 1] Activate color crossprocess
 
 #include "/lib/globals.glsl"
 
@@ -61,6 +62,10 @@ void main() {
   #elif TONEMAP == 3
     color = tonemapFilmic(color);
   #endif
+
+  // #if CROSS == 1
+  //   color = color_cross(color);
+  // #endif
 
   gl_FragData[0] = vec4(color, 1.0);
   gl_FragData[1] = vec4(0.0);

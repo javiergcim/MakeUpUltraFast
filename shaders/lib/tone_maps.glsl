@@ -4,11 +4,18 @@ vec3 BSL_like(vec3 x){
 }
 
 vec3 uchimura(vec3 x) {
+  // const float P = 1.0;  // max display brightness
+  // const float a = 1.0;  // contrast
+  // const float m = 0.22; // linear section start
+  // const float l = 0.4;  // linear section length
+  // const float c = 1.33; // black
+  // const float b = 0.0;  // pedestal
+
   const float P = 1.0;  // max display brightness
-  const float a = 1.0;  // contrast
+  const float a = 1.2;  // contrast
   const float m = 0.22; // linear section start
   const float l = 0.4;  // linear section length
-  const float c = 1.33; // black
+  const float c = 1.0; // black
   const float b = 0.0;  // pedestal
 
   float l0 = ((P - m) * l) / a;
@@ -90,3 +97,11 @@ vec3 aces(vec3 x) {
   const float e = 0.14;
   return clamp((x * (a * x + b)) / (x * (c * x + d) + e), 0.0, 1.0);
 }
+
+// vec3 color_cross(vec3 tex) {
+//   tex.r = (tex.r * 1.0) + (tex.b + tex.g) * (-0.1);
+//   tex.g = (tex.g * 1.2) + (tex.r + tex.b) * (-0.1);
+//   tex.b = (tex.b * 1.1) + (tex.r + tex.g) * (-0.1);
+//
+//   return tex;
+// }

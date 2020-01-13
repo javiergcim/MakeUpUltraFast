@@ -6,19 +6,18 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 float ambient_multiplier = 1.4;
 
-// Ambient colors per hour
+// Ambient colors every hour
 vec3 ambient_baselight = vec3(1.0, 0.9176470588235294, 0.5058823529411764);
 
-// Ambient color luma per hour in exposure calculation
+// Ambient color luma every hour in exposure calculation
 float ambient_exposure = 1.0;
 
 // How many sky_color vs. fog_color is used for fog.
 float fog_color_mix = 0.0;
 
-// Fog intesity per hour
-float fog_density = 1.0;
+// Fog intesity every hour
+float fog_density = 1.2;
 
-// vec3 candle_baselight = vec3(.5, 0.4235294117647059, 0.2725490196078431);
 vec3 candle_baselight = vec3(.5, 0.38823529411764707, 0.1803921568627451);
 vec3 waterfog_baselight = vec3(0.09215686274509804, 0.23137254901960785, 0.3980392156862745);
 

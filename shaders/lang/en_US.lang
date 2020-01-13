@@ -12,6 +12,10 @@ value.TONEMAP.1=Uncharted 2
 value.TONEMAP.2=Uchimura
 value.TONEMAP.3=Filmic
 
+# option.CROSS=Color crossprocess
+# value.CROSS.0=Off
+# value.CROSS.1=On
+
 option.NICE_WATER=Nice water
 value.NICE_WATER.0=Off
 value.NICE_WATER.1=On
