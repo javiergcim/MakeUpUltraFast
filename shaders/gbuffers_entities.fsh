@@ -40,8 +40,8 @@ void main() {
       fract(current_hour)
     ) * ambient_multiplier;
 
-  illumination.y *= illumination.y * illumination.y;  // Non-linear decay
-  illumination.y = (illumination.y * .99) + .01;  // Avoid absolute dark
+  illumination.y *= illumination.y;  // Non-linear decay
+  illumination.y = (illumination.y * .989) + .011;  // Avoid absolute dark
 
   // Ajuste de intensidad luminosa bajo el agua
   if (isEyeInWater == 1.0) {
@@ -104,7 +104,7 @@ void main() {
 
   omni_light *= (-direct_light_strenght + 1.0);
 
-  block_color *= (((tint_color * vec4(real_light, 1.0)) * direct_light_strenght) + vec4(omni_light, 0.0));
+  block_color *= (((tint_color * vec4(real_light, 1.0)) * vec4(direct_light_strenght, direct_light_strenght, direct_light_strenght, 1.0)) + vec4(omni_light, 0.0));
 
   // Posproceso de la niebla
   if (isEyeInWater == 1.0) {
