@@ -104,7 +104,7 @@ void main() {
 
   omni_light *= (-direct_light_strenght + 1.0);
 
-  block_color.rgb *= (((tint_color.rgb * real_light) * direct_light_strenght) + omni_light);
+  block_color *= (((tint_color * vec4(real_light, 1.0)) * direct_light_strenght) + vec4(omni_light, 0.0));
 
   // Posproceso de la niebla
   if (isEyeInWater == 1.0) {

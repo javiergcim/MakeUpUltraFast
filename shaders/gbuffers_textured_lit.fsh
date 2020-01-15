@@ -114,7 +114,7 @@ void main() {
       direct_light_strenght = mix(direct_light_strenght, 1.0, .2);
     }
 
-    block_color.rgb *= (((tint_color.rgb * real_light) * direct_light_strenght) + omni_light);
+    block_color *= (((tint_color * vec4(real_light, 1.0)) * direct_light_strenght) + vec4(omni_light, 0.0));
   } else {  // Es emisivo
     block_color *= (tint_color * vec4(real_light * 1.2, 1.0));
   }
