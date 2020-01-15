@@ -66,19 +66,10 @@ void main() {
   vec3 real_light =
     mix(ambient_color + candle_color, vec3(1.0), nightVision * .125);
 
-  vec3 omni_light = mix(
-    omni_coefficient[int(floor(current_hour))],
-    omni_coefficient[int(ceil(current_hour))],
-    fract(current_hour)
-  ) * skyColor;
+  vec3 omni_light = skyColor * .15;
 
   // Toma el color puro del bloque
   vec4 block_color = texture2D(texture, texcoord.xy);
-  // vec4 block_color;
-
-  // Se agrega mapa de color y sombreado nativo
-  // block_color *= (tint_color * vec4(real_light, 1.0));
-  // block_color = (tint_color * vec4(real_light, 1.0));
 
   if (emissive < 0.5) {  // No es bloque emisivo
     // Indica cuanta iluminación basada en dirección de fuente de luz se usará
@@ -113,12 +104,12 @@ void main() {
       }
 
       // Escalamos para evitar negros en zonas oscuras
-      // direct_light_strenght = direct_light_strenght * .5 + .5;
+      direct_light_strenght = (direct_light_strenght * .55) + .45;
       direct_light_strenght =
         mix(1.0, direct_light_strenght, direct_light_coefficient);
-
-      direct_light_strenght = (direct_light_strenght * .5) + .5;
     }
+
+    omni_light *= (-direct_light_strenght + 1.0);
 
     if (grass > .5) {  // Es "planta"
       direct_light_strenght = mix(direct_light_strenght, 1.0, .3);
@@ -126,16 +117,7 @@ void main() {
       direct_light_strenght = mix(direct_light_strenght, 1.0, .2);
     }
 
-    // block_color *= (tint_color * vec4(real_light, 1.0)) * direct_light_strenght;
-    // block_color *= ((tint_color * vec4(real_light, 1.0)) * direct_light_strenght);
     block_color.rgb *= (((tint_color.rgb * real_light) * direct_light_strenght) + omni_light);
-    // vec3 temp_color = (((tint_color.rgb * real_light) * direct_light_strenght));
-    // block_color.rgb = temp_color;
-    // block_color.rgb = omni_light;
-    // vec3 temp_light = (tint_color.rgb * real_light);
-    // temp_light *= direct_light_strenght;
-    // block_color.rgb = temp_light;
-    // block_color.rgb *= tint_color * real_light;
   }
 
   // Posproceso de la niebla
@@ -160,7 +142,7 @@ void main() {
       fog_density[int(ceil(current_hour))],
       fract(current_hour)
       );
-    fog_intensity_coeff = max(fog_intensity_coeff, wetness);
+    fog_intensity_coeff = max(fog_intensity_coeff, wetness * 1.5);
     float new_frog = (((gl_FogFragCoord / far) * (2.0 - fog_intensity_coeff)) - (1.0 - fog_intensity_coeff)) * far;
     float frog_adjust = new_frog / far;
 

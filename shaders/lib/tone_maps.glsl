@@ -1,6 +1,16 @@
+// vec3 BSL_like(vec3 x){
+//   x = x / pow(pow(x, vec3(3.0)) + 1.0, vec3(.333333333333333333333));
+//   return x;
+// }
+
+#define TonemapWhiteCurve 3.0 //[1.0 1.5 2.0 2.5 3.0 3.5 4.0]
+#define TonemapLowerCurve 1.0 //[0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5]
+#define TonemapUpperCurve 1.0 //[0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5]
+
 vec3 BSL_like(vec3 x){
-  x = x / pow(pow(x, vec3(3.0)) + 1.0, vec3(.333333333333333333333));
-  return x;
+	x = x / pow(pow(x,vec3(TonemapWhiteCurve)) + 1.0,vec3(1.0/TonemapWhiteCurve));
+	x = pow(x,mix(vec3(TonemapLowerCurve),vec3(TonemapUpperCurve),sqrt(x)));
+	return x;
 }
 
 vec3 uchimura(vec3 x) {
