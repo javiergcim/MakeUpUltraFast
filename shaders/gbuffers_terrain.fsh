@@ -17,7 +17,8 @@ varying vec4 tint_color;
 varying vec3 normal;
 varying vec3 sun_vec;
 varying vec3 moon_vec;
-varying float translucent;
+varying float grass;
+varying float leaves;
 varying float emissive;
 varying float iswater;
 
@@ -65,16 +66,26 @@ void main() {
   vec3 real_light =
     mix(ambient_color + candle_color, vec3(1.0), nightVision * .125);
 
+  vec3 omni_light = mix(
+    omni_coefficient[int(floor(current_hour))],
+    omni_coefficient[int(ceil(current_hour))],
+    fract(current_hour)
+  ) * skyColor;
+
   // Toma el color puro del bloque
   vec4 block_color = texture2D(texture, texcoord.xy);
+  // vec4 block_color;
 
   // Se agrega mapa de color y sombreado nativo
-  block_color *= (tint_color * vec4(real_light, 1.0));
+  // block_color *= (tint_color * vec4(real_light, 1.0));
+  // block_color = (tint_color * vec4(real_light, 1.0));
 
   if (emissive < 0.5) {  // No es bloque emisivo
     // Indica cuanta iluminación basada en dirección de fuente de luz se usará
     float direct_light_coefficient = clamp(lmcoord.y * 2.0 - 1.0, 0.0, 1.0);
     float direct_light_strenght = 1.0;
+
+    omni_light *= direct_light_coefficient;
 
      // Si no estamos ocultos al cielo calculamos iluminación de dirección
     if (direct_light_coefficient > 0.0) {
@@ -102,16 +113,29 @@ void main() {
       }
 
       // Escalamos para evitar negros en zonas oscuras
-      direct_light_strenght = direct_light_strenght * .5 + .5;
+      // direct_light_strenght = direct_light_strenght * .5 + .5;
       direct_light_strenght =
         mix(1.0, direct_light_strenght, direct_light_coefficient);
+
+      direct_light_strenght = (direct_light_strenght * .5) + .5;
     }
 
-    if (translucent < .5) {  // No es "planta"
-      block_color.rgb *= direct_light_strenght;
-    } else {
-      block_color.rgb *= mix(direct_light_strenght, 1.0, .4);
+    if (grass > .5) {  // Es "planta"
+      direct_light_strenght = mix(direct_light_strenght, 1.0, .3);
+    } else if(leaves > .5) {
+      direct_light_strenght = mix(direct_light_strenght, 1.0, .2);
     }
+
+    // block_color *= (tint_color * vec4(real_light, 1.0)) * direct_light_strenght;
+    // block_color *= ((tint_color * vec4(real_light, 1.0)) * direct_light_strenght);
+    block_color.rgb *= (((tint_color.rgb * real_light) * direct_light_strenght) + omni_light);
+    // vec3 temp_color = (((tint_color.rgb * real_light) * direct_light_strenght));
+    // block_color.rgb = temp_color;
+    // block_color.rgb = omni_light;
+    // vec3 temp_light = (tint_color.rgb * real_light);
+    // temp_light *= direct_light_strenght;
+    // block_color.rgb = temp_light;
+    // block_color.rgb *= tint_color * real_light;
   }
 
   // Posproceso de la niebla

@@ -12,6 +12,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define ENTITY_UPPERGRASS	  10176.0 // Upper half only used in 1.13+
 #define ENTITY_SMALLENTS    10059.0	// sapplings(6), dandelion(37), rose(38), carrots(141), potatoes(142), beetroot(207)
 #define ENTITY_VINES        10106.0
+#define ENTITY_LEAVES       10018.0 // Leaves
 #define ENTITY_EMISSIVE     10089.0 // Emissors like candels and others
 #define ENTITY_WATER        10008.0
 
@@ -27,7 +28,8 @@ varying vec4 tint_color;
 varying vec3 normal;
 varying vec3 sun_vec;
 varying vec3 moon_vec;
-varying float translucent;
+varying float grass;
+varying float leaves;
 varying float emissive;
 varying float iswater;
 
@@ -47,7 +49,7 @@ void main() {
   sun_vec = normalize(sunPosition);
   moon_vec = normalize(moonPosition);
 
-  // Translucent entities
+  // Grass entities
   if (
     mc_Entity.x == ENTITY_SMALLGRASS ||
     mc_Entity.x == ENTITY_LOWERGRASS ||
@@ -55,24 +57,29 @@ void main() {
     mc_Entity.x == ENTITY_UPPERGRASS ||
     mc_Entity.x == ENTITY_SMALLENTS
   ) {
-    translucent = 1.0;
+    grass = 1.0;
+    leaves = 0.0;
     emissive = 0.0;
     iswater = 0.0;
+  } else if (mc_Entity.x == ENTITY_LEAVES){  // Leaves
+    grass = 0.0;
+    leaves = 1.0;
+    emissive = 0.0;
+    iswater = 0.0;
+  } else if (mc_Entity.x == ENTITY_EMISSIVE) { // Emissive entities
+    grass = 0.0;
+    leaves = 1.0;
+    emissive = 1.0;
+    iswater = 0.0;
   } else {
-    translucent = 0.0;
-
-    // Emissive entities
-    if (mc_Entity.x == ENTITY_EMISSIVE) {
-      emissive = 1.0;
-      iswater = 0.0;
+    emissive = 0.0;
+    grass = 0.0;
+    leaves = 1.0;
+    // Water
+    if (mc_Entity.x == ENTITY_WATER) {
+      iswater = 1.0;
     } else {
-      emissive = 0.0;
-      // Water
-      if (mc_Entity.x == ENTITY_WATER) {
-        iswater = 1.0;
-      } else {
-        iswater = 0.0;
-      }
+      iswater = 0.0;
     }
   }
 }
