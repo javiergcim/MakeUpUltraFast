@@ -38,9 +38,9 @@ void main() {
       ambient_baselight[int(floor(current_hour))],
       ambient_baselight[int(ceil(current_hour))],
       fract(current_hour)
-    );
+    ) * ambient_multiplier;
 
-  illumination.y = pow(illumination.y, 3);  // Non-linear decay
+  illumination.y *= illumination.y * illumination.y;  // Non-linear decay
   illumination.y = (illumination.y * .99) + .01;  // Avoid absolute dark
 
   // Ajuste de intensidad luminosa bajo el agua
@@ -59,6 +59,8 @@ void main() {
   vec3 real_light =
     mix(ambient_color + candle_color, vec3(1.0), nightVision * .125);
 
+  vec3 omni_light = skyColor * .15;
+
   // Toma el color puro del bloque y se aplica color y oclusión ambiental nativa
   vec4 block_color = texture2D(texture, texcoord.xy);
 
@@ -67,12 +69,11 @@ void main() {
     block_color = vec4(1.0, 1.0, 1.0, .8);
   }
 
-  // Se agrega mapa de color y sombreado nativo
-  block_color *= (tint_color * vec4(real_light, 1.0));
-
   // Indica cuanta iluminación basada en dirección de fuente de luz se usará
   float direct_light_coefficient = clamp(lmcoord.y * 2.0 - 1.0, 0.5, 1.0);
   float direct_light_strenght = 1.0;
+
+  omni_light *= direct_light_coefficient;
 
   if (worldTime >= 0 && worldTime <= 12700) {  // Día
     direct_light_strenght = dot(normal, sun_vec);
@@ -101,7 +102,9 @@ void main() {
   direct_light_strenght =
     mix(1.0, direct_light_strenght, direct_light_coefficient);
 
-  block_color.rgb *= direct_light_strenght;
+  omni_light *= (-direct_light_strenght + 1.0);
+
+  block_color.rgb *= (((tint_color.rgb * real_light) * direct_light_strenght) + omni_light);
 
   // Posproceso de la niebla
   if (isEyeInWater == 1.0) {
@@ -125,7 +128,7 @@ void main() {
       fog_density[int(ceil(current_hour))],
       fract(current_hour)
       );
-    fog_intensity_coeff = max(fog_intensity_coeff, wetness);
+    fog_intensity_coeff = max(fog_intensity_coeff, wetness * 1.4);
     float new_frog = (((gl_FogFragCoord / far) * (2.0 - fog_intensity_coeff)) - (1.0 - fog_intensity_coeff)) * far;
     float frog_adjust = new_frog / far;
 

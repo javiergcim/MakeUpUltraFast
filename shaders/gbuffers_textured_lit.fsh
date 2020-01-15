@@ -5,9 +5,6 @@ Render: Small entities, hand objects
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define REFLECTION 1 // [0 1] Activate reflection
-#define REFRACTION 1 // [0 1] Activate refraction
-
 #include "/lib/globals.glsl"
 
 // Varyings (per thread shared variables)
@@ -118,6 +115,8 @@ void main() {
     }
 
     block_color.rgb *= (((tint_color.rgb * real_light) * direct_light_strenght) + omni_light);
+  } else {  // Es emisivo
+    block_color *= (tint_color * vec4(real_light * 1.2, 1.0));
   }
 
   // Posproceso de la niebla
@@ -142,7 +141,7 @@ void main() {
       fog_density[int(ceil(current_hour))],
       fract(current_hour)
       );
-    fog_intensity_coeff = max(fog_intensity_coeff, wetness * 1.5);
+    fog_intensity_coeff = max(fog_intensity_coeff, wetness * 1.4);
     float new_frog = (((gl_FogFragCoord / far) * (2.0 - fog_intensity_coeff)) - (1.0 - fog_intensity_coeff)) * far;
     float frog_adjust = new_frog / far;
 
