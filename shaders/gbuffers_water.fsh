@@ -186,7 +186,7 @@ void main() {
       // Toma el color puro del bloque
       block_color = texture2D(texture, texcoord.xy);
       // Se agrega mapa de color y sombreado nativo
-      block_color *= (((tint_color * vec4(real_light, 1.0)) * direct_light_strenght) + vec4(omni_light, 0.0));
+      block_color *= (((tint_color * vec4(real_light, 1.0)) * vec4(direct_light_strenght, direct_light_strenght, direct_light_strenght, 1.0)) + vec4(omni_light, 0.0));
       // Iluminación propia
       block_color.a = .66;
     #endif
@@ -196,9 +196,6 @@ void main() {
     block_color = texture2D(texture, texcoord.xy);
     // Se agrega mapa de color y sombreado nativo
     block_color *= (((tint_color * vec4(real_light, 1.0)) * vec4(direct_light_strenght, direct_light_strenght, direct_light_strenght, 1.0)) + vec4(omni_light, 0.0));
-    // block_color *= (tint_color * vec4(real_light, 1.0));
-    // Iluminación propia
-    // block_color.rgb *= direct_light_strenght;
   }
 
   // Posproceso de la niebla
@@ -223,7 +220,11 @@ void main() {
       fog_density[int(ceil(current_hour))],
       fract(current_hour)
       );
+    // Intensidad de niebla (baja cuando oculto del cielo)
     fog_intensity_coeff = max(fog_intensity_coeff, wetness * 1.4);
+    if (fog_intensity_coeff > 1.0) {
+      fog_intensity_coeff = mix(1.0, fog_intensity_coeff, direct_light_coefficient);
+    }
     float new_frog = (((gl_FogFragCoord / far) * (2.0 - fog_intensity_coeff)) - (1.0 - fog_intensity_coeff)) * far;
     float frog_adjust = new_frog / far;
 

@@ -68,9 +68,11 @@ void main() {
   // Toma el color puro del bloque
   vec4 block_color = texture2D(texture, texcoord.xy);
 
+  // Indica que tan oculto estás del cielo
+  float direct_light_coefficient = clamp(lmcoord.y * 2.0 - 1.0, 0.0, 1.0);
+
   if (emissive < 0.5) {  // No es bloque emisivo
-    // Indica cuanta iluminación basada en dirección de fuente de luz se usará
-    float direct_light_coefficient = clamp(lmcoord.y * 2.0 - 1.0, 0.0, 1.0);
+
     float direct_light_strenght = 1.0;
 
     omni_light *= direct_light_coefficient;
@@ -141,7 +143,11 @@ void main() {
       fog_density[int(ceil(current_hour))],
       fract(current_hour)
       );
+    // Intensidad de niebla (baja cuando oculto del cielo)
     fog_intensity_coeff = max(fog_intensity_coeff, wetness * 1.4);
+    if (fog_intensity_coeff > 1.0) {
+      fog_intensity_coeff = mix(1.0, fog_intensity_coeff, direct_light_coefficient);
+    }
     float new_frog = (((gl_FogFragCoord / far) * (2.0 - fog_intensity_coeff)) - (1.0 - fog_intensity_coeff)) * far;
     float frog_adjust = new_frog / far;
 

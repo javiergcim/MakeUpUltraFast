@@ -70,10 +70,11 @@ void main() {
   }
 
   // Indica cuanta iluminación basada en dirección de fuente de luz se usará
-  float direct_light_coefficient = clamp(lmcoord.y * 2.0 - 1.0, 0.5, 1.0);
+  float omni_coefficient = clamp(lmcoord.y * 2.0 - 1.0, 0.0, 1.0);
+  float direct_light_coefficient = clamp(omni_coefficient, 0.5, 1.0);
   float direct_light_strenght = 1.0;
 
-  omni_light *= direct_light_coefficient;
+  omni_light *= omni_coefficient;
 
   if (worldTime >= 0 && worldTime <= 12700) {  // Día
     direct_light_strenght = dot(normal, sun_vec);
@@ -98,7 +99,7 @@ void main() {
   }
 
   // Escalamos para evitar negros en zonas oscuras
-  direct_light_strenght = direct_light_strenght * .4 + .6;
+  direct_light_strenght = (direct_light_strenght * .55) + .45;
   direct_light_strenght =
     mix(1.0, direct_light_strenght, direct_light_coefficient);
 
@@ -128,7 +129,11 @@ void main() {
       fog_density[int(ceil(current_hour))],
       fract(current_hour)
       );
+    // Intensidad de niebla (baja cuando oculto del cielo)
     fog_intensity_coeff = max(fog_intensity_coeff, wetness * 1.4);
+    if (fog_intensity_coeff > 1.0) {
+      fog_intensity_coeff = mix(1.0, fog_intensity_coeff, omni_coefficient);
+    }
     float new_frog = (((gl_FogFragCoord / far) * (2.0 - fog_intensity_coeff)) - (1.0 - fog_intensity_coeff)) * far;
     float frog_adjust = new_frog / far;
 
