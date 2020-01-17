@@ -53,7 +53,8 @@ void main() {
   vec4 block_color = texture2D(texture, texcoord.xy);
 
   // Indica cuanta iluminación basada en dirección de fuente de luz se usará
-  float direct_light_coefficient = clamp(lmcoord.y * 2.0 - 1.0, 0.0, 1.0);
+  // float direct_light_coefficient = clamp(lmcoord.y * 2.0 - 1.0, 0.0, 1.0);
+  float direct_light_coefficient = lmcoord.y;
 
   // Se agrega mapa de color y sombreado nativo
   block_color *= (tint_color * vec4(real_light, 1.0));
@@ -75,11 +76,7 @@ void main() {
       );
 	} else {
     // Fog intensity calculation
-    float fog_intensity_coeff = mix(
-      fog_density[int(floor(current_hour))],
-      fog_density[int(ceil(current_hour))],
-      fract(current_hour)
-      );
+    float fog_intensity_coeff = fog_density;
     // Intensidad de niebla (baja cuando oculto del cielo)
     fog_intensity_coeff = max(fog_intensity_coeff, wetness * 1.4);
     if (fog_intensity_coeff > 1.0) {

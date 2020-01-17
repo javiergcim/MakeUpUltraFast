@@ -17,13 +17,11 @@ varying vec3 moon_vec;
 varying float grass;
 varying float leaves;
 varying float emissive;
-varying float iswater;
 
 // 'Global' constants from system
 uniform int worldTime;
 uniform sampler2D texture;
 uniform int isEyeInWater;
-uniform int entityId;
 uniform float nightVision;
 uniform float rainStrength;
 uniform float wetness;
@@ -63,13 +61,17 @@ void main() {
   vec3 real_light =
     mix(ambient_color + candle_color, vec3(1.0), nightVision * .125);
 
-  vec3 omni_light = skyColor * .15;
+  vec3 omni_light = skyColor * mix(
+    omni_force[int(floor(current_hour))],
+    omni_force[int(ceil(current_hour))],
+    fract(current_hour)
+  );
 
   // Toma el color puro del bloque
   vec4 block_color = texture2D(texture, texcoord.xy);
 
   // Indica que tan oculto estás del cielo
-  float direct_light_coefficient = clamp(lmcoord.y * 2.0 - 1.0, 0.0, 1.0);
+  float direct_light_coefficient = lmcoord.y;
 
   if (emissive < 0.5) {  // No es bloque emisivo
 
@@ -81,7 +83,6 @@ void main() {
     if (direct_light_coefficient > 0.0) {
       if ((worldTime >= 0 && worldTime <= 12700) || worldTime > 23000) {  // Día
         direct_light_strenght = dot(normal, sun_vec);
-      //
       } else if (worldTime > 12700 && worldTime <= 13400 ) { // Anochece
         float sun_light_strenght = dot(normal, sun_vec);
         float moon_light_strenght = dot(normal, moon_vec);
@@ -116,7 +117,9 @@ void main() {
       direct_light_strenght = mix(direct_light_strenght, 1.0, .2);
     }
 
-    block_color *= (((tint_color * vec4(real_light, 1.0)) * vec4(direct_light_strenght, direct_light_strenght, direct_light_strenght, 1.0)) + vec4(omni_light, 0.0));
+    real_light = ((real_light * direct_light_strenght) + omni_light);
+    block_color *= tint_color * vec4(real_light, 1.0);
+
   } else {  // Es emisivo
     block_color *= (tint_color * vec4(real_light * 1.2, 1.0));
   }

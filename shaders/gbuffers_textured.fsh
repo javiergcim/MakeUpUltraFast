@@ -93,7 +93,11 @@ void main() {
       fog_density[int(ceil(current_hour))],
       fract(current_hour)
       );
-    fog_intensity_coeff = max(fog_intensity_coeff, wetness);
+    // Intensidad de niebla (baja cuando oculto del cielo)
+    fog_intensity_coeff = max(fog_intensity_coeff, wetness * 1.4);
+    // if (fog_intensity_coeff > 1.0) {
+    //   fog_intensity_coeff = mix(1.0, fog_intensity_coeff, direct_light_coefficient);
+    // }
     float new_frog = (((gl_FogFragCoord / far) * (2.0 - fog_intensity_coeff)) - (1.0 - fog_intensity_coeff)) * far;
     float frog_adjust = new_frog / far;
 

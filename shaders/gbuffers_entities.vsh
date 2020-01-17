@@ -7,6 +7,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #include "/lib/globals.glsl"
 
+#define ENTITY_EMISSIVE     10089.0 // Emissors like candels and others
+
 // 'Global' constants from system
 uniform int worldTime;
 uniform vec3 sunPosition;
@@ -19,6 +21,7 @@ varying vec4 tint_color;
 varying vec3 normal;
 varying vec3 sun_vec;
 varying vec3 moon_vec;
+varying float emissive;
 
 attribute vec4 mc_Entity;
 
@@ -35,4 +38,10 @@ void main() {
 
   sun_vec = normalize(sunPosition);
   moon_vec = normalize(moonPosition);
+
+  if (mc_Entity.x == ENTITY_EMISSIVE) { // Emissive entities
+    emissive = 1.0;
+  } else {
+    emissive = 0.0;
+  }
 }

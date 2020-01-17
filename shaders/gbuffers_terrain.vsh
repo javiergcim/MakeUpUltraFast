@@ -14,7 +14,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define ENTITY_VINES        10106.0
 #define ENTITY_LEAVES       10018.0 // Leaves
 #define ENTITY_EMISSIVE     10089.0 // Emissors like candels and others
-#define ENTITY_WATER        10008.0
 
 // 'Global' constants from system
 uniform int worldTime;
@@ -60,26 +59,17 @@ void main() {
     grass = 1.0;
     leaves = 0.0;
     emissive = 0.0;
-    iswater = 0.0;
   } else if (mc_Entity.x == ENTITY_LEAVES){  // Leaves
     grass = 0.0;
     leaves = 1.0;
     emissive = 0.0;
-    iswater = 0.0;
   } else if (mc_Entity.x == ENTITY_EMISSIVE) { // Emissive entities
     grass = 0.0;
     leaves = 1.0;
     emissive = 1.0;
-    iswater = 0.0;
   } else {
     emissive = 0.0;
     grass = 0.0;
     leaves = 1.0;
-    // Water
-    if (mc_Entity.x == ENTITY_WATER) {
-      iswater = 1.0;
-    } else {
-      iswater = 0.0;
-    }
   }
 }

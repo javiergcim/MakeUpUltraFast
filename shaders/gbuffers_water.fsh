@@ -96,7 +96,8 @@ void main() {
   vec3 omni_light = skyColor * .15;
 
   // Indica cuanta iluminación basada en dirección de fuente de luz se usará
-  float direct_light_coefficient = clamp(lmcoord.y * 2.0 - 1.0, 0.0, 1.0);
+  // float direct_light_coefficient = clamp(lmcoord.y * 2.0 - 1.0, 0.0, 1.0);
+  float direct_light_coefficient = lmcoord.y;
   float direct_light_strenght = 1.0;
 
   omni_light *= direct_light_coefficient;
@@ -195,7 +196,9 @@ void main() {
     // Toma el color puro del bloque
     block_color = texture2D(texture, texcoord.xy);
     // Se agrega mapa de color y sombreado nativo
-    block_color *= (((tint_color * vec4(real_light, 1.0)) * vec4(direct_light_strenght, direct_light_strenght, direct_light_strenght, 1.0)) + vec4(omni_light, 0.0));
+    real_light = ((real_light * direct_light_strenght) + omni_light);
+    block_color *= tint_color * vec4(real_light, 1.0);
+    // block_color *= (((tint_color * vec4(real_light, 1.0)) * vec4(direct_light_strenght, direct_light_strenght, direct_light_strenght, 1.0)) + vec4(omni_light, 0.0));
   }
 
   // Posproceso de la niebla

@@ -39,7 +39,7 @@ const vec3 ambient_baselight[25] =
 // Ambient color luma per hour in exposure calculation
 const float ambient_exposure[25] =
   float[25](
-  1.0, // 6
+  .8, // 6
   1.0, // 7
   1.0, // 8
   1.0, // 9
@@ -51,8 +51,8 @@ const float ambient_exposure[25] =
   1.0, // 15
   1.0, // 16
   1.0, // 17
-  1.0, // 18
-  .55, // 19
+  .8, // 18
+  .7, // 19
   .1, // 20
   .1, // 21
   .1, // 22
@@ -62,8 +62,8 @@ const float ambient_exposure[25] =
   .1, // 2
   .1, // 3
   .1, // 4
-  .55, // 5
-  1.0 // 6
+  .7, // 5
+  .8 // 6
   );
 
 // How many sky_color vs. fog_color is used for fog.
@@ -126,7 +126,36 @@ const float fog_density[25] =
   1.2 // 6
   );
 
-// vec3 candle_baselight = vec3(.5, 0.4235294117647059, 0.2725490196078431);
+// Omni intesity per hour
+const float omni_force[25] =
+  float[25](
+  .2, // 6
+  .25, // 7
+  .3, // 8
+  .3, // 9
+  .3, // 10
+  .3, // 11
+  .3, // 12
+  .3, // 13
+  .3, // 14
+  .3, // 15
+  .3, // 16
+  .25, // 17
+  .2, // 18
+  .2, // 19
+  .9, // 20
+  1.0, // 21
+  1.0, // 22
+  1.0, // 23
+  1.0, // 24
+  1.0, // 1
+  1.0, // 2
+  1.0, // 3
+  .9, // 4
+  .2, // 5
+  .2 // 6
+  );
+
 const vec3 candle_baselight = vec3(.5, 0.38823529411764707, 0.1803921568627451);
 const vec3 waterfog_baselight = vec3(0.09215686274509804, 0.23137254901960785, 0.3980392156862745);
 

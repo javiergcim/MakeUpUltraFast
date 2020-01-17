@@ -69,7 +69,8 @@ void main() {
   vec4 block_color = texture2D(texture, texcoord.xy);
 
   // Indica que tan oculto estás del cielo
-  float direct_light_coefficient = clamp(lmcoord.y * 2.0 - 1.0, 0.0, 1.0);
+  // float direct_light_coefficient = clamp(lmcoord.y * 2.0 - 1.0, 0.0, 1.0);
+  float direct_light_coefficient = lmcoord.y;
 
   if (emissive < 0.5) {  // No es bloque emisivo
     float direct_light_strenght = 1.0;
@@ -115,7 +116,9 @@ void main() {
       direct_light_strenght = mix(direct_light_strenght, 1.0, .2);
     }
 
-    block_color *= (((tint_color * vec4(real_light, 1.0)) * vec4(direct_light_strenght, direct_light_strenght, direct_light_strenght, 1.0)) + vec4(omni_light, 0.0));
+    real_light = ((real_light * direct_light_strenght) + omni_light);
+    block_color *= tint_color * vec4(real_light, 1.0);
+
   } else {  // Es emisivo
     block_color *= (tint_color * vec4(real_light * 1.2, 1.0));
   }

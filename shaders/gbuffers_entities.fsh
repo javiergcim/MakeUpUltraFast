@@ -14,6 +14,7 @@ varying vec4 tint_color;
 varying vec3 normal;
 varying vec3 sun_vec;
 varying vec3 moon_vec;
+varying float emissive;
 
 // 'Global' constants from system
 uniform int worldTime;
@@ -59,9 +60,13 @@ void main() {
   vec3 real_light =
     mix(ambient_color + candle_color, vec3(1.0), nightVision * .125);
 
-  vec3 omni_light = skyColor * .15;
+  vec3 omni_light = skyColor * mix(
+    omni_force[int(floor(current_hour))],
+    omni_force[int(ceil(current_hour))],
+    fract(current_hour)
+  );
 
-  // Toma el color puro del bloque y se aplica color y oclusión ambiental nativa
+  // Toma el color puro del bloque
   vec4 block_color = texture2D(texture, texcoord.xy);
 
   // Thunderbolt render (Se puede más rápido? Para qué calcular luz después?)
@@ -69,43 +74,54 @@ void main() {
     block_color = vec4(1.0, 1.0, 1.0, .8);
   }
 
-  // Indica cuanta iluminación basada en dirección de fuente de luz se usará
-  float omni_coefficient = clamp(lmcoord.y * 2.0 - 1.0, 0.0, 1.0);
+  // Indica que tan oculto estás del cielo
+  float omni_coefficient = lmcoord.y;
   float direct_light_coefficient = clamp(omni_coefficient, 0.5, 1.0);
-  float direct_light_strenght = 1.0;
 
-  omni_light *= omni_coefficient;
+  if (emissive < 0.5) {  // No es bloque emisivo
 
-  if (worldTime >= 0 && worldTime <= 12700) {  // Día
-    direct_light_strenght = dot(normal, sun_vec);
-  } else if (worldTime > 12700 && worldTime <= 13400 ) { // Anochece
-    float sun_light_strenght = dot(normal, sun_vec);
-    float moon_light_strenght = dot(normal, moon_vec);
-    float light_mix = (worldTime - 12700) / 700.0;
-    // Calculamos la cantidad de mezcla de luz de sol y luna
-    direct_light_strenght =
-      mix(sun_light_strenght, moon_light_strenght, light_mix);
+    float direct_light_strenght = 1.0;
 
-  } else if (worldTime > 13400 && worldTime <= 23300) {  // Noche
-    direct_light_strenght = dot(normal, moon_vec);
+    omni_light *= omni_coefficient;
 
-  } else if (worldTime > 23300) {  // Amanece
-    float sun_light_strenght = dot(normal, sun_vec);
-    float moon_light_strenght = dot(normal, moon_vec);
-    float light_mix = (worldTime - 23300) / 700.0;
-    // Calculamos la cantidad de mezcla de luz de sol y luna
-    direct_light_strenght =
-      mix(moon_light_strenght, sun_light_strenght, light_mix);
+     // Si no estamos ocultos al cielo calculamos iluminación de dirección
+    if (direct_light_coefficient > 0.0) {
+      if ((worldTime >= 0 && worldTime <= 12700) || worldTime > 23000) {  // Día
+        direct_light_strenght = dot(normal, sun_vec);
+      } else if (worldTime > 12700 && worldTime <= 13400 ) { // Anochece
+        float sun_light_strenght = dot(normal, sun_vec);
+        float moon_light_strenght = dot(normal, moon_vec);
+        float light_mix = (worldTime - 12700) / 700.0;
+        // Calculamos la cantidad de mezcla de luz de sol y luna
+        direct_light_strenght =
+          mix(sun_light_strenght, moon_light_strenght, light_mix);
+
+      } else if (worldTime > 13400 && worldTime <= 22300) {  // Noche
+        direct_light_strenght = dot(normal, moon_vec);
+
+      } else if (worldTime > 22300) {  // Amanece
+        float sun_light_strenght = dot(normal, sun_vec);
+        float moon_light_strenght = dot(normal, moon_vec);
+        float light_mix = (worldTime - 22300) / 700.0;
+        // Calculamos la cantidad de mezcla de luz de sol y luna
+        direct_light_strenght =
+          mix(moon_light_strenght, sun_light_strenght, light_mix);
+      }
+
+      // Escalamos para evitar negros en zonas oscuras
+      direct_light_strenght = (direct_light_strenght * .45) + .55;
+      direct_light_strenght =
+        mix(1.0, direct_light_strenght, direct_light_coefficient);
+    }
+
+    omni_light *= (-direct_light_strenght + 1.0);
+
+    real_light = ((real_light * direct_light_strenght) + omni_light);
+    block_color *= tint_color * vec4(real_light, 1.0);
+
+  } else {  // Es emisivo
+    block_color *= (tint_color * vec4(real_light * 1.2, 1.0));
   }
-
-  // Escalamos para evitar negros en zonas oscuras
-  direct_light_strenght = (direct_light_strenght * .55) + .45;
-  direct_light_strenght =
-    mix(1.0, direct_light_strenght, direct_light_coefficient);
-
-  omni_light *= (-direct_light_strenght + 1.0);
-
-  block_color *= (((tint_color * vec4(real_light, 1.0)) * vec4(direct_light_strenght, direct_light_strenght, direct_light_strenght, 1.0)) + vec4(omni_light, 0.0));
 
   // Posproceso de la niebla
   if (isEyeInWater == 1.0) {
