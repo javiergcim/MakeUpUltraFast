@@ -96,8 +96,8 @@ void main() {
   vec3 omni_light = skyColor * .15;
 
   // Indica cuanta iluminación basada en dirección de fuente de luz se usará
-  // float direct_light_coefficient = clamp(lmcoord.y * 2.0 - 1.0, 0.0, 1.0);
-  float direct_light_coefficient = lmcoord.y;
+  // float direct_light_coefficient = lmcoord.y;
+  float direct_light_coefficient = clamp(lmcoord.y * 1.5 - .5, 0.0, 1.0);
   float direct_light_strenght = 1.0;
 
   omni_light *= direct_light_coefficient;

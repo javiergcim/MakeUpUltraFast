@@ -75,7 +75,8 @@ void main() {
   }
 
   // Indica que tan oculto estás del cielo
-  float omni_coefficient = lmcoord.y;
+  // float omni_coefficient = lmcoord.y;
+  float omni_coefficient = clamp(lmcoord.y * 1.5 - .5, 0.0, 1.0);
   float direct_light_coefficient = clamp(omni_coefficient, 0.5, 1.0);
 
   if (emissive < 0.5) {  // No es bloque emisivo
