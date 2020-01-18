@@ -7,7 +7,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #define AA 4 // [0 4 6 12] Set antialiasing quality
 #define TONEMAP 0 // [0 1 2] Set tonemap
-#define CROSS 0 // [0 1] Activate color crossprocess
 
 #include "/lib/globals.glsl"
 

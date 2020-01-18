@@ -5,9 +5,6 @@ Render: Particles
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define REFLECTION 1 // [0 1] Activate reflection
-#define REFRACTION 1 // [0 1] Activate refraction
-
 #include "/lib/globals.glsl"
 
 // Varyings (per thread shared variables)
@@ -46,8 +43,8 @@ void main() {
       fract(current_hour)
     ) * ambient_multiplier;
 
-  illumination.y *= illumination.y * illumination.y;  // Non-linear decay
-  illumination.y = (illumination.y * .99) + .01;  // Avoid absolute dark
+  illumination.y *= illumination.y;  // Non-linear decay
+  illumination.y = (illumination.y * .989) + .011;  // Avoid absolute dark
 
   // Ajuste de intensidad luminosa bajo el agua
   if (isEyeInWater == 1.0) {
@@ -70,6 +67,9 @@ void main() {
 
   // Se agrega mapa de color y sombreado nativo
   block_color *= (tint_color * vec4(real_light, 1.0));
+
+  // Indica que tan oculto estás del cielo
+  float direct_light_coefficient = clamp(lmcoord.y * 1.5 - .5, 0.0, 1.0);
 
   // Posproceso de la niebla
   if (isEyeInWater == 1.0) {
@@ -95,9 +95,9 @@ void main() {
       );
     // Intensidad de niebla (baja cuando oculto del cielo)
     fog_intensity_coeff = max(fog_intensity_coeff, wetness * 1.4);
-    // if (fog_intensity_coeff > 1.0) {
-    //   fog_intensity_coeff = mix(1.0, fog_intensity_coeff, direct_light_coefficient);
-    // }
+    if (fog_intensity_coeff > 1.0) {
+      fog_intensity_coeff = mix(1.0, fog_intensity_coeff, direct_light_coefficient);
+    }
     float new_frog = (((gl_FogFragCoord / far) * (2.0 - fog_intensity_coeff)) - (1.0 - fog_intensity_coeff)) * far;
     float frog_adjust = new_frog / far;
 
