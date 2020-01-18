@@ -198,7 +198,6 @@ void main() {
     // Se agrega mapa de color y sombreado nativo
     real_light = ((real_light * direct_light_strenght) + omni_light);
     block_color *= tint_color * vec4(real_light, 1.0);
-    // block_color *= (((tint_color * vec4(real_light, 1.0)) * vec4(direct_light_strenght, direct_light_strenght, direct_light_strenght, 1.0)) + vec4(omni_light, 0.0));
   }
 
   // Posproceso de la niebla
@@ -240,6 +239,7 @@ void main() {
   }
 
   gl_FragData[0] = block_color;
+  // gl_FragData[2] = block_color;
   gl_FragData[1] = vec4(0.0);  // Not needed. Performance trick
-  gl_FragData[4] = vec4(0.0);
+  // gl_FragData[4] = vec4(0.0);
 }

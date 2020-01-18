@@ -12,6 +12,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 // 'Global' constants from system
 uniform sampler2D G_COLOR;
+uniform sampler2D colortex2;  // DEBUG
 uniform ivec2 eyeBrightnessSmooth;
 uniform float aspectRatio;
 uniform float viewWidth;

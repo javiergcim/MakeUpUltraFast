@@ -26,6 +26,10 @@ uniform float rainStrength;
 uniform float wetness;
 uniform float far;
 uniform vec3 skyColor;
+uniform float current_hour;
+uniform int current_hour_floor;
+uniform int current_hour_ceil;
+uniform float current_hour_fract;
 
 #include "/lib/color_utils.glsl"
 
@@ -33,12 +37,11 @@ void main() {
   // Custom light (lmcoord.x: candle, lmcoord.y: ambient) ----
   vec2 illumination = lmcoord.xy;
   // Tomamos el color de ambiente con base a la hora
-  float current_hour = worldTime / 1000.0;
   vec3 ambient_currentlight =
     mix(
-      ambient_baselight[int(floor(current_hour))],
-      ambient_baselight[int(ceil(current_hour))],
-      fract(current_hour)
+      ambient_baselight[current_hour_floor],
+      ambient_baselight[current_hour_ceil],
+      current_hour_fract
     ) * ambient_multiplier;
 
   illumination.y *= illumination.y;  // Non-linear decay
@@ -61,9 +64,9 @@ void main() {
     mix(ambient_color + candle_color, vec3(1.0), nightVision * .125);
 
   vec3 omni_light = skyColor * mix(
-    omni_force[int(floor(current_hour))],
-    omni_force[int(ceil(current_hour))],
-    fract(current_hour)
+    omni_force[current_hour_floor],
+    omni_force[current_hour_ceil],
+    current_hour_fract
   );
 
   // Toma el color puro del bloque
@@ -75,7 +78,6 @@ void main() {
   }
 
   // Indica que tan oculto estás del cielo
-  // float omni_coefficient = lmcoord.y;
   float omni_coefficient = clamp(lmcoord.y * 1.5 - .5, 0.0, 1.0);
   float direct_light_coefficient = clamp(omni_coefficient, 0.5, 1.0);
 
@@ -171,6 +173,6 @@ void main() {
   }
 
   gl_FragData[0] = block_color;
-  gl_FragData[1] = vec4(0.0);  // Not needed. Performance trick
+  // gl_FragData[1] = vec4(0.0);  // Not needed. Performance trick
   gl_FragData[5] = block_color;
 }
