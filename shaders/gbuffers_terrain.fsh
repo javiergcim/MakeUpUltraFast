@@ -81,7 +81,6 @@ void main() {
   float direct_light_coefficient = clamp(lmcoord.y * 1.5 - .5, 0.0, 1.0);
 
   if (emissive > 0.5) {  // Es emisivo
-    // block_color *= (tint_color * vec4(real_light * 1.2, 1.0));
     block_color *= (tint_color * vec4((candle_color + real_light) * 1.2, 1.0));
 
   } else if (magma > 0.5) {  // Es magma (emisión nueva)

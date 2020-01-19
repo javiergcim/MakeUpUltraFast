@@ -76,38 +76,43 @@ void main() {
 
     omni_light *= direct_light_coefficient;
 
-     // Si no estamos ocultos al cielo calculamos iluminación de dirección
-    if (direct_light_coefficient > 0.0) {
-      if ((worldTime >= 0 && worldTime <= 12700) || worldTime > 23000) {  // Día
-        direct_light_strenght = dot(normal, sun_vec);
-      //
-      } else if (worldTime > 12700 && worldTime <= 13400 ) { // Anochece
-        float sun_light_strenght = dot(normal, sun_vec);
-        float moon_light_strenght = dot(normal, moon_vec);
-        float light_mix = (worldTime - 12700) / 700.0;
-        // Calculamos la cantidad de mezcla de luz de sol y luna
-        direct_light_strenght =
-          mix(sun_light_strenght, moon_light_strenght, light_mix);
-
-      } else if (worldTime > 13400 && worldTime <= 22300) {  // Noche
-        direct_light_strenght = dot(normal, moon_vec);
-
-      } else if (worldTime > 22300) {  // Amanece
-        float sun_light_strenght = dot(normal, sun_vec);
-        float moon_light_strenght = dot(normal, moon_vec);
-        float light_mix = (worldTime - 22300) / 700.0;
-        // Calculamos la cantidad de mezcla de luz de sol y luna
-        direct_light_strenght =
-          mix(moon_light_strenght, sun_light_strenght, light_mix);
-      }
-
-      // Escalamos para evitar negros en zonas oscuras
-      direct_light_strenght = (direct_light_strenght * .55) + .45;
+    // Calculamos iluminación de dirección
+    if ((worldTime >= 0 && worldTime <= 12700) || worldTime > 23000) {  // Día
+      direct_light_strenght = dot(normal, sun_vec);
+    //
+    } else if (worldTime > 12700 && worldTime <= 13400 ) { // Anochece
+      float sun_light_strenght = dot(normal, sun_vec);
+      float moon_light_strenght = dot(normal, moon_vec);
+      float light_mix = (worldTime - 12700) / 700.0;
+      // Calculamos la cantidad de mezcla de luz de sol y luna
       direct_light_strenght =
-        mix(1.0, direct_light_strenght, direct_light_coefficient);
+        mix(sun_light_strenght, moon_light_strenght, light_mix);
+
+    } else if (worldTime > 13400 && worldTime <= 22300) {  // Noche
+      direct_light_strenght = dot(normal, moon_vec);
+
+    } else if (worldTime > 22300) {  // Amanece
+      float sun_light_strenght = dot(normal, sun_vec);
+      float moon_light_strenght = dot(normal, moon_vec);
+      float light_mix = (worldTime - 22300) / 700.0;
+      // Calculamos la cantidad de mezcla de luz de sol y luna
+      direct_light_strenght =
+        mix(moon_light_strenght, sun_light_strenght, light_mix);
     }
 
+    // Escalamos para evitar negros en zonas oscuras
+    direct_light_strenght = (direct_light_strenght * .55) + .45;
+    float candle_cave_strenght = (direct_light_strenght * .5) + .5;
+
+    direct_light_strenght =
+      mix(1.0, direct_light_strenght, direct_light_coefficient);
+    candle_cave_strenght =
+      mix(candle_cave_strenght, 1.0, direct_light_coefficient);
+
     omni_light *= (-direct_light_strenght + 1.0);
+
+    // Para evitar iluminación plana en cuevas
+    candle_color *= candle_cave_strenght;
 
     if (grass > .5) {  // Es "planta"
       direct_light_strenght = mix(direct_light_strenght, 1.0, .3);
