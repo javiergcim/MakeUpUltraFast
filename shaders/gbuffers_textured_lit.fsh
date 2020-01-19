@@ -29,12 +29,17 @@ uniform float rainStrength;
 uniform float wetness;
 uniform float far;
 uniform vec3 skyColor;
+uniform ivec2 eyeBrightnessSmooth;
 
 #include "/lib/color_utils.glsl"
 
 void main() {
   // Custom light (lmcoord.x: candle, lmcoord.y: ambient) ----
   vec2 illumination = lmcoord;
+
+  // x: Block, y: Sky ---
+  float ambient_bright = eyeBrightnessSmooth.y / 240.0;
+
   // Tomamos el color de ambiente con base a la hora
   float current_hour = worldTime / 1000.0;
   vec3 ambient_currentlight =
@@ -151,9 +156,7 @@ void main() {
       );
     // Intensidad de niebla (baja cuando oculto del cielo)
     fog_intensity_coeff = max(fog_intensity_coeff, wetness * 1.4);
-    if (fog_intensity_coeff > 1.0) {
-      fog_intensity_coeff = mix(1.0, fog_intensity_coeff, direct_light_coefficient);
-    }
+    fog_intensity_coeff *= max(direct_light_coefficient, ambient_bright);
     float new_frog = (((gl_FogFragCoord / far) * (2.0 - fog_intensity_coeff)) - (1.0 - fog_intensity_coeff)) * far;
     float frog_adjust = new_frog / far;
 
