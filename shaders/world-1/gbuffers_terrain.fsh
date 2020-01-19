@@ -5,16 +5,14 @@ Render: Almost everything
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define REFLECTION 1 // [0 1] Activate reflection
-#define REFRACTION 1 // [0 1] Activate refraction
-
 #include "/lib/globals.glsl"
 #include "/lib/color_utils_nether.glsl"
 
 // Varyings (per thread shared variables)
-varying vec4 texcoord;
-varying vec4 lmcoord;
+varying vec2 texcoord;
+varying vec2 lmcoord;
 varying vec4 tint_color;
+varying float magma;
 
 // 'Global' constants from system
 uniform sampler2D texture;
@@ -26,12 +24,13 @@ uniform float wetness;
 
 void main() {
   // Custom light (lmcoord.x: candle, lmcoord.y: ambient) ----
-  vec2 illumination = lmcoord.xy;
+  vec2 illumination = lmcoord;
   // Tomamos el color de ambiente
   vec3 ambient_currentlight = ambient_baselight;
 
   illumination.y *= illumination.y;  // Non-linear decay
-  illumination.y = (illumination.y * .989) + .011;  // Avoid absolute dark
+  illumination.y = (illumination.y * .95) + .05;  // Avoid absolute dark
+  // illumination.y = (illumination.y * .989) + .011;  // Avoid absolute dark
 
   // Ajuste de intensidad luminosa bajo el agua
   if (isEyeInWater == 1.0) {
@@ -43,21 +42,19 @@ void main() {
   vec3 candle_color =
     candle_baselight * illumination.x * illumination.x * illumination.x;
 
-  // Se ajusta luz ambiental en tormenta
-  ambient_color = ambient_color * (1.0 - (rainStrength * .4));
-
   vec3 real_light =
     mix(ambient_color + candle_color, vec3(1.0), nightVision * .125) * 4.0;
+    // mix(candle_color, vec3(1.0), nightVision * .125) * 4.0;
 
   // Toma el color puro del bloque
-  vec4 block_color = texture2D(texture, texcoord.xy);
-
-  // Indica cuanta iluminación basada en dirección de fuente de luz se usará
-  // float direct_light_coefficient = clamp(lmcoord.y * 2.0 - 1.0, 0.0, 1.0);
-  float direct_light_coefficient = lmcoord.y;
+  vec4 block_color = texture2D(texture, texcoord);
 
   // Se agrega mapa de color y sombreado nativo
-  block_color *= (tint_color * vec4(real_light, 1.0));
+  if (magma < .5) {
+    block_color *= (tint_color * vec4(real_light, 1.0));
+  } else {
+    block_color *= (tint_color * vec4(ambient_baselight, 1.0) * 2.0);
+  }
 
   // Posproceso de la niebla
   if (isEyeInWater == 1.0) {
@@ -78,10 +75,10 @@ void main() {
     // Fog intensity calculation
     float fog_intensity_coeff = fog_density;
     // Intensidad de niebla (baja cuando oculto del cielo)
-    fog_intensity_coeff = max(fog_intensity_coeff, wetness * 1.4);
-    if (fog_intensity_coeff > 1.0) {
-      fog_intensity_coeff = mix(1.0, fog_intensity_coeff, direct_light_coefficient);
-    }
+    // fog_intensity_coeff = max(fog_intensity_coeff, wetness * 1.4);
+    // if (fog_intensity_coeff > 1.0) {
+    //   fog_intensity_coeff = mix(1.0, fog_intensity_coeff, direct_light_coefficient);
+    // }
     float new_frog = (((gl_FogFragCoord / far) * (2.0 - fog_intensity_coeff)) - (1.0 - fog_intensity_coeff)) * far;
     float frog_adjust = new_frog / far;
 
@@ -98,5 +95,4 @@ void main() {
 
   gl_FragData[0] = block_color;
   gl_FragData[5] = block_color;
-	// gl_FragData[1] = vec4(0.0);  // Not needed. Performance trick
 }

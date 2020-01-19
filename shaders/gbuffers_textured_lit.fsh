@@ -8,8 +8,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/globals.glsl"
 
 // Varyings (per thread shared variables)
-varying vec4 texcoord;
-varying vec4 lmcoord;
+varying vec2 texcoord;
+varying vec2 lmcoord;
 varying vec4 tint_color;
 varying vec3 normal;
 varying vec3 sun_vec;
@@ -34,7 +34,7 @@ uniform vec3 skyColor;
 
 void main() {
   // Custom light (lmcoord.x: candle, lmcoord.y: ambient) ----
-  vec2 illumination = lmcoord.xy;
+  vec2 illumination = lmcoord;
   // Tomamos el color de ambiente con base a la hora
   float current_hour = worldTime / 1000.0;
   vec3 ambient_currentlight =
@@ -66,11 +66,10 @@ void main() {
   vec3 omni_light = skyColor * .15;
 
   // Toma el color puro del bloque
-  vec4 block_color = texture2D(texture, texcoord.xy);
+  vec4 block_color = texture2D(texture, texcoord);
 
   // Indica que tan oculto estás del cielo
-  // float direct_light_coefficient = clamp(lmcoord.y * 2.0 - 1.0, 0.0, 1.0);
-  float direct_light_coefficient = lmcoord.y;
+  float direct_light_coefficient = clamp(lmcoord.y * 1.5 - .5, 0.0, 1.0);
 
   if (emissive < 0.5) {  // No es bloque emisivo
     float direct_light_strenght = 1.0;
@@ -170,6 +169,5 @@ void main() {
   }
 
   gl_FragData[0] = block_color;
-  // gl_FragData[1] = vec4(0.0);  // Not needed. Performance trick
   gl_FragData[5] = block_color;
 }

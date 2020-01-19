@@ -12,10 +12,10 @@ uniform vec3 sunPosition;
 uniform vec3 moonPosition;
 
 // Varyings (per thread shared variables)
-varying vec4 texcoord;  // Current thread coordinate
+varying vec2 texcoord;  // Current thread coordinate
 varying float iswater;
 
 void main() {
   gl_Position = ftransform();
-  texcoord = gl_MultiTexCoord0;
+  texcoord = gl_MultiTexCoord0.xy;
 }

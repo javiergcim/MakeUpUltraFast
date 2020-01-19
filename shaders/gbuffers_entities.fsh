@@ -8,8 +8,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/globals.glsl"
 
 // Varyings (per thread shared variables)
-varying vec4 texcoord;
-varying vec4 lmcoord;
+varying vec2 texcoord;
+varying vec2 lmcoord;
 varying vec4 tint_color;
 varying vec3 normal;
 varying vec3 sun_vec;
@@ -26,16 +26,19 @@ uniform float rainStrength;
 uniform float wetness;
 uniform float far;
 uniform vec3 skyColor;
-uniform float current_hour;
-uniform int current_hour_floor;
-uniform int current_hour_ceil;
-uniform float current_hour_fract;
 
 #include "/lib/color_utils.glsl"
 
 void main() {
   // Custom light (lmcoord.x: candle, lmcoord.y: ambient) ----
-  vec2 illumination = lmcoord.xy;
+  vec2 illumination = lmcoord;
+
+  // Daytime
+  float current_hour = worldTime / 1000.0;
+  int current_hour_floor = int(floor(current_hour));
+  int current_hour_ceil = int(ceil(current_hour));
+  float current_hour_fract = fract(current_hour);
+
   // Tomamos el color de ambiente con base a la hora
   vec3 ambient_currentlight =
     mix(
@@ -144,9 +147,9 @@ void main() {
   } else {
     // Fog intensity calculation
     float fog_intensity_coeff = mix(
-      fog_density[int(floor(current_hour))],
-      fog_density[int(ceil(current_hour))],
-      fract(current_hour)
+      fog_density[current_hour_floor],
+      fog_density[current_hour_ceil],
+      current_hour_fract
       );
     // Intensidad de niebla (baja cuando oculto del cielo)
     fog_intensity_coeff = max(fog_intensity_coeff, wetness * 1.4);
@@ -158,9 +161,9 @@ void main() {
 
     // Fog color calculation
     float fog_mix_level = mix(
-      fog_color_mix[int(floor(current_hour))],
-      fog_color_mix[int(ceil(current_hour))],
-      fract(current_hour)
+      fog_color_mix[current_hour_floor],
+      fog_color_mix[current_hour_ceil],
+      current_hour_fract
       );
     vec3 current_fog_color = mix(skyColor, gl_Fog.color.rgb, fog_mix_level);
 
@@ -173,6 +176,5 @@ void main() {
   }
 
   gl_FragData[0] = block_color;
-  // gl_FragData[1] = vec4(0.0);  // Not needed. Performance trick
   gl_FragData[5] = block_color;
 }

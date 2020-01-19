@@ -20,7 +20,7 @@ uniform float viewHeight;
 uniform int worldTime;
 
 // Varyings (per thread shared variables)
-varying vec4 texcoord;
+varying vec2 texcoord;
 
 #include "/lib/color_utils.glsl"
 #include "/lib/fxaa_intel.glsl"
@@ -45,7 +45,7 @@ void main() {
   // Map from 1.0 - 0.0 to 1.0 - 4.0
   exposure = (exposure * -3.0) + 4.0;
 
-  vec3 color = texture2D(G_COLOR, texcoord.xy).rgb;
+  vec3 color = texture2D(G_COLOR, texcoord).rgb;
 
   #if AA != 0
     color = fxaa311(color, AA);
@@ -62,5 +62,5 @@ void main() {
   #endif
 
   gl_FragData[0] = vec4(color, 1.0);
-  gl_FragData[1] = vec4(0.0);
+  gl_FragData[1] = vec4(0.0);  // ¿Performance?
 }

@@ -15,8 +15,8 @@ uniform vec3 sunPosition;
 uniform vec3 moonPosition;
 
 // Varyings (per thread shared variables)
-varying vec4 texcoord;
-varying vec4 lmcoord;
+varying vec2 texcoord;
+varying vec2 lmcoord;
 varying vec4 tint_color;
 varying vec3 normal;
 varying vec3 sun_vec;
@@ -27,8 +27,8 @@ attribute vec4 mc_Entity;
 
 void main() {
   gl_Position = ftransform();
-  texcoord = gl_MultiTexCoord0;
-  lmcoord = gl_TextureMatrix[1] * gl_MultiTexCoord1;
+  texcoord = gl_MultiTexCoord0.xy;
+  lmcoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
 
   gl_FogFragCoord = length(gl_Position.xyz);
 

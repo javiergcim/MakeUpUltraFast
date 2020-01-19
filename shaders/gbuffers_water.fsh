@@ -16,8 +16,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 const int noiseTextureResolution  = 128;
 
 // Varyings (per thread shared variables)
-varying vec4 texcoord;
-varying vec4 lmcoord;
+varying vec2 texcoord;
+varying vec2 lmcoord;
 varying vec4 tint_color;
 varying vec3 normal;
 varying vec3 sun_vec;
@@ -64,14 +64,20 @@ uniform vec3 sunPosition;
 
 void main() {
   // Custom light (lmcoord.x: candle, lmcoord.y: ambient) ----
-  vec2 illumination = lmcoord.xy;
-  // Tomamos el color de ambiente con base a la hora
+  vec2 illumination = lmcoord;
+
+  // Daytime
   float current_hour = worldTime / 1000.0;
+  int current_hour_floor = int(floor(current_hour));
+  int current_hour_ceil = int(ceil(current_hour));
+  float current_hour_fract = fract(current_hour);
+
+  // Tomamos el color de ambiente con base a la hora
   vec3 ambient_currentlight =
     mix(
-      ambient_baselight[int(floor(current_hour))],
-      ambient_baselight[int(ceil(current_hour))],
-      fract(current_hour)
+      ambient_baselight[current_hour_floor],
+      ambient_baselight[current_hour_ceil],
+      current_hour_fract
     ) * ambient_multiplier;
 
     illumination.y *= illumination.y;  // Non-linear decay
@@ -96,7 +102,6 @@ void main() {
   vec3 omni_light = skyColor * .15;
 
   // Indica cuanta iluminación basada en dirección de fuente de luz se usará
-  // float direct_light_coefficient = lmcoord.y;
   float direct_light_coefficient = clamp(lmcoord.y * 1.5 - .5, 0.0, 1.0);
   float direct_light_strenght = 1.0;
 
@@ -137,9 +142,9 @@ void main() {
 
   // Prepare Sky/Fog color calculation
   float fog_mix_level = mix(
-    fog_color_mix[int(floor(current_hour))],
-    fog_color_mix[int(ceil(current_hour))],
-    fract(current_hour)
+    fog_color_mix[current_hour_floor],
+    fog_color_mix[current_hour_ceil],
+    current_hour_fract
     );
     // Fog color calculation
   vec3 current_fog_color = mix(skyColor, gl_Fog.color.rgb, fog_mix_level);
@@ -179,22 +184,22 @@ void main() {
         fragposition0.xyz,
         getNormals(water_normal_base),
         block_color.rgb,
-        lmcoord.y > 0.9? 1.0 : 0.0,
+        lmcoord.y > 0.9 ? 1.0 : 0.0,
         current_fog_color
       );
 
     #else
       // Toma el color puro del bloque
-      block_color = texture2D(texture, texcoord.xy);
+      block_color = texture2D(texture, texcoord);
       // Se agrega mapa de color y sombreado nativo
       block_color *= (((tint_color * vec4(real_light, 1.0)) * vec4(direct_light_strenght, direct_light_strenght, direct_light_strenght, 1.0)) + vec4(omni_light, 0.0));
-      // Iluminación propia
+      // Tranparencia de agua
       block_color.a = .66;
     #endif
 
   } else {  // End water shader code ------------------------
     // Toma el color puro del bloque
-    block_color = texture2D(texture, texcoord.xy);
+    block_color = texture2D(texture, texcoord);
     // Se agrega mapa de color y sombreado nativo
     real_light = ((real_light * direct_light_strenght) + omni_light);
     block_color *= tint_color * vec4(real_light, 1.0);
@@ -218,9 +223,9 @@ void main() {
   } else {
     // Fog intensity calculation
     float fog_intensity_coeff = mix(
-      fog_density[int(floor(current_hour))],
-      fog_density[int(ceil(current_hour))],
-      fract(current_hour)
+      fog_density[current_hour_floor],
+      fog_density[current_hour_ceil],
+      current_hour_fract
       );
     // Intensidad de niebla (baja cuando oculto del cielo)
     fog_intensity_coeff = max(fog_intensity_coeff, wetness * 1.4);
@@ -239,7 +244,5 @@ void main() {
   }
 
   gl_FragData[0] = block_color;
-  // gl_FragData[2] = block_color;
-  gl_FragData[1] = vec4(0.0);  // Not needed. Performance trick
-  // gl_FragData[4] = vec4(0.0);
+  gl_FragData[1] = vec4(0.0);  // ¿Performance?
 }

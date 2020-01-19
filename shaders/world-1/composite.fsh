@@ -20,7 +20,7 @@ uniform float viewHeight;
 uniform int worldTime;
 
 // Varyings (per thread shared variables)
-varying vec4 texcoord;
+varying vec2 texcoord;
 
 #include "/lib/color_utils_nether.glsl"
 #include "/lib/fxaa_intel.glsl"
@@ -28,7 +28,6 @@ varying vec4 texcoord;
 
 void main() {
   // x: Block, y: Sky ---
-	// float ambient_bright = eyeBrightnessSmooth.y / 240.0;
 	float candle_bright = eyeBrightnessSmooth.x / 240.0;
 	candle_bright *= .1;
 
@@ -37,9 +36,10 @@ void main() {
 
 	float exposure = candle_bright;
 
-	exposure = 4.0;
+	// exposure = 3.765;
+  exposure = 1.0;
 
-	vec3 color = texture2D(G_COLOR, texcoord.xy).rgb;
+	vec3 color = texture2D(G_COLOR, texcoord).rgb;
 
 	#if AA != 0
 		color = fxaa311(color, AA);
@@ -56,5 +56,5 @@ void main() {
   #endif
 
   gl_FragData[0] = vec4(color, 1.0);
-	gl_FragData[1] = vec4(0.0);
+	gl_FragData[1] = vec4(0.0); // ¿Performance?
 }
