@@ -30,7 +30,6 @@ void main() {
 
   illumination.y *= illumination.y;  // Non-linear decay
   illumination.y = (illumination.y * .95) + .05;  // Avoid absolute dark
-  // illumination.y = (illumination.y * .989) + .011;  // Avoid absolute dark
 
   // Ajuste de intensidad luminosa bajo el agua
   if (isEyeInWater == 1.0) {
@@ -74,11 +73,6 @@ void main() {
 	} else {
     // Fog intensity calculation
     float fog_intensity_coeff = fog_density;
-    // Intensidad de niebla (baja cuando oculto del cielo)
-    // fog_intensity_coeff = max(fog_intensity_coeff, wetness * 1.4);
-    // if (fog_intensity_coeff > 1.0) {
-    //   fog_intensity_coeff = mix(1.0, fog_intensity_coeff, direct_light_coefficient);
-    // }
     float new_frog = (((gl_FogFragCoord / far) * (2.0 - fog_intensity_coeff)) - (1.0 - fog_intensity_coeff)) * far;
     float frog_adjust = new_frog / far;
 

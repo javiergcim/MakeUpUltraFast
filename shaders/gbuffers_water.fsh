@@ -97,7 +97,7 @@ void main() {
   ambient_color = ambient_color * (1.0 - (rainStrength * .4));
 
   vec3 real_light =
-    mix(ambient_color + candle_color, vec3(1.0), nightVision * .125);
+    mix(ambient_color, vec3(1.0), nightVision * .125);
 
   vec3 omni_light = skyColor * .15;
 
@@ -133,7 +133,7 @@ void main() {
     }
 
     // Escalamos para evitar negros en zonas oscuras
-    direct_light_strenght = direct_light_strenght * .4 + .6;
+    direct_light_strenght = direct_light_strenght * .55 + .45;
     direct_light_strenght =
       mix(1.0, direct_light_strenght, direct_light_coefficient);
   }
@@ -159,7 +159,7 @@ void main() {
 
       #if TINTED_WATER == 1
         block_color.rgb = mix(
-          tint_color.rgb * direct_light_strenght,
+          (tint_color.rgb * direct_light_strenght) + candle_color,
           vec3(1.0),
           .3
         );
@@ -192,7 +192,8 @@ void main() {
       // Toma el color puro del bloque
       block_color = texture2D(texture, texcoord);
       // Se agrega mapa de color y sombreado nativo
-      block_color *= (((tint_color * vec4(real_light, 1.0)) * vec4(direct_light_strenght, direct_light_strenght, direct_light_strenght, 1.0)) + vec4(omni_light, 0.0));
+      real_light = ((real_light * direct_light_strenght) + candle_color + omni_light);
+      block_color *= tint_color * vec4(real_light, 1.0);
       // Tranparencia de agua
       block_color.a = .66;
     #endif
@@ -201,7 +202,7 @@ void main() {
     // Toma el color puro del bloque
     block_color = texture2D(texture, texcoord);
     // Se agrega mapa de color y sombreado nativo
-    real_light = ((real_light * direct_light_strenght) + omni_light);
+    real_light = ((real_light * direct_light_strenght) + candle_color + omni_light);
     block_color *= tint_color * vec4(real_light, 1.0);
   }
 

@@ -66,7 +66,7 @@ void main() {
   ambient_color = ambient_color * (1.0 - (rainStrength * .4));
 
   vec3 real_light =
-    mix(ambient_color + candle_color, vec3(1.0), nightVision * .125);
+    mix(ambient_color, vec3(1.0), nightVision * .125);
 
   vec3 omni_light = skyColor * mix(
     omni_force[current_hour_floor],
@@ -81,7 +81,8 @@ void main() {
   float direct_light_coefficient = clamp(lmcoord.y * 1.5 - .5, 0.0, 1.0);
 
   if (emissive > 0.5) {  // Es emisivo
-    block_color *= (tint_color * vec4(real_light * 1.2, 1.0));
+    // block_color *= (tint_color * vec4(real_light * 1.2, 1.0));
+    block_color *= (tint_color * vec4((candle_color + real_light) * 1.2, 1.0));
 
   } else if (magma > 0.5) {  // Es magma (emisión nueva)
     block_color *= (tint_color * vec4(vec3(lmcoord.x * 1.1), 1.0));
@@ -130,7 +131,7 @@ void main() {
       direct_light_strenght = mix(direct_light_strenght, 1.0, .2);
     }
 
-    real_light = ((real_light * direct_light_strenght) + omni_light);
+    real_light = ((real_light * direct_light_strenght) + candle_color + omni_light);
     block_color *= tint_color * vec4(real_light, 1.0);
 
   }
