@@ -53,8 +53,9 @@ void main() {
       current_hour_fract
     ) * ambient_multiplier;
 
-  illumination.y *= illumination.y;  // Non-linear decay
-  illumination.y = (illumination.y * .989) + .011;  // Avoid absolute dark
+  // illumination.y *= illumination.y;  // Non-linear decay
+  // illumination.y = (illumination.y * .989) + .011;  // Avoid absolute dark
+  illumination.y = (illumination.y * 1.02) - .02;  // Avoid dimmed light
 
   // Ajuste de intensidad luminosa bajo el agua
   if (isEyeInWater == 1.0) {
@@ -62,7 +63,7 @@ void main() {
   }
 
   vec3 ambient_color =
-    ambient_currentlight * illumination.y;
+    ambient_currentlight;
   vec3 candle_color =
     candle_baselight * illumination.x * illumination.x * illumination.x;
 
@@ -70,7 +71,7 @@ void main() {
   ambient_color = ambient_color * (1.0 - (rainStrength * .4));
 
   vec3 real_light =
-    mix(ambient_color, vec3(1.0), nightVision * .125);
+    mix(ambient_color, vec3(1.0), nightVision * .125);  // No va
 
   vec3 omni_light = skyColor * mix(
     omni_force[current_hour_floor],
@@ -82,10 +83,12 @@ void main() {
   vec4 block_color = texture2D(texture, texcoord);
 
   // Indica que tan oculto estás del cielo
-  float direct_light_coefficient = clamp(lmcoord.y * 1.5 - .5, 0.0, 1.0);
+  float direct_light_coefficient = clamp(lmcoord.y * 1.1 - .1, 0.0, 1.0);
+  // float direct_light_coefficient = lmcoord.y;
+  // float direct_light_coefficient = illumination.y;
 
   if (emissive > 0.5) {  // Es emisivo
-    block_color *= (tint_color * vec4((candle_color + real_light) * 1.2, 1.0));
+    block_color *= (tint_color * vec4((candle_color + (real_light * illumination.y)) * 1.2, 1.0));
 
   } else if (magma > 0.5) {  // Es magma (emisión nueva)
     block_color *= (tint_color * vec4(vec3(lmcoord.x * 1.1), 1.0));
@@ -94,7 +97,8 @@ void main() {
 
     float direct_light_strenght = 1.0;
 
-    omni_light *= direct_light_coefficient;
+    omni_light *= lmcoord.y;
+    // omni_light *= 0.0;
 
      // Si no estamos ocultos al cielo calculamos iluminación de dirección
     if (direct_light_coefficient > 0.0) {
@@ -120,19 +124,24 @@ void main() {
           mix(moon_light_strenght, sun_light_strenght, light_mix);
       }
 
-      // Escalamos para evitar negros en zonas oscuras
-      direct_light_strenght = (direct_light_strenght * .55) + .45;
+      // direct_light_strenght = (direct_light_strenght * .55) + .45;
+      // direct_light_strenght = (direct_light_strenght * .5) + .5;
       direct_light_strenght =
         mix(1.0, direct_light_strenght, direct_light_coefficient);
     }
 
-    omni_light *= (-direct_light_strenght + 1.0);
+    // omni_light *= (-direct_light_strenght + 1.0);
 
     if (grass > .5) {  // Es "planta"
       direct_light_strenght = mix(direct_light_strenght, 1.0, .3);
     } else if(leaves > .5) {
       direct_light_strenght = mix(direct_light_strenght, 1.0, .2);
     }
+
+    // direct_light_strenght = (direct_light_strenght * .60) + .40;
+    direct_light_strenght = (direct_light_strenght * .5) + .5;
+    omni_light *= (-direct_light_strenght + 1.0);
+    direct_light_strenght = clamp((direct_light_strenght + illumination.y - 1.0), 0.0, 1.0);
 
     real_light = ((real_light * direct_light_strenght) + candle_color + omni_light);
     block_color *= tint_color * vec4(real_light, 1.0);
