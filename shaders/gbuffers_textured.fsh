@@ -50,8 +50,10 @@ void main() {
       current_hour_fract
     ) * ambient_multiplier;
 
-  illumination.y *= illumination.y;  // Non-linear decay
-  illumination.y = (illumination.y * .989) + .011;  // Avoid absolute dark
+  if (illumination.y < 0.08) {  // lmcoord.y artifact remover
+    illumination.y = 0.09;
+  }
+  illumination.y = (illumination.y * 1.085) - .085;  // Avoid dimmed light
 
   // Ajuste de intensidad luminosa bajo el agua
   if (isEyeInWater == 1.0) {

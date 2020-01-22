@@ -51,8 +51,10 @@ void main() {
       current_hour_fract
     ) * ambient_multiplier;
 
-  illumination.y *= illumination.y;  // Non-linear decay
-  illumination.y = (illumination.y * .989) + .011;  // Avoid absolute dark
+  if (illumination.y < 0.08) {  // lmcoord.y artifact remover
+    illumination.y = 0.09;
+  }
+  illumination.y = (illumination.y * 1.085) - .085;  // Avoid dimmed light
 
   // Ajuste de intensidad luminosa bajo el agua
   if (isEyeInWater == 1.0) {
@@ -65,10 +67,7 @@ void main() {
     candle_baselight * illumination.x * illumination.x * illumination.x;
 
   // Se ajusta luz ambiental en tormenta
-  ambient_color = ambient_color * (1.0 - (rainStrength * .4));
-
-  vec3 real_light =
-    mix(ambient_color, vec3(1.0), nightVision * .125);
+  vec3 real_light = ambient_color * (1.0 - (rainStrength * .4));
 
   vec3 omni_light = skyColor * mix(
     omni_force[current_hour_floor],
@@ -79,7 +78,7 @@ void main() {
   // Toma el color puro del bloque
   vec4 block_color = texture2D(texture, texcoord.xy);
 
-  // Thunderbolt render (Se puede más rápido? Para qué calcular luz después?)
+  // Thunderbolt render
   if (entityId == 11000.0){
     block_color = vec4(1.0, 1.0, 1.0, .8);
   }
@@ -90,7 +89,7 @@ void main() {
   if (emissive < 0.5) {  // No es bloque emisivo
 
     float direct_light_strenght = 1.0;
-    omni_light *= direct_light_coefficient;
+    omni_light *= illumination.y;
 
     // Calculamos iluminación de dirección
     if ((worldTime >= 0 && worldTime <= 12700) || worldTime > 23000) {  // Día
@@ -116,7 +115,7 @@ void main() {
     }
 
     // Escalamos para evitar negros en zonas oscuras
-    direct_light_strenght = (direct_light_strenght * .55) + .45;
+    direct_light_strenght = (direct_light_strenght * .45) + .55;
     float candle_cave_strenght = (direct_light_strenght * .5) + .5;
 
     direct_light_strenght =
@@ -124,16 +123,18 @@ void main() {
     candle_cave_strenght =
       mix(candle_cave_strenght, 1.0, direct_light_coefficient);
 
-    omni_light *= (-direct_light_strenght + 1.0);
-
     // Para evitar iluminación plana en cuevas
     candle_color *= candle_cave_strenght;
 
+    omni_light *= (-direct_light_strenght + 1.0);
+
+    direct_light_strenght = clamp((direct_light_strenght + illumination.y - 1.0), 0.0, 1.0);
     real_light = ((real_light * direct_light_strenght) + candle_color + omni_light);
+    real_light = mix(real_light, vec3(1.0), nightVision * .125);
     block_color *= tint_color * vec4(real_light, 1.0);
 
   } else {  // Es emisivo
-    block_color *= (tint_color * vec4(real_light * 1.2, 1.0));
+    block_color *= (tint_color * vec4((candle_color + (real_light * illumination.y)) * 1.2, 1.0));
   }
 
   // Posproceso de la niebla

@@ -14,16 +14,11 @@ varying vec4 tint_color;
 varying vec3 normal;
 varying vec3 sun_vec;
 varying vec3 moon_vec;
-varying float grass;
-varying float leaves;
-varying float emissive;
-varying float iswater;
 
 // 'Global' constants from system
 uniform int worldTime;
 uniform sampler2D texture;
 uniform int isEyeInWater;
-uniform int entityId;
 uniform float nightVision;
 uniform float rainStrength;
 uniform float wetness;
@@ -40,17 +35,24 @@ void main() {
   // x: Block, y: Sky ---
   float ambient_bright = eyeBrightnessSmooth.y / 240.0;
 
-  // Tomamos el color de ambiente con base a la hora
+  // Daytime
   float current_hour = worldTime / 1000.0;
+  int current_hour_floor = int(floor(current_hour));
+  int current_hour_ceil = int(ceil(current_hour));
+  float current_hour_fract = fract(current_hour);
+
+  // Tomamos el color de ambiente con base a la hora
   vec3 ambient_currentlight =
     mix(
-      ambient_baselight[int(floor(current_hour))],
-      ambient_baselight[int(ceil(current_hour))],
-      fract(current_hour)
+      ambient_baselight[current_hour_floor],
+      ambient_baselight[current_hour_ceil],
+      current_hour_fract
     ) * ambient_multiplier;
 
-    illumination.y *= illumination.y;  // Non-linear decay
-    illumination.y = (illumination.y * .989) + .011;  // Avoid absolute dark
+  if (illumination.y < 0.08) {  // lmcoord.y artifact remover
+    illumination.y = 0.09;
+  }
+  illumination.y = (illumination.y * 1.085) - .085;  // Avoid dimmed light
 
   // Ajuste de intensidad luminosa bajo el agua
   if (isEyeInWater == 1.0) {
@@ -63,12 +65,13 @@ void main() {
     candle_baselight * illumination.x * illumination.x * illumination.x;
 
   // Se ajusta luz ambiental en tormenta
-  ambient_color = ambient_color * (1.0 - (rainStrength * .4));
+  vec3 real_light = ambient_color * (1.0 - (rainStrength * .4));
 
-  vec3 real_light =
-    mix(ambient_color, vec3(1.0), nightVision * .125);
-
-  vec3 omni_light = skyColor * .15;
+  vec3 omni_light = skyColor * mix(
+    omni_force[current_hour_floor],
+    omni_force[current_hour_ceil],
+    current_hour_fract
+  );
 
   // Toma el color puro del bloque
   vec4 block_color = texture2D(texture, texcoord);
@@ -76,15 +79,14 @@ void main() {
   // Indica que tan oculto estás del cielo
   float direct_light_coefficient = clamp(lmcoord.y * 1.5 - .5, 0.0, 1.0);
 
-  if (emissive < 0.5) {  // No es bloque emisivo
+  // if (0.0 < 0.5) {  // No es bloque emisivo
     float direct_light_strenght = 1.0;
 
-    omni_light *= direct_light_coefficient;
+    omni_light *= illumination.y;
 
     // Calculamos iluminación de dirección
     if ((worldTime >= 0 && worldTime <= 12700) || worldTime > 23000) {  // Día
       direct_light_strenght = dot(normal, sun_vec);
-    //
     } else if (worldTime > 12700 && worldTime <= 13400 ) { // Anochece
       float sun_light_strenght = dot(normal, sun_vec);
       float moon_light_strenght = dot(normal, moon_vec);
@@ -106,7 +108,7 @@ void main() {
     }
 
     // Escalamos para evitar negros en zonas oscuras
-    direct_light_strenght = (direct_light_strenght * .55) + .45;
+    direct_light_strenght = (direct_light_strenght * .45) + .55;
     float candle_cave_strenght = (direct_light_strenght * .5) + .5;
 
     direct_light_strenght =
@@ -114,23 +116,16 @@ void main() {
     candle_cave_strenght =
       mix(candle_cave_strenght, 1.0, direct_light_coefficient);
 
-    omni_light *= (-direct_light_strenght + 1.0);
-
     // Para evitar iluminación plana en cuevas
     candle_color *= candle_cave_strenght;
 
-    if (grass > .5) {  // Es "planta"
-      direct_light_strenght = mix(direct_light_strenght, 1.0, .3);
-    } else if(leaves > .5) {
-      direct_light_strenght = mix(direct_light_strenght, 1.0, .2);
-    }
+    omni_light *= (-direct_light_strenght + 1.0);
 
+    direct_light_strenght = clamp((direct_light_strenght + illumination.y - 1.0), 0.0, 1.0);
     real_light = ((real_light * direct_light_strenght) + candle_color + omni_light);
+    real_light = mix(real_light, vec3(1.0), nightVision * .125);
     block_color *= tint_color * vec4(real_light, 1.0);
-
-  } else {  // Es emisivo
-    block_color *= (tint_color * vec4(real_light * 1.2, 1.0));
-  }
+  // }
 
   // Posproceso de la niebla
   if (isEyeInWater == 1.0) {
