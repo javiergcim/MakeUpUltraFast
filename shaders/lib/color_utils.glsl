@@ -4,7 +4,7 @@ Usefull functions for color manipulation.
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-const float ambient_multiplier = 1.4;
+const float ambient_multiplier = 1.3;
 
 // Ambient colors per hour
 const vec3 ambient_baselight[25] =

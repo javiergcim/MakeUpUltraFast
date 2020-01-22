@@ -119,8 +119,6 @@ void main() {
     // Para evitar iluminación plana en cuevas
     candle_color *= candle_cave_strenght;
 
-    omni_light *= (-direct_light_strenght + 1.0);
-
     direct_light_strenght = clamp((direct_light_strenght + illumination.y - 1.0), 0.0, 1.0);
     real_light = ((real_light * direct_light_strenght) + candle_color + omni_light);
     real_light = mix(real_light, vec3(1.0), nightVision * .125);

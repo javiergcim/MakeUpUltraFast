@@ -144,8 +144,6 @@ void main() {
       mix(1.0, direct_light_strenght, direct_light_coefficient);
   }
 
-  omni_light *= (-direct_light_strenght + 1.0);
-
   // Prepare Sky/Fog color calculation
   float fog_mix_level = mix(
     fog_color_mix[current_hour_floor],
