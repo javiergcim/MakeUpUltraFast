@@ -41,9 +41,7 @@ void main() {
     );
 
   float exposure = (ambient_bright * exposure_coef) + candle_bright;
-
-  // Map from 1.0 - 0.0 to 1.0 - 4.0
-  // exposure = (exposure * -3.0) + 4.0;
+  
   // Map from 1.0 - 0.0 to 1.0 - 3.5
   exposure = (exposure * -2.5) + 3.5;
 

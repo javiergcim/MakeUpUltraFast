@@ -18,6 +18,7 @@ varying vec3 moon_vec;
 // 'Global' constants from system
 uniform int worldTime;
 uniform sampler2D texture;
+uniform sampler2D lightmap;
 uniform int isEyeInWater;
 uniform float nightVision;
 uniform float rainStrength;

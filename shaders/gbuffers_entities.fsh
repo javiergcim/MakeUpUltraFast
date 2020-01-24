@@ -27,6 +27,7 @@ uniform float wetness;
 uniform float far;
 uniform vec3 skyColor;
 uniform ivec2 eyeBrightnessSmooth;
+uniform vec4 entityColor;
 
 #include "/lib/color_utils.glsl"
 
@@ -178,6 +179,8 @@ void main() {
         pow(clamp(frog_adjust, 0.0, 1.0), 2)
       );
   }
+
+  block_color += (entityColor * .5);
 
   gl_FragData[0] = block_color;
   gl_FragData[5] = block_color;

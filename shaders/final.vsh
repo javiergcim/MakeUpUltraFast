@@ -8,7 +8,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/globals.glsl"
 
 // Varyings (per thread shared variables)
-varying vec4 texcoord;  // Current thread coordinate
+varying vec2 texcoord;  // Current thread coordinate
 
 void main() {
   /* función principal del vector shader final.
@@ -16,5 +16,5 @@ void main() {
   */
 
   gl_Position = ftransform();
-  texcoord = gl_MultiTexCoord0;
+  texcoord = gl_MultiTexCoord0.xy;
 }

@@ -13,8 +13,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define REFRACTION 1 // [0 1] Activate refractions
 #define SSR_METHOD 0 // [0 1] Select reflection method
 
-const int noiseTextureResolution  = 128;
-
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 varying vec2 lmcoord;
