@@ -180,7 +180,7 @@ void main() {
       );
   }
 
-  block_color += (entityColor * .5);
+  block_color += (entityColor * .4);
 
   gl_FragData[0] = block_color;
   gl_FragData[5] = block_color;
