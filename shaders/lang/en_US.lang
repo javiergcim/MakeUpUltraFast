@@ -35,6 +35,10 @@ option.SSR_METHOD=Reflection method
 value.SSR_METHOD.0=Flipped image
 value.SSR_METHOD.1=Raytrace
 
+option.WAVING=Waving plants
+value.WAVING.0=No
+value.WAVING.1=Yes
+
 #Screens
 screen.AA_SCREEN=Antialiasing options
 screen.AA_SCREEN.comment=Toggle antialiasing (FXAA).

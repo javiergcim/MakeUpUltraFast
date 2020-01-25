@@ -15,11 +15,21 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define ENTITY_LEAVES       10018.0 // Leaves
 #define ENTITY_EMISSIVE     10089.0 // Emissors like candels and others
 #define ENTITY_MAGMA        10213.0 // Emissors like candels and others
+#define WAVING 1 // [0 1] Waving entities
 
 // 'Global' constants from system
 uniform int worldTime;
 uniform vec3 sunPosition;
 uniform vec3 moonPosition;
+
+#if WAVING == 1
+  uniform vec3 cameraPosition;
+  uniform mat4 gbufferModelView;
+  uniform mat4 gbufferModelViewInverse;
+  uniform float frameTimeCounter;
+  uniform float wetness;
+  uniform sampler2D noisetex;
+#endif
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
@@ -35,11 +45,60 @@ varying float iswater;
 varying float magma;
 
 attribute vec4 mc_Entity;
+#if WAVING == 1
+  attribute vec2 mc_midTexCoord;
+#endif
+
+#if WAVING == 1
+  #include "/lib/vector_utils.glsl"
+#endif
 
 void main() {
-  gl_Position = ftransform();
   texcoord = gl_MultiTexCoord0.xy;
   lmcoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
+
+  #if WAVING == 1
+
+    vec3 position =
+      mat3(gbufferModelViewInverse) *
+      (gl_ModelViewMatrix * gl_Vertex).xyz +
+      gbufferModelViewInverse[3].xyz;
+      
+  	vec3 vworldpos = position.xyz + cameraPosition;
+
+    if (mc_Entity.x == ENTITY_LOWERGRASS ||
+        mc_Entity.x == ENTITY_UPPERGRASS ||
+        mc_Entity.x == ENTITY_SMALLGRASS ||
+        mc_Entity.x == ENTITY_SMALLENTS ||
+        mc_Entity.x == ENTITY_VINES ||
+        mc_Entity.x == ENTITY_LEAVES)
+    {
+      float amt = float(texcoord.y < mc_midTexCoord.y);
+
+      if (mc_Entity.x == ENTITY_UPPERGRASS) {
+        amt += 1.0;
+      } else if (mc_Entity.x == ENTITY_LEAVES) {
+        amt = .2;
+      }
+
+			position.xyz += sildursMove(vworldpos.xyz,
+			0.0041,
+			0.0070,
+			0.0044,
+			0.0038,
+			0.0240,
+			0.0000,
+			vec3(0.8, 0.0, 0.8),
+			vec3(0.4, 0.0, 0.4)) * amt * lmcoord.y * (1.0 + (wetness * 3.0));
+    }
+
+    gl_Position = gl_ProjectionMatrix * gbufferModelView * vec4(position, 1.0);
+
+  #else
+
+    gl_Position = ftransform();
+
+  #endif
 
   gl_FogFragCoord = length(gl_Position.xyz);
 

@@ -1,6 +1,6 @@
 #version 120
 /* MakeUp Ultra Fast - gbuffers_entities.vsh
-Render: Droped objects and similar things
+Render: Droped objects, mobs and things like that
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */

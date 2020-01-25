@@ -1,6 +1,6 @@
 #version 120
 /* MakeUp Ultra Fast - gbuffers_entities.fsh
-Render: Droped objects and similar things
+Render: Droped objects, mobs and things like that
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
@@ -180,6 +180,7 @@ void main() {
       );
   }
 
+  // Flashing mobs
   block_color += (entityColor * .4);
 
   gl_FragData[0] = block_color;
