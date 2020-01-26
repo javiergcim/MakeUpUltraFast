@@ -44,6 +44,6 @@ screen.AA_SCREEN=Antialiasing options
 screen.AA_SCREEN.comment=Toggle antialiasing (FXAA).
 
 screen.COLOR_MAP=Tonemapping options
-screen.COLOR_MAP.comment=Tonemapping options
+screen.COLOR_MAP.comment=Tonemapping options.
 
 screen.EFFECTS=Effects options

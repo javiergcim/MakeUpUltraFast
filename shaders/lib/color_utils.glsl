@@ -129,8 +129,8 @@ const float fog_density[25] =
 // Omni intesity per hour
 const float omni_force[25] =
   float[25](
-  .2, // 6
-  .25, // 7
+  .15, // 6
+  .225, // 7
   .3, // 8
   .3, // 9
   .3, // 10
@@ -140,9 +140,9 @@ const float omni_force[25] =
   .3, // 14
   .3, // 15
   .3, // 16
-  .25, // 17
-  .2, // 18
-  .2, // 19
+  .225, // 17
+  .15, // 18
+  .15, // 19
   .9, // 20
   1.0, // 21
   1.0, // 22
@@ -152,11 +152,14 @@ const float omni_force[25] =
   1.0, // 2
   1.0, // 3
   .9, // 4
-  .2, // 5
-  .2 // 6
+  .15, // 5
+  .15 // 6
   );
 
-const vec3 candle_baselight = vec3(.5, 0.38823529411764707, 0.1803921568627451);
+// const vec3 candle_baselight = vec3(.5, 0.38823529411764707, 0.1803921568627451);
+// const vec3 candle_baselight = vec3(0.6666666666666666, 0.5176470588235293, 0.24052287581699344);
+// const vec3 candle_baselight = vec3(.5, 0.38823529411764707, 0.2);
+const vec3 candle_baselight = vec3(.6, 0.46588235294117647, 0.24);
 const vec3 waterfog_baselight = vec3(0.09215686274509804, 0.23137254901960785, 0.3980392156862745);
 
 float luma(vec3 color) {

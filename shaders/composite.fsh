@@ -41,9 +41,12 @@ void main() {
     );
 
   float exposure = (ambient_bright * exposure_coef) + candle_bright;
-  
+
   // Map from 1.0 - 0.0 to 1.0 - 3.5
-  exposure = (exposure * -2.5) + 3.5;
+  // exposure = (exposure * -2.5) + 3.5;
+  // exposure = (exposure * -2.0) + 3.0;
+  exposure = (exposure * -1.5) + 2.5;
+
 
   vec3 color = texture2D(G_COLOR, texcoord).rgb;
 

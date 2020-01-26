@@ -1,10 +1,15 @@
-#define WHITE_CURVE 4.0 // [1.0 1.5 2.0 2.5 3.0 3.5 4.0]
-#define LOWER_CURVE 1.0 // [0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5]
-#define UPPER_CURVE 1.0 // [0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5]
+// #define WHITE_CURVE 4.0 // [1.0 1.5 2.0 2.5 3.0 3.5 4.0]
+// #define LOWER_CURVE 1.0 // [0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5]
+// #define UPPER_CURVE 1.0 // [0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5]
+//
+// vec3 BSL_like(vec3 x){
+// 	x = x / pow(pow(x, vec3(WHITE_CURVE)) + 1.0, vec3(1.0 / WHITE_CURVE));
+// 	x = pow(x,mix(vec3(LOWER_CURVE),vec3(UPPER_CURVE),sqrt(x)));
+// 	return x;
+// }
 
 vec3 BSL_like(vec3 x){
-	x = x / pow(pow(x, vec3(WHITE_CURVE)) + 1.0, vec3(1.0 / WHITE_CURVE));
-	x = pow(x,mix(vec3(LOWER_CURVE),vec3(UPPER_CURVE),sqrt(x)));
+	x = x / pow(pow(x, vec3(4.0)) + 1.0, vec3(.25));
 	return x;
 }
 

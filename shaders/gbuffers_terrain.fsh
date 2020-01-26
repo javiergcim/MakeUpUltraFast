@@ -53,7 +53,7 @@ void main() {
       current_hour_fract
     ) * ambient_multiplier;
 
-  if (illumination.y < 0.08) {  // lmcoord.y artifact remover
+  if (illumination.y < 0.09) {  // lmcoord.y artifact remover
     illumination.y = 0.09;
   }
   illumination.y = (illumination.y * 1.085) - .085;  // Avoid dimmed light
