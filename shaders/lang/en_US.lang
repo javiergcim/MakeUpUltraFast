@@ -34,6 +34,12 @@ option.WAVING=Waving plants
 value.WAVING.0=No
 value.WAVING.1=Yes
 
+option.DOF=Depth of field
+value.DOF.0=No
+value.DOF.1=Yes
+
+option.DOF_STRENGTH=DoF strenght
+
 #Screens
 screen.AA_SCREEN=Antialiasing options
 screen.AA_SCREEN.comment=Toggle antialiasing (FXAA).

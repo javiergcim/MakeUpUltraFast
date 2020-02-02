@@ -7,11 +7,11 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #include "/lib/globals.glsl"
 
-#define NICE_WATER 1 // [0 1] Turn on for reflection and refraction capabilities.
-#define TINTED_WATER 1 // [0 1] Use the resource pack color for water.
-#define REFLECTION 1 // [0 1] Activate reflectons
-#define REFRACTION 1 // [0 1] Activate refractions
-#define SSR_METHOD 0 // [0 1] Flipped Image is inaccurate but faster. Raytrace is more accurate but slower.
+#define NICE_WATER 1  // [0 1] Turn on for reflection and refraction capabilities.
+#define TINTED_WATER 1  // [0 1] Use the resource pack color for water.
+#define REFLECTION 1  // [0 1] Activate reflectons
+#define REFRACTION 1  // [0 1] Activate refractions
+#define SSR_METHOD 0  // [0 1] Flipped Image is inaccurate but faster. Raytrace is more accurate but slower.
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
