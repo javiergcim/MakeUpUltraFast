@@ -162,16 +162,3 @@ const float omni_force[25] =
 // const vec3 candle_baselight = vec3(.6, 0.46588235294117647, 0.24);
 const vec3 candle_baselight = vec3(.666, 0.517129411764706, 0.2664);
 const vec3 waterfog_baselight = vec3(0.09215686274509804, 0.23137254901960785, 0.3980392156862745);
-
-float luma(vec3 color) {
-  /* Calcula la luma del color dado.
-
-  Args:
-  color (vec3). El color a calcular el luma.
-
-  Returns:
-  float: La luma del color dado.
-
-  */
-  return dot(color, vec3(0.299, 0.587, 0.114));
-}

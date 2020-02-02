@@ -5,6 +5,8 @@ Render: (last renderer)
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#define AA 4 // [0 4 6 12] Set antialiasing quality
+
 #include "/lib/globals.glsl"
 
 // Buffer formats
@@ -31,10 +33,20 @@ const float eyeBrightnessHalflife = 10.0f;
 
 // 'Global' constants from system
 uniform sampler2D G_COLOR;
+uniform float viewWidth;
+uniform float viewHeight;
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
+#include "/lib/luma.glsl"
+#include "/lib/fxaa_intel.glsl"
+
 void main() {
-  gl_FragColor = texture2D(G_COLOR, texcoord);
+  #if AA != 0
+    vec3 color = fxaa311(texture2D(G_COLOR, texcoord).rgb, AA);
+    gl_FragColor = vec4(color, 1.0);
+  #else
+    gl_FragColor = texture2D(G_COLOR, texcoord);
+  #endif
 }

@@ -6,11 +6,6 @@ value.AA.4=Ultra sharp
 value.AA.6=Nice
 value.AA.12=Complete
 
-option.TONEMAP=Tone map
-value.TONEMAP.0=BSL like
-value.TONEMAP.1=Uncharted 2
-value.TONEMAP.2=Filmic
-
 option.WHITE_CURVE=White curve
 option.LOWER_CURVE=Lower curve
 option.UPPER_CURVE=Upper curve
@@ -42,8 +37,5 @@ value.WAVING.1=Yes
 #Screens
 screen.AA_SCREEN=Antialiasing options
 screen.AA_SCREEN.comment=Toggle antialiasing (FXAA).
-
-screen.COLOR_MAP=Tonemapping options
-screen.COLOR_MAP.comment=Tonemapping options.
 
 screen.EFFECTS=Effects options
