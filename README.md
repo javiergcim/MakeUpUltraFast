@@ -3,8 +3,9 @@ Ultra fast Minecraft shader (Java). For a small graphic improvement. Intended fo
 
 ## Main features
 * Antialiasing (FXAA)
+* Depth of field
 * Water reflection and refraction
-* Simple auto-exposure
+* Auto-exposure
 
 ## To do
 * Dedicated shader for "The End"

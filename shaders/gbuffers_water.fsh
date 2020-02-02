@@ -5,8 +5,6 @@ Render: Water and translucent blocks
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#include "/lib/globals.glsl"
-
 #define NICE_WATER 1  // [0 1] Turn on for reflection and refraction capabilities.
 #define TINTED_WATER 1  // [0 1] Use the resource pack color for water.
 #define REFLECTION 1  // [0 1] Activate reflectons

@@ -1,13 +1,11 @@
 #version 120
 /* MakeUp Ultra Fast - final.vsh
-Render: (last renderer)
+Render: FXAA and blur precalculation
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 #define DOF 1  // [0 1] Enables depth of field
-
-#include "/lib/globals.glsl"
 
 // 'Global' constants from system
 #if DOF == 1

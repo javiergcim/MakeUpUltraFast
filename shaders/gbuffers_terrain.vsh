@@ -5,8 +5,6 @@ Render: Almost everything
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#include "/lib/globals.glsl"
-
 #define ENTITY_SMALLGRASS   10031.0	//
 #define ENTITY_LOWERGRASS   10175.0	// Lower half only in 1.13+
 #define ENTITY_UPPERGRASS	  10176.0 // Upper half only used in 1.13+
@@ -63,7 +61,7 @@ void main() {
       mat3(gbufferModelViewInverse) *
       (gl_ModelViewMatrix * gl_Vertex).xyz +
       gbufferModelViewInverse[3].xyz;
-      
+
   	vec3 vworldpos = position.xyz + cameraPosition;
 
     if (mc_Entity.x == ENTITY_LOWERGRASS ||

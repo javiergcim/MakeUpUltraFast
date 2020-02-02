@@ -1,6 +1,6 @@
 #version 120
 /* MakeUp Ultra Fast - final.fsh
-Render: (last renderer)
+Render: FXAA and blur precalculation
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
@@ -9,10 +9,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define DOF 1  // [0 1] Enables depth of field
 #define DOF_STRENGTH 2  // [2 3 4 5 6 7 8 9 10 11 12 13 14]  Depth of field streght
 
-#include "/lib/globals.glsl"
-
 // 'Global' constants from system
-uniform sampler2D G_COLOR;
+uniform sampler2D colortex0;
 uniform float viewWidth;
 uniform float viewHeight;
 
@@ -47,10 +45,10 @@ void main() {
   #endif
 
   #if AA != 0
-    vec3 color = fxaa311(texture2D(G_COLOR, texcoord).rgb, AA);
+    vec3 color = fxaa311(texture2D(colortex0, texcoord).rgb, AA);
     gl_FragData[0] = vec4(color, 1.0);
   #else
-    gl_FragData[0] = texture2D(G_COLOR, texcoord);
+    gl_FragData[0] = texture2D(colortex0, texcoord);
   #endif
 
   #if DOF == 1

@@ -5,10 +5,8 @@ Render: Composite after gbuffers
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#include "/lib/globals.glsl"
-
 // 'Global' constants from system
-uniform sampler2D G_COLOR;
+uniform sampler2D colortex0;
 uniform ivec2 eyeBrightnessSmooth;
 uniform int worldTime;
 
@@ -37,7 +35,7 @@ void main() {
   // Map from 1.0 - 0.0 to 1.0 - 2.5
   exposure = (exposure * -1.5) + 2.5;
 
-  vec3 color = texture2D(G_COLOR, texcoord).rgb;
+  vec3 color = texture2D(colortex0, texcoord).rgb;
 
   color *= exposure;
   color = tonemap(color);

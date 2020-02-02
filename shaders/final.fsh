@@ -1,6 +1,6 @@
 #version 120
 /* MakeUp Ultra Fast - composite.fsh
-Render: Composite after gbuffers
+Render: Vertical blur pass and final renderer
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
@@ -17,10 +17,14 @@ const int colortex0Format = R11F_G11F_B10F;
 const int colortex1Format = R8;
 const int colortex2Format = R8;
 const int colortex3Format = R8;
-const int gaux1Format = R8;
-const int gaux2Format = RGB8;
-const int gaux3Format = R8;
-const int gaux4Format = R8;
+// const int gaux1Format = R8;
+// const int gaux2Format = RGB8;
+// const int gaux3Format = R8;
+// const int gaux4Format = R8;
+const int colortex4Format = R8;
+const int colortex5Format = RGB8;
+const int colortex6Format = R8;
+const int colortex7Format = R8;
 
 // Redefined constants
 const int noiseTextureResolution = 128;
@@ -30,10 +34,8 @@ const float eyeBrightnessHalflife = 10.0f;
 #define DOF 1  // [0 1] Enables depth of field
 #define BLUR_QUALITY 10
 
-#include "/lib/globals.glsl"
-
 // 'Global' constants from system
-uniform sampler2D G_COLOR;
+uniform sampler2D colortex0;
 
 #if DOF == 1
   uniform sampler2D gaux1;
@@ -82,6 +84,6 @@ void main() {
     gl_FragColor = color;
 
   #else
-    gl_FragColor = texture2D(G_COLOR, texcoord);
+    gl_FragColor = texture2D(colortex0, texcoord);
   #endif
 }

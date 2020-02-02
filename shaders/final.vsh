@@ -1,11 +1,9 @@
 #version 120
 /* MakeUp Ultra Fast - composite.fsh
-Render: Composite after gbuffers
+Render: Vertical blur pass and final renderer
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
-
-#include "/lib/globals.glsl"
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;

@@ -1,6 +1,6 @@
 #version 120
 /* MakeUp Ultra Fast - composite.fsh
-Render: Composite after gbuffers
+Render: Horizontal blur pass
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
@@ -8,10 +8,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define DOF 1  // [0 1] Enables depth of field
 #define BLUR_QUALITY 10
 
-#include "/lib/globals.glsl"
-
 // 'Global' constants from system
-uniform sampler2D G_COLOR;
+uniform sampler2D colortex0;
 
 #if DOF == 1
   uniform sampler2D gaux1;
@@ -28,7 +26,7 @@ varying vec2 texcoord;
 #endif
 
 void main() {
-  vec4 color = texture2D(G_COLOR, texcoord);
+  vec4 color = texture2D(colortex0, texcoord);
 
   #if DOF == 1
     float blur = texture2D(gaux1, texcoord).r;
@@ -45,7 +43,7 @@ void main() {
 
     	for (float x = start; x <= finish; x += step) {
     	 	float weight = fogify(((texcoord.x - x) * viewWidth) * invblur_radius2, 0.35);
-    	 	vec4 newColor = texture2D(G_COLOR, vec2(x, texcoord.y));
+    	 	vec4 newColor = texture2D(colortex0, vec2(x, texcoord.y));
         float new_blur = texture2D(gaux1, vec2(x, texcoord.y)).r;
     	 	weight *= new_blur * invblur_radius1;
     	 	average.rgb += newColor.rgb * newColor.rgb * weight;

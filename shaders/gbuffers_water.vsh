@@ -5,8 +5,6 @@ Render: Water and translucent blocks
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#include "/lib/globals.glsl"
-
 #define ENTITY_WATER        10008.0
 #define ENTITY_PORTAL       10090.0
 #define ENTITY_STAINED      10079.0

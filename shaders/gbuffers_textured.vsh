@@ -5,8 +5,6 @@ Render: Particles
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#include "/lib/globals.glsl"
-
 // 'Global' constants from system
 uniform int worldTime;
 uniform vec3 sunPosition;

@@ -5,8 +5,6 @@ Render: Composite after gbuffers
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#include "/lib/globals.glsl"
-
 // 'Global' constants from system
 uniform vec3 sunPosition;
 uniform vec3 moonPosition;

@@ -5,8 +5,6 @@ Render: Small entities, hand objects
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#include "/lib/globals.glsl"
-
 // #define ENTITY_EMISSIVE     10089.0 // Emissors like candels and others
 
 // 'Global' constants from system

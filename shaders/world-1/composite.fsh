@@ -9,10 +9,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define TONEMAP 0 // [0 1 2] Set tonemap
 #define CROSS 0 // [0 1] Activate color crossprocess
 
-#include "/lib/globals.glsl"
-
 // 'Global' constants from system
-uniform sampler2D G_COLOR;
+uniform sampler2D colortex0;
 uniform ivec2 eyeBrightnessSmooth;
 uniform float aspectRatio;
 uniform float viewWidth;
@@ -39,7 +37,7 @@ void main() {
 	// exposure = 3.765;
   exposure = 1.0;
 
-	vec3 color = texture2D(G_COLOR, texcoord).rgb;
+	vec3 color = texture2D(colortex0, texcoord).rgb;
 
 	#if AA != 0
 		color = fxaa311(color, AA);

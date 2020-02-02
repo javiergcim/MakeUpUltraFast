@@ -5,8 +5,6 @@ Render: Almost everything
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#include "/lib/globals.glsl"
-
 #define ENTITY_MAGMA     10213.0 // Emissors like candels and others
 
 // Varyings (per thread shared variables)

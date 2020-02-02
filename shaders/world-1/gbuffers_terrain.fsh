@@ -5,7 +5,6 @@ Render: Almost everything
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#include "/lib/globals.glsl"
 #include "/lib/color_utils_nether.glsl"
 
 // Varyings (per thread shared variables)

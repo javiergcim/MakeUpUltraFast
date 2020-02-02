@@ -5,8 +5,6 @@ Render: Almost everything
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#include "/lib/globals.glsl"
-
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 varying vec2 lmcoord;
