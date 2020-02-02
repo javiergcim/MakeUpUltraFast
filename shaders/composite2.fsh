@@ -15,11 +15,8 @@ uniform sampler2D G_COLOR;
 
 #if DOF == 1
   uniform sampler2D gaux1;
-  uniform sampler2D gaux2;
-  uniform float pixelSizeY;
-  uniform float viewHeight;
   uniform float pixelSizeX;
-  uniform float viewWeight;
+  uniform float viewWidth;
 #endif
 
 // Varyings (per thread shared variables)
@@ -31,36 +28,39 @@ varying vec2 texcoord;
 #endif
 
 void main() {
+  vec4 color = texture2D(G_COLOR, texcoord);
 
   #if DOF == 1
-    vec4 color = texture2D(gaux2, texcoord);
-    float blur_radius = texture2D(gaux1, texcoord).r;
-    //
-    if (blur_radius > 0.0) {
-      float invblur_radius1 = 1.0 / blur_radius;
-    	blur_radius *= 256.0; //actual radius in pixels
+    float blur = texture2D(gaux1, texcoord).r;
+
+    if (blur > 0.0) {
+      float invblur_radius1 = 1.0 / blur;
+    	float blur_radius = blur * 256.0; //actual radius in pixels
     	float invblur_radius2 = 1.0 / blur_radius;
 
     	vec4 average = vec4(0.0);
-    	float start  = max(texcoord.y - blur_radius * pixelSizeY,       pixelSizeY * 0.5);
-    	float finish = min(texcoord.y + blur_radius * pixelSizeY, 1.0 - pixelSizeY * 0.5);
-    	float step   = max(pixelSizeY * 0.5, blur_radius * pixelSizeY / float(BLUR_QUALITY));
+    	float start  = max(texcoord.x - blur_radius * pixelSizeX,       pixelSizeX * 0.5);
+    	float finish = min(texcoord.x + blur_radius * pixelSizeX, 1.0 - pixelSizeX * 0.5);
+    	float step   = max(pixelSizeX * 0.5, blur_radius * pixelSizeX / float(BLUR_QUALITY));
 
-    	for (float y = start; y <= finish; y += step) {
-    	 	float weight = fogify(((texcoord.y - y) * viewHeight) * invblur_radius2, 0.35);
-    	 	vec4 newColor = texture2D(gaux2, vec2(texcoord.x, y));
-        float new_blur = texture2D(gaux1, vec2(texcoord.x, y)).r;
+    	for (float x = start; x <= finish; x += step) {
+    	 	float weight = fogify(((texcoord.x - x) * viewWidth) * invblur_radius2, 0.35);
+    	 	vec4 newColor = texture2D(G_COLOR, vec2(x, texcoord.y));
+        float new_blur = texture2D(gaux1, vec2(x, texcoord.y)).r;
     	 	weight *= new_blur * invblur_radius1;
     	 	average.rgb += newColor.rgb * newColor.rgb * weight;
     	 	average.a += weight;
     	}
     	color.rgb = sqrt(average.rgb / average.a);
     }
+  #endif
 
-    gl_FragData[0] = color;
-    // gl_FragData[0] = vec4(vec3((blur_radius * 256) / 10.0), 1.0);
 
+  #if DOF == 1
+    gl_FragData[4] = vec4(blur);
+    gl_FragData[5] = color;
   #else
-    gl_FragData[0] = texture2D(G_COLOR, texcoord);
+    gl_FragData[0] = color;
+    gl_FragData[1] = vec4(0.0);  // ¿Performance?
   #endif
 }

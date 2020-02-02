@@ -1,66 +1,61 @@
 #version 120
-/* MakeUp Ultra Fast - composite.fsh
-Render: Composite after gbuffers
+/* MakeUp Ultra Fast - final.fsh
+Render: (last renderer)
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#define AA 4 // [0 4 6 12] Set antialiasing quality
 #define DOF 1  // [0 1] Enables depth of field
-#define BLUR_QUALITY 10
+#define DOF_STRENGTH 2  // [2 3 4 5 6 7 8 9 10 11 12 13 14]  Depth of field streght
 
 #include "/lib/globals.glsl"
 
 // 'Global' constants from system
 uniform sampler2D G_COLOR;
+uniform float viewWidth;
+uniform float viewHeight;
 
 #if DOF == 1
-  uniform sampler2D gaux1;
-  uniform float pixelSizeX;
-  uniform float viewWidth;
+  uniform sampler2D depthtex0;
+  uniform mat4 gbufferProjectionInverse;
+  uniform float centerDepthSmooth;
 #endif
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
 #if DOF == 1
-  // varying float dofDistance;
+  varying float dof_dist;
+#endif
+
+#include "/lib/luma.glsl"
+#include "/lib/fxaa_intel.glsl"
+
+#if DOF == 1
   #include "/lib/blur.glsl"
 #endif
 
 void main() {
-  vec4 color = texture2D(G_COLOR, texcoord);
-
   #if DOF == 1
-    float blur = texture2D(gaux1, texcoord).r;
-
-    if (blur > 0.0) {
-      float invblur_radius1 = 1.0 / blur;
-    	float blur_radius = blur * 256.0; //actual radius in pixels
-    	float invblur_radius2 = 1.0 / blur_radius;
-
-    	vec4 average = vec4(0.0);
-    	float start  = max(texcoord.x - blur_radius * pixelSizeX,       pixelSizeX * 0.5);
-    	float finish = min(texcoord.x + blur_radius * pixelSizeX, 1.0 - pixelSizeX * 0.5);
-    	float step   = max(pixelSizeX * 0.5, blur_radius * pixelSizeX / float(BLUR_QUALITY));
-
-    	for (float x = start; x <= finish; x += step) {
-    	 	float weight = fogify(((texcoord.x - x) * viewWidth) * invblur_radius2, 0.35);
-    	 	vec4 newColor = texture2D(G_COLOR, vec2(x, texcoord.y));
-        float new_blur = texture2D(gaux1, vec2(x, texcoord.y)).r;
-    	 	weight *= new_blur * invblur_radius1;
-    	 	average.rgb += newColor.rgb * newColor.rgb * weight;
-    	 	average.a += weight;
-    	}
-    	color.rgb = sqrt(average.rgb / average.a);
-    }
+    vec3 pos = vec3(texcoord, texture2D(depthtex0, texcoord).r);
+    vec4 vec = gbufferProjectionInverse * vec4(pos * 2.0 - 1.0, 1.0);
+  	pos = vec.xyz / vec.w;
+    float dist = length(pos);
+    float blur_radius = min(abs(dist - dof_dist) / dof_dist, 1.0) * DOF_STRENGTH;
+    blur_radius *= 0.00390625; // blur_radius /= 256.0;
   #endif
 
+  #if AA != 0
+    vec3 color = fxaa311(texture2D(G_COLOR, texcoord).rgb, AA);
+    gl_FragData[0] = vec4(color, 1.0);
+  #else
+    gl_FragData[0] = texture2D(G_COLOR, texcoord);
+  #endif
 
   #if DOF == 1
-    gl_FragData[4] = vec4(blur);
-    gl_FragData[5] = color;
+    gl_FragData[4] = vec4(blur_radius);  //gaux1
   #else
-    gl_FragData[0] = color;
     gl_FragData[1] = vec4(0.0);  // ¿Performance?
   #endif
 }
