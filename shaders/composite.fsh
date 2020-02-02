@@ -6,7 +6,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 #define DOF 1  // [0 1] Enables depth of field
-#define DOF_STRENGTH 4  // [2 4 6 8 10 12 14 16 18 20 22 24]  Depth of field streght
+#define DOF_STRENGTH 2  // [2 3 4 5 6 7 8 9 10 11 12 13 14]  Depth of field streght
 
 #include "/lib/globals.glsl"
 
@@ -64,7 +64,6 @@ void main() {
     vec4 vec = gbufferProjectionInverse * vec4(pos * 2.0 - 1.0, 1.0);
   	pos = vec.xyz / vec.w;
     float dist = length(pos);
-    // float blur_radius = interpolateSmooth1(min(abs(dist - dof_dist) / dof_dist, 1.0)) * DOF_STRENGTH;
     float blur_radius = min(abs(dist - dof_dist) / dof_dist, 1.0) * DOF_STRENGTH;
     blur_radius *= 0.00390625; // blur_radius /= 256.0;
   #endif

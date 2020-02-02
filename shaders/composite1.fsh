@@ -57,7 +57,6 @@ void main() {
 
 
   #if DOF == 1
-    // gl_FragData[4] = vec4((blur * 256) / 10.0);  //gaux1
     gl_FragData[4] = vec4(blur);
     gl_FragData[5] = color;
   #else
