@@ -159,7 +159,8 @@ const float omni_force[25] =
 // const vec3 candle_baselight = vec3(.5, 0.38823529411764707, 0.1803921568627451);
 // const vec3 candle_baselight = vec3(0.6666666666666666, 0.5176470588235293, 0.24052287581699344);
 // const vec3 candle_baselight = vec3(.5, 0.38823529411764707, 0.2);
-const vec3 candle_baselight = vec3(.6, 0.46588235294117647, 0.24);
+// const vec3 candle_baselight = vec3(.6, 0.46588235294117647, 0.24);
+const vec3 candle_baselight = vec3(.666, 0.517129411764706, 0.2664);
 const vec3 waterfog_baselight = vec3(0.09215686274509804, 0.23137254901960785, 0.3980392156862745);
 
 float luma(vec3 color) {

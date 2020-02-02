@@ -1,3 +1,8 @@
+/* MakeUp Ultra Fast - water.glsl
+Water reflection and refractiion related functions. Inspired by Project LUMA.
+*/
+
+
 float waterWaves(vec3 worldPos) {
   float wave = 0.0;
 
@@ -11,11 +16,11 @@ float waterWaves(vec3 worldPos) {
   const mat2 rotate_mat = mat2(0.8775825618903728, -0.479425538604203,
                          -0.479425538604203, 0.8775825618903728);
 
-  wave = texture2D(noisetex, worldPos.xz * 0.075 + vec2(frameTimeCounter * 0.015)).x * 0.1;
-  wave += texture2D(noisetex, worldPos.xz * 0.02 - vec2(frameTimeCounter * 0.0075)).x * 0.5;
-  wave += texture2D(noisetex, worldPos.xz * 0.02 * rotate_mat + vec2(frameTimeCounter * 0.0075)).x * 0.5;
+  wave = texture2D(noisetex, worldPos.xz * 0.075 + vec2(frameTimeCounter * 0.015)).x * 0.01;
+  wave += texture2D(noisetex, worldPos.xz * 0.02 - vec2(frameTimeCounter * 0.0075)).x * 0.05;
+  wave += texture2D(noisetex, worldPos.xz * 0.02 * rotate_mat + vec2(frameTimeCounter * 0.0075)).x * 0.05;
 
-  return wave * 0.1;
+  return wave;
 }
 
 vec3 waterwavesToNormal(vec3 pos) {
