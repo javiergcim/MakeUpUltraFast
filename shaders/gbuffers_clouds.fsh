@@ -14,18 +14,19 @@ uniform sampler2D texture;
 uniform float wetness;
 uniform float far;
 uniform vec3 skyColor;
+uniform int current_hour_floor;
+uniform int current_hour_ceil;
+uniform float current_hour_fract;
 
 #include "/lib/color_utils.glsl"
 
 void main() {
   vec4 block_color = texture2D(texture, texcoord) * color;
 
-  float current_hour = worldTime / 1000.0;
-
   float fog_intensity_coeff = mix(
-    fog_density[int(floor(current_hour))],
-    fog_density[int(ceil(current_hour))],
-    fract(current_hour)
+    fog_density[current_hour_floor],
+    fog_density[current_hour_ceil],
+    current_hour_fract
     );
   fog_intensity_coeff = max(fog_intensity_coeff, wetness * 1.4);
   float new_frog = (((gl_FogFragCoord / far) * (2.0 - fog_intensity_coeff)) - (1.0 - fog_intensity_coeff)) * far;

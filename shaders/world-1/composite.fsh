@@ -12,7 +12,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // 'Global' constants from system
 uniform sampler2D colortex0;
 uniform ivec2 eyeBrightnessSmooth;
-uniform float aspectRatio;
+// uniform float aspectRatio;
 uniform float viewWidth;
 uniform float viewHeight;
 uniform int worldTime;
@@ -29,12 +29,10 @@ void main() {
 	float candle_bright = eyeBrightnessSmooth.x / 240.0;
 	candle_bright *= .1;
 
-	// float current_hour = worldTime / 1000.0;
   float exposure_coef = ambient_exposure;
 
 	float exposure = candle_bright;
 
-	// exposure = 3.765;
   exposure = 1.0;
 
 	vec3 color = texture2D(colortex0, texcoord).rgb;
@@ -44,14 +42,7 @@ void main() {
 	#endif
 
 	color *= exposure;
-
-  #if TONEMAP == 0
-    color = BSL_like(color);
-  #elif TONEMAP == 1
-    color = uncharted2(color);
-  #elif TONEMAP == 2
-    color = tonemapFilmic(color);
-  #endif
+  color = tonemap(color);
 
   gl_FragData[0] = vec4(color, 1.0);
 	gl_FragData[1] = vec4(0.0); // ¿Performance?

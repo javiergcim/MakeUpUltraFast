@@ -24,6 +24,9 @@ uniform float wetness;
 uniform float far;
 uniform vec3 skyColor;
 uniform ivec2 eyeBrightnessSmooth;
+uniform int current_hour_floor;
+uniform int current_hour_ceil;
+uniform float current_hour_fract;
 
 #include "/lib/color_utils.glsl"
 
@@ -33,12 +36,6 @@ void main() {
 
   // x: Block, y: Sky ---
   float ambient_bright = eyeBrightnessSmooth.y / 240.0;
-
-  // Daytime
-  float current_hour = worldTime / 1000.0;
-  int current_hour_floor = int(floor(current_hour));
-  int current_hour_ceil = int(ceil(current_hour));
-  float current_hour_fract = fract(current_hour);
 
   // Tomamos el color de ambiente con base a la hora
   vec3 ambient_currentlight =
@@ -142,9 +139,9 @@ void main() {
   } else {
     // Fog intensity calculation
     float fog_intensity_coeff = mix(
-      fog_density[int(floor(current_hour))],
-      fog_density[int(ceil(current_hour))],
-      fract(current_hour)
+      fog_density[current_hour_floor],
+      fog_density[current_hour_floor],
+      current_hour_fract
       );
     // Intensidad de niebla (baja cuando oculto del cielo)
     fog_intensity_coeff = max(fog_intensity_coeff, wetness * 1.4);
@@ -154,9 +151,9 @@ void main() {
 
     // Fog color calculation
     float fog_mix_level = mix(
-      fog_color_mix[int(floor(current_hour))],
-      fog_color_mix[int(ceil(current_hour))],
-      fract(current_hour)
+      fog_color_mix[current_hour_floor],
+      fog_color_mix[current_hour_ceil],
+      current_hour_fract
       );
     vec3 current_fog_color = mix(skyColor, gl_Fog.color.rgb, fog_mix_level);
 

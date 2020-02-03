@@ -24,6 +24,9 @@ uniform float wetness;
 uniform float far;
 uniform vec3 skyColor;
 uniform ivec2 eyeBrightnessSmooth;
+uniform int current_hour_floor;
+uniform int current_hour_ceil;
+uniform float current_hour_fract;
 
 #include "/lib/color_utils.glsl"
 
@@ -33,12 +36,6 @@ void main() {
 
   // x: Block, y: Sky ---
   float ambient_bright = eyeBrightnessSmooth.y / 240.0;
-
-  // Daytime
-  float current_hour = worldTime / 1000.0;
-  int current_hour_floor = int(floor(current_hour));
-  int current_hour_ceil = int(ceil(current_hour));
-  float current_hour_fract = fract(current_hour);
 
   // Tomamos el color de ambiente con base a la hora
   vec3 ambient_currentlight =

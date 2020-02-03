@@ -27,8 +27,10 @@ void main() {
   // Tomamos el color de ambiente
   vec3 ambient_currentlight = ambient_baselight;
 
-  illumination.y *= illumination.y;  // Non-linear decay
-  illumination.y = (illumination.y * .95) + .05;  // Avoid absolute dark
+  if (illumination.y < 0.09) {  // lmcoord.y artifact remover
+    illumination.y = 0.09;
+  }
+  illumination.y = (illumination.y * 1.085) - .085;  // Avoid dimmed light
 
   // Ajuste de intensidad luminosa bajo el agua
   if (isEyeInWater == 1.0) {
