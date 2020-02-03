@@ -12,8 +12,6 @@ uniform int worldTime;
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
-uniform float ambient_bright;
-uniform float candle_bright;
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
@@ -23,6 +21,8 @@ varying vec2 texcoord;
 
 void main() {
   // x: Block, y: Sky ---
+  float ambient_bright = eyeBrightnessSmooth.y / 240.0;
+  float candle_bright = (eyeBrightnessSmooth.x / 240.0) * .1;
 
   float current_hour = worldTime / 1000.0;
   float exposure_coef =

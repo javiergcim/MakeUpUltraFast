@@ -30,7 +30,6 @@ uniform ivec2 eyeBrightnessSmooth;
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
-uniform float ambient_bright;
 
 #include "/lib/color_utils.glsl"
 
@@ -39,6 +38,7 @@ void main() {
   vec2 illumination = lmcoord;
 
   // x: Block, y: Sky ---
+  float ambient_bright = eyeBrightnessSmooth.y / 240.0;
 
   // Tomamos el color de ambiente con base a la hora
   vec3 ambient_currentlight =
