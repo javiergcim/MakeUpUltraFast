@@ -24,27 +24,17 @@ uniform float wetness;
 void main() {
   // Custom light (lmcoord.x: candle, lmcoord.y: ambient) ----
   vec2 illumination = lmcoord;
-  // Tomamos el color de ambiente
-  vec3 ambient_currentlight = ambient_baselight;
 
   if (illumination.y < 0.09) {  // lmcoord.y artifact remover
     illumination.y = 0.09;
   }
   illumination.y = (illumination.y * 1.085) - .085;  // Avoid dimmed light
 
-  // Ajuste de intensidad luminosa bajo el agua
-  if (isEyeInWater == 1.0) {
-    illumination.y = (illumination.y * .95) + .05;
-  }
-
-  vec3 ambient_color =
-    ambient_currentlight * illumination.y;
   vec3 candle_color =
     candle_baselight * illumination.x * illumination.x * illumination.x;
 
   vec3 real_light =
-    mix(ambient_color + candle_color, vec3(1.0), nightVision * .125) * 4.0;
-    // mix(candle_color, vec3(1.0), nightVision * .125) * 4.0;
+    mix(candle_color, vec3(1.0), nightVision * .125) * 4.0;
 
   // Toma el color puro del bloque
   vec4 block_color = texture2D(texture, texcoord);

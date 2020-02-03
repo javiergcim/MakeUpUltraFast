@@ -57,13 +57,11 @@ void main() {
     illumination.y = (illumination.y * .95) + .05;
   }
 
-  vec3 ambient_color =
-    ambient_currentlight * illumination.y;
   vec3 candle_color =
     candle_baselight * illumination.x * illumination.x * illumination.x;
 
   // Se ajusta luz ambiental en tormenta
-  vec3 real_light = ambient_color * (1.0 - (rainStrength * .4));
+  vec3 real_light = ambient_currentlight * (1.0 - (rainStrength * .4));
 
   vec3 omni_light = skyColor * mix(
     omni_force[current_hour_floor],
@@ -128,7 +126,7 @@ void main() {
     block_color *= tint_color * vec4(real_light, 1.0);
 
   } else {  // Es emisivo
-    block_color *= (tint_color * vec4((candle_color + (real_light * illumination.y)) * 1.2, 1.0));
+    block_color *= (tint_color * vec4((candle_color + real_light) * 1.2, 1.0));
   }
 
   // Posproceso de la niebla
