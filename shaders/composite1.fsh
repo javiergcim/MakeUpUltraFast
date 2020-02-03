@@ -41,7 +41,6 @@ void main() {
   	pos = vec.xyz / vec.w;
     float dist = length(pos);
     float blur_radius = min(abs(dist - dof_dist) / dof_dist, 1.0);
-    // blur_radius *= blur_radius * DOF_STRENGTH * 0.00390625; // blur_radius /= 256.0;
     blur_radius *= blur_radius * DOF_STRENGTH * 0.00390625;
   #endif
 

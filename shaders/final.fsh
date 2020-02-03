@@ -67,7 +67,7 @@ void main() {
     	vec4 average = vec4(0.0);
     	float start  = max(texcoord.y - blur_radius * pixelSizeY,       pixelSizeY * 0.5);
     	float finish = min(texcoord.y + blur_radius * pixelSizeY, 1.0 - pixelSizeY * 0.5);
-    	float step   = max(pixelSizeY * 0.5, blur_radius * pixelSizeY / float(DOF_STRENGTH + 2));
+    	float step   = max(pixelSizeY * 0.5, blur_radius * pixelSizeY / float(DOF_STRENGTH));
 
     	for (float y = start; y <= finish; y += step) {
     	 	float weight = fogify(((texcoord.y - y) * viewHeight) * invblur_radius2, 0.35);

@@ -9,6 +9,11 @@ Javier Garduño - GNU Lesser General Public License v3.0
 uniform sampler2D colortex0;
 uniform ivec2 eyeBrightnessSmooth;
 uniform int worldTime;
+uniform int current_hour_floor;
+uniform int current_hour_ceil;
+uniform float current_hour_fract;
+uniform float ambient_bright;
+uniform float candle_bright;
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
@@ -18,16 +23,13 @@ varying vec2 texcoord;
 
 void main() {
   // x: Block, y: Sky ---
-  float ambient_bright = eyeBrightnessSmooth.y / 240.0;
-  float candle_bright = eyeBrightnessSmooth.x / 240.0;
-  candle_bright *= .1;
 
   float current_hour = worldTime / 1000.0;
   float exposure_coef =
     mix(
-      ambient_exposure[int(floor(current_hour))],
-      ambient_exposure[int(ceil(current_hour))],
-      fract(current_hour)
+      ambient_exposure[current_hour_floor],
+      ambient_exposure[current_hour_ceil],
+      current_hour_fract
     );
 
   float exposure = (ambient_bright * exposure_coef) + candle_bright;

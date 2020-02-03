@@ -38,23 +38,18 @@ uniform float far;
 uniform vec3 skyColor;
 uniform float frameTimeCounter;
 uniform sampler2D noisetex;
-// uniform float sunAngle;
 uniform mat4 gbufferProjectionInverse;
 uniform mat4 gbufferProjection;
 uniform float viewWidth;
 uniform float viewHeight;
-// suniform sampler2D gcolor;
-// uniform sampler2D gdepth;
-// uniform sampler2D gnormal;
-// uniform sampler2D composite;
 uniform sampler2D gaux2;
 uniform sampler2D depthtex0;
 uniform sampler2D depthtex1;
-// uniform vec3 sunPosition;
 uniform ivec2 eyeBrightnessSmooth;
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
+uniform float ambient_bright;
 
 #include "/lib/color_utils.glsl"
 
@@ -67,7 +62,6 @@ void main() {
   vec2 illumination = lmcoord;
 
   // x: Block, y: Sky ---
-  float ambient_bright = eyeBrightnessSmooth.y / 240.0;
 
   // Tomamos el color de ambiente con base a la hora
   vec3 ambient_currentlight =

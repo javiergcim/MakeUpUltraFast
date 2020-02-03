@@ -16,6 +16,7 @@ uniform ivec2 eyeBrightnessSmooth;
 uniform float viewWidth;
 uniform float viewHeight;
 uniform int worldTime;
+uniform float candle_bright;
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
@@ -26,12 +27,6 @@ varying vec2 texcoord;
 
 void main() {
   // x: Block, y: Sky ---
-	float candle_bright = eyeBrightnessSmooth.x / 240.0;
-	candle_bright *= .1;
-
-  float exposure_coef = ambient_exposure;
-
-	float exposure = candle_bright;
 
   exposure = 1.0;
 
