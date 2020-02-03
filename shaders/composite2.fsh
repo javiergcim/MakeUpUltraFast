@@ -6,7 +6,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 #define DOF 1  // [0 1] Enables depth of field
-#define BLUR_QUALITY 10
+#define DOF_STRENGTH 2  // [2 3 4 5 6 7 8 9 10 11 12 13 14]  Depth of field streght
 
 // 'Global' constants from system
 uniform sampler2D colortex0;
@@ -39,7 +39,7 @@ void main() {
     	vec4 average = vec4(0.0);
     	float start  = max(texcoord.x - blur_radius * pixelSizeX,       pixelSizeX * 0.5);
     	float finish = min(texcoord.x + blur_radius * pixelSizeX, 1.0 - pixelSizeX * 0.5);
-    	float step   = max(pixelSizeX * 0.5, blur_radius * pixelSizeX / float(BLUR_QUALITY));
+    	float step   = max(pixelSizeX * 0.5, blur_radius * pixelSizeX / float(DOF_STRENGTH + 2));
 
     	for (float x = start; x <= finish; x += step) {
     	 	float weight = fogify(((texcoord.x - x) * viewWidth) * invblur_radius2, 0.35);
