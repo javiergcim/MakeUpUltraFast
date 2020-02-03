@@ -60,9 +60,6 @@ void main() {
   // Custom light (lmcoord.x: candle, lmcoord.y: ambient) ----
   vec2 illumination = lmcoord;
 
-  // x: Block, y: Sky ---
-  float ambient_bright = eyeBrightnessSmooth.y / 240.0;
-
   // Tomamos el color de ambiente con base a la hora
   vec3 ambient_currentlight =
     mix(
@@ -94,13 +91,13 @@ void main() {
   );
 
   // Indica cuanta iluminación basada en dirección de fuente de luz se usará
-  float direct_light_coefficient = clamp(lmcoord.y * 1.1 - .1, 0.0, 1.0);
+  float visible_sky = clamp(lmcoord.y * 1.1 - .1, 0.0, 1.0);
   float direct_light_strenght = 1.0;
 
   omni_light *= illumination.y;
 
    // Si no estamos ocultos al cielo calculamos iluminación de dirección
-  if (direct_light_coefficient > 0.0) {
+  if (visible_sky > 0.0) {
     if ((worldTime >= 0 && worldTime <= 12700) || worldTime > 23000) {  // Día
       direct_light_strenght = dot(normal, sun_vec);
     //
@@ -126,7 +123,7 @@ void main() {
 
     direct_light_strenght = (direct_light_strenght * .45) + .55;
     direct_light_strenght =
-      mix(1.0, direct_light_strenght, direct_light_coefficient);
+      mix(1.0, direct_light_strenght, visible_sky);
   }
 
   // Prepare Sky/Fog color calculation
@@ -135,7 +132,7 @@ void main() {
     fog_color_mix[current_hour_ceil],
     current_hour_fract
     );
-    // Fog color calculation
+  // Fog color calculation
   vec3 current_fog_color = mix(skyColor, gl_Fog.color.rgb, fog_mix_level);
 
   // Begin water code ---------------
@@ -178,7 +175,7 @@ void main() {
       );
 
     #else
-      // // Toma el color puro del bloque
+      // Toma el color puro del bloque
       block_color = texture2D(texture, texcoord);
       direct_light_strenght = clamp((direct_light_strenght + illumination.y - 1.0), 0.0, 1.0);
       real_light = ((real_light * direct_light_strenght) + candle_color + omni_light);
@@ -197,41 +194,37 @@ void main() {
     block_color *= tint_color * vec4(real_light, 1.0);
   }
 
-  // Posproceso de la niebla
-  if (isEyeInWater == 1.0) {
-  block_color.rgb =
-      mix(
-        block_color.rgb,
-        waterfog_baselight * real_light,
-        1.0 - clamp(exp(-gl_Fog.density * gl_FogFragCoord), 0.0, 1.0)
-      );
-  } else if (isEyeInWater == 2.0) {
-    block_color.rgb =
-      mix(
-        block_color.rgb,
-        gl_Fog.color.rgb * real_light,
-        1.0 - clamp(exp(-gl_Fog.density * gl_FogFragCoord), 0.0, 1.0)
-      );
-  } else {
+  // New fog
+  float fog_density_coeff;
+  float fog_intensity_coeff;
+  if (isEyeInWater == 0.0) { // Normal
     // Fog intensity calculation
-    float fog_intensity_coeff = mix(
+    fog_density_coeff = mix(
       fog_density[current_hour_floor],
       fog_density[current_hour_ceil],
       current_hour_fract
       );
-    // Intensidad de niebla (baja cuando oculto del cielo)
-    fog_intensity_coeff = max(fog_intensity_coeff, wetness * 1.4);
-    fog_intensity_coeff *= max(direct_light_coefficient, ambient_bright);
-    float new_frog = (((gl_FogFragCoord / far) * (2.0 - fog_intensity_coeff)) - (1.0 - fog_intensity_coeff)) * far;
-    float frog_adjust = new_frog / far;
-
-    block_color.rgb =
-      mix(
-        block_color.rgb,
-        current_fog_color,
-        pow(clamp(frog_adjust, 0.0, 1.0), 2)
-      );
+    fog_intensity_coeff = max(
+      visible_sky,
+      eyeBrightnessSmooth.y / 240.0
+    );
+  } else if (isEyeInWater == 1.0) {  // Underwater
+    fog_density_coeff = 0.5;
+    fog_intensity_coeff = 1.0;
+    current_fog_color = waterfog_baselight * real_light;
+  } else {  // Lava
+    fog_density_coeff = 0.5;
+    fog_intensity_coeff = 1.0;
+    current_fog_color = gl_Fog.color.rgb;
   }
+
+  float frog_adjust = (gl_FogFragCoord / far) * fog_intensity_coeff;
+  block_color.rgb =
+    mix(
+      block_color.rgb,
+      current_fog_color,
+      pow(frog_adjust, mix(fog_density_coeff, .5, wetness))
+    );
 
   gl_FragData[0] = block_color;
   gl_FragData[1] = vec4(0.0);  // ¿Performance?

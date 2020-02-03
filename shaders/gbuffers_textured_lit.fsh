@@ -34,9 +34,6 @@ void main() {
   // Custom light (lmcoord.x: candle, lmcoord.y: ambient) ----
   vec2 illumination = lmcoord;
 
-  // x: Block, y: Sky ---
-  float ambient_bright = eyeBrightnessSmooth.y / 240.0;
-
   // Tomamos el color de ambiente con base a la hora
   vec3 ambient_currentlight =
     mix(
@@ -73,97 +70,136 @@ void main() {
   vec4 block_color = texture2D(texture, texcoord);
 
   // Indica que tan oculto estás del cielo
-  float direct_light_coefficient = clamp(lmcoord.y * 1.5 - .5, 0.0, 1.0);
+  float visible_sky = clamp(lmcoord.y * 1.5 - .5, 0.0, 1.0);
 
-  // if (0.0 < 0.5) {  // No es bloque emisivo
-    float direct_light_strenght = 1.0;
+  float direct_light_strenght = 1.0;
 
-    omni_light *= illumination.y;
+  omni_light *= illumination.y;
 
-    // Calculamos iluminación de dirección
-    if ((worldTime >= 0 && worldTime <= 12700) || worldTime > 23000) {  // Día
-      direct_light_strenght = dot(normal, sun_vec);
-    } else if (worldTime > 12700 && worldTime <= 13400 ) { // Anochece
-      float sun_light_strenght = dot(normal, sun_vec);
-      float moon_light_strenght = dot(normal, moon_vec);
-      float light_mix = (worldTime - 12700) / 700.0;
-      // Calculamos la cantidad de mezcla de luz de sol y luna
-      direct_light_strenght =
-        mix(sun_light_strenght, moon_light_strenght, light_mix);
-
-    } else if (worldTime > 13400 && worldTime <= 22300) {  // Noche
-      direct_light_strenght = dot(normal, moon_vec);
-
-    } else if (worldTime > 22300) {  // Amanece
-      float sun_light_strenght = dot(normal, sun_vec);
-      float moon_light_strenght = dot(normal, moon_vec);
-      float light_mix = (worldTime - 22300) / 700.0;
-      // Calculamos la cantidad de mezcla de luz de sol y luna
-      direct_light_strenght =
-        mix(moon_light_strenght, sun_light_strenght, light_mix);
-    }
-
-    // Escalamos para evitar negros en zonas oscuras
-    direct_light_strenght = (direct_light_strenght * .45) + .55;
-    float candle_cave_strenght = (direct_light_strenght * .5) + .5;
-
+  // Calculamos iluminación de dirección
+  if ((worldTime >= 0 && worldTime <= 12700) || worldTime > 23000) {  // Día
+    direct_light_strenght = dot(normal, sun_vec);
+  } else if (worldTime > 12700 && worldTime <= 13400 ) { // Anochece
+    float sun_light_strenght = dot(normal, sun_vec);
+    float moon_light_strenght = dot(normal, moon_vec);
+    float light_mix = (worldTime - 12700) / 700.0;
+    // Calculamos la cantidad de mezcla de luz de sol y luna
     direct_light_strenght =
-      mix(1.0, direct_light_strenght, direct_light_coefficient);
-    candle_cave_strenght =
-      mix(candle_cave_strenght, 1.0, direct_light_coefficient);
+      mix(sun_light_strenght, moon_light_strenght, light_mix);
 
-    // Para evitar iluminación plana en cuevas
-    candle_color *= candle_cave_strenght;
+  } else if (worldTime > 13400 && worldTime <= 22300) {  // Noche
+    direct_light_strenght = dot(normal, moon_vec);
 
-    direct_light_strenght = clamp((direct_light_strenght + illumination.y - 1.0), 0.0, 1.0);
-    real_light = ((real_light * direct_light_strenght) + candle_color + omni_light);
-    real_light = mix(real_light, vec3(1.0), nightVision * .125);
-    block_color *= tint_color * vec4(real_light, 1.0);
-  // }
+  } else if (worldTime > 22300) {  // Amanece
+    float sun_light_strenght = dot(normal, sun_vec);
+    float moon_light_strenght = dot(normal, moon_vec);
+    float light_mix = (worldTime - 22300) / 700.0;
+    // Calculamos la cantidad de mezcla de luz de sol y luna
+    direct_light_strenght =
+      mix(moon_light_strenght, sun_light_strenght, light_mix);
+  }
 
-  // Posproceso de la niebla
-  if (isEyeInWater == 1.0) {
-  block_color.rgb =
-      mix(
-        block_color.rgb,
-        waterfog_baselight * real_light,
-        1.0 - clamp(exp(-gl_Fog.density * gl_FogFragCoord), 0.0, 1.0)
-      );
-  } else if (isEyeInWater == 2.0) {
-    block_color.rgb =
-      mix(
-        block_color.rgb,
-        gl_Fog.color.rgb * real_light,
-        1.0 - clamp(exp(-gl_Fog.density * gl_FogFragCoord), 0.0, 1.0)
-      );
-  } else {
-    // Fog intensity calculation
-    float fog_intensity_coeff = mix(
-      fog_density[current_hour_floor],
-      fog_density[current_hour_floor],
-      current_hour_fract
-      );
-    // Intensidad de niebla (baja cuando oculto del cielo)
-    fog_intensity_coeff = max(fog_intensity_coeff, wetness * 1.4);
-    fog_intensity_coeff *= max(direct_light_coefficient, ambient_bright);
-    float new_frog = (((gl_FogFragCoord / far) * (2.0 - fog_intensity_coeff)) - (1.0 - fog_intensity_coeff)) * far;
-    float frog_adjust = new_frog / far;
+  // Escalamos para evitar negros en zonas oscuras
+  direct_light_strenght = (direct_light_strenght * .45) + .55;
+  float candle_cave_strenght = (direct_light_strenght * .5) + .5;
 
+  direct_light_strenght =
+    mix(1.0, direct_light_strenght, visible_sky);
+  candle_cave_strenght =
+    mix(candle_cave_strenght, 1.0, visible_sky);
+
+  // Para evitar iluminación plana en cuevas
+  candle_color *= candle_cave_strenght;
+
+  direct_light_strenght = clamp((direct_light_strenght + illumination.y - 1.0), 0.0, 1.0);
+  real_light = ((real_light * direct_light_strenght) + candle_color + omni_light);
+  real_light = mix(real_light, vec3(1.0), nightVision * .125);
+  block_color *= tint_color * vec4(real_light, 1.0);
+
+  // New fog
+  float fog_mix_level;
+  float fog_density_coeff;
+  float fog_intensity_coeff;
+  vec3 current_fog_color;
+  if (isEyeInWater == 0.0) { // Normal
     // Fog color calculation
-    float fog_mix_level = mix(
+    fog_mix_level = mix(
       fog_color_mix[current_hour_floor],
       fog_color_mix[current_hour_ceil],
       current_hour_fract
       );
-    vec3 current_fog_color = mix(skyColor, gl_Fog.color.rgb, fog_mix_level);
-
-    block_color.rgb =
-      mix(
-        block_color.rgb,
-        current_fog_color,
-        pow(clamp(frog_adjust, 0.0, 1.0), 2)
+    // Fog intensity calculation
+    fog_density_coeff = mix(
+      fog_density[current_hour_floor],
+      fog_density[current_hour_ceil],
+      current_hour_fract
       );
+    fog_intensity_coeff = max(
+      visible_sky,
+      eyeBrightnessSmooth.y / 240.0
+    );
+    current_fog_color = mix(skyColor, gl_Fog.color.rgb, fog_mix_level);
+  } else if (isEyeInWater == 1.0) {  // Underwater
+    fog_density_coeff = 0.5;
+    fog_intensity_coeff = 1.0;
+    current_fog_color = waterfog_baselight * real_light;
+  } else {  // Lava
+    fog_density_coeff = 0.5;
+    fog_intensity_coeff = 1.0;
+    current_fog_color = gl_Fog.color.rgb;
   }
+
+  float frog_adjust = (gl_FogFragCoord / far) * fog_intensity_coeff;
+  block_color.rgb =
+    mix(
+      block_color.rgb,
+      current_fog_color,
+      pow(frog_adjust, mix(fog_density_coeff, .5, wetness))
+    );
+
+  // // Posproceso de la niebla
+  // if (isEyeInWater == 1.0) {
+  // block_color.rgb =
+  //     mix(
+  //       block_color.rgb,
+  //       waterfog_baselight * real_light,
+  //       1.0 - clamp(exp(-gl_Fog.density * gl_FogFragCoord), 0.0, 1.0)
+  //     );
+  // } else if (isEyeInWater == 2.0) {
+  //   block_color.rgb =
+  //     mix(
+  //       block_color.rgb,
+  //       gl_Fog.color.rgb * real_light,
+  //       1.0 - clamp(exp(-gl_Fog.density * gl_FogFragCoord), 0.0, 1.0)
+  //     );
+  // } else {
+  //   // Intensidad de niebla (baja cuando oculto del cielo)
+  //   float fog_intensity_coeff = max(
+  //     visible_sky,
+  //     eyeBrightnessSmooth.y / 240.0
+  //   );
+  //   float frog_adjust = (gl_FogFragCoord / far) * fog_intensity_coeff;
+  //   // Fog color calculation
+  //   float fog_mix_level = mix(
+  //     fog_color_mix[current_hour_floor],
+  //     fog_color_mix[current_hour_ceil],
+  //     current_hour_fract
+  //     );
+  //   // Fog intensity calculation
+  //   float fog_density_coeff = mix(
+  //     fog_density[current_hour_floor],
+  //     fog_density[current_hour_ceil],
+  //     current_hour_fract
+  //     );
+  //   vec3 current_fog_color = mix(skyColor, gl_Fog.color.rgb, fog_mix_level);
+  //
+  //   block_color.rgb =
+  //     mix(
+  //       block_color.rgb,
+  //       current_fog_color,
+  //       pow(frog_adjust, mix(fog_density_coeff, .5, wetness))
+  //     );
+  // }
 
   gl_FragData[0] = block_color;
   gl_FragData[5] = block_color;

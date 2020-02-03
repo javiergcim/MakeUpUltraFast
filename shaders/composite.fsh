@@ -21,7 +21,6 @@ varying vec2 texcoord;
 
 void main() {
   // x: Block, y: Sky ---
-  float ambient_bright = eyeBrightnessSmooth.y / 240.0;
   float candle_bright = (eyeBrightnessSmooth.x / 240.0) * .1;
 
   float current_hour = worldTime / 1000.0;
@@ -32,7 +31,7 @@ void main() {
       current_hour_fract
     );
 
-  float exposure = (ambient_bright * exposure_coef) + candle_bright;
+  float exposure = ((eyeBrightnessSmooth.y / 240.0) * exposure_coef) + candle_bright;
 
   // Map from 1.0 - 0.0 to 1.0 - 2.5
   exposure = (exposure * -1.5) + 2.5;
