@@ -81,7 +81,6 @@ void main() {
     }
 
     gl_FragColor = color;
-    // gl_FragColor = vec4(vec3((blur_demo * 256) / 3), 1.0);
 
   #else
     gl_FragColor = texture2D(colortex0, texcoord);

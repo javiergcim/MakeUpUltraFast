@@ -5,6 +5,8 @@ Render: Small entities, hand objects
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#define NICE_WATER 1  // [0 1] Turn on for reflection and refraction capabilities.
+
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 varying vec2 lmcoord;
@@ -157,50 +159,10 @@ void main() {
       pow(frog_adjust, mix(fog_density_coeff, .5, wetness))
     );
 
-  // // Posproceso de la niebla
-  // if (isEyeInWater == 1.0) {
-  // block_color.rgb =
-  //     mix(
-  //       block_color.rgb,
-  //       waterfog_baselight * real_light,
-  //       1.0 - clamp(exp(-gl_Fog.density * gl_FogFragCoord), 0.0, 1.0)
-  //     );
-  // } else if (isEyeInWater == 2.0) {
-  //   block_color.rgb =
-  //     mix(
-  //       block_color.rgb,
-  //       gl_Fog.color.rgb * real_light,
-  //       1.0 - clamp(exp(-gl_Fog.density * gl_FogFragCoord), 0.0, 1.0)
-  //     );
-  // } else {
-  //   // Intensidad de niebla (baja cuando oculto del cielo)
-  //   float fog_intensity_coeff = max(
-  //     visible_sky,
-  //     eyeBrightnessSmooth.y / 240.0
-  //   );
-  //   float frog_adjust = (gl_FogFragCoord / far) * fog_intensity_coeff;
-  //   // Fog color calculation
-  //   float fog_mix_level = mix(
-  //     fog_color_mix[current_hour_floor],
-  //     fog_color_mix[current_hour_ceil],
-  //     current_hour_fract
-  //     );
-  //   // Fog intensity calculation
-  //   float fog_density_coeff = mix(
-  //     fog_density[current_hour_floor],
-  //     fog_density[current_hour_ceil],
-  //     current_hour_fract
-  //     );
-  //   vec3 current_fog_color = mix(skyColor, gl_Fog.color.rgb, fog_mix_level);
-  //
-  //   block_color.rgb =
-  //     mix(
-  //       block_color.rgb,
-  //       current_fog_color,
-  //       pow(frog_adjust, mix(fog_density_coeff, .5, wetness))
-  //     );
-  // }
-
   gl_FragData[0] = block_color;
-  gl_FragData[5] = block_color;
+  #if NICE_WATER == 1
+    gl_FragData[5] = block_color;
+  #else
+    gl_FragData[1] = vec4(0.0);
+  #endif
 }
