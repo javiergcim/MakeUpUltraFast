@@ -15,7 +15,6 @@ const int gaux1Format = R16F;
 const int gaux2Format = RGB8;
 const int colortex6Format = R8;
 const int colortex7Format = R8;
-*/
 
 const bool colortex0Clear = false;
 const bool colortex1Clear = false;
@@ -23,13 +22,15 @@ const bool colortex2Clear = false;
 const bool colortex3Clear = false;
 const bool colortex4Clear = false;
 const bool colortex5Clear = false;
+*/
+
 
 // Redefined constants
 const int noiseTextureResolution = 128;
 const float ambientOcclusionLevel = 1.0f;
 const float eyeBrightnessHalflife = 10.0f;
 
-#define DOF 1  // [0 1] Enables depth of field
+#define DOF 0  // [0 1] Enables depth of field
 #define DOF_STRENGTH 2  // [2 3 4 5 6 7 8 9 10 11 12 13 14]  Depth of field streght
 
 // 'Global' constants from system

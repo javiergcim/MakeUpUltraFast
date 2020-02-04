@@ -6,7 +6,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 #define AA 4 // [0 4 6 12] Set antialiasing quality
-#define DOF 1  // [0 1] Enables depth of field
+#define DOF 0  // [0 1] Enables depth of field
 #define DOF_STRENGTH 2  // [2 3 4 5 6 7 8 9 10 11 12 13 14]  Depth of field streght
 
 // 'Global' constants from system
