@@ -5,7 +5,7 @@ Render: FXAA and blur precalculation
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define DOF 1  // [0 1] Enables depth of field
+#define DOF 0  // [0 1] Enables depth of field
 
 // 'Global' constants from system
 #if DOF == 1
