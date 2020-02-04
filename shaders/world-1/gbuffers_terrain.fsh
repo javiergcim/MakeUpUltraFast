@@ -48,7 +48,7 @@ void main() {
 
   // Posproceso de la niebla
   if (isEyeInWater == 1.0) {
-		block_color.rgb =
+    block_color.rgb =
       mix(
         block_color.rgb,
         waterfog_baselight,
@@ -61,7 +61,7 @@ void main() {
         gl_Fog.color.rgb,
         1.0 - clamp(exp(-gl_Fog.density * gl_FogFragCoord), 0.0, 1.0)
       );
-	} else {
+  } else {
     // Fog intensity calculation
     float fog_intensity_coeff = fog_density;
     float new_frog = (((gl_FogFragCoord / far) * (2.0 - fog_intensity_coeff)) - (1.0 - fog_intensity_coeff)) * far;

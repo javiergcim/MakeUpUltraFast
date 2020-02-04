@@ -30,6 +30,6 @@ void main() {
 
   #if DOF == 1
     vec4 vec = gbufferProjectionInverse * vec4(0.0, 0.0, centerDepthSmooth * 2.0 - 1.0, 1.0);
-  	dof_dist = -vec.z / vec.w;
+    dof_dist = -vec.z / vec.w;
   #endif
 }

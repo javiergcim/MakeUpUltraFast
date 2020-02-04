@@ -5,10 +5,10 @@ Render: Almost everything
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define ENTITY_SMALLGRASS   10031.0	//
-#define ENTITY_LOWERGRASS   10175.0	// Lower half only in 1.13+
-#define ENTITY_UPPERGRASS	  10176.0 // Upper half only used in 1.13+
-#define ENTITY_SMALLENTS    10059.0	// sapplings(6), dandelion(37), rose(38), carrots(141), potatoes(142), beetroot(207)
+#define ENTITY_SMALLGRASS   10031.0  //
+#define ENTITY_LOWERGRASS   10175.0  // Lower half only in 1.13+
+#define ENTITY_UPPERGRASS   10176.0 // Upper half only used in 1.13+
+#define ENTITY_SMALLENTS    10059.0  // sapplings(6), dandelion(37), rose(38), carrots(141), potatoes(142), beetroot(207)
 #define ENTITY_VINES        10106.0
 #define ENTITY_LEAVES       10018.0 // Leaves
 #define ENTITY_EMISSIVE     10089.0 // Emissors like candels and others
@@ -62,7 +62,7 @@ void main() {
       (gl_ModelViewMatrix * gl_Vertex).xyz +
       gbufferModelViewInverse[3].xyz;
 
-  	vec3 vworldpos = position.xyz + cameraPosition;
+    vec3 vworldpos = position.xyz + cameraPosition;
 
     if (mc_Entity.x == ENTITY_LOWERGRASS ||
         mc_Entity.x == ENTITY_UPPERGRASS ||
@@ -79,15 +79,15 @@ void main() {
         amt = .2;
       }
 
-			position.xyz += sildursMove(vworldpos.xyz,
-			0.0041,
-			0.0070,
-			0.0044,
-			0.0038,
-			0.0240,
-			0.0000,
-			vec3(0.8, 0.0, 0.8),
-			vec3(0.4, 0.0, 0.4)) * amt * lmcoord.y * (1.0 + (wetness * 3.0));
+      position.xyz += sildursMove(vworldpos.xyz,
+      0.0041,
+      0.0070,
+      0.0044,
+      0.0038,
+      0.0240,
+      0.0000,
+      vec3(0.8, 0.0, 0.8),
+      vec3(0.4, 0.0, 0.4)) * amt * lmcoord.y * (1.0 + (wetness * 3.0));
     }
 
     gl_Position = gl_ProjectionMatrix * gbufferModelView * vec4(position, 1.0);

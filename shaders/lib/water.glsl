@@ -64,7 +64,7 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 waterRefract) {
 
   #if REFRACTION == 1
 
-    float	waterRefractionStrength = 0.1;
+    float  waterRefractionStrength = 0.1;
     waterRefractionStrength /= 1.0 + length(fragpos) * 0.4;
     vec2 waterTexcoord = pos.xy + waterRefract.xy * waterRefractionStrength;
 
@@ -84,8 +84,8 @@ vec3 getNormals(vec3 bump) {
   bump *= vec3(NdotE) + vec3(0.0, 0.0, 1.0 - NdotE);
 
   mat3 tbnMatrix = mat3(tangent.x, binormal.x, normal.x,
-    					tangent.y, binormal.y, normal.y,
-    					tangent.z, binormal.z, normal.z);
+              tangent.y, binormal.y, normal.y,
+              tangent.z, binormal.z, normal.z);
 
   return normalize(bump * tbnMatrix);
 }
@@ -107,7 +107,7 @@ vec4 raytrace(vec3 fragpos, vec3 normal) {
 
     float border = clamp((1.0 - (max(0.0, abs(pos.t - 0.5)) * 2.0)) * 50.0, 0.0, 1.0);
 
-  return vec4(texture2D(gaux2, pos.xy, 0.0).rgb, border);
+    return vec4(texture2D(gaux2, pos.xy, 0.0).rgb, border);
 
   #else
 
@@ -146,7 +146,7 @@ vec4 raytrace(vec3 fragpos, vec3 normal) {
   if (dist < pow(length(rayStep)*pow(length(rayRefine), 0.11), 1.1)*1.22) {
 
   refine++;
-  if (refine >= maxRefinement)	break;
+  if (refine >= maxRefinement)  break;
 
   rayRefine  -= rayStep;
   rayStep    *= stepRefine;
@@ -161,15 +161,15 @@ vec4 raytrace(vec3 fragpos, vec3 normal) {
   }
 
   if (pos.z < 1.0-1e-5) {
-  float depth = texture2D(depthtex0, pos.xy).x;
+    float depth = texture2D(depthtex0, pos.xy).x;
 
-  float comp = 1.0 - near / far / far;
-  bool land = depth < comp;
+    float comp = 1.0 - near / far / far;
+    bool land = depth < comp;
 
-  if (land) {
-  col = texture2D(gaux2, pos.xy).rgb;
-  border = clamp((1.0 - cdist(pos.st)) * 50.0, 0.0, 1.0);
-  }
+    if (land) {
+      col = texture2D(gaux2, pos.xy).rgb;
+      border = clamp((1.0 - cdist(pos.st)) * 50.0, 0.0, 1.0);
+    }
   }
 
   return vec4(col, border);

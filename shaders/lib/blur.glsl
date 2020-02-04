@@ -3,6 +3,5 @@ float interpolateSmooth1(float x) {
 }
 
 float fogify(float x, float width) {
-	//fast, vaguely bell curve-shaped function with variable width
-	return width / (x * x + width);
+  return width / (x * x + width);
 }

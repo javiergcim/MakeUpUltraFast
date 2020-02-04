@@ -38,7 +38,7 @@ void main() {
   #if DOF == 1
     vec3 pos = vec3(texcoord, texture2D(depthtex0, texcoord).r);
     vec4 vec = gbufferProjectionInverse * vec4(pos * 2.0 - 1.0, 1.0);
-  	pos = vec.xyz / vec.w;
+    pos = vec.xyz / vec.w;
     float dist = length(pos);
     float blur_radius = min(abs(dist - dof_dist) / dof_dist, 1.0);
     blur_radius *= blur_radius * DOF_STRENGTH * 0.00390625;

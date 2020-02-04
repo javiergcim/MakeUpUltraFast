@@ -3,6 +3,6 @@ Tone map related functions.
 */
 
 vec3 tonemap(vec3 x){
-	x = x / pow(pow(x, vec3(4.0)) + 1.0, vec3(.25));
-	return x;
+  x = x / pow(pow(x, vec3(4.0)) + 1.0, vec3(.25));
+  return x;
 }

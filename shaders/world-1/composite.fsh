@@ -27,18 +27,18 @@ varying vec2 texcoord;
 void main() {
   // x: Block, y: Sky ---
   float candle_bright = (eyeBrightnessSmooth.x / 240.0) * .1;
-  
+
   exposure = 1.0;
 
-	vec3 color = texture2D(colortex0, texcoord).rgb;
+  vec3 color = texture2D(colortex0, texcoord).rgb;
 
-	#if AA != 0
-		color = fxaa311(color, AA);
-	#endif
+  #if AA != 0
+    color = fxaa311(color, AA);
+  #endif
 
-	color *= exposure;
+  color *= exposure;
   color = tonemap(color);
 
   gl_FragData[0] = vec4(color, 1.0);
-	gl_FragData[1] = vec4(0.0); // ¿Performance?
+  gl_FragData[1] = vec4(0.0); // ¿Performance?
 }
