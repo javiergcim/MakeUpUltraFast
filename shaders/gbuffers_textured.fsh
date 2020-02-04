@@ -119,6 +119,6 @@ void main() {
   #if NICE_WATER == 1
     gl_FragData[5] = block_color;
   #else
-    gl_FragData[1] = vec4(0.0);
   #endif
+  gl_FragData[1] = vec4(0.0);
 }

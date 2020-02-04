@@ -167,7 +167,7 @@ void main() {
       );
 
       block_color.rgb = waterShader(
-        fragposition0.xyz,
+        fragposition0,
         getNormals(water_normal_base),
         block_color.rgb,
         lmcoord.y > 0.9 ? 1.0 : 0.0,
@@ -188,8 +188,9 @@ void main() {
   } else {  // End water shader code ------------------------
     // Toma el color puro del bloque
     block_color = texture2D(texture, texcoord);
+
     direct_light_strenght = clamp((direct_light_strenght + illumination.y - 1.0), 0.0, 1.0);
-    real_light = ((real_light * direct_light_strenght) + candle_color + omni_light);
+    real_light = (real_light * direct_light_strenght) + candle_color + omni_light;
     real_light = mix(real_light, vec3(1.0), nightVision * .125);
     block_color *= tint_color * vec4(real_light, 1.0);
   }

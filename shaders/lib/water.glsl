@@ -179,12 +179,10 @@ vec4 raytrace(vec3 fragpos, vec3 normal) {
 }
 
 vec3 waterShader(vec3 fragpos, vec3 normal, vec3 color, float shading, vec3 skyReflection) {
-
-  vec3 reflectedVector = reflect(normalize(fragpos), normal) * 300.0;
-
   vec4 reflection = vec4(0.0);
+
   #if REFLECTION == 1
-  reflection = raytrace(fragpos, normal);
+    reflection = raytrace(fragpos, normal);
   #endif
 
   float normalDotEye = dot(normal, normalize(fragpos));

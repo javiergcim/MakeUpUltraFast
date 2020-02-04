@@ -54,6 +54,6 @@ void main() {
   #if DOF == 1
     gl_FragData[4] = vec4(blur_radius);  //gaux1
   #else
-    gl_FragData[1] = vec4(0.0);  // ¿Performance?
   #endif
+  gl_FragData[1] = vec4(0.0);  // ¿Performance?
 }

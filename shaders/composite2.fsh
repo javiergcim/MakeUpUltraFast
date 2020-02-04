@@ -59,6 +59,6 @@ void main() {
     gl_FragData[5] = color;
   #else
     gl_FragData[0] = color;
-    gl_FragData[1] = vec4(0.0);  // ¿Performance?
   #endif
+  gl_FragData[1] = vec4(0.0);  // ¿Performance?
 }
