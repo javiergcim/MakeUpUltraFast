@@ -7,7 +7,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #define AA 4 // [0 4 6 12] Set antialiasing quality
 #define DOF 0  // [0 1] Enables depth of field
-#define DOF_STRENGTH 2  // [2 3 4 5 6 7 8 9 10 11 12 13 14]  Depth of field streght
+#define DOF_STRENGTH .25  // [.1 .15 .2 .25 .3 .35 .4 .45 .5 .55 .6 .65 .7 .75 .8 .85 .9 .95 1.0]  Depth of field streght
 
 // 'Global' constants from system
 uniform sampler2D colortex0;
@@ -15,17 +15,12 @@ uniform float viewWidth;
 uniform float viewHeight;
 
 #if DOF == 1
-  uniform sampler2D depthtex0;
-  uniform mat4 gbufferProjectionInverse;
+  uniform sampler2D depthtex1;
   uniform float centerDepthSmooth;
 #endif
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
-
-#if DOF == 1
-  varying float dof_dist;
-#endif
 
 #include "/lib/luma.glsl"
 #include "/lib/fxaa_intel.glsl"
@@ -36,12 +31,13 @@ varying vec2 texcoord;
 
 void main() {
   #if DOF == 1
-    vec3 pos = vec3(texcoord, texture2D(depthtex0, texcoord).r);
-    vec4 vec = gbufferProjectionInverse * vec4(pos * 2.0 - 1.0, 1.0);
-    pos = vec.xyz / vec.w;
-    float dist = length(pos);
-    float blur_radius = min(abs(dist - dof_dist) / dof_dist, 1.0);
-    blur_radius *= blur_radius * DOF_STRENGTH * 0.00390625;
+    float the_depth = texture2D(depthtex1, texcoord).r;
+    float blur_radius = 0.0;
+    if (the_depth > 0.56) {
+      blur_radius =
+      max(abs(the_depth - centerDepthSmooth) * DOF_STRENGTH - 0.0001, 0.0);
+      blur_radius = blur_radius / sqrt(0.1 + blur_radius * blur_radius);
+    }
   #endif
 
   #if AA != 0
@@ -54,6 +50,6 @@ void main() {
   #if DOF == 1
     gl_FragData[4] = vec4(blur_radius);  //gaux1
   #else
+    gl_FragData[1] = vec4(0.0);  // ¿Performance?
   #endif
-  gl_FragData[1] = vec4(0.0);  // ¿Performance?
 }
