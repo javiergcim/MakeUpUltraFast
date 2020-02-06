@@ -32,16 +32,14 @@ void main() {
 
     if (blur > 0.0) {
       float invblur_radius1 = 1.0 / blur;
-      float blur_radius = blur * 256.0;  // Real radius
+      float blur_radius = blur * 256.0;
       float invblur_radius2 = 1.0 / blur_radius;
 
       vec4 average = vec4(0.0);
       float start  = max(texcoord.x - blur_radius * pixelSizeX,       pixelSizeX * 0.5);
       float finish = min(texcoord.x + blur_radius * pixelSizeX, 1.0 - pixelSizeX * 0.5);
-      // float step   = pixelSizeX * .5;
-      float step   = pixelSizeX;
 
-      for (float x = start; x <= finish; x += step) {
+      for (float x = start; x <= finish; x += pixelSizeX) {
         float weight = fogify(((texcoord.x - x) * viewWidth) * invblur_radius2, 0.35);
         vec4 newColor = texture2D(colortex0, vec2(x, texcoord.y));
         float new_blur = texture2D(gaux1, vec2(x, texcoord.y)).r;

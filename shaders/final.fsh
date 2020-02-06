@@ -9,7 +9,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 /*
 const int colortex0Format = R11F_G11F_B10F;
 const int colortex1Format = R8;
-const int colortex2Format = R8;
+const int colortex2Format = RGB8;
 const int colortex3Format = R8;
 const int gaux1Format = R16F;
 const int gaux2Format = RGB8;
@@ -23,7 +23,6 @@ const bool colortex3Clear = false;
 const bool colortex4Clear = false;
 const bool colortex5Clear = false;
 */
-
 
 // Redefined constants
 const int noiseTextureResolution = 128;
@@ -61,16 +60,14 @@ void main() {
 
     if (blur_radius > 0.0) {
       float invblur_radius1 = 1.0 / blur_radius;
-      blur_radius *= 256.0;    // Real radius
+      blur_radius *= 256.0;
       float invblur_radius2 = 1.0 / blur_radius;
 
       vec4 average = vec4(0.0);
       float start  = max(texcoord.y - blur_radius * pixelSizeY,       pixelSizeY * 0.5);
       float finish = min(texcoord.y + blur_radius * pixelSizeY, 1.0 - pixelSizeY * 0.5);
-      // float step = pixelSizeY * .5;
-      float step = pixelSizeY;
 
-      for (float y = start; y <= finish; y += step) {
+      for (float y = start; y <= finish; y += pixelSizeY) {
         float weight = fogify(((texcoord.y - y) * viewHeight) * invblur_radius2, 0.35);
         vec4 newColor = texture2D(gaux2, vec2(texcoord.x, y));
         float new_blur = texture2D(gaux1, vec2(texcoord.x, y)).r;

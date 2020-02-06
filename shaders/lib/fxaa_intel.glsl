@@ -18,10 +18,10 @@ vec3 fxaa311(vec3 color, int iterations){
   // Luma at the current fragment
   float lumaCenter = luma(color);
   // Luma at the four direct neighbours of the current fragment.
-  float lumaDown = luma(texture2D(colortex0, texcoord.xy + vec2(0.0f,-1.0f) * view, 0.0).rgb);
-  float lumaUp = luma(texture2D(colortex0, texcoord.xy + vec2(0.0f,1.0f) * view, 0).rgb);
-  float lumaLeft = luma(texture2D(colortex0, texcoord.xy + vec2(-1.0f,0.0f) * view, 0).rgb);
-  float lumaRight = luma(texture2D(colortex0, texcoord.xy + vec2(1.0f, 0.0f) * view, 0).rgb);
+  float lumaDown = luma(texture2D(colortex2, texcoord.xy + vec2(0.0f,-1.0f) * view, 0.0).rgb);
+  float lumaUp = luma(texture2D(colortex2, texcoord.xy + vec2(0.0f,1.0f) * view, 0).rgb);
+  float lumaLeft = luma(texture2D(colortex2, texcoord.xy + vec2(-1.0f,0.0f) * view, 0).rgb);
+  float lumaRight = luma(texture2D(colortex2, texcoord.xy + vec2(1.0f, 0.0f) * view, 0).rgb);
 
   // Find the maximum and minimum luma around the current fragment.
   float lumaMin = min(lumaCenter, min(min(lumaDown, lumaUp), min(lumaLeft, lumaRight)));
@@ -33,10 +33,10 @@ vec3 fxaa311(vec3 color, int iterations){
   // If the luma variation is lower that a threshold (or if we are in a really dark area), we are not on an edge, don't perform any FXAA.
   if (lumaRange > max(edgeThresholdMin, lumaMax * edgeThresholdMax)) {
     // Query the 4 remaining corners lumas.
-    float lumaDownLeft = luma(texture2D(colortex0, texcoord.xy + vec2(-1.0f, -1.0f) * view, 0).rgb);
-    float lumaUpRight = luma(texture2D(colortex0, texcoord.xy + vec2(1.0f, 1.0f) * view, 0).rgb);
-    float lumaUpLeft = luma(texture2D(colortex0, texcoord.xy + vec2(-1.0f, 1.0f) * view, 0).rgb);
-    float lumaDownRight = luma(texture2D(colortex0, texcoord.xy + vec2(1.0f, -1.0f) * view, 0).rgb);
+    float lumaDownLeft = luma(texture2D(colortex2, texcoord.xy + vec2(-1.0f, -1.0f) * view, 0).rgb);
+    float lumaUpRight = luma(texture2D(colortex2, texcoord.xy + vec2(1.0f, 1.0f) * view, 0).rgb);
+    float lumaUpLeft = luma(texture2D(colortex2, texcoord.xy + vec2(-1.0f, 1.0f) * view, 0).rgb);
+    float lumaDownRight = luma(texture2D(colortex2, texcoord.xy + vec2(1.0f, -1.0f) * view, 0).rgb);
 
     // Combine the four edges lumas (using intermediary variables for future computations with the same values).
     float lumaDownUp = lumaDown + lumaUp;
@@ -97,8 +97,8 @@ vec3 fxaa311(vec3 color, int iterations){
     vec2 uv2 = currentUv + offset;
 
     // Read the lumas at both current extremities of the exploration segment, and compute the delta wrt to the local average luma.
-    float lumaEnd1 = luma(texture2D(colortex0, uv1, 0).rgb);
-    float lumaEnd2 = luma(texture2D(colortex0, uv2, 0).rgb);
+    float lumaEnd1 = luma(texture2D(colortex2, uv1, 0).rgb);
+    float lumaEnd2 = luma(texture2D(colortex2, uv2, 0).rgb);
     lumaEnd1 -= lumaLocalAverage;
     lumaEnd2 -= lumaLocalAverage;
 
@@ -120,12 +120,12 @@ vec3 fxaa311(vec3 color, int iterations){
       for(int i = 2; i < iterations; i++) {
         // If needed, read luma in 1st direction, compute delta.
         if (!reached1) {
-          lumaEnd1 = luma(texture2D(colortex0, uv1, 0).rgb);
+          lumaEnd1 = luma(texture2D(colortex2, uv1, 0).rgb);
           lumaEnd1 = lumaEnd1 - lumaLocalAverage;
         }
         // If needed, read luma in opposite direction, compute delta.
         if (!reached2) {
-          lumaEnd2 = luma(texture2D(colortex0, uv2, 0).rgb);
+          lumaEnd2 = luma(texture2D(colortex2, uv2, 0).rgb);
           lumaEnd2 = lumaEnd2 - lumaLocalAverage;
         }
 
@@ -199,7 +199,7 @@ vec3 fxaa311(vec3 color, int iterations){
     }
 
     // Read the color at the new UV coordinates, and use it.
-    aa = texture2D(colortex0, finalUv, 0).rgb;
+    aa = texture2D(colortex2, finalUv, 0).rgb;
   }
 
   return aa;

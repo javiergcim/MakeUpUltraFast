@@ -18,8 +18,6 @@ varying vec3 normal;
 varying vec3 sun_vec;
 varying vec3 moon_vec;
 
-attribute vec4 mc_Entity;
-
 void main() {
   gl_Position = ftransform();
   texcoord = gl_MultiTexCoord0.xy;

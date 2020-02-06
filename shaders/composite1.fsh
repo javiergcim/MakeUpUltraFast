@@ -10,7 +10,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define DOF_STRENGTH .25  // [.1 .15 .2 .25 .3 .35 .4 .45 .5 .55 .6 .65 .7 .75 .8 .85 .9 .95 1.0]  Depth of field streght
 
 // 'Global' constants from system
-uniform sampler2D colortex0;
+uniform sampler2D colortex2;
 uniform float viewWidth;
 uniform float viewHeight;
 
@@ -41,10 +41,10 @@ void main() {
   #endif
 
   #if AA != 0
-    vec3 color = fxaa311(texture2D(colortex0, texcoord).rgb, AA);
+    vec3 color = fxaa311(texture2D(colortex2, texcoord).rgb, AA);
     gl_FragData[0] = vec4(color, 1.0);
   #else
-    gl_FragData[0] = texture2D(colortex0, texcoord);
+    gl_FragData[0] = texture2D(colortex2, texcoord);
   #endif
 
   #if DOF == 1
