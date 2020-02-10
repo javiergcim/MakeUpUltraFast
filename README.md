@@ -6,6 +6,10 @@ Ultra fast Minecraft shader (Java). For a small graphic improvement. Intended fo
 * Depth of field
 * Water reflection and refraction
 * Auto-exposure
+* Shader for all dimensions
+* ¡FAST!
+
+Tested on Nvidia and Intel, under Linux.
 
 ## To do
-* Dedicated shader for "The End"
+* Better translicent blocks
