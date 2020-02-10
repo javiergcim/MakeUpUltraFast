@@ -156,7 +156,7 @@ void main() {
     mix(
       block_color.rgb,
       current_fog_color,
-      pow(frog_adjust, mix(fog_density_coeff, .5, wetness))
+      pow(clamp(frog_adjust, 0.0, 1.0), mix(fog_density_coeff, .5, wetness))
     );
 
   gl_FragData[0] = block_color;

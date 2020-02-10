@@ -1,6 +1,6 @@
 #version 120
-/* MakeUp Ultra Fast - composite.vsh
-Render: Composite after gbuffers
+/* MakeUp Ultra Fast - final.vsh
+Render: FXAA and blur precalculation
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */

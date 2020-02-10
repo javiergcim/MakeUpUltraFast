@@ -19,7 +19,7 @@ uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
 
-#include "/lib/color_utils.glsl"
+#include "/lib/color_utils_nether.glsl"
 
 void main() {
   vec4 block_color = texture2D(texture, texcoord) * color;

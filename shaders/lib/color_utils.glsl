@@ -99,7 +99,7 @@ const float fog_color_mix[25] =
 // Fog parameter per hour
 const float fog_density[25] =
   float[25](
-  1.0, // 6
+  2.0, // 6
   2.5, // 7
   3.0, // 8
   3.0, // 9
@@ -123,14 +123,14 @@ const float fog_density[25] =
   3.0, // 3
   2.5, // 4
   1.0, // 5
-  1.0 // 6
+  2.0 // 6
   );
 
 // Omni intesity per hour
 const float omni_force[25] =
   float[25](
-  .1, // 6
-  .225, // 7
+  .15, // 6
+  .2, // 7
   .3, // 8
   .3, // 9
   .3, // 10
@@ -140,9 +140,9 @@ const float omni_force[25] =
   .3, // 14
   .3, // 15
   .3, // 16
-  .225, // 17
-  .1, // 18
-  .1, // 19
+  .2, // 17
+  .15, // 18
+  .15, // 19
   .9, // 20
   1.0, // 21
   1.0, // 22
@@ -152,8 +152,8 @@ const float omni_force[25] =
   1.0, // 2
   1.0, // 3
   .9, // 4
-  .1, // 5
-  .1 // 6
+  .15, // 5
+  .15 // 6
   );
 
 const vec3 candle_baselight = vec3(.666, 0.517129411764706, 0.2664);

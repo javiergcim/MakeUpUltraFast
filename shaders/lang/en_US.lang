@@ -1,3 +1,10 @@
+#Profiles
+############################
+profile.Low=Low
+profile.Medium=Medium
+profile.High=High
+profile.Ultra=Ultra
+
 #Options
 #############################
 option.AA=FXAA quality
@@ -5,10 +12,6 @@ value.AA.0=Off
 value.AA.4=Ultra sharp
 value.AA.6=Nice
 value.AA.12=Complete
-
-option.WHITE_CURVE=White curve
-option.LOWER_CURVE=Lower curve
-option.UPPER_CURVE=Upper curve
 
 option.NICE_WATER=Nice water
 value.NICE_WATER.0=Off

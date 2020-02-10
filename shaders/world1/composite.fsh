@@ -16,7 +16,7 @@ uniform float current_hour_fract;
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
-#include "/lib/color_utils_nether.glsl"
+#include "/lib/color_utils_end.glsl"
 #include "/lib/tone_maps.glsl"
 
 void main() {

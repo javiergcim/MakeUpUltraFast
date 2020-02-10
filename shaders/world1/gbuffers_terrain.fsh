@@ -33,7 +33,7 @@ uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
 
-#include "/lib/color_utils.glsl"
+#include "/lib/color_utils_end.glsl"
 
 void main() {
   // Custom light (lmcoord.x: candle, lmcoord.y: sky direct) ----
@@ -42,7 +42,7 @@ void main() {
   if (illumination.y < 0.09) {  // lmcoord.y artifact remover
     illumination.y = 0.09;
   }
-  illumination.y = (illumination.y * 1.085) - .085;  // Avoid dimmed light
+  illumination.y = (illumination.y * .5) + .5;  // Avoid absolut darkness
 
   // Ajuste de intensidad luminosa bajo el agua
   if (isEyeInWater == 1.0) {
