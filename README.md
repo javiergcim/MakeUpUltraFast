@@ -1,4 +1,4 @@
-# MakeUpUltraFast
+# MakeUp - Ultra Fast
 Ultra fast Minecraft shader (Java). For a small graphic improvement. Intended for very low-spec computers.
 
 ## Main features
@@ -7,9 +7,9 @@ Ultra fast Minecraft shader (Java). For a small graphic improvement. Intended fo
 * Water reflection and refraction
 * Auto-exposure
 * Shader for all dimensions
-* ¡FAST!
+* FAST!
 
 Tested on Nvidia and Intel, under Linux.
 
 ## To do
-* Better translicent blocks
+* Better translucent blocks
