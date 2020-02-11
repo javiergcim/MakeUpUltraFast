@@ -60,17 +60,17 @@ void main() {
     float blur_radius = color_blur.a;
     vec3 color = color_blur.rgb;
 
-    if (blur_radius > 0.0) {
+    if (blur_radius > 0.5) {
       float radius_inv = 1.0 / blur_radius;
 
       vec4 average = vec4(0.0);
       float start  = max(texcoord.y - blur_radius * pixelSizeY,       pixelSizeY * 0.5);
       float finish = min(texcoord.y + blur_radius * pixelSizeY, 1.0 - pixelSizeY * 0.5);
       float step = pixelSizeY * .5;
-      if (blur_radius > 2.0) {
-        step *= 2.0;
-      } else if (blur_radius > 3.0) {
+      if (blur_radius > 3.0) {
         step *= 4.0;
+      } else if (blur_radius > 1.0) {
+        step *= 1.0;
       }
 
       for (float y = start; y <= finish; y += step) {

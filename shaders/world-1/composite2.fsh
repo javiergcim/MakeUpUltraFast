@@ -38,9 +38,9 @@ void main() {
       float finish = min(texcoord.x + blur_radius * pixelSizeX, 1.0 - pixelSizeX * 0.5);
       float step = pixelSizeX * .5;
       if (blur_radius > 2.0) {
-        step *= 2.0;
-      } else if (blur_radius > 3.0) {
         step *= 4.0;
+      } else if (blur_radius > 1.0) {
+        step *= 1.0;
       }
 
       for (float x = start; x <= finish; x += step) {  // step
