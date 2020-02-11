@@ -39,7 +39,7 @@ uniform sampler2D colortex0;
 
 #if DOF == 1
   uniform sampler2D gaux1;
-  uniform sampler2D gaux2;
+  // uniform sampler2D gaux2;
   uniform float pixelSizeY;
   uniform float viewHeight;
   uniform float pixelSizeX;
@@ -56,34 +56,36 @@ varying vec2 texcoord;
 void main() {
 
   #if DOF == 1
-    vec4 color = texture2D(gaux2, texcoord);
-    float blur_radius = texture2D(gaux1, texcoord).r;
+    vec4 color_blur = texture2D(gaux1, texcoord);
+    float blur_radius = color_blur.a;
+    vec3 color = color_blur.rgb;
 
-    if (blur_radius > 0.0) {
+    if (blur_radius > 0.5) {
       float radius_inv = 1.0 / blur_radius;
+      float weight;
+      vec4 new_blur;
 
       vec4 average = vec4(0.0);
       float start  = max(texcoord.y - blur_radius * pixelSizeY,       pixelSizeY * 0.5);
       float finish = min(texcoord.y + blur_radius * pixelSizeY, 1.0 - pixelSizeY * 0.5);
       float step = pixelSizeY * .5;
-      if (blur_radius > 2.0) {
+      if (blur_radius > 3.0) {
         step *= 4.0;
       } else if (blur_radius > 1.0) {
-        step *= 1.0;
+        step *= 2.0;
       }
 
       for (float y = start; y <= finish; y += step) {
-        float weight = fogify((y - texcoord.y) * viewHeight * radius_inv, 0.25);
-        vec4 newColor = texture2D(gaux2, vec2(texcoord.x, y));
-        float new_blur = texture2D(gaux1, vec2(texcoord.x, y)).r;
-        weight *= new_blur * radius_inv;
-        average.rgb += newColor.rgb * weight;
+        weight = fogify((y - texcoord.y) * viewHeight * radius_inv, 0.35);
+        new_blur = texture2D(gaux1, vec2(texcoord.x, y));
+        weight *= new_blur.a * radius_inv;
+        average.rgb += new_blur.rgb * weight;
         average.a += weight;
       }
-      color.rgb = average.rgb / average.a;
+      color = average.rgb / average.a;
     }
 
-    gl_FragColor = color;
+    gl_FragColor = vec4(color, 1.0);
 
   #else
     gl_FragColor = texture2D(colortex0, texcoord);

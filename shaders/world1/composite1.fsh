@@ -36,21 +36,28 @@ void main() {
     if (the_depth > 0.56) {
       blur_radius =
         max(abs(the_depth - centerDepthSmooth) - 0.0001, 0.0);
-      blur_radius =
-        blur_radius / sqrt(0.1 + blur_radius * blur_radius) * DOF_STRENGTH;
+      blur_radius = blur_radius / sqrt(0.1 + blur_radius * blur_radius) * DOF_STRENGTH;
     }
   #endif
 
   #if AA != 0
     vec3 color = fxaa311(texture2D(colortex2, texcoord).rgb, AA);
-    gl_FragData[0] = vec4(color, 1.0);
+    #if DOF == 1
+      gl_FragData[4] = vec4(color, blur_radius);  // gaux1
+    #else
+      gl_FragData[0] = vec4(color, 1.0);  // colortex0
+    #endif
+
+    gl_FragData[1] = vec4(0.0);  // ¿Performance?
+
   #else
-    gl_FragData[0] = texture2D(colortex2, texcoord);
-  #endif
 
   #if DOF == 1
-    gl_FragData[4] = vec4(blur_radius);  //gaux1
+    gl_FragData[4] = vec4(texture2D(colortex2, texcoord).rgb, blur_radius);  // gaux1
   #else
-    gl_FragData[1] = vec4(0.0);  // ¿Performance?
+    gl_FragData[0] = texture2D(colortex2, texcoord);  // colortex0
+  #endif
+
+  gl_FragData[1] = vec4(0.0);  // ¿Performance?
   #endif
 }
