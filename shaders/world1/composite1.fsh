@@ -7,7 +7,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #define AA 0 // [0 4 6 12] Set antialiasing quality
 #define DOF 1  // [0 1] Enables depth of field
-#define DOF_STRENGTH .15  // [.1 .15 .2 .25 .3 .35 .4 .45 .5 .55 .6 .65 .7 .75 .8 .85 .9 .95 1.0 20.0 25.0 30.0]  Depth of field streght
+#define DOF_STRENGTH 30.0  // [20.0 25.0 30.0 35.0 40.0 45.0]  Depth of field streght
 
 // 'Global' constants from system
 uniform sampler2D colortex2;
@@ -35,8 +35,9 @@ void main() {
     float blur_radius = 0.0;
     if (the_depth > 0.56) {
       blur_radius =
-      max(abs(the_depth - centerDepthSmooth) * DOF_STRENGTH - 0.0001, 0.0);
-      blur_radius = blur_radius / sqrt(0.1 + blur_radius * blur_radius);
+        max(abs(the_depth - centerDepthSmooth) - 0.0001, 0.0);
+      blur_radius =
+        blur_radius / sqrt(0.1 + blur_radius * blur_radius) * DOF_STRENGTH;
     }
   #endif
 

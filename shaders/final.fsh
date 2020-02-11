@@ -58,11 +58,8 @@ void main() {
   #if DOF == 1
     vec4 color = texture2D(gaux2, texcoord);
     float blur_radius = texture2D(gaux1, texcoord).r;
-    float blur_demo = blur_radius;
 
     if (blur_radius > 0.0) {
-      float radius_inv_norm = 1.0 / blur_radius;
-      blur_radius *= 256.0;
       float radius_inv = 1.0 / blur_radius;
 
       vec4 average = vec4(0.0);
@@ -76,11 +73,10 @@ void main() {
       }
 
       for (float y = start; y <= finish; y += step) {
-        // float weight = fogify(((texcoord.y - y) * viewHeight) * invblur_radius2, 0.35);
-        float weight = fogify((y - texcoord.y) * viewWidth * radius_inv, 0.25);
+        float weight = fogify((y - texcoord.y) * viewHeight * radius_inv, 0.35);
         vec4 newColor = texture2D(gaux2, vec2(texcoord.x, y));
         float new_blur = texture2D(gaux1, vec2(texcoord.x, y)).r;
-        weight *= new_blur * radius_inv_norm;
+        weight *= new_blur * radius_inv;
         average.rgb += newColor.rgb * weight;
         average.a += weight;
       }
