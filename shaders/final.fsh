@@ -62,6 +62,8 @@ void main() {
 
     if (blur_radius > 0.5) {
       float radius_inv = 1.0 / blur_radius;
+      float weight;
+      vec4 new_blur;
 
       vec4 average = vec4(0.0);
       float start  = max(texcoord.y - blur_radius * pixelSizeY,       pixelSizeY * 0.5);
@@ -70,12 +72,12 @@ void main() {
       if (blur_radius > 3.0) {
         step *= 4.0;
       } else if (blur_radius > 1.0) {
-        step *= 1.0;
+        step *= 2.0;
       }
 
       for (float y = start; y <= finish; y += step) {
-        float weight = fogify((y - texcoord.y) * viewHeight * radius_inv, 0.35);
-        vec4 new_blur = texture2D(gaux1, vec2(texcoord.x, y));
+        weight = fogify((y - texcoord.y) * viewHeight * radius_inv, 0.35);
+        new_blur = texture2D(gaux1, vec2(texcoord.x, y));
         weight *= new_blur.a * radius_inv;
         average.rgb += new_blur.rgb * weight;
         average.a += weight;
