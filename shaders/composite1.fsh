@@ -7,7 +7,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #define AA 0 // [0 4 6 12] Set antialiasing quality
 #define DOF 1  // [0 1] Enables depth of field
-#define DOF_STRENGTH 30.0  // [20.0 25.0 30.0 35.0 40.0 45.0]  Depth of field streght
+#define DOF_STRENGTH 40.0  // [30.0 35.0 40.0 45.0 50.0 55.0 60.0]  Depth of field strenght
 
 // 'Global' constants from system
 uniform sampler2D colortex2;
@@ -51,7 +51,7 @@ void main() {
     gl_FragData[1] = vec4(0.0);  // ¿Performance?
 
   #else
-  
+
   #if DOF == 1
     gl_FragData[4] = vec4(texture2D(colortex2, texcoord).rgb, blur_radius);  // gaux1
   #else

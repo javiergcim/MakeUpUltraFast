@@ -9,8 +9,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define ENTITY_LOWERGRASS   10175.0  // Lower half only in 1.13+
 #define ENTITY_UPPERGRASS   10176.0 // Upper half only used in 1.13+
 #define ENTITY_SMALLENTS    10059.0  // sapplings(6), dandelion(37), rose(38), carrots(141), potatoes(142), beetroot(207)
-#define ENTITY_VINES        10106.0
 #define ENTITY_LEAVES       10018.0 // Leaves
+#define ENTITY_VINES        10106.0 // Vines
 #define ENTITY_EMISSIVE     10089.0 // Emissors like candels and others
 #define ENTITY_MAGMA        10213.0 // Emissors like magma
 #define WAVING 1 // [0 1] Waving entities
@@ -68,7 +68,6 @@ void main() {
         mc_Entity.x == ENTITY_UPPERGRASS ||
         mc_Entity.x == ENTITY_SMALLGRASS ||
         mc_Entity.x == ENTITY_SMALLENTS ||
-        mc_Entity.x == ENTITY_VINES ||
         mc_Entity.x == ENTITY_LEAVES)
     {
       float amt = float(texcoord.y < mc_midTexCoord.y);

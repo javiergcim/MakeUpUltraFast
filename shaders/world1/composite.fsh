@@ -33,8 +33,8 @@ void main() {
 
   float exposure = ((eyeBrightnessSmooth.y / 240.0) * exposure_coef) + candle_bright;
 
-  // Map from 1.0 - 0.0 to 1.0 - 2.5
-  exposure = (exposure * -1.5) + 2.5;
+  // Map from 1.0 - 0.0 to 1.0 - 3.0
+  exposure = (exposure * -2.0) + 3.0;
 
   vec3 color = texture2D(colortex0, texcoord).rgb;
 
