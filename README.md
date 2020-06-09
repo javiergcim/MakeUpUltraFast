@@ -9,7 +9,10 @@ Ultra fast Minecraft shader (Java). For a small graphic improvement. Intended fo
 * Shader for all dimensions
 * FAST!
 
-Tested on Nvidia and Intel, under Linux.
+## Tested on:
+* Minecraft 1.14.x
+* Nvidia and Intel
+* Linux
 
 ## To do
 * Better translucent blocks
