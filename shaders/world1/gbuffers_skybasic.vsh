@@ -16,7 +16,7 @@ varying vec4 tint_color;
 void main() {
   gl_Position = ftransform();
 
-	up_vec = normalize(gbufferModelView[1].xyz);
+  up_vec = normalize(gbufferModelView[1].xyz);
   star_data = vec4(gl_Color.rgb, float(gl_Color.r == gl_Color.g && gl_Color.g == gl_Color.b && gl_Color.r > 0.0));
   tint_color = gl_Color;
 }
