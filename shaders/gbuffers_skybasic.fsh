@@ -1,6 +1,6 @@
 #version 120
-/* MakeUp Ultra Fast - gbuffers_textured.fsh
-Render: Particles
+/* MakeUp Ultra Fast - gbuffers_skybasic.fsh
+Render: Sky
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
