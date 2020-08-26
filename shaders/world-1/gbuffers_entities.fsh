@@ -149,10 +149,6 @@ void main() {
       fog_density[current_hour_ceil],
       current_hour_fract
       );
-    // fog_intensity_coeff = max(
-    //   visible_sky,
-    //   eyeBrightnessSmooth.y / 240.0
-    // );
     fog_intensity_coeff = 1.0;
     current_fog_color = mix(skyColor, gl_Fog.color.rgb, fog_mix_level);
   } else if (isEyeInWater == 1.0) {  // Underwater
