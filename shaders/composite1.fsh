@@ -6,8 +6,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 #define AA 0 // [0 4 6 12] Set antialiasing quality
-#define DOF 1  // [0 1] Enables depth of field
-#define DOF_STRENGTH 40.0  // [30.0 35.0 40.0 45.0 50.0 55.0 60.0]  Depth of field strenght
+#define DOF 1  // [0 1] Enables depth of field (high performance cost)
+#define DOF_STRENGTH 40.0  // [30.0 35.0 40.0 45.0 50.0 55.0 60.0 65.0 70.0 75.0 80.0]  Depth of field strenght
 
 // 'Global' constants from system
 uniform sampler2D colortex2;

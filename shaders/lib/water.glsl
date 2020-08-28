@@ -2,7 +2,6 @@
 Water reflection and refractiion related functions. Inspired by Project LUMA.
 */
 
-
 float waterWaves(vec3 worldPos) {
   float wave = 0.0;
 
@@ -53,10 +52,9 @@ vec3 cameraSpaceToScreenSpace(vec3 fragpos) {
 
 vec3 cameraSpaceToWorldSpace(vec3 fragpos) {
   vec4 pos  = gbufferProjectionInverse * vec4(fragpos, 1.0);
-   pos /= pos.w;
+  pos /= pos.w;
 
   return pos.xyz;
-
 }
 
 vec3 refraction(vec3 fragpos, vec3 color, vec3 waterRefract) {
@@ -75,7 +73,6 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 waterRefract) {
     return texture2D(gaux2, pos.xy).rgb * color;
 
   #endif
-
 }
 
 vec3 getNormals(vec3 bump) {
@@ -111,71 +108,69 @@ vec4 raytrace(vec3 fragpos, vec3 normal) {
 
   #else
 
-  float dither    = ditherGradNoise();
+    float dither    = ditherGradNoise();
 
-  const int samples       = 10;
-  // const int samples       = 28;
-  const int maxRefinement = 10;
-  const float stepSize    = 1.2;
-  const float stepRefine  = 0.28;
-  const float stepIncrease = 1.8;
+    const int samples       = 15;
+    const int maxRefinement = 10;
+    const float stepSize    = 1.2;
+    const float stepRefine  = 0.28;
+    const float stepIncrease = 1.8;
 
-  vec3 col        = vec3(0.0);
-  vec3 rayStart   = fragpos;
-  vec3 rayDir     = reflect(normalize(fragpos), normal);
-  vec3 rayStep    = (stepSize+dither-0.5)*rayDir;
-  vec3 rayPos     = rayStart + rayStep;
-  vec3 rayPrevPos = rayStart;
-  vec3 rayRefine  = rayStep;
+    vec3 col        = vec3(0.0);
+    vec3 rayStart   = fragpos;
+    vec3 rayDir     = reflect(normalize(fragpos), normal);
+    vec3 rayStep    = (stepSize+dither-0.5)*rayDir;
+    vec3 rayPos     = rayStart + rayStep;
+    vec3 rayPrevPos = rayStart;
+    vec3 rayRefine  = rayStep;
 
-  int refine  = 0;
-  vec3 pos    = vec3(0.0);
-  float border = 0.0;
+    int refine  = 0;
+    vec3 pos    = vec3(0.0);
+    float border = 0.0;
 
-  for (int i = 0; i < samples; i++) {
+    for (int i = 0; i < samples; i++) {
 
-  pos = cameraSpaceToScreenSpace(rayPos);
+    pos = cameraSpaceToScreenSpace(rayPos);
 
-  if (pos.x<0.0 || pos.x>1.0 || pos.y<0.0 || pos.y>1.0 || pos.z<0.0 || pos.z>1.0) break;
+    if (pos.x<0.0 || pos.x>1.0 || pos.y<0.0 || pos.y>1.0 || pos.z<0.0 || pos.z>1.0) break;
 
-  vec3 screenPos  = vec3(pos.xy, texture2D(depthtex1, pos.xy).x);
-   screenPos  = cameraSpaceToWorldSpace(screenPos * 2.0 - 1.0);
+    vec3 screenPos  = vec3(pos.xy, texture2D(depthtex1, pos.xy).x);
+     screenPos  = cameraSpaceToWorldSpace(screenPos * 2.0 - 1.0);
 
-  float dist = distance(rayPos, screenPos);
+    float dist = distance(rayPos, screenPos);
 
-  if (dist < pow(length(rayStep)*pow(length(rayRefine), 0.11), 1.1)*1.22) {
+    if (dist < pow(length(rayStep)*pow(length(rayRefine), 0.11), 1.1)*1.22) {
 
-  refine++;
-  if (refine >= maxRefinement)  break;
+    refine++;
+    if (refine >= maxRefinement)  break;
 
-  rayRefine  -= rayStep;
-  rayStep    *= stepRefine;
+    rayRefine  -= rayStep;
+    rayStep    *= stepRefine;
 
-  }
-
-  rayStep        *= stepIncrease;
-  rayPrevPos      = rayPos;
-  rayRefine      += rayStep;
-  rayPos          = rayStart+rayRefine;
-
-  }
-
-  if (pos.z < 1.0-1e-5) {
-    float depth = texture2D(depthtex0, pos.xy).x;
-
-    float comp = 1.0 - near / far / far;
-    bool land = depth < comp;
-
-    if (land) {
-      col = texture2D(gaux2, pos.xy).rgb;
-      border = clamp((1.0 - cdist(pos.st)) * 50.0, 0.0, 1.0);
     }
-  }
 
-  return vec4(col, border);
+    rayStep        *= stepIncrease;
+    rayPrevPos      = rayPos;
+    rayRefine      += rayStep;
+    rayPos          = rayStart+rayRefine;
+
+    }
+
+    if (pos.z < 1.0-1e-5) {
+      float depth = texture2D(depthtex0, pos.xy).x;
+
+      float comp = 1.0 - near / far / far;
+      bool land = depth < comp;
+
+      if (land) {
+        col = texture2D(gaux2, pos.xy).rgb;
+        border = clamp((1.0 - cdist(pos.st)) * 50.0, 0.0, 1.0);
+      }
+    }
+
+    return vec4(col, border);
 
   #endif
-
 }
 
 vec3 waterShader(vec3 fragpos, vec3 normal, vec3 color, float shading, vec3 skyReflection) {

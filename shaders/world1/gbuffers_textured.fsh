@@ -60,7 +60,7 @@ void main() {
     candle_baselight * illumination.x * illumination.x * illumination.x;
 
   // Se ajusta luz ambiental en tormenta
-  ambient_color = ambient_color * (1.0 - (rainStrength * .4));
+  ambient_color = ambient_color * (1.0 - (rainStrength * .3));
 
   vec3 real_light =
     mix(ambient_color + candle_color, vec3(1.0), nightVision * .125);

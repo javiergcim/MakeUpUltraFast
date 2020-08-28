@@ -5,7 +5,7 @@ Render: Horizontal blur pass
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define DOF 1  // [0 1] Enables depth of field
+#define DOF 1  // [0 1] Enables depth of field (high performance cost)
 
 #if DOF == 1
   uniform sampler2D gaux1;

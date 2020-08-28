@@ -82,7 +82,7 @@ void main() {
     candle_baselight * illumination.x * illumination.x * illumination.x;
 
   // Se ajusta luz ambiental en tormenta
-  vec3 real_light = ambient_currentlight * (1.0 - (rainStrength * .4));
+  vec3 real_light = ambient_currentlight * (1.0 - (rainStrength * .3));
 
   vec3 omni_light = skyColor * mix(
     omni_force[current_hour_floor],

@@ -62,7 +62,7 @@ void main() {
     candle_baselight * illumination.x * illumination.x * illumination.x;
 
   // Ajuste de luz directa en tormenta
-  vec3 real_light = sky_currentlight * (1.0 - (rainStrength * .4));
+  vec3 real_light = sky_currentlight * (1.0 - (rainStrength * .3));
 
   // Color de luz omnidireccional
   vec3 omni_light = skyColor * mix(

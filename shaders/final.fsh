@@ -32,7 +32,7 @@ const float ambientOcclusionLevel = 1.0f;
 const float eyeBrightnessHalflife = 10.0f;
 const float centerDepthHalflife = 2.0f;
 
-#define DOF 1  // [0 1] Enables depth of field
+#define DOF 1  // [0 1] Enables depth of field (high performance cost)
 
 // 'Global' constants from system
 uniform sampler2D colortex0;
