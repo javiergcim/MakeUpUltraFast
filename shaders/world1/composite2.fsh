@@ -47,7 +47,6 @@ void main() {
       for (float x = start; x <= finish; x += step) {  // step
         weight = fogify((x - texcoord.x) * viewWidth * radius_inv, 0.35);
         new_blur = texture2D(gaux1, vec2(x, texcoord.y));
-        // weight *= new_blur.a * radius_inv;  // Alternative
         average.rgb += new_blur.rgb * weight;
         average.a += weight;
       }

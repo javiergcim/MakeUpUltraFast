@@ -43,8 +43,13 @@ value.DOF.1=Yes
 
 option.DOF_STRENGTH=DoF strenght
 
+option.AO=Ambient occlusion
+value.AO.0=No
+value.AO.1=Yes
+
 #Screens
 screen.AA_SCREEN=Antialiasing options
 screen.AA_SCREEN.comment=Toggle antialiasing (FXAA).
 
 screen.EFFECTS=Effects options
+screen.EFFECTS.comment=Efects options.

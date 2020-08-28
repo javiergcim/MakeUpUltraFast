@@ -1,6 +1,6 @@
 #version 120
 /* MakeUp Ultra Fast - composite.vsh
-Render: Composite after gbuffers
+Render: Tonemap
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */

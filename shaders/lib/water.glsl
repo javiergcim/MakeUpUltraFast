@@ -88,7 +88,7 @@ vec3 getNormals(vec3 bump) {
 }
 
 float ditherGradNoise() {
-  return fract(52.9829189*fract(0.06711056*gl_FragCoord.x + 0.00583715*gl_FragCoord.y));
+  return fract(52.9829189 * fract(0.06711056 * gl_FragCoord.x + 0.00583715 * gl_FragCoord.y));
 }
 
 float cdist(vec2 coord) {
@@ -132,14 +132,19 @@ vec4 raytrace(vec3 fragpos, vec3 normal) {
 
     pos = cameraSpaceToScreenSpace(rayPos);
 
-    if (pos.x<0.0 || pos.x>1.0 || pos.y<0.0 || pos.y>1.0 || pos.z<0.0 || pos.z>1.0) break;
+    if (pos.x < 0.0 ||
+        pos.x > 1.0 ||
+        pos.y < 0.0 ||
+        pos.y > 1.0 ||
+        pos.z < 0.0 ||
+        pos.z > 1.0) break;
 
     vec3 screenPos  = vec3(pos.xy, texture2D(depthtex1, pos.xy).x);
      screenPos  = cameraSpaceToWorldSpace(screenPos * 2.0 - 1.0);
 
     float dist = distance(rayPos, screenPos);
 
-    if (dist < pow(length(rayStep)*pow(length(rayRefine), 0.11), 1.1)*1.22) {
+    if (dist < pow(length(rayStep) * pow(length(rayRefine), 0.11), 1.1) * 1.22) {
 
     refine++;
     if (refine >= maxRefinement)  break;

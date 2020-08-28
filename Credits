@@ -1,0 +1,30 @@
+Some of the code that is part of this program is inspired by the ideas
+presented below:
+
+------
+
+- The FXAA antialiasing is based on the implementation created by
+Simon Rodriguez, modified to work on Intel chips.
+http://blog.simonrodriguez.fr/articles/30-07-2016_implementing_fxaa.html
+
+- Quick blur techniques and DoF are a modification of those
+used in Builder's QOL Shaders.
+https://discord.com/invite/FMghhxk
+
+- Grass movement is based on the one used in Sildur's shaders.
+https://sildurs-shaders.github.io/
+
+- The water shader is a modification and adaptation of the one
+used in ProjectLUMA by DeDelner.
+https://dedelner.net/projectluma/
+
+------
+
+I am not a graphics developer, I made this shader out of curiosity and
+my personal use, but I think it is good enough to be shared.
+
+I have not copied (unless explicitly stated), but have tried to learn,
+adapt and modify other people's ideas in favor of the shader.
+
+If you think I have violated your copyright, please notify me.
+javierg.cim at gmail.com
