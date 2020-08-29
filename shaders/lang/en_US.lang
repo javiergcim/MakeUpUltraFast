@@ -1,5 +1,6 @@
 #Profiles
 ############################
+profile.Minimum=Minimum
 profile.Low=Low
 profile.Medium=Medium
 profile.High=High
@@ -43,9 +44,14 @@ value.DOF.1=Yes
 
 option.DOF_STRENGTH=DoF strenght
 
-option.AO=Ambient occlusion
+option.AO=Enhanced ambient occlusion
 value.AO.0=No
 value.AO.1=Yes
+
+option.AOSTEPS=Ambient occlusion quality
+value.AOSTEPS.10=Low
+value.AOSTEPS.15=Medium
+value.AOSTEPS.20=High
 
 #Screens
 screen.AA_SCREEN=Antialiasing options

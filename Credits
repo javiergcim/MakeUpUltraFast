@@ -18,6 +18,9 @@ https://sildurs-shaders.github.io/
 used in ProjectLUMA by DeDelner.
 https://dedelner.net/projectluma/
 
+- Enhanced ambient occlusion is based on Capt Tatsu's ambient occlusion used in
+BSL Shaders.
+
 ------
 
 I am not a graphics developer, I made this shader out of curiosity and

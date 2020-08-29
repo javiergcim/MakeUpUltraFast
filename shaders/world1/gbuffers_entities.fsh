@@ -129,7 +129,7 @@ void main() {
   }
 
   // Flashing mobs
-  block_color += (entityColor * .3);
+  block_color.rgb += (entityColor.rgb * .3);
 
   // New fog
   float fog_mix_level;
