@@ -187,7 +187,7 @@ vec4 raytrace(vec3 fragpos, vec3 normal) {
   #endif
 }
 
-vec3 waterShader(vec3 fragpos, vec3 normal, vec3 color, float shading, vec3 skyReflection) {
+vec3 waterShader(vec3 fragpos, vec3 normal, vec3 color, vec3 skyReflection) {
   vec4 reflection = vec4(0.0);
 
   #if REFLECTION == 1

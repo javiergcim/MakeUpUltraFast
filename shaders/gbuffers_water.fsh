@@ -170,7 +170,6 @@ void main() {
         fragposition0,
         getNormals(water_normal_base),
         block_color.rgb,
-        lmcoord.y > 0.9 ? 1.0 : 0.0,
         current_fog_color
       );
 
