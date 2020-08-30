@@ -15,9 +15,13 @@ float waterWaves(vec3 worldPos) {
   const mat2 rotate_mat = mat2(0.8775825618903728, -0.479425538604203,
                          -0.479425538604203, 0.8775825618903728);
 
-  wave = texture2D(noisetex, worldPos.xz * 0.075 + vec2(frameTimeCounter * 0.015)).x * 0.01;
-  wave += texture2D(noisetex, worldPos.xz * 0.02 - vec2(frameTimeCounter * 0.0075)).x * 0.05;
-  wave += texture2D(noisetex, worldPos.xz * 0.02 * rotate_mat + vec2(frameTimeCounter * 0.0075)).x * 0.05;
+  // wave = texture2D(noisetex, worldPos.xz * 0.075 + vec2(frameTimeCounter * 0.015)).x * 0.01;
+  // wave += texture2D(noisetex, worldPos.xz * 0.02 - vec2(frameTimeCounter * 0.0075)).x * 0.05;
+  // wave += texture2D(noisetex, worldPos.xz * 0.02 * rotate_mat + vec2(frameTimeCounter * 0.0075)).x * 0.05;
+
+  wave = texture2D(noisetex, worldPos.xz * 0.05625 + vec2(frameTimeCounter * 0.015)).x * 0.02;
+  wave += texture2D(noisetex, worldPos.xz * 0.015 - vec2(frameTimeCounter * 0.0075)).x * 0.1;
+  wave += texture2D(noisetex, worldPos.xz * 0.015 * rotate_mat + vec2(frameTimeCounter * 0.0075)).x * 0.1;
 
   return wave;
 }
@@ -110,7 +114,7 @@ vec4 raytrace(vec3 fragpos, vec3 normal) {
 
     float dither    = ditherGradNoise();
 
-    const int samples       = 15;
+    const int samples       = 20;
     const int maxRefinement = 10;
     const float stepSize    = 1.2;
     const float stepRefine  = 0.28;
@@ -172,6 +176,11 @@ vec4 raytrace(vec3 fragpos, vec3 normal) {
         border = clamp((1.0 - cdist(pos.st)) * 50.0, 0.0, 1.0);
       }
     }
+
+    // Difumina la orilla del área reflejable para evitar el "corte" del mismo.
+    float border_mix = abs((pos.x * 2.0) - 1.0);
+    border_mix *= border_mix;
+    border = mix(border, 0.0, border_mix);
 
     return vec4(col, border);
 

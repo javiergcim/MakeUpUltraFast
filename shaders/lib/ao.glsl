@@ -3,13 +3,13 @@ float bayer2(vec2 a){
 	return fract(dot(a, vec2(.5, a.y * .75)));
 }
 
-#define bayer4(a)   (bayer2(.5 * (a)) * .25+ bayer2(a))
-// #define bayer8(a)   (bayer4(.5 * (a)) * .25+ bayer2(a))
-// #define bayer16(a)  (bayer8(.5 * (a)) * .25+ bayer2(a))
-// #define bayer32(a)  (bayer16(.5 * (a)) * .25+ bayer2(a))
-// #define bayer64(a)  (bayer32(.5 * (a)) * .25+ bayer2(a))
-// #define bayer128(a) (bayer64(.5 * (a)) * 0.25 + bayer2(a))
-// #define bayer256(a) (bayer128(.5 * (a)) * 0.25 + bayer2(a))
+#define bayer4(a) (bayer2(.5 * (a)) * .25+ bayer2(a))
+// #define bayer8(a) (bayer4(.5 * (a)) * .25 + bayer2(a))
+// #define bayer16(a) (bayer8(.5 * (a)) * .25 + bayer2(a))
+// #define bayer32(a) (bayer16(.5 * (a)) * .25 + bayer2(a))
+// #define bayer64(a) (bayer32(.5 * (a)) * .25 + bayer2(a))
+// #define bayer128(a) (bayer64(.5 * (a)) * .25 + bayer2(a))
+// #define bayer256(a) (bayer128(.5 * (a)) * .25 + bayer2(a))
 
 float ld(float depth) {
 	return (2.0 * near) / (far + near - depth * (far - near));
@@ -32,7 +32,7 @@ float dbao(sampler2D depth, float dither){
 	float sd = 0.0;
 	float angle = 0.0;
 	float dist = 0.0;
-	vec2 scale = 1.5 * vec2(1.0 / aspectRatio, 1.0) * gbufferProjection[1][1] / (2.74747742 * max(far * d, 6.0));
+	vec2 scale = 1.6 * vec2(1.0 / aspectRatio, 1.0) * gbufferProjection[1][1] / (2.74747742 * max(far * d, 6.0));
 
 	for (int i = 1; i <= samples; i++) {
 		vec2 offset = offsetDist(i + dither, samples) * scale;
@@ -53,5 +53,5 @@ float dbao(sampler2D depth, float dither){
 	}
 	ao /= samples;
 
-	return pow(ao, .45);
+  return pow(ao, .5);
 }

@@ -133,7 +133,7 @@ void main() {
     current_hour_fract
     );
   // Fog color calculation
-  vec3 current_fog_color = mix(skyColor, gl_Fog.color.rgb, fog_mix_level);
+  vec3 current_fog_color = mix(skyColor, gl_Fog.color.rgb, fog_mix_level) * .75;
 
   // Begin water code ---------------
 

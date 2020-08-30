@@ -26,11 +26,14 @@ void main() {
   // Toma el color puro del bloque
   vec4 block_color = texture2D(texture, texcoord);
 
-  //Dither
-	float dither = bayer4(gl_FragCoord.xy);
+  #if AO == 1
+    float dither = bayer4(gl_FragCoord.xy);
 
-	#if AO == 1
-		block_color.rgb *= dbao(depthtex0, dither);
+    // AO distance attenuation
+    float d = texture2D(depthtex0, texcoord.xy).r;
+    float ao_att = sqrt(ld(d));
+    float final_ao = mix(dbao(depthtex0, dither), 1.0, ao_att);
+    block_color *= final_ao;
 	#endif
 
   gl_FragData[0] = block_color;
