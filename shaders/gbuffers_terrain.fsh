@@ -22,60 +22,60 @@ varying float magma;
 // 'Global' constants from system
 uniform int worldTime;
 uniform sampler2D texture;
-uniform int isEyeInWater;
+// uniform int isEyeInWater;
 uniform float nightVision;
 uniform float rainStrength;
 uniform float wetness;
 uniform float far;
 uniform vec3 skyColor;
 uniform ivec2 eyeBrightnessSmooth;
-uniform int current_hour_floor;
-uniform int current_hour_ceil;
-uniform float current_hour_fract;
+// uniform int current_hour_floor;
+// uniform int current_hour_ceil;
+// uniform float current_hour_fract;
 
-#include "/lib/color_utils.glsl"
+// #include "/lib/color_utils.glsl"
 
 void main() {
   // Custom light (lmcoord.x: candle, lmcoord.y: sky direct) ----
-  vec2 illumination = lmcoord;
+  // vec2 illumination = lmcoord;
 
-  if (illumination.y < 0.09) {  // lmcoord.y artifact remover
-    illumination.y = 0.09;
-  }
-  illumination.y = (illumination.y * 1.085) - .085;  // Avoid dimmed light
+  // if (illumination.y < 0.09) {  // lmcoord.y artifact remover
+  //   illumination.y = 0.09;
+  // }
+  // illumination.y = (illumination.y * 1.085) - .085;  // Avoid dimmed light
 
   // Ajuste de intensidad luminosa bajo el agua
-  if (isEyeInWater == 1.0) {
-    illumination.y = (illumination.y * .95) + .05;
-  }
+  // if (isEyeInWater == 1.0) {
+  //   illumination.y = (illumination.y * .95) + .05;
+  // }
 
   // Tomamos el color de luz directa con base a la hora
-  vec3 sky_currentlight =
-    mix(
-      ambient_baselight[current_hour_floor],
-      ambient_baselight[current_hour_ceil],
-      current_hour_fract
-    ) * ambient_multiplier;
+  // vec3 sky_currentlight =
+  //   mix(
+  //     ambient_baselight[current_hour_floor],
+  //     ambient_baselight[current_hour_ceil],
+  //     current_hour_fract
+  //   ) * ambient_multiplier;
 
   // Luz de candela
-  vec3 candle_color =
-    candle_baselight * illumination.x * illumination.x * illumination.x;
+  // vec3 candle_color =
+  //   candle_baselight * illumination.x * illumination.x * illumination.x;
 
   // Ajuste de luz directa en tormenta
-  vec3 real_light = sky_currentlight * (1.0 - (rainStrength * .3));
+  // vec3 real_light = sky_currentlight * (1.0 - (rainStrength * .3));
 
-  // Color de luz omnidireccional
-  vec3 omni_light = skyColor * mix(
-    omni_force[current_hour_floor],
-    omni_force[current_hour_ceil],
-    current_hour_fract
-  );
+  // // Color de luz omnidireccional
+  // vec3 omni_light = skyColor * mix(
+  //   omni_force[current_hour_floor],
+  //   omni_force[current_hour_ceil],
+  //   current_hour_fract
+  // );
 
   // Toma el color puro del bloque
   vec4 block_color = texture2D(texture, texcoord);
 
   // Indica que tan oculto estás del cielo
-  float visible_sky = clamp(lmcoord.y * 1.1 - .1, 0.0, 1.0);
+  // float visible_sky = clamp(lmcoord.y * 1.1 - .1, 0.0, 1.0);
 
   if (emissive > 0.5) {  // Es emisivo (clásico)
     block_color *= (tint_color * vec4((candle_color + (real_light * illumination.y)) * 1.2, 1.0));
@@ -92,7 +92,7 @@ void main() {
     if (visible_sky > 0.0) {
       if ((worldTime >= 0 && worldTime <= 12700) || worldTime > 23000) {  // Día
         direct_light_strenght = dot(normal, sun_vec);
-      } else if (worldTime > 12700 && worldTime <= 13400 ) { // Anochece
+      } else if (worldTime > 12700 && worldTime <= 13400) { // Anochece
         float sun_light_strenght = dot(normal, sun_vec);
         float moon_light_strenght = dot(normal, moon_vec);
         float light_mix = (worldTime - 12700) / 700.0;
