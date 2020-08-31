@@ -24,6 +24,7 @@ varying vec2 texcoord;
 #endif
 
 void main() {
+
   #if DOF == 1
     vec4 color_blur = texture2D(gaux1, texcoord);
     float blur_radius = color_blur.a;
@@ -38,7 +39,9 @@ void main() {
       float start  = max(texcoord.x - blur_radius * pixelSizeX,       pixelSizeX * 0.5);
       float finish = min(texcoord.x + blur_radius * pixelSizeX, 1.0 - pixelSizeX * 0.5);
       float step = pixelSizeX * .5;
-      if (blur_radius > 3.0) {
+      if (blur_radius > 3.5) {
+        step *= 6.0;
+      } else if (blur_radius > 2.5) {
         step *= 4.0;
       } else if (blur_radius > 1.0) {
         step *= 2.0;

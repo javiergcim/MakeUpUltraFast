@@ -50,11 +50,13 @@ uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
 
-#include "/lib/color_utils_end.glsl"
+#include "/lib/color_utils.glsl"
 
 #if NICE_WATER == 1
   #include "/lib/water.glsl"
 #endif
+
+#include "/lib/cristal.glsl"
 
 void main() {
   // Custom light (lmcoord.x: candle, lmcoord.y: ambient) ----
@@ -71,7 +73,7 @@ void main() {
   if (illumination.y < 0.08) {  // lmcoord.y artifact remover
     illumination.y = 0.09;
   }
-  illumination.y = (illumination.y * .5) + .5;  // Avoid absolut darkness
+  illumination.y = (illumination.y * 1.085) - .085;  // Avoid dimmed light
 
   // Ajuste de intensidad luminosa bajo el agua
   if (isEyeInWater == 1.0) {
@@ -139,6 +141,8 @@ void main() {
 
   vec4 block_color;
 
+  vec3 fragposition0 = toNDC(vec3(gl_FragCoord.xy / vec2(viewWidth, viewHeight), gl_FragCoord.z));
+
   if (iswater > .5) {
 
     #if NICE_WATER == 1
@@ -154,8 +158,6 @@ void main() {
       #endif
 
       vec3 water_normal_base = waterwavesToNormal(worldposition.xyz);
-
-      vec3 fragposition0 = toNDC(vec3(gl_FragCoord.xy / vec2(viewWidth, viewHeight), gl_FragCoord.z));
 
       block_color = vec4(
         refraction(
@@ -184,7 +186,7 @@ void main() {
       block_color.a = .66;
     #endif
 
-  } else {  // End water shader code ------------------------
+  } else {  // No water -----
     // Toma el color puro del bloque
     block_color = texture2D(texture, texcoord);
 
@@ -192,6 +194,13 @@ void main() {
     real_light = (real_light * direct_light_strenght) + candle_color + omni_light;
     real_light = mix(real_light, vec3(1.0), nightVision * .125);
     block_color *= tint_color * vec4(real_light, 1.0);
+
+    block_color = cristalShader(
+      fragposition0,
+      normal,
+      block_color,
+      real_light
+    );
   }
 
   // New fog
