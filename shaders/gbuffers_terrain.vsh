@@ -16,13 +16,19 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define WAVING 1 // [0 1] Waving entities
 
 // 'Global' constants from system
-uniform int worldTime;
 uniform vec3 sunPosition;
-uniform vec3 moonPosition;
 uniform int isEyeInWater;
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
+uniform float light_mix;
+uniform float far;
+
+uniform sampler2D texture;
+uniform float nightVision;
+uniform float rainStrength;
+uniform vec3 skyColor;
+uniform ivec2 eyeBrightnessSmooth;
 
 #if WAVING == 1
   uniform vec3 cameraPosition;
@@ -38,13 +44,15 @@ varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
 varying vec3 normal;
-varying vec3 sun_vec;
-varying vec3 moon_vec;
-varying float grass;
-varying float leaves;
 varying float emissive;
-varying float iswater;
 varying float magma;
+varying vec3 candle_color;
+varying vec3 pseudo_light;
+varying vec3 real_light;
+varying vec3 current_fog_color;
+varying float frog_adjust;
+varying float fog_density_coeff;
+varying float illumination_y;
 
 attribute vec4 mc_Entity;
 #if WAVING == 1
@@ -106,11 +114,13 @@ void main() {
 
   normal = normalize(gl_NormalMatrix * gl_Normal);
 
-  sun_vec = normalize(sunPosition);
+  vec3 sun_vec = normalize(sunPosition);
   // moon_vec = normalize(moonPosition);
-  moon_vec = -sun_vec;
+  vec3 moon_vec = -sun_vec;
 
   // Grass entities
+  float grass;
+  float leaves;
   if (
     mc_Entity.x == ENTITY_SMALLGRASS ||
     mc_Entity.x == ENTITY_LOWERGRASS ||
@@ -144,7 +154,7 @@ void main() {
     magma = 0.0;
   }
 
-  // Base illumination
+  // Base illumination ---------------------------------------------------------
   // Custom light (lmcoord.x: candle, lmcoord.y: sky direct) ----
   vec2 illumination = lmcoord;
 
@@ -158,10 +168,7 @@ void main() {
     illumination.y = (illumination.y * .95) + .05;
   }
 
-  // Ajuste de intensidad luminosa bajo el agua
-  if (isEyeInWater == 1.0) {
-    illumination.y = (illumination.y * .95) + .05;
-  }
+  illumination_y = illumination.y;
 
   // Tomamos el color de luz directa con base a la hora
   vec3 sky_currentlight =
@@ -171,11 +178,11 @@ void main() {
       current_hour_fract
     ) * ambient_multiplier;
 
-  vec3 candle_color =
+  candle_color =
     candle_baselight * illumination.x * illumination.x * illumination.x;
 
   // Ajuste de luz directa en tormenta
-  vec3 real_light = sky_currentlight * (1.0 - (rainStrength * .3));
+  pseudo_light = sky_currentlight * (1.0 - (rainStrength * .3));
 
   // Color de luz omnidireccional
   vec3 omni_light = skyColor * mix(
@@ -187,5 +194,63 @@ void main() {
   // Indica que tan oculto estás del cielo
   float visible_sky = clamp(lmcoord.y * 1.1 - .1, 0.0, 1.0);
 
+  // ¿Es bloque no emisivo?
+  if (emissive < 0.5 && magma < 0.5) {  // Es bloque no emisivo
 
+    float direct_light_strenght = 1.0;
+    omni_light *= illumination_y;
+    if (visible_sky > 0.0) {
+      // Fuerza de luz según dirección
+      float sun_light_strenght = dot(normal, sun_vec);
+      float moon_light_strenght = dot(normal, moon_vec);
+      direct_light_strenght =
+        mix(moon_light_strenght, sun_light_strenght, light_mix);
+
+      direct_light_strenght = (direct_light_strenght * .45) + .55;
+      direct_light_strenght = mix(1.0, direct_light_strenght, visible_sky);
+    }
+
+    if (grass > .5) {  // Es "planta"
+      direct_light_strenght = mix(direct_light_strenght, 1.0, .3);
+    } else if (leaves > .5) {
+      direct_light_strenght = mix(direct_light_strenght, 1.0, .2);
+    }
+
+    direct_light_strenght = clamp((direct_light_strenght + illumination.y - 1.0), 0.0, 1.0);
+    real_light = (pseudo_light * direct_light_strenght) + candle_color + omni_light;
+    real_light = mix(real_light, vec3(1.0), nightVision * .125);
+  }
+
+  // Fog
+  float fog_mix_level;
+  float fog_intensity_coeff;
+  if (isEyeInWater == 0.0) { // Normal
+    // Fog color calculation
+    fog_mix_level = mix(
+      fog_color_mix[current_hour_floor],
+      fog_color_mix[current_hour_ceil],
+      current_hour_fract
+      );
+    // Fog intensity calculation
+    fog_density_coeff = mix(
+      fog_density[current_hour_floor],
+      fog_density[current_hour_ceil],
+      current_hour_fract
+      );
+    fog_intensity_coeff = max(
+      visible_sky,
+      eyeBrightnessSmooth.y / 240.0
+    );
+    current_fog_color = mix(skyColor, gl_Fog.color.rgb, fog_mix_level);
+  } else if (isEyeInWater == 1.0) {  // Underwater
+    fog_density_coeff = 0.5;
+    fog_intensity_coeff = 1.0;
+    current_fog_color = waterfog_baselight * real_light;
+  } else {  // Lava
+    fog_density_coeff = 0.5;
+    fog_intensity_coeff = 1.0;
+    current_fog_color = gl_Fog.color.rgb;
+  }
+
+  frog_adjust = (gl_FogFragCoord / far) * fog_intensity_coeff;
 }
