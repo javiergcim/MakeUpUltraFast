@@ -5,7 +5,8 @@ vec4 cristalShader(vec3 fragpos, vec3 normal, vec4 color, vec3 skyReflection) {
     reflection = cristalRaytrace(fragpos, normal);
   #endif
 
-  reflection.rgb = mix(skyReflection * pow(lmcoord.t, 2.0), reflection.rgb, reflection.a);
+  // reflection.rgb = mix(skyReflection * pow(lmcoord.t, 2.0), reflection.rgb, reflection.a);
+  reflection.rgb = mix(skyReflection * lmcoord.t * lmcoord.t, reflection.rgb, reflection.a);
 
   float normalDotEye = dot(normal, normalize(fragpos));
   float fresnel = clamp(pow(1.0 + normalDotEye, 4.0) + 0.1, 0.0, 1.0);

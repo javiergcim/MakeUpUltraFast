@@ -3,7 +3,7 @@ float bayer2(vec2 a){
 	return fract(dot(a, vec2(.5, a.y * .75)));
 }
 
-#define bayer4(a) (bayer2(.5 * (a)) * .25+ bayer2(a))
+// #define bayer4(a) (bayer2(.5 * (a)) * .25 + bayer2(a))
 // #define bayer8(a) (bayer4(.5 * (a)) * .25 + bayer2(a))
 // #define bayer16(a) (bayer8(.5 * (a)) * .25 + bayer2(a))
 // #define bayer32(a) (bayer16(.5 * (a)) * .25 + bayer2(a))
@@ -38,20 +38,21 @@ float dbao(sampler2D depth, float dither){
 		vec2 offset = offsetDist(i + dither, samples) * scale;
 
 		sd = ld(texture2D(depth, texcoord.xy + offset).r);
-		float sample = far * (d - sd) * 2.0;
+    float tmp = far * 2.0;
+    float sample = (d - sd) * tmp;
 		if (hand > 0.5) sample *= 1024.0;
 		angle = clamp(0.5 - sample, 0.0, 1.0);
-		dist = clamp(0.25 * sample - 1.0, 0.0 ,1.0);
+		dist = clamp(0.25 * sample - 1.0, 0.0, 1.0);
 
 		sd = ld(texture2D(depth, texcoord.xy - offset).r);
-		sample = far * (d - sd) * 2.0;
+    sample = (d - sd) * tmp;
 		if (hand > 0.5) sample *= 1024.0;
-		angle += clamp(0.5 - sample, 0.0 ,1.0);
-		dist += clamp(0.25 * sample - 1.0,0.0 ,1.0);
+		angle += clamp(0.5 - sample, 0.0, 1.0);
+		dist += clamp(0.25 * sample - 1.0, 0.0, 1.0);
 
 		ao += clamp(angle + dist, 0.0, 1.0);
 	}
 	ao /= samples;
 
-  return pow(ao, .5);
+  return sqrt(ao);
 }

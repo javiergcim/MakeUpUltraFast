@@ -283,7 +283,8 @@ vec3 waterShader(vec3 fragpos, vec3 normal, vec3 color, vec3 skyReflection) {
   float normalDotEye = dot(normal, normalize(fragpos));
   float fresnel = clamp(pow(1.0 + normalDotEye, 4.0) + 0.1, 0.0, 1.0);
 
-  reflection.rgb = mix(skyReflection * pow(lmcoord.t, 2.0), reflection.rgb, reflection.a);
+  // reflection.rgb = mix(skyReflection * pow(lmcoord.t, 2.0), reflection.rgb, reflection.a);
+   reflection.rgb = mix(skyReflection * lmcoord.t * lmcoord.t, reflection.rgb, reflection.a);
 
   return mix(color, reflection.rgb, fresnel);
 }

@@ -1,4 +1,4 @@
-/* MakeUp Ultra Fast - color_utils.glsl
+/* MakeUp Ultra Fast - vector_utils.glsl
 Usefull functions for waving entities.
 
 Wave and move functions based on Sildur's Shaders
@@ -65,5 +65,5 @@ vec3 sildursMove(
     f4,
     f5) * amp2;
 
-  return move1+move2;
+  return move1 + move2;
 }
