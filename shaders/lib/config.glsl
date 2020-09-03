@@ -24,3 +24,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define REFLECTION 1  // [0 1] Activate reflectons
 #define REFRACTION 1  // [0 1] Activate refractions
 #define SSR_METHOD 0  // [0 1] Flipped Image is inaccurate but faster. Raytrace is more accurate but slower.
+#define AA 4 // [0 4 6 12] Set antialiasing quality
+#define DOF 1  // [0 1] Enables depth of field (high performance cost)
+#define DOF_STRENGTH 40.0  // [20.0 25.0 30.0 35.0 40.0 45.0 50.0 55.0 60.0 65.0 70.0 75.0 80.0]  Depth of field strenght
