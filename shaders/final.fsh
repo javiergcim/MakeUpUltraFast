@@ -32,14 +32,13 @@ const float ambientOcclusionLevel = 1.0f;
 const float eyeBrightnessHalflife = 10.0f;
 const float centerDepthHalflife = 2.0f;
 
-#define DOF 1  // [0 1] Enables depth of field (high performance cost)
+#include "/lib/config.glsl"
 
 // 'Global' constants from system
 uniform sampler2D colortex0;
 
 #if DOF == 1
   uniform sampler2D gaux1;
-  // uniform sampler2D gaux2;
   uniform float pixelSizeY;
   uniform float viewHeight;
   uniform float pixelSizeX;
@@ -66,7 +65,7 @@ void main() {
       vec4 new_blur;
 
       vec4 average = vec4(0.0);
-      float start  = max(texcoord.y - blur_radius * pixelSizeY,       pixelSizeY * 0.5);
+      float start  = max(texcoord.y - blur_radius * pixelSizeY, pixelSizeY * 0.5);
       float finish = min(texcoord.y + blur_radius * pixelSizeY, 1.0 - pixelSizeY * 0.5);
       float step = pixelSizeY * .5;
       if (blur_radius > 3.5) {

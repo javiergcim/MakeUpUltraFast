@@ -5,7 +5,7 @@ Render: Horizontal blur pass
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define DOF 1  // [0 1] Enables depth of field (high performance cost)
+#include "/lib/config.glsl"
 
 #if DOF == 1
   uniform sampler2D gaux1;
@@ -19,7 +19,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 varying vec2 texcoord;
 
 #if DOF == 1
-  // varying float dofDistance;
   #include "/lib/blur.glsl"
 #endif
 
@@ -36,7 +35,7 @@ void main() {
       vec4 new_blur;
 
       vec4 average = vec4(0.0);
-      float start  = max(texcoord.x - blur_radius * pixelSizeX,       pixelSizeX * 0.5);
+      float start  = max(texcoord.x - blur_radius * pixelSizeX, pixelSizeX * 0.5);
       float finish = min(texcoord.x + blur_radius * pixelSizeX, 1.0 - pixelSizeX * 0.5);
       float step = pixelSizeX * .5;
       if (blur_radius > 3.5) {
