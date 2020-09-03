@@ -22,16 +22,10 @@ varying float illumination_y;
 // 'Global' constants from system
 uniform sampler2D texture;
 uniform float wetness;
-uniform int entityId;
 
 void main() {
   // Toma el color puro del bloque
   vec4 block_color = texture2D(texture, texcoord);
-
-  // Thunderbolt render
-  if (entityId == 11000.0){
-    block_color = vec4(1.0, 1.0, 1.0, .8);
-  }
 
   block_color *= tint_color * vec4(real_light, 1.0);
 

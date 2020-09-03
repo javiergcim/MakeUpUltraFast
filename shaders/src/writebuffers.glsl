@@ -11,5 +11,5 @@
   #else
     gl_FragData[1] = vec4(0.0);
   #endif
-  
+
 #endif
