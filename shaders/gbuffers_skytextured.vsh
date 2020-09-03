@@ -9,7 +9,7 @@ varying vec2 texcoord;
 varying vec4 tint_color;
 
 void main() {
-  gl_Position = ftransform();
   texcoord = gl_MultiTexCoord0.xy;
   tint_color = gl_Color;
+  gl_Position = ftransform();
 }

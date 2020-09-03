@@ -5,6 +5,7 @@ Render: Droped objects, mobs and things like that
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#define ENITITY_V
 #define CAVEENTITY_V
 
 #include "/lib/config.glsl"

@@ -23,7 +23,7 @@ uniform float viewHeight;
 void main() {
   // Toma el color puro del bloque
   vec4 block_color = tint_color;
-  
+
   if (star_data.a < .9) {
     if (isEyeInWater == 0) {
       vec4 fragpos = gbufferProjectionInverse * (vec4(gl_FragCoord.xy / vec2(viewWidth, viewHeight), gl_FragCoord.z, 1.0) * 2.0 - 1.0);

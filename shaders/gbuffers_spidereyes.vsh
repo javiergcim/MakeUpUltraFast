@@ -9,8 +9,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 varying vec2 texcoord;
 
 void main() {
-  gl_Position = ftransform();
   texcoord = gl_MultiTexCoord0.xy;
-
-  gl_FogFragCoord = length(gl_Position.xyz);
+  #include "/src/position_vector.glsl"
 }

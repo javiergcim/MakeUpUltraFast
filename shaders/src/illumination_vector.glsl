@@ -46,7 +46,7 @@ if (emissive < 0.5 && magma < 0.5) {  // Es bloque no emisivo
   float direct_light_strenght = 1.0;
   omni_light *= illumination_y;
 
-  #ifndef CAVEENTITY_V
+  #ifndef ENTITY_V
   if (visible_sky > 0.0) {
   #endif
     // Fuerza de luz según dirección
@@ -69,7 +69,7 @@ if (emissive < 0.5 && magma < 0.5) {  // Es bloque no emisivo
 
     direct_light_strenght = mix(1.0, direct_light_strenght, visible_sky);
 
-  #ifndef CAVEENTITY_V
+  #ifndef ENTITY_V
   }
   #endif
 
