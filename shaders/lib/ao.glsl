@@ -1,7 +1,3 @@
-float ld(float depth) {
-	return (2.0 * near) / (far + near - depth * (far - near));
-}
-
 vec2 offsetDist(float x, int s){
 	float n = fract(x * 1.414) * 3.1415;
 	return vec2(cos(n), sin(n)) * x / s;

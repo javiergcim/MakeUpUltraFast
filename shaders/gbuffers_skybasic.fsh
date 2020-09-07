@@ -10,7 +10,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // Varyings (per thread shared variables)
 varying vec3 up_vec;
 varying vec4 star_data;
-varying vec4 tint_color;
 
 // 'Global' constants from system
 uniform int isEyeInWater;
@@ -22,7 +21,7 @@ uniform float viewHeight;
 
 void main() {
   // Toma el color puro del bloque
-  vec4 block_color = tint_color;
+  vec4 block_color = vec4(star_data.rgb, 1.0);
 
   if (star_data.a < .9) {
     if (isEyeInWater == 0) {

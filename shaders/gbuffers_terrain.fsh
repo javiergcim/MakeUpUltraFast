@@ -29,12 +29,8 @@ void main() {
   // Toma el color puro del bloque
   vec4 block_color = texture2D(texture, texcoord);
 
-  if (emissive > 0.5) {  // Es emisivo (clásico)
+  if (emissive > .5 || magma > .5) {  // Es emisivo (clásico)
     block_color *= (tint_color * vec4((candle_color + (pseudo_light * illumination_y)) * 1.2, 1.0));
-
-  } else if (magma > 0.5) {  // Es magma (modelo de emisión nueva)
-    block_color *= (tint_color * vec4(vec3(lmcoord.x * 1.1), 1.0));
-
   } else {  // No es bloque emisivo
     block_color *= tint_color * vec4(real_light, 1.0);
   }

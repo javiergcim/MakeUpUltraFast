@@ -13,11 +13,18 @@ if (isEyeInWater == 0.0) { // In the air
     fog_density[current_hour_ceil],
     current_hour_fract
     );
-  fog_intensity_coeff = max(
-    visible_sky,
-    eyeBrightnessSmooth.y / 240.0
-  );
-  current_fog_color = mix(skyColor, gl_Fog.color.rgb, fog_mix_level);
+
+  #ifdef NETHER
+    fog_intensity_coeff = 1.0;
+    current_fog_color = gl_Fog.color.rgb * .5;
+  #else
+    fog_intensity_coeff = max(
+      visible_sky,
+      eyeBrightnessSmooth.y / 240.0
+    );
+    current_fog_color = mix(skyColor, gl_Fog.color.rgb, fog_mix_level);
+  #endif
+
 } else if (isEyeInWater == 1.0) {  // Underwater
   fog_density_coeff = 0.5;
   fog_intensity_coeff = 1.0;

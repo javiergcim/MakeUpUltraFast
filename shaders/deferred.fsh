@@ -19,6 +19,7 @@ uniform float far;
 uniform float aspectRatio;
 uniform mat4 gbufferProjection;
 
+#include "/lib/basic_utils.glsl"
 #include "/lib/ao.glsl"
 
 void main() {
@@ -27,6 +28,7 @@ void main() {
 
   #if AO == 1
     float dither = hash12();
+    // float dither = bayer4(gl_FragCoord.xy);
 
     // AO distance attenuation
     float d = texture2D(depthtex0, texcoord.xy).r;

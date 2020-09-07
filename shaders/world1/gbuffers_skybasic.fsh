@@ -5,7 +5,7 @@ Render: Sky
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define NICE_WATER 1  // [0 1] Turn on for reflection and refraction capabilities.
+#include "/lib/config.glsl"
 
 // Varyings (per thread shared variables)
 varying vec3 up_vec;
@@ -21,22 +21,19 @@ uniform float viewWidth;
 uniform float viewHeight;
 
 void main() {
-  vec3 sky_color = tint_color.rgb;
+  // Toma el color puro del bloque
+  vec4 block_color = tint_color;
+
   if (star_data.a < .9) {
     if (isEyeInWater == 0) {
       vec4 fragpos = gbufferProjectionInverse * (vec4(gl_FragCoord.xy / vec2(viewWidth, viewHeight), gl_FragCoord.z, 1.0) * 2.0 - 1.0);
       vec3 nfragpos = normalize(fragpos.xyz);
       float n_u = clamp(dot(nfragpos, up_vec), 0.0, 1.0);
-      sky_color = mix(fogColor, skyColor * .80, clamp((n_u * 4.0) - .25, 0.0, 1.0));
+      block_color.rgb = mix(fogColor, skyColor * .80, clamp((n_u * 4.0) - .25, 0.0, 1.0));
     } else {
-      sky_color = vec3(.1, .2, .3);
+      block_color.rgb = vec3(.1, .2, .3);
     }
   }
 
-  gl_FragData[0] = vec4(sky_color, 0.5);
-  #if NICE_WATER == 1
-    gl_FragData[5] = vec4(sky_color, 0.5);
-  #else
-    gl_FragData[1] = vec4(0.0);
-  #endif
+  #include "/src/writebuffers.glsl"
 }
