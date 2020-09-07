@@ -126,6 +126,7 @@ const float fog_density[25] =
   .5 // 6
   );
 
+// Omni intesity per hour
 const float omni_force[25] =
   float[25](
   1.0, // 6

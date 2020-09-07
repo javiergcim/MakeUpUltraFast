@@ -1,0 +1,8 @@
+Teleport to Nether:
+execute in minecraft:the_nether run teleport ~ ~ ~
+
+Teleport to The End:
+execute in minecraft:the_end run teleport ~ ~ ~
+
+Teleport to Overworld:
+execute in minecraft:the_nether run teleport ~ ~ ~

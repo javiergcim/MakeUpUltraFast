@@ -20,7 +20,7 @@ varying vec2 texcoord;
 
 #include "/lib/color_utils_nether.glsl"
 #include "/lib/tone_maps.glsl"
-#include "/lib/basic_utils.glsl"
+#include "/lib/depth.glsl"
 
 void main() {
   float d = texture2D(depthtex0, texcoord.xy).r;

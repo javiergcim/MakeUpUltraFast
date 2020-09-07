@@ -4,7 +4,7 @@ Usefull functions for color manipulation.
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-const float ambient_multiplier = 1.2;
+const float ambient_multiplier = .6;
 
 // Ambient colors per hour
 const vec3 ambient_baselight[25] =
@@ -129,21 +129,21 @@ const float fog_density[25] =
 // Omni intesity per hour
 const float omni_force[25] =
   float[25](
-  .15, // 6
-  .2, // 7
-  .3, // 8
-  .3, // 9
-  .3, // 10
-  .3, // 11
-  .3, // 12
-  .3, // 13
-  .3, // 14
-  .3, // 15
-  .3, // 16
-  .2, // 17
-  .15, // 18
-  .15, // 19
-  .9, // 20
+  1.0, // 6
+  1.0, // 7
+  1.0, // 8
+  1.0, // 9
+  1.0, // 10
+  1.0, // 11
+  1.0, // 12
+  1.0, // 13
+  1.0, // 14
+  1.0, // 15
+  1.0, // 16
+  1.0, // 17
+  1.0, // 18
+  1.0, // 19
+  1.0, // 20
   1.0, // 21
   1.0, // 22
   1.0, // 23
@@ -151,9 +151,9 @@ const float omni_force[25] =
   1.0, // 1
   1.0, // 2
   1.0, // 3
-  .9, // 4
-  .15, // 5
-  .15 // 6
+  1.0, // 4
+  1.0, // 5
+  1.0 // 6
   );
 
 const vec3 candle_baselight = vec3(0.555, 0.4309411764705883, 0.22200000000000003);

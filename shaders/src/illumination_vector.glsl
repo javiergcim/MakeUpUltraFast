@@ -90,6 +90,8 @@ if (emissive < 0.5 && magma < 0.5) {  // Es bloque no emisivo
   direct_light_strenght = clamp((direct_light_strenght + illumination.y - 1.0), 0.0, 1.0);
   #ifdef NETHER
     real_light = sky_currentlight + candle_color;
+  #elif defined THE_END
+    real_light = sky_currentlight + candle_color;
   #else
     real_light = (pseudo_light * direct_light_strenght) + candle_color + omni_light;
   #endif

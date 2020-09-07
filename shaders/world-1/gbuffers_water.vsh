@@ -5,6 +5,8 @@ Render: Water and translucent blocks
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#define NETHER
+
 #include "/lib/config.glsl"
 #include "/lib/color_utils_nether.glsl"
 

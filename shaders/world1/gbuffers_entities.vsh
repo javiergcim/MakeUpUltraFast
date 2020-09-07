@@ -7,6 +7,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #define ENITITY_V
 #define CAVEENTITY_V
+#define THE_END
 
 #include "/lib/config.glsl"
 #include "/lib/color_utils_end.glsl"

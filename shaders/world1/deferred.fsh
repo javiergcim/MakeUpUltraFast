@@ -19,6 +19,7 @@ uniform float far;
 uniform float aspectRatio;
 uniform mat4 gbufferProjection;
 
+#include "/lib/depth.glsl"
 #include "/lib/ao.glsl"
 
 void main() {

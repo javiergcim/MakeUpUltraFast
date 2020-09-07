@@ -17,6 +17,9 @@ if (isEyeInWater == 0.0) { // In the air
   #ifdef NETHER
     fog_intensity_coeff = 1.0;
     current_fog_color = gl_Fog.color.rgb * .5;
+  #elif defined THE_END
+    fog_intensity_coeff = 1.0;
+    current_fog_color = gl_Fog.color.rgb * .5;
   #else
     fog_intensity_coeff = max(
       visible_sky,
