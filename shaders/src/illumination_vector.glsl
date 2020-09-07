@@ -64,7 +64,6 @@ if (emissive < 0.5 && magma < 0.5) {  // Es bloque no emisivo
       candle_cave_strenght =
         mix(candle_cave_strenght, 1.0, visible_sky);
       candle_color *= candle_cave_strenght;
-      // candle_color *= 5.0;
     #endif
 
     direct_light_strenght = mix(1.0, direct_light_strenght, visible_sky);

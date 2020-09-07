@@ -87,10 +87,6 @@ vec3 getNormals(vec3 bump) {
   return normalize(bump * tbnMatrix);
 }
 
-float ditherGradNoise() {
-  return fract(52.9829189 * fract(0.06711056 * gl_FragCoord.x + 0.00583715 * gl_FragCoord.y));
-}
-
 float cdist(vec2 coord) {
   return max(abs(coord.s - 0.5), abs(coord.t - 0.5)) * 2.0;
 }
@@ -109,8 +105,11 @@ vec4 raytrace(vec3 fragpos, vec3 normal) {
   #else
 
     float dither = ditherGradNoise();
+    // float dither = hash12();
+    // float dither = dither17();
+    // float dither = bayer4(gl_FragCoord.xy);
 
-    const int samples       = 20;
+    const int samples       = RT_SAMPLES;
     const int maxRefinement = 10;
     const float stepSize    = 1.2;
     const float stepRefine  = 0.28;

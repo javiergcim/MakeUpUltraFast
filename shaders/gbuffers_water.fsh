@@ -8,6 +8,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define WATER_F
 
 #include "/lib/config.glsl"
+#include "/lib/dither.glsl"
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
@@ -106,7 +107,7 @@ void main() {
 
     } else {  // Portal
       block_color = texture2D(texture, texcoord);
-      block_color *= tint_color * vec4(real_light, 1.0);
+      block_color *= tint_color * mix (vec4(real_light, 1.0), vec4(1.0), .2);
     }
 
   #else

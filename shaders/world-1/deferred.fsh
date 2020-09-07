@@ -5,9 +5,7 @@ Render: Used for ambient occlusion
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define NICE_WATER 1  // [0 1] Turn on for reflection and refraction capabilities.
-#define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance impact).
-#define AOSTEPS 10 // [10 15 20] Ambient occlusion quality
+#include "/src/config.glsl"
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;

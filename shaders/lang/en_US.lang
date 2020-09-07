@@ -14,7 +14,7 @@ value.AA.4=Ultra sharp
 value.AA.6=Nice
 value.AA.12=Complete
 
-option.NICE_WATER=Nice water
+option.NICE_WATER=Reflection/refraction capability
 value.NICE_WATER.0=Off
 value.NICE_WATER.1=On
 
@@ -34,6 +34,8 @@ option.SSR_METHOD=Reflection method
 value.SSR_METHOD.0=Flipped image
 value.SSR_METHOD.1=Raytrace
 
+option.RT_SAMPLES=Raytrace samples
+
 option.WAVING=Waving plants
 value.WAVING.0=No
 value.WAVING.1=Yes
@@ -48,10 +50,7 @@ option.AO=Enhanced ambient occlusion
 value.AO.0=No
 value.AO.1=Yes
 
-option.AOSTEPS=Ambient occlusion quality
-value.AOSTEPS.10=Low
-value.AOSTEPS.15=Medium
-value.AOSTEPS.20=High
+option.AOSTEPS=Ambient occlusion samples
 
 #Screens
 screen.AA_SCREEN=Antialiasing options

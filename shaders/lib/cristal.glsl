@@ -14,8 +14,9 @@ vec4 cristalRaytrace(vec3 fragpos, vec3 normal) {
   #else
 
     float dither    = ditherGradNoise();
+    // float dither = dither17();
 
-    const int samples       = 5;
+    const int samples       = RT_SAMPLES;
     const int maxRefinement = 10;
     const float stepSize    = 1.2;
     const float stepRefine  = 0.28;

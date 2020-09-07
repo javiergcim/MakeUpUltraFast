@@ -5,9 +5,8 @@ Render: Used for ambient occlusion
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define NICE_WATER 1  // [0 1] Turn on for reflection and refraction capabilities.
-#define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance impact).
-#define AOSTEPS 10 // [10 15 20] Ambient occlusion quality
+#include "/lib/config.glsl"
+#include "/lib/dither.glsl"
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
@@ -27,7 +26,7 @@ void main() {
   vec4 block_color = texture2D(texture, texcoord);
 
   #if AO == 1
-    float dither = bayer2(gl_FragCoord.xy);
+    float dither = hash12();
 
     // AO distance attenuation
     float d = texture2D(depthtex0, texcoord.xy).r;
