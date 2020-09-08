@@ -35,6 +35,5 @@ void main() {
 
   block_color *= tint_color * vec4(real_light, 1.0);
 
-  #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"
 }

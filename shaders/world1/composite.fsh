@@ -21,6 +21,7 @@ varying vec2 texcoord;
 #include "/lib/color_utils_end.glsl"
 #include "/lib/tone_maps.glsl"
 #include "/lib/depth.glsl"
+#include "/lib/basic_utils.glsl"
 
 void main() {
   float d = texture2D(depthtex0, texcoord.xy).r;
@@ -40,11 +41,12 @@ void main() {
   exposure = (exposure * -2.0) + 3.0;
 
   vec4 block_color;
-  if (ld(d) > .999) {
-    block_color = vec4(gl_Fog.color.rgb * .5, 1.0);
-  } else {
-    block_color = texture2D(colortex0, texcoord);
-  }
+
+  block_color = mix(
+    texture2D(colortex0, texcoord),
+    vec4(gl_Fog.color.rgb * 2.0, 1.0),
+    sqrt(ld(d))
+  );
 
   block_color.rgb *= exposure;
   block_color.rgb = tonemap(block_color.rgb);
