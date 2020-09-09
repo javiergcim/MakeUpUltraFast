@@ -15,7 +15,8 @@ float dbao(sampler2D depth, float dither){
 	float sd = 0.0;
 	float angle = 0.0;
 	float dist = 0.0;
-	vec2 scale = 1.75 * vec2(1.0 / aspectRatio, 1.0) * gbufferProjection[1][1] / (2.74747742 * max(far * d, 6.0));
+	// vec2 scale = SIZE * vec2(1.0 / aspectRatio, 1.0) * gbufferProjection[1][1] / (2.74747742 * max(far * d, 6.0));
+  vec2 scale = vec2(1.0 / aspectRatio, 1.0) * gbufferProjection[1][1] / (2.74747742 * max(far * d, 6.0));
 
 	for (int i = 1; i <= samples; i++) {
 		vec2 offset = offsetDist(i + dither, samples) * scale;
@@ -37,5 +38,6 @@ float dbao(sampler2D depth, float dither){
 	}
 	ao /= samples;
 
-  return sqrt(ao);
+  // return pow(ao, AO_STRENGHT);
+  return (ao * AO_STRENGHT) + (1.0 - AO_STRENGHT);
 }

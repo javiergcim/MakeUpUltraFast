@@ -5,7 +5,7 @@ Render: Small entities, hand objects
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define ENITITY_V
+#define ENTITY_V
 
 #include "/lib/config.glsl"
 #include "/lib/color_utils.glsl"

@@ -5,4 +5,4 @@ Teleport to The End:
 /execute in minecraft:the_end run teleport ~ ~ ~
 
 Teleport to Overworld:
-/execute in minecraft:the_nether run teleport ~ ~ ~
+/execute in minecraft:overworld run teleport ~ ~ ~

@@ -5,7 +5,7 @@ Render: Small entities, hand objects
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define ENITITY_V
+#define ENTITY_V
 #define THE_END
 
 #include "/lib/config.glsl"
@@ -33,14 +33,10 @@ varying vec4 tint_color;
 varying vec3 candle_color;
 varying vec3 pseudo_light;
 varying vec3 real_light;
-varying vec3 current_fog_color;
-varying float frog_adjust;
-varying float fog_density_coeff;
 varying float illumination_y;
 
 void main() {
   #include "/src/basiccoords_vector.glsl"
   #include "/src/position_vector.glsl"
   #include "/src/illumination_vector.glsl"
-  #include "/src/fog_vector.glsl"
 }

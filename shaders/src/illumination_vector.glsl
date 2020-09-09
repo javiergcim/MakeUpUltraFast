@@ -52,8 +52,13 @@ if (emissive < 0.5 && magma < 0.5) {  // Es bloque no emisivo
     // Fuerza de luz según dirección
     vec3 normal = normalize(gl_NormalMatrix * gl_Normal);
     float sun_light_strenght = dot(normal, sun_vec);
-    direct_light_strenght =
-      mix(-sun_light_strenght, sun_light_strenght, light_mix);
+
+    #ifndef THE_END
+      direct_light_strenght =
+        mix(-sun_light_strenght, sun_light_strenght, light_mix);
+    #else
+      direct_light_strenght = sun_light_strenght;
+    #endif
 
     // Avoid extreme darkness
     direct_light_strenght = (direct_light_strenght * .45) + .55;
@@ -66,7 +71,9 @@ if (emissive < 0.5 && magma < 0.5) {  // Es bloque no emisivo
       candle_color *= candle_cave_strenght;
     #endif
 
-    direct_light_strenght = mix(1.0, direct_light_strenght, visible_sky);
+    #ifndef THE_END
+      direct_light_strenght = mix(1.0, direct_light_strenght, visible_sky);
+    #endif
 
   #ifndef ENTITY_V
   }
@@ -87,10 +94,11 @@ if (emissive < 0.5 && magma < 0.5) {  // Es bloque no emisivo
 
   #endif
 
-  direct_light_strenght = clamp((direct_light_strenght + illumination.y - 1.0), 0.0, 1.0);
+  #ifndef THE_END
+    direct_light_strenght = clamp((direct_light_strenght + illumination.y - 1.0), 0.0, 1.0);
+  #endif
+
   #ifdef NETHER
-    real_light = sky_currentlight + candle_color;
-  #elif defined THE_END
     real_light = sky_currentlight + candle_color;
   #else
     real_light = (pseudo_light * direct_light_strenght) + candle_color + omni_light;

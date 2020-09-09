@@ -28,7 +28,6 @@ void main() {
 
   #if AO == 1
     float dither = hash12();
-    // float dither = bayer4(gl_FragCoord.xy);
 
     // AO distance attenuation
     float d = texture2D(depthtex0, texcoord.xy).r;

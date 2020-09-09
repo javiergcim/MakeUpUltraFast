@@ -5,7 +5,7 @@ Render: Particles
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define ENITITY_V
+#define ENTITY_V
 #define THE_END
 
 #include "/lib/config.glsl"
@@ -42,5 +42,4 @@ void main() {
   #include "/src/basiccoords_vector.glsl"
   #include "/src/position_vector.glsl"
   #include "/src/illumination_vector.glsl"
-  #include "/src/fog_vector.glsl"
 }

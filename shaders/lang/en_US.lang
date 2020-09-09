@@ -52,6 +52,8 @@ value.AO.1=Yes
 
 option.AOSTEPS=Ambient occlusion samples
 
+option.AO_STRENGHT=Ambient occlusion strenght
+
 #Screens
 screen.AA_SCREEN=Antialiasing options
 screen.AA_SCREEN.comment=Toggle antialiasing (FXAA).

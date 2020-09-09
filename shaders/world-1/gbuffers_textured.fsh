@@ -14,9 +14,6 @@ varying vec4 tint_color;
 varying vec3 candle_color;
 varying vec3 pseudo_light;
 varying vec3 real_light;
-varying vec3 current_fog_color;
-varying float frog_adjust;
-varying float fog_density_coeff;
 varying float illumination_y;
 
 // 'Global' constants from system
@@ -29,6 +26,5 @@ void main() {
 
   block_color *= tint_color * vec4(real_light, 1.0);
 
-  #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"
 }

@@ -32,10 +32,9 @@ void main() {
     // AO distance attenuation
     float d = texture2D(depthtex0, texcoord.xy).r;
     float ao_att = sqrt(ld(d));
-    float final_ao = mix(dbao(depthtex0, dither) * .75 + .25, 1.0, ao_att);
+    float final_ao = mix(dbao(depthtex0, dither), 1.0, ao_att);
     block_color *= final_ao;
     // block_color = vec4(vec3(final_ao), 1.0);
-    // block_color = vec4(vec3(ld(d)), 1.0);
 	#endif
 
   gl_FragData[0] = block_color;

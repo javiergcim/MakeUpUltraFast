@@ -44,7 +44,7 @@ void main() {
 
   block_color = mix(
     texture2D(colortex0, texcoord),
-    vec4(gl_Fog.color.rgb * .6, 1.0),
+    vec4(gl_Fog.color.rgb * .5, 1.0),
     sqrt(ld(d))
   );
 
