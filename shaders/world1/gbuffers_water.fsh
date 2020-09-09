@@ -106,9 +106,12 @@ void main() {
         real_light
       );
 
-    } else {  // Portal
+    } else if (block_type > .5){  // Portal
       block_color = texture2D(texture, texcoord);
-      block_color *= tint_color * mix (vec4(real_light, 1.0), vec4(1.0), .2);
+      block_color *= tint_color * mix(vec4(real_light, 1.0), vec4(1.0), .2);
+    } else {  // ?
+      block_color = texture2D(texture, texcoord);
+      block_color *= tint_color * vec4(real_light, 1.0);
     }
 
   #else
