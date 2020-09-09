@@ -62,7 +62,6 @@ void main() {
   #include "/src/basiccoords_vector.glsl"
 
   #include "/src/illumination_vector.glsl"
-  #include "/src/fog_vector.glsl"
 
   #if NICE_WATER == 1
     normal = normalize(gl_NormalMatrix * gl_Normal);
@@ -84,4 +83,5 @@ void main() {
   #else
     #include "/src/position_vector.glsl"
   #endif
+  #include "/src/fog_vector.glsl"
 }
