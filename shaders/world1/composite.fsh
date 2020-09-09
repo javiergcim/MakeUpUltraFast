@@ -19,9 +19,9 @@ uniform sampler2D depthtex0;
 varying vec2 texcoord;
 
 #include "/lib/color_utils_end.glsl"
+#include "/lib/basic_utils.glsl"
 #include "/lib/tone_maps.glsl"
 #include "/lib/depth.glsl"
-#include "/lib/basic_utils.glsl"
 
 void main() {
   float d = texture2D(depthtex0, texcoord.xy).r;

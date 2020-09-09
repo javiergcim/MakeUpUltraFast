@@ -16,6 +16,7 @@ uniform float current_hour_fract;
 varying vec2 texcoord;
 
 #include "/lib/color_utils.glsl"
+#include "/lib/basic_utils.glsl"
 #include "/lib/tone_maps.glsl"
 
 void main() {

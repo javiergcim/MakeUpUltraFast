@@ -49,6 +49,7 @@ uniform float wetness;
 #endif
 
 #if NICE_WATER == 1
+  #include "/lib/basic_utils.glsl"
   #include "/lib/dither.glsl"
   #include "/lib/water.glsl"
   #include "/lib/cristal.glsl"

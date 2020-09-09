@@ -105,9 +105,6 @@ vec4 raytrace(vec3 fragpos, vec3 normal) {
   #else
 
     float dither = ditherGradNoise();
-    // float dither = hash12();
-    // float dither = dither17();
-    // float dither = bayer4(gl_FragCoord.xy);
 
     const int samples       = RT_SAMPLES;
     const int maxRefinement = 10;
@@ -190,7 +187,7 @@ vec3 waterShader(vec3 fragpos, vec3 normal, vec3 color, vec3 skyReflection) {
   #endif
 
   float normalDotEye = dot(normal, normalize(fragpos));
-  float fresnel = clamp(pow(1.0 + normalDotEye, 4.0) + 0.1, 0.0, 1.0);
+  float fresnel = clamp(fourth_pow(1.0 + normalDotEye) + 0.1, 0.0, 1.0);
 
    reflection.rgb = mix(skyReflection * lmcoord.t * lmcoord.t, reflection.rgb, reflection.a);
 

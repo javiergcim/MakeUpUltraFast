@@ -8,7 +8,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define WATER_F
 
 #include "/lib/config.glsl"
-#include "/lib/dither.glsl"
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
@@ -50,6 +49,8 @@ uniform float wetness;
 #endif
 
 #if NICE_WATER == 1
+  #include "/lib/basic_utils.glsl"
+  #include "/lib/dither.glsl"
   #include "/lib/water.glsl"
   #include "/lib/cristal.glsl"
 #endif
