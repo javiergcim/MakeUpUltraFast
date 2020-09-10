@@ -1,5 +1,5 @@
 /* MakeUp Ultra Fast - vector_utils.glsl
-Usefull functions for waving entities.
+Functions for waving entities.
 
 Wave and move functions based on Sildur's Shaders
 */

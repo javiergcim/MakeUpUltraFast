@@ -35,7 +35,7 @@ void main() {
     float final_ao = mix(dbao(depthtex0, dither), 1.0, ao_att);
     block_color *= final_ao;
     // block_color = vec4(vec3(final_ao), 1.0);
-	#endif
+  #endif
 
   gl_FragData[0] = block_color;
   #if NICE_WATER == 1

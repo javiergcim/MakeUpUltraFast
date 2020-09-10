@@ -16,6 +16,10 @@ float fourth_pow(float x) {
   return x * x * x * x;
 }
 
+float fifth_pow(float x) {
+  return x * x * x * x * x;
+}
+
 vec3 vec3_square_pow(vec3 x) {
   return x * x;
 }

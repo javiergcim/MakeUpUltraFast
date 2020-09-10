@@ -1,3 +1,8 @@
+/* MakeUp Ultra Fast - cristal.glsl
+Water reflection and refraction related functions. Inspired by Project LUMA.
+
+*/
+
 vec4 cristalRaytrace(vec3 fragpos, vec3 normal) {
 
   #if SSR_METHOD == 0
@@ -5,8 +10,8 @@ vec4 cristalRaytrace(vec3 fragpos, vec3 normal) {
     vec3 reflectedVector = reflect(normalize(fragpos), normal) * 30.0;
     vec3 pos = cameraSpaceToScreenSpace(fragpos + reflectedVector);
 
-    float border_x = max(-square_pow(abs(2 * pos.x - 1.0)) + 1.0, 0.0);
-    float border_y = max(-square_pow(abs(2 * pos.y - 1.0)) + 1.0, 0.0);
+    float border_x = max(-fourth_pow(abs(2 * pos.x - 1.0)) + 1.0, 0.0);
+    float border_y = max(-fourth_pow(abs(2 * pos.y - 1.0)) + 1.0, 0.0);
     float border = min(border_x, border_y);
 
     return vec4(texture2D(gaux2, pos.xy, 0.0).rgb, border);
@@ -98,7 +103,7 @@ vec4 cristalShader(vec3 fragpos, vec3 normal, vec4 color, vec3 skyReflection) {
   reflection.rgb = mix(skyReflection * lmcoord.t * lmcoord.t, reflection.rgb, reflection.a);
 
   float normalDotEye = dot(normal, normalize(fragpos));
-  float fresnel = clamp(fourth_pow(1.0 + normalDotEye) + 0.1, 0.0, 1.0);
+  float fresnel = clamp(fifth_pow(1.0 + normalDotEye) + 0.1, 0.0, 1.0);
 
   float reflection_index = min(fresnel * (-color.a + 1.0) * 2.0, 1.0);
 

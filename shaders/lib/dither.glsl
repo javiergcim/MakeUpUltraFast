@@ -1,22 +1,27 @@
+/* MakeUp Ultra Fast - dither.glsl
+Dither functions
+
+*/
+
 #define MAG3 vec3(443.8975,397.2973, 491.1871)
 
 // float time_hash12()
 // {
-// 	vec3 p3 = fract(vec3(gl_FragCoord.xyx * frameTimeCounter * .0001) * MAG3);
+//   vec3 p3 = fract(vec3(gl_FragCoord.xyx * frameTimeCounter * .0001) * MAG3);
 //   p3 += dot(p3, p3.yzx + 19.19);
 //   return fract((p3.x + p3.y) * p3.z);
 // }
 
 float hash12()
 {
-	vec3 p3 = fract(vec3(gl_FragCoord.xyx) * MAG3);
+  vec3 p3 = fract(vec3(gl_FragCoord.xyx) * MAG3);
   p3 += dot(p3, p3.yzx + 19.19);
   return fract((p3.x + p3.y) * p3.z);
 }
 
 // vec3 hash32()
 // {
-// 	vec3 p3 = fract(vec3(gl_FragCoord.xyx) * MAG3);
+//   vec3 p3 = fract(vec3(gl_FragCoord.xyx) * MAG3);
 //     p3 += dot(p3, p3.yxz + 19.19);
 //     return fract(vec3((p3.x + p3.y) * p3.z, (p3.x + p3.z) * p3.y, (p3.y + p3.z) * p3.x));
 // }
@@ -28,8 +33,8 @@ float ditherGradNoise() {
 }
 
 float bayer2(vec2 a) {
-	a = floor(a);
-	return fract(dot(a, vec2(.5, a.y * .75)));
+  a = floor(a);
+  return fract(dot(a, vec2(.5, a.y * .75)));
 }
 
 #define bayer4(a) (bayer2(.5 * (a)) * .25 + bayer2(a))

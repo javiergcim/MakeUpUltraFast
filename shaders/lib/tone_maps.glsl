@@ -1,5 +1,7 @@
 /* MakeUp Ultra Fast - tone_maps.glsl
-Tone map related functions.
+Tonemap functions.
+
+Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 vec3 tonemap(vec3 x){

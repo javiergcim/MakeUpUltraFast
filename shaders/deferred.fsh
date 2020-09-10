@@ -29,7 +29,6 @@ void main() {
 
   #if AO == 1
     float dither = hash12();
-    // float dither = bayer8(gl_FragCoord.xy);
 
     // AO distance attenuation
     float d = texture2D(depthtex0, texcoord.xy).r;
@@ -37,7 +36,7 @@ void main() {
     float final_ao = mix(dbao(depthtex0, dither), 1.0, ao_att);
     block_color *= final_ao;
     // block_color = vec4(vec3(final_ao), 1.0);
-	#endif
+  #endif
 
   gl_FragData[0] = block_color;
   #if NICE_WATER == 1

@@ -1,5 +1,6 @@
 /* MakeUp Ultra Fast - water.glsl
-Water reflection and refractiion related functions. Inspired by Project LUMA.
+Water reflection and refraction related functions. Inspired by Project LUMA.
+
 */
 
 float waterWaves(vec3 worldPos) {
@@ -12,8 +13,10 @@ float waterWaves(vec3 worldPos) {
   worldPos.x += sin(worldPos.x) * 0.3;
 
   // Defined as: mat2 rotate_mat = mat2(cos(.5), -sin(.5), sin(.5), cos(.5));
-  const mat2 rotate_mat = mat2(0.8775825618903728, -0.479425538604203,
-                         -0.479425538604203, 0.8775825618903728);
+  const mat2 rotate_mat = mat2(
+    0.8775825618903728, -0.479425538604203,
+    -0.479425538604203, 0.8775825618903728
+    );
 
   wave = texture2D(noisetex, worldPos.xz * 0.05625 + vec2(frameTimeCounter * 0.015)).x * 0.02;
   wave += texture2D(noisetex, worldPos.xz * 0.015 - vec2(frameTimeCounter * 0.0075)).x * 0.1;
@@ -99,6 +102,7 @@ vec4 raytrace(vec3 fragpos, vec3 normal) {
     vec3 pos = cameraSpaceToScreenSpace(fragpos + reflectedVector);
 
     float border = clamp((1.0 - (max(0.0, abs(pos.y - 0.5)) * 2.0)) * 50.0, 0.0, 1.0);
+    // float border = max(-fifth_pow(abs(2 * pos.y - 1.0)) + 1.0, 0.0);
 
     return vec4(texture2D(gaux2, pos.xy, 0.0).rgb, border);
 
