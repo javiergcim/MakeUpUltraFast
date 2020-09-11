@@ -1,133 +1,41 @@
+tint_color = gl_Color;
+
 // Luz nativa (lmcoord.x: candela, lmcoord.y: cielo) ----
 vec2 illumination = lmcoord;
-tint_color = gl_Color;
+
+// Intensidad según mirada al cielo ==========================================
+illumination.y = max(illumination.y, 0.095);  // Remueve artefacto
+
+// Visibilidad del cielo
+float visible_sky = illumination.y * 1.105 - .105;
+
+#ifdef EMMISIVE_V
+if (emissive > 0.5 || magma > 0.5) {  // Es bloque es emisivo
+  tint_color.rgb *= 1.5;
+}
+#endif
+
+// Ajuste de intensidad luminosa bajo el agua
+if (isEyeInWater == 1.0) {
+  illumination.y = (illumination.y * .95) + .05;
+}
 
 // Intensidad y color de luz de candelas =======================================
 vec3 candle_color = candle_baselight * cube_pow(illumination.x);
 
-// Visibilidad del cielo
-float visible_sky = lmcoord.y * 1.001 - .001;
+vec3 omni_light;
+float direct_light_strenght;
 
-if (visible_sky > 0.0) {  // Si se esta expuesto a cielo abierto
-
-  // Intensidad según mirada al cielo ==========================================
-  illumination.y = max(illumination.y, 0.09);  // Remueve artefacto
-  illumination.y = (illumination.y * 1.085) - .085;  // Evitamos luz tenue
-
-  // Ajuste de intensidad luminosa bajo el agua
-  if (isEyeInWater == 1.0) {
-    illumination.y = (illumination.y * .95) + .05;
-  }
-
-  // Tomamos el color de luz del cielo con base a la hora
-  vec3 direct_light_color =
-    mix(
-      ambient_baselight[current_hour_floor],
-      ambient_baselight[current_hour_ceil],
-      current_hour_fract
-    ) * ambient_multiplier * illumination.y;
-
-  // Atenuación por dirección de luz directa ===================================
-  vec3 normal = normalize(gl_NormalMatrix * gl_Normal);
-  float sun_light_strenght = dot(normal, sun_vec);
-
-  #ifndef THE_END
-    float direct_light_strenght =
-      mix(-sun_light_strenght, sun_light_strenght, light_mix);
-  #else
-    float direct_light_strenght = sun_light_strenght;
-  #endif
-
-  // Avoid extreme darkness
-  direct_light_strenght = (direct_light_strenght * .45) + .55;
-
-  #ifdef CAVEENTITY_V
-    // Para evitar iluminación plana en cuevas
-    float candle_cave_strenght = (direct_light_strenght * .5) + .5;
-    candle_cave_strenght =
-      mix(candle_cave_strenght, 1.0, visible_sky);
-    candle_color *= candle_cave_strenght;
-  #endif
-
-  #ifdef FOLIAGE_V  // Puede haber plantas en este shader
-    if (
-      mc_Entity.x == ENTITY_SMALLGRASS ||
-      mc_Entity.x == ENTITY_LOWERGRASS ||
-      mc_Entity.x == ENTITY_VINES ||
-      mc_Entity.x == ENTITY_UPPERGRASS ||
-      mc_Entity.x == ENTITY_SMALLENTS ||
-      mc_Entity.x == ENTITY_LEAVES
-    ) {  // Es "planta" y se atenúa el impacto de la atenuación por dirección
-      direct_light_strenght = mix(direct_light_strenght, 1.0, .2);
-    }
-  #endif
-
-  #ifndef THE_END
-    // Modificación definitiva de intensidad en función de exposición al cielo
-    direct_light_strenght = mix(1.0, direct_light_strenght, visible_sky);
-  #endif
-
-  // Luz ambiental omnidireccional
-  vec3 omni_light = skyColor * mix(
-    omni_force[current_hour_floor],
-    omni_force[current_hour_ceil],
+// Tomamos el color de luz del cielo con base a la hora
+vec3 direct_light_color =
+  mix(
+    ambient_baselight[current_hour_floor],
+    ambient_baselight[current_hour_ceil],
     current_hour_fract
-  ) * visible_sky;
+  ) * ambient_multiplier * illumination.y;
 
-} else {
-  vec3 direct_light_color =
-    mix(
-      ambient_baselight[current_hour_floor],
-      ambient_baselight[current_hour_ceil],
-      current_hour_fract
-    ) * ambient_multiplier;
-  float direct_light_strenght = 1.0;
-}
-
-real_light =
-  candle_color +
-  (direct_light_color * direct_light_strenght)
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Ajuste de luz directa en tormenta
-pseudo_light = sky_currentlight * (1.0 - (rainStrength * .3));
-
-// Color de luz omnidireccional
-vec3 omni_light = skyColor * mix(
-  omni_force[current_hour_floor],
-  omni_force[current_hour_ceil],
-  current_hour_fract
-);
-
-// Indica que tan oculto estás del cielo
-float visible_sky = clamp(lmcoord.y * 1.1 - .1, 0.0, 1.0);
-tint_color = gl_Color;
-
-vec3 sun_vec = normalize(sunPosition);
-
-// ¿Es bloque no emisivo?
-#ifdef EMMISIVE_V
-if (emissive < 0.5 && magma < 0.5) {  // Es bloque no emisivo
-#endif
-
-  float direct_light_strenght = 1.0;
-  omni_light *= illumination_y;
-
-  #ifndef ENTITY_V
-  if (visible_sky > 0.0) {
-  #endif
-    // Fuerza de luz según dirección
+    // Atenuación por dirección de luz directa =================================
+    vec3 sun_vec = normalize(sunPosition);
     vec3 normal = normalize(gl_NormalMatrix * gl_Normal);
     float sun_light_strenght = dot(normal, sun_vec);
 
@@ -138,8 +46,8 @@ if (emissive < 0.5 && magma < 0.5) {  // Es bloque no emisivo
       direct_light_strenght = sun_light_strenght;
     #endif
 
-    // Avoid extreme darkness
-    direct_light_strenght = (direct_light_strenght * .45) + .55;
+    // Evitamos oscuridad excesiva al dar la espalda a fuente de luz
+    direct_light_strenght = (direct_light_strenght * .5) + .5;
 
     #ifdef CAVEENTITY_V
       // Para evitar iluminación plana en cuevas
@@ -149,40 +57,36 @@ if (emissive < 0.5 && magma < 0.5) {  // Es bloque no emisivo
       candle_color *= candle_cave_strenght;
     #endif
 
-    #ifndef THE_END
-      direct_light_strenght = mix(1.0, direct_light_strenght, visible_sky);
+    #ifdef FOLIAGE_V  // Puede haber plantas en este shader
+      if (
+        mc_Entity.x == ENTITY_SMALLGRASS ||
+        mc_Entity.x == ENTITY_LOWERGRASS ||
+        mc_Entity.x == ENTITY_VINES ||
+        mc_Entity.x == ENTITY_UPPERGRASS ||
+        mc_Entity.x == ENTITY_SMALLENTS ||
+        mc_Entity.x == ENTITY_LEAVES
+      ) {  // Es "planta" y se atenúa el impacto de la atenuación por dirección
+        direct_light_strenght = mix(direct_light_strenght, 1.0, .2);
+      }
     #endif
 
-  #ifndef ENTITY_V
-  }
-  #endif
+    #ifndef THE_END
+      // Modificación definitiva de intensidad en función de exposición al cielo
+      direct_light_strenght = mix(1.0, direct_light_strenght, visible_sky);
+      // Combinación de luz dirigida, exposión al cielo y luz tenue
+      direct_light_strenght = clamp((direct_light_strenght + illumination.y - 0.9), 0.0, 1.0);
+    #endif
 
-  #ifdef FOLIAGE_V
+    // Luz ambiental omnidireccional
+    omni_light = skyColor * mix(
+      omni_force[current_hour_floor],
+      omni_force[current_hour_ceil],
+      current_hour_fract
+    ) * visible_sky;
 
-    if (
-      mc_Entity.x == ENTITY_SMALLGRASS ||
-      mc_Entity.x == ENTITY_LOWERGRASS ||
-      mc_Entity.x == ENTITY_VINES ||
-      mc_Entity.x == ENTITY_UPPERGRASS ||
-      mc_Entity.x == ENTITY_SMALLENTS ||
-      mc_Entity.x == ENTITY_LEAVES
-    ) {  // Es "planta"
-      direct_light_strenght = mix(direct_light_strenght, 1.0, .2);
-    }
+real_light =
+  candle_color +
+  (direct_light_color * direct_light_strenght * (1.0 - (rainStrength * .3))) +
+  omni_light;
 
-  #endif
-
-  #ifndef THE_END
-    direct_light_strenght = clamp((direct_light_strenght + illumination.y - 1.0), 0.0, 1.0);
-  #endif
-
-  #ifdef NETHER
-    real_light = sky_currentlight + candle_color;
-  #else
-    real_light = (pseudo_light * direct_light_strenght) + candle_color + omni_light;
-  #endif
-  real_light = mix(real_light, vec3(1.0), nightVision * .125);
-
-#ifdef EMMISIVE_V
-}
-#endif
+real_light = mix(real_light, vec3(1.0), nightVision * .125);
