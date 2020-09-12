@@ -19,7 +19,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 // Options
 #define WAVING 1 // [0 1] Waving entities
-#define NICE_WATER 1  // [0 1] Turn on for reflection and refraction capabilities.
 #define TINTED_WATER 1  // [0 1] Use the resource pack color for water.
 #define REFLECTION 1  // [0 1] Activate reflections.
 #define REFRACTION 1  // [0 1] Activate refractions.

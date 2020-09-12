@@ -38,10 +38,5 @@ void main() {
     // block_color = vec4(vec3(final_ao), 1.0);
   #endif
 
-  gl_FragData[0] = block_color;
-  #if NICE_WATER == 1
-    gl_FragData[5] = block_color;
-  #else
-    gl_FragData[1] = vec4(0.0);
-  #endif
+  #include "/src/writebuffers.glsl"
 }

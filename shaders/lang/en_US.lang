@@ -14,10 +14,6 @@ value.AA.4=Ultra sharp
 value.AA.6=Nice
 value.AA.12=Complete
 
-option.NICE_WATER=Reflection/refraction capability
-value.NICE_WATER.0=Off
-value.NICE_WATER.1=On
-
 option.TINTED_WATER=Tinted water
 value.TINTED_WATER.0=No
 value.TINTED_WATER.1=Yes
