@@ -18,7 +18,6 @@ uniform int current_hour_ceil;
 uniform float current_hour_fract;
 uniform float light_mix;
 uniform float far;
-
 uniform sampler2D texture;
 uniform float nightVision;
 uniform float rainStrength;
@@ -29,13 +28,10 @@ uniform ivec2 eyeBrightnessSmooth;
 varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
-// varying vec3 candle_color;
-// varying vec3 pseudo_light;
 varying vec3 real_light;
 varying vec3 current_fog_color;
 varying float frog_adjust;
 varying float fog_density_coeff;
-// varying float illumination_y;
 
 #include "/lib/basic_utils.glsl"
 

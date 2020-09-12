@@ -14,24 +14,6 @@
   vec3 candle_color = candle_baselight * cube_pow(illumination.x);
 
   real_light = direct_light_color + candle_color;
-
-#elif defined THE_END
-  tint_color = gl_Color;
-  vec3 normal = normalize(gl_NormalMatrix * gl_Normal);
-
-  // Luz nativa (lmcoord.x: candela, lmcoord.y: cielo) ----
-  vec2 illumination = lmcoord;
-
-  vec3 direct_light_color =
-    mix(
-      ambient_baselight[current_hour_floor],
-      ambient_baselight[current_hour_ceil],
-      current_hour_fract
-    ) * ambient_multiplier;
-  vec3 candle_color = candle_baselight * cube_pow(illumination.x);
-
-  real_light = direct_light_color + candle_color;
-
 #else
 
   tint_color = gl_Color;
@@ -64,13 +46,12 @@
 
   // Tomamos el color de luz del cielo con base a la hora
   #ifdef THE_END
-  vec3 direct_light_color =
-    mix(
-      ambient_baselight[current_hour_floor],
-      ambient_baselight[current_hour_ceil],
-      current_hour_fract
-    ) * ambient_multiplier;
-  vec3 sunPosition = upPosition;
+    vec3 direct_light_color =
+      mix(
+        ambient_baselight[current_hour_floor],
+        ambient_baselight[current_hour_ceil],
+        current_hour_fract
+      ) * ambient_multiplier;
   #else
     vec3 direct_light_color =
       mix(
@@ -81,15 +62,21 @@
   #endif
 
   // Atenuación por dirección de luz directa =================================
-  vec3 sun_vec = normalize(sunPosition);
+  #ifdef THE_END
+    vec3 upVec = normalize(gbufferModelView[1].xyz);
+    vec3 sun_vec = normalize(upVec);
+  #else
+    vec3 sun_vec = normalize(sunPosition);
+  #endif
+
   vec3 normal = normalize(gl_NormalMatrix * gl_Normal);
   float sun_light_strenght = dot(normal, sun_vec);
 
-  #ifndef THE_END
+  #ifdef THE_END
+    direct_light_strenght = sun_light_strenght;
+  #else
     direct_light_strenght =
       mix(-sun_light_strenght, sun_light_strenght, light_mix);
-  #else
-    direct_light_strenght = sun_light_strenght;
   #endif
 
   // Evitamos oscuridad excesiva al dar la espalda a fuente de luz

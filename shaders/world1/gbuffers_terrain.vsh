@@ -20,16 +20,15 @@ uniform int current_hour_ceil;
 uniform float current_hour_fract;
 uniform float light_mix;
 uniform float far;
-
 uniform sampler2D texture;
 uniform float nightVision;
 uniform float rainStrength;
 uniform vec3 skyColor;
 uniform ivec2 eyeBrightnessSmooth;
+uniform mat4 gbufferModelView;
 
 #if WAVING == 1
   uniform vec3 cameraPosition;
-  uniform mat4 gbufferModelView;
   uniform mat4 gbufferModelViewInverse;
   uniform float frameTimeCounter;
   uniform float wetness;
