@@ -13,13 +13,10 @@ Javier Garduño - GNU Lesser General Public License v3.0
 varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
-// varying vec3 candle_color;
-// varying vec3 pseudo_light;
 varying vec3 real_light;
 varying vec3 current_fog_color;
 varying float frog_adjust;
 varying float fog_density_coeff;
-// varying float illumination_y;
 
 #if NICE_WATER == 1
   varying vec3 water_normal;

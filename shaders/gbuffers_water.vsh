@@ -33,13 +33,10 @@ uniform ivec2 eyeBrightnessSmooth;
 varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
-// varying vec3 candle_color;
-// varying vec3 pseudo_light;
 varying vec3 real_light;
 varying vec3 current_fog_color;
 varying float frog_adjust;
 varying float fog_density_coeff;
-// varying float illumination_y;
 
 #if NICE_WATER == 1
   varying vec3 water_normal;
@@ -73,7 +70,7 @@ void main() {
     gl_FogFragCoord = length(gl_Position.xyz);
 
     // Special entities
-    block_type = 0.0;  // 3 - Water, 2 - Glass, 1 - Portal 0 - ?
+    block_type = 0.0;  // 3 - Water, 2 - Glass, 1 - Portal, 0 - ?
     if (mc_Entity.x == ENTITY_WATER) {  // Glass
       block_type = 3.0;
     } else if (mc_Entity.x == ENTITY_STAINED) {  // Glass

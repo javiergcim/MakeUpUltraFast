@@ -6,7 +6,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 #define FOLIAGE_V
-#define EMMISIVES_V
+#define EMMISIVE_V
 #define NETHER
 
 #include "/lib/config.glsl"
@@ -40,14 +40,11 @@ uniform ivec2 eyeBrightnessSmooth;
 varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
-varying vec3 candle_color;
-varying vec3 pseudo_light;
 varying vec3 real_light;
-varying float illumination_y;
-varying float emissive;
-varying float magma;
 
 attribute vec4 mc_Entity;
+
+#include "/lib/basic_utils.glsl"
 
 #if WAVING == 1
   attribute vec2 mc_midTexCoord;
@@ -59,6 +56,8 @@ void main() {
   #include "/src/position_vector.glsl"
 
   // Special entities
+  float emissive;
+  float magma;
   if (mc_Entity.x == ENTITY_EMISSIVE) { // Emissive entities
     emissive = 1.0;
     magma = 0.0;
@@ -70,6 +69,5 @@ void main() {
     magma = 0.0;
   }
 
-  #include "/src/illumination_vector.glsl"
-  // #include "/src/fog_vector.glsl"
+  #include "/src/light_vector.glsl"
 }

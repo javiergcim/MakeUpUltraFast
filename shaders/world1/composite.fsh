@@ -18,7 +18,7 @@ uniform sampler2D depthtex0;
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
-#include "/lib/color_utils_end.glsl"
+#include "/lib/color_utils_nether.glsl"
 #include "/lib/basic_utils.glsl"
 #include "/lib/tone_maps.glsl"
 #include "/lib/depth.glsl"
@@ -44,7 +44,7 @@ void main() {
 
   block_color = mix(
     texture2D(colortex0, texcoord),
-    vec4(gl_Fog.color.rgb * .8, 1.0),
+    vec4(gl_Fog.color.rgb * .5, 1.0),
     sqrt(ld(d))
   );
 

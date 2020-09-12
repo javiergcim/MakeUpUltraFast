@@ -36,8 +36,6 @@ const vec3 ambient_baselight[25] =
   vec3(0.3764705882352941, 0.3411764705882353, 0.11372549019607843) // 6
   );
 
-  // vec3(0.03627450980392157, 0.0392156862745098, 0.061764705882352944), // 21
-
 // Ambient color luma per hour in exposure calculation
 const float ambient_exposure[25] =
   float[25](

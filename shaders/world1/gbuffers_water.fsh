@@ -13,16 +13,10 @@ Javier Garduño - GNU Lesser General Public License v3.0
 varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
-varying vec3 candle_color;
-varying vec3 pseudo_light;
 varying vec3 real_light;
-varying vec3 current_fog_color;
-varying float frog_adjust;
-varying float fog_density_coeff;
-varying float illumination_y;
 
 #if NICE_WATER == 1
-  varying vec3 normal;
+  varying vec3 water_normal;
   varying float block_type;
   varying vec4 worldposition;
   varying vec4 position2;
@@ -48,8 +42,9 @@ uniform float wetness;
   uniform float frameTimeCounter;
 #endif
 
+#include "/lib/basic_utils.glsl"
+
 #if NICE_WATER == 1
-  #include "/lib/basic_utils.glsl"
   #include "/lib/dither.glsl"
   #include "/lib/water.glsl"
   #include "/lib/cristal.glsl"
@@ -67,7 +62,7 @@ void main() {
     if (block_type > 2.5) {  // Water
       #if TINTED_WATER == 1
         block_color.rgb = mix(
-          tint_color.rgb + candle_color,
+          tint_color.rgb * real_light,
           vec3(1.0),
           .2
         );
@@ -90,7 +85,7 @@ void main() {
         fragposition0,
         getNormals(water_normal_base),
         block_color.rgb,
-        current_fog_color
+        gl_Fog.color.rgb * .5;
       );
 
     } else if (block_type > 1.5) {  // Glass
@@ -101,7 +96,7 @@ void main() {
 
       block_color = cristalShader(
         fragposition0,
-        normal,
+        water_normal,
         block_color,
         real_light
       );
@@ -120,6 +115,5 @@ void main() {
     block_color *= tint_color * vec4(real_light, 1.0);
   #endif
 
-  #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"
 }

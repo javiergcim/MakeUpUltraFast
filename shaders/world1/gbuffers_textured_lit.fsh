@@ -11,10 +11,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
-varying vec3 candle_color;
-varying vec3 pseudo_light;
 varying vec3 real_light;
-varying float illumination_y;
 
 // 'Global' constants from system
 uniform sampler2D texture;
