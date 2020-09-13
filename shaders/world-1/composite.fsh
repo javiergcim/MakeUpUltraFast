@@ -40,9 +40,7 @@ void main() {
   // Map from 1.0 - 0.0 to 1.0 - 3.0
   exposure = (exposure * -2.0) + 3.0;
 
-  vec4 block_color;
-
-  block_color = mix(
+  vec4 block_color = mix(
     texture2D(colortex0, texcoord),
     vec4(gl_Fog.color.rgb * .5, 1.0),
     sqrt(ld(d))
