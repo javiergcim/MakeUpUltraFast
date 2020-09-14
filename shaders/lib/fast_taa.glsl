@@ -37,7 +37,7 @@ vec3 fast_taa(vec3 c) {
     neighbourhood[1] = texture2D(colortex0, texcoord + vec2(0.0, -pixelSizeY)).xyz;
     neighbourhood[2] = texture2D(colortex0, texcoord + vec2(pixelSizeX, -pixelSizeY)).xyz;
     neighbourhood[3] = texture2D(colortex0, texcoord + vec2(-pixelSizeX, 0.0)).xyz;
-    neighbourhood[4] = texture2D(colortex0, texcoord).xyz;
+    // neighbourhood[4] = texture2D(colortex0, texcoord).xyz;
     neighbourhood[4] = c;
     neighbourhood[5] = texture2D(colortex0, texcoord + vec2(pixelSizeX, 0.0)).xyz;
     neighbourhood[6] = texture2D(colortex0, texcoord + vec2(-pixelSizeX, pixelSizeY)).xyz;
