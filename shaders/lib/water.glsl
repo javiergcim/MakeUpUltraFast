@@ -107,8 +107,11 @@ vec4 raytrace(vec3 fragpos, vec3 normal) {
     return vec4(texture2D(gaux2, pos.xy, 0.0).rgb, border);
 
   #else
-
-    float dither = ditherGradNoise();
+    #if TAA == 1
+      float dither = time_hash12();
+    #else
+      float dither = ditherGradNoise();
+    #endif
 
     const int samples       = RT_SAMPLES;
     const int maxRefinement = 10;

@@ -5,12 +5,12 @@ Dither functions
 
 #define MAG3 vec3(443.8975,397.2973, 491.1871)
 
-// float time_hash12()
-// {
-//   vec3 p3 = fract(vec3(gl_FragCoord.xyx * frameTimeCounter * .0001) * MAG3);
-//   p3 += dot(p3, p3.yzx + 19.19);
-//   return fract((p3.x + p3.y) * p3.z);
-// }
+float time_hash12()
+{
+  vec3 p3 = fract(vec3(gl_FragCoord.xyx * frameTimeCounter * .0001) * MAG3);
+  p3 += dot(p3, p3.yzx + 19.19);
+  return fract((p3.x + p3.y) * p3.z);
+}
 
 float hash12()
 {
