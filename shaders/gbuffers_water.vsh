@@ -44,7 +44,7 @@ varying vec3 binormal;
 attribute vec4 mc_Entity;
 attribute vec4 at_tangent;
 
-#ifdef TAA
+#if TAA == 1
   #include "/src/taa_offset.glsl"
 #endif
 
@@ -60,7 +60,7 @@ void main() {
   worldposition = position + vec4(cameraPosition.xyz, 0.0);
   gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
 
-  #ifdef TAA
+  #if TAA == 1
     gl_Position.xy += offsets[frame8] * gl_Position.w * texelSize;
   #endif
 

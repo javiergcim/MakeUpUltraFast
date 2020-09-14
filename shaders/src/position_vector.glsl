@@ -48,7 +48,7 @@
 
 #endif
 
-#ifdef TAA
+#if TAA == 1
   gl_Position.xy += offsets[frame8] * gl_Position.w * texelSize;
 #endif
 

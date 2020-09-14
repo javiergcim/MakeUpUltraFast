@@ -8,7 +8,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
-#ifdef TAA
+#if TAA == 1
   #include "/src/taa_offset.glsl"
 #endif
 

@@ -21,6 +21,9 @@ https://dedelner.net/projectluma/
 - Enhanced ambient occlusion is based on Capt Tatsu's ambient occlusion used in
 BSL Shaders.
 
+- TAA is based on Erkaman's TAA simple implementation.
+https://gist.github.com/Erkaman
+
 ------
 
 I am not a graphics developer, I made this shader out of curiosity and

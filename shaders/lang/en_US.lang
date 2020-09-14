@@ -14,6 +14,10 @@ value.AA.4=Ultra sharp
 value.AA.6=Nice
 value.AA.12=Complete
 
+option.TAA=Temporal antialiasing
+value.TAA.0=Off
+value.TAA.1=On
+
 option.TINTED_WATER=Tinted water
 value.TINTED_WATER.0=No
 value.TINTED_WATER.1=Yes

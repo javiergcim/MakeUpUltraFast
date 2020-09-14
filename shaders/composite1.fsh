@@ -17,7 +17,7 @@ uniform float viewHeight;
   uniform float centerDepthSmooth;
 #endif
 
-#ifdef TAA
+#if TAA == 1
   // const bool colortex3Clear = false;
   uniform sampler2D colortex3;  // TAA past averages
 #endif
@@ -65,7 +65,7 @@ void main() {
   gl_FragData[1] = vec4(0.0);  // ¿Performance?
   #endif
 
-  #ifdef TAA
+  #if TAA == 1
     gl_FragData[3] = texture2D(colortex3, texcoord);
   #endif
 }
