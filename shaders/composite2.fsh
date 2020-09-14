@@ -15,6 +15,10 @@ Javier Garduño - GNU Lesser General Public License v3.0
   uniform sampler2D colortex0;
 #endif
 
+#if TAA == 1
+  uniform sampler2D colortex3;  // TAA past averages
+#endif
+
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
@@ -62,4 +66,8 @@ void main() {
     gl_FragData[0] = vec4(color, 1.0);
   #endif
   gl_FragData[1] = vec4(0.0);  // ¿Performance?
+
+  #if TAA == 1
+    gl_FragData[3] = texture2D(colortex3, texcoord);
+  #endif
 }
