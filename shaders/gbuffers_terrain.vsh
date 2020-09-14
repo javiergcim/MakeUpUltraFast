@@ -45,6 +45,10 @@ varying float fog_density_coeff;
 
 attribute vec4 mc_Entity;
 
+#ifdef TAA
+  #include "/src/taa_offset.glsl"
+#endif
+
 #include "/lib/basic_utils.glsl"
 
 #if WAVING == 1

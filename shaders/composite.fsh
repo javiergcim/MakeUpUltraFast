@@ -5,6 +5,8 @@ Render: Tonemap
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#include "/lib/config.glsl"
+
 // 'Global' constants from system
 uniform sampler2D colortex0;
 uniform ivec2 eyeBrightnessSmooth;
@@ -12,12 +14,30 @@ uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
 
+#ifdef TAA
+  const bool colortex3Clear = false;
+  uniform sampler2D colortex3;  // TAA past averages
+  uniform sampler2D depthtex0;
+  uniform float pixelSizeX;
+  uniform float pixelSizeY;
+  uniform mat4 gbufferProjectionInverse;
+  uniform mat4 gbufferModelViewInverse;
+  uniform vec3 cameraPosition;
+  uniform vec3 previousCameraPosition;
+  uniform mat4 gbufferPreviousProjection;
+  uniform mat4 gbufferPreviousModelView;
+#endif
+
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
 #include "/lib/color_utils.glsl"
 #include "/lib/basic_utils.glsl"
 #include "/lib/tone_maps.glsl"
+
+#ifdef TAA
+  #include "/lib/fast_taa.glsl"
+#endif
 
 void main() {
   // x: Block, y: Sky ---
@@ -39,6 +59,12 @@ void main() {
   block_color.rgb *= exposure;
   block_color.rgb = tonemap(block_color.rgb);
 
-  gl_FragData[2] = block_color;
+  #ifdef TAA
+    // block_color = mix(block_color, texture2D(colortex3, texcoord), .5);
+    block_color.rgb = fast_taa(block_color.rgb);
+  #endif
+
   gl_FragData[1] = vec4(0.0);  // ¿Performance?
+  gl_FragData[2] = block_color;
+  gl_FragData[3] = block_color;
 }

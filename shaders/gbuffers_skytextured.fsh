@@ -9,6 +9,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 varying vec2 texcoord;
 varying vec4 tint_color;
+
 uniform sampler2D texture;
 
 void main() {

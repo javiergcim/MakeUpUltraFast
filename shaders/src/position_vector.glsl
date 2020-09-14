@@ -45,7 +45,11 @@
 #else
 
   gl_Position = ftransform();
-  
+
+#endif
+
+#ifdef TAA
+  gl_Position.xy += offsets[frame8] * gl_Position.w * texelSize;
 #endif
 
 gl_FogFragCoord = length(gl_Position.xyz);

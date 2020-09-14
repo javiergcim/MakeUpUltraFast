@@ -44,6 +44,10 @@ varying vec3 binormal;
 attribute vec4 mc_Entity;
 attribute vec4 at_tangent;
 
+#ifdef TAA
+  #include "/src/taa_offset.glsl"
+#endif
+
 #include "/lib/basic_utils.glsl"
 
 void main() {
@@ -55,6 +59,11 @@ void main() {
   position2 = gl_ModelViewMatrix * gl_Vertex;
   worldposition = position + vec4(cameraPosition.xyz, 0.0);
   gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
+
+  #ifdef TAA
+    gl_Position.xy += offsets[frame8] * gl_Position.w * texelSize;
+  #endif
+
   tangent = normalize(gl_NormalMatrix * at_tangent.xyz);
   binormal = normalize(gl_NormalMatrix * -cross(gl_Normal, at_tangent.xyz));
   gl_FogFragCoord = length(gl_Position.xyz);

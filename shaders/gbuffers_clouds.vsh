@@ -19,6 +19,10 @@ uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
 
+#ifdef TAA
+  #include "/src/taa_offset.glsl"
+#endif
+
 void main() {
   texcoord = gl_MultiTexCoord0.xy;
   tint_color = gl_Color;

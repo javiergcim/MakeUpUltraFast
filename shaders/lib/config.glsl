@@ -30,3 +30,4 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define AOSTEPS 8 // [8 12 16 20] How many samples are taken. More samples, less performance
 #define AO_STRENGHT 0.6 // [0.4 0.5 0.6 0.7 0.8 0.9 1.0] Ambient oclusion strenght
 #define RT_SAMPLES 10 // [6 8 10 12 14 16 18 20 22 24] Reflections samples (only raytrace). More samples, less performance.
+#define TAA 1  // [0 1] Activate temporal antialiasing

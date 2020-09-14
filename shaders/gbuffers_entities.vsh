@@ -34,6 +34,10 @@ varying vec3 current_fog_color;
 varying float frog_adjust;
 varying float fog_density_coeff;
 
+#ifdef TAA
+  #include "/src/taa_offset.glsl"
+#endif
+
 #include "/lib/basic_utils.glsl"
 
 void main() {
