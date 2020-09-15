@@ -16,18 +16,18 @@ vec2 texelSize = vec2(pixelSizeX, pixelSizeY);
 // );
 
 // Helix
-const vec2[4] offsets = vec2[4](
-  vec2(-.375, .25),
-  vec2(.375, -.25),
-  vec2(.25, .375),
-  vec2(-.25, -.375)
-);
+// const vec2[4] offsets = vec2[4](
+//   vec2(-.375, .25),
+//   vec2(.375, -.25),
+//   vec2(.25, .375),
+//   vec2(-.25, -.375)
+// );
 
 // Penta
-// const vec2[5] offsets = vec2[5](
-//   vec2(.096, -0.4725),
-//   vec2(.177, .471),
-//   vec2(-.444, -.2445),
-//   vec2(.4785, -.03),
-//   vec2(-.393, .339)
-// );
+const vec2[5] offsets = vec2[5](
+  vec2(.096, -0.4725),
+  vec2(.177, .471),
+  vec2(-.444, -.2445),
+  vec2(.4785, -.03),
+  vec2(-.393, .339)
+);
