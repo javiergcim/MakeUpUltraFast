@@ -6,7 +6,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 #include "/lib/config.glsl"
-#include "/lib/dither.glsl"
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
@@ -18,7 +17,9 @@ uniform float near;
 uniform float far;
 uniform float aspectRatio;
 uniform mat4 gbufferProjection;
+uniform float frameTimeCounter;
 
+#include "/lib/dither.glsl"
 #include "/lib/depth.glsl"
 #include "/lib/ao.glsl"
 
@@ -27,7 +28,11 @@ void main() {
   vec4 block_color = texture2D(texture, texcoord);
 
   #if AO == 1
-    float dither = hash12();
+    #if AA_TYPE == 2
+      float dither = time_hash12();
+    #else
+      float dither = hash12();
+    #endif
 
     // AO distance attenuation
     float d = texture2D(depthtex0, texcoord.xy).r;

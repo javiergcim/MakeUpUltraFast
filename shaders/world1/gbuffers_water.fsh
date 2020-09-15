@@ -41,7 +41,6 @@ uniform float frameTimeCounter;
 #include "/lib/water.glsl"
 #include "/lib/cristal.glsl"
 
-
 void main() {
   vec4 block_color;
   vec3 fragposition0 =

@@ -14,7 +14,7 @@ colortex2 - Composite auxiliar (TODO: Remove use in composite. Use colortex0)
 colortex3 - TAA Averages history
 gaux1 - Blur Auxiliar
 gaux2 - Reflection texture
-gaux3 - Velocity vector (past x, past_y, current_x, current_y)
+gaux3 - Not used
 
 const int colortex0Format = R11F_G11F_B10F;
 const int colortex1Format = R8;

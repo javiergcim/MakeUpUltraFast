@@ -43,11 +43,14 @@ varying vec3 binormal;
 attribute vec4 mc_Entity;
 attribute vec4 at_tangent;
 
+#if AA_TYPE == 2
+  #include "/src/taa_offset.glsl"
+#endif
+
 #include "/lib/basic_utils.glsl"
 
 void main() {
   #include "/src/basiccoords_vector.glsl"
-
   #include "/src/light_vector.glsl"
 
   water_normal = normal;
@@ -55,12 +58,17 @@ void main() {
   position2 = gl_ModelViewMatrix * gl_Vertex;
   worldposition = position + vec4(cameraPosition.xyz, 0.0);
   gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
+
+  #if AA_TYPE == 2
+    gl_Position.xy += offsets[frame8] * gl_Position.w * texelSize;
+  #endif
+
   tangent = normalize(gl_NormalMatrix * at_tangent.xyz);
   binormal = normalize(gl_NormalMatrix * -cross(gl_Normal, at_tangent.xyz));
   gl_FogFragCoord = length(gl_Position.xyz);
 
   // Special entities
-  block_type = 0.0;  // 3 - Water, 2 - Glass, 1 - Portal 0 - ?
+  block_type = 0.0;  // 3 - Water, 2 - Glass, 1 - Portal, 0 - ?
   if (mc_Entity.x == ENTITY_WATER) {  // Glass
     block_type = 3.0;
   } else if (mc_Entity.x == ENTITY_STAINED) {  // Glass

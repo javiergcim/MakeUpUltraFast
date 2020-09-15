@@ -28,7 +28,11 @@ void main() {
   vec4 block_color = texture2D(texture, texcoord);
 
   #if AO == 1
-    float dither = hash12();
+    #if AA_TYPE == 2
+      float dither = time_hash12();
+    #else
+      float dither = hash12();
+    #endif
 
     // AO distance attenuation
     float d = texture2D(depthtex0, texcoord.xy).r;

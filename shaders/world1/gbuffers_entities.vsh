@@ -5,9 +5,9 @@ Render: Droped objects, mobs and things like that
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#define THE_END
 #define ENTITY_V
 #define CAVEENTITY_V
-#define THE_END
 
 #include "/lib/config.glsl"
 #include "/lib/color_utils_end.glsl"
@@ -32,6 +32,10 @@ varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
 varying vec3 real_light;
+
+#if AA_TYPE == 2
+  #include "/src/taa_offset.glsl"
+#endif
 
 #include "/lib/basic_utils.glsl"
 

@@ -5,8 +5,8 @@ Render: Particles
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define ENTITY_V
 #define NETHER
+#define ENTITY_V
 
 #include "/lib/config.glsl"
 #include "/lib/color_utils_nether.glsl"
@@ -19,7 +19,6 @@ uniform int current_hour_ceil;
 uniform float current_hour_fract;
 uniform float light_mix;
 uniform float far;
-
 uniform sampler2D texture;
 uniform float nightVision;
 uniform float rainStrength;
@@ -31,6 +30,10 @@ varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
 varying vec3 real_light;
+
+#if AA_TYPE == 2
+  #include "/src/taa_offset.glsl"
+#endif
 
 #include "/lib/basic_utils.glsl"
 

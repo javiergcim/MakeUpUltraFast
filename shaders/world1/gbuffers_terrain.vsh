@@ -5,9 +5,9 @@ Render: Almost everything
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#define THE_END
 #define FOLIAGE_V
 #define EMMISIVE_V
-#define THE_END
 
 #include "/lib/config.glsl"
 #include "/lib/color_utils_end.glsl"
@@ -42,6 +42,10 @@ varying vec4 tint_color;
 varying vec3 real_light;
 
 attribute vec4 mc_Entity;
+
+#if AA_TYPE == 2
+  #include "/src/taa_offset.glsl"
+#endif
 
 #include "/lib/basic_utils.glsl"
 

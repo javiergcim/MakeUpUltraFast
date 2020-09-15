@@ -12,9 +12,6 @@ varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
 varying vec3 real_light;
-varying vec3 current_fog_color;
-varying float frog_adjust;
-varying float fog_density_coeff;
 
 // 'Global' constants from system
 uniform sampler2D texture;

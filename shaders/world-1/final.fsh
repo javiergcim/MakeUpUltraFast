@@ -5,15 +5,24 @@ Render: Vertical blur pass and final renderer
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-// Do not remove ¡It works!
+// Do not remove comments. It works!
 /*
+
+colortex0 - Main color canvas
+colortex1 - gdepth (?)
+colortex2 - Composite auxiliar (TODO: Remove use in composite. Use colortex0)
+colortex3 - TAA Averages history
+gaux1 - Blur Auxiliar
+gaux2 - Reflection texture
+gaux3 - Not used
+
 const int colortex0Format = R11F_G11F_B10F;
 const int colortex1Format = R8;
 const int colortex2Format = RGB8;
-const int colortex3Format = R8;
+const int colortex3Format = R11F_G11F_B10F;
 const int gaux1Format = RGBA16F;
 const int gaux2Format = RGB8;
-const int colortex6Format = R8;
+const int gaux3Format = RGBA16;
 const int colortex7Format = R8;
 
 const bool colortex0Clear = false;
