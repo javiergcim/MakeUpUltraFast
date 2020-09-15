@@ -17,10 +17,10 @@ vec2 texelSize = vec2(pixelSizeX, pixelSizeY);
 
 // Helix
 const vec2[4] offsets = vec2[4](
-  vec2(-.3, .2),
-  vec2(.3,-.2),
-  vec2(.2,.3),
-  vec2(-.2,-.3)
+  vec2(-.375, .25),
+  vec2(.375, -.25),
+  vec2(.25, .375),
+  vec2(-.25, -.375)
 );
 
 // Penta
