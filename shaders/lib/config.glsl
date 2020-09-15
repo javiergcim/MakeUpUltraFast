@@ -27,7 +27,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define DOF_STRENGTH 50.0  // [20.0 25.0 30.0 35.0 40.0 45.0 50.0 55.0 60.0 65.0 70.0 75.0 80.0]  Depth of field strenght.
 #define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance impact).
 #define AOSTEPS 8 // [8 12 16 20] How many samples are taken. More samples, less performance
-#define AO_STRENGHT 0.6 // [0.4 0.5 0.6 0.7 0.8 0.9 1.0] Ambient oclusion strenght
+#define AO_STRENGHT 0.7 // [0.4 0.5 0.6 0.7 0.8 0.9 1.0] Ambient oclusion strenght
 #define AA_TYPE 2 // [0 1 2] FXAA (Fast approximate antialiasing) Low quality. TAA (Temporal antialiasing) Better quality
 #define RT_SAMPLES 10 // [6 8 10 12 14 16 18 20 22 24] Reflections samples (raytrace only). More samples, less performance.
 #define AA 4 // [4 6 12] Set antialiasing quality (FXAA only)
