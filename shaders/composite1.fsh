@@ -17,7 +17,7 @@ uniform float viewHeight;
   uniform float centerDepthSmooth;
 #endif
 
-#if TAA == 1
+#if AA_TYPE == 2
   // const bool colortex3Clear = false;
   uniform sampler2D colortex3;  // TAA past averages
 #endif
@@ -46,7 +46,7 @@ void main() {
 
   vec4 block_color = texture2D(colortex2, texcoord);
 
-  #if AA != 0
+  #if AA_TYPE == 1
     vec3 color = fxaa311(block_color.rgb, AA);
     #if DOF == 1
       gl_FragData[4] = vec4(color, blur_radius);  // gaux1
@@ -65,7 +65,7 @@ void main() {
   gl_FragData[1] = vec4(0.0);  // ¿Performance?
   #endif
 
-  #if TAA == 1
+  #if AA_TYPE == 2
     gl_FragData[3] = texture2D(colortex3, texcoord);
   #endif
 }

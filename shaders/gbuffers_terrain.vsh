@@ -45,7 +45,7 @@ varying float fog_density_coeff;
 
 attribute vec4 mc_Entity;
 
-#if TAA == 1
+#if AA_TYPE == 2
   #include "/src/taa_offset.glsl"
 #endif
 

@@ -39,7 +39,7 @@ void main() {
     }
   #endif
 
-  #if AA != 0
+  #if AA_TYPE == 1 0
     vec3 color = fxaa311(texture2D(colortex2, texcoord).rgb, AA);
     #if DOF == 1
       gl_FragData[4] = vec4(color, blur_radius);  // gaux1

@@ -33,7 +33,7 @@ varying vec3 current_fog_color;
 varying float frog_adjust;
 varying float fog_density_coeff;
 
-#if TAA == 1
+#if AA_TYPE == 2
   #include "/src/taa_offset.glsl"
 #endif
 

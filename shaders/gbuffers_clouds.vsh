@@ -19,7 +19,7 @@ uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
 
-#if TAA == 1
+#if AA_TYPE == 2
   #include "/src/taa_offset.glsl"
 #endif
 

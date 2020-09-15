@@ -1,6 +1,6 @@
 #Profiles
 ############################
-profile.Minimum=Minimum
+profile.VeryLow=Very Low
 profile.Low=Low
 profile.Medium=Medium
 profile.High=High
@@ -8,15 +8,16 @@ profile.Ultra=Ultra
 
 #Options
 #############################
+option.AA_TYPE=Antialiasing type
+value.AA_TYPE.0=None
+value.AA_TYPE.1=FXAA
+value.AA_TYPE.2=TAA
+
 option.AA=FXAA quality
-value.AA.0=Off
+value.AA.0=None
 value.AA.4=Ultra sharp
 value.AA.6=Nice
 value.AA.12=Complete
-
-option.TAA=Temporal antialiasing
-value.TAA.0=Off
-value.TAA.1=On
 
 option.TINTED_WATER=Tinted water
 value.TINTED_WATER.0=No

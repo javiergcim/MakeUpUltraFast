@@ -107,7 +107,7 @@ vec4 raytrace(vec3 fragpos, vec3 normal) {
     return vec4(texture2D(gaux2, pos.xy, 0.0).rgb, border);
 
   #else
-    #if TAA == 1
+    #if AA_TYPE == 2
       float dither = time_hash12();
     #else
       float dither = ditherGradNoise();

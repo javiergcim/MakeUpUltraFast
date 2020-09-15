@@ -28,7 +28,7 @@ void main() {
   vec4 block_color = texture2D(texture, texcoord);
 
   #if AO == 1
-    #if TAA == 1
+    #if AA_TYPE == 2
       float dither = time_hash12();
     #else
       float dither = hash12();
