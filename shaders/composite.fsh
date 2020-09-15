@@ -15,7 +15,6 @@ uniform int current_hour_ceil;
 uniform float current_hour_fract;
 
 #if AA_TYPE == 2
-  const bool colortex3Clear = false;
   uniform sampler2D colortex3;  // TAA past averages
   uniform sampler2D depthtex0;
   uniform float pixelSizeX;
@@ -66,7 +65,7 @@ void main() {
     block_color.rgb = fast_taa(block_color.rgb);
   #endif
 
-  gl_FragData[1] = vec4(0.0);  // ¿Performance?
+  // gl_FragData[1] = vec4(0.0);  // ¿Performance?
   gl_FragData[2] = block_color;
 
   #if AA_TYPE == 2

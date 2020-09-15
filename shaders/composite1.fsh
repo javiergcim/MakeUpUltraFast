@@ -54,7 +54,7 @@ void main() {
       gl_FragData[0] = vec4(color, 1.0);  // colortex0
     #endif
 
-    gl_FragData[1] = vec4(0.0);  // ¿Performance?
+    // gl_FragData[1] = vec4(0.0);  // ¿Performance?
 
   #else
     #if DOF == 1
@@ -62,7 +62,7 @@ void main() {
     #else
       gl_FragData[0] = texture2D(colortex2, texcoord);  // colortex0
     #endif
-  gl_FragData[1] = vec4(0.0);  // ¿Performance?
+  // gl_FragData[1] = vec4(0.0);  // ¿Performance?
   #endif
 
   #if AA_TYPE == 2
