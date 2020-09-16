@@ -31,15 +31,15 @@ vec3 fast_taa(vec3 current_color) {
   } else {
     vec3 neighbourhood[9];
 
-    neighbourhood[0] = texture2D(colortex0, texcoord + vec2(-pixelSizeX, -pixelSizeY)).xyz;
-    neighbourhood[1] = texture2D(colortex0, texcoord + vec2(0.0, -pixelSizeY)).xyz;
-    neighbourhood[2] = texture2D(colortex0, texcoord + vec2(pixelSizeX, -pixelSizeY)).xyz;
-    neighbourhood[3] = texture2D(colortex0, texcoord + vec2(-pixelSizeX, 0.0)).xyz;
+    neighbourhood[0] = texture2D(colortex2, texcoord + vec2(-pixelSizeX, -pixelSizeY)).xyz;
+    neighbourhood[1] = texture2D(colortex2, texcoord + vec2(0.0, -pixelSizeY)).xyz;
+    neighbourhood[2] = texture2D(colortex2, texcoord + vec2(pixelSizeX, -pixelSizeY)).xyz;
+    neighbourhood[3] = texture2D(colortex2, texcoord + vec2(-pixelSizeX, 0.0)).xyz;
     neighbourhood[4] = current_color;
-    neighbourhood[5] = texture2D(colortex0, texcoord + vec2(pixelSizeX, 0.0)).xyz;
-    neighbourhood[6] = texture2D(colortex0, texcoord + vec2(-pixelSizeX, pixelSizeY)).xyz;
-    neighbourhood[7] = texture2D(colortex0, texcoord + vec2(0.0, pixelSizeY)).xyz;
-    neighbourhood[8] = texture2D(colortex0, texcoord + vec2(pixelSizeX, pixelSizeY)).xyz;
+    neighbourhood[5] = texture2D(colortex2, texcoord + vec2(pixelSizeX, 0.0)).xyz;
+    neighbourhood[6] = texture2D(colortex2, texcoord + vec2(-pixelSizeX, pixelSizeY)).xyz;
+    neighbourhood[7] = texture2D(colortex2, texcoord + vec2(0.0, pixelSizeY)).xyz;
+    neighbourhood[8] = texture2D(colortex2, texcoord + vec2(pixelSizeX, pixelSizeY)).xyz;
 
     vec3 nmin = neighbourhood[0];
     vec3 nmax = neighbourhood[0];

@@ -35,14 +35,7 @@ void main() {
       blur_radius = blur_radius / sqrt(0.1 + blur_radius * blur_radius) * DOF_STRENGTH;
     }
 
-
-
-
-
-
-    // vec4 color_blur = texture2D(gaux1, texcoord);
     vec3 color = texture2D(gaux1, texcoord).rgb;
-    // float blur_radius = color_blur.a;
 
     if (blur_radius > 1.0) {
       float radius_inv = 1.0 / blur_radius;

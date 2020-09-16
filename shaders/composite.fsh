@@ -19,19 +19,23 @@ uniform sampler2D depthtex0;
 uniform float far;
 uniform float near;
 
+// #if AA_TYPE == 2
+//   uniform sampler2D colortex3;  // TAA past averages
+//   // uniform sampler2D depthtex0;
+//   uniform float pixelSizeX;
+//   uniform float pixelSizeY;
+//   uniform mat4 gbufferProjectionInverse;
+//   uniform mat4 gbufferModelViewInverse;
+//   uniform vec3 cameraPosition;
+//   uniform vec3 previousCameraPosition;
+//   uniform mat4 gbufferPreviousProjection;
+//   uniform mat4 gbufferPreviousModelView;
+//   uniform float viewWidth;
+//   uniform float viewHeight;
+// #endif
+
 #if AA_TYPE == 2
-  uniform sampler2D colortex3;  // TAA past averages
-  // uniform sampler2D depthtex0;
-  uniform float pixelSizeX;
-  uniform float pixelSizeY;
-  uniform mat4 gbufferProjectionInverse;
-  uniform mat4 gbufferModelViewInverse;
-  uniform vec3 cameraPosition;
-  uniform vec3 previousCameraPosition;
-  uniform mat4 gbufferPreviousProjection;
-  uniform mat4 gbufferPreviousModelView;
-  uniform float viewWidth;
-  uniform float viewHeight;
+  uniform sampler2D colortex3;
 #endif
 
 // Varyings (per thread shared variables)
@@ -42,12 +46,25 @@ varying vec2 texcoord;
 #include "/lib/tone_maps.glsl"
 #include "/lib/depth.glsl"
 
-#if AA_TYPE == 2
-  #include "/lib/luma.glsl"
-  #include "/lib/fast_taa.glsl"
-#endif
-
 void main() {
+  vec4 block_color = texture2D(colortex0, texcoord);
+
+  #if AO == 1
+    #if AA_TYPE == 2
+      float dither = time_hash12();
+    #else
+      float dither = hash12();
+    #endif
+
+    // AO distance attenuation
+    float d = texture2D(depthtex0, texcoord.xy).r;
+    float ao_att = sqrt(ld(d));
+    float final_ao = mix(dbao(depthtex0, dither), 1.0, ao_att);
+    block_color *= final_ao;
+    // block_color = vec4(vec3(final_ao), 1.0);
+  #endif
+
+
   // x: Block, y: Sky ---
   float candle_bright = (eyeBrightnessSmooth.x / 240.0) * .1;
   float exposure_coef =
@@ -82,14 +99,13 @@ void main() {
       );
   }
 
-  #if AA_TYPE == 2
-    block_color.rgb = fast_taa(block_color.rgb);
-    gl_FragData[3] = block_color;
-  #endif
-
   block_color.rgb *= exposure;
   block_color.rgb = tonemap(block_color.rgb);
 
   // gl_FragData[1] = vec4(0.0);  // ¿Performance?
   gl_FragData[2] = block_color;
+
+  #if AA_TYPE == 2
+    gl_FragData[3] = texture2D(colortex3, texcoord);
+  #endif
 }
