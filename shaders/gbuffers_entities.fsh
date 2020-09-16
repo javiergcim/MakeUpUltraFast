@@ -20,6 +20,7 @@ varying float fog_density_coeff;
 uniform sampler2D texture;
 uniform float wetness;
 uniform int entityId;
+uniform int isEyeInWater;
 
 void main() {
   // Toma el color puro del bloque

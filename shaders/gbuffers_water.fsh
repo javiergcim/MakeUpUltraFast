@@ -38,6 +38,7 @@ uniform sampler2D noisetex;
 uniform sampler2D depthtex0;
 uniform sampler2D depthtex1;
 uniform float frameTimeCounter;
+uniform int isEyeInWater;
 
 #include "/lib/basic_utils.glsl"
 #include "/lib/dither.glsl"

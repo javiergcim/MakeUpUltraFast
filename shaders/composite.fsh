@@ -13,10 +13,15 @@ uniform ivec2 eyeBrightnessSmooth;
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
+uniform int isEyeInWater;
+uniform vec3 skyColor;
+uniform sampler2D depthtex0;
+uniform float far;
+uniform float near;
 
 #if AA_TYPE == 2
   uniform sampler2D colortex3;  // TAA past averages
-  uniform sampler2D depthtex0;
+  // uniform sampler2D depthtex0;
   uniform float pixelSizeX;
   uniform float pixelSizeY;
   uniform mat4 gbufferProjectionInverse;
@@ -35,6 +40,7 @@ varying vec2 texcoord;
 #include "/lib/color_utils.glsl"
 #include "/lib/basic_utils.glsl"
 #include "/lib/tone_maps.glsl"
+#include "/lib/depth.glsl"
 
 #if AA_TYPE == 2
   #include "/lib/luma.glsl"
@@ -57,6 +63,24 @@ void main() {
   exposure = (exposure * -2.0) + 3.0;
 
   vec4 block_color = texture2D(colortex0, texcoord);
+
+  // Niebla bajo el agua
+  float d;
+  if (isEyeInWater == 1) {
+    d = texture2D(depthtex0, texcoord).r;
+    block_color.rgb = mix(
+      block_color.rgb,
+      skyColor * .5 * ((eyeBrightnessSmooth.y * .8 + 48) / 240.0),
+      sqrt(ld(d))
+      );
+  } else if (isEyeInWater == 2) {
+    d = texture2D(depthtex0, texcoord).r;
+    block_color = mix(
+      block_color,
+      vec4(1.0, .1, 0.0, 1.0),
+      sqrt(ld(d))
+      );
+  }
 
   #if AA_TYPE == 2
     block_color.rgb = fast_taa(block_color.rgb);

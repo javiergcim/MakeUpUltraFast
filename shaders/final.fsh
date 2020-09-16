@@ -10,7 +10,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 colortex0 - Main color canvas
 colortex1 - gdepth (?)
-colortex2 - Composite auxiliar (TODO: Remove use in composite. Use colortex0)
+colortex2 - Antialiasing auxiliar
 colortex3 - TAA Averages history
 gaux1 - Blur Auxiliar
 gaux2 - Reflection texture
