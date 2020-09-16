@@ -54,13 +54,12 @@ vec3 fast_taa(vec3 current_color) {
 
 		// Reducción de ghosting por velocidad
 		vec2 velocity = (texcoord - texcoord_past) * vec2(viewWidth, viewHeight);
-		float blend = exp(-length(velocity)) * 0.55 + 0.3;
+		float blend = exp(-length(velocity)) * 0.525 + 0.4;
 
 		// Reducción de ghosting por luma
 		float luma_p = luma(previous);
 		float clamped = distance(previous, past_sample) / luma_p;
 
-    // Se regresa la mezcla del pasado con el presente
-    return mix(current_color, past_sample, clamp(blend - clamped, 0.0, 1.0));
+		return mix(current_color, past_sample, clamp(blend - clamped, 0.0, 1.0));
   }
 }
