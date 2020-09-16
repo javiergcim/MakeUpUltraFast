@@ -58,17 +58,14 @@ void main() {
 
   vec4 block_color = texture2D(colortex0, texcoord);
 
+  #if AA_TYPE == 2
+    block_color.rgb = fast_taa(block_color.rgb);
+    gl_FragData[3] = block_color;
+  #endif
+
   block_color.rgb *= exposure;
   block_color.rgb = tonemap(block_color.rgb);
 
-  #if AA_TYPE == 2
-    block_color.rgb = fast_taa(block_color.rgb);
-  #endif
-
   // gl_FragData[1] = vec4(0.0);  // ¿Performance?
   gl_FragData[2] = block_color;
-
-  #if AA_TYPE == 2
-    gl_FragData[3] = block_color;
-  #endif
 }
