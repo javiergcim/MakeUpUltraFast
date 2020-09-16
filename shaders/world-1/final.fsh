@@ -5,12 +5,14 @@ Render: Vertical blur pass and final renderer
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#include "/lib/config.glsl"
+
 // Do not remove comments. It works!
 /*
 
 colortex0 - Main color canvas
 colortex1 - gdepth (?)
-colortex2 - Composite auxiliar (TODO: Remove use in composite. Use colortex0)
+colortex2 - Antialiasing auxiliar
 colortex3 - TAA Averages history
 gaux1 - Blur Auxiliar
 gaux2 - Reflection texture
@@ -31,8 +33,6 @@ const int noiseTextureResolution = 128;
 const float ambientOcclusionLevel = 1.0f;
 const float eyeBrightnessHalflife = 10.0f;
 const float centerDepthHalflife = 2.0f;
-
-#include "/lib/config.glsl"
 
 // 'Global' constants from system
 uniform sampler2D colortex0;

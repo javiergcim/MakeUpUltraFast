@@ -19,23 +19,10 @@ uniform sampler2D depthtex0;
 uniform float far;
 uniform float near;
 
-// #if AA_TYPE == 2
-//   uniform sampler2D colortex3;  // TAA past averages
-//   // uniform sampler2D depthtex0;
-//   uniform float pixelSizeX;
-//   uniform float pixelSizeY;
-//   uniform mat4 gbufferProjectionInverse;
-//   uniform mat4 gbufferModelViewInverse;
-//   uniform vec3 cameraPosition;
-//   uniform vec3 previousCameraPosition;
-//   uniform mat4 gbufferPreviousProjection;
-//   uniform mat4 gbufferPreviousModelView;
-//   uniform float viewWidth;
-//   uniform float viewHeight;
-// #endif
-
-#if AA_TYPE == 2
-  uniform sampler2D colortex3;
+#if AO == 1
+  uniform float aspectRatio;
+  uniform mat4 gbufferProjection;
+  uniform float frameTimeCounter;
 #endif
 
 // Varyings (per thread shared variables)
@@ -45,6 +32,11 @@ varying vec2 texcoord;
 #include "/lib/basic_utils.glsl"
 #include "/lib/tone_maps.glsl"
 #include "/lib/depth.glsl"
+
+#if AO == 1
+  #include "/lib/dither.glsl"
+  #include "/lib/ao.glsl"
+#endif
 
 void main() {
   vec4 block_color = texture2D(colortex0, texcoord);
@@ -57,13 +49,12 @@ void main() {
     #endif
 
     // AO distance attenuation
-    float d = texture2D(depthtex0, texcoord.xy).r;
+    float d = texture2D(depthtex0, texcoord).r;
     float ao_att = sqrt(ld(d));
     float final_ao = mix(dbao(depthtex0, dither), 1.0, ao_att);
     block_color *= final_ao;
     // block_color = vec4(vec3(final_ao), 1.0);
   #endif
-
 
   // x: Block, y: Sky ---
   float candle_bright = (eyeBrightnessSmooth.x / 240.0) * .1;
@@ -79,12 +70,11 @@ void main() {
   // Map from 1.0 - 0.0 to 1.0 - 3.0
   exposure = (exposure * -2.0) + 3.0;
 
-  vec4 block_color = texture2D(colortex0, texcoord);
-
   // Niebla bajo el agua
-  float d;
+  #if AO == 0
+    float d = texture2D(depthtex0, texcoord).r;
+  #endif
   if (isEyeInWater == 1) {
-    d = texture2D(depthtex0, texcoord).r;
     block_color.rgb = mix(
       block_color.rgb,
       skyColor * .5 * ((eyeBrightnessSmooth.y * .8 + 48) / 240.0),
@@ -104,8 +94,4 @@ void main() {
 
   // gl_FragData[1] = vec4(0.0);  // ¿Performance?
   gl_FragData[2] = block_color;
-
-  #if AA_TYPE == 2
-    gl_FragData[3] = texture2D(colortex3, texcoord);
-  #endif
 }

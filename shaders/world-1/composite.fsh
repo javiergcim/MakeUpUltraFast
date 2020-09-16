@@ -13,22 +13,16 @@ uniform ivec2 eyeBrightnessSmooth;
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
+uniform int isEyeInWater;
+uniform vec3 skyColor;
 uniform sampler2D depthtex0;
 uniform float far;
 uniform float near;
 
-#if AA_TYPE == 2
-  uniform sampler2D colortex3;  // TAA past averages
-  uniform float pixelSizeX;
-  uniform float pixelSizeY;
-  uniform mat4 gbufferProjectionInverse;
-  uniform mat4 gbufferModelViewInverse;
-  uniform vec3 cameraPosition;
-  uniform vec3 previousCameraPosition;
-  uniform mat4 gbufferPreviousProjection;
-  uniform mat4 gbufferPreviousModelView;
-  uniform float viewWidth;
-  uniform float viewHeight;
+#if AO == 1
+  uniform float aspectRatio;
+  uniform mat4 gbufferProjection;
+  uniform float frameTimeCounter;
 #endif
 
 // Varyings (per thread shared variables)
@@ -39,13 +33,28 @@ varying vec2 texcoord;
 #include "/lib/tone_maps.glsl"
 #include "/lib/depth.glsl"
 
-#if AA_TYPE == 2
-  #include "/lib/luma.glsl"
-  #include "/lib/fast_taa.glsl"
+#if AO == 1
+  #include "/lib/dither.glsl"
+  #include "/lib/ao.glsl"
 #endif
 
 void main() {
-  float d = texture2D(depthtex0, texcoord).r;
+  vec4 block_color = texture2D(colortex0, texcoord);
+
+  #if AO == 1
+    #if AA_TYPE == 2
+      float dither = time_hash12();
+    #else
+      float dither = hash12();
+    #endif
+
+    // AO distance attenuation
+    float d = texture2D(depthtex0, texcoord).r;
+    float ao_att = sqrt(ld(d));
+    float final_ao = mix(dbao(depthtex0, dither), 1.0, ao_att);
+    block_color *= final_ao;
+    // block_color = vec4(vec3(final_ao), 1.0);
+  #endif
 
   // x: Block, y: Sky ---
   float candle_bright = (eyeBrightnessSmooth.x / 240.0) * .1;
@@ -58,22 +67,34 @@ void main() {
   float exposure =
     ((eyeBrightnessSmooth.y / 240.0) * exposure_coef) + candle_bright;
 
-  // Map from 1.0 - 0.0 to 1.0 - 2.5
-  exposure = (exposure * -1.5) + 2.5;
+  // Map from 1.0 - 0.0 to 1.0 - 3.0
+  exposure = (exposure * -2.0) + 3.0;
 
-  vec4 block_color = texture2D(colortex0, texcoord);
-
-  // Niebla
-  block_color = mix(
-    block_color,
-    mix(gl_Fog.color * .5, vec4(1.0), .04),
-    sqrt(ld(d))
-  );
-
-  #if AA_TYPE == 2
-    block_color.rgb = fast_taa(block_color.rgb);
-    gl_FragData[3] = block_color;
+  // Niebla bajo el agua
+  #if AO == 0
+    float d = texture2D(depthtex0, texcoord).r;
   #endif
+  // Niebla
+  if (isEyeInWater == 0) {
+    block_color = mix(
+      block_color,
+      mix(gl_Fog.color * .5, vec4(1.0), .04),
+      sqrt(ld(d))
+    );
+  }
+  else if (isEyeInWater == 1) {
+    block_color.rgb = mix(
+      block_color.rgb,
+      skyColor * .5 * ((eyeBrightnessSmooth.y * .8 + 48) / 240.0),
+      sqrt(ld(d))
+      );
+  } else if (isEyeInWater == 2) {
+    block_color = mix(
+      block_color,
+      vec4(1.0, .1, 0.0, 1.0),
+      sqrt(ld(d))
+      );
+  }
 
   block_color.rgb *= exposure;
   block_color.rgb = tonemap(block_color.rgb);

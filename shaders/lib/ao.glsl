@@ -43,6 +43,5 @@ float dbao(sampler2D depth, float dither){
   }
   ao /= samples;
 
-  // return pow(ao, AO_STRENGHT);
   return (ao * AO_STRENGHT) + (1.0 - AO_STRENGHT);
 }

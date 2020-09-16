@@ -8,6 +8,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/config.glsl"
 
 #if DOF == 1
+  uniform sampler2D depthtex1;
+  uniform float centerDepthSmooth;
   uniform sampler2D gaux1;
   uniform float pixelSizeX;
   uniform float viewWidth;
@@ -25,9 +27,15 @@ varying vec2 texcoord;
 void main() {
 
   #if DOF == 1
-    vec4 color_blur = texture2D(gaux1, texcoord);
-    float blur_radius = color_blur.a;
-    vec3 color = color_blur.rgb;
+    float the_depth = texture2D(depthtex1, texcoord).r;
+    float blur_radius = 0.0;
+    if (the_depth > 0.56) {
+      blur_radius =
+        max(abs(the_depth - centerDepthSmooth) - 0.0001, 0.0);
+      blur_radius = blur_radius / sqrt(0.1 + blur_radius * blur_radius) * DOF_STRENGTH;
+    }
+
+    vec3 color = texture2D(gaux1, texcoord).rgb;
 
     if (blur_radius > 1.0) {
       float radius_inv = 1.0 / blur_radius;

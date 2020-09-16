@@ -1,6 +1,6 @@
 #version 120
 /* MakeUp Ultra Fast - final.fsh
-Render: FXAA and blur precalculation
+Render: Antialiasing
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
@@ -51,6 +51,7 @@ void main() {
   #elif AA_TYPE == 2
     block_color.rgb = fast_taa(block_color.rgb);
     gl_FragData[3] = block_color;  // To TAA averages
+    // gl_FragData[3] = vec4(1.0, 0.0, 0.0, 1.0);
     #if DOF == 1
       gl_FragData[4] = block_color;  // gaux1
     #else

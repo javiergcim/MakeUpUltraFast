@@ -53,7 +53,7 @@ void main() {
       block_color.rgb = mix(
         tint_color.rgb * real_light,
         vec3(1.0),
-        .2
+        .4
       );
     #else
       block_color.rgb = vec3(1.0);
