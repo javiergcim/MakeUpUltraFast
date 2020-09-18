@@ -1,14 +1,14 @@
-/* MakeUp Ultra Fast - cristal.glsl
-Water reflection and refraction related functions. Inspired by Project LUMA.
+/* MakeUp Ultra Fast - water.glsl
+Cristal reflection related functions. Based by Project LUMA.
 
 */
 
-vec4 cristalRaytrace(vec3 fragpos, vec3 normal) {
+vec4 cristal_raytrace(vec3 fragpos, vec3 normal) {
 
   #if SSR_METHOD == 0
 
-    vec3 reflectedVector = reflect(normalize(fragpos), normal) * 30.0;
-    vec3 pos = cameraSpaceToScreenSpace(fragpos + reflectedVector);
+    vec3 reflected_vector = reflect(normalize(fragpos), normal) * 30.0;
+    vec3 pos = camera_to_screen(fragpos + reflected_vector);
 
     float border_x = max(-fourth_pow(abs(2 * pos.x - 1.0)) + 1.0, 0.0);
     float border_y = max(-fourth_pow(abs(2 * pos.y - 1.0)) + 1.0, 0.0);
@@ -19,59 +19,60 @@ vec4 cristalRaytrace(vec3 fragpos, vec3 normal) {
   #else
 
     #if AA_TYPE == 2
-      float dither = time_hash12();
+      float dither = timed_hash12();
     #else
-      float dither = ditherGradNoise();
+      float dither = interleaved_noise();
     #endif
 
-    const int samples       = RT_SAMPLES;
-    const int maxRefinement = 10;
-    const float stepSize    = 1.2;
-    const float stepRefine  = 0.28;
-    const float stepIncrease = 1.8;
+    const int samples = RT_SAMPLES;
+    const int max_refinement = 10;
+    const float step_size = 1.2;
+    const float step_refine = 0.28;
+    const float step_increment = 1.8;
 
-    vec3 col        = vec3(0.0);
-    vec3 rayStart   = fragpos;
-    vec3 rayDir     = reflect(normalize(fragpos), normal);
-    vec3 rayStep    = (stepSize+dither-0.5)*rayDir;
-    vec3 rayPos     = rayStart + rayStep;
-    vec3 rayPrevPos = rayStart;
-    vec3 rayRefine  = rayStep;
+    vec3 col = vec3(0.0);
+    vec3 ray_start = fragpos;
+    vec3 ray_dir = reflect(normalize(fragpos), normal);
+    vec3 ray_step = (step_size + dither - 0.5) * ray_dir;
+    vec3 ray_pos = ray_start + ray_step;
+    vec3 ray_pos_past = ray_start;
+    vec3 ray_refine = ray_step;
 
-    int refine  = 0;
-    vec3 pos    = vec3(0.0);
+    int refine = 0;
+    vec3 pos = vec3(0.0);
     float border = 0.0;
 
     for (int i = 0; i < samples; i++) {
 
-    pos = cameraSpaceToScreenSpace(rayPos);
+      pos = camera_to_screen(ray_pos);
 
-    if (pos.x < 0.0 ||
-        pos.x > 1.0 ||
-        pos.y < 0.0 ||
-        pos.y > 1.0 ||
-        pos.z < 0.0 ||
-        pos.z > 1.0) break;
+      if (pos.x < 0.0 ||
+          pos.x > 1.0 ||
+          pos.y < 0.0 ||
+          pos.y > 1.0 ||
+          pos.z < 0.0 ||
+          pos.z > 1.0) break;
 
-    vec3 screenPos  = vec3(pos.xy, texture2D(depthtex1, pos.xy).x);
-     screenPos  = cameraSpaceToWorldSpace(screenPos * 2.0 - 1.0);
+      vec3 screenPos = vec3(pos.xy, texture2D(depthtex1, pos.xy).x);
+       screenPos = camera_to_world(screenPos * 2.0 - 1.0);
 
-    float dist = distance(rayPos, screenPos);
+      float dist = distance(ray_pos, screenPos);
 
-    if (dist < pow(length(rayStep) * pow(length(rayRefine), 0.11), 1.1) * 1.22) {
+      if (
+        dist < pow(length(ray_step) * pow(length(ray_refine), 0.11), 1.1) * 1.22
+        ) {
 
-    refine++;
-    if (refine >= maxRefinement)  break;
+        refine++;
+        if (refine >= max_refinement) break;
 
-    rayRefine  -= rayStep;
-    rayStep    *= stepRefine;
+        ray_refine -= ray_step;
+        ray_step *= step_refine;
+      }
 
-    }
-
-    rayStep        *= stepIncrease;
-    rayPrevPos      = rayPos;
-    rayRefine      += rayStep;
-    rayPos          = rayStart+rayRefine;
+      ray_step *= step_increment;
+      ray_pos_past = ray_pos;
+      ray_refine += ray_step;
+      ray_pos = ray_start+ray_refine;
 
     }
 
@@ -97,21 +98,21 @@ vec4 cristalRaytrace(vec3 fragpos, vec3 normal) {
   #endif
 }
 
-vec4 cristalShader(vec3 fragpos, vec3 normal, vec4 color, vec3 skyReflection) {
+vec4 cristal_shader(vec3 fragpos, vec3 normal, vec4 color, vec3 sky_reflection) {
   vec4 reflection = vec4(0.0);
 
   #if REFLECTION == 1
-    reflection = cristalRaytrace(fragpos, normal);
+    reflection = cristal_raytrace(fragpos, normal);
   #endif
 
-  reflection.rgb = mix(skyReflection * lmcoord.t * lmcoord.t, reflection.rgb, reflection.a);
+  reflection.rgb = mix(sky_reflection * lmcoord.t * lmcoord.t, reflection.rgb, reflection.a);
 
-  float normalDotEye = dot(normal, normalize(fragpos));
-  float fresnel = clamp(fifth_pow(1.0 + normalDotEye) + 0.1, 0.0, 1.0);
+  float normal_dot_eye = dot(normal, normalize(fragpos));
+  float fresnel = clamp(fifth_pow(1.0 + normal_dot_eye) + 0.1, 0.0, 1.0);
 
   float reflection_index = min(fresnel * (-color.a + 1.0) * 2.0, 1.0);
 
-  color.rgb = mix(color.rgb, skyReflection, reflection_index);
+  color.rgb = mix(color.rgb, sky_reflection, reflection_index);
   color.rgb = mix(color.rgb, reflection.rgb, reflection_index);
 
   color.a = mix(color.a, 1.0, fresnel * .8);

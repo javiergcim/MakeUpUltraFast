@@ -43,7 +43,7 @@ void main() {
 
   #if AO == 1
     #if AA_TYPE == 2
-      float dither = time_hash12();
+      float dither = timed_hash12();
     #else
       float dither = hash12();
     #endif

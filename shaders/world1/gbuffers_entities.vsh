@@ -40,7 +40,7 @@ varying vec3 real_light;
 #include "/lib/basic_utils.glsl"
 
 void main() {
-  #include "/src/basiccoords_vector.glsl"
-  #include "/src/position_vector.glsl"
-  #include "/src/light_vector.glsl"
+  #include "/src/basiccoords_vertex.glsl"
+  #include "/src/position_vertex.glsl"
+  #include "/src/light_vertex.glsl"
 }

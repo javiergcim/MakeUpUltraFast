@@ -23,7 +23,7 @@
         amt = .5;
       }
 
-      position.xyz += sildursMove(vworldpos.xyz,
+      position.xyz += wave_move(vworldpos.xyz,
       0.0041,
       0.0070,
       0.0044,

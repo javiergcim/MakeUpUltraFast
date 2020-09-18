@@ -3,30 +3,23 @@ Dither functions
 
 */
 
-#define MAG3 vec3(443.8975,397.2973, 491.1871)
+#define MAGIC vec3(443.8975,397.2973, 491.1871)
 
-float time_hash12()
+float timed_hash12()
 {
-  vec3 p3 = fract(vec3(gl_FragCoord.xyx * frameTimeCounter * .0001) * MAG3);
+  vec3 p3 = fract(vec3(gl_FragCoord.xyx * frameTimeCounter * .0001) * MAGIC);
   p3 += dot(p3, p3.yzx + 19.19);
   return fract((p3.x + p3.y) * p3.z);
 }
 
 float hash12()
 {
-  vec3 p3 = fract(vec3(gl_FragCoord.xyx) * MAG3);
+  vec3 p3 = fract(vec3(gl_FragCoord.xyx) * MAGIC);
   p3 += dot(p3, p3.yzx + 19.19);
   return fract((p3.x + p3.y) * p3.z);
 }
 
-// vec3 hash32()
-// {
-//   vec3 p3 = fract(vec3(gl_FragCoord.xyx) * MAG3);
-//     p3 += dot(p3, p3.yxz + 19.19);
-//     return fract(vec3((p3.x + p3.y) * p3.z, (p3.x + p3.z) * p3.y, (p3.y + p3.z) * p3.x));
-// }
-
-float ditherGradNoise() {
+float interleaved_noise() {
   return fract(
     52.9829189 * fract(0.06711056 * gl_FragCoord.x + 0.00583715 * gl_FragCoord.y)
     );

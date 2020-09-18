@@ -50,8 +50,8 @@ attribute vec4 at_tangent;
 #include "/lib/basic_utils.glsl"
 
 void main() {
-  #include "/src/basiccoords_vector.glsl"
-  #include "/src/light_vector.glsl"
+  #include "/src/basiccoords_vertex.glsl"
+  #include "/src/light_vertex.glsl"
 
   water_normal = normal;
   vec4 position = gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex;

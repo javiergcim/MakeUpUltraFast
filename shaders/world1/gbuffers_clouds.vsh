@@ -26,5 +26,5 @@ uniform float current_hour_fract;
 void main() {
   texcoord = gl_MultiTexCoord0.xy;
   tint_color = gl_Color;
-  #include "/src/position_vector.glsl"
+  #include "/src/position_vertex.glsl"
 }

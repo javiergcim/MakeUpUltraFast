@@ -7,9 +7,16 @@ presented below:
 Simon Rodriguez, modified to work on Intel chips.
 http://blog.simonrodriguez.fr/articles/30-07-2016_implementing_fxaa.html
 
-- Quick blur techniques and DoF are a modification of those
-used in Builder's QOL Shaders.
+Original work:
+Lottes, T. (2009). Fast approximate anti-aliasing (FXAA).
+NVIDIA Corporation, Santa Clara, CA, USA, Feb.
+
+- 2-pass blurring techniques are based on Builder's QOL Shaders implementation:
 https://discord.com/invite/FMghhxk
+
+Original work:
+Banks, D., & McCrindle, R. J. (2008). Visual eye disease simulator.
+Proc. 7th ICDVRAT with ArtAbilitation, Maia, Portugal.
 
 - Grass movement is based on the one used in Sildur's shaders.
 https://sildurs-shaders.github.io/
@@ -19,10 +26,18 @@ used in ProjectLUMA by DeDelner.
 https://dedelner.net/projectluma/
 
 - Enhanced ambient occlusion is based on Capt Tatsu's ambient occlusion used in
-BSL Shaders.
+BSL Shaders:
+https://bitslablab.com/bslshaders/
 
-- TAA is based on Erkaman's TAA simple implementation.
+- TAA is based on Erkaman's TAA simple implementation:
 https://gist.github.com/Erkaman
+
+- Hash functions by Dave Hoskins:
+https://www.shadertoy.com/user/Dave_Hoskins
+
+- Interleaved noise from:
+"NEXT GENERATION POST PROCESSING IN CALL OF DUTY: ADVANCED WARFARE"
+http://advances.realtimerendering.com/s2014/index.html
 
 ------
 

@@ -17,5 +17,5 @@ varying vec2 texcoord;
 void main() {
   texcoord = gl_MultiTexCoord0.xy;
 
-  #include "/src/position_vector.glsl"
+  #include "/src/position_vertex.glsl"
 }

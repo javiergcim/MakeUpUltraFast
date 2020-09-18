@@ -57,8 +57,8 @@ attribute vec4 mc_Entity;
 #endif
 
 void main() {
-  #include "/src/basiccoords_vector.glsl"
-  #include "/src/position_vector.glsl"
+  #include "/src/basiccoords_vertex.glsl"
+  #include "/src/position_vertex.glsl"
 
   // Special entities
   float emissive;
@@ -74,6 +74,6 @@ void main() {
     magma = 0.0;
   }
 
-  #include "/src/light_vector.glsl"
-  #include "/src/fog_vector.glsl"
+  #include "/src/light_vertex.glsl"
+  #include "/src/fog_vertex.glsl"
 }

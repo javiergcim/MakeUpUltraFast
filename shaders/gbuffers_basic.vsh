@@ -24,6 +24,6 @@ uniform float current_hour_fract;
 
 void main() {
   tint_color = gl_Color;
-  #include "/src/position_vector.glsl"
-  #include "/src/cloudfog_vector.glsl"
+  #include "/src/position_vertex.glsl"
+  #include "/src/cloudfog_vertex.glsl"
 }

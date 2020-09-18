@@ -44,7 +44,7 @@ uniform float frameTimeCounter;
 void main() {
   vec4 block_color;
   vec3 fragposition0 =
-    toNDC(
+    to_NDC(
       vec3(gl_FragCoord.xy / vec2(viewWidth, viewHeight), gl_FragCoord.z)
       );
 
@@ -59,7 +59,7 @@ void main() {
       block_color.rgb = vec3(1.0);
     #endif
 
-    vec3 water_normal_base = waterwavesToNormal(worldposition.xyz);
+    vec3 water_normal_base = waves_to_normal(worldposition.xyz);
 
     block_color = vec4(
       refraction(
@@ -70,9 +70,9 @@ void main() {
       1.0
     );
 
-    block_color.rgb = waterShader(
+    block_color.rgb = water_shader(
       fragposition0,
-      getNormals(water_normal_base),
+      get_normals(water_normal_base),
       block_color.rgb,
       gl_Fog.color.rgb * .5
     );
@@ -83,7 +83,7 @@ void main() {
     block_color = texture2D(texture, texcoord);
     block_color *= tint_color * vec4(real_light, 1.0);
 
-    block_color = cristalShader(
+    block_color = cristal_shader(
       fragposition0,
       water_normal,
       block_color,

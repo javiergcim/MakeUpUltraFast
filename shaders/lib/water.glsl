@@ -1,16 +1,16 @@
 /* MakeUp Ultra Fast - water.glsl
-Water reflection and refraction related functions. Inspired by Project LUMA.
+Water reflection and refraction related functions. Based by Project LUMA.
 
 */
 
-float waterWaves(vec3 worldPos) {
+float water_waves(vec3 world_pos) {
   float wave = 0.0;
 
-  worldPos.z += worldPos.y;
-  worldPos.x += worldPos.y;
+  world_pos.z += world_pos.y;
+  world_pos.x += world_pos.y;
 
-  worldPos.z *= 0.5;
-  worldPos.x += sin(worldPos.x) * 0.3;
+  world_pos.z *= 0.5;
+  world_pos.x += sin(world_pos.x) * 0.3;
 
   // Defined as: mat2 rotate_mat = mat2(cos(.5), -sin(.5), sin(.5), cos(.5));
   const mat2 rotate_mat = mat2(
@@ -18,58 +18,69 @@ float waterWaves(vec3 worldPos) {
     -0.479425538604203, 0.8775825618903728
     );
 
-  wave = texture2D(noisetex, worldPos.xz * 0.05625 + vec2(frameTimeCounter * 0.015)).x * 0.02;
-  wave += texture2D(noisetex, worldPos.xz * 0.015 - vec2(frameTimeCounter * 0.0075)).x * 0.1;
-  wave += texture2D(noisetex, worldPos.xz * 0.015 * rotate_mat + vec2(frameTimeCounter * 0.0075)).x * 0.1;
+  wave = texture2D(
+    noisetex,
+    world_pos.xz * 0.05625 + vec2(frameTimeCounter * 0.015)
+    ).x * 0.02;
+  wave += texture2D(
+    noisetex,
+    world_pos.xz * 0.015 - vec2(frameTimeCounter * 0.0075)
+    ).x * 0.1;
+  wave += texture2D(
+    noisetex,
+    world_pos.xz * 0.015 * rotate_mat + vec2(frameTimeCounter * 0.0075)
+    ).x * 0.1;
 
   return wave;
 }
 
-vec3 waterwavesToNormal(vec3 pos) {
-  float deltaPos = 0.1;
-  float h0 = waterWaves(pos.xyz);
-  float h1 = waterWaves(pos.xyz + vec3(deltaPos, 0.0, 0.0));
-  float h2 = waterWaves(pos.xyz + vec3(-deltaPos, 0.0, 0.0));
-  float h3 = waterWaves(pos.xyz + vec3(0.0, 0.0, deltaPos));
-  float h4 = waterWaves(pos.xyz + vec3(0.0, 0.0, -deltaPos));
+vec3 waves_to_normal(vec3 pos) {
+  float delta_pos = 0.1;
+  float h0 = water_waves(pos.xyz);
+  float h1 = water_waves(pos.xyz + vec3(delta_pos, 0.0, 0.0));
+  float h2 = water_waves(pos.xyz + vec3(-delta_pos, 0.0, 0.0));
+  float h3 = water_waves(pos.xyz + vec3(0.0, 0.0, delta_pos));
+  float h4 = water_waves(pos.xyz + vec3(0.0, 0.0, -delta_pos));
 
-  float xDelta = ((h1 - h0) + (h0 - h2)) / deltaPos;
-  float yDelta = ((h3 - h0) + (h0 - h4)) / deltaPos;
+  float x_delta = ((h1 - h0) + (h0 - h2)) / delta_pos;
+  float y_delta = ((h3 - h0) + (h0 - h4)) / delta_pos;
 
-  return normalize(vec3(xDelta, yDelta, 1.0 - xDelta * xDelta - yDelta * yDelta));
+  return normalize(
+    vec3(x_delta, y_delta, 1.0 - x_delta * x_delta - y_delta * y_delta)
+    );
 }
 
-vec3 toNDC(vec3 pos){
-  vec4 iProjDiag = vec4(gbufferProjectionInverse[0].x, gbufferProjectionInverse[1].y, gbufferProjectionInverse[2].zw);
+vec3 to_NDC(vec3 pos){
+  vec4 i_proj_diag = vec4(gbufferProjectionInverse[0].x, gbufferProjectionInverse[1].y, gbufferProjectionInverse[2].zw);
     vec3 p3 = pos * 2. - 1.;
-    vec4 fragpos = iProjDiag * p3.xyzz + gbufferProjectionInverse[3];
+    vec4 fragpos = i_proj_diag * p3.xyzz + gbufferProjectionInverse[3];
     return fragpos.xyz / fragpos.w;
 }
 
-vec3 cameraSpaceToScreenSpace(vec3 fragpos) {
+vec3 camera_to_screen(vec3 fragpos) {
   vec4 pos  = gbufferProjection * vec4(fragpos, 1.0);
    pos /= pos.w;
 
   return pos.xyz * 0.5 + 0.5;
 }
 
-vec3 cameraSpaceToWorldSpace(vec3 fragpos) {
+vec3 camera_to_world(vec3 fragpos) {
   vec4 pos  = gbufferProjectionInverse * vec4(fragpos, 1.0);
   pos /= pos.w;
 
   return pos.xyz;
 }
 
-vec3 refraction(vec3 fragpos, vec3 color, vec3 waterRefract) {
-  vec3 pos = cameraSpaceToScreenSpace(fragpos);
+vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
+  vec3 pos = camera_to_screen(fragpos);
 
   #if REFRACTION == 1
 
-    float  waterRefractionStrength = 0.1;
-    waterRefractionStrength /= 1.0 + length(fragpos) * 0.4;
-    vec2 waterTexcoord = pos.xy + waterRefract.xy * waterRefractionStrength;
+    float  refraction_strength = 0.1;
+    refraction_strength /= 1.0 + length(fragpos) * 0.4;
+    vec2 medium_texcoord = pos.xy + refraction.xy * refraction_strength;
 
-    return texture2D(gaux2, waterTexcoord.st).rgb * color;
+    return texture2D(gaux2, medium_texcoord.st).rgb * color;
 
   #else
 
@@ -78,16 +89,18 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 waterRefract) {
   #endif
 }
 
-vec3 getNormals(vec3 bump) {
+vec3 get_normals(vec3 bump) {
   float NdotE = abs(dot(water_normal, normalize(position2.xyz)));
 
   bump *= vec3(NdotE) + vec3(0.0, 0.0, 1.0 - NdotE);
 
-  mat3 tbnMatrix = mat3(tangent.x, binormal.x, water_normal.x,
-              tangent.y, binormal.y, water_normal.y,
-              tangent.z, binormal.z, water_normal.z);
+  mat3 tbn_matrix = mat3(
+    tangent.x, binormal.x, water_normal.x,
+    tangent.y, binormal.y, water_normal.y,
+    tangent.z, binormal.z, water_normal.z
+    );
 
-  return normalize(bump * tbnMatrix);
+  return normalize(bump * tbn_matrix);
 }
 
 float cdist(vec2 coord) {
@@ -95,73 +108,73 @@ float cdist(vec2 coord) {
 }
 
 vec4 raytrace(vec3 fragpos, vec3 normal) {
-
   #if SSR_METHOD == 0
 
-    vec3 reflectedVector = reflect(normalize(fragpos), normal) * 30.0;
-    vec3 pos = cameraSpaceToScreenSpace(fragpos + reflectedVector);
+    vec3 reflected_vector = reflect(normalize(fragpos), normal) * 30.0;
+    vec3 pos = camera_to_screen(fragpos + reflected_vector);
 
-    float border = clamp((1.0 - (max(0.0, abs(pos.y - 0.5)) * 2.0)) * 50.0, 0.0, 1.0);
+    float border =
+      clamp((1.0 - (max(0.0, abs(pos.y - 0.5)) * 2.0)) * 50.0, 0.0, 1.0);
     // float border = max(-fifth_pow(abs(2 * pos.y - 1.0)) + 1.0, 0.0);
 
     return vec4(texture2D(gaux2, pos.xy, 0.0).rgb, border);
 
   #else
     #if AA_TYPE == 2
-      float dither = time_hash12();
+      float dither = timed_hash12();
     #else
-      float dither = ditherGradNoise();
+      float dither = interleaved_noise();
     #endif
 
-    const int samples       = RT_SAMPLES;
-    const int maxRefinement = 10;
-    const float stepSize    = 1.2;
-    const float stepRefine  = 0.28;
-    const float stepIncrease = 1.8;
+    const int samples = RT_SAMPLES;
+    const int max_refine = 10;
+    const float step_size = 1.2;
+    const float step_refine = 0.28;
+    const float step_increment = 1.8;
 
-    vec3 col        = vec3(0.0);
-    vec3 rayStart   = fragpos;
-    vec3 rayDir     = reflect(normalize(fragpos), normal);
-    vec3 rayStep    = (stepSize+dither-0.5)*rayDir;
-    vec3 rayPos     = rayStart + rayStep;
-    vec3 rayPrevPos = rayStart;
-    vec3 rayRefine  = rayStep;
+    vec3 col = vec3(0.0);
+    vec3 ray_start = fragpos;
+    vec3 ray_dir = reflect(normalize(fragpos), normal);
+    vec3 ray_step = (step_size + dither - 0.5) * ray_dir;
+    vec3 ray_pos = ray_start + ray_step;
+    vec3 ray_pos_past = ray_start;
+    vec3 ray_refine  = ray_step;
 
-    int refine  = 0;
-    vec3 pos    = vec3(0.0);
+    int refine = 0;
+    vec3 pos = vec3(0.0);
     float border = 0.0;
 
     for (int i = 0; i < samples; i++) {
+      pos = camera_to_screen(ray_pos);
 
-    pos = cameraSpaceToScreenSpace(rayPos);
-
-    if (pos.x < 0.0 ||
+      if (
+        pos.x < 0.0 ||
         pos.x > 1.0 ||
         pos.y < 0.0 ||
         pos.y > 1.0 ||
         pos.z < 0.0 ||
-        pos.z > 1.0) break;
+        pos.z > 1.0
+        ) break;
 
-    vec3 screenPos  = vec3(pos.xy, texture2D(depthtex1, pos.xy).x);
-     screenPos  = cameraSpaceToWorldSpace(screenPos * 2.0 - 1.0);
+      vec3 screen_pos = vec3(pos.xy, texture2D(depthtex1, pos.xy).x);
+      screen_pos = camera_to_world(screen_pos * 2.0 - 1.0);
 
-    float dist = distance(rayPos, screenPos);
+      float dist = distance(ray_pos, screen_pos);
 
-    if (dist < pow(length(rayStep) * pow(length(rayRefine), 0.11), 1.1) * 1.22) {
+      if (
+        dist < pow(length(ray_step) * pow(length(ray_refine), 0.11), 1.1) * 1.22
+        ) {
+        refine++;
+        if (refine >= max_refine) break;
 
-    refine++;
-    if (refine >= maxRefinement)  break;
+        ray_refine -= ray_step;
+        ray_step *= step_refine;
+      }
 
-    rayRefine  -= rayStep;
-    rayStep    *= stepRefine;
-
-    }
-
-    rayStep        *= stepIncrease;
-    rayPrevPos      = rayPos;
-    rayRefine      += rayStep;
-    rayPos          = rayStart+rayRefine;
-
+      ray_step *= step_increment;
+      ray_pos_past = ray_pos;
+      ray_refine += ray_step;
+      ray_pos = ray_start + ray_refine;
     }
 
     if (pos.z < 1.0-1e-5) {
@@ -186,17 +199,21 @@ vec4 raytrace(vec3 fragpos, vec3 normal) {
   #endif
 }
 
-vec3 waterShader(vec3 fragpos, vec3 normal, vec3 color, vec3 skyReflection) {
+vec3 water_shader(vec3 fragpos, vec3 normal, vec3 color, vec3 sky_reflect) {
   vec4 reflection = vec4(0.0);
 
   #if REFLECTION == 1
     reflection = raytrace(fragpos, normal);
   #endif
 
-  float normalDotEye = dot(normal, normalize(fragpos));
-  float fresnel = clamp(fourth_pow(1.0 + normalDotEye) + 0.1, 0.0, 1.0);
+  float normal_dot_eye = dot(normal, normalize(fragpos));
+  float fresnel = clamp(fourth_pow(1.0 + normal_dot_eye) + 0.1, 0.0, 1.0);
 
-   reflection.rgb = mix(skyReflection * lmcoord.t * lmcoord.t, reflection.rgb, reflection.a);
+   reflection.rgb = mix(
+     sky_reflect * lmcoord.t * lmcoord.t,
+     reflection.rgb,
+     reflection.a
+     );
 
   return mix(color, reflection.rgb, fresnel);
 }
