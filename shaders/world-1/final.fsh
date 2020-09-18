@@ -14,7 +14,7 @@ colortex0 - Main color canvas
 colortex1 - gdepth (?)
 colortex2 - Antialiasing auxiliar
 colortex3 - TAA Averages history
-gaux1 - Blur Auxiliar
+colortex4 - Blur Auxiliar
 gaux2 - Reflection texture
 colortex6 - Not used
 
@@ -22,7 +22,7 @@ const int colortex0Format = R11F_G11F_B10F;
 const int colortex1Format = R8;
 const int colortex2Format = RGB8;
 const int colortex3Format = R11F_G11F_B10F;
-const int gaux1Format = RGBA16F;
+const int colortex4Format = RGBA16F;
 const int gaux2Format = RGB8;
 const int colortex6Format = RGBA16;
 const int colortex7Format = R8;
@@ -38,7 +38,7 @@ const float centerDepthHalflife = 2.0f;
 uniform sampler2D colortex0;
 
 #if DOF == 1
-  uniform sampler2D gaux1;
+  uniform sampler2D colortex4;
   uniform float pixelSizeY;
   uniform float viewHeight;
   uniform float pixelSizeX;
@@ -55,7 +55,7 @@ varying vec2 texcoord;
 void main() {
 
   #if DOF == 1
-    vec4 color_blur = texture2D(gaux1, texcoord);
+    vec4 color_blur = texture2D(colortex4, texcoord);
     float blur_radius = color_blur.a;
     vec3 color = color_blur.rgb;
 
@@ -76,7 +76,7 @@ void main() {
 
       for (float y = start; y <= finish; y += step) {
         weight = fogify((y - texcoord.y) * viewHeight * radius_inv, 0.35);
-        new_blur = texture2D(gaux1, vec2(texcoord.x, y));
+        new_blur = texture2D(colortex4, vec2(texcoord.x, y));
         average.rgb += new_blur.rgb * weight;
         average.a += weight;
       }

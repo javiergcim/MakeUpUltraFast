@@ -10,7 +10,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #if DOF == 1
   uniform sampler2D depthtex1;
   uniform float centerDepthSmooth;
-  uniform sampler2D gaux1;
+  uniform sampler2D colortex4;
   uniform float pixelSizeX;
   uniform float viewWidth;
 #else
@@ -35,7 +35,7 @@ void main() {
       blur_radius = blur_radius / sqrt(0.1 + blur_radius * blur_radius) * DOF_STRENGTH;
     }
 
-    vec3 color = texture2D(gaux1, texcoord).rgb;
+    vec3 color = texture2D(colortex4, texcoord).rgb;
 
     if (blur_radius > 1.0) {
       float radius_inv = 1.0 / blur_radius;
@@ -54,7 +54,7 @@ void main() {
 
       for (float x = start; x <= finish; x += step) {  // step
         weight = fogify((x - texcoord.x) * viewWidth * radius_inv, 0.35);
-        new_blur = texture2D(gaux1, vec2(x, texcoord.y));
+        new_blur = texture2D(colortex4, vec2(x, texcoord.y));
         average.rgb += new_blur.rgb * weight;
         average.a += weight;
       }
