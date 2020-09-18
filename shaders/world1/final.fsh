@@ -16,7 +16,7 @@ colortex2 - Antialiasing auxiliar
 colortex3 - TAA Averages history
 gaux1 - Blur Auxiliar
 gaux2 - Reflection texture
-gaux3 - Not used
+colortex6 - Not used
 
 const int colortex0Format = R11F_G11F_B10F;
 const int colortex1Format = R8;
@@ -24,7 +24,7 @@ const int colortex2Format = RGB8;
 const int colortex3Format = R11F_G11F_B10F;
 const int gaux1Format = RGBA16F;
 const int gaux2Format = RGB8;
-const int gaux3Format = RGBA16;
+const int colortex6Format = RGBA16;
 const int colortex7Format = R8;
 */
 
