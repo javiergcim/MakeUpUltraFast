@@ -6,6 +6,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 #define WATER_F
+#define THE_END
 
 #include "/lib/config.glsl"
 
