@@ -40,6 +40,10 @@ uniform sampler2D depthtex1;
 uniform float frameTimeCounter;
 uniform int isEyeInWater;
 
+uniform vec3 sunPosition;
+uniform vec3 moonPosition;
+uniform int worldTime;
+
 #include "/lib/basic_utils.glsl"
 #include "/lib/dither.glsl"
 #include "/lib/water.glsl"

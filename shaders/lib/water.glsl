@@ -1,7 +1,32 @@
 /* MakeUp Ultra Fast - water.glsl
-Water reflection and refraction related functions. Based by Project LUMA.
-
+Water reflection and refraction related functions.
+Based on work from RRe36.
+https://rre36.github.io/
 */
+
+#if SUN_REFLECTION == 1
+	#ifndef NETHER
+	  #ifndef THE_END
+
+			vec3 sun_reflection(vec3 fragpos) {
+				vec3 astro_pos = sunPosition;
+				if (worldTime > 12900) {
+					astro_pos = moonPosition;
+				}
+				float astro_vector =
+					max(dot(normalize(fragpos), normalize(astro_pos)), 0.0);
+
+				return vec3(
+					clamp(
+						smoothstep(0.997, 1.0, astro_vector) * clamp(4.0 * lmcoord.y - 3.0, 0.0, 1.0) * (1.0 - wetness),
+						0.0,
+						1.0
+					));
+			}
+
+		#endif
+	#endif
+#endif
 
 float water_waves(vec3 world_pos) {
   float wave = 0.0;
@@ -123,7 +148,7 @@ vec4 raytrace(vec3 fragpos, vec3 normal) {
     #if AA_TYPE == 2
       float dither = timed_hash12();
     #else
-      float dither = interleaved_noise();
+      float dither = grid_noise();
     #endif
 
     const int samples = RT_SAMPLES;
@@ -209,11 +234,24 @@ vec3 water_shader(vec3 fragpos, vec3 normal, vec3 color, vec3 sky_reflect) {
   float normal_dot_eye = dot(normal, normalize(fragpos));
   float fresnel = clamp(fourth_pow(1.0 + normal_dot_eye) + 0.1, 0.0, 1.0);
 
-   reflection.rgb = mix(
-     sky_reflect * lmcoord.t * lmcoord.t,
-     reflection.rgb,
-     reflection.a
-     );
+	reflection.rgb = mix(
+	  sky_reflect * lmcoord.y * lmcoord.y,
+	  reflection.rgb,
+	  reflection.a
+	);
 
-  return mix(color, reflection.rgb, fresnel);
+	#if SUN_REFLECTION == 1
+ 		#ifndef NETHER
+			#ifndef THE_END
+			  return mix(color, reflection.rgb, fresnel) +
+					sun_reflection(reflect(normalize(fragpos), normal));
+			#else
+				return mix(color, reflection.rgb, fresnel);
+			#endif
+		#else
+			return mix(color, reflection.rgb, fresnel);
+		#endif
+	#else
+		return mix(color, reflection.rgb, fresnel);
+	#endif
 }

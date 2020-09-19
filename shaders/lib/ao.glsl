@@ -11,7 +11,11 @@ vec2 offsetDist(float x, int s){
 float dbao(sampler2D depth, float dither){
   float ao = 0.0;
 
-  int samples = AOSTEPS;
+  #if AA_TYPE == 2
+    int samples = AOSTEPS - 1;
+  #else
+    int samples = AOSTEPS;
+  #endif
 
   float d = texture2D(depth, texcoord.xy).r;
   float hand = float(d < 0.56);

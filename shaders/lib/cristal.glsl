@@ -21,7 +21,7 @@ vec4 cristal_raytrace(vec3 fragpos, vec3 normal) {
     #if AA_TYPE == 2
       float dither = timed_hash12();
     #else
-      float dither = interleaved_noise();
+      float dither = grid_noise();
     #endif
 
     const int samples = RT_SAMPLES;
@@ -105,7 +105,7 @@ vec4 cristal_shader(vec3 fragpos, vec3 normal, vec4 color, vec3 sky_reflection) 
     reflection = cristal_raytrace(fragpos, normal);
   #endif
 
-  reflection.rgb = mix(sky_reflection * lmcoord.t * lmcoord.t, reflection.rgb, reflection.a);
+  reflection.rgb = mix(sky_reflection * lmcoord.y * lmcoord.y, reflection.rgb, reflection.a);
 
   float normal_dot_eye = dot(normal, normalize(fragpos));
   float fresnel = clamp(fifth_pow(1.0 + normal_dot_eye) + 0.1, 0.0, 1.0);
@@ -117,5 +117,27 @@ vec4 cristal_shader(vec3 fragpos, vec3 normal, vec4 color, vec3 sky_reflection) 
 
   color.a = mix(color.a, 1.0, fresnel * .8);
 
-  return color;
+  // return color;
+
+  #if SUN_REFLECTION == 1
+ 		#ifndef NETHER
+			#ifndef THE_END
+			  return color +
+					vec4(
+						mix(
+							sun_reflection(reflect(normalize(fragpos), normal)),
+							vec3(0.0),
+							reflection.a
+						),
+						0.0
+					);
+			#else
+				return color;
+			#endif
+		#else
+			return color;
+		#endif
+	#else
+		return color;
+	#endif
 }

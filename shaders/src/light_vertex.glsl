@@ -34,7 +34,7 @@
   #endif
 
   // Ajuste de intensidad luminosa bajo el agua
-  if (isEyeInWater == 1.0) {
+  if (isEyeInWater == 1) {
     illumination.y = (illumination.y * .95) + .05;
   }
 

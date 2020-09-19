@@ -33,6 +33,8 @@ const int noiseTextureResolution = 128;
 const float ambientOcclusionLevel = 1.0f;
 const float eyeBrightnessHalflife = 10.0f;
 const float centerDepthHalflife = 2.0f;
+const float wetnessHalflife = 20.0f;
+const float drynessHalflife = 10.0f;
 
 // 'Global' constants from system
 uniform sampler2D colortex0;

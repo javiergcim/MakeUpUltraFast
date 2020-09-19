@@ -54,7 +54,8 @@ vec3 fast_taa(vec3 current_color) {
 
     // Reducción de ghosting por velocidad
     vec2 velocity = (texcoord - texcoord_past) * vec2(viewWidth, viewHeight);
-    float blend = exp(-length(velocity)) * 0.525 + 0.4;
+    float blend = exp(-length(velocity)) * 0.35 + 0.6;
+    // float blend = .9;
 
     // Reducción de ghosting por luma
     float luma_p = luma(previous);

@@ -37,6 +37,10 @@ value.SSR_METHOD.1=Raytrace
 
 option.RT_SAMPLES=Raytrace samples
 
+option.SUN_REFLECTION=Sun reflection
+value.SUN_REFLECTION.0=Off
+value.SUN_REFLECTION.1=On
+
 option.WAVING=Waving plants
 value.WAVING.0=No
 value.WAVING.1=Yes

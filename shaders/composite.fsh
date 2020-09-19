@@ -45,7 +45,7 @@ void main() {
     #if AA_TYPE == 2
       float dither = timed_hash12();
     #else
-      float dither = hash12();
+      float dither = grid_noise();
     #endif
 
     // AO distance attenuation
