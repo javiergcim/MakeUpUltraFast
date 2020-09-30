@@ -42,7 +42,7 @@ vec3 fast_taa(vec3 current_color) {
     neighbourhood[8] = texture2D(colortex2, texcoord + vec2(pixelSizeX, pixelSizeY)).xyz;
 
     vec3 nmin = neighbourhood[0];
-    vec3 nmax = neighbourhood[0];
+    vec3 nmax = nmin;
     for(int i = 1; i < 9; ++i) {
       nmin = min(nmin, neighbourhood[i]);
       nmax = max(nmax, neighbourhood[i]);
@@ -55,7 +55,6 @@ vec3 fast_taa(vec3 current_color) {
     // Reducción de ghosting por velocidad
     vec2 velocity = (texcoord - texcoord_past) * vec2(viewWidth, viewHeight);
     float blend = exp(-length(velocity)) * 0.35 + 0.6;
-    // float blend = .9;
 
     // Reducción de ghosting por luma
     float luma_p = luma(previous);
