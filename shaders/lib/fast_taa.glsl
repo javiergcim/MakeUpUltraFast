@@ -12,15 +12,15 @@ vec3 toClipSpace3Prev(vec3 viewSpacePosition) {
     return projMAD(gbufferPreviousProjection, viewSpacePosition) / -viewSpacePosition.z * 0.5 + 0.5;
 }
 
-vec3 fast_taa(vec3 current_color) {
+vec3 fast_taa(vec3 current_color, vec2 texcoord_past, vec2 velocity) {
   // Reproyección del cuadro anterior
-  vec3 closest_to_camera = vec3(texcoord, texture2D(depthtex0, texcoord).x);
-  vec3 fragposition = to_screen_space(closest_to_camera);
-  fragposition = mat3(gbufferModelViewInverse) * fragposition + gbufferModelViewInverse[3].xyz + (cameraPosition - previousCameraPosition);
-  vec3 previous_position = mat3(gbufferPreviousModelView) * fragposition + gbufferPreviousModelView[3].xyz;
-  previous_position = toClipSpace3Prev(previous_position);
-  previous_position.xy = texcoord + (previous_position.xy - closest_to_camera.xy);
-  vec2 texcoord_past = previous_position.xy;
+  // vec3 closest_to_camera = vec3(texcoord, texture2D(depthtex0, texcoord).x);
+  // vec3 fragposition = to_screen_space(closest_to_camera);
+  // fragposition = mat3(gbufferModelViewInverse) * fragposition + gbufferModelViewInverse[3].xyz + (cameraPosition - previousCameraPosition);
+  // vec3 previous_position = mat3(gbufferPreviousModelView) * fragposition + gbufferPreviousModelView[3].xyz;
+  // previous_position = toClipSpace3Prev(previous_position);
+  // previous_position.xy = texcoord + (previous_position.xy - closest_to_camera.xy);
+  // vec2 texcoord_past = previous_position.xy;
 
   // Verificamos si proyección queda fuera de la pantalla actual
   bvec2 a = greaterThan(texcoord_past, vec2(1.0));
@@ -53,7 +53,7 @@ vec3 fast_taa(vec3 current_color) {
     vec3 past_sample = clamp(previous, nmin, nmax);
 
     // Reducción de ghosting por velocidad
-    vec2 velocity = (texcoord - texcoord_past) * vec2(viewWidth, viewHeight);
+    // vec2 velocity = (texcoord - texcoord_past) * vec2(viewWidth, viewHeight);
     float blend = exp(-length(velocity)) * 0.35 + 0.6;
 
     // Reducción de ghosting por luma
