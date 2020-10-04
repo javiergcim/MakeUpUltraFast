@@ -23,10 +23,20 @@ uniform float viewHeight;
   uniform vec3 previousCameraPosition;
   uniform mat4 gbufferPreviousProjection;
   uniform mat4 gbufferPreviousModelView;
+  uniform float frameTimeCounter;
 #endif
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
+
+#if AA_TYPE == 2 || MOTION_BLUR == 1
+  #include "/lib/projection_utils.glsl"
+#endif
+
+#if MOTION_BLUR == 1
+  #include "/lib/dither.glsl"
+  #include "/lib/motion_blur.glsl"
+#endif
 
 #if AA_TYPE == 1
   #include "/lib/luma.glsl"
@@ -42,7 +52,8 @@ void main() {
   // Precalc past position and velocity
   #if AA_TYPE == 2 || MOTION_BLUR == 1
     // Reproyección del cuadro anterior
-    vec3 closest_to_camera = vec3(texcoord, texture2D(depthtex0, texcoord).x);
+    float z_depth = texture2D(depthtex0, texcoord).x;
+    vec3 closest_to_camera = vec3(texcoord, z_depth);
     vec3 fragposition = to_screen_space(closest_to_camera);
     fragposition = mat3(gbufferModelViewInverse) * fragposition + gbufferModelViewInverse[3].xyz + (cameraPosition - previousCameraPosition);
     vec3 previous_position = mat3(gbufferPreviousModelView) * fragposition + gbufferPreviousModelView[3].xyz;
@@ -51,10 +62,13 @@ void main() {
     vec2 texcoord_past = previous_position.xy;  // Posición en el pasado
 
     // "Velocidad"
-    vec2 velocity = (texcoord - texcoord_past) * vec2(viewWidth, viewHeight);
+    vec2 velocity = texcoord - texcoord_past;
   #endif
 
   #if AA_TYPE == 1
+    #if MOTION_BLUR == 1
+      block_color.rgb = motion_blur(block_color.rgb, z_depth, grid_noise());
+    #endif
     block_color.rgb = fxaa311(block_color.rgb, AA);
     #if DOF == 1
       gl_FragData[4] = block_color;  // colortex4
@@ -63,6 +77,9 @@ void main() {
     #endif
 
   #elif AA_TYPE == 2
+    #if MOTION_BLUR == 1
+      block_color.rgb = motion_blur(block_color.rgb, z_depth, grid_noise());
+    #endif
     block_color.rgb = fast_taa(block_color.rgb, texcoord_past, velocity);
     gl_FragData[3] = block_color;  // To TAA averages
     #if DOF == 1
@@ -71,6 +88,9 @@ void main() {
       gl_FragData[0] = block_color;  // colortex0
     #endif
   #else
+    #if MOTION_BLUR == 1
+      block_color.rgb = motion_blur(block_color.rgb, z_depth, grid_noise());
+    #endif
     #if DOF == 1
       gl_FragData[4] = block_color;  // colortex4
     #else
