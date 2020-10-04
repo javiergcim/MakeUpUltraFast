@@ -13,6 +13,12 @@ value.AA_TYPE.0=None
 value.AA_TYPE.1=FXAA
 value.AA_TYPE.2=TAA
 
+option.MOTION_BLUR=Motion blur
+value.MOTION_BLUR.0=Off
+value.MOTION_BLUR.1=On
+
+option.MOTION_BLUR_STRENGTH=Motion blur strenght
+
 option.AA=FXAA quality
 value.AA.0=None
 value.AA.4=Ultra sharp
@@ -61,7 +67,10 @@ option.AO_STRENGHT=Ambient occlusion strenght
 
 #Screens
 screen.AA_SCREEN=Antialiasing options
-screen.AA_SCREEN.comment=Toggle antialiasing (FXAA).
+screen.AA_SCREEN.comment=Set antialiasing options.
 
 screen.EFFECTS=Effects options
 screen.EFFECTS.comment=Efects options.
+
+screen.MOTION_SCREEN=Motion blur options
+screen.MOTION_SCREEN.comment=Set motion blur options

@@ -18,8 +18,7 @@ vec3 motion_blur(vec3 color, float z_depth, float dither) {
 		previous_position /= previous_position.w;
 
 		vec2 blur_velocity = (current_position - previous_position).xy;
-		// blur_velocity = blur_velocity / (1.0 + length(blur_velocity)) * MOTION_BLUR_STRENGTH * 0.02;
-		blur_velocity = blur_velocity / (1.0 + length(blur_velocity)) * 5.0 * 0.02;
+		blur_velocity = blur_velocity / (1.0 + length(blur_velocity)) * MOTION_BLUR_STRENGTH * 0.02;
 
 		vec2 coord = texcoord - blur_velocity * (1.5 + dither);
 		for(int i = 0; i < 5; i++, coord += blur_velocity){

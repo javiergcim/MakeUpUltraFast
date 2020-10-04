@@ -12,7 +12,7 @@ uniform sampler2D colortex2;
 uniform float viewWidth;
 uniform float viewHeight;
 
-#if AA_TYPE == 2
+#if AA_TYPE == 2 || MOTION_BLUR == 1
   uniform sampler2D colortex3;  // TAA past averages
   uniform sampler2D depthtex0;
   uniform float pixelSizeX;
@@ -23,10 +23,20 @@ uniform float viewHeight;
   uniform vec3 previousCameraPosition;
   uniform mat4 gbufferPreviousProjection;
   uniform mat4 gbufferPreviousModelView;
+  uniform float frameTimeCounter;
 #endif
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
+
+#if AA_TYPE == 2 || MOTION_BLUR == 1
+  #include "/lib/projection_utils.glsl"
+#endif
+
+#if MOTION_BLUR == 1
+  #include "/lib/dither.glsl"
+  #include "/lib/motion_blur.glsl"
+#endif
 
 #if AA_TYPE == 1
   #include "/lib/luma.glsl"
@@ -39,6 +49,26 @@ varying vec2 texcoord;
 void main() {
   vec4 block_color = texture2D(colortex2, texcoord);
 
+  // Precalc past position and velocity
+  #if AA_TYPE == 2 || MOTION_BLUR == 1
+    // Reproyección del cuadro anterior
+    float z_depth = texture2D(depthtex0, texcoord).x;
+    vec3 closest_to_camera = vec3(texcoord, z_depth);
+    vec3 fragposition = to_screen_space(closest_to_camera);
+    fragposition = mat3(gbufferModelViewInverse) * fragposition + gbufferModelViewInverse[3].xyz + (cameraPosition - previousCameraPosition);
+    vec3 previous_position = mat3(gbufferPreviousModelView) * fragposition + gbufferPreviousModelView[3].xyz;
+    previous_position = toClipSpace3Prev(previous_position);
+    previous_position.xy = texcoord + (previous_position.xy - closest_to_camera.xy);
+    vec2 texcoord_past = previous_position.xy;  // Posición en el pasado
+
+    // "Velocidad"
+    vec2 velocity = texcoord - texcoord_past;
+  #endif
+
+  #if MOTION_BLUR == 1
+    block_color.rgb = motion_blur(block_color.rgb, z_depth, grid_noise());
+  #endif
+
   #if AA_TYPE == 1
     block_color.rgb = fxaa311(block_color.rgb, AA);
     #if DOF == 1
@@ -46,12 +76,10 @@ void main() {
     #else
       gl_FragData[0] = block_color;  // colortex0
     #endif
-    // gl_FragData[1] = vec4(0.0);  // ¿Performance?
 
   #elif AA_TYPE == 2
-    block_color.rgb = fast_taa(block_color.rgb);
+    block_color.rgb = fast_taa(block_color.rgb, texcoord_past, velocity);
     gl_FragData[3] = block_color;  // To TAA averages
-    // gl_FragData[3] = vec4(1.0, 0.0, 0.0, 1.0);
     #if DOF == 1
       gl_FragData[4] = block_color;  // colortex4
     #else
@@ -63,7 +91,6 @@ void main() {
     #else
       gl_FragData[0] = block_color;  // colortex0
     #endif
-  // gl_FragData[1] = vec4(0.0);  // ¿Performance?
 
   #endif
 }

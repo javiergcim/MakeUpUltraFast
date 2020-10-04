@@ -65,10 +65,11 @@ void main() {
     vec2 velocity = texcoord - texcoord_past;
   #endif
 
+  #if MOTION_BLUR == 1
+    block_color.rgb = motion_blur(block_color.rgb, z_depth, grid_noise());
+  #endif
+
   #if AA_TYPE == 1
-    #if MOTION_BLUR == 1
-      block_color.rgb = motion_blur(block_color.rgb, z_depth, grid_noise());
-    #endif
     block_color.rgb = fxaa311(block_color.rgb, AA);
     #if DOF == 1
       gl_FragData[4] = block_color;  // colortex4
@@ -77,9 +78,6 @@ void main() {
     #endif
 
   #elif AA_TYPE == 2
-    #if MOTION_BLUR == 1
-      block_color.rgb = motion_blur(block_color.rgb, z_depth, grid_noise());
-    #endif
     block_color.rgb = fast_taa(block_color.rgb, texcoord_past, velocity);
     gl_FragData[3] = block_color;  // To TAA averages
     #if DOF == 1
@@ -88,9 +86,6 @@ void main() {
       gl_FragData[0] = block_color;  // colortex0
     #endif
   #else
-    #if MOTION_BLUR == 1
-      block_color.rgb = motion_blur(block_color.rgb, z_depth, grid_noise());
-    #endif
     #if DOF == 1
       gl_FragData[4] = block_color;  // colortex4
     #else

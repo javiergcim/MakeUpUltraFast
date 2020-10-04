@@ -32,7 +32,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define RT_SAMPLES 10 // [6 8 10 12 14 16 18 20 22 24] Reflections samples (raytrace only). More samples, less performance.
 #define AA 4 // [4 6 12] Set antialiasing quality (FXAA only)
 #define MOTION_BLUR 1 // [0 1] Turn on motion blur
-#define MOTION_BLUR_STRENGTH 1.0 // [1.0 2.0] Set Motion blur strength
+#define MOTION_BLUR_STRENGTH 2.0 // [1.0 2.0 3.0 4.0 5.0 6.0] Set Motion blur strength. 3.0 is recommended for 60 fps. Lower framerate -> Lower strength and vice versa is recommended.
 #define SUN_REFLECTION 1 // [0 1] Set sun (or moon) reflection on water and glass
 
 const bool colortex0Clear = false;
