@@ -59,9 +59,9 @@ void main() {
   if (block_type > 2.5) {  // Water
     #if TINTED_WATER == 1
       block_color.rgb = mix(
-        tint_color.rgb * real_light,
+        tint_color.rgb,
         vec3(1.0),
-        .4
+        .3
       );
     #else
       block_color.rgb = vec3(1.0);

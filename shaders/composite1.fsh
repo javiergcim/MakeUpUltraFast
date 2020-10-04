@@ -66,7 +66,7 @@ void main() {
   #endif
 
   #if MOTION_BLUR == 1
-    block_color.rgb = motion_blur(block_color.rgb, z_depth, grid_noise());
+    block_color.rgb = motion_blur(block_color.rgb, z_depth, velocity);
   #endif
 
   #if AA_TYPE == 1
