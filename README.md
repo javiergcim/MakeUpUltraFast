@@ -1,13 +1,14 @@
 # MakeUp - Ultra Fast
 Ultra fast Minecraft shader (Java). For a small graphic improvement. Intended for very low-spec computers.
 
-**Version: 1.6**
+**Version: 1.61**
 
 ## Main features
 * Antialiasing (FXAA or TAA)
 * Depth of field
 * Enhanced ambient occlusion
 * Water reflection and refraction
+* Motion blur
 * Auto-exposure
 * Shader for all dimensions
 * FAST!

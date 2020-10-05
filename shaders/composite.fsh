@@ -42,16 +42,10 @@ void main() {
   vec4 block_color = texture2D(colortex0, texcoord);
 
   #if AO == 1
-    #if AA_TYPE == 2
-      float dither = timed_hash12();
-    #else
-      float dither = grid_noise();
-    #endif
-
     // AO distance attenuation
     float d = texture2D(depthtex0, texcoord).r;
     float ao_att = sqrt(ld(d));
-    float final_ao = mix(dbao(depthtex0, dither), 1.0, ao_att);
+    float final_ao = mix(dbao(depthtex0), 1.0, ao_att);
     block_color *= final_ao;
     // block_color = vec4(vec3(final_ao), 1.0);
   #endif

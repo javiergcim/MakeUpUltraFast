@@ -8,13 +8,15 @@ vec2 offsetDist(float x, int s){
   return vec2(cos(n), sin(n)) * x / s;
 }
 
-float dbao(sampler2D depth, float dither){
+float dbao(sampler2D depth) {
   float ao = 0.0;
 
   #if AA_TYPE == 2
     int samples = AOSTEPS - 1;
+    float dither = timed_hash12();
   #else
     int samples = AOSTEPS;
+    float dither = grid_noise();
   #endif
 
   float d = texture2D(depth, texcoord.xy).r;
