@@ -13,6 +13,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
   uniform sampler2D colortex4;
   uniform float pixelSizeX;
   uniform float viewWidth;
+  uniform float aspectRatio;
 #else
   uniform sampler2D colortex0;
 #endif
@@ -43,8 +44,10 @@ void main() {
       vec4 new_blur;
 
       vec4 average = vec4(0.0);
-      float start  = max(texcoord.x - blur_radius * pixelSizeX, pixelSizeX * 0.5);
-      float finish = min(texcoord.x + blur_radius * pixelSizeX, 1.0 - pixelSizeX * 0.5);
+      // float start  = max(texcoord.x - blur_radius * pixelSizeX, pixelSizeX * 0.5);
+      // float finish = min(texcoord.x + blur_radius * pixelSizeX, 1.0 - pixelSizeX * 0.5);
+      float start  = max(texcoord.x - blur_radius * ((blur_radius * 0.003) / aspectRatio), pixelSizeX * 0.5);
+      float finish = min(texcoord.x + ((blur_radius * 0.003) / aspectRatio), 1.0 - pixelSizeX * 0.5);
       float step = pixelSizeX;
       if (blur_radius > 9.0) {
         step *= 3.0;

@@ -46,6 +46,8 @@ uniform sampler2D colortex0;
   uniform float viewHeight;
   uniform float pixelSizeX;
   uniform float viewWeight;
+  uniform float aspectRatio;
+  uniform float inv_aspect_ratio;
 #endif
 
 // Varyings (per thread shared variables)
@@ -61,24 +63,25 @@ void main() {
     vec4 color_blur = texture2D(colortex4, texcoord);
     float blur_radius = color_blur.a;
     vec3 color = color_blur.rgb;
+    float v_blur_radius = blur_radius * 0.003 * aspectRatio;
 
-    if (blur_radius > 1.0) {
+    if (v_blur_radius > pixelSizeY) {
       float radius_inv = 1.0 / blur_radius;
       float weight;
       vec4 new_blur;
 
       vec4 average = vec4(0.0);
-      float start  = max(texcoord.y - blur_radius * pixelSizeY, pixelSizeY * 0.5);
-      float finish = min(texcoord.y + blur_radius * pixelSizeY, 1.0 - pixelSizeY * 0.5);
+      float start  = max(texcoord.y - v_blur_radius, pixelSizeY * 0.5);
+      float finish = min(texcoord.y + v_blur_radius, 1.0 - pixelSizeY * 0.5);
       float step = pixelSizeY;
-      if (blur_radius > 9.0) {
+      if (v_blur_radius > (6.0 * pixelSizeY)) {
         step *= 3.0;
-      } else if (blur_radius > 2.0) {
+      } else if (v_blur_radius > (2.0 * pixelSizeY)) {
         step *= 2.0;
       }
 
-      for (float y = start; y <= finish; y += step) {
-        weight = fogify((y - texcoord.y) * viewHeight * radius_inv, 0.35);
+      for (float y = start; y <= finish; y += step) {  // Blur samples
+        weight = fogify((y - texcoord.y) * 300.0 * inv_aspect_ratio * radius_inv, 0.35);
         new_blur = texture2D(colortex4, vec2(texcoord.x, y));
         average.rgb += new_blur.rgb * weight;
         average.a += weight;

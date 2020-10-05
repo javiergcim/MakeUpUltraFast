@@ -24,7 +24,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define REFRACTION 1  // [0 1] Activate refractions.
 #define SSR_METHOD 0  // [0 1] Flipped Image is inaccurate but faster. Raytrace is more accurate but slower.
 #define DOF 1  // [0 1] Enables depth of field (high performance cost)
-#define DOF_STRENGTH 50.0  // [20.0 25.0 30.0 35.0 40.0 45.0 50.0 55.0 60.0 65.0 70.0 75.0 80.0]  Depth of field strenght.
+#define DOF_STRENGTH 20.0  // [5.0 10.0 15.0 20.0 25.0 30.0 35.0 40.0]  Depth of field strenght.
 #define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance impact).
 #define AOSTEPS 8 // [8 12 16 20] How many samples are taken. More samples, less performance
 #define AO_STRENGHT 0.7 // [0.4 0.5 0.6 0.7 0.8 0.9 1.0] Ambient oclusion strenght
@@ -32,7 +32,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define RT_SAMPLES 10 // [6 8 10 12 14 16 18 20 22 24] Reflections samples (raytrace only). More samples, less performance.
 #define AA 4 // [4 6 12] Set antialiasing quality (FXAA only)
 #define MOTION_BLUR 1 // [0 1] Turn on motion blur
-#define MOTION_BLUR_STRENGTH 2.0 // [1.0 2.0 3.0 4.0 5.0 6.0] Set Motion blur strength. 3.0 is recommended for 60 fps. Lower framerate -> Lower strength and vice versa is recommended.
+#define MOTION_BLUR_STRENGTH 2.0 // [1.0 2.0 3.0 4.0 5.0 6.0] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
 #define SUN_REFLECTION 1 // [0 1] Set sun (or moon) reflection on water and glass
 
 const bool colortex0Clear = false;
