@@ -34,8 +34,10 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define MOTION_BLUR 1 // [0 1] Turn on motion blur
 #define MOTION_BLUR_STRENGTH 2.0 // [1.0 2.0 3.0 4.0 5.0 6.0] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
 #define SUN_REFLECTION 1 // [0 1] Set sun (or moon) reflection on water and glass
-#define SHADOW_SIZE 1024
+#define SHADOW_CASTING 1
+//b#define SHADOW_SIZE 512
 #define SHADOW_BIAS 0.8
+// #define SHADOW_D 5.0f
 
 const bool colortex0Clear = false;
 const bool colortex1Clear = false;

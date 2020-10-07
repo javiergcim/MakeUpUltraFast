@@ -1,16 +1,14 @@
 #version 120
 
-uniform sampler2D tex;
+#include "/lib/config.glsl"
 
-varying vec2 coord;
-varying vec4 tint_color;
+uniform sampler2D texture;
 
-uniform int blockEntityId;
+varying vec2 texcoord;
 
 void main() {
-  vec4 block_color = texture2D(tex, coord, -1) * vec4(tint_color.rgb, 1.0);
 
-  if (blockEntityId == 138) discard;
+	vec4 block_color = texture2D(texture, texcoord);
 
-  gl_FragData[0] = block_color;
+	gl_FragData[0] = block_color;
 }

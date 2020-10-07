@@ -1,29 +1,17 @@
 #version 120
 
-uniform vec3 cameraPosition;
-uniform mat4 shadowProjection;
-uniform mat4 shadowProjectionInverse;
-uniform mat4 shadowModelView;
-uniform mat4 shadowModelViewInverse;
+#include "/lib/config.glsl"
 
-varying vec2 coord;
-varying vec4 tint_color;
+varying vec2 texcoord;
 
-#include "/lib/shadow_utils.glsl"
+vec2 calc_shadow_dist(in vec2 shadow_pos) {
+	float distortion = ((1.0 - SHADOW_BIAS) + length(shadow_pos.xy * 1.25) * SHADOW_BIAS) * 0.85;
+	return shadow_pos.xy / distortion;
+}
 
 void main() {
-  //   vec4 position   = gl_Vertex;
-  //       position    = gl_ModelViewMatrix*position;
-	//
-	// position = gl_ProjectionMatrix * position;
+	gl_Position = ftransform();
+	gl_Position.xy = calc_shadow_dist(gl_Position.xy);
 
-  vec4 position = gl_ProjectionMatrix * gl_ModelViewMatrix * gl_Vertex;
-
-  warpShadowmap(position.xy);
-  position.z *= 0.2;
-
-  gl_Position = position;
-
-  coord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
-  tint_color = gl_Color;
+	texcoord = (gl_MultiTexCoord0).xy;
 }

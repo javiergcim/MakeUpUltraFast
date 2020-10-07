@@ -38,11 +38,25 @@
 
   #else  // Normal position
 
+    #if SHADOW_CASTING == 1
+      vec3 position =
+        mat3(gbufferModelViewInverse) *
+        (gl_ModelViewMatrix * gl_Vertex).xyz +
+        gbufferModelViewInverse[3].xyz;
+    #endif
+
     gl_Position = ftransform();
 
   #endif
 
 #else
+
+  #if SHADOW_CASTING == 1
+    vec3 position =
+      mat3(gbufferModelViewInverse) *
+      (gl_ModelViewMatrix * gl_Vertex).xyz +
+      gbufferModelViewInverse[3].xyz;
+  #endif
 
   gl_Position = ftransform();
 
