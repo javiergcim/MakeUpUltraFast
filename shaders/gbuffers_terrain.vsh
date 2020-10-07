@@ -11,6 +11,12 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/config.glsl"
 #include "/lib/color_utils.glsl"
 
+#include "/lib/shadow_utils.glsl"
+
+const bool generateShadowMipmap = true;
+const int shadowMapResolution = 1024;
+const float shadowDistance = 15.0f;
+
 // 'Global' constants from system
 uniform vec3 sunPosition;
 uniform int isEyeInWater;
@@ -24,6 +30,13 @@ uniform float nightVision;
 uniform float rainStrength;
 uniform vec3 skyColor;
 uniform ivec2 eyeBrightnessSmooth;
+
+uniform vec3 lightvec;
+uniform mat4 shadowProjection;
+uniform mat4 shadowProjectionInverse;
+uniform mat4 shadowModelView;
+uniform mat4 shadowModelViewInverse;
+uniform mat4 gbufferProjectionInverse;
 
 #if WAVING == 1
   uniform vec3 cameraPosition;
@@ -43,6 +56,8 @@ varying vec3 current_fog_color;
 varying float frog_adjust;
 varying float fog_density_coeff;
 
+varying vec3 spos;
+
 attribute vec4 mc_Entity;
 
 #if AA_TYPE == 2
@@ -55,6 +70,30 @@ attribute vec4 mc_Entity;
   attribute vec2 mc_midTexCoord;
   #include "/lib/vector_utils.glsl"
 #endif
+
+#define diagonal2(mat) vec2((mat)[0].x, (mat)[1].y)
+#define diagonal3(mat) vec3(diagonal2(mat), (mat)[2].z)
+#define diagonal4(mat) vec4(diagonal3(mat), (mat)[2].w)
+
+#define transMAD(mat, v) (mat3x3(mat) * (v) + (mat)[3].xyz)
+#define projMAD3(mat, v) (diagonal3(mat) * (v) + (mat)[3].xyz)
+
+vec3 getShadowCoordinate(vec3 vpos, float bias) {
+	vec3 position	= vpos;
+	position = transMAD(gbufferModelViewInverse, position);
+	position += vec3(bias) * lightvec;
+	position = transMAD(shadowModelView, position);
+	position = projMAD3(shadowProjection, position);
+	position.z -= 0.0007;
+
+	position.z *= 0.2;
+	warpShadowmap(position.xy);
+
+	return position * 0.5 + 0.5;
+}
+
+
+
 
 void main() {
   #include "/src/basiccoords_vertex.glsl"
@@ -76,4 +115,10 @@ void main() {
 
   #include "/src/light_vertex.glsl"
   #include "/src/fog_vertex.glsl"
+
+	vec4 temp_position = gl_Vertex;
+	temp_position = transMAD(gl_ModelViewMatrix, temp_position.xyz).xyzz;
+	// vpos = position.xyz;
+
+	spos = getShadowCoordinate(temp_position.xyz, 0.08 * (2048.0 / shadowMapResolution));
 }
