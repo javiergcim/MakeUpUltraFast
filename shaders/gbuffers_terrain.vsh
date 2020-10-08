@@ -57,9 +57,14 @@ varying vec3 current_fog_color;
 varying float frog_adjust;
 varying float fog_density_coeff;
 
+varying vec3 direct_light_color;
+varying vec3 candle_color;
+varying float direct_light_strenght;
+varying vec3 omni_light;
+
 #if SHADOW_CASTING == 1
   varying vec3 shadow_pos;
-  // varying float NdotL;
+  varying float NdotL;
 #endif
 
 attribute vec4 mc_Entity;
@@ -103,7 +108,7 @@ void main() {
 	#if SHADOW_CASTING == 1
 		// vec3 my_normal = normalize(gl_NormalMatrix * gl_Normal);
 		// vec3 my_normal = normal;
-    float NdotL = clamp(
+    NdotL = clamp(
   		dot(
   			normal,
   			normalize(shadowLightPosition)

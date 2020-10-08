@@ -39,21 +39,24 @@
   }
 
   // Intensidad y color de luz de candelas =======================================
-  vec3 candle_color = candle_baselight * cube_pow(illumination.x);
+  // vec3 candle_color = candle_baselight * cube_pow(illumination.x);
+  candle_color = candle_baselight * cube_pow(illumination.x);
 
-  vec3 omni_light;
-  float direct_light_strenght;
+  // vec3 omni_light;
+  // float direct_light_strenght;
 
   // Tomamos el color de luz del cielo con base a la hora
   #ifdef THE_END
-    vec3 direct_light_color =
+    // vec3 direct_light_color =
+    direct_light_color =
       mix(
         ambient_baselight[current_hour_floor],
         ambient_baselight[current_hour_ceil],
         current_hour_fract
       ) * ambient_multiplier;
   #else
-    vec3 direct_light_color =
+    // vec3 direct_light_color =
+    direct_light_color =
       mix(
         ambient_baselight[current_hour_floor],
         ambient_baselight[current_hour_ceil],
@@ -80,7 +83,8 @@
   #endif
 
   // Evitamos oscuridad excesiva al dar la espalda a fuente de luz
-  direct_light_strenght = (direct_light_strenght * .5) + .5;
+  // direct_light_strenght = (direct_light_strenght * .5) + .5;
+  direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0) * .75 + .25;
 
   #ifdef CAVEENTITY_V
     // Para evitar iluminación plana en cuevas
@@ -117,11 +121,14 @@
     current_hour_fract
   ) * visible_sky;
 
-  real_light =
-    candle_color +
-    (direct_light_color * direct_light_strenght * (1.0 - (rainStrength * .3))) +
-    omni_light;
+  // real_light =
+  //   candle_color +
+  //   (direct_light_color * direct_light_strenght * (1.0 - (rainStrength * .3))) +
+  //   omni_light;
+  //
+  // real_light = mix(real_light, vec3(1.0), nightVision * .125);
 
-  real_light = mix(real_light, vec3(1.0), nightVision * .125);
+  // TEST
+  real_light = direct_light_color;
 
 #endif

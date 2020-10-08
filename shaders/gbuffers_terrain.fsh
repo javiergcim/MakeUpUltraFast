@@ -8,10 +8,14 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/config.glsl"
 
 const int shadowMapResolution = 512;
-const float shadowDistance = 16.0f;
+const float shadowDistance = 64.0f;
+const float shadowIntervalSize = 10.0f;
 const float shadowDistanceRenderMul = -1.0f;
-const bool 	shadowHardwareFiltering0 = true;
-const bool 	shadowHardwareFiltering1 = false;
+const bool shadowtex0Nearest = true;
+const bool shadowtex1Nearest = false;
+const bool shadow0MinMagNearest = true;
+const bool 	shadowHardwareFiltering0 = false;
+const bool 	shadowHardwareFiltering1 = true;
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
@@ -22,9 +26,14 @@ varying vec3 current_fog_color;
 varying float frog_adjust;
 varying float fog_density_coeff;
 
+varying vec3 direct_light_color;
+varying vec3 candle_color;
+varying float direct_light_strenght;
+varying vec3 omni_light;
+
 #if SHADOW_CASTING == 1
 	varying vec3 shadow_pos;
-	// varying float NdotL;
+	varying float NdotL;
 #endif
 
 // 'Global' constants from system
@@ -32,8 +41,10 @@ uniform sampler2D texture;
 uniform float wetness;
 uniform int isEyeInWater;
 
+uniform float rainStrength;
+
 #if SHADOW_CASTING == 1
-	uniform sampler2DShadow shadowtex0;
+	uniform sampler2DShadow shadowtex1;
 #endif
 
 #if SHADOW_CASTING == 1
@@ -45,11 +56,18 @@ void main() {
   vec4 block_color = texture2D(texture, texcoord);
 
 	#if SHADOW_CASTING == 1
-    vec3 shadow_c = get_shadow(shadow_pos);
-    block_color.rgb *= shadow_c;
+    vec3 shadow_c = get_shadow(shadow_pos, NdotL);
+    // block_color.rgb *= shadow_c;
+		// shadow_c = min((shadow_c * .25) + .75, direct_light_strenght);
   #endif
 
-  block_color *= tint_color * vec4(real_light, 1.0);
+	block_color.rgb *=
+    candle_color +
+    (direct_light_color * min(shadow_c, direct_light_strenght) * (1.0 - (rainStrength * .3))) +
+    omni_light;
+	//
+  // // block_color *= tint_color * vec4(real_light, 1.0);
+	block_color *= tint_color;
 
   #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"
