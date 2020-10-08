@@ -12,7 +12,7 @@ const float shadowDistance = 64.0f;
 const float shadowIntervalSize = 10.0f;
 const float shadowDistanceRenderMul = -1.0f;
 const bool shadowtex0Nearest = true;
-const bool shadowtex1Nearest = false;
+const bool shadowtex1Nearest = true;
 const bool shadow0MinMagNearest = true;
 const bool 	shadowHardwareFiltering0 = false;
 const bool 	shadowHardwareFiltering1 = true;
@@ -21,7 +21,7 @@ const bool 	shadowHardwareFiltering1 = true;
 varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
-varying vec3 real_light;
+// varying vec3 real_light;
 varying vec3 current_fog_color;
 varying float frog_adjust;
 varying float fog_density_coeff;
@@ -42,6 +42,7 @@ uniform float wetness;
 uniform int isEyeInWater;
 
 uniform float rainStrength;
+uniform float nightVision;
 
 #if SHADOW_CASTING == 1
 	uniform sampler2DShadow shadowtex1;
@@ -53,7 +54,7 @@ uniform float rainStrength;
 
 void main() {
   // Toma el color puro del bloque
-  vec4 block_color = texture2D(texture, texcoord);
+  vec4 block_color = texture2D(texture, texcoord) * tint_color;
 
 	#if SHADOW_CASTING == 1
     vec3 shadow_c = get_shadow(shadow_pos, NdotL);
@@ -61,13 +62,14 @@ void main() {
 		// shadow_c = min((shadow_c * .25) + .75, direct_light_strenght);
   #endif
 
-	block_color.rgb *=
+	vec3 real_light =
     candle_color +
     (direct_light_color * min(shadow_c, direct_light_strenght) * (1.0 - (rainStrength * .3))) +
     omni_light;
-	//
-  // // block_color *= tint_color * vec4(real_light, 1.0);
-	block_color *= tint_color;
+
+	block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
+
+	// block_color *= tint_color;
 
   #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"

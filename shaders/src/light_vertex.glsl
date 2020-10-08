@@ -83,8 +83,8 @@
   #endif
 
   // Evitamos oscuridad excesiva al dar la espalda a fuente de luz
-  // direct_light_strenght = (direct_light_strenght * .5) + .5;
-  direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0) * .75 + .25;
+  direct_light_strenght = (direct_light_strenght * .5) + .5;
+  // direct_light_strenght = clamp(direct_light_strenght + .5, 0.0, 1.0) * .5 + .25;
 
   #ifdef CAVEENTITY_V
     // Para evitar iluminación plana en cuevas
@@ -129,6 +129,6 @@
   // real_light = mix(real_light, vec3(1.0), nightVision * .125);
 
   // TEST
-  real_light = direct_light_color;
+  // real_light = direct_light_color;
 
 #endif

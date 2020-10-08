@@ -48,4 +48,4 @@ const bool colortex5Clear = false;
 const bool colortex6Clear = false;
 const bool colortex7Clear = false;
 
-const float sunPathRotation = -23.0f;
+const float sunPathRotation = -25.0f;
