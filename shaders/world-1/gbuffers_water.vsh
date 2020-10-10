@@ -60,7 +60,7 @@ void main() {
   gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
 
   #if AA_TYPE == 2
-    gl_Position.xy += offsets[frame8] * gl_Position.w * texelSize;
+    gl_Position.xy += offsets[frame_mod] * gl_Position.w * texelSize;
   #endif
 
   tangent = normalize(gl_NormalMatrix * at_tangent.xyz);

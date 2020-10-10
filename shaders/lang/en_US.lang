@@ -65,6 +65,19 @@ option.AOSTEPS=Ambient occlusion samples
 
 option.AO_STRENGHT=Ambient occlusion strenght
 
+option.SHADOW_CASTING=Shadows
+value.SHADOW_CASTING.0=Off
+value.SHADOW_CASTING.1=On
+
+option.shadowMapResolution=Shadows resolution
+value.shadowMapResolution.256=Low
+value.shadowMapResolution.512=Medium
+value.shadowMapResolution.1024=High
+
+option.SHADOW_TYPE=Shadow type
+value.SHADOW_TYPE.0=Pixelated
+value.SHADOW_TYPE.1=Soft
+
 #Screens
 screen.AA_SCREEN=Antialiasing options
 screen.AA_SCREEN.comment=Set antialiasing options.
@@ -74,3 +87,6 @@ screen.EFFECTS.comment=Efects options.
 
 screen.MOTION_SCREEN=Motion blur options
 screen.MOTION_SCREEN.comment=Set motion blur options
+
+screen.SHADOWS_SCREEN=Shadows options
+screen.SHADOWS_SCREEN.comment=Set shadow options

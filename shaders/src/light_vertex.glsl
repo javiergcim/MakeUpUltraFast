@@ -38,12 +38,8 @@
     illumination.y = (illumination.y * .95) + .05;
   }
 
-  // Intensidad y color de luz de candelas =======================================
-  // vec3 candle_color = candle_baselight * cube_pow(illumination.x);
+  // Intensidad y color de luz de candelas =====================================
   candle_color = candle_baselight * cube_pow(illumination.x);
-
-  // vec3 omni_light;
-  // float direct_light_strenght;
 
   // Tomamos el color de luz del cielo con base a la hora
   #ifdef THE_END
@@ -120,15 +116,5 @@
     omni_force[current_hour_ceil],
     current_hour_fract
   ) * visible_sky;
-
-  // real_light =
-  //   candle_color +
-  //   (direct_light_color * direct_light_strenght * (1.0 - (rainStrength * .3))) +
-  //   omni_light;
-  //
-  // real_light = mix(real_light, vec3(1.0), nightVision * .125);
-
-  // TEST
-  // real_light = direct_light_color;
 
 #endif

@@ -34,10 +34,10 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define MOTION_BLUR 1 // [0 1] Turn on motion blur
 #define MOTION_BLUR_STRENGTH 2.0 // [1.0 2.0 3.0 4.0 5.0 6.0] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
 #define SUN_REFLECTION 1 // [0 1] Set sun (or moon) reflection on water and glass
-#define SHADOW_CASTING 1
-//#define SHADOW_SIZE 512
-#define SHADOW_BIAS 0.7
-// #define SHADOW_D 5.0f
+#define SHADOW_CASTING 1 // [0 1] Activate shadows
+#define SHADOW_DIST 0.7
+#define SHADOW_TYPE 1 // [0 1] Sets the shadow type
+#define SHADOW_RES 256 // [256 512] Shadow resolution
 
 const bool colortex0Clear = false;
 const bool colortex1Clear = false;
@@ -49,3 +49,20 @@ const bool colortex6Clear = false;
 const bool colortex7Clear = false;
 
 const float sunPathRotation = -25.0f;
+
+#ifndef NO_SHADOWS
+  const int shadowMapResolution = 256; //Shadow resolution. [256 512 1024]
+  const float shadowDistance = 48.0f; //Shadow distance. [48 96]
+  const float shadowIntervalSize = 10.0f;
+  const float shadowDistanceRenderMul = 1.0f;
+  // const bool shadowHardwareFiltering0 = true;
+  const bool shadowHardwareFiltering1 = true;
+
+  #if SHADOW_TYPE == 0
+    // const bool shadowtex0Nearest = true;
+    const bool shadowtex1Nearest = true;
+  #elif SHADOW_TYPE == 1
+    // const bool shadowtex0Nearest = false;
+    const bool shadowtex1Nearest = false;
+  #endif
+#endif

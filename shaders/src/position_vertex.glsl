@@ -1,11 +1,11 @@
 // Waving plants calculation
 #ifdef FOLIAGE_V
   #if WAVING == 1
-
     vec3 position =
       mat3(gbufferModelViewInverse) *
       (gl_ModelViewMatrix * gl_Vertex).xyz +
       gbufferModelViewInverse[3].xyz;
+    // vec3 position = (gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex).xyz;
 
     vec3 vworldpos = position.xyz + cameraPosition;
 
@@ -37,12 +37,13 @@
     gl_Position = gl_ProjectionMatrix * gbufferModelView * vec4(position, 1.0);
 
   #else  // Normal position
-
-    #if SHADOW_CASTING == 1
-      vec3 position =
-        mat3(gbufferModelViewInverse) *
-        (gl_ModelViewMatrix * gl_Vertex).xyz +
-        gbufferModelViewInverse[3].xyz;
+    #ifndef NO_SHADOWS
+      #if SHADOW_CASTING == 1
+        vec3 position =
+          mat3(gbufferModelViewInverse) *
+          (gl_ModelViewMatrix * gl_Vertex).xyz +
+          gbufferModelViewInverse[3].xyz;
+      #endif
     #endif
 
     gl_Position = ftransform();
@@ -50,12 +51,14 @@
   #endif
 
 #else
-
-  #if SHADOW_CASTING == 1
-    vec3 position =
-      mat3(gbufferModelViewInverse) *
-      (gl_ModelViewMatrix * gl_Vertex).xyz +
-      gbufferModelViewInverse[3].xyz;
+  #ifndef NO_SHADOWS
+    #if SHADOW_CASTING == 1
+      vec3 position =
+        mat3(gbufferModelViewInverse) *
+        (gl_ModelViewMatrix * gl_Vertex).xyz +
+        gbufferModelViewInverse[3].xyz;
+      // vec3 position = (gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex).xyz;
+    #endif
   #endif
 
   gl_Position = ftransform();
@@ -63,7 +66,7 @@
 #endif
 
 #if AA_TYPE == 2
-  gl_Position.xy += offsets[frame8] * gl_Position.w * texelSize;
+  gl_Position.xy += offsets[frame_mod] * gl_Position.w * texelSize;
 #endif
 
 gl_FogFragCoord = length(gl_Position.xyz);
