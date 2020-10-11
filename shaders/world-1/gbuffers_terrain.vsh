@@ -8,6 +8,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define NETHER
 #define FOLIAGE_V
 #define EMMISIVE_V
+#define NO_SHADOWS
 
 #include "/lib/config.glsl"
 #include "/lib/color_utils_nether.glsl"

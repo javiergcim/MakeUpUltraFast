@@ -10,7 +10,7 @@
       ambient_baselight[current_hour_floor],
       ambient_baselight[current_hour_ceil],
       current_hour_fract
-    ) * ambient_multiplier;
+    );
   vec3 candle_color = candle_baselight * cube_pow(illumination.x);
 
   real_light = direct_light_color + candle_color;
@@ -43,27 +43,26 @@
 
   // Tomamos el color de luz del cielo con base a la hora
   #ifdef THE_END
-    // vec3 direct_light_color =
     direct_light_color =
       mix(
         ambient_baselight[current_hour_floor],
         ambient_baselight[current_hour_ceil],
         current_hour_fract
-      ) * ambient_multiplier;
+      );
   #else
-    // vec3 direct_light_color =
     direct_light_color =
       mix(
         ambient_baselight[current_hour_floor],
         ambient_baselight[current_hour_ceil],
         current_hour_fract
-      ) * ambient_multiplier * illumination.y;
+      ) * illumination.y;
   #endif
 
   // Atenuación por dirección de luz directa =================================
   #ifdef THE_END
-    vec3 upVec = normalize(gbufferModelView[1].xyz);
-    vec3 sun_vec = normalize(upVec);
+    // vec3 upVec = normalize(gbufferModelView[1].xyz);
+    // vec3 sun_vec = normalize(upVec);
+    vec3 sun_vec = normalize(gbufferModelView[1].xyz);
   #else
     vec3 sun_vec = normalize(sunPosition);
   #endif

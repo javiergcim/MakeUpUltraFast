@@ -2,17 +2,17 @@
 #define projMAD(m, v) (diagonal3(m) * (v) + (m)[3].xyz)
 
 vec3 to_screen_space(vec3 p) {
-  vec4 iProjDiag =
+  vec4 i_proj_diag =
 		vec4(
 			gbufferProjectionInverse[0].x,
 			gbufferProjectionInverse[1].y,
 			gbufferProjectionInverse[2].zw
 		);
   vec3 p3 = p * 2.0 - 1.0;
-  vec4 fragposition = iProjDiag * p3.xyzz + gbufferProjectionInverse[3];
+  vec4 fragposition = i_proj_diag * p3.xyzz + gbufferProjectionInverse[3];
   return fragposition.xyz / fragposition.w;
 }
 
-vec3 toClipSpace3Prev(vec3 viewSpacePosition) {
-    return projMAD(gbufferPreviousProjection, viewSpacePosition) / -viewSpacePosition.z * 0.5 + 0.5;
+vec3 to_clip_space(vec3 view_space_pos) {
+    return projMAD(gbufferPreviousProjection, view_space_pos) / -view_space_pos.z * 0.5 + 0.5;
 }

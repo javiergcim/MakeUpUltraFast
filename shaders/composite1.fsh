@@ -5,6 +5,8 @@ Render: Antialiasing
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#define NO_SHADOWS
+
 #include "/lib/config.glsl"
 
 // 'Global' constants from system
@@ -57,7 +59,7 @@ void main() {
     vec3 fragposition = to_screen_space(closest_to_camera);
     fragposition = mat3(gbufferModelViewInverse) * fragposition + gbufferModelViewInverse[3].xyz + (cameraPosition - previousCameraPosition);
     vec3 previous_position = mat3(gbufferPreviousModelView) * fragposition + gbufferPreviousModelView[3].xyz;
-    previous_position = toClipSpace3Prev(previous_position);
+    previous_position = to_clip_space(previous_position);
     previous_position.xy = texcoord + (previous_position.xy - closest_to_camera.xy);
     vec2 texcoord_past = previous_position.xy;  // Posición en el pasado
 

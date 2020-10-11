@@ -57,7 +57,6 @@
         mat3(gbufferModelViewInverse) *
         (gl_ModelViewMatrix * gl_Vertex).xyz +
         gbufferModelViewInverse[3].xyz;
-      // vec3 position = (gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex).xyz;
     #endif
   #endif
 

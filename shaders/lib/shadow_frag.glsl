@@ -12,9 +12,10 @@ float get_shadow(vec3 the_shadow_pos) {
 			float new_z;
 			shadow_sample = shadow2D(shadowtex1, the_shadow_pos).r;
 			if (shadowMapResolution == 256) {
-				new_z = the_shadow_pos.z - .0005;
+				new_z = the_shadow_pos.z - .00045;
 
 				// vec2 offset = vec2(halton[i] / shadowMapResolution * SHADOW_SMOOTH);
+
 				shadow_sample += shadow2D(shadowtex1, vec3(the_shadow_pos.st + vec2(-0.00390625, 0.00390625), new_z)).r;
 				shadow_sample += shadow2D(shadowtex1, vec3(the_shadow_pos.st + vec2(0.0, 0.00390625), new_z)).r;
 				shadow_sample += shadow2D(shadowtex1, vec3(the_shadow_pos.st + vec2(0.00390625, 0.00390625), new_z)).r;
@@ -35,7 +36,7 @@ float get_shadow(vec3 the_shadow_pos) {
 				shadow_sample += shadow2D(shadowtex1, vec3(the_shadow_pos.st + vec2(0.0014648438, 0.0034179688), new_z)).r;
 				shadow_sample += shadow2D(shadowtex1, vec3(the_shadow_pos.st + vec2(0.0034179688, -0.0034179688), new_z)).r;
 			} else if (shadowMapResolution == 1024) {
-				new_z = the_shadow_pos.z - .0000;
+				new_z = the_shadow_pos.z;
 
 				shadow_sample += shadow2D(shadowtex1, vec3(the_shadow_pos.st + vec2(0.0002441406, -0.0007324219), new_z)).r;
 				shadow_sample += shadow2D(shadowtex1, vec3(the_shadow_pos.st + vec2(-0.0002441406, 0.0007324219), new_z)).r;
@@ -51,7 +52,7 @@ float get_shadow(vec3 the_shadow_pos) {
 			shadow_sample *= 0.111111111111111;
 		#endif
 
-		shadow_sample *= shadow_force;
+		shadow_sample = mix(1.0, shadow_sample, shadow_force);
 		shadow_sample = (shadow_sample * .5) + .5;
 	}
 

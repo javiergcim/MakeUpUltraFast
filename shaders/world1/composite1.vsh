@@ -5,6 +5,8 @@ Render: FXAA and blur precalculation
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#define THE_END
+
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 

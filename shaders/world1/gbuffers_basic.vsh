@@ -6,6 +6,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 #define THE_END
+#define NO_SHADOWS
 
 #include "/lib/config.glsl"
 #include "/lib/color_utils_end.glsl"
@@ -27,4 +28,5 @@ uniform float current_hour_fract;
 void main() {
   tint_color = gl_Color;
   #include "/src/position_vertex.glsl"
+  #include "/src/cloudfog_vertex.glsl"
 }

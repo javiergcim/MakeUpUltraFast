@@ -5,6 +5,8 @@ Render: Sky
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#define NO_SHADOWS
+
 #include "/lib/config.glsl"
 
 // 'Global' constants from system

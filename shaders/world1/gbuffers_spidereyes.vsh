@@ -5,6 +5,9 @@ Render: Some creatures eyes (like spider)
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#define THE_END
+#define NO_SHADOWS
+
 #include "/lib/config.glsl"
 
 // Varyings (per thread shared variables)

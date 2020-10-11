@@ -108,7 +108,6 @@ void main() {
 
     // Toma el color puro del bloque
     block_color = texture2D(texture, texcoord) * tint_color;
-    // block_color *= tint_color * vec4(real_light, 1.0);
 
 		#if SHADOW_CASTING == 1
 			float shadow_c;
@@ -131,6 +130,8 @@ void main() {
 					(1.0 - (rainStrength * .3))) +
 				omni_light;
 	  #endif
+
+		block_color *= vec4(real_light, 1.0);
 
     block_color = cristal_shader(
       fragposition0,

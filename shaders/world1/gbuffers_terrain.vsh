@@ -21,15 +21,22 @@ uniform float current_hour_fract;
 uniform float light_mix;
 uniform float far;
 uniform sampler2D texture;
-uniform float nightVision;
-uniform float rainStrength;
 uniform vec3 skyColor;
 uniform ivec2 eyeBrightnessSmooth;
 uniform mat4 gbufferModelView;
 
+#if SHADOW_CASTING == 1
+  uniform mat4 shadowModelView;
+  uniform mat4 shadowProjection;
+  uniform vec3 shadowLightPosition;
+#endif
+
+#if SHADOW_CASTING == 1 || WAVING == 1
+	uniform mat4 gbufferModelViewInverse;
+#endif
+
 #if WAVING == 1
   uniform vec3 cameraPosition;
-  uniform mat4 gbufferModelViewInverse;
   uniform float frameTimeCounter;
   uniform float wetness;
   uniform sampler2D noisetex;
@@ -39,7 +46,18 @@ uniform mat4 gbufferModelView;
 varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
-varying vec3 real_light;
+varying vec3 current_fog_color;
+varying float frog_adjust;
+varying float fog_density_coeff;
+
+varying vec3 direct_light_color;
+varying vec3 candle_color;
+varying float direct_light_strenght;
+varying vec3 omni_light;
+
+#if SHADOW_CASTING == 1
+  varying vec3 shadow_pos;
+#endif
 
 attribute vec4 mc_Entity;
 
@@ -52,6 +70,10 @@ attribute vec4 mc_Entity;
 #if WAVING == 1
   attribute vec2 mc_midTexCoord;
   #include "/lib/vector_utils.glsl"
+#endif
+
+#if SHADOW_CASTING == 1
+	#include "/lib/shadow_vertex.glsl"
 #endif
 
 void main() {
@@ -73,4 +95,9 @@ void main() {
   }
 
   #include "/src/light_vertex.glsl"
+  #include "/src/fog_vertex.glsl"
+
+	#if SHADOW_CASTING == 1
+		#include "/src/shadow_src_vertex.glsl"
+  #endif
 }

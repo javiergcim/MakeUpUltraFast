@@ -5,6 +5,8 @@ Render: Vertical blur pass and final renderer
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#define NO_SHADOWS
+
 #include "/lib/config.glsl"
 
 // Do not remove comments. It works!
