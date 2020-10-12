@@ -8,8 +8,35 @@ profile.Ultra=Ultra
 
 #Options
 #############################
-option.AA_TYPE=Antialiasing type
-value.AA_TYPE.0=None
+option.SHADOW_CASTING=Shadows
+value.SHADOW_CASTING.0=Off
+value.SHADOW_CASTING.1=On
+
+option.SHADOW_RES=Shadows quality
+value.SHADOW_RES.256=Low
+value.SHADOW_RES.512=Medium
+value.SHADOW_RES.1024=High
+
+option.SHADOW_TYPE=Shadow type
+value.SHADOW_TYPE.0=Pixelated
+value.SHADOW_TYPE.1=Soft
+
+option.DOF=Depth of field
+value.DOF.0=Off
+value.DOF.1=On
+
+option.DOF_STRENGTH=DoF strenght
+
+option.AO=Enhanced ambient occlusion
+value.AO.0=Off
+value.AO.1=On
+
+option.AOSTEPS=Ambient occlusion samples
+
+option.AO_STRENGHT=Ambient occlusion strenght
+
+option.AA_TYPE=Antialiasing
+value.AA_TYPE.0=Off
 value.AA_TYPE.1=FXAA
 value.AA_TYPE.2=TAA
 
@@ -51,42 +78,24 @@ option.WAVING=Waving plants
 value.WAVING.0=No
 value.WAVING.1=Yes
 
-option.DOF=Depth of field
-value.DOF.0=No
-value.DOF.1=Yes
-
-option.DOF_STRENGTH=DoF strenght
-
-option.AO=Enhanced ambient occlusion
-value.AO.0=No
-value.AO.1=Yes
-
-option.AOSTEPS=Ambient occlusion samples
-
-option.AO_STRENGHT=Ambient occlusion strenght
-
-option.SHADOW_CASTING=Shadows
-value.SHADOW_CASTING.0=Off
-value.SHADOW_CASTING.1=On
-
-option.shadowMapResolution=Shadows resolution
-value.shadowMapResolution.256=Low
-value.shadowMapResolution.512=Medium
-value.shadowMapResolution.1024=High
-
-option.SHADOW_TYPE=Shadow type
-value.SHADOW_TYPE.0=Pixelated
-value.SHADOW_TYPE.1=Soft
-
 #Screens
+screen.SHADOWS_SCREEN=Shadows options
+screen.SHADOWS_SCREEN.comment=Set shadows options
+
+screen.DOF_SCREEN=Depth of field options
+screen.DOF_SCREEN.comment=Set depth of field options
+
+screen.AO_SCREEN=Ambient occlusion options
+screen.AO_SCREEN.comment=Set ambient occlusion options
+
 screen.AA_SCREEN=Antialiasing options
 screen.AA_SCREEN.comment=Set antialiasing options.
 
-screen.EFFECTS=Effects options
-screen.EFFECTS.comment=Efects options.
+screen.MOTION_BLUR_SCREEN=Motion blur options
+screen.MOTION_BLUR_SCREEN.comment=Set motion blur options.
 
-screen.MOTION_SCREEN=Motion blur options
-screen.MOTION_SCREEN.comment=Set motion blur options
+screen.REFLECTION_SCREEN=Reflection and refraction options
+screen.REFLECTION_SCREEN.comment=Set reflection and refraction options
 
-screen.SHADOWS_SCREEN=Shadows options
-screen.SHADOWS_SCREEN.comment=Set shadow options
+screen.MISC_SCREEN=Miscelaneous options
+screen.MISC_SCREEN.comment=Non categorized options.

@@ -23,11 +23,11 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define REFLECTION 1  // [0 1] Activate reflections.
 #define REFRACTION 1  // [0 1] Activate refractions.
 #define SSR_METHOD 0  // [0 1] Flipped Image is inaccurate but faster. Raytrace is more accurate but slower.
-#define DOF 1  // [0 1] Enables depth of field (high performance cost)
+#define DOF 0  // [0 1] Enables depth of field (high performance cost)
 #define DOF_STRENGTH 20.0  // [5.0 10.0 15.0 20.0 25.0 30.0 35.0 40.0]  Depth of field strenght.
 #define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance impact).
 #define AOSTEPS 8 // [8 12 16 20] How many samples are taken. More samples, less performance
-#define AO_STRENGHT 0.7 // [0.4 0.5 0.6 0.7 0.8 0.9 1.0] Ambient oclusion strenght
+#define AO_STRENGHT 0.6 // [0.4 0.5 0.6 0.7 0.8 0.9 1.0] Ambient oclusion strenght
 #define AA_TYPE 2 // [0 1 2] FXAA (Fast approximate antialiasing) Low quality. TAA (Temporal antialiasing) Better quality
 #define RT_SAMPLES 10 // [6 8 10 12 14 16 18 20 22 24] Reflections samples (raytrace only). More samples, less performance.
 #define AA 4 // [4 6 12] Set antialiasing quality (FXAA only)
@@ -36,6 +36,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define SUN_REFLECTION 1 // [0 1] Set sun (or moon) reflection on water and glass
 #define SHADOW_CASTING 1 // [0 1] Activate shadows
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
+#define SHADOW_RES 512 // [256 512 1024] Set shadows quality
 
 const bool colortex0Clear = false;
 const bool colortex1Clear = false;
@@ -49,13 +50,18 @@ const bool colortex7Clear = false;
 const float sunPathRotation = -25.0f;
 
 #ifndef NO_SHADOWS
-  const int shadowMapResolution = 256; // [256 512 1024] Shadow resolution.
-  #if SHADOW_RES > 256
-    const float shadowDistance = 64.0;
-    #define SHADOW_DIST 0.75
-  #else
+  #if SHADOW_RES == 256
+    const int shadowMapResolution = 256;
     const float shadowDistance = 48.0;
     #define SHADOW_DIST 0.7
+  #elif SHADOW_RES == 512
+    const int shadowMapResolution = 512;
+    const float shadowDistance = 64.0;
+    #define SHADOW_DIST 0.75
+  #elif SHADOW_RES == 1024
+    const int shadowMapResolution = 1024;
+    const float shadowDistance = 79.0;
+    #define SHADOW_DIST 0.8
   #endif
   const float shadowDistanceRenderMul = 1.0;
   const bool shadowHardwareFiltering1 = true;
