@@ -23,7 +23,7 @@ varying float direct_light_strenght;
 varying vec3 omni_light;
 
 #if SHADOW_CASTING == 1
-	varying vec3 shadow_pos;
+  varying vec3 shadow_pos;
 #endif
 
 // 'Global' constants from system
@@ -35,8 +35,8 @@ uniform float nightVision;
 uniform float rainStrength;
 
 #if SHADOW_CASTING == 1
-	uniform sampler2DShadow shadowtex1;
-	uniform float shadow_force;
+  uniform sampler2DShadow shadowtex1;
+  uniform float shadow_force;
 #endif
 
 #if SHADOW_CASTING == 1
@@ -47,23 +47,23 @@ void main() {
   // Toma el color puro del bloque
   vec4 block_color = texture2D(texture, texcoord) * tint_color;
 
-	#if SHADOW_CASTING == 1
-		float shadow_c = get_shadow(shadow_pos);
+  #if SHADOW_CASTING == 1
+    float shadow_c = get_shadow(shadow_pos);
 
-		vec3 real_light =
-		candle_color +
-		(direct_light_color * min(shadow_c, direct_light_strenght) *
-		(1.0 - (rainStrength * .3))) +
-		omni_light;
-	#else
-		vec3 real_light =
-			candle_color +
-			(direct_light_color * direct_light_strenght *
-				(1.0 - (rainStrength * .3))) +
-			omni_light;
+    vec3 real_light =
+    candle_color +
+    (direct_light_color * min(shadow_c, direct_light_strenght) *
+    (1.0 - (rainStrength * .3))) +
+    omni_light;
+  #else
+    vec3 real_light =
+      candle_color +
+      (direct_light_color * direct_light_strenght *
+        (1.0 - (rainStrength * .3))) +
+      omni_light;
   #endif
 
-	block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
+  block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
 
   #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"

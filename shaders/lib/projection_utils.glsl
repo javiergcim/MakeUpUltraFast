@@ -3,11 +3,11 @@
 
 vec3 to_screen_space(vec3 p) {
   vec4 i_proj_diag =
-		vec4(
-			gbufferProjectionInverse[0].x,
-			gbufferProjectionInverse[1].y,
-			gbufferProjectionInverse[2].zw
-		);
+    vec4(
+      gbufferProjectionInverse[0].x,
+      gbufferProjectionInverse[1].y,
+      gbufferProjectionInverse[2].zw
+    );
   vec3 p3 = p * 2.0 - 1.0;
   vec4 fragposition = i_proj_diag * p3.xyzz + gbufferProjectionInverse[3];
   return fragposition.xyz / fragposition.w;

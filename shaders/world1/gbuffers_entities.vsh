@@ -58,7 +58,7 @@ varying vec3 omni_light;
 #include "/lib/basic_utils.glsl"
 
 #if SHADOW_CASTING == 1
-	#include "/lib/shadow_vertex.glsl"
+  #include "/lib/shadow_vertex.glsl"
 #endif
 
 void main() {
@@ -67,7 +67,7 @@ void main() {
   #include "/src/light_vertex.glsl"
   #include "/src/fog_vertex.glsl"
 
-	#if SHADOW_CASTING == 1
-		#include "/src/shadow_src_vertex.glsl"
+  #if SHADOW_CASTING == 1
+    #include "/src/shadow_src_vertex.glsl"
   #endif
 }

@@ -64,7 +64,7 @@ attribute vec4 at_tangent;
 #include "/lib/basic_utils.glsl"
 
 #if SHADOW_CASTING == 1
-	#include "/lib/shadow_vertex.glsl"
+  #include "/lib/shadow_vertex.glsl"
 #endif
 
 void main() {
@@ -97,8 +97,8 @@ void main() {
 
   #include "/src/fog_vertex.glsl"
 
-	#if SHADOW_CASTING == 1
-		vec3 position = position1.xyz;
-		#include "/src/shadow_src_vertex.glsl"
+  #if SHADOW_CASTING == 1
+    vec3 position = position1.xyz;
+    #include "/src/shadow_src_vertex.glsl"
   #endif
 }

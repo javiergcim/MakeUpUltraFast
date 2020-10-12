@@ -120,24 +120,24 @@ vec4 cristal_shader(vec3 fragpos, vec3 normal, vec4 color, vec3 sky_reflection) 
   // return color;
 
   #if SUN_REFLECTION == 1
- 		#ifndef NETHER
-			#ifndef THE_END
-			  return color +
-					vec4(
-						mix(
-							sun_reflection(reflect(normalize(fragpos), normal)),
-							vec3(0.0),
-							reflection.a
-						),
-						0.0
-					);
-			#else
-				return color;
-			#endif
-		#else
-			return color;
-		#endif
-	#else
-		return color;
-	#endif
+     #ifndef NETHER
+      #ifndef THE_END
+        return color +
+          vec4(
+            mix(
+              sun_reflection(reflect(normalize(fragpos), normal)),
+              vec3(0.0),
+              reflection.a
+            ),
+            0.0
+          );
+      #else
+        return color;
+      #endif
+    #else
+      return color;
+    #endif
+  #else
+    return color;
+  #endif
 }

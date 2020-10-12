@@ -32,7 +32,7 @@ uniform mat4 gbufferModelView;
 #endif
 
 #if SHADOW_CASTING == 1 || WAVING == 1
-	uniform mat4 gbufferModelViewInverse;
+  uniform mat4 gbufferModelViewInverse;
 #endif
 
 #if WAVING == 1
@@ -73,7 +73,7 @@ attribute vec4 mc_Entity;
 #endif
 
 #if SHADOW_CASTING == 1
-	#include "/lib/shadow_vertex.glsl"
+  #include "/lib/shadow_vertex.glsl"
 #endif
 
 void main() {
@@ -97,7 +97,7 @@ void main() {
   #include "/src/light_vertex.glsl"
   #include "/src/fog_vertex.glsl"
 
-	#if SHADOW_CASTING == 1
-		#include "/src/shadow_src_vertex.glsl"
+  #if SHADOW_CASTING == 1
+    #include "/src/shadow_src_vertex.glsl"
   #endif
 }
