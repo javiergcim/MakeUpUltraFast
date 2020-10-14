@@ -86,8 +86,11 @@ void main() {
   }
 
   block_color.rgb *= exposure;
-  block_color.rgb = tonemap(block_color.rgb);
+  #if TONEMAP == 0
+    block_color.rgb = tonemap(block_color.rgb);
+  #elif TONEMAP ==1
+    block_color.rgb = aces_tonemap(block_color.rgb);
+  #endif
 
-  // gl_FragData[1] = vec4(0.0);  // ¿Performance?
   gl_FragData[2] = block_color;
 }
