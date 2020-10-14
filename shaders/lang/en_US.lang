@@ -4,7 +4,7 @@ profile.VeryLow=Very Low
 profile.Low=Low
 profile.Medium=Medium
 profile.High=High
-profile.Ultra=Ultra
+profile.VeryHigh=Very High
 
 #Options
 #############################
@@ -13,9 +13,12 @@ value.SHADOW_CASTING.0=Off
 value.SHADOW_CASTING.1=On
 
 option.SHADOW_RES=Shadows quality
-value.SHADOW_RES.256=Low
-value.SHADOW_RES.512=Medium
-value.SHADOW_RES.1024=High
+value.SHADOW_RES.0=Low
+value.SHADOW_RES.1=Low (far)
+value.SHADOW_RES.2=Medium
+value.SHADOW_RES.3=Medium (far)
+value.SHADOW_RES.4=High
+value.SHADOW_RES.5=High (far)
 
 option.SHADOW_TYPE=Shadow type
 value.SHADOW_TYPE.0=Pixelated
