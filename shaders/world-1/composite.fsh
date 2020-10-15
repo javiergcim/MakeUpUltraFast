@@ -12,9 +12,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // 'Global' constants from system
 uniform sampler2D colortex0;
 uniform ivec2 eyeBrightnessSmooth;
-uniform int current_hour_floor;
-uniform int current_hour_ceil;
-uniform float current_hour_fract;
 uniform int isEyeInWater;
 uniform vec3 skyColor;
 uniform sampler2D depthtex0;
@@ -31,8 +28,6 @@ uniform float near;
 varying vec2 texcoord;
 
 #include "/lib/color_utils_nether.glsl"
-#include "/lib/basic_utils.glsl"
-#include "/lib/tone_maps.glsl"
 #include "/lib/depth.glsl"
 
 #if AO == 1
@@ -51,20 +46,6 @@ void main() {
     block_color *= final_ao;
     // block_color = vec4(vec3(final_ao), 1.0);
   #endif
-
-  // x: Block, y: Sky ---
-  float candle_bright = (eyeBrightnessSmooth.x / 240.0) * .1;
-  float exposure_coef =
-    mix(
-      ambient_exposure[current_hour_floor],
-      ambient_exposure[current_hour_ceil],
-      current_hour_fract
-    );
-  float exposure =
-    ((eyeBrightnessSmooth.y / 240.0) * exposure_coef) + candle_bright;
-
-  // Map from 1.0 - 0.0 to 1.0 - 3.0
-  exposure = (exposure * -2.0) + 3.0;
 
   // Niebla bajo el agua
   #if AO == 0
@@ -92,13 +73,5 @@ void main() {
       );
   }
 
-  block_color.rgb *= exposure;
-  #if TONEMAP == 0
-    block_color.rgb = tonemap(block_color.rgb);
-  #elif TONEMAP == 1
-    block_color.rgb = aces_tonemap(block_color.rgb);
-  #endif
-
-  // gl_FragData[1] = vec4(0.0);  // ¿Performance?
   gl_FragData[2] = block_color;
 }

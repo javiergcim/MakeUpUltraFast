@@ -18,6 +18,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define ENTITY_STAINED      10079.0  // Glass
 
 // Options
+#define ACERCADE 0 // [0]
 #define WAVING 1 // [0 1] Waving entities
 #define TINTED_WATER 1  // [0 1] Use the resource pack color for water.
 #define REFLECTION 1  // [0 1] Activate reflections.
@@ -37,7 +38,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define SHADOW_CASTING 1 // [0 1] Activate shadows
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
 #define SHADOW_RES 2 // [0 1 2 3 4 5] Set shadows quality. The "far" versions render the shadows further away, but have a moderate impact on performance relative to their "close" versions.
-#define TONEMAP 0 // [0 1] Set tonemap.
+#define CROSSP 0 // [0 1] Activate crossprocess
 
 const bool colortex0Clear = false;
 const bool colortex1Clear = false;

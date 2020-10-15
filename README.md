@@ -2,7 +2,7 @@
 Ultra fast Minecraft shader (Java). For a small graphic improvement. Intended
 for low-spec computers.
 
-**Version: 1.73: The Shadows Update**
+**Version: 1.74: The Shadows Update**
 
 ## Main features
 * Optional shadows

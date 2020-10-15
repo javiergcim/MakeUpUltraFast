@@ -6,6 +6,12 @@ profile.Medium=Medium
 profile.High=High
 profile.VeryHigh=Very High
 
+#About
+#############################
+option.ACERCADE=MakeUp v1.74
+option.ACERCADE.comment=Low-spec Shader
+value.ACERCADE.0=by Javier
+
 #Options
 #############################
 option.SHADOW_CASTING=Shadows
@@ -80,10 +86,6 @@ value.SUN_REFLECTION.1=On
 option.WAVING=Waving plants
 value.WAVING.0=No
 value.WAVING.1=Yes
-
-option.TONEMAP=Tonemap
-value.TONEMAP.0=Original
-value.TONEMAP.1=ACES Filmic
 
 #Screens
 screen.SHADOWS_SCREEN=Shadows options

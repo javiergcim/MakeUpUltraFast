@@ -24,7 +24,7 @@ colortex7 - Not used
 
 const int colortex0Format = R11F_G11F_B10F;
 const int colortex1Format = R8;
-const int colortex2Format = RGB8;
+const int colortex2Format = R11F_G11F_B10F;
 const int colortex3Format = R11F_G11F_B10F;
 const int colortex4Format = RGBA16F;
 const int colortex5Format = RGB8;
@@ -35,13 +35,17 @@ const int colortex7Format = R8;
 // Redefined constants
 const int noiseTextureResolution = 128;
 const float ambientOcclusionLevel = 1.0f;
-const float eyeBrightnessHalflife = 10.0f;
-const float centerDepthHalflife = 2.0f;
+const float eyeBrightnessHalflife = 8.0f;
+const float centerDepthHalflife = 1.75f;
 const float wetnessHalflife = 20.0f;
 const float drynessHalflife = 10.0f;
 
 // 'Global' constants from system
 uniform sampler2D colortex0;
+uniform ivec2 eyeBrightnessSmooth;
+uniform int current_hour_floor;
+uniform int current_hour_ceil;
+uniform float current_hour_fract;
 
 #if DOF == 1
   uniform sampler2D colortex4;
@@ -55,6 +59,10 @@ uniform sampler2D colortex0;
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
+
+#include "/lib/color_utils_end.glsl"
+#include "/lib/basic_utils.glsl"
+#include "/lib/tone_maps.glsl"
 
 #if DOF == 1
   #include "/lib/blur.glsl"
@@ -92,9 +100,31 @@ void main() {
       color = average.rgb / average.a;
     }
 
-    gl_FragColor = vec4(color, 1.0);
-
   #else
-    gl_FragColor = texture2D(colortex0, texcoord);
+    vec3 color = texture2D(colortex0, texcoord).rgb;
   #endif
+
+  // Tonemaping ---
+  // x: Block, y: Sky ---
+  float candle_bright = (eyeBrightnessSmooth.x / 240.0) * .1;
+  float exposure_coef =
+    mix(
+      ambient_exposure[current_hour_floor],
+      ambient_exposure[current_hour_ceil],
+      current_hour_fract
+    );
+  float exposure =
+    ((eyeBrightnessSmooth.y / 240.0) * exposure_coef) + candle_bright;
+
+  // Map from 1.0 - 0.0 to 1.0 - 3.0
+  exposure = (exposure * -2.0) + 3.0;
+
+  color *= exposure;
+  color = custom_lottes_tonemap(color, exposure * 1.3);  // 1.3 max lightforce
+
+  #if CROSSP == 1
+    color = crossprocess(color);
+  #endif
+
+  gl_FragColor = vec4(color, 1.0);
 }
