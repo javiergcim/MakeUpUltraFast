@@ -25,9 +25,9 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define REFRACTION 1  // [0 1] Activate refractions.
 #define SSR_METHOD 0  // [0 1] Flipped Image is inaccurate but faster. Raytrace is more accurate but slower.
 #define DOF 0  // [0 1] Enables depth of field (high performance cost)
-#define DOF_STRENGTH 20.0  // [5.0 10.0 15.0 20.0 25.0 30.0 35.0 40.0]  Depth of field strenght.
+#define DOF_STRENGTH 0.05  // [0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08]  Depth of field strenght.
 #define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance impact).
-#define AOSTEPS 8 // [8 12 16 20] How many samples are taken. More samples, less performance
+#define AOSTEPS 7 // [7 10 13 16 19 22] How many samples are taken. More samples, less performance
 #define AO_STRENGHT 0.6 // [0.4 0.5 0.6 0.7 0.8 0.9 1.0] Ambient oclusion strenght
 #define AA_TYPE 2 // [0 1 2] FXAA (Fast approximate antialiasing) Low quality. TAA (Temporal antialiasing) Better quality
 #define RT_SAMPLES 10 // [6 8 10 12 14 16 18 20 22 24] Reflections samples (raytrace only). More samples, less performance.

@@ -18,4 +18,9 @@ for low-spec computers.
 ## Tested on:
 * Minecraft 1.16.x
 * Nvidia and Intel
-* Linux
+* Windows and Linux
+
+## Know Issues
+
+* Parpadeo en algunos bordes cuando el TAA y DoF estáv activados
+simultáneamente. Posible solución: aplicar TAA al buffer de profundidad.

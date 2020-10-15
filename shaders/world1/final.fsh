@@ -18,7 +18,7 @@ colortex1 - Not used
 colortex2 - Antialiasing auxiliar
 colortex3 - TAA Averages history
 colortex4 - Blur Auxiliar
-gaux2 (colortex5) - Reflection texture ( I can't use 'colortex5' as a name or reflections break. I don't know why)
+gaux2 (colortex5) - Reflection texture (I can't use 'colortex5' as a name or reflections break. I don't know why)
 colortex6 - Not used
 colortex7 - Not used
 
@@ -36,7 +36,7 @@ const int colortex7Format = R8;
 const int noiseTextureResolution = 128;
 const float ambientOcclusionLevel = 1.0f;
 const float eyeBrightnessHalflife = 8.0f;
-const float centerDepthHalflife = 1.75f;
+const float centerDepthHalflife = 1.0f;
 const float wetnessHalflife = 20.0f;
 const float drynessHalflife = 10.0f;
 
@@ -49,12 +49,11 @@ uniform float current_hour_fract;
 
 #if DOF == 1
   uniform sampler2D colortex4;
-  uniform float pixelSizeY;
+  uniform float pixel_size_y;
   uniform float viewHeight;
-  uniform float pixelSizeX;
+  uniform float pixel_size_x;
   uniform float viewWeight;
   uniform float aspectRatio;
-  uniform float inv_aspect_ratio;
 #endif
 
 // Varyings (per thread shared variables)
@@ -72,27 +71,26 @@ void main() {
 
   #if DOF == 1
     vec4 color_blur = texture2D(colortex4, texcoord);
-    float blur_radius = color_blur.a;
+    float blur_radius = color_blur.a * aspectRatio;
     vec3 color = color_blur.rgb;
-    float v_blur_radius = blur_radius * 0.003 * aspectRatio;
 
-    if (v_blur_radius > pixelSizeY) {
+    if (blur_radius > pixel_size_y) {
       float radius_inv = 1.0 / blur_radius;
       float weight;
       vec4 new_blur;
 
       vec4 average = vec4(0.0);
-      float start  = max(texcoord.y - v_blur_radius, pixelSizeY * 0.5);
-      float finish = min(texcoord.y + v_blur_radius, 1.0 - pixelSizeY * 0.5);
-      float step = pixelSizeY;
-      if (v_blur_radius > (6.0 * pixelSizeY)) {
+      float start  = max(texcoord.y - blur_radius, pixel_size_y * 0.5);
+      float finish = min(texcoord.y + blur_radius, 1.0 - pixel_size_y * 0.5);
+      float step = pixel_size_y;
+      if (blur_radius > (6.0 * pixel_size_y)) {
         step *= 3.0;
-      } else if (v_blur_radius > (2.0 * pixelSizeY)) {
+      } else if (blur_radius > (2.0 * pixel_size_y)) {
         step *= 2.0;
       }
 
       for (float y = start; y <= finish; y += step) {  // Blur samples
-        weight = fogify((y - texcoord.y) * 300.0 * inv_aspect_ratio * radius_inv, 0.35);
+        weight = fogify((y - texcoord.y) * radius_inv, 0.35);
         new_blur = texture2D(colortex4, vec2(texcoord.x, y));
         average.rgb += new_blur.rgb * weight;
         average.a += weight;

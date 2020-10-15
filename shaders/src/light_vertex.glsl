@@ -60,8 +60,6 @@
 
   // Atenuación por dirección de luz directa =================================
   #ifdef THE_END
-    // vec3 upVec = normalize(gbufferModelView[1].xyz);
-    // vec3 sun_vec = normalize(upVec);
     vec3 sun_vec = normalize(gbufferModelView[1].xyz);
   #else
     vec3 sun_vec = normalize(sunPosition);
@@ -79,7 +77,6 @@
 
   // Evitamos oscuridad excesiva al dar la espalda a fuente de luz
   direct_light_strenght = (direct_light_strenght * .5) + .5;
-  // direct_light_strenght = clamp(direct_light_strenght + .5, 0.0, 1.0) * .5 + .25;
 
   #ifdef CAVEENTITY_V
     // Para evitar iluminación plana en cuevas

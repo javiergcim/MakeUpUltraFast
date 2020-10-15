@@ -1,6 +1,6 @@
 #version 120
 /* MakeUp Ultra Fast - final.fsh
-Render: Antialiasing
+Render: Antialiasing and motion blur
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
@@ -17,8 +17,8 @@ uniform float viewHeight;
 #if AA_TYPE == 2 || MOTION_BLUR == 1
   uniform sampler2D colortex3;  // TAA past averages
   uniform sampler2D depthtex0;
-  uniform float pixelSizeX;
-  uniform float pixelSizeY;
+  uniform float pixel_size_x;
+  uniform float pixel_size_y;
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
   uniform vec3 cameraPosition;
