@@ -8,18 +8,13 @@ vec2 offset_dist(float x, int s){
   return vec2(cos(n), sin(n)) * x / s;
 }
 
-float dbao(sampler2D depth) {
+float dbao() {
   float ao = 0.0;
 
-  #if AA_TYPE == 2
-    int samples = AOSTEPS - 1;
-    float dither = timed_hash12();
-  #else
-    int samples = AOSTEPS;
-    float dither = grid_noise();
-  #endif
+  int samples = AOSTEPS;
+  float dither = grid_noise();
 
-  float d = texture2D(depth, texcoord.xy).r;
+  float d = texture2D(depthtex0, texcoord.xy).r;
   float hand = float(d < 0.56);
   d = ld(d);
 
@@ -32,14 +27,14 @@ float dbao(sampler2D depth) {
   for (int i = 1; i <= samples; i++) {
     vec2 offset = offset_dist(i + dither, samples) * scale;
 
-    sd = ld(texture2D(depth, texcoord.xy + offset).r);
+    sd = ld(texture2D(depthtex0, texcoord.xy + offset).r);
     float tmp = far * 2.0;
     float sample = (d - sd) * tmp;
     if (hand > 0.5) sample *= 1024.0;
     angle = clamp(0.5 - sample, 0.0, 1.0);
     dist = clamp(0.25 * sample - 1.0, 0.0, 1.0);
 
-    sd = ld(texture2D(depth, texcoord.xy - offset).r);
+    sd = ld(texture2D(depthtex0, texcoord.xy - offset).r);
     sample = (d - sd) * tmp;
     if (hand > 0.5) sample *= 1024.0;
     angle += clamp(0.5 - sample, 0.0, 1.0);

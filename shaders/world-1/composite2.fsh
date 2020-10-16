@@ -35,7 +35,7 @@ void main() {
       blur_radius =
         max(abs(the_depth - centerDepthSmooth) - 0.0001, 0.0);
       blur_radius = blur_radius / sqrt(0.1 + blur_radius * blur_radius) * DOF_STRENGTH;
-      blur_radius = min(blur_radius, 0.02);
+      blur_radius = min(blur_radius, 0.015);
     }
 
     vec3 color = texture2D(colortex4, texcoord).rgb;
