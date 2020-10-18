@@ -44,7 +44,7 @@ const bool colortex0Clear = false;
 const bool colortex1Clear = false;
 const bool colortex2Clear = false;
 const bool colortex3Clear = false;
-const bool colortex4Clear = false;
+const bool gaux1Clear = false;
 const bool colortex5Clear = false;
 const bool colortex6Clear = false;
 

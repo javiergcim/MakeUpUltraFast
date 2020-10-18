@@ -14,7 +14,7 @@ vec4 cristal_raytrace(vec3 fragpos, vec3 normal) {
     float border_y = max(-fourth_pow(abs(2 * pos.y - 1.0)) + 1.0, 0.0);
     float border = min(border_x, border_y);
 
-    return vec4(texture2D(colortex4, pos.xy, 0.0).rgb, border);
+    return vec4(texture2D(gaux1, pos.xy, 0.0).rgb, border);
 
   #else
 
@@ -83,7 +83,7 @@ vec4 cristal_raytrace(vec3 fragpos, vec3 normal) {
       bool land = depth < comp;
 
       if (land) {
-        col = texture2D(colortex4, pos.xy).rgb;
+        col = texture2D(gaux1, pos.xy).rgb;
         border = clamp((1.0 - cdist(pos.st)) * 50.0, 0.0, 1.0);
       }
     }

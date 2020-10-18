@@ -105,11 +105,11 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
     refraction_strength /= 1.0 + length(fragpos) * 0.4;
     vec2 medium_texcoord = pos.xy + refraction.xy * refraction_strength;
 
-    return texture2D(colortex4, medium_texcoord.st).rgb * color;
+    return texture2D(gaux1, medium_texcoord.st).rgb * color;
 
   #else
 
-    return texture2D(colortex4, pos.xy).rgb * color;
+    return texture2D(gaux1, pos.xy).rgb * color;
 
   #endif
 }
@@ -141,7 +141,7 @@ vec4 raytrace(vec3 fragpos, vec3 normal) {
     float border =
       clamp((1.0 - (max(0.0, abs(pos.y - 0.5)) * 2.0)) * 50.0, 0.0, 1.0);
 
-    return vec4(texture2D(colortex4, pos.xy, 0.0).rgb, border);
+    return vec4(texture2D(gaux1, pos.xy, 0.0).rgb, border);
 
   #else
     #if AA_TYPE == 2
@@ -208,7 +208,7 @@ vec4 raytrace(vec3 fragpos, vec3 normal) {
       bool land = depth < comp;
 
       if (land) {
-        col = texture2D(colortex4, pos.xy).rgb;
+        col = texture2D(gaux1, pos.xy).rgb;
         border = clamp((1.0 - cdist(pos.st)) * 50.0, 0.0, 1.0);
       }
     }
