@@ -21,7 +21,8 @@ uniform float near;
 uniform sampler2D colortex6;
 
 #if AO == 1
-  uniform float aspectRatio;
+  // uniform float aspectRatio;
+  uniform float inv_aspect_ratio;
   uniform mat4 gbufferProjection;
   uniform float frameTimeCounter;
 #endif

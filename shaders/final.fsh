@@ -31,14 +31,6 @@ const int colortex6Format = R8;
 const int gaux4 = R8;
 */
 
-// // Redefined constants
-// const int noiseTextureResolution = 128;
-// const float ambientOcclusionLevel = 0.5f;
-// const float eyeBrightnessHalflife = 8.0f;
-// const float centerDepthHalflife = 1.0f;
-// const float wetnessHalflife = 20.0f;
-// const float drynessHalflife = 10.0f;
-
 // 'Global' constants from system
 uniform sampler2D colortex0;
 uniform ivec2 eyeBrightnessSmooth;

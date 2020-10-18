@@ -25,8 +25,7 @@ float dbao() {
   float angle = 0.0;
   float dist = 0.0;
   float far_double = 2.0 * far;
-  // vec2 scale = vec2(1.0 / aspectRatio, 1.0) * gbufferProjection[1][1] / (2.74747742 * max(far * d, 6.0));
-  vec2 scale = vec2(1.0, aspectRatio) * (0.4 / (d * far));
+  vec2 scale = vec2(inv_aspect_ratio, 1.0) * (0.7 / (d * far));
 
   for (int i = 1; i <= AOSTEPS; i++) {
     vec2 offset = offset_dist(i + dither, AOSTEPS) * scale;

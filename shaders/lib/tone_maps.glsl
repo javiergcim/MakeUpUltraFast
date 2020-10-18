@@ -8,31 +8,6 @@ vec3 original_tonemap(vec3 x) {
   return x / pow(vec3_fourth_pow(x) + 1.0, vec3(.25));
 }
 
-vec3 aces_tonemap(vec3 x) {
-  const float a = 2.51;
-  const float b = 0.03;
-  const float c = 2.43;
-  const float d = 0.59;
-  const float e = 0.14;
-  return clamp((x * (a * x + b)) / (x * (c * x + d) + e), 0.0, 1.0);
-}
-
-vec3 luma_reinhard_tonemap(vec3 color, float white) {
-		// float white = 3.;
-		float luma = dot(color, vec3(0.299, 0.587, 0.114));
-		float tone_mapped_luma = luma * (1. + luma / (white * white)) / (1. + luma);
-		color *= tone_mapped_luma / luma;
-		// color = pow(color, vec3(1. / 1.));
-		return color;
-}
-
-vec3 crossprocess(vec3 color) {
-	color.r = (color.r * 1.3) + (color.b + color.g) * -0.1;
-	color.g = (color.g * 1.2) + (color.r + color.b) * -0.1;
-	color.b = (color.b * 1.1) + (color.r + color.g) * -0.1;
-	return color / (color + 2.2) * 3.0;
-}
-
 vec3 custom_lottes_tonemap(vec3 color, float expo) {
 	// a = 1.4
 	// d = 0.977

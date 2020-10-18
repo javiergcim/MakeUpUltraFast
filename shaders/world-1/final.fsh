@@ -18,7 +18,7 @@ colortex2 - Antialiasing auxiliar
 colortex3 - TAA Averages history
 colortex4 - Blur Auxiliar
 gaux2 (colortex5) - Reflection texture (I can't use 'colortex5' as a name or reflections break. I don't know why)
-colortex6 - Not used
+colortex6 - Noise
 colortex7 - Not used
 
 const int colortex0Format = R11F_G11F_B10F;
@@ -30,14 +30,6 @@ const int colortex5Format = RGB8;
 const int colortex6Format = RGBA16;
 const int colortex7Format = R8;
 */
-
-// // Redefined constants
-// const int noiseTextureResolution = 128;
-// const float ambientOcclusionLevel = 1.0f;
-// const float eyeBrightnessHalflife = 8.0f;
-// const float centerDepthHalflife = 1.0f;
-// const float wetnessHalflife = 20.0f;
-// const float drynessHalflife = 10.0f;
 
 // 'Global' constants from system
 uniform sampler2D colortex0;
