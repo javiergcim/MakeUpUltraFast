@@ -18,6 +18,8 @@ uniform sampler2D depthtex0;
 uniform float far;
 uniform float near;
 
+uniform sampler2D colortex6;
+
 #if AO == 1
   uniform float aspectRatio;
   uniform mat4 gbufferProjection;
@@ -65,6 +67,6 @@ void main() {
       sqrt(ld(d))
       );
   }
-
+  /* DRAWBUFFERS:0123 */
   gl_FragData[2] = block_color;
 }

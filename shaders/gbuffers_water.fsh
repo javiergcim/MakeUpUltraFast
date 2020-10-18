@@ -54,6 +54,8 @@ uniform int worldTime;
 
 uniform float rainStrength;
 
+uniform sampler2D colortex6;
+
 #if SHADOW_CASTING == 1
   uniform sampler2DShadow shadowtex1;
   uniform float shadow_force;
