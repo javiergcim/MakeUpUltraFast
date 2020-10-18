@@ -18,7 +18,7 @@ uniform sampler2D depthtex0;
 uniform float far;
 uniform float near;
 
-uniform sampler2D colortex6;
+uniform sampler2D colortex5;
 
 #if AO == 1
   // uniform float aspectRatio;

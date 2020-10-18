@@ -27,7 +27,7 @@ uniform float viewHeight;
   uniform mat4 gbufferPreviousModelView;
   uniform float frameTimeCounter;
 
-  uniform sampler2D colortex6;
+  uniform sampler2D colortex5;
 #endif
 
 // Varyings (per thread shared variables)
