@@ -14,17 +14,17 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 colortex0 - Main color canvas
 colortex1 - Not used
-colortex2 - Antialiasing auxiliar
-colortex3 - TAA Averages history
+colortex1 - Antialiasing auxiliar
+colortex2 - TAA Averages history
 colortex4 - Blur Auxiliar
 gaux2 (colortex5) - Reflection texture (I can't use 'colortex5' as a name or reflections break. I don't know why)
 colortex6 - Not used
 colortex7 - Not used
 
 const int colortex0Format = R11F_G11F_B10F;
-const int colortex1Format = R8;
+
+const int colortex1Format = R11F_G11F_B10F;
 const int colortex2Format = R11F_G11F_B10F;
-const int colortex3Format = R11F_G11F_B10F;
 const int colortex4Format = RGBA16F;
 const int colortex5Format = RGB8;
 const int colortex6Format = R8;

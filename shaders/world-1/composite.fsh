@@ -73,5 +73,5 @@ void main() {
       );
   }
 
-  gl_FragData[2] = block_color;
+  gl_FragData[1] = block_color;
 }

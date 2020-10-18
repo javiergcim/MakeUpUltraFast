@@ -68,6 +68,6 @@ void main() {
       sqrt(ld(d))
       );
   }
-  /* DRAWBUFFERS:0123 */
-  gl_FragData[2] = block_color;
+  /**/
+  gl_FragData[1] = block_color;
 }

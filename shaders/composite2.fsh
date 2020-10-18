@@ -69,10 +69,10 @@ void main() {
   #endif
 
   #if DOF == 1
-    /* DRAWBUFFERS:01234 */
+    /**/
     gl_FragData[4] = vec4(color, blur_radius);
   #else
-    /* DRAWBUFFERS:03 */
+    /**/
     gl_FragData[0] = vec4(color, 1.0);
   #endif
 }

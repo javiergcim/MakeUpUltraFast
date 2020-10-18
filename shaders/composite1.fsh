@@ -10,12 +10,12 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/config.glsl"
 
 // 'Global' constants from system
-uniform sampler2D colortex2;
+uniform sampler2D colortex1;
 uniform float viewWidth;
 uniform float viewHeight;
 
 #if AA_TYPE == 2 || MOTION_BLUR == 1
-  uniform sampler2D colortex3;  // TAA past averages
+  uniform sampler2D colortex2;  // TAA past averages
   uniform sampler2D depthtex0;
   uniform float pixel_size_x;
   uniform float pixel_size_y;
@@ -51,7 +51,7 @@ varying vec2 texcoord;
 #endif
 
 void main() {
-  vec4 block_color = texture2D(colortex2, texcoord);
+  vec4 block_color = texture2D(colortex1, texcoord);
 
   // Precalc past position and velocity
   #if AA_TYPE == 2 || MOTION_BLUR == 1
@@ -76,29 +76,29 @@ void main() {
   #if AA_TYPE == 1
     block_color.rgb = fxaa311(block_color.rgb, AA);
     #if DOF == 1
-      /* DRAWBUFFERS:01234 */
+      /**/
       gl_FragData[4] = block_color;  // colortex4
     #else
-      /* DRAWBUFFERS:0 */
+      /**/
       gl_FragData[0] = block_color;  // colortex0
     #endif
 
   #elif AA_TYPE == 2
     block_color.rgb = fast_taa(block_color.rgb, texcoord_past, velocity);
-    gl_FragData[3] = block_color;  // To TAA averages
+    gl_FragData[2] = block_color;  // To TAA averages
     #if DOF == 1
-      /* DRAWBUFFERS:01234 */
+      /**/
       gl_FragData[4] = block_color;  // colortex4
     #else
-      /* DRAWBUFFERS:0123 */
+      /**/
       gl_FragData[0] = block_color;  // colortex0
     #endif
   #else
     #if DOF == 1
-      /* DRAWBUFFERS:01234 */
+      /**/
       gl_FragData[4] = block_color;  // colortex4
     #else
-      /* DRAWBUFFERS:0 */
+      /**/
       gl_FragData[0] = block_color;  // colortex0
     #endif
 
