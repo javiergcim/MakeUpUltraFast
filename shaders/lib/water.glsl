@@ -140,15 +140,14 @@ vec4 raytrace(vec3 fragpos, vec3 normal) {
 
     float border =
       clamp((1.0 - (max(0.0, abs(pos.y - 0.5)) * 2.0)) * 50.0, 0.0, 1.0);
-    // float border = max(-fifth_pow(abs(2 * pos.y - 1.0)) + 1.0, 0.0);
 
     return vec4(texture2D(gaux2, pos.xy, 0.0).rgb, border);
 
   #else
     #if AA_TYPE == 2
-      float dither = timed_hash12();
+      float dither = timed_hash12(gl_FragCoord.xy);
     #else
-      float dither = grid_noise();
+      float dither = grid_noise(gl_FragCoord.xy);
     #endif
 
     const int samples = RT_SAMPLES;

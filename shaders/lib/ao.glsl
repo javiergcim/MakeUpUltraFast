@@ -12,14 +12,10 @@ float dbao() {
   float ao = 0.0;
 
   #if AA_TYPE == 2
-    float dither = timed_hash12();
+    float dither = timed_hash12(gl_FragCoord.xy);
   #else
     float dither = texture_noise_32(gl_FragCoord.xy, colortex6);
   #endif
-
-  // float base_angle = texture_noise_32(gl_FragCoord.xy, colortex6);
-  // float rot_step = 10.681415022205297 / AOSTEPS;
-  // float sample_angle = base_angle * 6.2831853;
 
   float d = texture2D(depthtex0, texcoord.xy).r;
   float hand = float(d < 0.56);
@@ -34,8 +30,6 @@ float dbao() {
 
   for (int i = 1; i <= AOSTEPS; i++) {
     vec2 offset = offset_dist(i + dither, AOSTEPS) * scale;
-    // sample_angle += (i * rot_step);
-    // vec2 offset = vec2(cos(sample_angle), sin(sample_angle)) * ((i + base_angle) / AOSTEPS) * scale;
 
     sd = ld(texture2D(depthtex0, texcoord.xy + offset).r);
     float sample = (d - sd) * far_double;
