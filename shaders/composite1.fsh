@@ -77,7 +77,7 @@ void main() {
     block_color.rgb = fxaa311(block_color.rgb, AA);
     #if DOF == 1
       /**/
-      gl_FragData[4] = block_color;  // colortex4
+      gl_FragData[3] = block_color;  // colortex3
     #else
       /**/
       gl_FragData[0] = block_color;  // colortex0
@@ -88,7 +88,7 @@ void main() {
     gl_FragData[2] = block_color;  // To TAA averages
     #if DOF == 1
       /**/
-      gl_FragData[4] = block_color;  // colortex4
+      gl_FragData[3] = block_color;  // colortex3
     #else
       /**/
       gl_FragData[0] = block_color;  // colortex0
@@ -96,7 +96,7 @@ void main() {
   #else
     #if DOF == 1
       /**/
-      gl_FragData[4] = block_color;  // colortex4
+      gl_FragData[3] = block_color;  // colortex3
     #else
       /**/
       gl_FragData[0] = block_color;  // colortex0

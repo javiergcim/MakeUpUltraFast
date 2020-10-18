@@ -16,7 +16,7 @@ colortex0 - Main color canvas
 colortex1 - Not used
 colortex1 - Antialiasing auxiliar
 colortex2 - TAA Averages history
-colortex4 - Blur Auxiliar
+colortex3 - Blur Auxiliar
 gaux2 (colortex5) - Reflection texture (I can't use 'colortex5' as a name or reflections break. I don't know why)
 colortex6 - Noise
 colortex7 - Not used
@@ -25,7 +25,7 @@ const int colortex0Format = R11F_G11F_B10F;
 
 const int colortex1Format = R11F_G11F_B10F;
 const int colortex2Format = R11F_G11F_B10F;
-const int colortex4Format = RGBA16F;
+const int colortex3Format = RGBA16F;
 const int colortex5Format = RGB8;
 const int colortex6Format = RGBA16;
 const int colortex7Format = R8;
@@ -39,7 +39,7 @@ uniform int current_hour_ceil;
 uniform float current_hour_fract;
 
 #if DOF == 1
-  uniform sampler2D colortex4;
+  uniform sampler2D colortex3;
   uniform float pixel_size_y;
   uniform float viewHeight;
   uniform float pixel_size_x;
@@ -61,7 +61,7 @@ varying vec2 texcoord;
 void main() {
 
   #if DOF == 1
-    vec4 color_blur = texture2D(colortex4, texcoord);
+    vec4 color_blur = texture2D(colortex3, texcoord);
     float blur_radius = color_blur.a * aspectRatio;
     vec3 color = color_blur.rgb;
 
@@ -82,7 +82,7 @@ void main() {
 
       for (float y = start; y <= finish; y += step) {  // Blur samples
         weight = fogify((y - texcoord.y) * radius_inv, 0.35);
-        new_blur = texture2D(colortex4, vec2(texcoord.x, y));
+        new_blur = texture2D(colortex3, vec2(texcoord.x, y));
         average.rgb += new_blur.rgb * weight;
         average.a += weight;
       }

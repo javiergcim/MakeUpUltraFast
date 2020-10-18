@@ -13,7 +13,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #if DOF == 1
   uniform sampler2D depthtex1;
   uniform float centerDepthSmooth;
-  uniform sampler2D colortex4;
+  uniform sampler2D colortex3;
   uniform float pixel_size_x;
   uniform float viewWidth;
 #else
@@ -39,7 +39,7 @@ void main() {
       blur_radius = min(blur_radius, 0.015);
     }
 
-    vec3 color = texture2D(colortex4, texcoord).rgb;
+    vec3 color = texture2D(colortex3, texcoord).rgb;
 
     if (blur_radius > pixel_size_x) {
       float radius_inv = 1.0 / blur_radius;
@@ -58,7 +58,7 @@ void main() {
 
       for (float x = start; x <= finish; x += step) {  // Blur samples
         weight = fogify((x - texcoord.x) * radius_inv, 0.35);
-        new_blur = texture2D(colortex4, vec2(x, texcoord.y));
+        new_blur = texture2D(colortex3, vec2(x, texcoord.y));
         average.rgb += new_blur.rgb * weight;
         average.a += weight;
       }
@@ -69,7 +69,7 @@ void main() {
   #endif
 
   #if DOF == 1
-    gl_FragData[4] = vec4(color, blur_radius);
+    gl_FragData[3] = vec4(color, blur_radius);
   #else
     gl_FragData[0] = vec4(color, 1.0);
   #endif
