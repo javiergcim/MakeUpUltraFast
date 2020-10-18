@@ -20,7 +20,7 @@ colortex2 - TAA Averages history
 colortex3 - Blur Auxiliar
 colortex4 (colortex4) - Reflection texture (I can't use 'colortex4' as a name or reflections break. I don't know why)
 colortex5 - Not used
-colortex7 - Not used
+colortex6 - Not used
 
 const int colortex0Format = R11F_G11F_B10F;
 
@@ -29,7 +29,7 @@ const int colortex2Format = R11F_G11F_B10F;
 const int colortex3Format = RGBA16F;
 const int colortex4Format = RGB8;
 const int colortex5Format = RGBA16;
-const int colortex7Format = R8;
+const int colortex6Format = R8;
 */
 
 // 'Global' constants from system
