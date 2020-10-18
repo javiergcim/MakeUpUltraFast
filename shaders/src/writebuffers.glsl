@@ -9,6 +9,6 @@
   /**/
 
   gl_FragData[0] = block_color;
-  gl_FragData[5] = block_color;
+  gl_FragData[4] = block_color;
 
 #endif

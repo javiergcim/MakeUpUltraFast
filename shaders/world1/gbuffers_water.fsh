@@ -40,7 +40,7 @@ uniform float viewWidth;
 uniform float viewHeight;
 uniform float near;
 uniform float far;
-uniform sampler2D gaux2;
+uniform sampler2D colortex4;
 uniform mat4 gbufferProjectionInverse;
 uniform mat4 gbufferProjection;
 uniform sampler2D noisetex;
