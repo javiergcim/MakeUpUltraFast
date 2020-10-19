@@ -36,11 +36,14 @@ uniform float nightVision;
 uniform float rainStrength;
 
 #if SHADOW_CASTING == 1
+  uniform sampler2D gaux2;
+  uniform float frameTimeCounter;
   uniform sampler2DShadow shadowtex1;
   uniform float shadow_force;
 #endif
 
 #if SHADOW_CASTING == 1
+  #include "/lib/dither.glsl"
   #include "/lib/shadow_frag.glsl"
 #endif
 

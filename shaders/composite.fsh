@@ -17,11 +17,9 @@ uniform vec3 skyColor;
 uniform sampler2D depthtex0;
 uniform float far;
 uniform float near;
-
 uniform sampler2D colortex5;
 
 #if AO == 1
-  // uniform float aspectRatio;
   uniform float inv_aspect_ratio;
   uniform mat4 gbufferProjection;
   uniform float frameTimeCounter;
@@ -68,6 +66,6 @@ void main() {
       sqrt(ld(d))
       );
   }
-  /**/
+  /* DRAWBUFFERS:012 */
   gl_FragData[1] = block_color;
 }

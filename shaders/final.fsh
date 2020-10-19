@@ -22,7 +22,6 @@ colortex6 - Not used
 colortex7 - Not used
 
 const int colortex0Format = R11F_G11F_B10F;
-
 const int colortex1Format = R11F_G11F_B10F;
 const int colortex2Format = R11F_G11F_B10F;
 const int colortex3Format = RGBA16F;

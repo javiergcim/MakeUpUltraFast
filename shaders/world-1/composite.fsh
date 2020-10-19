@@ -17,9 +17,10 @@ uniform vec3 skyColor;
 uniform sampler2D depthtex0;
 uniform float far;
 uniform float near;
+uniform sampler2D colortex5;
 
 #if AO == 1
-  uniform float aspectRatio;
+  uniform float inv_aspect_ratio;
   uniform mat4 gbufferProjection;
   uniform float frameTimeCounter;
 #endif
@@ -42,7 +43,7 @@ void main() {
     // AO distance attenuation
     float d = texture2D(depthtex0, texcoord).r;
     float ao_att = sqrt(ld(d));
-    float final_ao = mix(dbao(depthtex0), 1.0, ao_att);
+    float final_ao = mix(dbao(), 1.0, ao_att);
     block_color *= final_ao;
     // block_color = vec4(vec3(final_ao), 1.0);
   #endif
@@ -73,5 +74,6 @@ void main() {
       );
   }
 
+  /* DRAWBUFFERS:012 */
   gl_FragData[1] = block_color;
 }
