@@ -15,6 +15,7 @@ float dbao() {
     float dither = timed_hash12(gl_FragCoord.xy);
   #else
     float dither = texture_noise_32(gl_FragCoord.xy, colortex5);
+    // float dither = grid_noise(gl_FragCoord.xy);
   #endif
 
   float d = texture2D(depthtex0, texcoord.xy).r;

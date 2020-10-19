@@ -12,7 +12,8 @@ vec3 motion_blur(vec3 color, float z_depth, vec2 blur_velocity) {
     for(int i = 0; i < 5; i++, coord += blur_velocity){
       vec2 sample_coord = clamp(coord, double_pixel, 1.0 - double_pixel);
       float mask = float(texture2D(depthtex0, sample_coord).r > 0.56);
-      mblur += texture2DLod(colortex1, sample_coord, 0.0).rgb * mask;
+      // mblur += texture2DLod(colortex1, sample_coord, 0.0).rgb * mask;
+      mblur += texture2D(colortex1, sample_coord).rgb * mask;
       mbwg += mask;
     }
     mblur /= max(mbwg, 1.0);
