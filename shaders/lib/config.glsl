@@ -92,10 +92,10 @@ const int noiseTextureResolution = 128;
 #if AO == 0
   const float ambientOcclusionLevel = 1.0f;
 #else
-  const float ambientOcclusionLevel = 0.5f;
+  const float ambientOcclusionLevel = 0.25f;
 #endif
 
-const float eyeBrightnessHalflife = 8.0f;
+const float eyeBrightnessHalflife = 4.0f;
 const float centerDepthHalflife = 1.0f;
 const float wetnessHalflife = 20.0f;
 const float drynessHalflife = 10.0f;
