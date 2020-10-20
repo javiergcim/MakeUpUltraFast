@@ -10,7 +10,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/config.glsl"
 
 #if DOF == 1
-  uniform sampler2D depthtex1;
   uniform float centerDepthSmooth;
   uniform sampler2D colortex3;
   uniform float pixel_size_x;
@@ -29,7 +28,9 @@ varying vec2 texcoord;
 void main() {
 
   #if DOF == 1
-    float the_depth = texture2D(depthtex1, texcoord).r;
+    vec4 color_depth = texture2D(colortex3, texcoord);
+    vec3 color = color_depth.rgb;
+    float the_depth = color_depth.a;
     float blur_radius = 0.0;
     if (the_depth > 0.56) {
       blur_radius =
@@ -37,8 +38,6 @@ void main() {
       blur_radius = blur_radius / sqrt(0.1 + blur_radius * blur_radius) * DOF_STRENGTH;
       blur_radius = min(blur_radius, 0.015);
     }
-
-    vec3 color = texture2D(colortex3, texcoord).rgb;
 
     if (blur_radius > pixel_size_x) {
       float radius_inv = 1.0 / blur_radius;

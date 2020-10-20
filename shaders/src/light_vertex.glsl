@@ -26,6 +26,8 @@
 
   // Visibilidad del cielo
   float visible_sky = illumination.y * 1.105 - .105;
+  float omni_attenuation = visible_sky;
+  visible_sky *= visible_sky * visible_sky;
 
   #ifdef EMMISIVE_V
   if (emissive > 0.5 || magma > 0.5) {  // Es bloque es emisivo
@@ -39,7 +41,7 @@
   }
 
   // Intensidad y color de luz de candelas =====================================
-  candle_color = candle_baselight * cube_pow(illumination.x);
+  candle_color = candle_baselight * fourth_pow(illumination.x) * 1.5;
 
   // Tomamos el color de luz del cielo con base a la hora
   #ifdef THE_END
@@ -111,6 +113,6 @@
     omni_force[current_hour_floor],
     omni_force[current_hour_ceil],
     current_hour_fract
-  ) * visible_sky;
+  ) * omni_attenuation;
 
 #endif

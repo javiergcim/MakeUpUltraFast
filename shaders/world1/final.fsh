@@ -109,7 +109,7 @@ void main() {
   exposure = (exposure * -2.0) + 3.0;
 
   color *= exposure;
-  color = custom_lottes_tonemap(color, exposure * 1.3);  // 1.3 max lightforce
+  color = custom_lottes_tonemap(color, exposure);  // 1.3 max lightforce
 
   #if CROSSP == 1
     color = crossprocess(color);
