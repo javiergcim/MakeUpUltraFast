@@ -20,6 +20,6 @@ void main() {
 
   gl_Position = ftransform();
   #if AA_TYPE == 2
-    gl_Position.xy += offsets[frame_mod] * gl_Position.w * texelSize;
+    gl_Position.xy += offsets[frame_mod] * gl_Position.w * pixel_size;
   #endif
 }

@@ -107,15 +107,11 @@ void main() {
   float exposure =
     ((eyeBrightnessSmooth.y / 240.0) * exposure_coef);
 
-  // Map from 1.0 - 0.0 to 1.0 - 3.0
-  exposure = (exposure * -2.0) + 3.0;
+    // Map from 1.0 - 0.0 to 1.3 - 3.9
+    exposure = (exposure * -2.6) + 3.9;
 
   color *= exposure;
   color = custom_lottes_tonemap(color, exposure);
-
-  #if CROSSP == 1
-    color = crossprocess(color);
-  #endif
 
   gl_FragColor = vec4(color, 1.0);
 }

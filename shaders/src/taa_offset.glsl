@@ -1,7 +1,7 @@
 uniform float pixel_size_x;
 uniform float pixel_size_y;
 uniform int frame_mod;
-vec2 texelSize = vec2(pixel_size_x, pixel_size_y);
+vec2 pixel_size = vec2(pixel_size_x, pixel_size_y);
 
 // Penta star
 const vec2[5] offsets = vec2[5](

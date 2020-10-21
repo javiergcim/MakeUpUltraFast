@@ -113,9 +113,5 @@ void main() {
   color *= exposure;
   color = lottes_tonemap(color, exposure);
 
-  #if CROSSP == 1
-    color = crossprocess(color);
-  #endif
-
   gl_FragColor = vec4(color, 1.0);
 }
