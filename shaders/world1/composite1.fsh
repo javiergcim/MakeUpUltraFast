@@ -55,7 +55,7 @@ void main() {
   // Precalc past position and velocity
   #if AA_TYPE == 2 || MOTION_BLUR == 1
     // Reproyección del cuadro anterior
-    float z_depth = texture2D(depthtex0, texcoord).x;
+    float z_depth = block_color.a;
     vec3 closest_to_camera = vec3(texcoord, z_depth);
     vec3 fragposition = to_screen_space(closest_to_camera);
     fragposition = mat3(gbufferModelViewInverse) * fragposition + gbufferModelViewInverse[3].xyz + (cameraPosition - previousCameraPosition);
@@ -83,7 +83,11 @@ void main() {
     #endif
 
   #elif AA_TYPE == 2
-    block_color.rgb = fast_taa(block_color.rgb, texcoord_past, velocity);
+    #if DOF == 1
+      block_color = fast_taa_depth(block_color, texcoord_past, velocity);
+    #else
+      block_color.rgb = fast_taa(block_color.rgb, texcoord_past, velocity);
+    #endif
     gl_FragData[2] = block_color;  // To TAA averages
     #if DOF == 1
       /* DRAWBUFFERS:0123 */

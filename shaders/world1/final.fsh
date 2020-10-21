@@ -23,8 +23,8 @@ colortex6 - Not used
 colortex7 - Not used
 
 const int colortex0Format = R11F_G11F_B10F;
-const int colortex1Format = R11F_G11F_B10F;
-const int colortex2Format = R11F_G11F_B10F;
+const int colortex1Format = RGBA16F;
+const int colortex2Format = RGBA16F;
 const int colortex3Format = RGBA16F;
 const int gaux1Format = RGB8;
 const int colortex5Format = R8;
@@ -95,15 +95,18 @@ void main() {
 
   // Tonemaping ---
   // x: Block, y: Sky ---
-  float candle_bright = (eyeBrightnessSmooth.x / 240.0) * .1;
+  // float candle_bright = (eyeBrightnessSmooth.x / 240.0) * .1;
   float exposure_coef =
     mix(
       ambient_exposure[current_hour_floor],
       ambient_exposure[current_hour_ceil],
       current_hour_fract
     );
+  // float exposure =
+  //   ((eyeBrightnessSmooth.y / 240.0) * exposure_coef) + candle_bright;
+
   float exposure =
-    ((eyeBrightnessSmooth.y / 240.0) * exposure_coef) + candle_bright;
+    ((eyeBrightnessSmooth.y / 240.0) * exposure_coef);
 
   // Map from 1.0 - 0.0 to 1.0 - 3.0
   exposure = (exposure * -2.0) + 3.0;

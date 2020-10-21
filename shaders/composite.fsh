@@ -48,7 +48,7 @@ void main() {
     // block_color = vec4(vec3(final_ao), 1.0);
   #endif
 
-  // Niebla bajo el agua
+  // Niebla
   if (isEyeInWater == 1) {
     block_color.rgb = mix(
       block_color.rgb,

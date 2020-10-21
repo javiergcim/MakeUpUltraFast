@@ -57,14 +57,9 @@ void main() {
       shadow_c = 1.0;
     }
 
-    // vec3 real_light =
-    // candle_color +
-    // (direct_light_color * min(shadow_c, direct_light_strenght) *
-    // (1.0 - (rainStrength * .3))) +
-    // omni_light;
     vec3 real_light =
     candle_color +
-    (direct_light_color + shadow_c *
+    (direct_light_color * min(shadow_c, direct_light_strenght) *
     (1.0 - (rainStrength * .3))) +
     omni_light;
   #else

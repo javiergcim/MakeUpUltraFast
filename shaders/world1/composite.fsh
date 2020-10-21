@@ -39,25 +39,21 @@ varying vec2 texcoord;
 
 void main() {
   vec4 block_color = texture2D(colortex0, texcoord);
+  float d = texture2D(depthtex0, texcoord).r;
 
   #if AO == 1
     // AO distance attenuation
-    float d = texture2D(depthtex0, texcoord).r;
     float ao_att = sqrt(ld(d));
     float final_ao = mix(dbao(), 1.0, ao_att);
     block_color *= final_ao;
     // block_color = vec4(vec3(final_ao), 1.0);
   #endif
 
-  // Niebla bajo el agua
-  #if AO == 0
-    float d = texture2D(depthtex0, texcoord).r;
-  #endif
   // Niebla
   if (isEyeInWater == 0) {
     block_color = mix(
       block_color,
-      mix(gl_Fog.color * .5, vec4(1.0), .04),
+      mix(gl_Fog.color * .1, vec4(1.0), .04),
       sqrt(ld(d))
     );
   }
@@ -76,5 +72,5 @@ void main() {
   }
 
   /* DRAWBUFFERS:012 */
-  gl_FragData[1] = block_color;
+  gl_FragData[1] = vec4(block_color.rgb, d);
 }

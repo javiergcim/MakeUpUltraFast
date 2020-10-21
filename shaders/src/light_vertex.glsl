@@ -25,7 +25,9 @@
   illumination.y = max(illumination.y, 0.095);  // Remueve artefacto
 
   // Visibilidad del cielo
-  float visible_sky = illumination.y * 1.105 - .1049;
+  float visible_sky = illumination.y * 1.105 - .105;
+  float omni_attenuation = visible_sky;
+  visible_sky *= visible_sky * visible_sky;
 
   #ifdef EMMISIVE_V
   if (emissive > 0.5 || magma > 0.5) {  // Es bloque es emisivo
@@ -39,7 +41,7 @@
   }
 
   // Intensidad y color de luz de candelas =====================================
-  candle_color = candle_baselight * cube_pow(illumination.x);
+  candle_color = candle_baselight * fourth_pow(illumination.x) * 1.5;
 
   // Tomamos el color de luz del cielo con base a la hora
   #ifdef THE_END
@@ -55,7 +57,7 @@
         ambient_baselight[current_hour_floor],
         ambient_baselight[current_hour_ceil],
         current_hour_fract
-      ) * illumination.y * .5;
+      ) * illumination.y;
   #endif
 
   // Atenuación por dirección de luz directa =================================
@@ -77,7 +79,6 @@
 
   // Evitamos oscuridad excesiva al dar la espalda a fuente de luz
   direct_light_strenght = (direct_light_strenght * .5) + .5;
-  direct_light_strenght = pow(direct_light_strenght, 2.0);
 
   #ifdef CAVEENTITY_V
     // Para evitar iluminación plana en cuevas
@@ -104,8 +105,7 @@
     // Modificación definitiva de intensidad en función de exposición al cielo
     direct_light_strenght = mix(1.0, direct_light_strenght, visible_sky);
     // Combinación de luz dirigida, exposión al cielo y luz tenue
-    // direct_light_strenght = clamp((direct_light_strenght + illumination.y - 0.9), 0.0, 1.0);
-    direct_light_strenght *= visible_sky;
+    direct_light_strenght = clamp((direct_light_strenght + illumination.y - 0.9), 0.0, 1.0);
   #endif
 
   // Luz ambiental omnidireccional
@@ -113,6 +113,6 @@
     omni_force[current_hour_floor],
     omni_force[current_hour_ceil],
     current_hour_fract
-  ) * visible_sky;
+  ) * omni_attenuation;
 
 #endif

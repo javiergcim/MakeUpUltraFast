@@ -23,21 +23,21 @@ vec3 custom_lottes_tonemap(vec3 x, float expo) {
     return pow(x, vec3(1.4)) / (pow(x, vec3(1.386)) * b + c);
 }
 
-vec3 lottes_tonemap(vec3 x, float hdrMax) {
-    // Lottes 2016, "Advanced Techniques and Optimization of HDR Color Pipelines"
-    float a = 1.5;
-    float d = 0.997;
-    // const float hdrMax = 8.0;
-    float midIn = 0.18;
-    float midOut = 0.22;
-
-    // Can be precomputed
-    float b =
-        (-pow(midIn, a) + pow(hdrMax, a) * midOut) /
-        ((pow(hdrMax, a * d) - pow(midIn, a * d)) * midOut);
-    float c =
-        (pow(hdrMax, a * d) * pow(midIn, a) - pow(hdrMax, a) * pow(midIn, a * d) * midOut) /
-        ((pow(hdrMax, a * d) - pow(midIn, a * d)) * midOut);
-
-    return pow(x, vec3(a)) / (pow(x, vec3(a * d)) * b + c);
-}
+// vec3 lottes_tonemap(vec3 x, float hdrMax) {
+//     // Lottes 2016, "Advanced Techniques and Optimization of HDR Color Pipelines"
+//     float a = 1.6;
+//     float d = 0.997;
+//     // const float hdrMax = 8.0;
+//     float midIn = 0.18;
+//     float midOut = 0.267;
+//
+//     // Can be precomputed
+//     float b =
+//         (-pow(midIn, a) + pow(hdrMax, a) * midOut) /
+//         ((pow(hdrMax, a * d) - pow(midIn, a * d)) * midOut);
+//     float c =
+//         (pow(hdrMax, a * d) * pow(midIn, a) - pow(hdrMax, a) * pow(midIn, a * d) * midOut) /
+//         ((pow(hdrMax, a * d) - pow(midIn, a * d)) * midOut);
+//
+//     return pow(x, vec3(a)) / (pow(x, vec3(a * d)) * b + c);
+// }

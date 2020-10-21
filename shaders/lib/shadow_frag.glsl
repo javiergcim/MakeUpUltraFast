@@ -31,8 +31,7 @@ float get_shadow(vec3 the_shadow_pos) {
     #endif
 
     shadow_sample = mix(1.0, shadow_sample, shadow_force);
-    // shadow_sample = (shadow_sample * 0.6464466094067263) + 0.3535533905932738;
-    // shadow_sample = (shadow_sample * 0.75) + 0.25;
+    shadow_sample = (shadow_sample * .5) + .5;
   }
 
   return shadow_sample;
