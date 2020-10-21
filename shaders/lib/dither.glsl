@@ -27,11 +27,11 @@ float texture_noise_32(vec2 p, sampler2D noise) {
 		return texture2D(noise, p * 0.03125).r;
 }
 
-// float hash12() {
-//   vec3 p3 = fract(vec3(gl_FragCoord.xyx) * MAGIC);
-//   p3 += dot(p3, p3.yzx + 19.19);
-//   return fract((p3.x + p3.y) * p3.z);
-// }
+float hash12(vec2 p) {
+  vec3 p3 = fract(vec3(p.xyx) * MAGIC);
+  p3 += dot(p3, p3.yzx + 19.19);
+  return fract((p3.x + p3.y) * p3.z);
+}
 
 // vec2 hash21(float p) {
 // 	vec3 p3 = fract(vec3(p) * vec3(.1031, .1030, .0973));

@@ -8,11 +8,7 @@ float get_shadow(vec3 the_shadow_pos) {
     #if SHADOW_TYPE == 0  // Pixelated
       shadow_sample = shadow2D(shadowtex1, the_shadow_pos).r;
     #elif SHADOW_TYPE == 1  // Soft
-      #if AA_TYPE == 2
-        float dither_o = timed_hash12(gl_FragCoord.xy);
-      #else
-        float dither_o = dither_grad_noise(gl_FragCoord.xy);
-      #endif
+      float dither_o = dither_grad_noise(gl_FragCoord.xy);
       float dither = dither_o * 12.566368;
       dither_o = dither_o * .7 + .3;
       vec2 offset = (vec2(cos(dither), sin(dither)) * dither_o / shadowMapResolution * 2.0);
@@ -20,9 +16,9 @@ float get_shadow(vec3 the_shadow_pos) {
       #if SHADOW_RES == 0 || SHADOW_RES == 1
         float new_z = the_shadow_pos.z - .0004 - (0.0004 * dither_o);
       #elif SHADOW_RES == 2 || SHADOW_RES == 3
-        float new_z = the_shadow_pos.z - .00027 - (0.0003 * dither_o);
+        float new_z = the_shadow_pos.z - .0003 - (0.0003 * dither_o);
       #elif SHADOW_RES == 4 || SHADOW_RES == 5
-        float new_z = the_shadow_pos.z - .00015 - (0.00015 * dither_o);
+        float new_z = the_shadow_pos.z - .00021 - (0.00015 * dither_o);
       #endif
 
       shadow_sample = shadow2D(shadowtex1, vec3(the_shadow_pos.st + offset, new_z)).r;
@@ -31,7 +27,7 @@ float get_shadow(vec3 the_shadow_pos) {
     #endif
 
     shadow_sample = mix(1.0, shadow_sample, shadow_force);
-    shadow_sample = (shadow_sample * .5) + .5;
+    // shadow_sample = (shadow_sample * .25) + .75;
   }
 
   return shadow_sample;
