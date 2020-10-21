@@ -111,7 +111,7 @@ void main() {
     exposure = (exposure * -2.6) + 3.9;
 
   color *= exposure;
-  color = custom_lottes_tonemap(color, exposure);
+  color = lottes_tonemap(color, exposure);
 
   gl_FragColor = vec4(color, 1.0);
 }
