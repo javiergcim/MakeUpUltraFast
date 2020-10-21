@@ -64,28 +64,23 @@
   direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
 
   // Calculamos color de luz directa
-  #ifdef THE_END
-    direct_light_color =
-      mix(
-        ambient_baselight[current_hour_floor],
-        ambient_baselight[current_hour_ceil],
-        current_hour_fract
-      );
-  #else
-    direct_light_color =
-      mix(
-        ambient_baselight[current_hour_floor],
-        ambient_baselight[current_hour_ceil],
-        current_hour_fract
-      );
-  #endif
+  direct_light_color =
+    mix(
+      ambient_baselight[current_hour_floor],
+      ambient_baselight[current_hour_ceil],
+      current_hour_fract
+    );
 
+  #ifdef THE_END
+    omni_light = vec3(0.14475, 0.1395, 0.1425);
+  #else
   // Calculamos color de luz ambiental
   omni_light = mix(skyColor, direct_light_color, 0.35) * mix(
     omni_force[current_hour_floor],
     omni_force[current_hour_ceil],
     current_hour_fract
   ) * visible_sky;
+  #endif
 
   #ifdef CAVEENTITY_V
     // Para evitar iluminación plana en cuevas

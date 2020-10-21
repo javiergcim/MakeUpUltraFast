@@ -143,40 +143,34 @@ void main() {
     );
 
   } else if (block_type > .5){  // Portal
+    // Toma el color puro del bloque
     block_color = texture2D(texture, texcoord) * tint_color;
-    vec3 real_light =
-      candle_color +
-      (direct_light_color * direct_light_strenght *
-        (1.0 - (rainStrength * .3))) +
-      omni_light;
-    block_color *= mix(vec4(real_light, 1.0), vec4(1.0), .2);
-  } else {  // ?
-    // block_color = texture2D(texture, texcoord) * tint_color;
-    //
-    // #if SHADOW_CASTING == 1
-    //   float shadow_c;
-    //   if (rainStrength < .95 && lmcoord.y > 0.095) {
-    //     shadow_c = get_shadow(shadow_pos);
-    //     shadow_c = mix(shadow_c, 1.0, rainStrength);
-    //   } else {
-    //     shadow_c = 1.0;
-    //   }
-    //
-    //   vec3 real_light =
-    //   candle_color +
-    //   (direct_light_color * min(shadow_c, direct_light_strenght) *
-    //   (1.0 - (rainStrength * .3))) +
-    //   omni_light;
-    // #else
-    //   vec3 real_light =
-    //     candle_color +
-    //     (direct_light_color * direct_light_strenght *
-    //       (1.0 - (rainStrength * .3))) +
-    //     omni_light;
-    // #endif
-    //
-    // block_color *= vec4(real_light, 1.0);
+    float shadow_c;
 
+    #if SHADOW_CASTING == 1
+      if (rainStrength < .95 && lmcoord.y > 0.005) {
+        shadow_c = get_shadow(shadow_pos);
+        shadow_c = mix(shadow_c, 1.0, rainStrength);
+      } else {
+        shadow_c = 1.0;
+      }
+
+      if (shadow_mask < 0.0) {
+        shadow_c = 0.0;
+      }
+
+    #else
+      shadow_c = 1.0;
+    #endif
+
+    vec3 real_light =
+      (omni_light * (direct_light_strenght * .25 + .75)) +
+      (direct_light_color * direct_light_strenght * shadow_c) * (1.0 - rainStrength) +
+      candle_color +
+      .2;
+
+    block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
+  } else {  // ?
     // Toma el color puro del bloque
     block_color = texture2D(texture, texcoord) * tint_color;
     float shadow_c;
