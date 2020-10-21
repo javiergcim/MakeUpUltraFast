@@ -3,7 +3,7 @@ Cristal reflection related functions. Based by Project LUMA.
 
 */
 
-vec4 cristal_raytrace(vec3 fragpos, vec3 normal) {
+vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal) {
 
   #if SSR_METHOD == 0
 
@@ -102,7 +102,7 @@ vec4 cristal_shader(vec3 fragpos, vec3 normal, vec4 color, vec3 sky_reflection) 
   vec4 reflection = vec4(0.0);
 
   #if REFLECTION == 1
-    reflection = cristal_raytrace(fragpos, normal);
+    reflection = cristal_reflection_calc(fragpos, normal);
   #endif
 
   reflection.rgb = mix(sky_reflection * lmcoord.y * lmcoord.y, reflection.rgb, reflection.a);

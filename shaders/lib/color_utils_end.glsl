@@ -1,5 +1,5 @@
 /* MakeUp Ultra Fast - color_utils.glsl
-Usefull functions for color manipulation.
+Usefull data for color manipulation.
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */

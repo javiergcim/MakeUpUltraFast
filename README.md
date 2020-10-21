@@ -2,7 +2,7 @@
 Ultra fast Minecraft shader (Java). For a small graphic improvement. Intended
 for low-spec computers.
 
-**Version: 1.76c**
+**Version: 2.0: The Light Update**
 
 ## Main features
 * Optional shadows
@@ -19,8 +19,3 @@ for low-spec computers.
 * Minecraft 1.16.x
 * Nvidia and Intel
 * Windows and Linux
-
-## Know Issues
-
-* Parpadeo en algunos bordes cuando el TAA y DoF estáv activados
-simultáneamente. Posible solución: aplicar TAA al buffer de profundidad.

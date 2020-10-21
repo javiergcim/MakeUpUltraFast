@@ -20,9 +20,6 @@ Proc. 7th ICDVRAT with ArtAbilitation, Maia, Portugal.
 - Grass movement is based on the one used in Sildur's shaders.
 https://sildurs-shaders.github.io/
 
-- The water shader is a modification and adaptation of the one used by RRe36:
-https://rre36.github.io/
-
 - Enhanced ambient occlusion is based on Capt Tatsu's ambient occlusion used in
 BSL Shaders:
 https://bitslablab.com/bslshaders/

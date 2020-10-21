@@ -132,102 +132,21 @@ float cdist(vec2 coord) {
   return max(abs(coord.s - 0.5), abs(coord.t - 0.5)) * 2.0;
 }
 
-vec4 raytrace(vec3 fragpos, vec3 normal) {
-  #if SSR_METHOD == 0
+vec4 reflection_calc(vec3 fragpos, vec3 normal) {
+  vec3 reflected_vector = reflect(normalize(fragpos), normal) * 30.0;
+  vec3 pos = camera_to_screen(fragpos + reflected_vector);
 
-    vec3 reflected_vector = reflect(normalize(fragpos), normal) * 30.0;
-    vec3 pos = camera_to_screen(fragpos + reflected_vector);
+  float border =
+    clamp((1.0 - (max(0.0, abs(pos.y - 0.5)) * 2.0)) * 50.0, 0.0, 1.0);
 
-    float border =
-      clamp((1.0 - (max(0.0, abs(pos.y - 0.5)) * 2.0)) * 50.0, 0.0, 1.0);
-
-    return vec4(texture2D(gaux1, pos.xy, 0.0).rgb, border);
-
-  #else
-    #if AA_TYPE == 2
-      float dither = timed_hash12(gl_FragCoord.xy);
-    #else
-      float dither = grid_noise(gl_FragCoord.xy);
-    #endif
-
-    const int samples = RT_SAMPLES;
-    const int max_refine = 10;
-    const float step_size = 1.2;
-    const float step_refine = 0.28;
-    const float step_increment = 1.8;
-
-    vec3 col = vec3(0.0);
-    vec3 ray_start = fragpos;
-    vec3 ray_dir = reflect(normalize(fragpos), normal);
-    vec3 ray_step = (step_size + dither - 0.5) * ray_dir;
-    vec3 ray_pos = ray_start + ray_step;
-    vec3 ray_pos_past = ray_start;
-    vec3 ray_refine  = ray_step;
-
-    int refine = 0;
-    vec3 pos = vec3(0.0);
-    float border = 0.0;
-
-    for (int i = 0; i < samples; i++) {
-      pos = camera_to_screen(ray_pos);
-
-      if (
-        pos.x < 0.0 ||
-        pos.x > 1.0 ||
-        pos.y < 0.0 ||
-        pos.y > 1.0 ||
-        pos.z < 0.0 ||
-        pos.z > 1.0
-        ) break;
-
-      vec3 screen_pos = vec3(pos.xy, texture2D(depthtex1, pos.xy).x);
-      screen_pos = camera_to_world(screen_pos * 2.0 - 1.0);
-
-      float dist = distance(ray_pos, screen_pos);
-
-      if (
-        dist < pow(length(ray_step) * pow(length(ray_refine), 0.11), 1.1) * 1.22
-        ) {
-        refine++;
-        if (refine >= max_refine) break;
-
-        ray_refine -= ray_step;
-        ray_step *= step_refine;
-      }
-
-      ray_step *= step_increment;
-      ray_pos_past = ray_pos;
-      ray_refine += ray_step;
-      ray_pos = ray_start + ray_refine;
-    }
-
-    if (pos.z < 1.0-1e-5) {
-      float depth = texture2D(depthtex0, pos.xy).x;
-
-      float comp = 1.0 - near / far / far;
-      bool land = depth < comp;
-
-      if (land) {
-        col = texture2D(gaux1, pos.xy).rgb;
-        border = clamp((1.0 - cdist(pos.st)) * 50.0, 0.0, 1.0);
-      }
-    }
-
-    // Difumina la orilla del área reflejable para evitar el "corte" del mismo.
-    float border_mix = abs((pos.x * 2.0) - 1.0);
-    border_mix *= border_mix;
-    border = mix(border, 0.0, border_mix);
-
-    return vec4(col, border);
-
-  #endif
+  return vec4(texture2D(gaux1, pos.xy, 0.0).rgb, border);
 }
 
 vec3 water_shader(vec3 fragpos, vec3 normal, vec3 color, vec3 sky_reflect) {
   vec4 reflection = vec4(0.0);
 
   #if REFLECTION == 1
-    reflection = raytrace(fragpos, normal);
+    reflection = reflection_calc(fragpos, normal);
   #endif
 
   float normal_dot_eye = dot(normal, normalize(fragpos));

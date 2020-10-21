@@ -54,9 +54,8 @@ varying vec3 candle_color;
 varying float direct_light_strenght;
 varying vec3 omni_light;
 
-varying float shadow_mask;
-
 #if SHADOW_CASTING == 1
+  varying float shadow_mask;
   varying vec3 shadow_pos;
 #endif
 
@@ -95,7 +94,7 @@ void main() {
     magma = 0.0;
   }
 
-  #include "/src/light_vertex_shadow.glsl"
+  #include "/src/light_vertex.glsl"
   #include "/src/fog_vertex.glsl"
 
   #if SHADOW_CASTING == 1

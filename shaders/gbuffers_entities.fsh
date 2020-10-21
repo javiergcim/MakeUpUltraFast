@@ -21,6 +21,7 @@ varying float direct_light_strenght;
 varying vec3 omni_light;
 
 #if SHADOW_CASTING == 1
+  varying float shadow_mask;
   varying vec3 shadow_pos;
 #endif
 
@@ -48,6 +49,7 @@ uniform float rainStrength;
 void main() {
   // Toma el color puro del bloque
   vec4 block_color = texture2D(texture, texcoord) * tint_color;
+  float shadow_c;
 
   // Thunderbolt render
   if (entityId == 11000.0){
@@ -55,26 +57,25 @@ void main() {
   }
 
   #if SHADOW_CASTING == 1
-    float shadow_c;
-    if (rainStrength < .95 && lmcoord.y > 0.095) {
+    if (rainStrength < .95 && lmcoord.y > 0.005) {
       shadow_c = get_shadow(shadow_pos);
       shadow_c = mix(shadow_c, 1.0, rainStrength);
     } else {
       shadow_c = 1.0;
     }
 
-    vec3 real_light =
-    candle_color +
-    (direct_light_color * min(shadow_c, direct_light_strenght) *
-    (1.0 - (rainStrength * .3))) +
-    omni_light;
+    if (shadow_mask < 0.0) {
+      shadow_c = 0.0;
+    }
+
   #else
-    vec3 real_light =
-      candle_color +
-      (direct_light_color * direct_light_strenght *
-        (1.0 - (rainStrength * .3))) +
-      omni_light;
+    shadow_c = 1.0;
   #endif
+
+  vec3 real_light =
+    (omni_light * (direct_light_strenght * .25 + .75)) +
+    (direct_light_color * direct_light_strenght * shadow_c) * (1.0 - rainStrength) +
+    candle_color;
 
   block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
 
