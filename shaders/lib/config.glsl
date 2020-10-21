@@ -31,7 +31,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define AA_TYPE 2 // [0 1 2] FXAA (Fast approximate antialiasing) Low quality. TAA (Temporal antialiasing) Better quality
 #define AA 4 // [4 6 12] Set antialiasing quality (FXAA only)
 #define MOTION_BLUR 1 // [0 1] Turn on motion blur
-#define MOTION_BLUR_STRENGTH 3.0 // [1.0 2.0 3.0 4.0 5.0 6.0] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
+#define MOTION_BLUR_STRENGTH 0.06 // [0.02 0.04 0.06 0.08 0.10 0.12] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
 #define SUN_REFLECTION 1 // [0 1] Set sun (or moon) reflection on water and glass
 #define SHADOW_CASTING 1 // [0 1] Activate shadows
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
