@@ -10,15 +10,11 @@ Original work:
 Lottes, T. (2009). Fast approximate anti-aliasing (FXAA).
 NVIDIA Corporation, Santa Clara, CA, USA, Feb.
 
-- 2-pass blurring techniques are based on Builder's QOL Shaders implementation:
-https://discord.com/invite/FMghhxk
-
-Original work:
-Banks, D., & McCrindle, R. J. (2008). Visual eye disease simulator.
-Proc. 7th ICDVRAT with ArtAbilitation, Maia, Portugal.
-
 - Grass movement is based on the one used in Sildur's shaders.
 https://sildurs-shaders.github.io/
+
+- The water shader is a modification and adaptation of the one used by RRe36:
+https://rre36.github.io/
 
 - Enhanced ambient occlusion is based on Capt Tatsu's ambient occlusion used in
 BSL Shaders:
@@ -32,6 +28,10 @@ https://www.shadertoy.com/user/Dave_Hoskins
 
 - Grid noise by CeeJayDK
 https://www.shadertoy.com/user/CeeJayDK (unavailable shader)
+
+- Interleaved noise from:
+"NEXT GENERATION POST PROCESSING IN CALL OF DUTY: ADVANCED WARFARE"
+http://advances.realtimerendering.com/s2014/index.html
 
 ------
 
