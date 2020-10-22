@@ -130,7 +130,7 @@ void main() {
     #endif
 
     vec3 real_light =
-      (omni_light * (direct_light_strenght * .25 + .75)) +
+      omni_light +
       (direct_light_color * direct_light_strenght * shadow_c) * (1.0 - rainStrength) +
       candle_color;
 
@@ -165,7 +165,7 @@ void main() {
     #endif
 
     vec3 real_light =
-      (omni_light * (direct_light_strenght * .25 + .75)) +
+      omni_light +
       (direct_light_color * direct_light_strenght * shadow_c) * (1.0 - rainStrength) +
       candle_color +
       .2;
@@ -193,7 +193,7 @@ void main() {
     #endif
 
     vec3 real_light =
-      (omni_light * (direct_light_strenght * .25 + .75)) +
+      omni_light +
       (direct_light_color * direct_light_strenght * shadow_c) * (1.0 - rainStrength) +
       candle_color +
       .2;

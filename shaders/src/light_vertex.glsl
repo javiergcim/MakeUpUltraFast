@@ -39,7 +39,7 @@
   }
 
   // Intensidad y color de luz de candelas
-  candle_color = candle_baselight * cube_pow(illumination.x);
+  candle_color = candle_baselight * illumination.x * illumination.x;
 
   // Atenuación por dirección de luz directa =================================
   #ifdef THE_END
@@ -58,7 +58,9 @@
       mix(-sun_light_strenght, sun_light_strenght, light_mix);
   #endif
 
-  shadow_mask = direct_light_strenght;
+  #if SHADOW_CASTING == 1
+    shadow_mask = direct_light_strenght;
+  #endif
 
   // Intensidad por dirección
   direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
@@ -69,7 +71,7 @@
       ambient_baselight[current_hour_floor],
       ambient_baselight[current_hour_ceil],
       current_hour_fract
-    );
+    ) * .75;
 
   #ifdef THE_END
     omni_light = vec3(0.14475, 0.1395, 0.1425);
@@ -79,7 +81,7 @@
     omni_force[current_hour_floor],
     omni_force[current_hour_ceil],
     current_hour_fract
-  ) * visible_sky;
+  ) * visible_sky * visible_sky * .75;
   #endif
 
   #ifdef CAVEENTITY_V
@@ -99,7 +101,7 @@
       mc_Entity.x == ENTITY_SMALLENTS ||
       mc_Entity.x == ENTITY_LEAVES
     ) {  // Es "planta" y se atenúa el impacto de la atenuación por dirección
-      direct_light_strenght = mix(direct_light_strenght, 1.0, .75);
+      direct_light_strenght = mix(direct_light_strenght, 1.0, .25);
     }
   #endif
 

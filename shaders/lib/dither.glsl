@@ -20,11 +20,11 @@ float grid_noise(vec2 p) {
 }
 
 float dither_grad_noise(vec2 p) {
-		return fract(52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y));
-	}
+    return fract(52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y));
+  }
 
 float texture_noise_32(vec2 p, sampler2D noise) {
-		return texture2D(noise, p * 0.03125).r;
+    return texture2D(noise, p * 0.03125).r;
 }
 
 float hash12(vec2 p) {
@@ -34,26 +34,26 @@ float hash12(vec2 p) {
 }
 
 vec2 hash21(float p) {
-	vec3 p3 = fract(vec3(p) * vec3(.1031, .1030, .0973));
-	p3 += dot(p3, p3.yzx + 33.33);
+  vec3 p3 = fract(vec3(p) * vec3(.1031, .1030, .0973));
+  p3 += dot(p3, p3.yzx + 33.33);
     return fract((p3.xx + p3.yz) * p3.zy);
 }
 
 vec2 hash22(vec2 p) {
-	vec3 p3 = fract(vec3(p.xyx) * vec3(.1031, .1030, .0973));
+  vec3 p3 = fract(vec3(p.xyx) * vec3(.1031, .1030, .0973));
   p3 += dot(p3, p3.yzx + 33.33);
   return fract((p3.xx + p3.yz) * p3.zy);
 }
 
 vec2 timed_hash22(vec2 p) {
-	vec3 p3 = fract(vec3(p.xyx + frameTimeCounter) * vec3(.1031, .1030, .0973));
+  vec3 p3 = fract(vec3(p.xyx + frameTimeCounter) * vec3(.1031, .1030, .0973));
   p3 += dot(p3, p3.yzx + 33.33);
   return fract((p3.xx + p3.yz) * p3.zy);
 }
 
 //
 // vec2 timed_hash22(vec2 p) {
-// 	vec3 p3 = fract(vec3(p.xyx * frameTimeCounter) * vec3(.1031, .1030, .0973));
+//   vec3 p3 = fract(vec3(p.xyx * frameTimeCounter) * vec3(.1031, .1030, .0973));
 //   p3 += dot(p3, p3.yzx + 33.33);
 //   return fract((p3.xx + p3.yz) * p3.zy);
 // }
@@ -61,14 +61,14 @@ vec2 timed_hash22(vec2 p) {
 //
 // vec2 hash21(float p)
 // {
-// 	vec3 p3 = fract(vec3(p) * vec3(.1031, .1030, .0973));
-// 	p3 += dot(p3, p3.yzx + 33.33);
+//   vec3 p3 = fract(vec3(p) * vec3(.1031, .1030, .0973));
+//   p3 += dot(p3, p3.yzx + 33.33);
 //   return fract((p3.xx + p3.yz) * p3.zy);
 // }
 
 float bayer2(vec2 a) {
-	a = floor(a);
-	return fract(dot(a, vec2(.5, a.y * .75)));
+  a = floor(a);
+  return fract(dot(a, vec2(.5, a.y * .75)));
 }
 
 #define bayer4(a)   (bayer2(.5 * (a)) * .25+ bayer2(a))
