@@ -20,8 +20,6 @@ vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force) {
     vec3 blur_sample = vec3(0.0);
     vec2 blur_radius_vec = vec2(blur_radius * inv_aspect_ratio, blur_radius);
 
-    vec2 dither = hash22(gl_FragCoord.xy);
-
     #if AA_TYPE == 2
       float sample_c_f = max(viewHeight * blur_radius * .3, 1.0);
     #else
@@ -30,15 +28,22 @@ vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force) {
     int sample_c = int(sample_c_f);
     vec2 offset;
 
-    for(int i = 0; i < sample_c; i++) {
+    float dither = hash12(gl_FragCoord.xy);
+    float distance_step = 1.0 / sample_c_f;
+
+    for(int i = 1; i <= sample_c; i++) {
       #if AA_TYPE == 2
-        dither = timed_hash22(dither * viewHeight);
+        dither = timed_hash11(dither * viewHeight);
       #else
-        dither = hash22(dither * viewHeight);
+        dither = hash11(dither * viewHeight);
       #endif
 
-      dither = dither * 2.0 - 1.0;
-      offset = dither * blur_radius_vec;
+      dither *= 3.141592;
+      offset =
+        vec2(cos(dither), sin(dither)) *
+        blur_radius_vec *
+        distance_step *
+        i;
 
       blur_sample += texture2D(image, coords + offset).rgb;
       blur_sample += texture2D(image, coords - offset).rgb;
