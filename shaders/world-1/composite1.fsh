@@ -16,7 +16,6 @@ uniform float viewHeight;
 
 #if AA_TYPE == 2 || MOTION_BLUR == 1
   uniform sampler2D colortex2;  // TAA past averages
-  uniform sampler2D depthtex0;
   uniform float pixel_size_x;
   uniform float pixel_size_y;
   uniform mat4 gbufferProjectionInverse;
