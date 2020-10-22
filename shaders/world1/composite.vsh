@@ -1,6 +1,6 @@
 #version 120
-/* MakeUp Ultra Fast - composite.vsh
-Render: Tonemap
+/* MakeUp Ultra Fast - composite.fsh
+Render: Ambient occlusion
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */

@@ -1,5 +1,5 @@
 #version 120
-/* MakeUp Ultra Fast - final.fsh
+/* MakeUp Ultra Fast - composite2.fsh
 Render: Antialiasing and motion blur
 
 Javier Garduño - GNU Lesser General Public License v3.0

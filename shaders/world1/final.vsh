@@ -1,6 +1,6 @@
 #version 120
-/* MakeUp Ultra Fast - composite.fsh
-Render: Vertical blur pass and final renderer
+/* MakeUp Ultra Fast - final.fsh
+Render: Final renderer
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */

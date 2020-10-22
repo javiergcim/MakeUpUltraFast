@@ -1,6 +1,6 @@
 #version 120
-/* MakeUp Ultra Fast - composite.fsh
-Render: Vertical blur pass and final renderer
+/* MakeUp Ultra Fast - final.fsh
+Render: Final renderer
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
@@ -32,66 +32,22 @@ const int colortex6Format = R8;
 */
 
 // 'Global' constants from system
-uniform sampler2D colortex0;
 uniform ivec2 eyeBrightnessSmooth;
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
 
-#if DOF == 1
-  uniform sampler2D colortex3;
-  uniform float pixel_size_y;
-  uniform float viewHeight;
-  uniform float pixel_size_x;
-  uniform float viewWeight;
-  uniform float aspectRatio;
-#endif
+uniform sampler2D colortex0;
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
-#include "/lib/color_utils_end.glsl"
+#include "/lib/color_utils.glsl"
 #include "/lib/basic_utils.glsl"
 #include "/lib/tone_maps.glsl"
 
-#if DOF == 1
-  #include "/lib/blur.glsl"
-#endif
-
 void main() {
-
-  #if DOF == 1
-    vec4 color_blur = texture2D(colortex3, texcoord);
-    float blur_radius = color_blur.a * aspectRatio;
-    vec3 color = color_blur.rgb;
-
-    if (blur_radius > pixel_size_y) {
-      float radius_inv = 1.0 / blur_radius;
-      float weight;
-      vec4 new_blur;
-
-      vec4 average = vec4(0.0);
-      float start  = max(texcoord.y - blur_radius, pixel_size_y * 0.5);
-      float finish = min(texcoord.y + blur_radius, 1.0 - pixel_size_y * 0.5);
-      float step = pixel_size_y;
-      if (blur_radius > (6.0 * pixel_size_y)) {
-        step *= 3.0;
-      } else if (blur_radius > (2.0 * pixel_size_y)) {
-        step *= 2.0;
-      }
-
-      for (float y = start; y <= finish; y += step) {  // Blur samples
-        weight = fogify((y - texcoord.y) * radius_inv, 0.35);
-        new_blur = texture2D(colortex3, vec2(texcoord.x, y));
-        average.rgb += new_blur.rgb * weight;
-        average.a += weight;
-      }
-      color = average.rgb / average.a;
-    }
-
-  #else
-    vec3 color = texture2D(colortex0, texcoord).rgb;
-  #endif
+  vec3 block_color = texture2D(colortex0, texcoord).rgb;
 
   // Tonemaping ---
   // x: Block, y: Sky ---
@@ -111,8 +67,8 @@ void main() {
   // Map from 1.0 - 0.0 to 1.3 - 3.9
   exposure = (exposure * -2.6) + 3.9;
 
-  color *= exposure;
-  color = lottes_tonemap(color, exposure);
+  block_color *= exposure;
+  block_color = lottes_tonemap(block_color, exposure);
 
-  gl_FragColor = vec4(color, 1.0);
+  gl_FragColor = vec4(block_color, 1.0);
 }
