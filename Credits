@@ -4,34 +4,36 @@ Some of the code is inspired by the ideas presented below:
 
 - The FXAA antialiasing is based on the implementation created by
 Simon Rodriguez, modified to work on Intel chips.
-http://blog.simonrodriguez.fr/articles/30-07-2016_implementing_fxaa.html
+  http://blog.simonrodriguez.fr/articles/30-07-2016_implementing_fxaa.html
 
-Original work:
-Lottes, T. (2009). Fast approximate anti-aliasing (FXAA).
-NVIDIA Corporation, Santa Clara, CA, USA, Feb.
-
-- Grass movement is based on the one used in Sildur's shaders.
-https://sildurs-shaders.github.io/
+  Original work:
+  Lottes, T. (2009). Fast approximate anti-aliasing (FXAA).
+  NVIDIA Corporation, Santa Clara, CA, USA, Feb.
 
 - The water shader is a modification and adaptation of the one used by RRe36:
-https://rre36.github.io/
+  https://rre36.github.io/
 
 - Enhanced ambient occlusion is based on Capt Tatsu's ambient occlusion used in
 BSL Shaders:
-https://bitslablab.com/bslshaders/
+  https://bitslablab.com/bslshaders/
 
 - TAA is based on Erkaman's TAA simple implementation:
-https://gist.github.com/Erkaman
+  https://gist.github.com/Erkaman
 
 - Hash noise functions by Dave Hoskins:
-https://www.shadertoy.com/user/Dave_Hoskins
+  https://www.shadertoy.com/user/Dave_Hoskins
 
 - Grid noise by CeeJayDK
-https://www.shadertoy.com/user/CeeJayDK (unavailable shader)
+  https://www.shadertoy.com/user/CeeJayDK (unavailable shader)
 
 - Interleaved noise from:
-"NEXT GENERATION POST PROCESSING IN CALL OF DUTY: ADVANCED WARFARE"
-http://advances.realtimerendering.com/s2014/index.html
+  "NEXT GENERATION POST PROCESSING IN CALL OF DUTY: ADVANCED WARFARE"
+  http://advances.realtimerendering.com/s2014/index.html
+
+------
+
+If any functions were listed here, and are no longer listed,
+they have been removed or replaced by own functions.
 
 ------
 

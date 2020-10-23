@@ -1,5 +1,5 @@
 vec3 motion_blur(vec4 color, vec2 blur_velocity) {
-  if (color.a > 0.56) {  // Not hand
+  if (color.a > 0.56) {  // Mano no
     vec2 double_pixels = 2.0 * vec2(pixel_size_x, pixel_size_y);
     vec3 m_blur = vec3(0.0);
 
@@ -13,7 +13,7 @@ vec3 motion_blur(vec4 color, vec2 blur_velocity) {
     float mask;
     vec2 sample_coord;
     vec4 b_sample;
-    for(int i = 0; i < 5; i++, coord += blur_velocity) {
+    for(int i = 0; i < 3; i++, coord += blur_velocity) {
       sample_coord = clamp(coord, double_pixels, 1.0 - double_pixels);
       b_sample = texture2D(colortex1, sample_coord);
       mask = float(b_sample.a > 0.56);

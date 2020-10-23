@@ -32,8 +32,7 @@ uniform ivec2 eyeBrightnessSmooth;
   uniform mat4 gbufferModelView;
   uniform mat4 gbufferModelViewInverse;
   uniform float frameTimeCounter;
-  uniform float wetness;
-  uniform sampler2D noisetex;
+  uniform float rainStrength;
 #endif
 
 // Varyings (per thread shared variables)

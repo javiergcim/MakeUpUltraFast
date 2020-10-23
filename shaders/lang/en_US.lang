@@ -36,6 +36,8 @@ value.DOF.1=On
 
 option.DOF_STRENGTH=DoF strenght
 
+option.DOF_SAMPLES_FACTOR=DoF samples factor
+
 option.AO=Enhanced ambient occlusion
 value.AO.0=Off
 value.AO.1=On

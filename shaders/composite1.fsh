@@ -21,6 +21,8 @@ uniform sampler2D colortex1;
   uniform float frameTimeCounter;
 #endif
 
+uniform sampler2D colortex5;
+
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 

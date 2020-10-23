@@ -38,8 +38,7 @@ uniform mat4 gbufferModelView;
 #if WAVING == 1
   uniform vec3 cameraPosition;
   uniform float frameTimeCounter;
-  uniform float wetness;
-  uniform sampler2D noisetex;
+  uniform float rainStrength;
 #endif
 
 // Varyings (per thread shared variables)

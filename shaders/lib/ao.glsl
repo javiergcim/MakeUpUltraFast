@@ -1,10 +1,10 @@
-/* MakeUp Ultra Fast - dither.glsl
+/* MakeUp Ultra Fast - ao.glsl
 Capt Tatsu's ambient occlusion functions.
 
 */
 
 vec2 offset_dist(float x, int s){
-  float n = fract(x * 1.414) * 3.1415;
+  float n = fract(x * 1.414) * 3.141592;
   return vec2(cos(n), sin(n)) * x / s;
 }
 
@@ -15,7 +15,6 @@ float dbao() {
     float dither = timed_hash12(gl_FragCoord.xy);
   #else
     float dither = texture_noise_32(gl_FragCoord.xy, colortex5);
-    // float dither = grid_noise(gl_FragCoord.xy);
   #endif
 
   float d = texture2D(depthtex0, texcoord.xy).r;
