@@ -18,8 +18,7 @@ void main() {
   if (mc_Entity.x == ENTITY_LOWERGRASS ||
       mc_Entity.x == ENTITY_UPPERGRASS ||
       mc_Entity.x == ENTITY_SMALLGRASS ||
-      mc_Entity.x == ENTITY_SMALLENTS ||
-      mc_Entity.x == ENTITY_LEAVES)
+      mc_Entity.x == ENTITY_SMALLENTS)
   {
       gl_Position.z -= 0.0025;  // Corrección para sombra de follaje.
   }
