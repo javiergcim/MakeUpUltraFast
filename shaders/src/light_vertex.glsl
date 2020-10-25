@@ -11,7 +11,7 @@
       ambient_baselight[current_hour_ceil],
       current_hour_fract
     );
-  vec3 candle_color = candle_baselight * cube_pow(illumination.x);
+  vec3 candle_color = candle_baselight * cube_pow(illumination.x) * .75;
 
   real_light = direct_light_color + candle_color;
 #else
@@ -20,7 +20,7 @@
 
   #ifdef EMMISIVE_V
   if (emissive > 0.5 || magma > 0.5) {  // Es bloque es emisivo
-    tint_color.rgb *= 1.5;
+    tint_color.rgb *= 2.0;
   }
   #endif
 
@@ -39,7 +39,7 @@
   }
 
   // Intensidad y color de luz de candelas
-  candle_color = candle_baselight * illumination.x * illumination.x;
+  candle_color = candle_baselight * cube_pow(illumination.x) * .75;
 
   // Atenuación por dirección de luz directa =================================
   #ifdef THE_END
