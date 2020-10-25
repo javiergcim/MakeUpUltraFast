@@ -8,6 +8,7 @@ float get_shadow(vec3 the_shadow_pos) {
     #if SHADOW_TYPE == 0  // Pixelated
       shadow_sample = shadow2D(shadowtex1, the_shadow_pos).r;
     #elif SHADOW_TYPE == 1  // Soft
+      // float natural_shadow = shadow2D(shadowtex1, the_shadow_pos).r;
       float dither_o = grid_noise(gl_FragCoord.xy);
       float dither = dither_o * 25.132741228718345; // PI * 8
       dither_o = dither_o * .7 + .3;
@@ -22,6 +23,8 @@ float get_shadow(vec3 the_shadow_pos) {
       shadow_sample = shadow2D(shadowtex1, vec3(the_shadow_pos.st + offset, new_z)).r;
       shadow_sample += shadow2D(shadowtex1, vec3(the_shadow_pos.st - offset, new_z)).r;
       shadow_sample *= 0.5;
+
+      // shadow_sample = mix(shadow_sample, natural_shadow, 1.0 - shadow_sample);
     #endif
 
     shadow_sample = mix(1.0, shadow_sample, shadow_force);

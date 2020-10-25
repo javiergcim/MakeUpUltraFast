@@ -36,7 +36,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define SUN_REFLECTION 1 // [0 1] Set sun (or moon) reflection on water and glass
 #define SHADOW_CASTING 1 // [0 1] Activate shadows
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
-#define SHADOW_RES 2 // [0 1 2 3] Set shadows quality. The "far" versions render the shadows further away, but have a moderate impact on performance relative to their "close" versions.
+#define SHADOW_RES 0 // [0 1 2 3] Set shadows quality. The "far" versions render the shadows further away, but have a moderate impact on performance relative to their "close" versions.
 
 const bool colortex0Clear = false;
 const bool colortex1Clear = false;
