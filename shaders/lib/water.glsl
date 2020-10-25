@@ -33,11 +33,11 @@ https://rre36.github.io/
 
 vec3 normal_waves(vec3 pos) {
   float timer = frameTimeCounter;
-
+  
   vec3 wave_1 =
-    texture2D(noisetex, (pos.xy * 0.03125) + (timer * .02)).rgb * 2.0 - 1.0;
+    texture2D(noisetex, (pos.xy * 0.125) + (timer * .04)).rgb * 2.0 - 1.0;
   vec3 wave_2 =
-    texture2D(noisetex, (pos.yx * 0.015625) - (timer * .01)).rgb * 3.0 - 1.5;
+    texture2D(noisetex, (pos.yx * 0.0625) - (timer * .02)).rgb * 3.0 - 1.5;
 
   vec3 final_wave = wave_1 + wave_2;
 
