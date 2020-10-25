@@ -8,10 +8,7 @@ Simon Rodriguez, modified to work on Intel chips.
 
   Original work:
   Lottes, T. (2009). Fast approximate anti-aliasing (FXAA).
-  NVIDIA Corporation, Santa Clara, CA, USA, Feb.
-
-- The water shader is a modification and adaptation of the one used by RRe36:
-  https://rre36.github.io/
+  NVIDIA Corporation, Santa Clara, CA, USA, Feb.s
 
 - Enhanced ambient occlusion is based on Capt Tatsu's ambient occlusion used in
 BSL Shaders:
