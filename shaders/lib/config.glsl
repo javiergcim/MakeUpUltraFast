@@ -36,7 +36,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define SUN_REFLECTION 1 // [0 1] Set sun (or moon) reflection on water and glass
 #define SHADOW_CASTING 1 // [0 1] Activate shadows
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
-#define SHADOW_RES 2 // [0 1 2 3 4 5] Set shadows quality. The "far" versions render the shadows further away, but have a moderate impact on performance relative to their "close" versions.
+#define SHADOW_RES 2 // [0 1 2 3] Set shadows quality. The "far" versions render the shadows further away, but have a moderate impact on performance relative to their "close" versions.
 
 const bool colortex0Clear = false;
 const bool colortex1Clear = false;
@@ -50,26 +50,18 @@ const float sunPathRotation = -25.0f;
 
 #ifndef NO_SHADOWS
   #if SHADOW_RES == 0
-    const int shadowMapResolution = 256;
-    const float shadowDistance = 48.0;
-    #define SHADOW_DIST 0.7
-  #elif SHADOW_RES == 1
-    const int shadowMapResolution = 512;
-    const float shadowDistance = 96.0;
-    #define SHADOW_DIST 0.7
-  #elif SHADOW_RES == 2
     const int shadowMapResolution = 512;
     const float shadowDistance = 64.0;
     #define SHADOW_DIST 0.75
-  #elif SHADOW_RES == 3
+  #elif SHADOW_RES == 1
     const int shadowMapResolution = 1024;
     const float shadowDistance = 128.0;
     #define SHADOW_DIST 0.75
-  #elif SHADOW_RES == 4
+  #elif SHADOW_RES == 2
     const int shadowMapResolution = 1024;
     const float shadowDistance = 79.0;
     #define SHADOW_DIST 0.8
-  #elif SHADOW_RES == 5
+  #elif SHADOW_RES == 3
     const int shadowMapResolution = 2048;
     const float shadowDistance = 158.0;
     #define SHADOW_DIST 0.8

@@ -19,10 +19,8 @@ value.SHADOW_CASTING.0=Off
 value.SHADOW_CASTING.1=On
 
 option.SHADOW_RES=Shadows quality
-value.SHADOW_RES.0=Low (256)
-value.SHADOW_RES.1=Low (far - 512)
-value.SHADOW_RES.2=Medium (512)
-value.SHADOW_RES.3=Medium (far - 1024)
+value.SHADOW_RES.2=Low (512)
+value.SHADOW_RES.3=Low (far - 1024)
 value.SHADOW_RES.4=High (1024)
 value.SHADOW_RES.5=High (far - 2048)
 
