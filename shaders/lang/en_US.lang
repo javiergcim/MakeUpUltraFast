@@ -8,7 +8,7 @@ profile.VeryHigh=Very High
 
 #About
 #############################
-option.ACERCADE=MakeUp v2.1h
+option.ACERCADE=MakeUp v2.1i
 option.ACERCADE.comment=Low-spec Shader
 value.ACERCADE.0=by Javier
 
@@ -19,10 +19,10 @@ value.SHADOW_CASTING.0=Off
 value.SHADOW_CASTING.1=On
 
 option.SHADOW_RES=Shadows quality
-value.SHADOW_RES.2=Low (512)
-value.SHADOW_RES.3=Low (far - 1024)
-value.SHADOW_RES.4=High (1024)
-value.SHADOW_RES.5=High (far - 2048)
+value.SHADOW_RES.0=Low (512)
+value.SHADOW_RES.1=Low (far - 1024)
+value.SHADOW_RES.2=High (1024)
+value.SHADOW_RES.3=High (far - 2048)
 
 option.SHADOW_TYPE=Shadow type
 value.SHADOW_TYPE.0=Pixelated
