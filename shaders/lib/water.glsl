@@ -64,13 +64,6 @@ vec3 camera_to_screen(vec3 fragpos) {
   return pos.xyz * 0.5 + 0.5;
 }
 
-// vec3 camera_to_world(vec3 fragpos) {
-//   vec4 pos  = gbufferProjectionInverse * vec4(fragpos, 1.0);
-//   pos /= pos.w;
-//
-//   return pos.xyz;
-// }
-
 vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
   vec3 pos = camera_to_screen(fragpos);
 
