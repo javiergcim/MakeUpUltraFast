@@ -36,8 +36,8 @@ varying vec3 omni_light;
 
 // 'Global' constants from system
 uniform sampler2D texture;
-uniform float viewWidth;
-uniform float viewHeight;
+uniform float pixel_size_x;
+uniform float pixel_size_y;
 uniform float near;
 uniform float far;
 uniform sampler2D gaux1;
@@ -73,9 +73,9 @@ uniform float rainStrength;
 
 void main() {
   vec4 block_color;
-  vec3 fragposition0 =
+  vec3 fragposition =
     to_NDC(
-      vec3(gl_FragCoord.xy / vec2(viewWidth, viewHeight), gl_FragCoord.z)
+      vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z)
       );
 
   if (block_type > 2.5) {  // Water
@@ -93,7 +93,7 @@ void main() {
 
     block_color = vec4(
       refraction(
-        fragposition0,
+        fragposition,
         block_color.rgb,
         water_normal_base
       ),
@@ -101,7 +101,7 @@ void main() {
     );
 
     block_color.rgb = water_shader(
-      fragposition0,
+      fragposition,
       get_normals(water_normal_base),
       block_color.rgb,
       current_fog_color
@@ -136,7 +136,7 @@ void main() {
     block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
 
     block_color = cristal_shader(
-      fragposition0,
+      fragposition,
       water_normal,
       block_color,
       real_light

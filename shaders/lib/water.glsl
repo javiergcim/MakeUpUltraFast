@@ -45,9 +45,15 @@ vec3 normal_waves(vec3 pos) {
 }
 
 vec3 to_NDC(vec3 pos){
-  vec4 i_proj_diag = vec4(gbufferProjectionInverse[0].x, gbufferProjectionInverse[1].y, gbufferProjectionInverse[2].zw);
-    vec3 p3 = pos * 2. - 1.;
+  vec4 i_proj_diag =
+    vec4(
+      gbufferProjectionInverse[0].x,
+      gbufferProjectionInverse[1].y,
+      gbufferProjectionInverse[2].zw
+    );
+    vec3 p3 = pos * 2.0 - 1.0;
     vec4 fragpos = i_proj_diag * p3.xyzz + gbufferProjectionInverse[3];
+
     return fragpos.xyz / fragpos.w;
 }
 
@@ -58,12 +64,12 @@ vec3 camera_to_screen(vec3 fragpos) {
   return pos.xyz * 0.5 + 0.5;
 }
 
-vec3 camera_to_world(vec3 fragpos) {
-  vec4 pos  = gbufferProjectionInverse * vec4(fragpos, 1.0);
-  pos /= pos.w;
-
-  return pos.xyz;
-}
+// vec3 camera_to_world(vec3 fragpos) {
+//   vec4 pos  = gbufferProjectionInverse * vec4(fragpos, 1.0);
+//   pos /= pos.w;
+//
+//   return pos.xyz;
+// }
 
 vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
   vec3 pos = camera_to_screen(fragpos);
