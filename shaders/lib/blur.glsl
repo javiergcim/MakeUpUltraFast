@@ -4,11 +4,6 @@ Blur functions.
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-vec2 offset_dist(float x, int s){
-  float n = fract(x * 1.414) * 3.141592;
-  return vec2(cos(n), sin(n)) * x / s;
-}
-
 vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force) {
   vec3 block_color = color_depth.rgb;
   float the_depth = color_depth.a;
