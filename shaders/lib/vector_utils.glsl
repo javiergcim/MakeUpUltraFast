@@ -1,7 +1,6 @@
 /* MakeUp Ultra Fast - vector_utils.glsl
 Functions for waving entities.
 
-Wave and move functions based on Sildur's Shaders
 */
 
 vec3 wave_move(vec2 pos) {

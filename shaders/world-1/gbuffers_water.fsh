@@ -61,7 +61,7 @@ void main() {
       block_color.rgb = vec3(1.0);
     #endif
 
-    vec3 water_normal_base = waves_to_normal(worldposition.xyz);
+    vec3 water_normal_base = normal_waves(worldposition.xzy);
 
     block_color = vec4(
       refraction(

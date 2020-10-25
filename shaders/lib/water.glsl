@@ -18,7 +18,10 @@ https://rre36.github.io/
 
         return vec3(
           clamp(
-            smoothstep(0.997, 1.0, astro_vector) * clamp(4.0 * lmcoord.y - 3.0, 0.0, 1.0) * (1.0 - wetness),
+            smoothstep(
+              0.997, 1.0, astro_vector) *
+              clamp(4.0 * lmcoord.y - 3.0, 0.0, 1.0) *
+              (1.0 - wetness),
             0.0,
             1.0
           ));
@@ -28,51 +31,17 @@ https://rre36.github.io/
   #endif
 #endif
 
-float water_waves(vec3 world_pos) {
-  float wave = 0.0;
+vec3 normal_waves(vec3 pos) {
+  float timer = frameTimeCounter;
 
-  world_pos.z += world_pos.y;
-  world_pos.x += world_pos.y;
+  vec3 wave_1 =
+    texture2D(noisetex, (pos.xy * 0.03125) + (timer * .02)).rgb * 2.0 - 1.0;
+  vec3 wave_2 =
+    texture2D(noisetex, (pos.yx * 0.015625) - (timer * .01)).rgb * 3.0 - 1.5;
 
-  world_pos.z *= 0.5;
-  world_pos.x += sin(world_pos.x) * 0.3;
+  vec3 final_wave = wave_1 + wave_2;
 
-  // Defined as: mat2 rotate_mat = mat2(cos(.5), -sin(.5), sin(.5), cos(.5));
-  const mat2 rotate_mat = mat2(
-    0.8775825618903728, -0.479425538604203,
-    -0.479425538604203, 0.8775825618903728
-    );
-
-  wave = texture2D(
-    noisetex,
-    world_pos.xz * 0.05625 + vec2(frameTimeCounter * 0.015)
-    ).x * 0.02;
-  wave += texture2D(
-    noisetex,
-    world_pos.xz * 0.015 - vec2(frameTimeCounter * 0.0075)
-    ).x * 0.1;
-  wave += texture2D(
-    noisetex,
-    world_pos.xz * 0.015 * rotate_mat + vec2(frameTimeCounter * 0.0075)
-    ).x * 0.1;
-
-  return wave;
-}
-
-vec3 waves_to_normal(vec3 pos) {
-  float delta_pos = 0.1;
-  float h0 = water_waves(pos.xyz);
-  float h1 = water_waves(pos.xyz + vec3(delta_pos, 0.0, 0.0));
-  float h2 = water_waves(pos.xyz + vec3(-delta_pos, 0.0, 0.0));
-  float h3 = water_waves(pos.xyz + vec3(0.0, 0.0, delta_pos));
-  float h4 = water_waves(pos.xyz + vec3(0.0, 0.0, -delta_pos));
-
-  float x_delta = ((h1 - h0) + (h0 - h2)) / delta_pos;
-  float y_delta = ((h3 - h0) + (h0 - h4)) / delta_pos;
-
-  return normalize(
-    vec3(x_delta, y_delta, 1.0 - x_delta * x_delta - y_delta * y_delta)
-    );
+  return normalize(final_wave);
 }
 
 vec3 to_NDC(vec3 pos){
