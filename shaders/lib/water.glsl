@@ -21,7 +21,7 @@ https://rre36.github.io/
             smoothstep(
               0.997, 1.0, astro_vector) *
               clamp(4.0 * lmcoord.y - 3.0, 0.0, 1.0) *
-              (1.0 - wetness),
+              (1.0 - rainStrength),
             0.0,
             1.0
           ));

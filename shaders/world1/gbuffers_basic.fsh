@@ -17,7 +17,7 @@ varying float frog_adjust;
 
 // 'Global' constants from system
 uniform sampler2D texture;
-uniform float wetness;
+uniform float rainStrength;
 
 void main() {
   vec4 block_color = tint_color;

@@ -17,7 +17,6 @@ varying vec3 real_light;
 
 // 'Global' constants from system
 uniform sampler2D texture;
-uniform float wetness;
 
 void main() {
   // Toma el color puro del bloque

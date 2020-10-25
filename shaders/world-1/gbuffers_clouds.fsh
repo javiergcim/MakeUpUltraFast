@@ -15,7 +15,6 @@ varying vec4 tint_color;
 
 // 'Global' constants from system
 uniform sampler2D texture;
-uniform float wetness;
 
 void main() {
   vec4 block_color = texture2D(texture, texcoord) * tint_color;

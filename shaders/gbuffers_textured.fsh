@@ -27,7 +27,6 @@ varying vec3 omni_light;
 
 // 'Global' constants from system
 uniform sampler2D texture;
-uniform float wetness;
 uniform int isEyeInWater;
 
 uniform float nightVision;

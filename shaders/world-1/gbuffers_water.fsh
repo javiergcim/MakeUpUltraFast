@@ -25,7 +25,7 @@ varying vec3 binormal;
 
 // 'Global' constants from system
 uniform sampler2D texture;
-uniform float wetness;
+uniform float rainStrength;
 uniform float viewWidth;
 uniform float viewHeight;
 uniform float near;

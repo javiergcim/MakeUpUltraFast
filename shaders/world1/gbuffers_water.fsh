@@ -36,7 +36,6 @@ varying vec3 omni_light;
 
 // 'Global' constants from system
 uniform sampler2D texture;
-uniform float wetness;
 uniform float viewWidth;
 uniform float viewHeight;
 uniform float near;
