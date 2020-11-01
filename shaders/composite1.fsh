@@ -42,12 +42,12 @@ void main() {
       DOF_STRENGTH
       );
 
-    /* DRAWBUFFERS:1 */
-    gl_FragData[0] = vec4(block_color, color_depth.a);
+    /* DRAWBUFFERS:012 */
+    gl_FragData[1] = vec4(block_color, color_depth.a);
   #else
     vec4 block_color = texture2D(colortex1, texcoord);
 
-    /* DRAWBUFFERS:1 */
-    gl_FragData[0] = block_color;
+    /* DRAWBUFFERS:012 */
+    gl_FragData[1] = block_color;
   #endif
 }
