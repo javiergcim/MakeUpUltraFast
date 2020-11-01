@@ -11,7 +11,7 @@ vec2 offset_dist(float x, int s){
 float dbao() {
   float ao = 0.0;
 
-  #if AA_TYPE == 2
+  #if AA_TYPE == 1 || AA_TYPE == 2
     float dither = timed_hash12(gl_FragCoord.xy);
   #else
     float dither = texture_noise_32(gl_FragCoord.xy, colortex5);

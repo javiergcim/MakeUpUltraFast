@@ -20,7 +20,7 @@ vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force) {
     vec3 blur_sample = vec3(0.0);
     vec2 blur_radius_vec = vec2(blur_radius * inv_aspect_ratio, blur_radius);
 
-    #if AA_TYPE == 2
+    #if AA_TYPE == 1 || AA_TYPE == 2
       float sample_c_f =
         max(viewHeight * blur_radius * .333333 * DOF_SAMPLES_FACTOR, 2.0);
     #else
@@ -35,7 +35,7 @@ vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force) {
     float current_distance = 0.0;
 
     for(int i = 0; i < sample_c; i++) {
-      #if AA_TYPE == 2
+      #if AA_TYPE == 1 || AA_TYPE == 2
         dither = timed_hash11(dither) * 3.141592;
       #else
         dither = hash11(dither) * 3.141592;

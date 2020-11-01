@@ -14,7 +14,7 @@ uniform sampler2D colortex1;
 uniform float viewWidth;
 uniform float viewHeight;
 
-#if AA_TYPE == 2 || MOTION_BLUR == 1
+#if AA_TYPE == 1 || AA_TYPE == 2 || MOTION_BLUR == 1
   uniform sampler2D colortex2;  // TAA past averages
   uniform float pixel_size_x;
   uniform float pixel_size_y;
@@ -32,7 +32,7 @@ uniform float viewHeight;
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
-#if AA_TYPE == 2 || MOTION_BLUR == 1
+#if AA_TYPE == 1 || AA_TYPE == 2 || MOTION_BLUR == 1
   #include "/lib/projection_utils.glsl"
 #endif
 
@@ -41,10 +41,10 @@ varying vec2 texcoord;
   #include "/lib/motion_blur.glsl"
 #endif
 
-#if AA_TYPE == 1
-  #include "/lib/luma.glsl"
-  #include "/lib/fxaa_intel.glsl"
-#elif AA_TYPE == 2
+// #if AA_TYPE == 1
+//   #include "/lib/luma.glsl"
+//   #include "/lib/fxaa_intel.glsl"
+#if AA_TYPE == 1 || AA_TYPE == 2
   #include "/lib/luma.glsl"
   #include "/lib/fast_taa.glsl"
 #endif
@@ -53,7 +53,7 @@ void main() {
   vec4 block_color = texture2D(colortex1, texcoord);
 
   // Precalc past position and velocity
-  #if AA_TYPE == 2 || MOTION_BLUR == 1
+  #if AA_TYPE == 1 || AA_TYPE == 2 || MOTION_BLUR == 1
     // Reproyección del cuadro anterior
     float z_depth = block_color.a;
     vec3 closest_to_camera = vec3(texcoord, z_depth);
@@ -72,13 +72,13 @@ void main() {
     block_color.rgb = motion_blur(block_color, velocity);
   #endif
 
-  #if AA_TYPE == 1
-    block_color.rgb = fxaa311(block_color.rgb, AA);
+  // #if AA_TYPE == 1
+  //   block_color.rgb = fxaa311(block_color.rgb, AA);
+  //
+  //   /* DRAWBUFFERS:0 */
+  //   gl_FragData[0] = block_color;  // colortex0
 
-    /* DRAWBUFFERS:0 */
-    gl_FragData[0] = block_color;  // colortex0
-
-  #elif AA_TYPE == 2
+  #if AA_TYPE == 1 || AA_TYPE == 2
     #if DOF == 1
       block_color = fast_taa_depth(block_color, texcoord_past, velocity);
     #else

@@ -52,7 +52,7 @@ varying vec3 omni_light;
   varying vec3 shadow_pos;
 #endif
 
-#if AA_TYPE == 2
+#if AA_TYPE == 1 || AA_TYPE == 2
   #include "/src/taa_offset.glsl"
 #endif
 

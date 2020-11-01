@@ -21,8 +21,6 @@ uniform sampler2D colortex1;
   uniform float frameTimeCounter;
 #endif
 
-uniform sampler2D colortex5;
-
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
@@ -42,12 +40,12 @@ void main() {
       DOF_STRENGTH
       );
 
-    /* DRAWBUFFERS:012 */
+    /* DRAWBUFFERS:01 */
     gl_FragData[1] = vec4(block_color, color_depth.a);
   #else
     vec4 block_color = texture2D(colortex1, texcoord);
 
-    /* DRAWBUFFERS:012 */
+    /* DRAWBUFFERS:01 */
     gl_FragData[1] = block_color;
   #endif
 }

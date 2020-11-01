@@ -46,7 +46,7 @@ option.AO_STRENGHT=Ambient occlusion strenght
 
 option.AA_TYPE=Antialiasing
 value.AA_TYPE.0=Off
-value.AA_TYPE.1=FXAA
+value.AA_TYPE.1=Fast TAA
 value.AA_TYPE.2=TAA
 
 option.MOTION_BLUR=Motion blur
