@@ -8,7 +8,7 @@ profile.VeryHigh=Very High
 
 #About
 #############################
-option.ACERCADE=MakeUp v2.3a
+option.ACERCADE=MakeUp v2.3b
 option.ACERCADE.comment=Low-spec Shader
 value.ACERCADE.0=by Javier
 
@@ -91,5 +91,5 @@ screen.MOTION_BLUR_SCREEN.comment=Set motion blur options.
 screen.REFLECTION_SCREEN=Reflection and refraction options
 screen.REFLECTION_SCREEN.comment=Set reflection and refraction options
 
-screen.MISC_SCREEN=Miscelaneous options
+screen.MISC_SCREEN=Miscellaneous options
 screen.MISC_SCREEN.comment=Non categorized options.
