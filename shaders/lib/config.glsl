@@ -29,8 +29,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance impact).
 #define AOSTEPS 6 // [6 10 14 18 22] How many samples are taken. High performance cost.
 #define AO_STRENGHT 0.7 // [0.4 0.5 0.6 0.7 0.8 0.9 1.0] Ambient oclusion strenght
-#define AA_TYPE 2 // [0 1 2] FXAA (Fast approximate antialiasing) Low quality. TAA (Temporal antialiasing) Better quality
-#define AA 4 // [4 6 12] Set antialiasing quality (FXAA only)
+#define AA_TYPE 2 // [0 1 2] Fast TAA (Fast temporal antialiasing) In some systems you can improve performance at the cost of quality.. TAA (Temporal antialiasing) Standard antialiasing
 #define MOTION_BLUR 1 // [0 1] Turn on motion blur
 #define MOTION_BLUR_STRENGTH 0.06 // [0.02 0.04 0.06 0.08 0.10 0.12] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
 #define SUN_REFLECTION 1 // [0 1] Set sun (or moon) reflection on water and glass

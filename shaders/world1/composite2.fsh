@@ -73,13 +73,7 @@ void main() {
     block_color.rgb = motion_blur(block_color, velocity);
   #endif
 
-  #if AA_TYPE == 1
-    block_color.rgb = fxaa311(block_color.rgb, AA);
-
-    /* DRAWBUFFERS:0 */
-    gl_FragData[0] = block_color;  // colortex0
-
-  #elif AA_TYPE == 1 || AA_TYPE == 2
+  #if AA_TYPE == 1 || AA_TYPE == 2
     #if DOF == 1
       block_color = fast_taa_depth(block_color, texcoord_past, velocity);
     #else

@@ -41,9 +41,6 @@ varying vec2 texcoord;
   #include "/lib/motion_blur.glsl"
 #endif
 
-// #if AA_TYPE == 1
-//   #include "/lib/luma.glsl"
-//   #include "/lib/fxaa_intel.glsl"
 #if AA_TYPE == 1 || AA_TYPE == 2
   #include "/lib/luma.glsl"
   #include "/lib/fast_taa.glsl"
