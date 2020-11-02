@@ -41,7 +41,8 @@
 
   // Ajuste de intensidad luminosa bajo el agua
   if (isEyeInWater == 1) {
-    illumination.y = (illumination.y * .95) + .05;
+    // illumination.y = (illumination.y * .95) + .05;
+    visible_sky = (visible_sky * .95) + .05;
   }
 
   // Intensidad y color de luz de candelas
@@ -112,7 +113,12 @@
   #endif
 
   #ifndef THE_END
-    direct_light_strenght = mix(0.0, direct_light_strenght, visible_sky);
+    #if SHADOW_CASTING == 0
+      // Fake shadows
+      direct_light_strenght = mix(0.0, direct_light_strenght, pow(visible_sky, 10.0));
+    #else
+      direct_light_strenght = mix(0.0, direct_light_strenght, visible_sky);
+    #endif
   #endif
 
 #endif

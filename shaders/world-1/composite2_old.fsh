@@ -5,7 +5,6 @@ Render: Antialiasing and motion blur
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define THE_END
 #define NO_SHADOWS
 
 #include "/lib/config.glsl"
@@ -70,7 +69,7 @@ void main() {
     block_color.rgb = motion_blur(block_color, velocity);
   #endif
 
-  #if AA_TYPE == 1 || AA_TYPE == 2
+  if AA_TYPE == 1 || AA_TYPE == 2
     #if DOF == 1
       block_color = fast_taa_depth(block_color, texcoord_past, velocity);
     #else

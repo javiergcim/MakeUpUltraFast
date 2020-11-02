@@ -41,10 +41,7 @@ varying vec2 texcoord;
   #include "/lib/motion_blur.glsl"
 #endif
 
-#if AA_TYPE == 1
-  #include "/lib/luma.glsl"
-  #include "/lib/fxaa_intel.glsl"
-#elif AA_TYPE == 1 || AA_TYPE == 2
+#if AA_TYPE == 1 || AA_TYPE == 2
   #include "/lib/luma.glsl"
   #include "/lib/fast_taa.glsl"
 #endif
@@ -72,7 +69,7 @@ void main() {
     block_color.rgb = motion_blur(block_color, velocity);
   #endif
 
-  if AA_TYPE == 1 || AA_TYPE == 2
+  #if AA_TYPE == 1 || AA_TYPE == 2
     #if DOF == 1
       block_color = fast_taa_depth(block_color, texcoord_past, velocity);
     #else
