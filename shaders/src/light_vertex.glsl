@@ -84,7 +84,7 @@
     omni_light = vec3(0.14475, 0.1395, 0.1425);
   #else
   // Calculamos color de luz ambiental
-  omni_light = mix(skyColor, direct_light_color, 0.35) * mix(
+  omni_light = mix(skyColor, direct_light_color, OMNI_TINT) * mix(
     omni_force[current_hour_floor],
     omni_force[current_hour_ceil],
     current_hour_fract

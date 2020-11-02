@@ -8,7 +8,7 @@ profile.VeryHigh=Very High
 
 #About
 #############################
-option.ACERCADE=MakeUp v2.3b
+option.ACERCADE=MakeUp v2.3c
 option.ACERCADE.comment=Low-spec Shader
 value.ACERCADE.0=by Javier
 
@@ -74,6 +74,9 @@ value.SUN_REFLECTION.1=On
 option.WAVING=Waving plants
 value.WAVING.0=No
 value.WAVING.1=Yes
+
+option.OMNI_TINT=Omni color tint
+option.WATER_TINT=Water tint
 
 #Screens
 screen.SHADOWS_SCREEN=Shadows options
