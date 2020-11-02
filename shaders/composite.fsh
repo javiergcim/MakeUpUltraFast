@@ -39,7 +39,6 @@ varying vec2 texcoord;
 void main() {
   vec4 block_color = texture2D(colortex0, texcoord);
   float d = texture2D(depthtex0, texcoord).r;
-
   #if AO == 1
     // AO distance attenuation
     float ao_att = sqrt(ld(d));
