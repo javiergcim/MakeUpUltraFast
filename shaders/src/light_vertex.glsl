@@ -115,7 +115,7 @@
   #ifndef THE_END
     #if SHADOW_CASTING == 0
       // Fake shadows
-      direct_light_strenght = mix(0.0, direct_light_strenght, pow(visible_sky, 10.0));
+      direct_light_strenght = mix(0.0, direct_light_strenght, pow(visible_sky, 10.0)) * 1.5;
     #else
       direct_light_strenght = mix(0.0, direct_light_strenght, visible_sky);
     #endif
