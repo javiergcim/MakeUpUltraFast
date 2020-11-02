@@ -9,6 +9,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define ENTITY_LOWERGRASS   10175.0  // Lower half only in 1.13+
 #define ENTITY_UPPERGRASS   10176.0  // Upper half only used in 1.13+
 #define ENTITY_SMALLENTS    10059.0  // sapplings(6), dandelion(37), rose(38), carrots(141), potatoes(142), beetroot(207)
+#define ENTITY_SMALLENTS_NW 10032.0  // No waveable small ents
 #define ENTITY_LEAVES       10018.0  // Leaves
 #define ENTITY_VINES        10106.0  // Vines
 #define ENTITY_MAGMA        10213.0  // Emissors like magma
@@ -36,8 +37,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define SHADOW_CASTING 1 // [0 1] Activate shadows
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
 #define SHADOW_RES 0 // [0 1 2 3] Set shadows quality. The "far" versions render the shadows further away, but have a moderate impact on performance relative to their "close" versions.
-#define OMNI_TINT 0.45 // [0.10 0.15 0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90] Tint of omnidirectional light. From sky color to direct light color.
-#define WATER_TINT 0.3 // [0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0]  Water tint percentage
+#define OMNI_TINT 0.40 // [0.10 0.15 0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90] Tint of omnidirectional light. From sky color to direct light color.
+#define WATER_TINT 0.7 // [0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0]  Water tint percentage
 
 const bool colortex0Clear = false;
 const bool colortex1Clear = false;
