@@ -35,9 +35,11 @@ vec3 normal_waves(vec3 pos) {
   float timer = frameTimeCounter;
 
   vec3 wave_1 =
-    texture2D(noisetex, (pos.xy * 0.0625) + (timer * .04)).rgb * 2.0 - 1.0;
+     texture2D(noisetex, (pos.xy * 0.03125) + (timer * .005)).rgb;
+  wave_1 = wave_1 * vec3(.75, .75, 1.0) - vec3(.375, .375, 0.5);
   vec3 wave_2 =
-    texture2D(noisetex, (pos.yx * 0.03125) - (timer * .02)).rgb * 3.0 - 1.5;
+     texture2D(noisetex, (pos.yx * 0.015625) - (timer * .0025)).rgb;
+  wave_2 = wave_2 * vec3(.75, .75, 1.0) - vec3(.375, .375, .5);
 
   vec3 final_wave = wave_1 + wave_2;
 
@@ -104,8 +106,7 @@ vec4 reflection_calc(vec3 fragpos, vec3 normal) {
   vec3 reflected_vector = reflect(normalize(fragpos), normal) * 30.0;
   vec3 pos = camera_to_screen(fragpos + reflected_vector);
 
-  float border =
-    clamp((1.0 - (max(0.0, abs(pos.y - 0.5)) * 2.0)) * 50.0, 0.0, 1.0);
+  float border = clamp(1.0 - abs(pos.y * 2.0 - 1.0), 0.0, 1.0);
 
   return vec4(texture2D(gaux1, pos.xy, 0.0).rgb, border);
 }
