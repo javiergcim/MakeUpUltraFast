@@ -14,8 +14,7 @@ float dbao() {
   #if AA_TYPE == 1 || AA_TYPE == 2
     float dither = timed_hash12(gl_FragCoord.xy);
   #else
-    float dither = hash12(gl_FragCoord.xy);
-    // float dither = texture_noise_32(gl_FragCoord.xy, colortex5);
+    float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
   #endif
 
   float d = texture2D(depthtex0, texcoord.xy).r;

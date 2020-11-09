@@ -15,7 +15,7 @@ float get_shadow(vec3 the_shadow_pos) {
       #endif
       float dither = dither_o * 25.132741228718345; // PI * 8
       dither_o = dither_o * .7 + .3;
-      vec2 offset = (vec2(cos(dither), sin(dither)) * dither_o / shadowMapResolution * 2.0);
+      vec2 offset = (vec2(cos(dither), sin(dither)) * dither_o / shadowMapResolution * SHADOW_BLUR);
 
       #if SHADOW_RES == 0 || SHADOW_RES == 1
         float new_z = the_shadow_pos.z - 0.001 - (0.0003 * dither_o);
