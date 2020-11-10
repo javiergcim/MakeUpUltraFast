@@ -2,7 +2,7 @@
 Ultra fast Minecraft shader (Java). For a small graphic improvement. Intended
 for low-spec computers.
 
-**Version: 2.3i: The illumination Update**
+**Version: 3.0: The Raymarch Update**
 
 ## Main features
 * Optional shadows

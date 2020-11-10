@@ -8,7 +8,7 @@ profile.VeryHigh=Very High
 
 #About
 #############################
-option.ACERCADE=MakeUp v2.3i
+option.ACERCADE=MakeUp v3.0
 option.ACERCADE.comment=Low-spec Shader
 value.ACERCADE.0=by Javier
 
@@ -68,6 +68,10 @@ value.REFLECTION.1=On
 option.REFRACTION=Refraction
 value.REFRACTION.0=Off
 value.REFRACTION.1=On
+
+option.SSR_TYPE=Reflection type
+value.SSR_TYPE.0=Flipped image
+value.SSR_TYPE.1=Raymarching
 
 option.SUN_REFLECTION=Sun reflection
 value.SUN_REFLECTION.0=Off

@@ -24,6 +24,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define TINTED_WATER 1  // [0 1] Use the resource pack color for water.
 #define REFLECTION 1  // [0 1] Activate reflections.
 #define REFRACTION 1  // [0 1] Activate refractions.
+#define SSR_TYPE 0 // [0 1] Flipped image is faster. Raymarching is more accurate.
 #define DOF 0  // [0 1] Enables depth of field. High performance cost.
 #define DOF_STRENGTH 0.08  // [0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.13 0.14 0.15 0.16]  Depth of field strenght.
 #define DOF_SAMPLES_FACTOR 1.0 // [1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.4 2.6 2.8 3.0]  DoF Quality. Lower values are suitable when TAA is active. High performance cost.

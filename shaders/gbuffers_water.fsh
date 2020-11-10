@@ -61,6 +61,7 @@ uniform float rainStrength;
   uniform float shadow_force;
 #endif
 
+#include "/lib/depth.glsl"
 #include "/lib/basic_utils.glsl"
 #include "/lib/dither.glsl"
 #include "/lib/water.glsl"

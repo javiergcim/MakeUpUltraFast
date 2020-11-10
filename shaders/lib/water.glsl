@@ -1,8 +1,106 @@
 /* MakeUp Ultra Fast - water.glsl
 Water reflection and refraction related functions.
-Based on work from RRe36.
-https://rre36.github.io/
 */
+
+const float ray_step = 0.25;
+const int raymarch_steps = 8;
+const int raysearch_steps = 4;
+
+vec3 camera_to_screen(vec3 fragpos) {
+  vec4 pos  = gbufferProjection * vec4(fragpos, 1.0);
+   pos /= pos.w;
+
+  return pos.xyz * 0.5 + 0.5;
+}
+
+// vec3 camera_to_world(vec3 fragpos) {
+//   vec4 pos  = gbufferProjectionInverse * vec4(fragpos, 1.0);
+//   pos /= pos.w;
+//
+//   return pos.xyz;
+// }
+
+vec3 to_NDC(vec3 pos){
+  vec4 i_proj_diag =
+    vec4(
+      gbufferProjectionInverse[0].x,
+      gbufferProjectionInverse[1].y,
+      gbufferProjectionInverse[2].zw
+    );
+    vec3 p3 = pos * 2.0 - 1.0;
+    vec4 fragpos = i_proj_diag * p3.xyzz + gbufferProjectionInverse[3];
+
+    return fragpos.xyz / fragpos.w;
+}
+
+vec3 to_screen_space(vec3 p) {
+  vec4 i_proj_diag =
+    vec4(
+      gbufferProjectionInverse[0].x,
+      gbufferProjectionInverse[1].y,
+      gbufferProjectionInverse[2].zw
+    );
+  vec3 p3 = p * 2.0 - 1.0;
+  vec4 fragposition = i_proj_diag * p3.xyzz + gbufferProjectionInverse[3];
+  return fragposition.xyz / fragposition.w;
+}
+
+vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
+  vec3 hit_pos = camera_to_screen(hit_coord);
+  float hit_depth = texture2D(depthtex0, hit_pos.xy).x;
+
+  vec3 dir_increment = direction * ray_step;
+  vec3 current_march = hit_coord + dir_increment;
+  float screen_depth;
+  float depth_diff;
+  vec3 march_pos = vec3(0.0);
+
+  // Ray marching
+  for (int i = 0; i < raymarch_steps; i++) {
+    march_pos = camera_to_screen(current_march);
+
+    // if ( // Is outside sreen space
+    //   march_pos.x < 0.0 ||
+    //   march_pos.x > 1.0 ||
+    //   march_pos.y < 0.0 ||
+    //   march_pos.y > 1.0 ||
+    //   march_pos.z < 0.0 ||
+    //   march_pos.z > 1.0
+    //   ) {
+    //     march_pos = vec3(0.0);
+    //     break;
+    //   }
+
+    screen_depth = texture2D(depthtex1, march_pos.xy).x;
+    depth_diff = screen_depth - camera_to_screen(current_march).z;
+
+    if (depth_diff < 0.0) {
+      // Binary search for best screen space sample
+      for (int j = 0; j < raysearch_steps; j++) {
+        if (screen_depth + 0.001  < hit_depth) {
+          return vec3(0.0);
+        }
+
+        dir_increment = dir_increment * .5;
+        current_march = current_march + (dir_increment * sign(depth_diff));
+
+        march_pos = camera_to_screen(current_march);
+        screen_depth = texture2D(depthtex1, march_pos.xy).x;
+        depth_diff = screen_depth - camera_to_screen(current_march).z;
+      }
+
+      // current_march -= (dir_increment);
+      // march_pos = camera_to_screen(current_march);
+
+      return march_pos;
+    }
+
+    dir_increment *= 2.0;
+    current_march += dir_increment;
+  }
+
+  return march_pos;
+}
 
 #if SUN_REFLECTION == 1
   #ifndef NETHER
@@ -44,26 +142,7 @@ vec3 normal_waves(vec3 pos) {
   vec3 final_wave = wave_1 + wave_2;
 
   return normalize(final_wave);
-}
-
-vec3 to_NDC(vec3 pos){
-  vec4 i_proj_diag =
-    vec4(
-      gbufferProjectionInverse[0].x,
-      gbufferProjectionInverse[1].y,
-      gbufferProjectionInverse[2].zw
-    );
-    vec3 p3 = pos * 2.0 - 1.0;
-    vec4 fragpos = i_proj_diag * p3.xyzz + gbufferProjectionInverse[3];
-
-    return fragpos.xyz / fragpos.w;
-}
-
-vec3 camera_to_screen(vec3 fragpos) {
-  vec4 pos  = gbufferProjection * vec4(fragpos, 1.0);
-   pos /= pos.w;
-
-  return pos.xyz * 0.5 + 0.5;
+  // return vec3(0.0, 0.0, 1.0);
 }
 
 vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
@@ -103,13 +182,19 @@ float cdist(vec2 coord) {
 }
 
 vec4 reflection_calc(vec3 fragpos, vec3 normal) {
-  vec3 reflected_vector = reflect(normalize(fragpos), normal) * 30.0;
-  vec3 pos = camera_to_screen(fragpos + reflected_vector);
+  #if SSR_TYPE == 0
+    vec3 reflected_vector = reflect(normalize(fragpos), normal) * 35.0;
+    vec3 pos = camera_to_screen(fragpos + reflected_vector);
+  #else
+    vec3 reflected_vector = reflect(normalize(fragpos), normal);
+    vec3 pos = fast_raymarch(reflected_vector, fragpos);
+  #endif
 
   float border =
     clamp((1.0 - (max(0.0, abs(pos.y - 0.5)) * 2.0)) * 50.0, 0.0, 1.0);
 
-  return vec4(texture2D(gaux1, pos.xy, 0.0).rgb, border);
+  return vec4(texture2D(gaux1, pos.xy).rgb, border);
+  // return vec4(pos, 1.0);
 }
 
 vec3 water_shader(vec3 fragpos, vec3 normal, vec3 color, vec3 sky_reflect) {
