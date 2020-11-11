@@ -31,9 +31,7 @@ uniform mat4 gbufferModelView;
   uniform vec3 shadowLightPosition;
 #endif
 
-#if SHADOW_CASTING == 1 || WAVING == 1
-  uniform mat4 gbufferModelViewInverse;
-#endif
+uniform mat4 gbufferModelViewInverse;
 
 #if WAVING == 1
   uniform vec3 cameraPosition;

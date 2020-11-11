@@ -31,16 +31,12 @@
     gl_Position = gl_ProjectionMatrix * gbufferModelView * vec4(position, 1.0);
 
   #else  // Normal position
-    #ifndef NO_SHADOWS
-      #if SHADOW_CASTING == 1
-        vec3 position =
-          mat3(gbufferModelViewInverse) *
-          (gl_ModelViewMatrix * gl_Vertex).xyz +
-          gbufferModelViewInverse[3].xyz;
-      #endif
-    #endif
+    vec3 position =
+      mat3(gbufferModelViewInverse) *
+      (gl_ModelViewMatrix * gl_Vertex).xyz +
+      gbufferModelViewInverse[3].xyz;
 
-    gl_Position = ftransform();
+    gl_Position = gl_ProjectionMatrix * gbufferModelView * vec4(position, 1.0);
 
   #endif
 

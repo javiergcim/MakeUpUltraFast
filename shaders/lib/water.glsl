@@ -48,25 +48,22 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
   for (int i = 0; i < RAYMARCH_STEPS; i++) {
     march_pos = camera_to_screen(current_march);
 
-    // if ( // Is outside sreen space
-    //   march_pos.x < 0.0 ||
-    //   march_pos.x > 1.0 ||
-    //   march_pos.y < 0.0 ||
-    //   march_pos.y > 1.0 ||
-    //   march_pos.z < 0.0 ||
-    //   march_pos.z > 1.0
-    //   ) {
-    //     march_pos = vec3(0.0);
-    //     break;
-    //   }
+    if ( // Is outside sreen space (except x cordinate)
+      march_pos.y < 0.0 ||
+      march_pos.y > 1.0 ||
+      march_pos.z < 0.0 ||
+      march_pos.z > 1.0
+      ) {
+        march_pos = vec3(0.0);
+        break;
+      }
 
     screen_depth = texture2D(depthtex1, march_pos.xy).x;
     depth_diff = screen_depth - camera_to_screen(current_march).z;
 
     if (depth_diff < 0.0) {
-      if (screen_depth + 0.001 < hit_depth && hit_pos.z < march_pos.z) {
-        return vec3(100.0);
-      }
+      float prev_screen_depth = screen_depth;
+      float prev_march_pos_z = march_pos.z;
       // Binary search for best screen space sample
       for (int j = 0; j < RAYSEARCH_STEPS; j++) {
         dir_increment = dir_increment * .5;
@@ -75,15 +72,24 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
         march_pos = camera_to_screen(current_march);
         screen_depth = texture2D(depthtex1, march_pos.xy).x;
         depth_diff = screen_depth - camera_to_screen(current_march).z;
+
+        // Remove unnecesary iterations
         if (abs(depth_diff) < 0.0003) {
           break;
         }
+
+        // Searching fallbacks
+        if (abs(screen_depth - prev_screen_depth) > abs(march_pos.z - prev_march_pos_z) * 2.5) {
+          return camera_to_screen(hit_coord + (direction * 35.0));
+        }
+        prev_screen_depth = screen_depth;
+        prev_march_pos_z = march_pos.z;
       }
 
       return march_pos;
     }
 
-    dir_increment *= 2.0;
+    dir_increment *= 1.5;
     current_march += dir_increment;
   }
 
@@ -165,25 +171,26 @@ vec3 get_normals(vec3 bump) {
   return normalize(bump * tbn_matrix);
 }
 
-float cdist(vec2 coord) {
-  return max(abs(coord.s - 0.5), abs(coord.t - 0.5)) * 2.0;
-}
+// float cdist(vec2 coord) {
+//   return max(abs(coord.s - 0.5), abs(coord.t - 0.5)) * 2.0;
+// }
 
 vec4 reflection_calc(vec3 fragpos, vec3 normal) {
-  #if SSR_TYPE == 0
+  #if SSR_TYPE == 0  // Flipped image
     vec3 reflected_vector = reflect(normalize(fragpos), normal) * 35.0;
     vec3 pos = camera_to_screen(fragpos + reflected_vector);
-  #else
+  #else  // Raymarch
     vec3 reflected_vector = reflect(normalize(fragpos), normal);
     vec3 pos = fast_raymarch(reflected_vector, fragpos);
-
-    if (pos.x > 99.0) { // Fallback
-      pos = camera_to_screen(fragpos + (reflected_vector * 35.0));
-    }
   #endif
 
   float border =
     clamp((1.0 - (max(0.0, abs(pos.y - 0.5)) * 2.0)) * 50.0, 0.0, 1.0);
+
+  pos.x = abs(pos.x);
+  if (pos.x > 1.0) {
+    pos.x = 1.0 - (pos.x - 1.0);
+  }
 
   return vec4(texture2D(gaux1, pos.xy).rgb, border);
 }
@@ -196,7 +203,7 @@ vec3 water_shader(vec3 fragpos, vec3 normal, vec3 color, vec3 sky_reflect) {
   #endif
 
   float normal_dot_eye = dot(normal, normalize(fragpos));
-  float fresnel = clamp(fourth_pow(1.0 + normal_dot_eye) + 0.1, 0.0, 1.0);
+  float fresnel = clamp(fourth_pow(1.0 + normal_dot_eye) + 0.1, 0.0, 1.0) * .6;
 
   reflection.rgb = mix(
     sky_reflect * pow(lmcoord.y, 10.0),

@@ -44,8 +44,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 // Reflection parameters
 #define RAY_STEP 0.25
-#define RAYMARCH_STEPS 8
-#define RAYSEARCH_STEPS 8
+#define RAYMARCH_STEPS 11
+#define RAYSEARCH_STEPS 4
 
 const bool colortex0Clear = false;
 const bool colortex1Clear = false;

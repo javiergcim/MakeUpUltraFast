@@ -27,10 +27,11 @@ uniform float rainStrength;
 uniform vec3 skyColor;
 uniform ivec2 eyeBrightnessSmooth;
 
+uniform mat4 gbufferModelView;
+uniform mat4 gbufferModelViewInverse;
+
 #if WAVING == 1
   uniform vec3 cameraPosition;
-  uniform mat4 gbufferModelView;
-  uniform mat4 gbufferModelViewInverse;
   uniform float frameTimeCounter;
 #endif
 

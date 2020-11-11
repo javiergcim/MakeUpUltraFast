@@ -29,13 +29,11 @@ uniform ivec2 eyeBrightnessSmooth;
   uniform vec3 shadowLightPosition;
 #endif
 
-#if SHADOW_CASTING == 1 || WAVING == 1
-  uniform mat4 gbufferModelViewInverse;
-#endif
+uniform mat4 gbufferModelViewInverse;
+uniform mat4 gbufferModelView;
 
 #if WAVING == 1
   uniform vec3 cameraPosition;
-  uniform mat4 gbufferModelView;
   uniform float frameTimeCounter;
   uniform float rainStrength;
 #endif
