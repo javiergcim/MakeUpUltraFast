@@ -55,6 +55,8 @@ uniform int worldTime;
 uniform float nightVision;
 uniform float rainStrength;
 
+uniform vec3 skyColor;
+
 #if SHADOW_CASTING == 1
   uniform sampler2D gaux2;
   uniform sampler2DShadow shadowtex1;
@@ -65,7 +67,6 @@ uniform float rainStrength;
 #include "/lib/basic_utils.glsl"
 #include "/lib/dither.glsl"
 #include "/lib/water.glsl"
-#include "/lib/cristal.glsl"
 
 #if SHADOW_CASTING == 1
   #include "/lib/shadow_frag.glsl"

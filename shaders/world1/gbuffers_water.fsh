@@ -65,7 +65,6 @@ uniform float rainStrength;
 #include "/lib/basic_utils.glsl"
 #include "/lib/dither.glsl"
 #include "/lib/water.glsl"
-#include "/lib/cristal.glsl"
 
 #if SHADOW_CASTING == 1
   #include "/lib/shadow_frag.glsl"

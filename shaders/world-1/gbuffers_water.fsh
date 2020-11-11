@@ -41,7 +41,6 @@ uniform float frameTimeCounter;
 #include "/lib/basic_utils.glsl"
 #include "/lib/dither.glsl"
 #include "/lib/water.glsl"
-#include "/lib/cristal.glsl"
 
 void main() {
   vec4 block_color;

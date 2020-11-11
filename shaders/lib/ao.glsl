@@ -18,7 +18,8 @@ float dbao() {
   #endif
 
   float d = texture2D(depthtex0, texcoord.xy).r;
-  float hand = float(d < 0.56);
+  // float hand = float(d < 0.56);
+  float hand = float(d < 0.7);
   d = ld(d);
 
   float sd = 0.0;
