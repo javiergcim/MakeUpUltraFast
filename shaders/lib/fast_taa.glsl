@@ -1,3 +1,9 @@
+/* MakeUp Ultra Fast - basic_utils.glsl
+Temporal antialiasing functions.
+
+Javier Garduño - GNU Lesser General Public License v3.0
+*/
+
 vec3 fast_taa(vec3 current_color, vec2 texcoord_past, vec2 velocity) {
   // Verificamos si proyección queda fuera de la pantalla actual
   bvec2 a = greaterThan(texcoord_past, vec2(1.0));

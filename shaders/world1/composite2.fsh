@@ -20,6 +20,7 @@ uniform float viewHeight;
   uniform float pixel_size_x;
   uniform float pixel_size_y;
   uniform mat4 gbufferProjectionInverse;
+  uniform mat4 gbufferProjection;
   uniform mat4 gbufferModelViewInverse;
   uniform vec3 cameraPosition;
   uniform vec3 previousCameraPosition;
@@ -35,6 +36,7 @@ varying vec2 texcoord;
 
 #if AA_TYPE == 1 || AA_TYPE == 2 || MOTION_BLUR == 1
   #include "/lib/projection_utils.glsl"
+  #include "/lib/past_projection_utils.glsl"
 #endif
 
 #if MOTION_BLUR == 1

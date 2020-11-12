@@ -1,3 +1,9 @@
+/* MakeUp Ultra Fast - basic_utils.glsl
+Motion blur functions.
+
+Javier Garduño - GNU Lesser General Public License v3.0
+*/
+
 vec3 motion_blur(vec4 color, vec2 blur_velocity) {
   // if (color.a > 0.56) {  // Mano no
   if (color.a > 0.7) {  // Mano no

@@ -1,3 +1,9 @@
+/* MakeUp Ultra Fast - basic_utils.glsl
+Vertex shadow function.
+
+Javier Garduño - GNU Lesser General Public License v3.0
+*/
+
 #define diagonal3(m) vec3((m)[0].x, (m)[1].y, m[2].z)
 
 vec3 get_shadow_pos(in vec3 shadow_pos, in vec3 normal, float NdotL) {

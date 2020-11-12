@@ -38,6 +38,7 @@ uniform sampler2D depthtex0;
 uniform sampler2D depthtex1;
 uniform float frameTimeCounter;
 
+#include "/lib/projection_utils.glsl"
 #include "/lib/basic_utils.glsl"
 #include "/lib/dither.glsl"
 #include "/lib/water.glsl"
@@ -45,7 +46,7 @@ uniform float frameTimeCounter;
 void main() {
   vec4 block_color;
   vec3 fragposition =
-    to_NDC(
+    to_screen_space(
       vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z)
       );
 

@@ -1,3 +1,9 @@
+/* MakeUp Ultra Fast - basic_utils.glsl
+Fragment shadow function.
+
+Javier Garduño - GNU Lesser General Public License v3.0
+*/
+
 float get_shadow(vec3 the_shadow_pos) {
   float shadow_sample = 1.0;
 

@@ -1,6 +1,7 @@
-/* MakeUp Ultra Fast - vector_utils.glsl
-Functions for waving entities.
+/* MakeUp Ultra Fast - basic_utils.glsl
+Moving vector utils.
 
+Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 vec3 wave_move(vec2 pos) {
