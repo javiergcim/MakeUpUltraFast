@@ -20,6 +20,7 @@ uniform sampler2D colortex1;
   uniform float viewWidth;
   uniform float viewHeight;
   uniform float frameTimeCounter;
+  uniform sampler2D colortex5;
 #endif
 
 // Varyings (per thread shared variables)

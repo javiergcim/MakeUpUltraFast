@@ -24,8 +24,10 @@ float get_shadow(vec3 the_shadow_pos) {
       vec2 offset = (vec2(cos(dither), sin(dither)) * dither_o / shadowMapResolution * SHADOW_BLUR);
 
       #if SHADOW_RES == 0 || SHADOW_RES == 1
-        float new_z = the_shadow_pos.z - 0.001 - (0.0003 * dither_o);
+        float new_z = the_shadow_pos.z - 0.0025 - (0.00045 * dither_o);
       #elif SHADOW_RES == 2 || SHADOW_RES == 3
+        float new_z = the_shadow_pos.z - 0.001 - (0.0003 * dither_o);
+      #elif SHADOW_RES == 4 || SHADOW_RES == 5
         float new_z = the_shadow_pos.z - 0.0005 - (0.00015 * dither_o);
       #endif
 

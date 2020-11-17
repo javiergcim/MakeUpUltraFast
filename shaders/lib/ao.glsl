@@ -1,12 +1,7 @@
 /* MakeUp Ultra Fast - ao.glsl
-Capt Tatsu's ambient occlusion functions.
+Based on Capt Tatsu's ambient occlusion functions.
 
 */
-
-vec2 offset_dist(float x, int s){
-  float n = fract(x * 1.414) * 3.141592;
-  return vec2(cos(n), sin(n)) * x / s;
-}
 
 float dbao() {
   float ao = 0.0;
@@ -16,6 +11,14 @@ float dbao() {
   #else
     float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
   #endif
+
+  float dither_base = dither;
+  dither *= 6.283185307;
+
+  float inv_steps = 1.0 / AOSTEPS;
+  float sample_angle_increment = 3.1415926535 * inv_steps;
+  float current_radius;
+  vec2 offset;
 
   float d = texture2D(depthtex0, texcoord.xy).r;
   // float hand = float(d < 0.56);
@@ -29,7 +32,9 @@ float dbao() {
   vec2 scale = vec2(inv_aspect_ratio, 1.0) * (0.7 / (d * far));
 
   for (int i = 1; i <= AOSTEPS; i++) {
-    vec2 offset = offset_dist(i + dither, AOSTEPS) * scale;
+    dither += sample_angle_increment;
+    current_radius = (i + dither_base) * inv_steps;
+    offset = vec2(cos(dither), sin(dither)) * scale * current_radius;
 
     sd = ld(texture2D(depthtex0, texcoord.xy + offset).r);
     float sample = (d - sd) * far_double;

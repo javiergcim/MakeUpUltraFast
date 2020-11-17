@@ -26,8 +26,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define REFRACTION 1  // [0 1] Activate refractions.
 #define SSR_TYPE 1 // [0 1] Flipped image is faster. Raymarching is more accurate.
 #define DOF 0  // [0 1] Enables depth of field. High performance cost.
-#define DOF_STRENGTH 0.08  // [0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.13 0.14 0.15 0.16]  Depth of field strenght.
-#define DOF_SAMPLES_FACTOR 1.0 // [1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.4 2.6 2.8 3.0]  DoF Quality. Lower values are suitable when TAA is active. High performance cost.
+#define DOF_STRENGTH 0.05  // [0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.13 0.14 0.15 0.16]  Depth of field strenght.
+#define DOF_SAMPLES_FACTOR 1.4 // [1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.4 2.6 2.8 3.0]  DoF Quality. Lower values are suitable when TAA is active. High performance cost.
 #define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance impact).
 #define AOSTEPS 6 // [6 10 14 18 22] How many samples are taken. High performance cost.
 #define AO_STRENGHT 0.7 // [0.4 0.5 0.6 0.7 0.8 0.9 1.0] Ambient oclusion strenght
@@ -37,7 +37,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define SUN_REFLECTION 1 // [0 1] Set sun (or moon) reflection on water and glass
 #define SHADOW_CASTING 1 // [0 1] Activate shadows
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
-#define SHADOW_RES 0 // [0 1 2 3] Set shadows quality. The "far" versions render the shadows further away, but have a moderate impact on performance relative to their "close" versions.
+#define SHADOW_RES 2 // [0 1 2 3 4 5] Set shadows quality. The "far" versions render the shadows further away, but have a moderate impact on performance relative to their "close" versions.
 #define SHADOW_BLUR 2.0 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0]  Shadow blur intensity
 #define OMNI_TINT 0.40 // [0.10 0.15 0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90] Tint of omnidirectional light. From sky color to direct light color.
 #define WATER_TINT 0.7 // [0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0]  Water tint percentage
@@ -59,18 +59,26 @@ const float sunPathRotation = -25.0f;
 
 #ifndef NO_SHADOWS
   #if SHADOW_RES == 0
-    const int shadowMapResolution = 512;
+    const int shadowMapResolution = 256;
     const float shadowDistance = 64.0;
     #define SHADOW_DIST 0.75
   #elif SHADOW_RES == 1
+  const int shadowMapResolution = 512;
+  const float shadowDistance = 128.0;
+  #define SHADOW_DIST 0.75
+  #elif SHADOW_RES == 2
+    const int shadowMapResolution = 512;
+    const float shadowDistance = 64.0;
+    #define SHADOW_DIST 0.75
+  #elif SHADOW_RES == 3
     const int shadowMapResolution = 1024;
     const float shadowDistance = 128.0;
     #define SHADOW_DIST 0.75
-  #elif SHADOW_RES == 2
+  #elif SHADOW_RES == 4
     const int shadowMapResolution = 1024;
     const float shadowDistance = 79.0;
     #define SHADOW_DIST 0.8
-  #elif SHADOW_RES == 3
+  #elif SHADOW_RES == 5
     const int shadowMapResolution = 2048;
     const float shadowDistance = 158.0;
     #define SHADOW_DIST 0.8
