@@ -13,7 +13,7 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past, vec2 velocity) {
     return current_color;
   } else {
 
-    #if AA_TYPE == 2
+    #if AA_TYPE == 2  // Not used for now
       vec3 neighbourhood[9];
 
       neighbourhood[0] = texture2D(colortex1, texcoord + vec2(-pixel_size_x, -pixel_size_y)).rgb;
@@ -72,7 +72,7 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past, vec2 velocity) {
   if (any(bvec2(any(a), any(b)))) {
     return current_color;
   } else {
-    #if AA_TYPE == 2
+    #if AA_TYPE == 2  // Not used for now
       vec4 neighbourhood[9];
 
       neighbourhood[0] = texture2D(colortex1, texcoord + vec2(-pixel_size_x, -pixel_size_y));
