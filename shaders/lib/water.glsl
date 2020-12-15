@@ -171,7 +171,7 @@ vec3 water_shader(vec3 fragpos, vec3 normal, vec3 color, vec3 sky_reflect) {
   #endif
 
   float normal_dot_eye = dot(normal, normalize(fragpos));
-  float fresnel = clamp(fourth_pow(1.0 + normal_dot_eye) + 0.1, 0.0, 1.0) * .6;
+  float fresnel = clamp(fourth_pow(1.0 + normal_dot_eye) + 0.1, 0.0, 1.0);
 
   reflection.rgb = mix(
     sky_reflect * pow(lmcoord.y, 10.0),

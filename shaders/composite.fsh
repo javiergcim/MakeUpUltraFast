@@ -43,7 +43,6 @@ void main() {
     // AO distance attenuation
     float ao_att = sqrt(ld(d));
     float final_ao = mix(dbao(), 1.0, ao_att);
-    // float final_ao = mix(dbao_old(), 1.0, ao_att);
     block_color *= final_ao;
     // block_color = vec4(vec3(final_ao), 1.0);
     // block_color = vec4(vec3(ld(d)), 1.0);
