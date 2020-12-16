@@ -6,7 +6,7 @@ for low-spec computers.
 
 ## Main features
 * Optional shadows
-* Antialiasing (FXAA or TAA)
+* Antialiasing (TAA)
 * Depth of field
 * Enhanced ambient occlusion
 * Water reflection and refraction
