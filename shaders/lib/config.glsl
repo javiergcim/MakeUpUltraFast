@@ -19,7 +19,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define ENTITY_STAINED      10079.0  // Glass
 
 // Options
-#define ACERCADE 0 // [0]
+#define ACERCADE 0 // [0] //
 #define WAVING 1 // [0 1] Waving entities
 #define TINTED_WATER 1  // [0 1] Use the resource pack color for water.
 #define REFLECTION 1  // [0 1] Activate reflections.
