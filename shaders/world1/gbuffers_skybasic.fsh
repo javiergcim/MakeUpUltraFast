@@ -33,7 +33,7 @@ void main() {
       float n_u = clamp(dot(nfragpos, up_vec), 0.0, 1.0);
       block_color.rgb = mix(fogColor, skyColor * .9, clamp((n_u * 4.0) - .25, 0.0, 1.0));
     } else {
-      block_color.rgb = vec3(.1, .2, .3);
+      block_color.rgb = skyColor * .9;
     }
   }
 
