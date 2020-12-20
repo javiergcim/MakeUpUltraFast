@@ -27,6 +27,7 @@ uniform ivec2 eyeBrightnessSmooth;
   uniform mat4 shadowModelView;
   uniform mat4 shadowProjection;
   uniform vec3 shadowLightPosition;
+  uniform float shadow_force;
 #endif
 
 uniform mat4 gbufferModelViewInverse;

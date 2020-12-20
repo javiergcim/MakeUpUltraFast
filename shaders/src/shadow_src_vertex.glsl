@@ -2,7 +2,6 @@ float NdotL = clamp(
   dot(
     normal,
     normalize(shadowLightPosition)
-    // ) * 1.34 - 0.34,
     ),
   0.0,
   1.0

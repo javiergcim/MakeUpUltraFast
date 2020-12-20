@@ -83,13 +83,23 @@
   #ifdef THE_END
     omni_light = vec3(0.14475, 0.1395, 0.1425);
   #else
-  // Calculamos color de luz ambiental
-  // omni_light = mix(skyColor, direct_light_color, OMNI_TINT) * mix(
-  omni_light = mix(vec3(0.00215686, 0.00423529, 0.01), direct_light_color, OMNI_TINT) * mix(
-    omni_force[current_hour_floor],
-    omni_force[current_hour_ceil],
-    current_hour_fract
-  ) * visible_sky * visible_sky * .75;
+    // Calculamos color de luz ambiental
+
+    #if MAKEUP_COLOR == 1
+      vec3 hi_sky_color = mix(
+        hi_sky_color_array[current_hour_floor],
+        hi_sky_color_array[current_hour_ceil],
+        current_hour_fract
+      );
+    #else
+      vec3 hi_sky_color = skyColor;
+    #endif
+
+    omni_light = mix(hi_sky_color, direct_light_color, OMNI_TINT) * mix(
+      omni_force[current_hour_floor],
+      omni_force[current_hour_ceil],
+      current_hour_fract
+    ) * visible_sky * visible_sky * .75;
   #endif
 
   #ifdef CAVEENTITY_V
@@ -109,7 +119,19 @@
       mc_Entity.x == ENTITY_SMALLENTS ||
       mc_Entity.x == ENTITY_LEAVES
     ) {  // Es "planta" y se atenúa el impacto de la atenuación por dirección
-      direct_light_strenght = mix(direct_light_strenght, 1.0, .25);
+      #ifndef THE_END
+        float foliage_attenuation_coef = abs((light_mix - .5) * 2.0);
+      #else
+        float foliage_attenuation_coef = 1.0;
+      #endif
+
+      // direct_light_strenght =
+      //   mix(direct_light_strenght, 1.0, 0.4 * foliage_attenuation_coef);
+      direct_light_strenght =
+        mix(direct_light_strenght, 1.0, 0.4 * shadow_force);
+
+      // direct_light_strenght =
+      //    mix(direct_light_strenght, 1.0, 1.0);
     }
   #endif
 

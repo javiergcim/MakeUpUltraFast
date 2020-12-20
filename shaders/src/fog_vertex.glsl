@@ -25,8 +25,18 @@ if (isEyeInWater == 0) { // In the air
       visible_sky,
       eyeBrightnessSmooth.y / 240.0
     );
-    // current_fog_color = mix(skyColor, gl_Fog.color.rgb, fog_mix_level);
-    current_fog_color = mix(vec3(0.00215686, 0.00423529, 0.01), vec3(0.01078431, 0.02117647, 0.05), fog_mix_level);
+
+    #if MAKEUP_COLOR == 1
+      vec3 low_sky_color = mix(
+        low_sky_color_array[current_hour_floor],
+        low_sky_color_array[current_hour_ceil],
+        current_hour_fract
+      );
+    #else
+      vec3 low_sky_color = gl_Fog.color.rgb;
+    #endif
+    
+    current_fog_color = mix(hi_sky_color, low_sky_color, fog_mix_level);
   #endif
 
   frog_adjust = (gl_FogFragCoord / far) * fog_intensity_coeff;

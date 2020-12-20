@@ -27,6 +27,15 @@ uniform float current_hour_fract;
 
 void main() {
   texcoord = gl_MultiTexCoord0.xy;
+
+  // tint_color = vec4(
+  //   mix(
+  //     low_sky_color_array[current_hour_floor],
+  //     low_sky_color_array[current_hour_ceil],
+  //     current_hour_fract
+  //   ),
+  //   .5
+  // );
   tint_color = gl_Color;
   #include "/src/position_vertex.glsl"
   #include "/src/cloudfog_vertex.glsl"

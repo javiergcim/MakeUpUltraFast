@@ -6,3 +6,6 @@ Teleport to The End:
 
 Teleport to Overworld:
 /execute in minecraft:overworld run teleport ~ ~ ~
+
+Stop time:
+/gamerule doDaylightCycle false

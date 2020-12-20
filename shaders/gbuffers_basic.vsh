@@ -1,6 +1,6 @@
 #version 120
 /* MakeUp Ultra Fast - gbuffers_clouds.vsh
-Render: sky, clouds
+Render: Basic elements
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
