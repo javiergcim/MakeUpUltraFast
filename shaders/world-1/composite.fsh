@@ -59,7 +59,7 @@ void main() {
   else if (isEyeInWater == 1) {
     block_color.rgb = mix(
       block_color.rgb,
-      skyColor * .5 * ((eyeBrightnessSmooth.y * .8 + 48) / 240.0),
+      skyColor * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
       sqrt(ld(d))
       );
   } else if (isEyeInWater == 2) {

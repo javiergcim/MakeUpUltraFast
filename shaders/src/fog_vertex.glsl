@@ -23,7 +23,7 @@ if (isEyeInWater == 0) { // In the air
   #else
     fog_intensity_coeff = max(
       visible_sky,
-      eyeBrightnessSmooth.y / 240.0
+      eyeBrightnessSmooth.y * 0.004166666666666667
     );
 
     #if MAKEUP_COLOR == 1
@@ -32,10 +32,16 @@ if (isEyeInWater == 0) { // In the air
         low_sky_color_array[current_hour_ceil],
         current_hour_fract
       );
+
+      low_sky_color = mix(
+        low_sky_color,
+        LOW_SKY_RAIN_COLOR * luma(low_sky_color),
+        rainStrength
+      );
     #else
       vec3 low_sky_color = gl_Fog.color.rgb;
     #endif
-    
+
     current_fog_color = mix(hi_sky_color, low_sky_color, fog_mix_level);
   #endif
 
@@ -44,7 +50,7 @@ if (isEyeInWater == 0) { // In the air
 } else if (isEyeInWater == 1) {  // Underwater (not used, see composite instead)
   fog_density_coeff = 0.5;
   fog_intensity_coeff = 1.0;
-  current_fog_color = skyColor;
+  current_fog_color = hi_sky_color;
   frog_adjust = 1.0;
 } else {  // Lava (not used, see composite instead)
   fog_density_coeff = 0.5;

@@ -8,15 +8,24 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define NO_SHADOWS
 
 #include "/lib/config.glsl"
+#include "/lib/color_utils.glsl"
 
 // 'Global' constants from system
 uniform sampler2D colortex0;
 uniform ivec2 eyeBrightnessSmooth;
 uniform int isEyeInWater;
-uniform vec3 skyColor;
 uniform sampler2D depthtex0;
 uniform float far;
 uniform float near;
+uniform float rainStrength;
+
+#if MAKEUP_COLOR == 0
+  uniform vec3 skyColor;
+#elif MAKEUP_COLOR == 1
+  uniform int current_hour_floor;
+  uniform int current_hour_ceil;
+  uniform float current_hour_fract;
+#endif
 
 #if AO == 1
   uniform sampler2D colortex5;
@@ -28,8 +37,11 @@ uniform float near;
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
-#include "/lib/color_utils.glsl"
 #include "/lib/depth.glsl"
+
+#if MAKEUP_COLOR == 1
+  #include "/lib/luma.glsl"
+#endif
 
 #if AO == 1
   #include "/lib/dither.glsl"
@@ -48,11 +60,27 @@ void main() {
     // block_color = vec4(vec3(ld(d)), 1.0);
   #endif
 
+  #if MAKEUP_COLOR == 0
+    vec3 hi_sky_color = skyColor;
+  #elif MAKEUP_COLOR == 1
+    vec3 hi_sky_color = mix(
+      hi_sky_color_array[current_hour_floor],
+      hi_sky_color_array[current_hour_ceil],
+      current_hour_fract
+    );
+
+    hi_sky_color = mix(
+      hi_sky_color,
+      HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+      rainStrength
+    );
+  #endif
+
   // Niebla
   if (isEyeInWater == 1) {
     block_color.rgb = mix(
       block_color.rgb,
-      skyColor * .5 * ((eyeBrightnessSmooth.y * .8 + 48) / 240.0),
+      hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
       sqrt(ld(d))
       );
   } else if (isEyeInWater == 2) {

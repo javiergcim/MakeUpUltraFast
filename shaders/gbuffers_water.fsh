@@ -54,13 +54,12 @@ uniform int worldTime;
 
 uniform float nightVision;
 uniform float rainStrength;
-
 uniform vec3 skyColor;
+uniform float light_mix;
 
 #if SHADOW_CASTING == 1
   uniform sampler2D gaux2;
   uniform sampler2DShadow shadowtex1;
-  uniform float shadow_force;
 #endif
 
 #include "/lib/projection_utils.glsl"
@@ -122,7 +121,7 @@ void main() {
       }
 
     #else
-      shadow_c = 1.0;
+      shadow_c = abs((light_mix * 2.0) - 1.0);
     #endif
 
     vec3 real_light =

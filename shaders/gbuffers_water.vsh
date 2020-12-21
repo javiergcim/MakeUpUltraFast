@@ -24,6 +24,7 @@ uniform ivec2 eyeBrightnessSmooth;
 uniform mat4 gbufferModelView;
 uniform mat4 gbufferModelViewInverse;
 uniform vec3 cameraPosition;
+uniform float rainStrength;
 
 #if SHADOW_CASTING == 1
   uniform mat4 shadowModelView;
@@ -66,6 +67,10 @@ attribute vec4 at_tangent;
 
 #if SHADOW_CASTING == 1
   #include "/lib/shadow_vertex.glsl"
+#endif
+
+#if MAKEUP_COLOR == 1
+  #include "/lib/luma.glsl"
 #endif
 
 void main() {

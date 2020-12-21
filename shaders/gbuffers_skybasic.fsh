@@ -32,8 +32,10 @@ uniform float viewHeight;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
 uniform float frameTimeCounter;
+uniform float rainStrength;
 
 #include "/lib/dither.glsl"
+#include "/lib/luma.glsl"
 
 void main() {
   // Toma el color puro del bloque
@@ -55,11 +57,24 @@ void main() {
         current_hour_fract
       );
 
+      hi_sky_color = mix(
+        hi_sky_color,
+        HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+        rainStrength
+      );
+
       vec3 low_sky_color = mix(
         low_sky_color_array[current_hour_floor],
         low_sky_color_array[current_hour_ceil],
         current_hour_fract
       );
+
+      low_sky_color = mix(
+        low_sky_color,
+        LOW_SKY_RAIN_COLOR * luma(low_sky_color),
+        rainStrength
+      );
+
       float sky_gradient = .75;
     #else
       vec3 hi_sky_color = skyColor;

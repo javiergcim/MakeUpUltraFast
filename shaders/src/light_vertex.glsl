@@ -41,7 +41,6 @@
 
   // Ajuste de intensidad luminosa bajo el agua
   if (isEyeInWater == 1) {
-    // illumination.y = (illumination.y * .95) + .05;
     visible_sky = (visible_sky * .95) + .05;
   }
 
@@ -91,6 +90,19 @@
         hi_sky_color_array[current_hour_ceil],
         current_hour_fract
       );
+
+      direct_light_color = mix(
+        direct_light_color,
+        HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+        rainStrength
+      );
+
+      hi_sky_color = mix(
+        hi_sky_color,
+        HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+        rainStrength
+      );
+
     #else
       vec3 hi_sky_color = skyColor;
     #endif
@@ -103,7 +115,7 @@
   #endif
 
   #ifdef CAVEENTITY_V
-    // Para evitar iluminación plana en cuevas
+    // Avoid flat illumination in caves for entities
     float candle_cave_strenght = (direct_light_strenght * .5) + .5;
     candle_cave_strenght =
       mix(candle_cave_strenght, 1.0, visible_sky);
@@ -125,13 +137,8 @@
         float foliage_attenuation_coef = 1.0;
       #endif
 
-      // direct_light_strenght =
-      //   mix(direct_light_strenght, 1.0, 0.4 * foliage_attenuation_coef);
       direct_light_strenght =
-        mix(direct_light_strenght, 1.0, 0.4 * shadow_force);
-
-      // direct_light_strenght =
-      //    mix(direct_light_strenght, 1.0, 1.0);
+        mix(direct_light_strenght, 1.0, 0.4 * foliage_attenuation_coef);
     }
   #endif
 

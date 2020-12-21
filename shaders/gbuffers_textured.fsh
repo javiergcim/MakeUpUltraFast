@@ -28,15 +28,14 @@ varying vec3 omni_light;
 // 'Global' constants from system
 uniform sampler2D texture;
 uniform int isEyeInWater;
-
 uniform float nightVision;
 uniform float rainStrength;
+uniform float light_mix;
 
 #if SHADOW_CASTING == 1
   uniform sampler2D gaux2;
   uniform float frameTimeCounter;
   uniform sampler2DShadow shadowtex1;
-  uniform float shadow_force;
 #endif
 
 #if SHADOW_CASTING == 1
@@ -62,7 +61,7 @@ void main() {
     }
 
   #else
-    shadow_c = 1.0;
+    shadow_c = abs((light_mix * 2.0) - 1.0);
   #endif
 
   vec3 real_light =

@@ -39,7 +39,6 @@ uniform float rainStrength;
   uniform sampler2D gaux2;
   uniform float frameTimeCounter;
   uniform sampler2DShadow shadowtex1;
-  uniform float shadow_force;
 #endif
 
 #if SHADOW_CASTING == 1

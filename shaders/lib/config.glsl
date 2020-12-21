@@ -18,6 +18,10 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define ENTITY_PORTAL       10090.0  // Portal
 #define ENTITY_STAINED      10079.0  // Glass
 
+// Other constants
+#define HI_SKY_RAIN_COLOR vec3(.7, .85, 1.0)
+#define LOW_SKY_RAIN_COLOR vec3(.7, .85, 1.0)
+
 // Options
 #define ACERCADE 0 // [0] //
 #define WAVING 1 // [0 1] Waving entities
@@ -40,9 +44,9 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define SHADOW_RES 2 // [0 1 2 3 4 5] Set shadows quality. The "far" versions render the shadows further away, but have a moderate impact on performance relative to their "close" versions.
 #define SHADOW_STEPS 1 // [1 2] Set shadow blur quality. Reduces noise at the cost of performance.
 #define SHADOW_BLUR 2.0 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0]  Shadow blur intensity
-#define OMNI_TINT 0.40 // [0.10 0.15 0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90] Tint of omnidirectional light. From sky color to direct light color.
+#define OMNI_TINT 0.50 // [0.10 0.15 0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90] Tint of omnidirectional light. From sky color to direct light color.
 #define WATER_TINT 0.7 // [0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0]  Water tint percentage
-#define MAKEUP_COLOR 1 // [0 1]  Set ambient color method
+#define MAKEUP_COLOR 1 // [0 1] Resource pack - The shader tries to use the resource pack colors. MakeUp - The shader uses their custom colors (recommended)
 
 // Reflection parameters
 #define RAY_STEP 0.25

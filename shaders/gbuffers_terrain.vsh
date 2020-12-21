@@ -27,16 +27,15 @@ uniform ivec2 eyeBrightnessSmooth;
   uniform mat4 shadowModelView;
   uniform mat4 shadowProjection;
   uniform vec3 shadowLightPosition;
-  uniform float shadow_force;
 #endif
 
 uniform mat4 gbufferModelViewInverse;
 uniform mat4 gbufferModelView;
+uniform float rainStrength;
 
 #if WAVING == 1
   uniform vec3 cameraPosition;
   uniform float frameTimeCounter;
-  uniform float rainStrength;
 #endif
 
 // Varyings (per thread shared variables)
@@ -72,6 +71,10 @@ attribute vec4 mc_Entity;
 
 #if SHADOW_CASTING == 1
   #include "/lib/shadow_vertex.glsl"
+#endif
+
+#if MAKEUP_COLOR == 1
+  #include "/lib/luma.glsl"
 #endif
 
 void main() {
