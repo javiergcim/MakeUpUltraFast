@@ -31,6 +31,7 @@ uniform int isEyeInWater;
 uniform float nightVision;
 uniform float rainStrength;
 uniform float light_mix;
+// uniform float far;
 
 #if SHADOW_CASTING == 1
   uniform sampler2D gaux2;

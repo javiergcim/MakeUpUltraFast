@@ -1,5 +1,5 @@
 float fog_mix_level;
-float fog_intensity_coeff;
+float fog_intensity_coeff;  // Avoids fog in caves
 if (isEyeInWater == 0) { // In the air
   // Fog color calculation
   fog_mix_level = mix(
@@ -45,16 +45,8 @@ if (isEyeInWater == 0) { // In the air
     current_fog_color = mix(hi_sky_color, low_sky_color, fog_mix_level);
   #endif
 
-  frog_adjust = (gl_FogFragCoord / far) * fog_intensity_coeff;
-
-} else if (isEyeInWater == 1) {  // Underwater (not used, see composite instead)
-  fog_density_coeff = 0.5;
-  fog_intensity_coeff = 1.0;
-  current_fog_color = hi_sky_color;
-  frog_adjust = 1.0;
-} else {  // Lava (not used, see composite instead)
-  fog_density_coeff = 0.5;
-  fog_intensity_coeff = 1.0;
-  current_fog_color = vec3(1.0, .3, 0.0);
-  frog_adjust = 1.0;
+  frog_adjust = pow(
+    (gl_FogFragCoord / far) * fog_intensity_coeff,
+    mix(fog_density_coeff, .5, rainStrength)
+  );
 }
