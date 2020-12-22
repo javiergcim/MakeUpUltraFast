@@ -107,11 +107,14 @@
       vec3 hi_sky_color = skyColor;
     #endif
 
-    omni_light = mix(hi_sky_color, direct_light_color, OMNI_TINT) * mix(
-      omni_force[current_hour_floor],
-      omni_force[current_hour_ceil],
-      current_hour_fract
-    ) * visible_sky * visible_sky * .75;
+    // omni_light = mix(hi_sky_color, direct_light_color, OMNI_TINT) * mix(
+    //   omni_force[current_hour_floor],
+    //   omni_force[current_hour_ceil],
+    //   current_hour_fract
+    // ) * visible_sky * visible_sky * .75;
+
+    omni_light = mix(hi_sky_color, direct_light_color, OMNI_TINT) *
+      visible_sky * visible_sky * .75;
   #endif
 
   #ifdef CAVEENTITY_V

@@ -14,3 +14,6 @@ block_color.rgb =
     low_sky_color,
     clamp(pow(ld(gl_FragCoord.z), 2.0), 0.0, 1.0) * (1.0 - (rainStrength * .5))
   );
+
+// block_color.rgb = vec3(gl_FogFragCoord / far);
+// block_color.rgb = vec3(ld(gl_FragCoord.z));

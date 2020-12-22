@@ -34,7 +34,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define DOF_SAMPLES_FACTOR 1.4 // [1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.4 2.6 2.8 3.0]  DoF Quality. Lower values are suitable when TAA is active. High performance cost.
 #define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance impact).
 #define AOSTEPS 6 // [6 10 14 18 22] How many samples are taken. High performance cost.
-#define AO_STRENGHT 0.7 // [0.4 0.5 0.6 0.7 0.8 0.9 1.0] Ambient oclusion strenght
+#define AO_STRENGHT 0.4 // [0.2 0.3 0.4 0.5 0.6] Ambient oclusion strenght
 #define AA_TYPE 1 // [0 1] Fast TAA (Fast temporal antialiasing) Custom TAA implementation
 #define MOTION_BLUR 0 // [0 1] Turn on motion blur
 #define MOTION_BLUR_STRENGTH 0.06 // [0.02 0.04 0.06 0.08 0.10 0.12] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
@@ -108,5 +108,5 @@ const int noiseTextureResolution = 128;
   const float ambientOcclusionLevel = 0.5f;
 #endif
 
-const float eyeBrightnessHalflife = 8.0f;
+const float eyeBrightnessHalflife = 5.0f;
 const float centerDepthHalflife = 1.0f;

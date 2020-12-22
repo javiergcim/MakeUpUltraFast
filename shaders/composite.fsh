@@ -53,9 +53,22 @@ void main() {
   float d = texture2D(depthtex0, texcoord).r;
   #if AO == 1
     // AO distance attenuation
-    float ao_att = sqrt(ld(d));
+    // float ao_att = sqrt(ld(d));
+
+    // Fog intensity calculation
+    float fog_density_coeff = mix(
+      fog_density[current_hour_floor],
+      fog_density[current_hour_ceil],
+      current_hour_fract
+      );
+
+    float ao_att = pow(
+      clamp(ld(d), 0.0, 1.0),
+      mix(fog_density_coeff * .5, .25, rainStrength)
+    );
+
     float final_ao = mix(dbao(), 1.0, ao_att);
-    block_color *= final_ao;
+    block_color.rgb *= final_ao;
     // block_color = vec4(vec3(final_ao), 1.0);
     // block_color = vec4(vec3(ld(d)), 1.0);
   #endif

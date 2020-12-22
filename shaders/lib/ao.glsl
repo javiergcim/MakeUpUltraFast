@@ -21,7 +21,6 @@ float dbao() {
   vec2 offset;
 
   float d = texture2D(depthtex0, texcoord.xy).r;
-  // float hand = float(d < 0.56);
   float hand = float(d < 0.7);
   d = ld(d);
 
@@ -29,7 +28,6 @@ float dbao() {
   float angle = 0.0;
   float dist = 0.0;
   float far_double = 2.0 * far;
-  // vec2 scale = vec2(inv_aspect_ratio, 1.0) * (0.7 / (d * far));
   vec2 scale = vec2(inv_aspect_ratio, 1.0) * (0.7 / (d * far));
 
   for (int i = 1; i <= AOSTEPS; i++) {

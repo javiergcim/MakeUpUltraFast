@@ -42,11 +42,12 @@ if (isEyeInWater == 0) { // In the air
       vec3 low_sky_color = gl_Fog.color.rgb;
     #endif
 
-    current_fog_color = mix(hi_sky_color, low_sky_color, fog_mix_level);
+    current_fog_color =
+      mix(hi_sky_color, low_sky_color, fog_mix_level) * fog_intensity_coeff;
   #endif
 
   frog_adjust = pow(
-    (gl_FogFragCoord / far) * fog_intensity_coeff,
+    clamp(gl_FogFragCoord / far, 0.0, 1.0) * fog_intensity_coeff,
     mix(fog_density_coeff, .5, rainStrength)
   );
 }

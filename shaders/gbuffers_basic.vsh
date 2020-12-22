@@ -73,11 +73,13 @@ void main() {
     vec3 hi_sky_color = skyColor;
   #endif
 
-  vec3 omni_light = mix(hi_sky_color, direct_light_color, OMNI_TINT) * mix(
-    omni_force[current_hour_floor],
-    omni_force[current_hour_ceil],
-    current_hour_fract
-  ) * visible_sky * visible_sky * .75;
+  // vec3 omni_light = mix(hi_sky_color, direct_light_color, OMNI_TINT) * mix(
+  //   omni_force[current_hour_floor],
+  //   omni_force[current_hour_ceil],
+  //   current_hour_fract
+  // ) * visible_sky * visible_sky * .75;
+  vec3 omni_light = mix(hi_sky_color, direct_light_color, OMNI_TINT) *
+    visible_sky * visible_sky * .75;
 
   vec3 candle_color = candle_baselight * cube_pow(illumination.x) * .75;
   vec3 final_light = (direct_light_color * illumination.y) + candle_color;
