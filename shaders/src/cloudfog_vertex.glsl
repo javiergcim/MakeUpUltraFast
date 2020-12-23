@@ -1,7 +1,17 @@
-frog_adjust = gl_FogFragCoord / far;
-// Fog intensity calculation
-fog_density_coeff = mix(
-  fog_density[current_hour_floor],
-  fog_density[current_hour_ceil],
-  current_hour_fract
+#if MAKEUP_COLOR == 1
+  current_fog_color = mix(
+    low_sky_color_array[current_hour_floor],
+    low_sky_color_array[current_hour_ceil],
+    current_hour_fract
   );
+
+  current_fog_color = mix(
+    current_fog_color,
+    LOW_SKY_RAIN_COLOR * luma(current_fog_color),
+    rainStrength
+  );
+#else
+  current_fog_color = gl_Fog.color.rgb;
+#endif
+
+frog_adjust = 1.0 - (rainStrength * .5);

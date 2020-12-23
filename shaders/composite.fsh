@@ -53,9 +53,6 @@ void main() {
   float d = texture2D(depthtex0, texcoord).r;
   #if AO == 1
     // AO distance attenuation
-    // float ao_att = sqrt(ld(d));
-
-    // Fog intensity calculation
     float fog_density_coeff = mix(
       fog_density[current_hour_floor],
       fog_density[current_hour_ceil],
