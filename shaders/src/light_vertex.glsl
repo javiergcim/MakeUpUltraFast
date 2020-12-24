@@ -1,4 +1,4 @@
-#ifdef NETHER
+#ifdef NETHER  // The Nether ===================================================
   tint_color = gl_Color;
   #ifdef EMMISIVE_V
   if (emissive > 0.5 || magma > 0.5) {  // Es bloque es emisivo
@@ -20,7 +20,8 @@
   vec3 candle_color = candle_baselight * cube_pow(illumination.x) * .75;
 
   real_light = direct_light_color + candle_color;
-#else
+
+#else  // Overworld and The End ================================================
 
   tint_color = gl_Color;
 
@@ -47,7 +48,7 @@
   // Intensidad y color de luz de candelas
   candle_color = candle_baselight * cube_pow(illumination.x) * .75;
 
-  // Atenuación por dirección de luz directa =================================
+  // Atenuación por dirección de luz directa ===================================
   #ifdef THE_END
     vec3 sun_vec = normalize(gbufferModelView[1].xyz);
   #else
@@ -65,7 +66,7 @@
   #endif
 
   #if SHADOW_CASTING == 1
-    shadow_mask = direct_light_strenght;
+    shadow_mask = direct_light_strenght + 0.0001;  // +.0001 Flashing bug
   #endif
 
   // Intensidad por dirección
@@ -77,7 +78,7 @@
       ambient_baselight[current_hour_floor],
       ambient_baselight[current_hour_ceil],
       current_hour_fract
-    ) * .75;
+    );
 
   #ifdef THE_END
     omni_light = vec3(0.14475, 0.1395, 0.1425);
@@ -107,14 +108,8 @@
       vec3 hi_sky_color = skyColor;
     #endif
 
-    // omni_light = mix(hi_sky_color, direct_light_color, OMNI_TINT) * mix(
-    //   omni_force[current_hour_floor],
-    //   omni_force[current_hour_ceil],
-    //   current_hour_fract
-    // ) * visible_sky * visible_sky * .75;
-
     omni_light = mix(hi_sky_color, direct_light_color, OMNI_TINT) *
-      visible_sky * visible_sky * .75;
+      visible_sky * visible_sky;
   #endif
 
   #ifdef CAVEENTITY_V
