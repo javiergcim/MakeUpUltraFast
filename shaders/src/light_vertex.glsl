@@ -17,7 +17,7 @@
       ambient_baselight[current_hour_ceil],
       current_hour_fract
     );
-  vec3 candle_color = candle_baselight * cube_pow(illumination.x) * .75;
+  vec3 candle_color = candle_baselight * cube_pow(illumination.x);
 
   real_light = direct_light_color + candle_color;
 
@@ -46,7 +46,7 @@
   }
 
   // Intensidad y color de luz de candelas
-  candle_color = candle_baselight * cube_pow(illumination.x) * .75;
+  candle_color = candle_baselight * cube_pow(illumination.x);
 
   // Atenuación por dirección de luz directa ===================================
   #ifdef THE_END

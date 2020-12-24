@@ -217,4 +217,4 @@ const float omni_force[25] =
   1.0 // 6
   );
 
-const vec3 candle_baselight = vec3(.666, 0.517129411764706, 0.2664);
+const vec3 candle_baselight = vec3(0.4995, 0.38784706, 0.1998);

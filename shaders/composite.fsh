@@ -21,11 +21,10 @@ uniform float rainStrength;
 
 #if MAKEUP_COLOR == 0
   uniform vec3 skyColor;
-#elif MAKEUP_COLOR == 1
-  uniform int current_hour_floor;
-  uniform int current_hour_ceil;
-  uniform float current_hour_fract;
 #endif
+uniform int current_hour_floor;
+uniform int current_hour_ceil;
+uniform float current_hour_fract;
 
 #if AO == 1
   uniform sampler2D colortex5;

@@ -77,7 +77,7 @@ void main() {
   vec3 omni_light = mix(hi_sky_color, direct_light_color, OMNI_TINT) *
     visible_sky * visible_sky;
 
-  vec3 candle_color = candle_baselight * cube_pow(illumination.x) * .75;
+  vec3 candle_color = candle_baselight * cube_pow(illumination.x);
   vec3 final_light = (direct_light_color * illumination.y) + candle_color;
 
   tint_color = gl_Color;
