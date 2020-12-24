@@ -15,10 +15,10 @@ varying vec2 texcoord;
 varying vec4 tint_color;
 varying float frog_adjust;
 varying vec3 current_fog_color;
-uniform float far;
 
 // 'Global' constants from system
 uniform sampler2D texture;
+uniform float far;
 
 void main() {
   vec4 block_color = texture2D(texture, texcoord) * tint_color;

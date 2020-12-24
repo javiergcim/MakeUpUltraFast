@@ -14,17 +14,19 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 varying vec4 tint_color;
-varying float fog_density_coeff;
 varying float frog_adjust;
+varying vec3 current_fog_color;
 
-uniform float far;
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
+uniform float rainStrength;
 
 #if AA_TYPE == 1 || AA_TYPE == 2
   #include "/src/taa_offset.glsl"
 #endif
+
+#include "/lib/luma.glsl"
 
 void main() {
   texcoord = gl_MultiTexCoord0.xy;
