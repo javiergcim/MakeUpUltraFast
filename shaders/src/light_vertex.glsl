@@ -121,14 +121,7 @@
   #endif
 
   #ifdef FOLIAGE_V  // Puede haber plantas en este shader
-    if (
-      mc_Entity.x == ENTITY_SMALLGRASS ||
-      mc_Entity.x == ENTITY_LOWERGRASS ||
-      mc_Entity.x == ENTITY_VINES ||
-      mc_Entity.x == ENTITY_UPPERGRASS ||
-      mc_Entity.x == ENTITY_SMALLENTS ||
-      mc_Entity.x == ENTITY_LEAVES
-    ) {  // Es "planta" y se atenúa el impacto de la atenuación por dirección
+    if (is_foliage > .2) {  // Es "planta" y se atenúa luz por dirección
       #ifndef THE_END
         float foliage_attenuation_coef = abs((light_mix - .5) * 2.0);
       #else
@@ -136,7 +129,7 @@
       #endif
 
       direct_light_strenght =
-        mix(direct_light_strenght, 1.0, 0.4 * foliage_attenuation_coef);
+        mix(direct_light_strenght, 1.0, .4 * foliage_attenuation_coef);
     }
   #endif
 

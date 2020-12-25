@@ -1,4 +1,4 @@
-/* MakeUp Ultra Fast - basic_utils.glsl
+/* MakeUp Ultra Fast - shadow_frag.glsl
 Fragment shadow function.
 
 Javier Garduño - GNU Lesser General Public License v3.0
@@ -17,7 +17,7 @@ float get_shadow(vec3 the_shadow_pos) {
       #if AA_TYPE == 1 || AA_TYPE == 2
         float dither = timed_hash12(gl_FragCoord.xy);
       #else
-        float dither = dither_grad_noise(gl_FragCoord.xy);
+        float dither = grid_noise(gl_FragCoord.xy);
       #endif
 
       #if SHADOW_RES == 0 || SHADOW_RES == 1

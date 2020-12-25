@@ -19,6 +19,7 @@ varying vec3 direct_light_color;
 varying vec3 candle_color;
 varying float direct_light_strenght;
 varying vec3 omni_light;
+varying float is_foliage;
 
 #if SHADOW_CASTING == 1
   varying float shadow_mask;
@@ -31,7 +32,6 @@ uniform int isEyeInWater;
 uniform float nightVision;
 uniform float rainStrength;
 uniform float light_mix;
-// uniform float far;
 
 #if SHADOW_CASTING == 1
   uniform sampler2D gaux2;
@@ -51,14 +51,14 @@ void main() {
 
   #if SHADOW_CASTING == 1
     if (rainStrength < .95 && lmcoord.y > 0.005) {
-      shadow_c = get_shadow(shadow_pos);
+      shadow_c = mix(get_shadow(shadow_pos), 1.0, is_foliage);
       shadow_c = mix(shadow_c, 1.0, rainStrength);
     } else {
       shadow_c = 1.0;
     }
 
     if (shadow_mask < 0.0) {
-      shadow_c = 0.0;
+      shadow_c = is_foliage;
     }
 
   #else

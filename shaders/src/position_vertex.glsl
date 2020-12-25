@@ -8,12 +8,20 @@
 
     vec3 worldpos = position.xyz + cameraPosition;
 
+    #ifndef NETHER
+      is_foliage = 0.0;
+    #endif
+
     if (mc_Entity.x == ENTITY_LOWERGRASS ||
         mc_Entity.x == ENTITY_UPPERGRASS ||
         mc_Entity.x == ENTITY_SMALLGRASS ||
         mc_Entity.x == ENTITY_SMALLENTS ||
         mc_Entity.x == ENTITY_LEAVES)
     {
+      #ifndef NETHER
+        is_foliage = .4;
+      #endif
+      
       float weight = float(texcoord.y < mc_midTexCoord.y);
 
       if (mc_Entity.x == ENTITY_UPPERGRASS) {
