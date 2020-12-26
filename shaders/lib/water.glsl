@@ -10,7 +10,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
   vec3 current_march = hit_coord + dir_increment;
   float screen_depth;
   float depth_diff;
-  vec3 march_pos = vec3(0.0);
+  vec3 march_pos;
 
   // Ray marching
   for (int i = 0; i < RAYMARCH_STEPS; i++) {
@@ -27,7 +27,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
       }
 
     screen_depth = texture2D(depthtex1, march_pos.xy).x;
-    depth_diff = screen_depth - camera_to_screen(current_march).z;
+    depth_diff = screen_depth - march_pos.z;
 
     if (depth_diff < 0.0) {
       float prev_screen_depth = screen_depth;
@@ -138,10 +138,6 @@ vec3 get_normals(vec3 bump) {
 
   return normalize(bump * tbn_matrix);
 }
-
-// float cdist(vec2 coord) {
-//   return max(abs(coord.s - 0.5), abs(coord.t - 0.5)) * 2.0;
-// }
 
 vec4 reflection_calc(vec3 fragpos, vec3 normal) {
   #if SSR_TYPE == 0  // Flipped image
