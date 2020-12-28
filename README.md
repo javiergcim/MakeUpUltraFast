@@ -2,7 +2,7 @@
 Ultra fast Minecraft shader (Java). For a small graphic improvement. Intended
 for low-spec computers.
 
-**Version: 3.0: The Sky Update**
+**Version: 3.01: The Sky Update**
 
 ## Main features
 * Optional shadows

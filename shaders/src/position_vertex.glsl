@@ -21,7 +21,7 @@
       #ifndef NETHER
         is_foliage = .4;
       #endif
-      
+
       float weight = float(texcoord.y < mc_midTexCoord.y);
 
       if (mc_Entity.x == ENTITY_UPPERGRASS) {
@@ -39,6 +39,18 @@
     gl_Position = gl_ProjectionMatrix * gbufferModelView * vec4(position, 1.0);
 
   #else  // Normal position
+    #ifndef NETHER
+      is_foliage = 0.0;
+      if (mc_Entity.x == ENTITY_LOWERGRASS ||
+          mc_Entity.x == ENTITY_UPPERGRASS ||
+          mc_Entity.x == ENTITY_SMALLGRASS ||
+          mc_Entity.x == ENTITY_SMALLENTS ||
+          mc_Entity.x == ENTITY_LEAVES)
+      {
+        is_foliage = .4;
+      }
+    #endif
+    
     vec3 position =
       mat3(gbufferModelViewInverse) *
       (gl_ModelViewMatrix * gl_Vertex).xyz +
