@@ -13,7 +13,7 @@ vec3 motion_blur(vec4 color, vec2 blur_velocity) {
       blur_velocity / (1.0 + length(blur_velocity)) * MOTION_BLUR_STRENGTH;
 
     vec2 coord =
-      texcoord - blur_velocity * (1.5 + grid_noise(gl_FragCoord.xy));
+      texcoord - blur_velocity * (1.5 + dither_grad_noise(gl_FragCoord.xy));
 
     float weight = 0.0;
     float mask;

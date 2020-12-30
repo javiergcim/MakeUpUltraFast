@@ -17,7 +17,7 @@ float get_shadow(vec3 the_shadow_pos) {
       #if AA_TYPE == 1 || AA_TYPE == 2
         float dither = timed_hash12(gl_FragCoord.xy);
       #else
-        float dither = grid_noise(gl_FragCoord.xy);
+        float dither = dither_grad_noise(gl_FragCoord.xy);
       #endif
 
       #if SHADOW_RES == 0 || SHADOW_RES == 1

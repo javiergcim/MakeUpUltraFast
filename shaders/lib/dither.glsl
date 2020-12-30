@@ -4,18 +4,18 @@ Dither and hash functions
 */
 #define MAGIC vec3(443.8975, 397.2973, 491.1871)
 
-float grid_noise(vec2 p) {
-  return fract(
-    dot(
-      p - vec2(0.5, 0.5),
-      vec2(0.0625, .277777777777777777778) + 0.25
-      )
-    );
-}
-
-// float dither_grad_noise(vec2 p) {
-//   return fract(52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y));
+// float grid_noise(vec2 p) {
+//   return fract(
+//     dot(
+//       p - vec2(0.5, 0.5),
+//       vec2(0.0625, .277777777777777777778) + 0.25
+//       )
+//     );
 // }
+
+float dither_grad_noise(vec2 p) {
+  return fract(52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y));
+}
 
 float texture_noise_64(vec2 p, sampler2D noise) {
   return texture2D(noise, p * 0.015625).r;
