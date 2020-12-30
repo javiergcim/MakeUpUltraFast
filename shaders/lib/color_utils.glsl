@@ -4,7 +4,7 @@ Usefull data for color manipulation.
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-uniform sampler2D colortex6;
+uniform sampler2D gaux3;
 uniform float current_hour;
 // Direct light color per hour
 // const vec3 ambient_baselight[25] =

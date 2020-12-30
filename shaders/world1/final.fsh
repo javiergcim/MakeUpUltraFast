@@ -19,7 +19,7 @@ colortex2 - TAA Averages history
 colortex3 - Blur Auxiliar
 gaux1 - Reflection texture
 colortex5 - Blue noise texture
-colortex6 - Not used
+gaux3 - Not used
 colortex7 - Not used
 
 const int colortex0Format = R11F_G11F_B10F;
@@ -28,7 +28,7 @@ const int colortex2Format = RGBA16F;
 const int colortex3Format = RGBA16F;
 const int gaux1Format = RGB8;
 const int colortex5Format = R8;
-const int colortex6Format = R8;
+const int gaux3Format = R8;
 */
 
 // 'Global' constants from system
