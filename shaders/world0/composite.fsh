@@ -72,8 +72,15 @@ void main() {
   #if MAKEUP_COLOR == 0
     vec3 hi_sky_color = skyColor;
   #elif MAKEUP_COLOR == 1
-    vec3 hi_sky_color =
-      texture2D(gaux3, vec2(HI_SKY_X, current_hour)).rgb;
+    // vec3 hi_sky_color =
+    //   texture2D(gaux3, vec2(HI_SKY_X, current_hour)).rgb;
+
+    vec3 hi_sky_color = day_color_mixer(
+      HI_MIDDLE_COLOR,
+      HI_DAY_COLOR,
+      HI_NIGHT_COLOR,
+      day_moment
+      );
 
     hi_sky_color = mix(
       hi_sky_color,

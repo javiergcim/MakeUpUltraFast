@@ -7,8 +7,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // f(x) = min(−((x−.25)^2)∙20 + 1.25, 1)
 // g(x) = min(−((x−.75)^2)∙50 + 3.125, 1)
 
-uniform sampler2D gaux3;
-uniform float current_hour;
+// uniform sampler2D gaux3;
+// uniform float current_hour;
 uniform float day_moment;
 
 #define AMBIENT_MIDDLE_COLOR vec3(0.75, 0.37941176, 0.16470588)
@@ -38,9 +38,9 @@ vec3 day_color_mixer(vec3 middle, vec3 day, vec3 night, float moment) {
   return mix(day_color, night_color, step(0.5, moment));
 }
 
-#define AMBIENT_X 0.04166666666666666
-#define HI_SKY_X 0.125
-#define LOW_SKY_X 0.2083333333333333
+// #define AMBIENT_X 0.04166666666666666
+// #define HI_SKY_X 0.125
+// #define LOW_SKY_X 0.2083333333333333
 
 // Ambient color luma per hour in exposure calculation
 const float ambient_exposure[25] =
@@ -58,7 +58,7 @@ const float ambient_exposure[25] =
   1.0, // 4
   1.0, // 5
   1.0, // 6
-  .75, // 7
+  .1, // 7
   .1, // 8
   .1, // 9
   .1, // 10
@@ -68,7 +68,7 @@ const float ambient_exposure[25] =
   .1, // 2
   .1, // 3
   .1, // 4
-  .75, // 5
+  .1, // 5
   1.0 // 6
   );
 

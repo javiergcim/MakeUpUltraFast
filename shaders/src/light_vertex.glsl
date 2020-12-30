@@ -10,7 +10,13 @@
 
   // Luz nativa (lmcoord.x: candela, lmcoord.y: cielo) ----
   vec2 illumination = lmcoord;
-  vec3 direct_light_color = texture2D(gaux3, vec2(AMBIENT_X, current_hour)).rgb;
+  // vec3 direct_light_color = texture2D(gaux3, vec2(AMBIENT_X, current_hour)).rgb;
+  vec3 direct_light_color = day_color_mixer(
+    AMBIENT_MIDDLE_COLOR,
+    AMBIENT_DAY_COLOR,
+    AMBIENT_NIGHT_COLOR,
+    day_moment
+    );
   vec3 candle_color = candle_baselight * cube_pow(illumination.x);
 
   real_light = direct_light_color + candle_color;
@@ -67,7 +73,13 @@
   direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
 
   // Calculamos color de luz directa
-  direct_light_color = texture2D(gaux3, vec2(AMBIENT_X, current_hour)).rgb;
+  // direct_light_color = texture2D(gaux3, vec2(AMBIENT_X, current_hour)).rgb;
+  direct_light_color = day_color_mixer(
+    AMBIENT_MIDDLE_COLOR,
+    AMBIENT_DAY_COLOR,
+    AMBIENT_NIGHT_COLOR,
+    day_moment
+    );
 
   #ifdef THE_END
     omni_light = vec3(0.14475, 0.1395, 0.1425);
@@ -75,8 +87,15 @@
     // Calculamos color de luz ambiental
 
     #if MAKEUP_COLOR == 1
-      vec3 hi_sky_color =
-        texture2D(gaux3, vec2(HI_SKY_X, current_hour)).rgb;
+      // vec3 hi_sky_color =
+      //   texture2D(gaux3, vec2(HI_SKY_X, current_hour)).rgb;
+
+      vec3 hi_sky_color = day_color_mixer(
+        HI_MIDDLE_COLOR,
+        HI_DAY_COLOR,
+        HI_NIGHT_COLOR,
+        day_moment
+        );
 
       direct_light_color = mix(
         direct_light_color,
