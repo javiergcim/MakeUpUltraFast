@@ -4,11 +4,6 @@ Usefull data for color manipulation.
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-// f(x) = min(−((x−.25)^2)∙20 + 1.25, 1)
-// g(x) = min(−((x−.75)^2)∙50 + 3.125, 1)
-
-// uniform sampler2D gaux3;
-// uniform float current_hour;
 uniform float day_moment;
 
 #define AMBIENT_MIDDLE_COLOR vec3(0.75, 0.37941176, 0.16470588)
@@ -24,6 +19,9 @@ uniform float day_moment;
 #define LOW_NIGHT_COLOR vec3(0.01078431, 0.02117647, 0.05)
 
 vec3 day_color_mixer(vec3 middle, vec3 day, vec3 night, float moment) {
+  // f(x) = min(−((x−.25)^2)∙20 + 1.25, 1)
+  // g(x) = min(−((x−.75)^2)∙50 + 3.125, 1)
+
   float moment_aux = moment - 0.25;
   moment_aux = moment_aux * moment_aux;
   float day_mix = clamp(-moment_aux * 20.0 + 1.25, 0.0, 1.0);
@@ -37,10 +35,6 @@ vec3 day_color_mixer(vec3 middle, vec3 day, vec3 night, float moment) {
 
   return mix(day_color, night_color, step(0.5, moment));
 }
-
-// #define AMBIENT_X 0.04166666666666666
-// #define HI_SKY_X 0.125
-// #define LOW_SKY_X 0.2083333333333333
 
 // Ambient color luma per hour in exposure calculation
 const float ambient_exposure[25] =
@@ -132,4 +126,4 @@ const float fog_density[25] =
   1.0 // 6
   );
 
-const vec3 candle_baselight = vec3(0.4995, 0.38784706, 0.1998);
+#define CANDLE_BASELIGHT vec3(0.4995, 0.38784706, 0.1998)

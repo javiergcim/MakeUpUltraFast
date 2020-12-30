@@ -2,7 +2,7 @@
 Ultra fast Minecraft shader (Java). For a small graphic improvement. Intended
 for low-spec computers.
 
-**Version: 3.51: Intel nightmare**
+**Version: 3.6: Functional colors**
 
 ## Main features
 * Optional shadows
