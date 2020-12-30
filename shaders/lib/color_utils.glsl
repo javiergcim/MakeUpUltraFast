@@ -4,8 +4,39 @@ Usefull data for color manipulation.
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+// f(x) = min(−((x−.25)^2)∙20 + 1.25, 1)
+// g(x) = min(−((x−.75)^2)∙50 + 3.125, 1)
+
 uniform sampler2D gaux3;
 uniform float current_hour;
+uniform float day_moment;
+
+#define AMBIENT_MIDDLE_COLOR vec3(0.75, 0.37941176, 0.16470588)
+#define AMBIENT_DAY_COLOR vec3(0.75, 0.75, 0.478125)
+#define AMBIENT_NIGHT_COLOR vec3(0.02720588, 0.02941177, 0.03474265)
+
+#define HI_MIDDLE_COLOR vec3(0.17647059, 0.34901961, 0.82745098)
+#define HI_DAY_COLOR vec3(0.21568627, 0.42352941, 1.0)
+#define HI_NIGHT_COLOR vec3(0.00647058, 0.01270587, 0.03)
+
+#define LOW_MIDDLE_COLOR vec3(1.0, 0.50588235, 0.21960784)
+#define LOW_DAY_COLOR vec3(0.61176471, 0.87058824, 1.0)
+#define LOW_NIGHT_COLOR vec3(0.01078431, 0.02117647, 0.05)
+
+vec3 day_color_mixer(vec3 middle, vec3 day, vec3 night, float moment) {
+  float moment_aux = moment - 0.25;
+  moment_aux = moment_aux * moment_aux;
+  float day_mix = clamp(-moment_aux * 20.0 + 1.25, 0.0, 1.0);
+
+  moment_aux = moment - 0.75;
+  moment_aux = moment_aux * moment_aux;
+  float night_mix = clamp(-moment_aux * 50.0 + 3.125, 0.0, 1.0);
+
+  vec3 day_color = mix(middle, day, day_mix);
+  vec3 night_color = mix(middle, night, night_mix);
+
+  return mix(day_color, night_color, step(0.5, moment));
+}
 
 #define AMBIENT_X 0.04166666666666666
 #define HI_SKY_X 0.125
