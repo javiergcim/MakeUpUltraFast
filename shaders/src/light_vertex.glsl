@@ -17,7 +17,7 @@
       ambient_baselight[current_hour_ceil],
       current_hour_fract
     );
-  // vec3 direct_light_color = texture2D(gaux3, vec2(0.16666, (current_hour * .04) + .02)).rgb;
+  // vec3 direct_light_color = texture2D(gaux3, vec2(0.16666, current_hour)).rgb;
   vec3 candle_color = candle_baselight * cube_pow(illumination.x);
 
   real_light = direct_light_color + candle_color;
@@ -80,7 +80,7 @@
   //     ambient_baselight[current_hour_ceil],
   //     current_hour_fract
   //   );
-  direct_light_color = texture2D(gaux3, vec2(0.16666, (current_hour * .04) + .02)).rgb;
+  direct_light_color = texture2D(gaux3, vec2(0.16666, current_hour)).rgb;
 
   #ifdef THE_END
     omni_light = vec3(0.14475, 0.1395, 0.1425);
@@ -94,7 +94,7 @@
       //   current_hour_fract
       // );
       vec3 hi_sky_color =
-        texture2D(gaux3, vec2(0.5, (current_hour * .04) + .02)).rgb;
+        texture2D(gaux3, vec2(0.5, current_hour)).rgb;
 
       direct_light_color = mix(
         direct_light_color,

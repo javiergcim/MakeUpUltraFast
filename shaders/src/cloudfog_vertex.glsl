@@ -5,7 +5,7 @@
   //   current_hour_fract
   // );
   current_fog_color =
-      texture2D(gaux3, vec2(0.833334, (current_hour * .04) + .02)).rgb;
+      texture2D(gaux3, vec2(0.833334, current_hour)).rgb;
 
   current_fog_color = mix(
     current_fog_color,
