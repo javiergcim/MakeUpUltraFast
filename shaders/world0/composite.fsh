@@ -72,11 +72,13 @@ void main() {
   #if MAKEUP_COLOR == 0
     vec3 hi_sky_color = skyColor;
   #elif MAKEUP_COLOR == 1
-    vec3 hi_sky_color = mix(
-      hi_sky_color_array[current_hour_floor],
-      hi_sky_color_array[current_hour_ceil],
-      current_hour_fract
-    );
+    // vec3 hi_sky_color = mix(
+    //   hi_sky_color_array[current_hour_floor],
+    //   hi_sky_color_array[current_hour_ceil],
+    //   current_hour_fract
+    // );
+    vec3 hi_sky_color =
+      texture2D(colortex6, vec2(0.5, current_hour * .04)).rgb;
 
     hi_sky_color = mix(
       hi_sky_color,

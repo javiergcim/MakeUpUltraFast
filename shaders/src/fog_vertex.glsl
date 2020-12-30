@@ -9,7 +9,7 @@
       fog_color_mix[current_hour_ceil],
       current_hour_fract
       );
-      
+
     // Fog intensity calculation
     fog_density_coeff = mix(
       fog_density[current_hour_floor],
@@ -23,11 +23,13 @@
     );
 
     #if MAKEUP_COLOR == 1
-      vec3 low_sky_color = mix(
-        low_sky_color_array[current_hour_floor],
-        low_sky_color_array[current_hour_ceil],
-        current_hour_fract
-      );
+      // vec3 low_sky_color = mix(
+      //   low_sky_color_array[current_hour_floor],
+      //   low_sky_color_array[current_hour_ceil],
+      //   current_hour_fract
+      // );
+      vec3 low_sky_color =
+          texture2D(colortex6, vec2(1.0, current_hour * .04)).rgb;
 
       low_sky_color = mix(
         low_sky_color,

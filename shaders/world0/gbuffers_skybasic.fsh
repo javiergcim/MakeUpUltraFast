@@ -51,11 +51,13 @@ void main() {
     dither = (dither - .5) * 0.0625;
 
     #if MAKEUP_COLOR == 1
-      vec3 hi_sky_color = mix(
-        hi_sky_color_array[current_hour_floor],
-        hi_sky_color_array[current_hour_ceil],
-        current_hour_fract
-      );
+      // vec3 hi_sky_color = mix(
+      //   hi_sky_color_array[current_hour_floor],
+      //   hi_sky_color_array[current_hour_ceil],
+      //   current_hour_fract
+      // );
+      vec3 hi_sky_color =
+        texture2D(colortex6, vec2(0.5, current_hour * .04)).rgb;
 
       hi_sky_color = mix(
         hi_sky_color,
@@ -63,11 +65,13 @@ void main() {
         rainStrength
       );
 
-      vec3 low_sky_color = mix(
-        low_sky_color_array[current_hour_floor],
-        low_sky_color_array[current_hour_ceil],
-        current_hour_fract
-      );
+      // vec3 low_sky_color = mix(
+      //   low_sky_color_array[current_hour_floor],
+      //   low_sky_color_array[current_hour_ceil],
+      //   current_hour_fract
+      // );
+      vec3 low_sky_color =
+      texture2D(colortex6, vec2(1.0, current_hour * .04)).rgb;
 
       low_sky_color = mix(
         low_sky_color,

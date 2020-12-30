@@ -43,19 +43,23 @@ void main() {
   vec2 illumination = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
   float visible_sky = illumination.y * 1.105 - .10495;
 
+  // vec3 direct_light_color =
+  //   mix(
+  //     ambient_baselight[current_hour_floor],
+  //     ambient_baselight[current_hour_ceil],
+  //     current_hour_fract
+  //   ) * (1.0 - rainStrength);
   vec3 direct_light_color =
-    mix(
-      ambient_baselight[current_hour_floor],
-      ambient_baselight[current_hour_ceil],
-      current_hour_fract
-    ) * .75 * (1.0 - rainStrength);
+    texture2D(colortex6, vec2(0.0, current_hour * .04)).rgb * (1.0 - rainStrength);
 
   #if MAKEUP_COLOR == 1
-    vec3 hi_sky_color = mix(
-      hi_sky_color_array[current_hour_floor],
-      hi_sky_color_array[current_hour_ceil],
-      current_hour_fract
-    );
+    // vec3 hi_sky_color = mix(
+    //   hi_sky_color_array[current_hour_floor],
+    //   hi_sky_color_array[current_hour_ceil],
+    //   current_hour_fract
+    // );
+    vec3 hi_sky_color =
+      texture2D(colortex6, vec2(0.5, current_hour * .04)).rgb;
 
     direct_light_color = mix(
       direct_light_color,
