@@ -78,7 +78,7 @@ void main() {
     //   current_hour_fract
     // );
     vec3 hi_sky_color =
-      texture2D(gaux3, vec2(0.5, current_hour * .04)).rgb;
+      texture2D(gaux3, vec2(0.5, (current_hour * .04) + .02)).rgb;
 
     hi_sky_color = mix(
       hi_sky_color,
