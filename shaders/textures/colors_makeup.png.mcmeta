@@ -2,6 +2,6 @@
   "texture":
   {
     "blur": true,
-    "clamp": false
+    "clamp": true
   }
 }

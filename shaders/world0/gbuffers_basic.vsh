@@ -50,7 +50,7 @@ void main() {
   //     current_hour_fract
   //   ) * (1.0 - rainStrength);
   vec3 direct_light_color =
-    texture2D(gaux3, vec2(0.0, current_hour * .04)).rgb * (1.0 - rainStrength);
+    texture2D(gaux3, vec2(0.16666, current_hour * .04)).rgb * (1.0 - rainStrength);
 
   #if MAKEUP_COLOR == 1
     // vec3 hi_sky_color = mix(
