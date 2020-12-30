@@ -45,18 +45,11 @@ void main() {
   float visible_sky = illumination.y * 1.105 - .10495;
 
   vec3 direct_light_color =
-    mix(
-      ambient_baselight[current_hour_floor],
-      ambient_baselight[current_hour_ceil],
-      current_hour_fract
-    ) * .75 * (1.0 - rainStrength);
+    texture2D(gaux3, vec2(AMBIENT_X, current_hour)).rgb * (1.0 - rainStrength);
 
   #if MAKEUP_COLOR == 1
-    vec3 hi_sky_color = mix(
-      hi_sky_color_array[current_hour_floor],
-      hi_sky_color_array[current_hour_ceil],
-      current_hour_fract
-    );
+    vec3 hi_sky_color =
+      texture2D(gaux3, vec2(HI_SKY_X, current_hour)).rgb;
 
     direct_light_color = mix(
       direct_light_color,

@@ -1,11 +1,6 @@
 #if MAKEUP_COLOR == 1
-  // current_fog_color = mix(
-  //   low_sky_color_array[current_hour_floor],
-  //   low_sky_color_array[current_hour_ceil],
-  //   current_hour_fract
-  // );
   current_fog_color =
-      texture2D(gaux3, vec2(0.833334, current_hour)).rgb;
+      texture2D(gaux3, vec2(LOW_SKY_X, current_hour)).rgb;
 
   current_fog_color = mix(
     current_fog_color,
