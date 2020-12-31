@@ -74,17 +74,26 @@ uniform float light_mix;
 
 void main() {
   vec4 block_color;
+  // vec4 water_tex = texture2D(texture, texcoord) * tint_color;
   vec3 fragposition =
     to_screen_space(
       vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z)
       );
 
   if (block_type > 2.5) {  // Water
-      block_color.rgb = mix(
-        vec3(1.0),
-        tint_color.rgb,
-        WATER_TINT
-      );
+      #if WATER_TEXTURE == 1
+        block_color.rgb = mix(
+          vec3(1.0),
+          tint_color.rgb,
+          WATER_TINT
+        ) * texture2D(texture, texcoord).rgb;
+      #else
+        block_color.rgb = mix(
+          vec3(1.0),
+          tint_color.rgb,
+          WATER_TINT
+        );
+      #endif
 
     vec3 water_normal_base = normal_waves(worldposition.xzy);
 
