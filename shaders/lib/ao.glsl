@@ -37,13 +37,13 @@ float dbao() {
 
     sd = ld(texture2D(depthtex0, texcoord.xy + offset).r);
     float sample = (d - sd) * far_double;
-    if (hand > 0.5) sample *= 1024.0;
+    if (hand > 0.7) sample *= 1024.0;
     angle = clamp(0.5 - sample, 0.0, 1.0);
     dist = clamp(0.25 * sample - 1.0, 0.0, 1.0);
 
     sd = ld(texture2D(depthtex0, texcoord.xy - offset).r);
     sample = (d - sd) * far_double;
-    if (hand > 0.5) sample *= 1024.0;
+    if (hand > 0.7) sample *= 1024.0;
     angle += clamp(0.5 - sample, 0.0, 1.0);
     dist += clamp(0.25 * sample - 1.0, 0.0, 1.0);
 

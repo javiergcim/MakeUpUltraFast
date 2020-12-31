@@ -54,6 +54,7 @@ varying vec3 omni_light;
 #if SHADOW_CASTING == 1
   varying float shadow_mask;
   varying vec3 shadow_pos;
+  varying float shadow_diffuse;
 #endif
 
 attribute vec4 mc_Entity;

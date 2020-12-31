@@ -79,7 +79,7 @@ const float sunPathRotation = -25.0f;
   #elif SHADOW_RES == 3
     const int shadowMapResolution = 1024;
     const float shadowDistance = 128.0;
-    #define SHADOW_DIST 0.75
+    #define SHADOW_DIST 0.8
   #elif SHADOW_RES == 4
     const int shadowMapResolution = 1024;
     const float shadowDistance = 79.0;
@@ -87,7 +87,7 @@ const float sunPathRotation = -25.0f;
   #elif SHADOW_RES == 5
     const int shadowMapResolution = 2048;
     const float shadowDistance = 158.0;
-    #define SHADOW_DIST 0.8
+    #define SHADOW_DIST 0.85
   #endif
   const float shadowDistanceRenderMul = 1.0;
   const bool shadowHardwareFiltering1 = true;

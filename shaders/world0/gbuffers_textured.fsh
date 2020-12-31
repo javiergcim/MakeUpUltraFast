@@ -23,6 +23,7 @@ varying vec3 omni_light;
 #if SHADOW_CASTING == 1
   varying float shadow_mask;
   varying vec3 shadow_pos;
+  varying float shadow_diffuse;
 #endif
 
 // 'Global' constants from system
@@ -52,6 +53,7 @@ void main() {
     if (rainStrength < .95 && lmcoord.y > 0.005) {
       shadow_c = get_shadow(shadow_pos);
       shadow_c = mix(shadow_c, 1.0, rainStrength);
+      shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
     } else {
       shadow_c = 1.0;
     }
