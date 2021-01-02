@@ -51,9 +51,6 @@ void main() {
     dither = (dither - .5) * 0.0625;
 
     #if MAKEUP_COLOR == 1
-      // vec3 hi_sky_color =
-      //   texture2D(gaux3, vec2(HI_SKY_X, current_hour)).rgb;
-
       vec3 hi_sky_color = day_color_mixer(
         HI_MIDDLE_COLOR,
         HI_DAY_COLOR,
@@ -66,9 +63,6 @@ void main() {
         HI_SKY_RAIN_COLOR * luma(hi_sky_color),
         rainStrength
       );
-
-      // vec3 low_sky_color =
-      //   texture2D(gaux3, vec2(LOW_SKY_X, current_hour)).rgb;
 
       vec3 low_sky_color = day_color_mixer(
         LOW_MIDDLE_COLOR,

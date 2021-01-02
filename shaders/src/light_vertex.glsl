@@ -10,7 +10,6 @@
 
   // Luz nativa (lmcoord.x: candela, lmcoord.y: cielo) ----
   vec2 illumination = lmcoord;
-  // vec3 direct_light_color = texture2D(gaux3, vec2(AMBIENT_X, current_hour)).rgb;
   vec3 direct_light_color = day_color_mixer(
     AMBIENT_MIDDLE_COLOR,
     AMBIENT_DAY_COLOR,
@@ -66,14 +65,13 @@
   #endif
 
   #if SHADOW_CASTING == 1
-    shadow_mask = direct_light_strenght + 0.0001;  // +.0001 Flashing bug
+    shadow_mask = direct_light_strenght - 0.00005;  // -.00005 Flashing bug
   #endif
 
   // Intensidad por dirección
   direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
 
   // Calculamos color de luz directa
-  // direct_light_color = texture2D(gaux3, vec2(AMBIENT_X, current_hour)).rgb;
   direct_light_color = day_color_mixer(
     AMBIENT_MIDDLE_COLOR,
     AMBIENT_DAY_COLOR,
@@ -87,9 +85,6 @@
     // Calculamos color de luz ambiental
 
     #if MAKEUP_COLOR == 1
-      // vec3 hi_sky_color =
-      //   texture2D(gaux3, vec2(HI_SKY_X, current_hour)).rgb;
-
       vec3 hi_sky_color = day_color_mixer(
         HI_MIDDLE_COLOR,
         HI_DAY_COLOR,
@@ -134,7 +129,7 @@
       #endif
 
       direct_light_strenght =
-        mix(direct_light_strenght, 1.0, .4 * foliage_attenuation_coef);
+        mix(direct_light_strenght, 1.0, .3 * foliage_attenuation_coef);
     }
   #endif
 
