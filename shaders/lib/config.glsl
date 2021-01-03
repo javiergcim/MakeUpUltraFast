@@ -47,7 +47,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define OMNI_TINT 0.50 // [0.10 0.15 0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90] Tint of omnidirectional light. From sky color to direct light color.
 #define WATER_TINT 0.7 // [0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0]  Water tint percentage
 #define MAKEUP_COLOR 1 // [0 1] Resource pack - The shader tries to use the resource pack colors. MakeUp - The shader uses their custom colors (recommended)
-#define WATER_TEXTURE 1 // [0 1] Enable or disable resource pack water texture.
+#define WATER_TEXTURE 0 // [0 1] Enable or disable resource pack water texture.
 
 // Reflection parameters
 #define RAY_STEP 0.25

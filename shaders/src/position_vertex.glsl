@@ -33,7 +33,7 @@
       weight *= lmcoord.y;  // Evitamos movimiento en cuevas
 
       position.xyz +=
-        wave_move(worldpos.xz) * weight * (0.022 + (rainStrength * .044));
+        wave_move(worldpos.xz) * weight * (0.03 + (rainStrength * .05));
     }
 
     gl_Position = gl_ProjectionMatrix * gbufferModelView * vec4(position, 1.0);
@@ -50,7 +50,7 @@
         is_foliage = .4;
       }
     #endif
-    
+
     vec3 position =
       mat3(gbufferModelViewInverse) *
       (gl_ModelViewMatrix * gl_Vertex).xyz +
