@@ -43,7 +43,7 @@ void main() {
   float dither;
 
   if (star_data.a < .9) {
-    #if AA_TYPE == 1 || AA_TYPE == 2
+    #if AA_TYPE == 1
       dither = timed_hash12(gl_FragCoord.xy);
     #else
       dither = hash12(gl_FragCoord.xy);

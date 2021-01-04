@@ -35,7 +35,7 @@ uniform ivec2 eyeBrightnessSmooth;
 
 #include "/lib/basic_utils.glsl"
 
-#if AA_TYPE == 1 || AA_TYPE == 2
+#if AA_TYPE == 1
   #include "/src/taa_offset.glsl"
 #endif
 

@@ -32,7 +32,7 @@ varying vec2 lmcoord;
 varying vec4 tint_color;
 varying vec3 real_light;
 
-#if AA_TYPE == 1 || AA_TYPE == 2
+#if AA_TYPE == 1
   #include "/src/taa_offset.glsl"
 #endif
 

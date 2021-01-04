@@ -16,13 +16,13 @@ uniform mat4 gbufferModelView;
 varying vec3 up_vec;
 varying vec4 star_data;
 
-#if AA_TYPE == 1 || AA_TYPE == 2
+#if AA_TYPE == 1
   #include "/src/taa_offset.glsl"
 #endif
 
 void main() {
   gl_Position = ftransform();
-  #if AA_TYPE == 1 || AA_TYPE == 2
+  #if AA_TYPE == 1
     gl_Position.xy += offsets[frame_mod] * gl_Position.w * pixel_size;
   #endif
 

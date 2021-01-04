@@ -6,7 +6,7 @@ Based on Capt Tatsu's ambient occlusion functions.
 float dbao() {
   float ao = 0.0;
 
-  #if AA_TYPE == 1 || AA_TYPE == 2
+  #if AA_TYPE == 1
     float dither = timed_hash12(gl_FragCoord.xy);
   #else
     float dither = texture_noise_64(gl_FragCoord.xy, colortex5);

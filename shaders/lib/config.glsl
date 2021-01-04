@@ -101,8 +101,6 @@ const float sunPathRotation = -25.0f;
 #endif
 
 // Redefined constants
-const int noiseTextureResolution = 128;
-
 #if AO == 0
   const float ambientOcclusionLevel = 1.0f;
 #else

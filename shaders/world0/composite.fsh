@@ -69,28 +69,25 @@ void main() {
     // block_color = vec4(vec3(ld(d)), 1.0);
   #endif
 
-  #if MAKEUP_COLOR == 0
-    vec3 hi_sky_color = skyColor;
-  #elif MAKEUP_COLOR == 1
-    // vec3 hi_sky_color =
-    //   texture2D(gaux3, vec2(HI_SKY_X, current_hour)).rgb;
-
-    vec3 hi_sky_color = day_color_mixer(
-      HI_MIDDLE_COLOR,
-      HI_DAY_COLOR,
-      HI_NIGHT_COLOR,
-      day_moment
-      );
-
-    hi_sky_color = mix(
-      hi_sky_color,
-      HI_SKY_RAIN_COLOR * luma(hi_sky_color),
-      rainStrength
-    );
-  #endif
-
   // Niebla
   if (isEyeInWater == 1) {
+    #if MAKEUP_COLOR == 0
+      vec3 hi_sky_color = skyColor;
+    #elif MAKEUP_COLOR == 1
+      vec3 hi_sky_color = day_color_mixer(
+        HI_MIDDLE_COLOR,
+        HI_DAY_COLOR,
+        HI_NIGHT_COLOR,
+        day_moment
+        );
+
+      hi_sky_color = mix(
+        hi_sky_color,
+        HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+        rainStrength
+      );
+    #endif
+
     block_color.rgb = mix(
       block_color.rgb,
       hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),

@@ -17,7 +17,7 @@ uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
 
-#if AA_TYPE == 1 || AA_TYPE == 2
+#if AA_TYPE == 1
   #include "/src/taa_offset.glsl"
 #endif
 
@@ -34,7 +34,7 @@ void main() {
   sky_luma_correction = 1.0 / ((sky_luma_correction * -3.5) + 4.5);
 
   gl_Position = ftransform();
-  #if AA_TYPE == 1 || AA_TYPE == 2
+  #if AA_TYPE == 1
     gl_Position.xy += offsets[frame_mod] * gl_Position.w * pixel_size;
   #endif
 }
