@@ -2,7 +2,7 @@
 Ultra fast Minecraft shader (Java). For a small graphic improvement. Intended
 for low-spec computers.
 
-**Version: 3.63: Functional colors**
+**Version: 3.63b: Functional colors**
 
 ## Main features
 * Optional shadows

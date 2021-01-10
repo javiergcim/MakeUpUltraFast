@@ -53,7 +53,7 @@ void main() {
   float shadow_c;
 
   #if SHADOW_CASTING == 1
-    if (rainStrength < .95 && lmcoord.y > 0.005) {
+    if (lmcoord.y > 0.005) {
       shadow_c = get_shadow(shadow_pos);
       shadow_c = mix(shadow_c, 1.0, rainStrength);
       shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
