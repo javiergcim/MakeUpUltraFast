@@ -59,11 +59,6 @@ void main() {
       shadow_c = 1.0;
     }
 
-    // if (shadow_mask < 0.0) {
-    //   // shadow_c = is_foliage;
-    //   shadow_c = 0.0;
-    // }
-
   #else
     shadow_c = abs((light_mix * 2.0) - 1.0);
   #endif
