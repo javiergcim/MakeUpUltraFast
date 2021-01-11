@@ -58,9 +58,9 @@ void main() {
       shadow_c = 1.0;
     }
 
-    if (shadow_mask < 0.0) {
-      shadow_c = 0.0;
-    }
+    // if (shadow_mask < 0.0) {
+    //   shadow_c = 0.0;
+    // }
 
   #else
     shadow_c = abs((light_mix * 2.0) - 1.0);
@@ -68,7 +68,7 @@ void main() {
 
   vec3 real_light =
     omni_light +
-    (direct_light_color * direct_light_strenght * shadow_c) * (1.0 - rainStrength) +
+    (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength) +
     candle_color;
 
   block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);

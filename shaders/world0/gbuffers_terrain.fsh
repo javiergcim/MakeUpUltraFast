@@ -52,16 +52,17 @@ void main() {
 
   #if SHADOW_CASTING == 1
     if (rainStrength < .95 && lmcoord.y > 0.005) {
-      shadow_c = mix(get_shadow(shadow_pos), 1.0, is_foliage);
+      shadow_c = get_shadow(shadow_pos);
       shadow_c = mix(shadow_c, 1.0, rainStrength);
       shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
     } else {
       shadow_c = 1.0;
     }
 
-    if (shadow_mask < 0.0) {
-      shadow_c = is_foliage;
-    }
+    // if (shadow_mask < 0.0) {
+    //   // shadow_c = is_foliage;
+    //   shadow_c = 0.0;
+    // }
 
   #else
     shadow_c = abs((light_mix * 2.0) - 1.0);
@@ -69,7 +70,7 @@ void main() {
 
   vec3 real_light =
     omni_light +
-    (direct_light_color * direct_light_strenght * shadow_c) * (1.0 - rainStrength) +
+    (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength) +
     candle_color;
 
   block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);

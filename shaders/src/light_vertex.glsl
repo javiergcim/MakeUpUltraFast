@@ -69,6 +69,7 @@
   #endif
 
   // Intensidad por dirección
+  float omni_strenght = (direct_light_strenght * .125) + .75;
   direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
 
   // Calculamos color de luz directa
@@ -78,6 +79,24 @@
     AMBIENT_NIGHT_COLOR,
     day_moment
     );
+
+  #ifdef FOLIAGE_V  // Puede haber plantas en este shader
+    if (is_foliage > .2) {  // Es "planta" y se atenúa luz por dirección
+      #ifndef THE_END
+        float foliage_attenuation_coef = abs((light_mix - .5) * 2.0);
+      #else
+        float foliage_attenuation_coef = 1.0;
+      #endif
+
+      #if SHADOW_CASTING == 1
+        direct_light_strenght = sqrt(direct_light_strenght);
+      #else
+        direct_light_strenght =
+        mix(direct_light_strenght, 1.0, .2 * foliage_attenuation_coef) * .55;
+      #endif
+      omni_strenght = 1.0;
+    }
+  #endif
 
   #ifdef THE_END
     omni_light = vec3(0.14475, 0.1395, 0.1425);
@@ -108,8 +127,8 @@
       vec3 hi_sky_color = skyColor;
     #endif
 
-    omni_light = mix(hi_sky_color, direct_light_color, OMNI_TINT) *
-      visible_sky * visible_sky;
+    omni_light = visible_sky * visible_sky * omni_strenght *
+      mix(hi_sky_color, direct_light_color, OMNI_TINT);
   #endif
 
   #ifdef CAVEENTITY_V
@@ -118,19 +137,6 @@
     candle_cave_strenght =
       mix(candle_cave_strenght, 1.0, visible_sky);
     candle_color *= candle_cave_strenght;
-  #endif
-
-  #ifdef FOLIAGE_V  // Puede haber plantas en este shader
-    if (is_foliage > .2) {  // Es "planta" y se atenúa luz por dirección
-      #ifndef THE_END
-        float foliage_attenuation_coef = abs((light_mix - .5) * 2.0);
-      #else
-        float foliage_attenuation_coef = 1.0;
-      #endif
-
-      direct_light_strenght =
-        mix(direct_light_strenght, 1.0, .3 * foliage_attenuation_coef);
-    }
   #endif
 
   #ifndef THE_END
