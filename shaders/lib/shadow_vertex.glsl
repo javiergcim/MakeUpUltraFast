@@ -6,7 +6,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #define diagonal3(m) vec3((m)[0].x, (m)[1].y, m[2].z)
 
-vec3 get_shadow_pos(in vec3 shadow_pos, in vec3 normal, float NdotL) {
+vec3 get_shadow_pos(in vec3 shadow_pos, float NdotL) {
   shadow_pos = mat3(shadowModelView) * shadow_pos + shadowModelView[3].xyz;
   shadow_pos = diagonal3(shadowProjection) * shadow_pos + shadowProjection[3].xyz;
 

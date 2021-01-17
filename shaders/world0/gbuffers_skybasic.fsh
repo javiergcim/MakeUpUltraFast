@@ -82,7 +82,8 @@ void main() {
     block_color.rgb = mix(
       low_sky_color,
       hi_sky_color,
-      pow(n_u, .5)
+      // pow(n_u, .5)
+      sqrt(n_u)
     );
   }
 
