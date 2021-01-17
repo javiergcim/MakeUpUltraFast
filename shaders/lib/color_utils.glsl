@@ -28,7 +28,8 @@ uniform float day_moment;
   #define HI_NIGHT_COLOR vec3(0.014, 0.019, 0.031)
 
   #define LOW_MIDDLE_COLOR vec3(0.91, 0.66, 0.47)
-  #define LOW_DAY_COLOR vec3(0.38, 0.82, 0.98)
+  // #define LOW_DAY_COLOR vec3(0.38, 0.82, 0.98)
+  #define LOW_DAY_COLOR vec3(0.4, 0.75, 1.0)
   #define LOW_NIGHT_COLOR vec3(0.022, 0.029, 0.049)
 #endif
 
