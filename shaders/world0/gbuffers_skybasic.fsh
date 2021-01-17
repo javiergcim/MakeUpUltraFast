@@ -16,16 +16,9 @@ varying vec4 star_data;
 
 // 'Global' constants from system
 uniform int isEyeInWater;
-
-#if MAKEUP_COLOR == 1
-  uniform int current_hour_floor;
-  uniform int current_hour_ceil;
-  uniform float current_hour_fract;
-#else
-  uniform vec3 skyColor;
-  uniform vec3 fogColor;
-#endif
-
+uniform int current_hour_floor;
+uniform int current_hour_ceil;
+uniform float current_hour_fract;
 uniform mat4 gbufferProjectionInverse;
 uniform float viewWidth;
 uniform float viewHeight;
@@ -50,39 +43,31 @@ void main() {
     #endif
     dither = (dither - .5) * 0.0625;
 
-    #if MAKEUP_COLOR == 1
-      vec3 hi_sky_color = day_color_mixer(
-        HI_MIDDLE_COLOR,
-        HI_DAY_COLOR,
-        HI_NIGHT_COLOR,
-        day_moment
-        );
-
-      hi_sky_color = mix(
-        hi_sky_color,
-        HI_SKY_RAIN_COLOR * luma(hi_sky_color),
-        rainStrength
+    vec3 hi_sky_color = day_color_mixer(
+      HI_MIDDLE_COLOR,
+      HI_DAY_COLOR,
+      HI_NIGHT_COLOR,
+      day_moment
       );
 
-      vec3 low_sky_color = day_color_mixer(
-        LOW_MIDDLE_COLOR,
-        LOW_DAY_COLOR,
-        LOW_NIGHT_COLOR,
-        day_moment
-        );
+    hi_sky_color = mix(
+      hi_sky_color,
+      HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+      rainStrength
+    );
 
-      low_sky_color = mix(
-        low_sky_color,
-        LOW_SKY_RAIN_COLOR * luma(low_sky_color),
-        rainStrength
+    vec3 low_sky_color = day_color_mixer(
+      LOW_MIDDLE_COLOR,
+      LOW_DAY_COLOR,
+      LOW_NIGHT_COLOR,
+      day_moment
       );
 
-      float sky_gradient = .75;
-    #else
-      vec3 hi_sky_color = skyColor;
-      vec3 low_sky_color = fogColor;
-      float sky_gradient = .25;
-    #endif
+    low_sky_color = mix(
+      low_sky_color,
+      LOW_SKY_RAIN_COLOR * luma(low_sky_color),
+      rainStrength
+    );
 
     vec4 fragpos = gbufferProjectionInverse *
     (
@@ -97,7 +82,7 @@ void main() {
     block_color.rgb = mix(
       low_sky_color,
       hi_sky_color,
-      pow(n_u, sky_gradient)
+      pow(n_u, .5)
     );
   }
 

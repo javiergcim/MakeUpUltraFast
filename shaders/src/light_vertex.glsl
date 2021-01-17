@@ -103,32 +103,33 @@
   #else
     // Calculamos color de luz ambiental
 
-    #if MAKEUP_COLOR == 1
-      vec3 hi_sky_color = day_color_mixer(
-        HI_MIDDLE_COLOR,
-        HI_DAY_COLOR,
-        HI_NIGHT_COLOR,
-        day_moment
-        );
-
-      direct_light_color = mix(
-        direct_light_color,
-        HI_SKY_RAIN_COLOR * luma(hi_sky_color),
-        rainStrength
+    vec3 hi_sky_color = day_color_mixer(
+      HI_MIDDLE_COLOR,
+      HI_DAY_COLOR,
+      HI_NIGHT_COLOR,
+      day_moment
       );
 
-      hi_sky_color = mix(
-        hi_sky_color,
-        HI_SKY_RAIN_COLOR * luma(hi_sky_color),
-        rainStrength
-      );
+    direct_light_color = mix(
+      direct_light_color,
+      HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+      rainStrength
+    );
 
+    hi_sky_color = mix(
+      hi_sky_color,
+      HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+      rainStrength
+    );
+
+    #if AVOID_DARK == 1
+      omni_light = max(visible_sky * visible_sky, .04) * omni_strenght *
+        mix(hi_sky_color, direct_light_color, OMNI_TINT);
     #else
-      vec3 hi_sky_color = skyColor;
+      omni_light = visible_sky * visible_sky * omni_strenght *
+        mix(hi_sky_color, direct_light_color, OMNI_TINT);
     #endif
 
-    omni_light = visible_sky * visible_sky * omni_strenght *
-      mix(hi_sky_color, direct_light_color, OMNI_TINT);
   #endif
 
   #ifdef CAVEENTITY_V

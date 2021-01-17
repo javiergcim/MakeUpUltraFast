@@ -61,9 +61,7 @@ varying vec3 omni_light;
   #include "/lib/shadow_vertex.glsl"
 #endif
 
-#if MAKEUP_COLOR == 1
-  #include "/lib/luma.glsl"
-#endif
+#include "/lib/luma.glsl"
 
 void main() {
   #include "/src/basiccoords_vertex.glsl"

@@ -11,7 +11,7 @@ profile.comment=Very Low - No optional effects. Low - Adds simple reflection. Me
 
 #About
 #############################
-option.ACERCADE=MakeUp v3.64
+option.ACERCADE=MakeUp v3.7
 option.ACERCADE.comment=Thanks for using this shader! :). Set Optifine native quality controls on normal or default values for better quality.
 value.ACERCADE.0=by Javier
 
@@ -92,9 +92,13 @@ value.WAVING.1=Yes
 option.OMNI_TINT=Omni color tint
 option.WATER_TINT=Water tint
 
-option.MAKEUP_COLOR=Sky color schema
-value.MAKEUP_COLOR.0=Resource pack
-value.MAKEUP_COLOR.1=MakeUp
+option.COLOR_SCHEME=MakeUp scheme
+value.COLOR_SCHEME.0=Original
+value.COLOR_SCHEME.1=Cocoa
+
+option.AVOID_DARK=Avoid cave darkness
+value.AVOID_DARK.0=No
+value.AVOID_DARK.1=Yes
 
 #Screens
 screen.SHADOWS_SCREEN=Shadows options

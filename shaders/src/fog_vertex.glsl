@@ -22,22 +22,18 @@
       eyeBrightnessSmooth.y * 0.004166666666666667
     );
 
-    #if MAKEUP_COLOR == 1
-      vec3 low_sky_color = day_color_mixer(
-        LOW_MIDDLE_COLOR,
-        LOW_DAY_COLOR,
-        LOW_NIGHT_COLOR,
-        day_moment
-        );
-
-      low_sky_color = mix(
-        low_sky_color,
-        LOW_SKY_RAIN_COLOR * luma(low_sky_color),
-        rainStrength
+    vec3 low_sky_color = day_color_mixer(
+      LOW_MIDDLE_COLOR,
+      LOW_DAY_COLOR,
+      LOW_NIGHT_COLOR,
+      day_moment
       );
-    #else
-      vec3 low_sky_color = gl_Fog.color.rgb;
-    #endif
+
+    low_sky_color = mix(
+      low_sky_color,
+      LOW_SKY_RAIN_COLOR * luma(low_sky_color),
+      rainStrength
+    );
 
     current_fog_color =
       mix(hi_sky_color, low_sky_color, fog_mix_level) * fog_intensity_coeff;

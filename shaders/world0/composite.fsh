@@ -18,10 +18,6 @@ uniform sampler2D depthtex0;
 uniform float far;
 uniform float near;
 uniform float rainStrength;
-
-#if MAKEUP_COLOR == 0
-  uniform vec3 skyColor;
-#endif
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
@@ -37,10 +33,7 @@ uniform float current_hour_fract;
 varying vec2 texcoord;
 
 #include "/lib/depth.glsl"
-
-#if MAKEUP_COLOR == 1
-  #include "/lib/luma.glsl"
-#endif
+#include "/lib/luma.glsl"
 
 #if AO == 1
   #include "/lib/dither.glsl"
@@ -71,22 +64,18 @@ void main() {
 
   // Niebla
   if (isEyeInWater == 1) {
-    #if MAKEUP_COLOR == 0
-      vec3 hi_sky_color = skyColor;
-    #elif MAKEUP_COLOR == 1
-      vec3 hi_sky_color = day_color_mixer(
-        HI_MIDDLE_COLOR,
-        HI_DAY_COLOR,
-        HI_NIGHT_COLOR,
-        day_moment
-        );
-
-      hi_sky_color = mix(
-        hi_sky_color,
-        HI_SKY_RAIN_COLOR * luma(hi_sky_color),
-        rainStrength
+    vec3 hi_sky_color = day_color_mixer(
+      HI_MIDDLE_COLOR,
+      HI_DAY_COLOR,
+      HI_NIGHT_COLOR,
+      day_moment
       );
-    #endif
+
+    hi_sky_color = mix(
+      hi_sky_color,
+      HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+      rainStrength
+    );
 
     block_color.rgb = mix(
       block_color.rgb,

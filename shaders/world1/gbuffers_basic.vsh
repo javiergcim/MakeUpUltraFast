@@ -25,14 +25,7 @@ uniform float rainStrength;
 uniform int isEyeInWater;
 uniform ivec2 eyeBrightnessSmooth;
 
-#if MAKEUP_COLOR == 0
-  uniform vec3 skyColor;
-#endif
-
-#if MAKEUP_COLOR == 1
-  #include "/lib/luma.glsl"
-#endif
-
+#include "/lib/luma.glsl"
 #include "/lib/basic_utils.glsl"
 
 #if AA_TYPE == 1
@@ -54,32 +47,24 @@ void main() {
     day_moment
     ) * (1.0 - rainStrength);
 
-  #if MAKEUP_COLOR == 1
-    // vec3 hi_sky_color =
-    //   texture2D(gaux3, vec2(HI_SKY_X, current_hour)).rgb;
-
-    vec3 hi_sky_color = day_color_mixer(
-      HI_MIDDLE_COLOR,
-      HI_DAY_COLOR,
-      HI_NIGHT_COLOR,
-      day_moment
-      );
-
-    direct_light_color = mix(
-      direct_light_color,
-      HI_SKY_RAIN_COLOR * luma(hi_sky_color),
-      rainStrength
+  vec3 hi_sky_color = day_color_mixer(
+    HI_MIDDLE_COLOR,
+    HI_DAY_COLOR,
+    HI_NIGHT_COLOR,
+    day_moment
     );
 
-    hi_sky_color = mix(
-      hi_sky_color,
-      HI_SKY_RAIN_COLOR * luma(hi_sky_color),
-      rainStrength
-    );
+  direct_light_color = mix(
+    direct_light_color,
+    HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+    rainStrength
+  );
 
-  #else
-    vec3 hi_sky_color = skyColor;
-  #endif
+  hi_sky_color = mix(
+    hi_sky_color,
+    HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+    rainStrength
+  );
 
   vec3 omni_light = mix(hi_sky_color, direct_light_color, OMNI_TINT) *
     visible_sky * visible_sky;
