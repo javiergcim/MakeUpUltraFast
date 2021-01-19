@@ -39,7 +39,7 @@ float get_shadow(vec3 the_shadow_pos) {
 
       for (int i = 0; i < SHADOW_STEPS; i++) {
         dither += sample_angle_increment;
-        current_radius = dither_base * .7 + .3;
+        current_radius = dither_base * .8 + .2;
         offset = (vec2(cos(dither), sin(dither)) * current_radius * SHADOW_BLUR) / shadowMapResolution;
 
         shadow_sample += shadow2D(shadowtex1, vec3(the_shadow_pos.st + offset, new_z)).r;

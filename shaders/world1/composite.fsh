@@ -53,7 +53,7 @@ void main() {
   if (isEyeInWater == 0) {
     block_color = mix(
       block_color,
-      mix(gl_Fog.color * .1, vec4(1.0), .04),
+      gl_Fog.color,
       sqrt(ld(d))
     );
   }

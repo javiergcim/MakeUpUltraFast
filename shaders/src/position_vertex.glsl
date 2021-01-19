@@ -6,7 +6,7 @@
       (gl_ModelViewMatrix * gl_Vertex).xyz +
       gbufferModelViewInverse[3].xyz;
 
-    vec3 worldpos = position.xyz + cameraPosition;
+    vec3 worldpos = position + cameraPosition;
 
     #ifndef NETHER
       is_foliage = 0.0;
@@ -22,18 +22,24 @@
         is_foliage = .4;
       #endif
 
-      float weight = float(texcoord.y < mc_midTexCoord.y);
+      float weight = gl_MultiTexCoord0.t < mc_midTexCoord.t ? 1.0 : 0.0;
+      // float weight = float(texcoord.y < mc_midTexCoord.y);
 
       if (mc_Entity.x == ENTITY_UPPERGRASS) {
         weight += 1.0;
       } else if (mc_Entity.x == ENTITY_LEAVES) {
         weight = .3;
+      } else if (mc_Entity.x == ENTITY_SMALLENTS && (weight > 0.9 || fract(worldpos.y + 0.0675) > 0.01)) {
+        weight = 1.0;
       }
 
-      weight *= lmcoord.y;  // Evitamos movimiento en cuevas
+      // if (weight > 0.9 || fract(worldpos.y + 0.0675) > 0.01) {
+      //   position.xyz +=
+      //     wave_move(worldpos.xz) * (0.03 + (rainStrength * .05));
+      // }
 
-      position.xyz +=
-        wave_move(worldpos.xz) * weight * (0.03 + (rainStrength * .05));
+      weight *= lmcoord.y;  // Evitamos movimiento en cuevas
+      position.xyz += wave_move(worldpos.xz) * weight * (0.03 + (rainStrength * .05));
     }
 
     gl_Position = gl_ProjectionMatrix * gbufferModelView * vec4(position, 1.0);

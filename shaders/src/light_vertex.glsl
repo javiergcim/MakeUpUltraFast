@@ -96,7 +96,7 @@
         direct_light_strenght =
         mix(direct_light_strenght, 1.0, .2 * foliage_attenuation_coef) * .55;
       #endif
-      omni_strenght = 1.0;
+      // omni_strenght = 1.0;
     }
   #endif
 
