@@ -74,7 +74,6 @@ uniform float light_mix;
 
 void main() {
   vec4 block_color;
-  // vec4 water_tex = texture2D(texture, texcoord) * tint_color;
   vec3 fragposition =
     to_screen_space(
       vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z)

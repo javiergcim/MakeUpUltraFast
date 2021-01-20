@@ -24,7 +24,6 @@ void main() {
       gl_Position.z -= 0.0025;  // Corrección para sombra de follaje.
   }
 
-
   gl_Position.xy = calc_shadow_dist(gl_Position.xy);
 
   texcoord = (gl_MultiTexCoord0).xy;

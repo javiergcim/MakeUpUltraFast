@@ -2,6 +2,8 @@
 Water reflection and refraction related functions.
 */
 
+
+
 vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
   vec3 hit_pos = camera_to_screen(hit_coord);
   float hit_depth = texture2D(depthtex0, hit_pos.xy).x;
@@ -95,16 +97,15 @@ vec3 normal_waves(vec3 pos) {
   float timer = frameTimeCounter;
 
   vec3 wave_1 =
-     texture2D(noisetex, (pos.xy * 0.03125) + (timer * .02)).rgb;
-  wave_1 = wave_1 * vec3(.6, .6, 1.0) - vec3(.3, .3, 0.5);
+     texture2D(noisetex, (pos.xy * 0.0625) + (timer * .025)).rgb;
+  wave_1 = wave_1 * vec3(0.6, 0.6, 1.0) - vec3(0.3, 0.3, 0.5);
   vec3 wave_2 =
-     texture2D(noisetex, (pos.yx * 0.015625) - (timer * .01)).rgb;
-  wave_2 = wave_2 * vec3(.6, .6, 1.0) - vec3(.3, .3, .5);
+     texture2D(noisetex, (pos.yx * 0.03125) - (timer * .025)).rgb;
+  wave_2 = wave_2 * vec3(0.6, 0.6, 1.0) - vec3(0.3, 0.3, 0.5);
 
   vec3 final_wave = wave_1 + wave_2;
 
   return normalize(final_wave);
-  // return vec3(0.0, 0.0, 1.0);
 }
 
 vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
@@ -167,7 +168,7 @@ vec3 water_shader(vec3 fragpos, vec3 normal, vec3 color, vec3 sky_reflect) {
   #endif
 
   float normal_dot_eye = dot(normal, normalize(fragpos));
-  float fresnel = clamp(fourth_pow(1.0 + normal_dot_eye) + 0.1, 0.0, 1.0);
+  float fresnel = clamp(fourth_pow(1.0 + normal_dot_eye), 0.0, 1.0);
 
   reflection.rgb = mix(
     sky_reflect * pow(lmcoord.y, 10.0),
@@ -189,6 +190,8 @@ vec3 water_shader(vec3 fragpos, vec3 normal, vec3 color, vec3 sky_reflect) {
   #else
     return mix(color, reflection.rgb, fresnel);
   #endif
+
+  // return mix(color, mix(reflection.rgb, vec3(0.0), fresnel * .5), fresnel);
 }
 
 //  GLASS
