@@ -12,7 +12,7 @@ uniform float day_moment;
   #define AMBIENT_NIGHT_COLOR vec3(0.02720588, 0.02941177, 0.03474265)
 
   #define HI_MIDDLE_COLOR vec3(0.17647059, 0.34901961, 0.82745098)
-  #define HI_DAY_COLOR vec3(0.21568627, 0.42352941, 1.0)
+  #define HI_DAY_COLOR vec3(0.3, 0.47, 0.97)
   #define HI_NIGHT_COLOR vec3(0.00647058, 0.01270587, 0.03)
 
   #define LOW_MIDDLE_COLOR vec3(1.0, 0.50588235, 0.21960784)
@@ -28,17 +28,21 @@ uniform float day_moment;
   #define HI_NIGHT_COLOR vec3(0.014, 0.019, 0.031)
 
   #define LOW_MIDDLE_COLOR vec3(0.91, 0.66, 0.47)
-  // #define LOW_DAY_COLOR vec3(0.38, 0.82, 0.98)
   #define LOW_DAY_COLOR vec3(0.4, 0.75, 1.0)
   #define LOW_NIGHT_COLOR vec3(0.022, 0.029, 0.049)
+#elif COLOR_SCHEME == 2  // Captain
+  #define AMBIENT_MIDDLE_COLOR vec3(0.6, 0.37647059, 0.1882353)
+  #define AMBIENT_DAY_COLOR vec3(0.8282353, 0.9317647, 1.1)
+  #define AMBIENT_NIGHT_COLOR vec3(0.01505882, 0.03011765, 0.04)
+
+  #define HI_MIDDLE_COLOR vec3(0.2325 , 0.27675, 0.39975)
+  #define HI_DAY_COLOR vec3(0.08, 0.2, 0.39)
+  #define HI_NIGHT_COLOR vec3(0.004 , 0.01  , 0.0195)
+
+  #define LOW_MIDDLE_COLOR vec3(1.0, 0.83, 0.38)
+  #define LOW_DAY_COLOR vec3(0.5, 0.7, 1.0)
+  #define LOW_NIGHT_COLOR vec3(0.025, 0.035, 0.05)
 #endif
-
-
-
-
-
-
-
 
 vec3 day_color_mixer(vec3 middle, vec3 day, vec3 night, float moment) {
   // f(x) = min(−((x−.25)^2)∙20 + 1.25, 1)
