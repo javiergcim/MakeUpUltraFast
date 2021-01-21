@@ -7,6 +7,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #define NETHER
 #define NO_SHADOWS
+#define ENTITY_GLINT
 
 #include "/lib/config.glsl"
 #include "/lib/color_utils_nether.glsl"
