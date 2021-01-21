@@ -6,7 +6,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 #define THE_END
-#define ENTITY_V
 
 #include "/lib/config.glsl"
 #include "/lib/color_utils_end.glsl"

@@ -89,14 +89,13 @@
       #endif
 
       #if SHADOW_CASTING == 1
-        // direct_light_strenght = sqrt(direct_light_strenght);
         direct_light_strenght =
           mix(direct_light_strenght, 1.0, .7 * foliage_attenuation_coef);
       #else
         direct_light_strenght =
         mix(direct_light_strenght, 1.0, .2 * foliage_attenuation_coef) * .55;
+        omni_strenght = 1.0;
       #endif
-      // omni_strenght = 1.0;
     }
   #endif
 

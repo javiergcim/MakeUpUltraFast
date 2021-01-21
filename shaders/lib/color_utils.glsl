@@ -6,17 +6,17 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 uniform float day_moment;
 
-#if COLOR_SCHEME == 0  // Original
+#if COLOR_SCHEME == 0  // Fantasy
   #define AMBIENT_MIDDLE_COLOR vec3(0.75, 0.37941176, 0.16470588)
-  #define AMBIENT_DAY_COLOR vec3(0.75, 0.75, 0.478125)
+  #define AMBIENT_DAY_COLOR vec3(0.74, 0.74, 0.7)
   #define AMBIENT_NIGHT_COLOR vec3(0.02720588, 0.02941177, 0.03474265)
 
   #define HI_MIDDLE_COLOR vec3(0.17647059, 0.34901961, 0.82745098)
-  #define HI_DAY_COLOR vec3(0.3, 0.47, 0.97)
+  #define HI_DAY_COLOR vec3(0.14, 0.27, 0.58)
   #define HI_NIGHT_COLOR vec3(0.00647058, 0.01270587, 0.03)
 
   #define LOW_MIDDLE_COLOR vec3(1.0, 0.50588235, 0.21960784)
-  #define LOW_DAY_COLOR vec3(0.61176471, 0.87058824, 1.0)
+  #define LOW_DAY_COLOR vec3(0.44, 0.78, 0.96)
   #define LOW_NIGHT_COLOR vec3(0.01078431, 0.02117647, 0.05)
 #elif COLOR_SCHEME == 1  // Cocoa
   #define AMBIENT_MIDDLE_COLOR vec3(0.64, 0.46, 0.21)
