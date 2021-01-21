@@ -46,7 +46,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define SHADOW_BLUR 2.0 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0]  Shadow blur intensity
 #define OMNI_TINT 0.50 // [0.10 0.15 0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90] Tint of omnidirectional light. From sky color to direct light color.
 #define WATER_TINT 0.8 // [0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0]  Water tint percentage
-#define COLOR_SCHEME 1 // [0 1 2] Illumination color scheme
+#define COLOR_SCHEME 1 // [0 1 2] Legacy: Exotic colors at sunset. Cocoa: A warm preset of vivid colors in the day. Captain: A cold preset of stylish colors
 #define WATER_TEXTURE 1 // [0 1] Enable or disable resource pack water texture.
 #define AVOID_DARK 1 // [0 1] Avoid absolute darkness in caves at daytime
 

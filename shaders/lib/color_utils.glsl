@@ -6,7 +6,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 uniform float day_moment;
 
-#if COLOR_SCHEME == 0  // Fantasy
+#if COLOR_SCHEME == 0  // Legacy
   #define AMBIENT_MIDDLE_COLOR vec3(0.75, 0.37941176, 0.16470588)
   #define AMBIENT_DAY_COLOR vec3(0.74, 0.74, 0.7)
   #define AMBIENT_NIGHT_COLOR vec3(0.02720588, 0.02941177, 0.03474265)
