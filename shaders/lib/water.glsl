@@ -2,8 +2,6 @@
 Water reflection and refraction related functions.
 */
 
-
-
 vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
   vec3 hit_pos = camera_to_screen(hit_coord);
   float hit_depth = texture2D(depthtex0, hit_pos.xy).x;
@@ -71,10 +69,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
     #ifndef THE_END
 
       vec3 sun_reflection(vec3 fragpos) {
-        vec3 astro_pos = sunPosition;
-        if (worldTime > 12900) {
-          astro_pos = moonPosition;
-        }
+        vec3 astro_pos = worldTime > 12900 ? moonPosition : sunPosition;
         float astro_vector =
           max(dot(normalize(fragpos), normalize(astro_pos)), 0.0);
 
@@ -190,8 +185,6 @@ vec3 water_shader(vec3 fragpos, vec3 normal, vec3 color, vec3 sky_reflect) {
   #else
     return mix(color, reflection.rgb, fresnel);
   #endif
-
-  // return mix(color, mix(reflection.rgb, vec3(0.0), fresnel * .5), fresnel);
 }
 
 //  GLASS

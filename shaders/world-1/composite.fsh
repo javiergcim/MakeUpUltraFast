@@ -17,9 +17,10 @@ uniform vec3 skyColor;
 uniform sampler2D depthtex0;
 uniform float far;
 uniform float near;
-uniform sampler2D colortex5;
+uniform float blindness;
 
 #if AO == 1
+uniform sampler2D colortex5;
   uniform float inv_aspect_ratio;
   uniform mat4 gbufferProjection;
   uniform float frameTimeCounter;
@@ -39,10 +40,16 @@ varying vec2 texcoord;
 void main() {
   vec4 block_color = texture2D(colortex0, texcoord);
   float d = texture2D(depthtex0, texcoord).r;
+  float linear_d = ld(d);
+
+  if (blindness > .01) {
+    block_color.rgb =
+      mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
+  }
 
   #if AO == 1
     // AO distance attenuation
-    float ao_att = sqrt(ld(d));
+    float ao_att = sqrt(linear_d);
     float final_ao = mix(dbao(), 1.0, ao_att);
     block_color *= final_ao;
     // block_color = vec4(vec3(final_ao), 1.0);
@@ -53,20 +60,20 @@ void main() {
     block_color = mix(
       block_color,
       mix(gl_Fog.color * .1, vec4(1.0), .04),
-      sqrt(ld(d))
+      sqrt(linear_d)
     );
   }
   else if (isEyeInWater == 1) {
     block_color.rgb = mix(
       block_color.rgb,
       skyColor * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
-      sqrt(ld(d))
+      sqrt(linear_d)
       );
   } else if (isEyeInWater == 2) {
     block_color = mix(
       block_color,
       vec4(1.0, .1, 0.0, 1.0),
-      sqrt(ld(d))
+      sqrt(linear_d)
       );
   }
 

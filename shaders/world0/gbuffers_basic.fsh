@@ -20,7 +20,6 @@ varying vec3 current_fog_color;
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
-uniform sampler2D texture;
 uniform float rainStrength;
 uniform int isEyeInWater;
 

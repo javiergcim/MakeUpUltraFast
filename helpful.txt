@@ -9,3 +9,9 @@ Teleport to Overworld:
 
 Stop time:
 /gamerule doDaylightCycle false
+
+Blindness:
+/effect give @p blindness 99999
+
+Remove effects:
+/effect clear @p

@@ -2,14 +2,6 @@ Some of the code is inspired by the ideas presented below:
 
 ------
 
-- The FXAA antialiasing is based on the implementation created by
-Simon Rodriguez, modified to work on Intel chips.
-  http://blog.simonrodriguez.fr/articles/30-07-2016_implementing_fxaa.html
-
-  Original work:
-  Lottes, T. (2009). Fast approximate anti-aliasing (FXAA).
-  NVIDIA Corporation, Santa Clara, CA, USA, Feb.s
-
 - Enhanced ambient occlusion is based on Capt Tatsu's ambient occlusion used in
 BSL Shaders:
   https://bitslablab.com/bslshaders/

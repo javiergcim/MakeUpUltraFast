@@ -12,9 +12,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // Varyings (per thread shared variables)
 varying vec4 tint_color;
 
-// 'Global' constants from system
-uniform sampler2D texture;
-
 void main() {
   vec4 block_color = tint_color;
 
