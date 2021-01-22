@@ -42,5 +42,12 @@
       clamp(gl_FogFragCoord / far, 0.0, 1.0) * fog_intensity_coeff,
       mix(fog_density_coeff, .5, rainStrength)
     );
+  #else
+    float fog_mix_level;
+    float fog_intensity_coeff;  // Avoids fog in caves
+    fog_density_coeff = 0.1;
+    frog_adjust = 0.1;
+    current_fog_color = vec3(1.0);
+    vec3 low_sky_color = vec3(1.0);
   #endif
 #endif
