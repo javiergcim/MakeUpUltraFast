@@ -2,10 +2,11 @@
 Ultra fast Minecraft shader (Java). For a small graphic improvement. Intended
 for low-spec computers.
 
-**Version: 3.78a: Functional colors**
+**Version: 3.8alpha: Volumetric clouds**
 
 ## Main features
 * Optional shadows
+* Optional volumetric clouds
 * Antialiasing (TAA)
 * Depth of field
 * Enhanced ambient occlusion
