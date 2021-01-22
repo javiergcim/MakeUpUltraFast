@@ -48,6 +48,6 @@
     fog_density_coeff = 0.1;
     frog_adjust = 0.1;
     current_fog_color = vec3(1.0);
-    vec3 low_sky_color = vec3(1.0);
+    vec3 low_sky_color = gl_Fog.color.rgb;
   #endif
 #endif
