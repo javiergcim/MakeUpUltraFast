@@ -28,6 +28,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color) {
     float opacity_dist;
     float increment_dist;
     float increment_y_inv;
+    int real_steps;
   #endif
 
   if (cameraPosition.y < CLOUD_PLANE) {
@@ -56,6 +57,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color) {
         current_alpha = sqrt(density);
 
       #elif V_CLOUDS == 2
+        real_steps = int((timed_hash12(gl_FragCoord.xy) * .5 + .5) * CLOUD_STEPS);
         plane_distance = (CLOUD_PLANE - cameraPosition.y) / view_vector.y;
         intersection_pos = (view_vector * plane_distance) + cameraPosition;
 
@@ -67,13 +69,15 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color) {
 
         opacity_dist = (CLOUD_PLANE_SUP - CLOUD_PLANE) * .25 / view_vector.y;
 
-        increment = (intersection_pos_sup - intersection_pos) / CLOUD_STEPS;
+        // increment = (intersection_pos_sup - intersection_pos) / CLOUD_STEPS;
+        increment = (intersection_pos_sup - intersection_pos) / real_steps;
         increment_dist = length(increment);
         increment_y_inv = 1.0 / increment.y;
 
         cloud_value = 0.0;
 
-        for (int i = 0; i < CLOUD_STEPS; i++) {
+        // for (int i = 0; i < CLOUD_STEPS; i++) {
+        for (int i = 0; i < real_steps; i++) {
           current_value = texture2D(colortex3, intersection_pos.xz * .0001).r;
           // Ajuste por umbral
           current_value = clamp((current_value - umbral) / (1.0 - umbral), 0.0, 1.0);
