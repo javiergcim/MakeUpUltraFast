@@ -8,6 +8,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color) {
   float cloud_value;
   float umbral = 0.6;
   float density;
+  float current_alpha = 0.0;
 
   #if V_CLOUDS == 1
     vec2 intersection_pos;
@@ -21,13 +22,14 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color) {
     float plane_inf;
     float plane_sup;
     bool first_contact = true;
-    float current_alpha = 0.0;
+
     float opacity_dist;
     float increment_dist;
+    float increment_y_inv;
   #endif
 
   if (cameraPosition.y < CLOUD_PLANE) {
-    if (view_vector.y > .0001) {  // Vista sobre el horizonte
+    if (view_vector.y > .05) {  // Vista sobre el horizonte
       vec3 cloud_color = luma(
         day_color_mixer(
           AMBIENT_MIDDLE_COLOR,
@@ -49,6 +51,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color) {
         // Ajuste por umbral
         cloud_value = clamp((cloud_value - umbral) / (1.0 - umbral), 0.0, 1.0);
         density = cloud_value;
+        current_alpha = sqrt(density);
 
       #elif V_CLOUDS == 2
         plane_distance = (CLOUD_PLANE - cameraPosition.y) / view_vector.y;
@@ -61,10 +64,10 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color) {
         dif_inf = CLOUD_PLANE_CENTER - CLOUD_PLANE;
 
         opacity_dist = (CLOUD_PLANE_SUP - CLOUD_PLANE);
-        // current_alpha = 0.0;
 
         increment = (intersection_pos_sup - intersection_pos) / CLOUD_STEPS;
         increment_dist = length(increment);
+        increment_y_inv = 1.0 / increment.y;
 
         cloud_value = 0.0;
         for (int i = 0; i < CLOUD_STEPS; i++) {
@@ -78,8 +81,21 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color) {
 
           if (intersection_pos.y > plane_inf && intersection_pos.y < plane_sup) {
             cloud_value += 1.0;
-            // cloud_value += current_value;
             current_alpha += increment_dist;
+            if (first_contact) {
+              first_contact = false;
+              density = (plane_sup - intersection_pos.y) / (CLOUD_PLANE_SUP - CLOUD_PLANE);
+            }
+          } else if (current_value > 0.0) {
+            cloud_value += 1.0;
+            current_alpha += increment_dist * (1.0 - clamp(
+              min(
+                abs(intersection_pos.y - plane_inf),
+                abs(intersection_pos.y - plane_sup)
+              ) * increment_y_inv,
+              0.0,
+              1.0
+            ));
             if (first_contact) {
               first_contact = false;
               density = (plane_sup - intersection_pos.y) / (CLOUD_PLANE_SUP - CLOUD_PLANE);
@@ -94,8 +110,11 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color) {
         cloud_value /= CLOUD_STEPS;
       #endif
 
-      block_color = mix(block_color, vec3(1.0), current_alpha);
-      block_color = mix(block_color, dark_cloud_color, density);
+      // block_color = mix(block_color, vec3(1.0), current_alpha);
+      // block_color = mix(block_color, dark_cloud_color, density);
+
+      cloud_color = mix(vec3(1.0), dark_cloud_color, density);
+      block_color = mix(block_color, cloud_color, current_alpha);
     }
   }
 

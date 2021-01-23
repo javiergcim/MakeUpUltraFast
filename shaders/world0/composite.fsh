@@ -26,7 +26,6 @@ uniform float blindness;
 #if AO == 1
   uniform sampler2D colortex5;
   uniform float inv_aspect_ratio;
-  uniform float frameTimeCounter;
 #endif
 
 #if V_CLOUDS != 0
@@ -34,11 +33,11 @@ uniform float blindness;
   uniform vec3 cameraPosition;
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
-  uniform float frameTimeCounter;
 #endif
 
 #if AO == 1 || V_CLOUDS != 0
   uniform mat4 gbufferProjection;
+  uniform float frameTimeCounter;
 #endif
 
 // Varyings (per thread shared variables)
@@ -47,16 +46,19 @@ varying vec2 texcoord;
 #include "/lib/depth.glsl"
 #include "/lib/luma.glsl"
 
-#if AO == 1
+#if AO == 1 || V_CLOUDS != 0
   #include "/lib/dither.glsl"
+#endif
+
+#if AO == 1
   #include "/lib/ao.glsl"
 #endif
 
 #if V_CLOUDS != 0
   #include "/lib/projection_utils.glsl"
   #include "/lib/volumetric_clouds.glsl"
-  #include "/lib/dither.glsl"
 #endif
+
 
 void main() {
   vec4 block_color = texture2D(colortex0, texcoord);
