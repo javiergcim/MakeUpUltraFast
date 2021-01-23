@@ -101,9 +101,10 @@ option.AVOID_DARK=Avoid cave darkness
 value.AVOID_DARK.0=No
 value.AVOID_DARK.1=Yes
 
-option.V_CLOUDS=Volumetric clouds
-value.V_CLOUDS.0=No
-value.V_CLOUDS.1=Yes
+option.V_CLOUDS=Clouds type
+value.V_CLOUDS.0=Vanilla
+value.V_CLOUDS.1=Flat
+value.V_CLOUDS.2=Volumetric
 
 #Screens
 screen.SHADOWS_SCREEN=Shadows options

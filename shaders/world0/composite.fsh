@@ -26,8 +26,19 @@ uniform float blindness;
 #if AO == 1
   uniform sampler2D colortex5;
   uniform float inv_aspect_ratio;
-  uniform mat4 gbufferProjection;
   uniform float frameTimeCounter;
+#endif
+
+#if V_CLOUDS != 0
+  uniform sampler2D colortex3;
+  uniform vec3 cameraPosition;
+  uniform mat4 gbufferProjectionInverse;
+  uniform mat4 gbufferModelViewInverse;
+  uniform float frameTimeCounter;
+#endif
+
+#if AO == 1 || V_CLOUDS != 0
+  uniform mat4 gbufferProjection;
 #endif
 
 // Varyings (per thread shared variables)
@@ -41,6 +52,12 @@ varying vec2 texcoord;
   #include "/lib/ao.glsl"
 #endif
 
+#if V_CLOUDS != 0
+  #include "/lib/projection_utils.glsl"
+  #include "/lib/volumetric_clouds.glsl"
+  #include "/lib/dither.glsl"
+#endif
+
 void main() {
   vec4 block_color = texture2D(colortex0, texcoord);
   float d = texture2D(depthtex0, texcoord).r;
@@ -50,6 +67,16 @@ void main() {
     block_color.rgb =
       mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
   }
+
+  #if V_CLOUDS != 0
+    if (linear_d > 0.9999) {  // Only sky
+      vec3 fragposition = to_screen_space(vec3(texcoord, d));
+      vec4 world_pos = gbufferModelViewInverse * vec4(fragposition, 0.0);
+      vec3 view_vector = normalize(world_pos.xyz);
+
+      block_color.rgb = get_cloud(view_vector, block_color.rgb);
+    }
+  #endif
 
   #if AO == 1
     // AO distance attenuation

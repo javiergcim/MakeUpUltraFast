@@ -20,18 +20,12 @@ varying vec3 current_fog_color;
 uniform sampler2D texture;
 uniform float far;
 
-#if V_CLOUDS == 1
-  uniform sampler2D colortex3;
-  uniform vec3 cameraPosition;
-  #include "/lib/volumetric_clouds.glsl"
-#endif
-
 void main() {
   #if V_CLOUDS == 0
     vec4 block_color = texture2D(texture, texcoord) * tint_color;
     #include "/src/cloudfinalcolor.glsl"
   #else
-    vec4 block_color = vec4(0.0);
+    vec4 block_color = vec4(0.0, 0.0, 0.0, 0.0);
   #endif
   /* DRAWBUFFERS:01234 */
   #include "/src/writebuffers.glsl"

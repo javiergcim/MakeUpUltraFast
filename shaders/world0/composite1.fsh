@@ -25,11 +25,6 @@ uniform sampler2D colortex1;
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
-#if DOF == 1
-  #include "/lib/dither.glsl"
-  #include "/lib/blur.glsl"
-#endif
-
 void main() {
 
   #if DOF == 1
