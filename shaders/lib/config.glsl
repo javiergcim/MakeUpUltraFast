@@ -57,10 +57,10 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define RAYSEARCH_STEPS 4
 
 // Cloud parameters
+#define CLOUD_PLANE_SUP 650.0
+#define CLOUD_PLANE_CENTER 570.0
 #define CLOUD_PLANE 520.0
-#define CLOUD_PLANE_SUP 720.0
-#define CLOUD_PLANE_CENTER 600.0
-#define CLOUD_STEPS 8
+#define CLOUD_STEPS 9
 
 const bool colortex0Clear = false;
 const bool colortex1Clear = false;

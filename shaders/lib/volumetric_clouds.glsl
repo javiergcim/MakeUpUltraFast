@@ -3,26 +3,28 @@ Fast volumetric clouds - MakeUp implementation
 */
 
 vec3 get_cloud(vec3 view_vector, vec3 block_color) {
-  vec3 cloud_color;
-  float plane_distance;
-  float cloud_value;
-  float umbral = 0.6;
-  float density;
-  float current_alpha = 0.0;
-
   #if V_CLOUDS == 1
+    vec3 cloud_color;
+    float plane_distance;
+    float cloud_value;
+    float umbral = 0.6;
+    float density;
+    float current_alpha = 0.0;
     vec2 intersection_pos;
   #elif V_CLOUDS == 2
+    float plane_distance;
+    float cloud_value;
+    float umbral = 0.6;
+    float density;
     vec3 intersection_pos;
     vec3 intersection_pos_sup;
     vec3 increment;
     float dif_inf;
     float dif_sup;
     float current_value;
-    float plane_inf;
-    float plane_sup;
+    float surface_inf;
+    float surface_sup;
     bool first_contact = true;
-
     float opacity_dist;
     float increment_dist;
     float increment_y_inv;
@@ -63,55 +65,68 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color) {
         dif_sup = CLOUD_PLANE_SUP - CLOUD_PLANE_CENTER;
         dif_inf = CLOUD_PLANE_CENTER - CLOUD_PLANE;
 
-        opacity_dist = (CLOUD_PLANE_SUP - CLOUD_PLANE);
+        opacity_dist = (CLOUD_PLANE_SUP - CLOUD_PLANE) * .25 / view_vector.y;
 
         increment = (intersection_pos_sup - intersection_pos) / CLOUD_STEPS;
         increment_dist = length(increment);
         increment_y_inv = 1.0 / increment.y;
 
         cloud_value = 0.0;
+
         for (int i = 0; i < CLOUD_STEPS; i++) {
-          current_value = texture2D(colortex3, intersection_pos.xz * .0002).r;
+          current_value = texture2D(colortex3, intersection_pos.xz * .0001).r;
           // Ajuste por umbral
           current_value = clamp((current_value - umbral) / (1.0 - umbral), 0.0, 1.0);
 
-          // Planos inferior y superior de nube
-          plane_inf = CLOUD_PLANE_CENTER - (current_value * dif_inf);
-          plane_sup = CLOUD_PLANE_CENTER + (current_value * dif_sup);
+          // Superficies inferior y superior de nubes
+          surface_inf = CLOUD_PLANE_CENTER - (current_value * dif_inf);
+          surface_sup = CLOUD_PLANE_CENTER + (current_value * dif_sup);
 
-          if (intersection_pos.y > plane_inf && intersection_pos.y < plane_sup) {
-            cloud_value += 1.0;
-            current_alpha += increment_dist;
-            if (first_contact) {
-              first_contact = false;
-              density = (plane_sup - intersection_pos.y) / (CLOUD_PLANE_SUP - CLOUD_PLANE);
-            }
-          } else {
-            cloud_value += 1.0 - clamp(
+          if (  // Dentro de la nube
+            intersection_pos.y > surface_inf &&
+            intersection_pos.y < surface_sup
+            ) {
+              cloud_value += increment_dist;
+
+              if (first_contact) {
+                first_contact = false;
+                density =
+                  (surface_sup - intersection_pos.y) /
+                  (CLOUD_PLANE_SUP - CLOUD_PLANE);
+              }
+          } else {  // Fuera de la nube
+            cloud_value += (1.0 - clamp(
               min(
-                abs(intersection_pos.y - plane_inf),
-                abs(intersection_pos.y - plane_sup)
+                abs(intersection_pos.y - surface_inf),
+                abs(intersection_pos.y - surface_sup)
               ) * increment_y_inv,
               0.0,
               1.0
-            );
-            current_alpha += increment_dist;
+            )) * increment_dist;
+
             if (first_contact) {
               first_contact = false;
-              density = (plane_sup - intersection_pos.y) / (CLOUD_PLANE_SUP - CLOUD_PLANE);
+              density =
+                (surface_sup - intersection_pos.y) /
+                (CLOUD_PLANE_SUP - CLOUD_PLANE);
             }
           }
 
           intersection_pos += increment;
         }
 
-        current_alpha = clamp(current_alpha / opacity_dist, 0.0, 1.0);
+        cloud_value -= increment_dist;
+        // cloud_value = clamp((cloud_value - increment_dist) / (1.0 - increment_dist), 0.0, 1.0);
 
-        cloud_value /= CLOUD_STEPS;
+        cloud_value = clamp(cloud_value / opacity_dist, 0.0, 1.0);
+        // cloud_value = 0.0;
+
+        // cloud_value /= CLOUD_STEPS;
+        // cloud_value = clamp(cloud_value - .1, 0.0, 1.0);
       #endif
 
-      block_color = mix(block_color, vec3(1.0), cloud_value);
-      block_color = mix(block_color, dark_cloud_color, density);
+      cloud_color = mix(cloud_color, dark_cloud_color, density);
+      block_color = mix(block_color, cloud_color, cloud_value);
     }
   }
 
