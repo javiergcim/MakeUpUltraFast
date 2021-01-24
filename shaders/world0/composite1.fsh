@@ -31,7 +31,6 @@ varying vec2 texcoord;
 #endif
 
 void main() {
-
   #if DOF == 1
     vec4 color_depth = texture2D(colortex1, texcoord);
     vec3 block_color = noised_blur(

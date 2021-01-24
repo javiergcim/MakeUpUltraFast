@@ -49,11 +49,18 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define COLOR_SCHEME 1 // [0 1 2] Legacy: Exotic colors at sunset. Cocoa: A warm preset of vivid colors in the day. Captain: A cold preset of stylish colors
 #define WATER_TEXTURE 1 // [0 1] Enable or disable resource pack water texture.
 #define AVOID_DARK 1 // [0 1] Avoid absolute darkness in caves at daytime
+#define V_CLOUDS 0 // [0 1] Set clouds type
 
 // Reflection parameters
 #define RAY_STEP 0.25
 #define RAYMARCH_STEPS 11
 #define RAYSEARCH_STEPS 4
+
+// Cloud parameters
+#define CLOUD_PLANE_SUP 920.0
+#define CLOUD_PLANE_CENTER 620.0
+#define CLOUD_PLANE 520.0
+#define CLOUD_STEPS 16
 
 const bool colortex0Clear = false;
 const bool colortex1Clear = false;
