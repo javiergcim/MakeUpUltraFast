@@ -25,8 +25,12 @@ uniform sampler2D colortex1;
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
-void main() {
+#if DOF == 1
+  #include "/lib/dither.glsl"
+  #include "/lib/blur.glsl"
+#endif
 
+void main() {
   #if DOF == 1
     vec4 color_depth = texture2D(colortex1, texcoord);
     vec3 block_color = noised_blur(

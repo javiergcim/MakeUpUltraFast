@@ -4,14 +4,14 @@ Dither and hash functions
 */
 #define MAGIC vec3(443.8975, 397.2973, 491.1871)
 
-// float grid_noise(vec2 p) {
-//   return fract(
-//     dot(
-//       p - vec2(0.5, 0.5),
-//       vec2(0.0625, .277777777777777777778) + 0.25
-//       )
-//     );
-// }
+float grid_noise(vec2 p) {
+  return fract(
+    dot(
+      p - vec2(0.5, 0.5),
+      vec2(0.0625, .277777777777777777778) + 0.25
+      )
+    );
+}
 
 float dither_grad_noise(vec2 p) {
   return fract(52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y));
@@ -65,15 +65,15 @@ float timed_hash12(vec2 p) {
 //   return fract((p3.xx + p3.yz) * p3.zy);
 // }
 
-// float bayer2(vec2 a) {
-//   a = floor(a);
-//   return fract(dot(a, vec2(.5, a.y * .75)));
-// }
-//
-// #define bayer4(a)   (bayer2(.5 * (a)) * .25+ bayer2(a))
-// #define bayer8(a)   (bayer4(.5 * (a)) * .25+ bayer2(a))
-// #define bayer16(a)  (bayer8(.5 * (a)) * .25+ bayer2(a))
-// #define bayer32(a)  (bayer16(.5 * (a)) * .25+ bayer2(a))
+float bayer2(vec2 a) {
+  a = floor(a);
+  return fract(dot(a, vec2(.5, a.y * .75)));
+}
+
+#define bayer4(a)   (bayer2(.5 * (a)) * .25+ bayer2(a))
+#define bayer8(a)   (bayer4(.5 * (a)) * .25+ bayer2(a))
+#define bayer16(a)  (bayer8(.5 * (a)) * .25+ bayer2(a))
+// 
 // #define bayer64(a)  (bayer32(.5 * (a)) * .25+ bayer2(a))
 // #define bayer128(a) (bayer64(.5 * (a)) * 0.25 + bayer2(a))
 // #define bayer256(a) (bayer128(.5 * (a)) * 0.25 + bayer2(a))

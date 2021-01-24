@@ -2,7 +2,7 @@
 Ultra fast Minecraft shader (Java). For a small graphic improvement. Intended
 for low-spec computers.
 
-**Version: 3.8alpha: Volumetric clouds**
+**Version: 3.8: Cloudy update**
 
 ## Main features
 * Optional shadows
