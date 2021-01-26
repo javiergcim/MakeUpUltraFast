@@ -23,31 +23,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define LOW_SKY_RAIN_COLOR vec3(.7, .85, 1.0)
 
 // Options
-#define SHADOW_SLIDER 3 // [0 2 3 4 5 6] Shadow Quality
-
-#if SHADOW_SLIDER == 0
-  #define SHADOW_CASTING 0
-  #define SHADOW_RES 0
-#elif SHADOW_SLIDER == 1
-  #define SHADOW_CASTING 1
-  #define SHADOW_RES 0
-#elif SHADOW_SLIDER == 2
-  #define SHADOW_CASTING 1
-  #define SHADOW_RES 1
-#elif SHADOW_SLIDER == 3
-  #define SHADOW_CASTING 1
-  #define SHADOW_RES 2
-#elif SHADOW_SLIDER == 4
-  #define SHADOW_CASTING 1
-  #define SHADOW_RES 3
-#elif SHADOW_SLIDER == 5
-  #define SHADOW_CASTING 1
-  #define SHADOW_RES 4
-#elif SHADOW_SLIDER == 6
-  #define SHADOW_CASTING 1
-  #define SHADOW_RES 5
-#endif
-
 #define REFLECTION_SLIDER 2 // [0 1 2] Reflection quality
 
 #if REFLECTION_SLIDER == 0
@@ -70,11 +45,13 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define DOF_SAMPLES_FACTOR 1.4 // [1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.4 2.6 2.8 3.0]  DoF Quality. Lower values are suitable when TAA is active. High performance cost.
 #define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance impact).
 #define AOSTEPS 6 // [6 10 14 18 22] How many samples are taken. High performance cost.
-#define AO_STRENGHT 0.4 // [0.2 0.3 0.4 0.5 0.6] Ambient oclusion strenght
+#define AO_STRENGHT 0.5 // [0.2 0.3 0.4 0.5 0.6] Ambient oclusion strenght
 #define AA_TYPE 1 // [0 1] Fast TAA - Enable antialiasing (Recommended). No - Disable antialiasing. Some efects looks noisy.
 #define MOTION_BLUR 0 // [0 1] Turn on motion blur
 #define MOTION_BLUR_STRENGTH 0.06 // [0.02 0.04 0.06 0.08 0.10 0.12] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
 #define SUN_REFLECTION 1 // [0 1] Set sun (or moon) reflection on water and glass
+#define SHADOW_CASTING 1 // [0 1] Activate shadows
+#define SHADOW_RES 0 // [0 1 2 3 4 5] Set shadow quality
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
 #define SHADOW_STEPS 1 // [1 2] Set shadow blur quality. Reduces noise at the cost of performance.
 #define SHADOW_BLUR 2.0 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0]  Shadow blur intensity
