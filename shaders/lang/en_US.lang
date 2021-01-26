@@ -7,27 +7,29 @@ profile.High=High
 profile.VeryHigh=Very High
 profile.Ultra=Ultra
 
-profile.comment=Very Low - No optional effects. Low - Adds simple reflection. Medium - Adds TAA, AO, refraction. High - Adds shadows. Very High - Adds depth of field. Ultra - Adds motion blur and better quality settings.
+profile.comment=Very Low - No optional effects. Low - Adds simple reflection. Medium - Adds TAA, AO, refraction. High - Adds shadows. Very High - Adds volumetric clouds. Ultra - Adds better shadows and depth of field.
 
 #About
 #############################
-option.ACERCADE=MakeUp v3.8a
+option.ACERCADE=MakeUp v3.8b
 option.ACERCADE.comment=Thanks for using this shader! :). Set Optifine native quality controls on normal or default values for better quality.
 value.ACERCADE.0=by Javier
 
 #Options
 #############################
-option.SHADOW_CASTING=Shadows
-value.SHADOW_CASTING.0=Off
-value.SHADOW_CASTING.1=On
+option.SHADOW_SLIDER=Shadows
+value.SHADOW_SLIDER.0=Off
+value.SHADOW_SLIDER.1=Low
+value.SHADOW_SLIDER.2=Low (far)
+value.SHADOW_SLIDER.3=Medium
+value.SHADOW_SLIDER.4=Medium (far)
+value.SHADOW_SLIDER.5=High
+value.SHADOW_SLIDER.6=High (far)
 
-option.SHADOW_RES=Shadows quality
-value.SHADOW_RES.0=Very low
-value.SHADOW_RES.1=Very low (far)
-value.SHADOW_RES.2=Medium
-value.SHADOW_RES.3=Medium (far)
-value.SHADOW_RES.4=High
-value.SHADOW_RES.5=High (far)
+option.REFLECTION_SLIDER=Reflection
+value.REFLECTION_SLIDER.0=Off
+value.REFLECTION_SLIDER.1=Flipped image
+value.REFLECTION_SLIDER.2=Raymarching
 
 option.SHADOW_TYPE=Shadow type
 value.SHADOW_TYPE.0=Pixelated
@@ -47,7 +49,7 @@ option.DOF_STRENGTH=DoF strenght
 
 option.DOF_SAMPLES_FACTOR=DoF samples factor
 
-option.AO=Enhanced ambient occlusion
+option.AO=Ambient occlusion
 value.AO.0=Off
 value.AO.1=On
 
@@ -106,6 +108,9 @@ value.V_CLOUDS.0=Vanilla
 value.V_CLOUDS.1=Volumetric
 
 #Screens
+screen.ADVANCED_SCREEN=Advanced options
+screen.ADVANCED_SCREEN.comment=Set advanced options
+
 screen.SHADOWS_SCREEN=Shadows options
 screen.SHADOWS_SCREEN.comment=Set shadows options
 
@@ -117,9 +122,6 @@ screen.AO_SCREEN.comment=Set ambient occlusion options
 
 screen.WATER_SCREEN=Water options
 screen.WATER_SCREEN.comment=Set water options.
-
-screen.REFLECTION_SCREEN=Reflection and refraction options
-screen.REFLECTION_SCREEN.comment=Set reflection and refraction options
 
 screen.MISC_SCREEN=Miscellaneous options
 screen.MISC_SCREEN.comment=Non categorized options.
