@@ -43,6 +43,10 @@ uniform float blindness;
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
+#if AO == 1
+  varying float fov_y_inv;
+#endif
+
 #include "/lib/depth.glsl"
 #include "/lib/luma.glsl"
 

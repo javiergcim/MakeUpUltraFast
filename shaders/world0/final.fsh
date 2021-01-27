@@ -51,21 +51,21 @@ void main() {
 
   // Tonemaping ---
   // x: Block, y: Sky ---
-  // float candle_bright = (eyeBrightnessSmooth.x * 0.004166666666666667) * .1;
+  float candle_bright = (eyeBrightnessSmooth.x * 0.004166666666666667) * 0.5;
   float exposure_coef =
     mix(
       ambient_exposure[current_hour_floor],
       ambient_exposure[current_hour_ceil],
       current_hour_fract
     );
-  // float exposure =
-  //   ((eyeBrightnessSmooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
-
   float exposure =
-    ((eyeBrightnessSmooth.y * 0.00416666666666666) * exposure_coef);  // 1/240
+    ((eyeBrightnessSmooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
+
+  // float exposure =
+  //   ((eyeBrightnessSmooth.y * 0.00416666666666666) * exposure_coef);  // 1/240
 
   // Map from 1.0 - 0.0 to 1.3 - 4.8
-  exposure = (exposure * -3.5) + 4.8;
+  exposure = (exposure * -5.5) + 6.8;
 
   block_color *= exposure;
   block_color = lottes_tonemap(block_color, exposure);

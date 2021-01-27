@@ -26,6 +26,10 @@ uniform sampler2D colortex1;
 varying vec2 texcoord;
 
 #if DOF == 1
+  varying float fov_y_inv;
+#endif
+
+#if DOF == 1
   #include "/lib/dither.glsl"
   #include "/lib/blur.glsl"
 #endif

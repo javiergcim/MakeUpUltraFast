@@ -24,11 +24,14 @@ float dbao() {
   float hand = float(d < 0.7);
   d = ld(d);
 
+  // float fov_y_inv = 1.0 / atan(1.0 / gbufferProjection[1].y) * .5;
+
   float sd = 0.0;
   float angle = 0.0;
   float dist = 0.0;
   float far_double = 2.0 * far;
-  vec2 scale = vec2(inv_aspect_ratio, 1.0) * (0.7 / (d * far));
+  // vec2 scale = vec2(inv_aspect_ratio, 1.0) * (0.7 / (d * far));
+  vec2 scale = vec2(inv_aspect_ratio, 1.0) * (fov_y_inv / (d * far));
 
   for (int i = 1; i <= AOSTEPS; i++) {
     dither += sample_angle_increment;
