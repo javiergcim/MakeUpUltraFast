@@ -81,21 +81,24 @@ const bool gaux1Clear = false;
 const bool colortex5Clear = false;
 const bool gaux3Clear = false;
 
-const float sunPathRotation = -25.0f;
+const float sunPathRotation = -25.0;
 
+const float shadowIntervalSize = 4.0;
+const bool generateShadowMipmap = false;
+const bool generateShadowColorMipmap = false;
 #ifndef NO_SHADOWS
   #if SHADOW_RES == 0
     const int shadowMapResolution = 256;
-    const float shadowDistance = 64.0;
-    #define SHADOW_DIST 0.75
+    const float shadowDistance = 70.0;
+    #define SHADOW_DIST 0.77
   #elif SHADOW_RES == 1
   const int shadowMapResolution = 512;
   const float shadowDistance = 128.0;
   #define SHADOW_DIST 0.75
   #elif SHADOW_RES == 2
     const int shadowMapResolution = 512;
-    const float shadowDistance = 64.0;
-    #define SHADOW_DIST 0.75
+    const float shadowDistance = 70.0;
+    #define SHADOW_DIST 0.77
   #elif SHADOW_RES == 3
     const int shadowMapResolution = 1024;
     const float shadowDistance = 128.0;
@@ -121,10 +124,10 @@ const float sunPathRotation = -25.0f;
 
 // Redefined constants
 #if AO == 0
-  const float ambientOcclusionLevel = 1.0f;
+  const float ambientOcclusionLevel = 1.0;
 #else
-  const float ambientOcclusionLevel = 0.5f;
+  const float ambientOcclusionLevel = 0.5;
 #endif
 
-const float eyeBrightnessHalflife = 5.0f;
-const float centerDepthHalflife = 1.0f;
+const float eyeBrightnessHalflife = 6.0;
+const float centerDepthHalflife = 1.0;

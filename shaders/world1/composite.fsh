@@ -30,6 +30,10 @@ uniform float blindness;
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
+#if AO == 1
+  varying float fov_y_inv;
+#endif
+
 #include "/lib/color_utils_end.glsl"
 #include "/lib/depth.glsl"
 
@@ -57,26 +61,26 @@ void main() {
   #endif
 
   // Niebla
-  if (isEyeInWater == 0) {
-    block_color = mix(
-      block_color,
-      gl_Fog.color,
-      sqrt(linear_d)
-    );
-  }
-  else if (isEyeInWater == 1) {
-    block_color.rgb = mix(
-      block_color.rgb,
-      skyColor * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
-      sqrt(linear_d)
-      );
-  } else if (isEyeInWater == 2) {
-    block_color = mix(
-      block_color,
-      vec4(1.0, .1, 0.0, 1.0),
-      sqrt(linear_d)
-      );
-  }
+  // if (isEyeInWater == 0) {
+  //   block_color = mix(
+  //     block_color,
+  //     gl_Fog.color,
+  //     sqrt(linear_d)
+  //   );
+  // }
+  // else if (isEyeInWater == 1) {
+  //   block_color.rgb = mix(
+  //     block_color.rgb,
+  //     skyColor * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
+  //     sqrt(linear_d)
+  //     );
+  // } else if (isEyeInWater == 2) {
+  //   block_color = mix(
+  //     block_color,
+  //     vec4(1.0, .1, 0.0, 1.0),
+  //     sqrt(linear_d)
+  //     );
+  // }
 
   /* DRAWBUFFERS:012 */
   gl_FragData[1] = vec4(block_color.rgb, d);

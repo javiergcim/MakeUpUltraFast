@@ -51,7 +51,7 @@ void main() {
 
   // Tonemaping ---
   // x: Block, y: Sky ---
-  float candle_bright = (eyeBrightnessSmooth.x * 0.004166666666666667) * 0.5;
+  float candle_bright = (eyeBrightnessSmooth.x * 0.004166666666666667) * 0.075;
   float exposure_coef =
     mix(
       ambient_exposure[current_hour_floor],

@@ -23,7 +23,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color) {
 
   if (cameraPosition.y < CLOUD_PLANE) {
     if (view_vector.y > .055) {  // Vista sobre el horizonte
-      umbral = mix(0.6, 0.4, rainStrength);
+      umbral = mix(0.6, 0.3, rainStrength);
       vec3 cloud_color = mix(
         luma(
           day_color_mixer(
