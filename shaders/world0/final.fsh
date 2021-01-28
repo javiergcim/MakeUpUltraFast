@@ -18,7 +18,7 @@ colortex2 - TAA Averages history
 colortex3 - Perlin noise texture
 gaux1 - Reflection texture
 colortex5 - Blue noise texture
-gaux3 - Not used
+gaux3 - Perlin noise texture
 colortex7 - Not used
 
 const int colortex0Format = R11F_G11F_B10F;
@@ -60,9 +60,6 @@ void main() {
     );
   float exposure =
     ((eyeBrightnessSmooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
-
-  // float exposure =
-  //   ((eyeBrightnessSmooth.y * 0.00416666666666666) * exposure_coef);  // 1/240
 
   // Map from 1.0 - 0.0 to 1.3 - 4.8
   exposure = (exposure * -5.5) + 6.8;

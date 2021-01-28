@@ -29,7 +29,7 @@ uniform float blindness;
 #endif
 
 #if V_CLOUDS != 0
-  uniform sampler2D colortex3;
+  uniform sampler2D gaux3;
   uniform vec3 cameraPosition;
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
@@ -69,11 +69,6 @@ void main() {
   float d = texture2D(depthtex0, texcoord).r;
   float linear_d = ld(d);
 
-  if (blindness > .01) {
-    block_color.rgb =
-      mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
-  }
-
   #if V_CLOUDS != 0
     if (linear_d > 0.9999) {  // Only sky
       vec3 fragposition = to_screen_space(vec3(texcoord, d));
@@ -102,6 +97,11 @@ void main() {
     // block_color = vec4(vec3(final_ao), 1.0);
     // block_color = vec4(vec3(linear_d), 1.0);
   #endif
+
+  if (blindness > .01) {
+    block_color.rgb =
+      mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
+  }
 
   // Niebla
   if (isEyeInWater == 1) {

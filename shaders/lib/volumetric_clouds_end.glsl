@@ -1,11 +1,11 @@
-/* MakeUp Ultra Fast - volumetric_clouds.glsl
-Fast volumetric clouds - MakeUp implementation
+/* MakeUp Ultra Fast - volumetric_clouds_end.glsl
+Fast volumetric clouds (for The End) - MakeUp implementation
 */
 
-vec3 get_cloud(vec3 view_vector, vec3 block_color) {
+vec3 get_end_cloud(vec3 view_vector, vec3 block_color) {
   float plane_distance;
   float cloud_value;
-  float umbral;
+  float umbral = 0.4;
   float density;
   vec3 intersection_pos;
   vec3 intersection_pos_sup;
@@ -22,26 +22,9 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color) {
   float view_y_inv = 1.0 / view_vector.y;
 
   if (cameraPosition.y < CLOUD_PLANE) {
-    if (view_vector.y > .055) {  // Vista sobre el horizonte
-      umbral = mix(0.6, 0.3, rainStrength);
-      vec3 cloud_color = mix(
-        luma(
-          day_color_mixer(
-            AMBIENT_MIDDLE_COLOR,
-            AMBIENT_DAY_COLOR,
-            AMBIENT_NIGHT_COLOR,
-            day_moment
-          )
-        ) * vec3(2.0),
-          day_color_mixer(
-            LOW_MIDDLE_COLOR,
-            LOW_DAY_COLOR,
-            LOW_NIGHT_COLOR,
-            day_moment
-          ),
-        0.3
-      ) * mix(1.0, 0.6, rainStrength);
-
+    if (view_vector.y > 0.055) {  // Vista sobre el horizonte
+      // vec3 cloud_color = block_color * 2.0;
+      vec3 cloud_color = block_color * 2.5;
       vec3 dark_cloud_color = block_color;
 
       #if AA_TYPE == 0
@@ -70,7 +53,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color) {
         current_value =
           texture2D(
             gaux3,
-            (intersection_pos.xz * .0002) + (frameTimeCounter * 0.001388888888888889)
+            (intersection_pos.xz * .0002) + (frameTimeCounter * 0.002777777777777778)
           ).r;
         // Ajuste por umbral
         current_value = clamp((current_value - umbral) / (1.0 - umbral), 0.0, 1.0);

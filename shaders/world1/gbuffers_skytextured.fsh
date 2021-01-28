@@ -9,22 +9,58 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define NO_SHADOWS
 
 #include "/lib/config.glsl"
+#include "/lib/color_utils_end.glsl"
+
+// uniform sampler2D texture;
+
+#if V_CLOUDS != 0
+  uniform sampler2D depthtex0;
+  uniform sampler2D gaux3;
+  uniform vec3 cameraPosition;
+  uniform mat4 gbufferProjectionInverse;
+  uniform mat4 gbufferModelViewInverse;
+  uniform mat4 gbufferProjection;
+  uniform float frameTimeCounter;
+
+	uniform float viewWidth;
+	uniform float viewHeight;
+	uniform float rainStrength;
+#endif
 
 varying vec2 texcoord;
 varying vec4 tint_color;
 
-uniform sampler2D texture;
+#if V_CLOUDS != 0
+  #include "/lib/luma.glsl"
+  #include "/lib/dither.glsl"
+#endif
 
 #if V_CLOUDS != 0
   #include "/lib/projection_utils.glsl"
-  #include "/lib/volumetric_clouds.glsl"
-#endif  
+  #include "/lib/volumetric_clouds_end.glsl"
+#endif
 
 void main() {
   // Toma el color puro del bloque
-  // vec4 block_color = texture2D(texture, texcoord) * tint_color;
+  vec4 block_color = gl_Fog.color;
 
-  vec4 block_color = vec4(1.0, 0.0, 0.0, 1.0);
+  #if V_CLOUDS != 0
+    // float d = texture2D(depthtex0, texcoord).r;
+    // vec3 fragposition = to_screen_space(vec3(texcoord, d));
+    // vec4 world_pos = gbufferModelViewInverse * vec4(fragposition, 0.0);
+    // vec3 view_vector = normalize(world_pos.xyz);
+
+    vec4 screen_pos = vec4(gl_FragCoord.xy / vec2(viewWidth, viewHeight), gl_FragCoord.z, 1.0);
+		vec4 fragposition = gbufferProjectionInverse * (screen_pos * 2.0 - 1.0);
+
+		// view_vector /= view_vector.w;
+		// fragposition = normalize(fragposition);
+
+		vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
+		vec3 view_vector = normalize(world_pos.xyz);
+
+    block_color.rgb = get_end_cloud(view_vector, block_color.rgb);
+  #endif
 
   #include "/src/writebuffers.glsl"
 }

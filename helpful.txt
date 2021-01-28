@@ -15,3 +15,11 @@ Blindness:
 
 Remove effects:
 /effect clear @p
+
+Last changes:
+- Tweaked couds
+- Congruent radius for ambient occlusion for any camera FOV.
+- Congruent radius for depth of field for any camera FOV (under radius limits).
+- Tweaked exposure model.
+- Short distance shadows has less tendency to dissapear.
+- Revamped options screens.
