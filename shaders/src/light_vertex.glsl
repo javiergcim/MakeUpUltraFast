@@ -49,7 +49,7 @@
 
   // Atenuación por dirección de luz directa ===================================
   #ifdef THE_END
-    vec3 sun_vec = normalize(gbufferModelView * vec4(0.0, 1.0, 0.5, 1.0)).xyz;
+    vec3 sun_vec = normalize(gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz;
   #else
     vec3 sun_vec = normalize(sunPosition);
   #endif
