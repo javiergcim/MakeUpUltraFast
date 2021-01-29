@@ -49,7 +49,7 @@
 
   // Atenuación por dirección de luz directa ===================================
   #ifdef THE_END
-    vec3 sun_vec = normalize(gbufferModelView[1].xyz);
+    vec3 sun_vec = normalize(gbufferModelView * vec4(0.0, 1.0, 0.5, 1.0)).xyz;
   #else
     vec3 sun_vec = normalize(sunPosition);
   #endif
@@ -100,7 +100,7 @@
   #endif
 
   #ifdef THE_END
-    omni_light = vec3(0.14475, 0.1395, 0.1425);
+    omni_light = HI_DAY_COLOR;
   #else
     // Calculamos color de luz ambiental
 

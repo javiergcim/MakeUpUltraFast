@@ -43,11 +43,19 @@
       mix(fog_density_coeff, .5, rainStrength)
     );
   #else
-    float fog_mix_level;
-    float fog_intensity_coeff;  // Avoids fog in caves
-    fog_density_coeff = 0.0;
-    frog_adjust = 0.0;
-    current_fog_color = vec3(1.0);
-    vec3 low_sky_color = vec3(1.0);
+    // float fog_mix_level;
+    // float fog_intensity_coeff;  // Avoids fog in caves
+    // fog_density_coeff = 0.0;
+    // frog_adjust = 0.0;
+    // current_fog_color = vec3(1.0);
+    // vec3 low_sky_color = vec3(1.0);
+
+
+    current_fog_color = HI_DAY_COLOR;
+    fog_density_coeff = 1.0;
+    frog_adjust = pow(
+      clamp(gl_FogFragCoord / far, 0.0, 1.0),
+      .5
+    );
   #endif
 #endif

@@ -42,19 +42,11 @@ varying vec4 tint_color;
 
 void main() {
   // Toma el color puro del bloque
-  vec4 block_color = gl_Fog.color;
+  vec4 block_color = vec4(HI_DAY_COLOR, 1.0);
 
   #if V_CLOUDS != 0
-    // float d = texture2D(depthtex0, texcoord).r;
-    // vec3 fragposition = to_screen_space(vec3(texcoord, d));
-    // vec4 world_pos = gbufferModelViewInverse * vec4(fragposition, 0.0);
-    // vec3 view_vector = normalize(world_pos.xyz);
-
     vec4 screen_pos = vec4(gl_FragCoord.xy / vec2(viewWidth, viewHeight), gl_FragCoord.z, 1.0);
 		vec4 fragposition = gbufferProjectionInverse * (screen_pos * 2.0 - 1.0);
-
-		// view_vector /= view_vector.w;
-		// fragposition = normalize(fragposition);
 
 		vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
 		vec3 view_vector = normalize(world_pos.xyz);

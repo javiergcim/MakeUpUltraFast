@@ -24,7 +24,7 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color) {
   if (cameraPosition.y < CLOUD_PLANE) {
     if (view_vector.y > 0.055) {  // Vista sobre el horizonte
       // vec3 cloud_color = block_color * 2.0;
-      vec3 cloud_color = block_color * 2.5;
+      vec3 cloud_color = block_color * 2.0;
       vec3 dark_cloud_color = block_color;
 
       #if AA_TYPE == 0
