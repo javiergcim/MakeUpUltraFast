@@ -8,8 +8,9 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define NO_SHADOWS
 
 #include "/lib/config.glsl"
+#include "/lib/color_utils_nether.glsl"
 
-// 'Global' constants from system
+// // 'Global' constants from system
 uniform sampler2D colortex0;
 uniform ivec2 eyeBrightnessSmooth;
 uniform int isEyeInWater;
@@ -20,7 +21,7 @@ uniform float near;
 uniform float blindness;
 
 #if AO == 1
-uniform sampler2D colortex5;
+  uniform sampler2D colortex5;
   uniform float inv_aspect_ratio;
   uniform mat4 gbufferProjection;
   uniform float frameTimeCounter;
@@ -29,7 +30,10 @@ uniform sampler2D colortex5;
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
-#include "/lib/color_utils_nether.glsl"
+#if AO == 1
+  varying float fov_y_inv;
+#endif
+
 #include "/lib/depth.glsl"
 
 #if AO == 1

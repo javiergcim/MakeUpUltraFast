@@ -13,7 +13,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 // Varyings (per thread shared variables)
 varying vec4 tint_color;
-varying float fog_density_coeff;
 varying float frog_adjust;
 varying vec3 current_fog_color;
 

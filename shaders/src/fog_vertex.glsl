@@ -1,23 +1,23 @@
 #ifndef NETHER
   #ifndef THE_END
-    float fog_mix_level;
-    float fog_intensity_coeff;  // Avoids fog in caves
+    // float fog_mix_level;
+    // float fog_intensity_coeff;  // Avoids fog in caves
 
     // Fog color calculation
-    fog_mix_level = mix(
+    float fog_mix_level = mix(
       fog_color_mix[current_hour_floor],
       fog_color_mix[current_hour_ceil],
       current_hour_fract
       );
 
     // Fog intensity calculation
-    fog_density_coeff = mix(
+    float fog_density_coeff = mix(
       fog_density[current_hour_floor],
       fog_density[current_hour_ceil],
       current_hour_fract
       );
 
-    fog_intensity_coeff = max(
+    float fog_intensity_coeff = max(
       visible_sky,
       eyeBrightnessSmooth.y * 0.004166666666666667
     );
@@ -43,16 +43,8 @@
       mix(fog_density_coeff, .5, rainStrength)
     );
   #else
-    // float fog_mix_level;
-    // float fog_intensity_coeff;  // Avoids fog in caves
-    // fog_density_coeff = 0.0;
-    // frog_adjust = 0.0;
-    // current_fog_color = vec3(1.0);
-    // vec3 low_sky_color = vec3(1.0);
-
-
     current_fog_color = HI_DAY_COLOR;
-    fog_density_coeff = 1.0;
+    // fog_density_coeff = 1.0;
     frog_adjust = pow(
       clamp(gl_FogFragCoord / far, 0.0, 1.0),
       .5

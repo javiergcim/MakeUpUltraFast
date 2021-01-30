@@ -45,7 +45,6 @@ varying vec2 lmcoord;
 varying vec4 tint_color;
 varying vec3 current_fog_color;
 varying float frog_adjust;
-varying float fog_density_coeff;
 
 varying vec3 direct_light_color;
 varying vec3 candle_color;
