@@ -10,13 +10,13 @@ uniform float day_moment;
 #define AMBIENT_DAY_COLOR vec3(0.06205, 0.04998, 0.06205)
 #define AMBIENT_NIGHT_COLOR vec3(0.06205, 0.04998, 0.06205)
 
-#define HI_MIDDLE_COLOR vec3(0.06205, 0.04998, 0.06205)
-#define HI_DAY_COLOR vec3(0.06205, 0.04998, 0.06205)
-#define HI_NIGHT_COLOR vec3(0.06205, 0.04998, 0.06205)
+#define HI_MIDDLE_COLOR vec3(0.0465375, 0.037485, 0.0465375)
+#define HI_DAY_COLOR vec3(0.0465375, 0.037485, 0.0465375)
+#define HI_NIGHT_COLOR vec3(0.0465375, 0.037485, 0.0465375)
 
-#define LOW_MIDDLE_COLOR vec3(0.06205, 0.04998, 0.06205)
-#define LOW_DAY_COLOR vec3(0.06205, 0.04998, 0.06205)
-#define LOW_NIGHT_COLOR vec3(0.06205, 0.04998, 0.06205)
+#define LOW_MIDDLE_COLOR vec3(0.0465375, 0.037485, 0.0465375)
+#define LOW_DAY_COLOR vec3(0.0465375, 0.037485, 0.0465375)
+#define LOW_NIGHT_COLOR vec3(0.0465375, 0.037485, 0.0465375)
 
 vec3 day_color_mixer(vec3 middle, vec3 day, vec3 night, float moment) {
   // f(x) = min(−((x−.25)^2)∙20 + 1.25, 1)

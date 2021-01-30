@@ -100,7 +100,7 @@
   #endif
 
   #ifdef THE_END
-    omni_light = HI_DAY_COLOR;
+    omni_light = AMBIENT_DAY_COLOR;
   #else
     // Calculamos color de luz ambiental
 
