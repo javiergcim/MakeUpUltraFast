@@ -33,6 +33,8 @@ uniform float blindness;
   uniform vec3 cameraPosition;
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
+  uniform float pixel_size_x;
+	uniform float pixel_size_y;
 #endif
 
 #if AO == 1 || V_CLOUDS != 0
@@ -71,9 +73,16 @@ void main() {
 
   #if V_CLOUDS != 0
     if (linear_d > 0.9999) {  // Only sky
-      vec3 fragposition = to_screen_space(vec3(texcoord, d));
-      vec4 world_pos = gbufferModelViewInverse * vec4(fragposition, 0.0);
-      vec3 view_vector = normalize(world_pos.xyz);
+      vec4 screen_pos =
+				vec4(
+					gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
+					gl_FragCoord.z,
+					1.0
+				);
+  		vec4 fragposition = gbufferProjectionInverse * (screen_pos * 2.0 - 1.0);
+
+  		vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
+  		vec3 view_vector = normalize(world_pos.xyz);
 
       block_color.rgb = get_cloud(view_vector, block_color.rgb);
     }
