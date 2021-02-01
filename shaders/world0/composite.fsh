@@ -35,6 +35,7 @@ uniform float blindness;
   uniform mat4 gbufferModelViewInverse;
   uniform float pixel_size_x;
 	uniform float pixel_size_y;
+	uniform vec3 sunPosition;
 #endif
 
 #if AO == 1 || V_CLOUDS != 0
@@ -84,7 +85,11 @@ void main() {
   		vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
   		vec3 view_vector = normalize(world_pos.xyz);
 
-      block_color.rgb = get_cloud(view_vector, block_color.rgb);
+			float bright = dot(view_vector, normalize((gbufferModelViewInverse * vec4(sunPosition, 0.0)).xyz));
+			block_color.rgb *=
+				clamp(bright * bright * bright, 0.0, 1.0) + 1.0;
+
+      block_color.rgb = get_cloud(view_vector, block_color.rgb, clamp(bright, 0.0, 1.0));
     }
   #endif
 

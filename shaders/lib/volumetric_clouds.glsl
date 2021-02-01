@@ -2,7 +2,7 @@
 Fast volumetric clouds - MakeUp implementation
 */
 
-vec3 get_cloud(vec3 view_vector, vec3 block_color) {
+vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
   float plane_distance;
   float cloud_value;
   float umbral;
@@ -20,6 +20,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color) {
   float increment_dist;
   int real_steps;
   float view_y_inv = 1.0 / view_vector.y;
+  float distance_aux;
 
   if (cameraPosition.y < CLOUD_PLANE) {
     if (view_vector.y > .055) {  // Vista sobre el horizonte
@@ -70,7 +71,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color) {
         current_value =
           texture2D(
             gaux3,
-            (intersection_pos.xz * .0002) + (frameTimeCounter * 0.001388888888888889)
+            (intersection_pos.xz * .0002) + (frameTimeCounter * 0.01388888888888889)
           ).r;
         // Ajuste por umbral
         current_value = clamp((current_value - umbral) / (1.0 - umbral), 0.0, 1.0);
@@ -92,20 +93,24 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color) {
                 (CLOUD_PLANE_SUP - CLOUD_PLANE);
             }
         } else {  // Fuera de la nube
-          cloud_value += (1.0 - clamp(
-            min(
-              abs(intersection_pos.y - surface_inf),
-              abs(intersection_pos.y - surface_sup)
-            ) / increment.y,
-            0.0,
-            1.0
-          )) * increment_dist;
+          distance_aux = min(
+            abs(intersection_pos.y - surface_inf),
+            abs(intersection_pos.y - surface_sup)
+          );
 
-          if (first_contact) {
-            first_contact = false;
-            density =
+          if (distance_aux < (CLOUD_PLANE_SUP - CLOUD_PLANE) * 0.25) {
+            cloud_value += (1.0 - clamp(
+              distance_aux / increment.y,
+              0.0,
+              1.0
+              )) * increment_dist;
+
+            if (first_contact) {
+              first_contact = false;
+              density =
               (surface_sup - intersection_pos.y) /
               (CLOUD_PLANE_SUP - CLOUD_PLANE);
+            }
           }
         }
 

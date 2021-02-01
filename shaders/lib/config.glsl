@@ -69,9 +69,9 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 // Cloud parameters
 #define CLOUD_PLANE_SUP 920.0
-#define CLOUD_PLANE_CENTER 620.0
+#define CLOUD_PLANE_CENTER 720.0
 #define CLOUD_PLANE 520.0
-#define CLOUD_STEPS 16
+#define CLOUD_STEPS 17
 
 const bool colortex0Clear = false;
 const bool colortex1Clear = false;
