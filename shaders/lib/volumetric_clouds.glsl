@@ -71,7 +71,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
         current_value =
           texture2D(
             gaux3,
-            (intersection_pos.xz * .0002) + (frameTimeCounter * 0.01388888888888889)
+            (intersection_pos.xz * .0002) + (frameTimeCounter * 0.001388888888888889)
           ).r;
         // Ajuste por umbral
         current_value = clamp((current_value - umbral) / (1.0 - umbral), 0.0, 1.0);
@@ -98,7 +98,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
             abs(intersection_pos.y - surface_sup)
           );
 
-          if (distance_aux < (CLOUD_PLANE_SUP - CLOUD_PLANE) * 0.25) {
+          if (distance_aux < (CLOUD_PLANE_SUP - CLOUD_PLANE) * 0.25 && i > 0) {
             cloud_value += (1.0 - clamp(
               distance_aux / increment.y,
               0.0,
@@ -118,6 +118,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
       }
 
       cloud_value -= increment_dist;
+      density = clamp(density, .0001, 1.0);
 
       cloud_value = clamp(cloud_value / opacity_dist, 0.0, 1.0);
 
