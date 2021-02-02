@@ -48,7 +48,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define AO_STRENGHT 0.5 // [0.2 0.3 0.4 0.5 0.6] Ambient oclusion strenght
 #define AA_TYPE 1 // [0 1] Fast TAA - Enable antialiasing (Recommended). No - Disable antialiasing. Some efects looks noisy.
 #define MOTION_BLUR 0 // [0 1] Turn on motion blur
-#define MOTION_BLUR_STRENGTH 0.06 // [0.02 0.04 0.06 0.08 0.10 0.12] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
+#define MOTION_BLUR_STRENGTH 0.12 // [0.02 0.04 0.06 0.08 0.10 0.12 0.14 0.16 0.18 0.20] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
 #define SUN_REFLECTION 1 // [0 1] Set sun (or moon) reflection on water and glass
 #define SHADOW_CASTING 1 // [0 1] Activate shadows
 #define SHADOW_RES 2 // [0 1 2 3 4 5] Set shadow quality
@@ -73,6 +73,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define CLOUD_PLANE 520.0
 #define CLOUD_STEPS 18
 
+// Buffers clear
 const bool colortex0Clear = false;
 const bool colortex1Clear = false;
 const bool colortex2Clear = false;
@@ -81,8 +82,14 @@ const bool gaux1Clear = false;
 const bool colortex5Clear = false;
 const bool gaux3Clear = false;
 
+// Sun rotation angle
 const float sunPathRotation = -25.0;
 
+// Weather parameters
+const float wetnessHalfLife = 500.0;
+const float drynessHalfLife = 500.0;
+
+// Shadow parameters
 const float shadowIntervalSize = 4.0;
 const bool generateShadowMipmap = false;
 const bool generateShadowColorMipmap = false;

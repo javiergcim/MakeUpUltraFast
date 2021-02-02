@@ -17,7 +17,7 @@ uniform int isEyeInWater;
 uniform sampler2D depthtex0;
 uniform float far;
 uniform float near;
-uniform float rainStrength;
+uniform float wetness;
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
@@ -85,9 +85,14 @@ void main() {
   		vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
   		vec3 view_vector = normalize(world_pos.xyz);
 
-			float bright = dot(view_vector, normalize((gbufferModelViewInverse * vec4(sunPosition, 0.0)).xyz));
+			float bright =
+				dot(
+					view_vector,
+					normalize((gbufferModelViewInverse * vec4(sunPosition, 0.0)).xyz)
+				);
+			bright *= bright * bright;
 			block_color.rgb *=
-				clamp(bright * bright * bright * .25, 0.0, 1.0) + 1.0;
+				clamp(bright * .25, 0.0, 1.0) + 1.0;
 
       block_color.rgb = get_cloud(view_vector, block_color.rgb, clamp(bright, 0.0, 1.0));
     }
@@ -103,7 +108,7 @@ void main() {
 
     float ao_att = pow(
       linear_d,
-      mix(fog_density_coeff * .5, .25, rainStrength)
+      mix(fog_density_coeff * .5, .25, wetness)
     );
 
     float final_ao = mix(dbao(), 1.0, ao_att);
@@ -129,7 +134,7 @@ void main() {
     hi_sky_color = mix(
       hi_sky_color,
       HI_SKY_RAIN_COLOR * luma(hi_sky_color),
-      rainStrength
+      wetness
     );
 
     block_color.rgb = mix(
