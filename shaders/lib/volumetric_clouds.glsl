@@ -27,7 +27,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
     if (view_vector.y > .055) {  // Vista sobre el horizonte
       umbral = mix(0.6, 0.3, wetness);
 
-
       cloud_color_aux = day_color_mixer(
         AMBIENT_MIDDLE_COLOR,
         AMBIENT_DAY_COLOR,
@@ -35,16 +34,8 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
         day_moment
       );
 
-
       vec3 cloud_color = mix(
-        luma(
-          day_color_mixer(
-            AMBIENT_MIDDLE_COLOR,
-            AMBIENT_DAY_COLOR,
-            AMBIENT_NIGHT_COLOR,
-            day_moment
-          )
-        ) * vec3(2.0),
+        luma(cloud_color_aux) * vec3(2.0),
           day_color_mixer(
             LOW_MIDDLE_COLOR,
             LOW_DAY_COLOR,
@@ -53,15 +44,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
           ),
         0.3
       ) * mix(1.0, 0.6, wetness);
-
-
-
-
-
-
-
-
-
 
       vec3 dark_cloud_color = block_color;
 
@@ -139,13 +121,11 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
       // cloud_value -= increment_dist;
       cloud_value = (cloud_value - increment_dist) * (1.0 / (1.0 - (1.0 / real_steps)));
+      cloud_value = clamp(cloud_value / opacity_dist, 0.0, 1.0);
 
       density = clamp(density, .0001, 1.0);
 
-      cloud_value = clamp(cloud_value / opacity_dist, 0.0, 1.0);
-
       cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density));
-
       cloud_color = mix(cloud_color, cloud_color_aux, clamp(bright * .6, 0.0, 1.0));
 
       block_color =

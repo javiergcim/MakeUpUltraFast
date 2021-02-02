@@ -90,11 +90,12 @@ void main() {
 					view_vector,
 					normalize((gbufferModelViewInverse * vec4(sunPosition, 0.0)).xyz)
 				);
-			bright *= bright * bright;
-			block_color.rgb *=
-				clamp(bright * .25, 0.0, 1.0) + 1.0;
+			bright = clamp(bright * bright * bright, 0.0, 1.0);
 
-      block_color.rgb = get_cloud(view_vector, block_color.rgb, clamp(bright, 0.0, 1.0));
+			block_color.rgb *= (bright * .25 + 1.0);
+
+      block_color.rgb =
+				get_cloud(view_vector, block_color.rgb, bright);
     }
   #endif
 
