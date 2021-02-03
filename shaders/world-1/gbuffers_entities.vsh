@@ -25,6 +25,7 @@ uniform float nightVision;
 uniform float rainStrength;
 uniform vec3 skyColor;
 uniform ivec2 eyeBrightnessSmooth;
+uniform mat4 gbufferModelView;
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;

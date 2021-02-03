@@ -7,18 +7,19 @@
   #endif
 
   vec3 normal = normalize(gl_NormalMatrix * gl_Normal);
+  vec3 lava_vec = normalize(gbufferModelView * vec4(0.0, -1.0, 0.0, 0.0)).xyz;
+
+  float direct_light_strenght = dot(normal, lava_vec);
+  direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
 
   // Luz nativa (lmcoord.x: candela, lmcoord.y: cielo) ----
   vec2 illumination = lmcoord;
-  vec3 direct_light_color = day_color_mixer(
-    AMBIENT_MIDDLE_COLOR,
-    AMBIENT_DAY_COLOR,
-    AMBIENT_NIGHT_COLOR,
-    day_moment
-    );
+
+  vec3 omni_color = NETHER_OMNI;
+  vec3 direct_light_color = NETHER_DIRECT * direct_light_strenght;
   vec3 candle_color = CANDLE_BASELIGHT * cube_pow(illumination.x);
 
-  real_light = direct_light_color + candle_color;
+  real_light = omni_color + direct_light_color + candle_color;
 
 #else  // Overworld and The End ================================================
 
@@ -49,7 +50,8 @@
 
   // Atenuación por dirección de luz directa ===================================
   #ifdef THE_END
-    vec3 sun_vec = normalize(gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz;
+    vec3 sun_vec =
+      normalize(gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz;
   #else
     vec3 sun_vec = normalize(sunPosition);
   #endif
