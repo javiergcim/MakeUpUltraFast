@@ -30,7 +30,8 @@ vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force) {
     int sample_c = int(sample_c_f);
 
     #if AA_TYPE == 1
-      float dither = timed_hash12(gl_FragCoord.xy);
+      // float dither = timed_hash12(gl_FragCoord.xy);
+      float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex5);
     #else
       float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
     #endif

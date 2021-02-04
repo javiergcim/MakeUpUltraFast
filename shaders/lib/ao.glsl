@@ -7,9 +7,11 @@ float dbao() {
   float ao = 0.0;
 
   #if AA_TYPE == 1
-    float dither = timed_hash12(gl_FragCoord.xy);
+    // float dither = timed_hash12(gl_FragCoord.xy);
+    float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex5);
   #else
     float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
+    // float dither = hash12(gl_FragCoord.xy);
   #endif
 
   float dither_base = dither;
