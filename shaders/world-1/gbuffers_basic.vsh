@@ -1,4 +1,4 @@
-#version 140
+#version 130
 /* MakeUp Ultra Fast - gbuffers_clouds.vsh
 Render: sky, clouds
 

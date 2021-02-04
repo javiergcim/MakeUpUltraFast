@@ -1,4 +1,4 @@
-#version 140
+#version 130
 /* MakeUp Ultra Fast - composite.fsh
 Render: Ambient occlusion
 
@@ -113,8 +113,8 @@ void main() {
     );
 
     float final_ao = mix(dbao(), 1.0, ao_att);
-    block_color.rgb *= final_ao;
-    // block_color = vec4(vec3(final_ao), 1.0);
+    // block_color.rgb *= final_ao;
+    block_color = vec4(vec3(final_ao), 1.0);
     // block_color = vec4(vec3(linear_d), 1.0);
   #endif
 
