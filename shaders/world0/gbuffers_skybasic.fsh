@@ -37,9 +37,10 @@ void main() {
 
   if (star_data.a < .9) {
     #if AA_TYPE == 1
-      dither = timed_hash12(gl_FragCoord.xy);
+      // dither = timed_hash12(gl_FragCoord.xy);
+      dither = timed_int_hash12(uvec2(gl_FragCoord.xy));
     #else
-      dither = hash12(gl_FragCoord.xy);
+      dither = int_hash12(uvec2(gl_FragCoord.xy));
     #endif
     dither = (dither - .5) * 0.0625;
 

@@ -78,14 +78,22 @@ float int_hash12(uvec2 x)
   return float(n) * (1.0 / float(0xffffffffU));
 }
 
-// float bayer2(vec2 a) {
-//   a = floor(a);
-//   return fract(dot(a, vec2(.5, a.y * .75)));
-// }
-//
-// #define bayer4(a)   (bayer2(.5 * (a)) * .25+ bayer2(a))
-// #define bayer8(a)   (bayer4(.5 * (a)) * .25+ bayer2(a))
-// #define bayer16(a)  (bayer8(.5 * (a)) * .25+ bayer2(a))
+float timed_int_hash12(uvec2 x)
+{
+  x += uint(frameTimeCounter * 1920.0); 
+  uvec2 q = 1103515245U * ((x >> 1U) ^ (x.yx));
+  uint n = 1103515245U * ((q.x) ^ (q.y >> 3U));
+  return float(n) * (1.0 / float(0xffffffffU));
+}
+
+float bayer2(vec2 a) {
+  a = floor(a);
+  return fract(dot(a, vec2(.5, a.y * .75)));
+}
+
+#define bayer4(a)   (bayer2(.5 * (a)) * .25+ bayer2(a))
+#define bayer8(a)   (bayer4(.5 * (a)) * .25+ bayer2(a))
+#define bayer16(a)  (bayer8(.5 * (a)) * .25+ bayer2(a))
 //
 // #define bayer64(a)  (bayer32(.5 * (a)) * .25+ bayer2(a))
 // #define bayer128(a) (bayer64(.5 * (a)) * 0.25 + bayer2(a))
