@@ -1,4 +1,4 @@
-#version 130
+#version 140
 /* MakeUp Ultra Fast - gbuffers_entities.vsh
 Render: Droped objects, mobs and things like that
 

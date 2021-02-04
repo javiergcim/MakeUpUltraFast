@@ -1,4 +1,4 @@
-#version 130
+#version 140
 /* MakeUp Ultra Fast - gbuffers_textured.fsh
 Render: Particles
 

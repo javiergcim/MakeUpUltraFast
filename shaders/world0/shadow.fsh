@@ -1,4 +1,4 @@
-#version 130
+#version 140
 
 #include "/lib/config.glsl"
 
