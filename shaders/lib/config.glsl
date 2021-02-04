@@ -86,8 +86,8 @@ const bool gaux3Clear = false;
 const float sunPathRotation = -25.0;
 
 // Weather parameters
-const float wetnessHalfLife = 20.0;
-const float drynessHalfLife = 20.0;
+const float wetnessHalfLife = 10.0;
+const float drynessHalfLife = 10.0;
 
 // Shadow parameters
 const float shadowIntervalSize = 4.0;

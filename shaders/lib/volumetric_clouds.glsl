@@ -50,7 +50,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
       #if AA_TYPE == 0
         real_steps = int((dither_grad_noise(gl_FragCoord.xy) * .5 + .5) * CLOUD_STEPS);
       #else
-        // real_steps = int((timed_hash12(gl_FragCoord.xy) * .5 + .5) * CLOUD_STEPS);
         real_steps = int((timed_int_hash12(uvec2(gl_FragCoord.xy)) * .5 + .5) * CLOUD_STEPS);
       #endif
 

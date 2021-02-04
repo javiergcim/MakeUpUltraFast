@@ -68,7 +68,7 @@ float texture_noise_64(vec2 p, sampler2D noise) {
 
 float shifted_texture_noise_64(vec2 p, sampler2D noise) {
   float dither = texture(noise, p * 0.015625).r;
-  return fract(frameTimeCounter * 7 + dither);
+  return fract(frameTimeCounter * 7.0 + dither);
 }
 
 float int_hash12(uvec2 x)
@@ -80,20 +80,63 @@ float int_hash12(uvec2 x)
 
 float timed_int_hash12(uvec2 x)
 {
-  x += uint(frameTimeCounter * 1920.0); 
+  x += uint(frameTimeCounter * 2400.0);
   uvec2 q = 1103515245U * ((x >> 1U) ^ (x.yx));
   uint n = 1103515245U * ((q.x) ^ (q.y >> 3U));
   return float(n) * (1.0 / float(0xffffffffU));
 }
 
-float bayer2(vec2 a) {
-  a = floor(a);
-  return fract(dot(a, vec2(.5, a.y * .75)));
+float phi_noise(uvec2 uv)
+{
+    // flip every other tile to reduce anisotropy
+    if(((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;
+	//if(((uv.x       ) & 4u) == 0u) uv.x = -uv.x;// more iso but also more low-freq content
+
+    // constants of 2d Roberts sequence rounded to nearest primes
+    const uint r0 = 3242174893u;// prime[(2^32-1) / phi_2  ]
+    const uint r1 = 2447445397u;// prime[(2^32-1) / phi_2^2]
+
+    // h = high-freq dither noise
+    uint h = (uv.x * r0) + (uv.y * r1);
+
+    // l = low-freq white noise
+    uv = uv >> 2u;// 3u works equally well (I think)
+    uint l = ((uv.x * r0) ^ (uv.y * r1)) * r1;
+
+    // combine low and high
+    return float(l + h) * (1.0 / 4294967296.0);
 }
 
-#define bayer4(a)   (bayer2(.5 * (a)) * .25+ bayer2(a))
-#define bayer8(a)   (bayer4(.5 * (a)) * .25+ bayer2(a))
-#define bayer16(a)  (bayer8(.5 * (a)) * .25+ bayer2(a))
+float shifted_phi_noise(uvec2 uv)
+{
+    // flip every other tile to reduce anisotropy
+    if(((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;
+	//if(((uv.x       ) & 4u) == 0u) uv.x = -uv.x;// more iso but also more low-freq content
+
+    // constants of 2d Roberts sequence rounded to nearest primes
+    const uint r0 = 3242174893u;// prime[(2^32-1) / phi_2  ]
+    const uint r1 = 2447445397u;// prime[(2^32-1) / phi_2^2]
+
+    // h = high-freq dither noise
+    uint h = (uv.x * r0) + (uv.y * r1);
+
+    // l = low-freq white noise
+    uv = uv >> 2u;// 3u works equally well (I think)
+    uint l = ((uv.x * r0) ^ (uv.y * r1)) * r1;
+
+    // combine low and high
+    float dither = float(l + h) * (1.0 / 4294967296.0);
+    return fract(frameTimeCounter * 7.0 + dither);
+}
+
+// float bayer2(vec2 a) {
+//   a = floor(a);
+//   return fract(dot(a, vec2(.5, a.y * .75)));
+// }
+//
+// #define bayer4(a)   (bayer2(.5 * (a)) * .25+ bayer2(a))
+// #define bayer8(a)   (bayer4(.5 * (a)) * .25+ bayer2(a))
+// #define bayer16(a)  (bayer8(.5 * (a)) * .25+ bayer2(a))
 //
 // #define bayer64(a)  (bayer32(.5 * (a)) * .25+ bayer2(a))
 // #define bayer128(a) (bayer64(.5 * (a)) * 0.25 + bayer2(a))

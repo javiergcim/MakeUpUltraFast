@@ -18,12 +18,11 @@ float get_shadow(vec3 the_shadow_pos) {
     #elif SHADOW_TYPE == 1  // Soft
       #if AA_TYPE == 1
         // float dither = timed_hash12(gl_FragCoord.xy);
-        float dither = shifted_texture_noise_64(gl_FragCoord.xy, gaux2);
+        // float dither = shifted_texture_noise_64(gl_FragCoord.xy, gaux2);
+        float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
       #else
-        float dither = dither_grad_noise(gl_FragCoord.xy);
-        // float dither = grid_noise(gl_FragCoord.xy);
-        // float dither = texture_noise_64(gl_FragCoord.xy, gaux2);
-        // float dither = int_hash12(uvec2(gl_FragCoord.xy));
+        // float dither = dither_grad_noise(gl_FragCoord.xy);
+        float dither = phi_noise(uvec2(gl_FragCoord.xy));
       #endif
 
       #if SHADOW_RES == 0 || SHADOW_RES == 1
