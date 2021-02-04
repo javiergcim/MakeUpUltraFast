@@ -1,4 +1,4 @@
-#version 120
+#version 130
 /* MakeUp Ultra Fast - composite1.vsh
 Render: DoF
 

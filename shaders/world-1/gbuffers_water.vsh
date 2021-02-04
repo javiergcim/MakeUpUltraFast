@@ -1,4 +1,4 @@
-#version 120
+#version 130
 /* MakeUp Ultra Fast - gbuffers_water.vsh
 Render: Water and translucent blocks
 

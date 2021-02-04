@@ -1,4 +1,4 @@
-#version 120
+#version 130
 /* MakeUp Ultra Fast - gbuffers_terrain.fsh
 Render: Almost everything
 

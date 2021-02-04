@@ -1,4 +1,4 @@
-#version 120
+#version 130
 /* MakeUp Ultra Fast - composite.fsh
 Render: Ambient occlusion
 
