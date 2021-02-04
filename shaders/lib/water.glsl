@@ -4,7 +4,7 @@ Water reflection and refraction related functions.
 
 vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
   vec3 hit_pos = camera_to_screen(hit_coord);
-  float hit_depth = texture2D(depthtex0, hit_pos.xy).x;
+  float hit_depth = texture(depthtex0, hit_pos.xy).x;
 
   vec3 dir_increment = direction * RAY_STEP;
   vec3 current_march = hit_coord + dir_increment;
@@ -26,7 +26,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
         break;
       }
 
-    screen_depth = texture2D(depthtex1, march_pos.xy).x;
+    screen_depth = texture(depthtex1, march_pos.xy).x;
     depth_diff = screen_depth - march_pos.z;
 
     if (depth_diff < 0.0) {
@@ -38,7 +38,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
         current_march += (dir_increment * sign(depth_diff));
 
         march_pos = camera_to_screen(current_march);
-        screen_depth = texture2D(depthtex1, march_pos.xy).x;
+        screen_depth = texture(depthtex1, march_pos.xy).x;
         depth_diff = screen_depth - camera_to_screen(current_march).z;
 
         // Remove unnecesary iterations
@@ -92,10 +92,10 @@ vec3 normal_waves(vec3 pos) {
   float timer = frameTimeCounter;
 
   vec3 wave_1 =
-     texture2D(noisetex, (pos.xy * 0.0625) + (timer * .025)).rgb;
+     texture(noisetex, (pos.xy * 0.0625) + (timer * .025)).rgb;
   wave_1 = wave_1 * vec3(0.6, 0.6, 1.0) - vec3(0.3, 0.3, 0.5);
   vec3 wave_2 =
-     texture2D(noisetex, (pos.yx * 0.03125) - (timer * .025)).rgb;
+     texture(noisetex, (pos.yx * 0.03125) - (timer * .025)).rgb;
   wave_2 = wave_2 * vec3(0.6, 0.6, 1.0) - vec3(0.3, 0.3, 0.5);
 
   vec3 final_wave = wave_1 + wave_2;
@@ -112,11 +112,11 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
     refraction_strength /= 1.0 + length(fragpos) * 0.4;
     vec2 medium_texcoord = pos.xy + refraction.xy * refraction_strength;
 
-    return texture2D(gaux1, medium_texcoord.st).rgb * color;
+    return texture(gaux1, medium_texcoord.st).rgb * color;
 
   #else
 
-    return texture2D(gaux1, pos.xy).rgb * color;
+    return texture(gaux1, pos.xy).rgb * color;
 
   #endif
 }
@@ -152,7 +152,7 @@ vec4 reflection_calc(vec3 fragpos, vec3 normal) {
     pos.x = 1.0 - (pos.x - 1.0);
   }
 
-  return vec4(texture2D(gaux1, pos.xy).rgb, border);
+  return vec4(texture(gaux1, pos.xy).rgb, border);
 }
 
 vec3 water_shader(vec3 fragpos, vec3 normal, vec3 color, vec3 sky_reflect) {
@@ -206,7 +206,7 @@ vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal) {
   float border_y = max(-fourth_pow(abs(2 * pos.y - 1.0)) + 1.0, 0.0);
   float border = min(border_x, border_y);
 
-  return vec4(texture2D(gaux1, pos.xy, 0.0).rgb, border);
+  return vec4(texture(gaux1, pos.xy, 0.0).rgb, border);
 }
 
 vec4 cristal_shader(vec3 fragpos, vec3 normal, vec4 color, vec3 sky_reflection) {

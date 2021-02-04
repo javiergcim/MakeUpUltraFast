@@ -47,7 +47,7 @@ varying vec2 texcoord;
 #endif
 
 void main() {
-  vec4 block_color = texture2D(colortex1, texcoord);
+  vec4 block_color = texture(colortex1, texcoord);
 
   // Precalc past position and velocity
   #if AA_TYPE == 1 || MOTION_BLUR == 1

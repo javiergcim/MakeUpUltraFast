@@ -20,7 +20,7 @@ uniform int current_hour_ceil;
 uniform float current_hour_fract;
 uniform float light_mix;
 uniform float far;
-uniform sampler2D texture;
+uniform sampler2D gcolor;
 uniform float nightVision;
 uniform float rainStrength;
 uniform vec3 skyColor;

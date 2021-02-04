@@ -36,7 +36,7 @@ void main() {
   float visible_sky = illumination.y * 1.105 - .10495;
 
   // vec3 direct_light_color =
-  //   texture2D(gaux3, vec2(AMBIENT_X, current_hour)).rgb * (1.0 - rainStrength);
+  //   texture(gaux3, vec2(AMBIENT_X, current_hour)).rgb * (1.0 - rainStrength);
 
   vec3 direct_light_color = day_color_mixer(
     AMBIENT_MIDDLE_COLOR,

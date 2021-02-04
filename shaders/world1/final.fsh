@@ -48,7 +48,7 @@ varying vec2 texcoord;
 #include "/lib/tone_maps.glsl"
 
 void main() {
-  vec3 block_color = texture2D(colortex0, texcoord).rgb;
+  vec3 block_color = texture(colortex0, texcoord).rgb;
 
   // Tonemaping ---
   // x: Block, y: Sky ---

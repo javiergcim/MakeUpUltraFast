@@ -36,7 +36,7 @@ varying vec2 texcoord;
 
 void main() {
   #if DOF == 1
-    vec4 color_depth = texture2D(colortex1, texcoord);
+    vec4 color_depth = texture(colortex1, texcoord);
     vec3 block_color = noised_blur(
       color_depth,
       colortex1,
@@ -47,7 +47,7 @@ void main() {
     /* DRAWBUFFERS:01 */
     gl_FragData[1] = vec4(block_color, color_depth.a);
   #else
-    vec4 block_color = texture2D(colortex1, texcoord);
+    vec4 block_color = texture(colortex1, texcoord);
 
     /* DRAWBUFFERS:01 */
     gl_FragData[1] = block_color;

@@ -21,7 +21,7 @@ vec3 motion_blur(vec4 color, vec2 blur_velocity) {
     vec4 b_sample;
     for(int i = 0; i < 4; i++, coord += blur_velocity) {
       sample_coord = clamp(coord, double_pixels, 1.0 - double_pixels);
-      b_sample = texture2D(colortex1, sample_coord);
+      b_sample = texture(colortex1, sample_coord);
       mask = float(b_sample.a > 0.7);  // Mano
       m_blur += b_sample.rgb * mask;
       weight += mask;

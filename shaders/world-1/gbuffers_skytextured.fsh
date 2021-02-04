@@ -12,11 +12,11 @@ Javier Garduño - GNU Lesser General Public License v3.0
 varying vec2 texcoord;
 varying vec4 tint_color;
 
-uniform sampler2D texture;
+uniform sampler2D gcolor;
 
 void main() {
   // Toma el color puro del bloque
-  vec4 block_color = texture2D(texture, texcoord) * tint_color;
+  vec4 block_color = texture(gcolor, texcoord) * tint_color;
 
   #include "/src/writebuffers.glsl"
 }

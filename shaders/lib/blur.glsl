@@ -49,8 +49,8 @@ vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force) {
       current_radius = (i + dither_base) * inv_steps;
       offset = vec2(cos(dither), sin(dither)) * blur_radius_vec * current_radius;
 
-      blur_sample += texture2D(image, coords + offset).rgb;
-      blur_sample += texture2D(image, coords - offset).rgb;
+      blur_sample += texture(image, coords + offset).rgb;
+      blur_sample += texture(image, coords - offset).rgb;
     }
 
     blur_sample /= (float(sample_c) * 2.0);

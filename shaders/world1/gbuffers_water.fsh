@@ -35,7 +35,7 @@ varying vec3 omni_light;
 #endif
 
 // 'Global' constants from system
-uniform sampler2D texture;
+uniform sampler2D gcolor;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
 uniform float near;
@@ -104,7 +104,7 @@ void main() {
 
   } else if (block_type > 1.5) {  // Glass
     // Toma el color puro del bloque
-    block_color = texture2D(texture, texcoord) * tint_color;
+    block_color = texture(gcolor, texcoord) * tint_color;
     float shadow_c;
 
     #if SHADOW_CASTING == 1
@@ -136,7 +136,7 @@ void main() {
 
   } else if (block_type > .5){  // Portal
     // Toma el color puro del bloque
-    block_color = texture2D(texture, texcoord) * tint_color;
+    block_color = texture(gcolor, texcoord) * tint_color;
     float shadow_c;
 
     #if SHADOW_CASTING == 1
@@ -161,7 +161,7 @@ void main() {
     block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
   } else {  // ?
     // Toma el color puro del bloque
-    block_color = texture2D(texture, texcoord) * tint_color;
+    block_color = texture(gcolor, texcoord) * tint_color;
     float shadow_c;
 
     #if SHADOW_CASTING == 1

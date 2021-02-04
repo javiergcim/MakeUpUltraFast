@@ -17,7 +17,7 @@ uniform float current_hour_fract;
 uniform float light_mix;
 uniform float far;
 
-uniform sampler2D texture;
+uniform sampler2D gcolor;
 uniform float nightVision;
 uniform vec3 skyColor;
 uniform ivec2 eyeBrightnessSmooth;
