@@ -23,9 +23,9 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright) {
   float distance_aux;
 
   #if AA_TYPE == 0
-    float dither = dither_grad_noise(gl_FragCoord.xy);
+    float dither = phi_noise(uvec2(gl_FragCoord.xy));
   #else
-    float dither = timed_hash12(gl_FragCoord.xy);
+    float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
   #endif
 
   block_color.rgb *=

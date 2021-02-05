@@ -3,8 +3,6 @@ Dither and hash functions
 
 */
 
-#define hash(p)  fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453)
-
 float grid_noise(vec2 p) {
   return fract(
     dot(
@@ -88,45 +86,35 @@ float timed_int_hash12(uvec2 x)
 
 float phi_noise(uvec2 uv)
 {
-    // flip every other tile to reduce anisotropy
-    if(((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;
-	//if(((uv.x       ) & 4u) == 0u) uv.x = -uv.x;// more iso but also more low-freq content
+  if(((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;
 
-    // constants of 2d Roberts sequence rounded to nearest primes
-    const uint r0 = 3242174893u;// prime[(2^32-1) / phi_2  ]
-    const uint r1 = 2447445397u;// prime[(2^32-1) / phi_2^2]
+  const uint r0 = 3242174893u;
+  const uint r1 = 2447445397u;
 
-    // h = high-freq dither noise
-    uint h = (uv.x * r0) + (uv.y * r1);
+  uint h = (uv.x * r0) + (uv.y * r1);
 
-    // l = low-freq white noise
-    uv = uv >> 2u;// 3u works equally well (I think)
-    uint l = ((uv.x * r0) ^ (uv.y * r1)) * r1;
+  uv = uv >> 2u;
+  uint l = ((uv.x * r0) ^ (uv.y * r1)) * r1;
 
-    // combine low and high
-    return float(l + h) * (1.0 / 4294967296.0);
+  return float(l + h) * (1.0 / 4294967296.0);
 }
 
 float shifted_phi_noise(uvec2 uv)
 {
-    // flip every other tile to reduce anisotropy
-    if(((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;
-	//if(((uv.x       ) & 4u) == 0u) uv.x = -uv.x;// more iso but also more low-freq content
+  if(((uv.x ^ uv.y) & 4u) == 0u) {
+    uv = uv.yx;
+  }
 
-    // constants of 2d Roberts sequence rounded to nearest primes
-    const uint r0 = 3242174893u;// prime[(2^32-1) / phi_2  ]
-    const uint r1 = 2447445397u;// prime[(2^32-1) / phi_2^2]
+  const uint r0 = 3242174893u;
+  const uint r1 = 2447445397u;
 
-    // h = high-freq dither noise
-    uint h = (uv.x * r0) + (uv.y * r1);
+  uint h = (uv.x * r0) + (uv.y * r1);
 
-    // l = low-freq white noise
-    uv = uv >> 2u;// 3u works equally well (I think)
-    uint l = ((uv.x * r0) ^ (uv.y * r1)) * r1;
+  uv = uv >> 2u;
+  uint l = ((uv.x * r0) ^ (uv.y * r1)) * r1;
 
-    // combine low and high
-    float dither = float(l + h) * (1.0 / 4294967296.0);
-    return fract(frameTimeCounter * 7.0 + dither);
+  float dither = float(l + h) * (1.0 / 4294967296.0);
+  return fract(frameTimeCounter * 7.0 + dither);
 }
 
 // float bayer2(vec2 a) {

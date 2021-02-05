@@ -26,12 +26,15 @@ uniform sampler2D colortex1;
 varying vec2 texcoord;
 
 #if DOF == 1
+  varying float fov_y_inv;
+#endif
+
+#if DOF == 1
   #include "/lib/dither.glsl"
   #include "/lib/blur.glsl"
 #endif
 
 void main() {
-
   #if DOF == 1
     vec4 color_depth = texture(colortex1, texcoord);
     vec3 block_color = noised_blur(

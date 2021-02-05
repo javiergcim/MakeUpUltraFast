@@ -7,14 +7,9 @@ float dbao() {
   float ao = 0.0;
 
   #if AA_TYPE == 1
-    // float dither = timed_hash12(gl_FragCoord.xy);
-    // float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex5);
-    // float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
+    float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
   #else
-    // float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
-    // float dither = hash12(gl_FragCoord.xy);
-    // float dither = int_hash12(uvec2(gl_FragCoord.xy));
-    float dither = phi_noise(uvec2(gl_FragCoord.xy));
+    float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
   #endif
 
   float dither_base = dither;
@@ -35,7 +30,6 @@ float dbao() {
   float angle = 0.0;
   float dist = 0.0;
   float far_double = 2.0 * far;
-  // vec2 scale = vec2(inv_aspect_ratio, 1.0) * (0.7 / (d * far));
   vec2 scale = vec2(inv_aspect_ratio, 1.0) * (fov_y_inv / (d * far));
 
   for (int i = 1; i <= AOSTEPS; i++) {

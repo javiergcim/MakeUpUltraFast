@@ -48,9 +48,11 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
       vec3 dark_cloud_color = block_color;
 
       #if AA_TYPE == 0
-        real_steps = int((dither_grad_noise(gl_FragCoord.xy) * .5 + .5) * CLOUD_STEPS);
+        // real_steps = int((dither_grad_noise(gl_FragCoord.xy) * .5 + .5) * CLOUD_STEPS);
+        real_steps = int((phi_noise(uvec2(gl_FragCoord.xy)) * .5 + .5) * CLOUD_STEPS);
       #else
-        real_steps = int((timed_int_hash12(uvec2(gl_FragCoord.xy)) * .5 + .5) * CLOUD_STEPS);
+        // real_steps = int((timed_int_hash12(uvec2(gl_FragCoord.xy)) * .5 + .5) * CLOUD_STEPS);
+        real_steps = int((shifted_phi_noise(uvec2(gl_FragCoord.xy)) * .5 + .5) * CLOUD_STEPS);
       #endif
 
       plane_distance = (CLOUD_PLANE - cameraPosition.y) * view_y_inv;

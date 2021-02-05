@@ -9,7 +9,7 @@ vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force) {
   float the_depth = color_depth.a;
   float blur_radius = 0.0;
 
-  if (the_depth > 0.7) {  // Manos no
+  if (the_depth > 0.56) {  // Manos no
     blur_radius =
       max(abs(the_depth - centerDepthSmooth) - 0.0001, 0.0) * fov_y_inv;
     blur_radius = blur_radius / sqrt(0.1 + blur_radius * blur_radius) * force;
@@ -30,11 +30,9 @@ vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force) {
     int sample_c = int(sample_c_f);
 
     #if AA_TYPE == 1
-      // float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex5);
       float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
     #else
-      // float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
-      float dither = phi_noise(uvec2(gl_FragCoord.xy));
+      float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
     #endif
 
     float dither_base = dither;
