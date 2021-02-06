@@ -11,8 +11,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/config.glsl"
 #include "/lib/color_utils_end.glsl"
 
-// uniform sampler2D colortex0;
-
 #if V_CLOUDS != 0
   uniform sampler2D depthtex0;
   uniform sampler2D gaux3;

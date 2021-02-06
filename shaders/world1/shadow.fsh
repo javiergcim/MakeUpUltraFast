@@ -4,13 +4,13 @@
 
 #include "/lib/config.glsl"
 
-uniform sampler2D colortex0;
+uniform sampler2D tex;
 
 varying vec2 texcoord;
 
 void main() {
 
-  vec4 block_color = texture(colortex0, texcoord);
+  vec4 block_color = texture(tex, texcoord);
 
   gl_FragData[0] = block_color;
 }

@@ -16,12 +16,12 @@ varying vec4 tint_color;
 varying vec3 real_light;
 
 // 'Global' constants from system
-uniform sampler2D colortex0;
+uniform sampler2D tex;
 uniform int entityId;
 
 void main() {
   // Toma el color puro del bloque
-  vec4 block_color = texture(colortex0, texcoord);
+  vec4 block_color = texture(tex, texcoord);
 
   // Thunderbolt render
   if (entityId == 11000.0){

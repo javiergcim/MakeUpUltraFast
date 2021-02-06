@@ -13,11 +13,11 @@ varying vec2 texcoord;
 varying vec4 tint_color;
 varying float sky_luma_correction;
 
-uniform sampler2D colortex0;
+uniform sampler2D tex;
 
 void main() {
   // Toma el color puro del bloque
-  vec4 block_color = texture(colortex0, texcoord) * tint_color;
+  vec4 block_color = texture(tex, texcoord) * tint_color;
   block_color.rgb *= sky_luma_correction;
   // block_color.rgb = block_color.rgb * block_color.a;
 

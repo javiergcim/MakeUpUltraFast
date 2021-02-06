@@ -13,11 +13,11 @@ Javier Garduño - GNU Lesser General Public License v3.0
 varying vec2 texcoord;
 
 // 'Global' constants from system
-uniform sampler2D colortex0;
+uniform sampler2D tex;
 
 void main() {
   // Toma el color puro del bloque
-  vec4 block_color = texture(colortex0, texcoord);
+  vec4 block_color = texture(tex, texcoord);
 
   #include "/src/writebuffers.glsl"
 }
