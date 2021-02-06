@@ -9,15 +9,10 @@ BSL Shaders:
 - TAA is based on Erkaman's TAA simple implementation:
   https://gist.github.com/Erkaman
 
-- Hash noise functions by Dave Hoskins:
-  https://www.shadertoy.com/user/Dave_Hoskins
-
-- Grid noise by CeeJayDK
-  https://www.shadertoy.com/user/CeeJayDK (unavailable shader)
-
-- Interleaved noise from:
-  "NEXT GENERATION POST PROCESSING IN CALL OF DUTY: ADVANCED WARFARE"
-  http://advances.realtimerendering.com/s2014/index.html
+- Phi noise by TinyTexel
+ https://www.shadertoy.com/view/wltSDn
+ Based on:
+ http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/
 
 ------
 

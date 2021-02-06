@@ -24,8 +24,6 @@ float dbao() {
   float hand = float(d < 0.7);
   d = ld(d);
 
-  // float fov_y_inv = 1.0 / atan(1.0 / gbufferProjection[1].y) * .5;
-
   float sd = 0.0;
   float angle = 0.0;
   float dist = 0.0;

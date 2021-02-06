@@ -33,22 +33,19 @@ float get_shadow(vec3 the_shadow_pos) {
       float dither_base = dither;
       dither *= 6.283185307;
 
-      float inv_steps = 1.0 / SHADOW_STEPS;
-      float sample_angle_increment = 3.1415926535 * inv_steps;
+      float sample_angle_increment = 3.1415926535;
       float current_radius;
       vec2 offset;
       shadow_sample = 0.0;
 
-      for (int i = 0; i < SHADOW_STEPS; i++) {
-        dither += sample_angle_increment;
-        current_radius = dither_base * .8 + .2;
-        offset = (vec2(cos(dither), sin(dither)) * current_radius * SHADOW_BLUR) / shadowMapResolution;
+      dither += sample_angle_increment;
+      current_radius = dither_base * .8 + .2;
+      offset = (vec2(cos(dither), sin(dither)) * current_radius * SHADOW_BLUR) / shadowMapResolution;
 
-        shadow_sample += texture(shadowtex1, vec3(the_shadow_pos.st + offset, new_z));
-        shadow_sample += texture(shadowtex1, vec3(the_shadow_pos.st - offset, new_z));
-      }
+      shadow_sample += texture(shadowtex1, vec3(the_shadow_pos.st + offset, new_z));
+      shadow_sample += texture(shadowtex1, vec3(the_shadow_pos.st - offset, new_z));
 
-      shadow_sample *= (inv_steps * .5);
+      shadow_sample *= 0.5;
     #endif
   }
 

@@ -17,7 +17,7 @@ uniform int isEyeInWater;
 uniform sampler2D depthtex0;
 uniform float far;
 uniform float near;
-uniform float wetness;
+uniform float rainStrength;
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
@@ -109,7 +109,7 @@ void main() {
 
     float ao_att = pow(
       linear_d,
-      mix(fog_density_coeff * .5, .25, wetness)
+      mix(fog_density_coeff * .5, .25, rainStrength)
     );
 
     float final_ao = mix(dbao(), 1.0, ao_att);
@@ -135,7 +135,7 @@ void main() {
     hi_sky_color = mix(
       hi_sky_color,
       HI_SKY_RAIN_COLOR * luma(hi_sky_color),
-      wetness
+      rainStrength
     );
 
     block_color.rgb = mix(

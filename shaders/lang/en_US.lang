@@ -7,7 +7,7 @@ profile.High=High
 profile.VeryHigh=Very High
 profile.Ultra=Ultra
 
-profile.comment=Very Low - No optional effects. Low - Adds simple reflection. Medium - Adds TAA, AO, refraction. High - Adds shadows. Very High - Adds volumetric clouds. Ultra - Adds better shadows and depth of field.
+profile.comment=Very Low - No optional effects. Low - Adds simple reflection. Medium - Adds TAA, AO, refraction. High - Adds shadows. Very High - Adds volumetric clouds. Ultra - Adds depth of field.
 
 #About
 #############################
@@ -37,10 +37,6 @@ value.REFLECTION_SLIDER.2=Raymarching
 option.SHADOW_TYPE=Shadow type
 value.SHADOW_TYPE.0=Pixelated
 value.SHADOW_TYPE.1=Soft
-
-option.SHADOW_STEPS=Shadow blur quality
-value.SHADOW_STEPS.1=Normal
-value.SHADOW_STEPS.2=High
 
 option.SHADOW_BLUR=Shadow blur intensity
 

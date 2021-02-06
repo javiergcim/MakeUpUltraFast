@@ -3,63 +3,6 @@ Dither and hash functions
 
 */
 
-float grid_noise(vec2 p) {
-  return fract(
-    dot(
-      p - vec2(0.5, 0.5),
-      vec2(0.0625, .277777777777777777778) + 0.25
-      )
-    );
-}
-
-float dither_grad_noise(vec2 p) {
-  return fract(52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y));
-}
-
-// float hash11(float p) {
-//   p = fract(p * .1031);
-//   p *= p + 33.33;
-//   p *= p + p;
-//   return fract(p);
-// }
-
-// float timed_hash11(float p) {
-//   p = fract((p + frameTimeCounter) * .1031);
-//   p *= p + 33.33;
-//   p *= p + p;
-//   return fract(p);
-// }
-
-vec2 hash22(vec2 p) {
-  vec3 p3 = fract(vec3(p.xyx) * vec3(.1031, .1030, .0973));
-  p3 += dot(p3, p3.yzx+33.33);
-  return fract((p3.xx+p3.yz)*p3.zy);
-}
-//
-vec2 timed_hash22(vec2 p) {
-  vec3 p3 = fract(vec3(p.xyx + frameTimeCounter) * vec3(.1031, .1030, .0973));
-  p3 += dot(p3, p3.yzx + 33.33);
-  return fract((p3.xx + p3.yz) * p3.zy);
-}
-
-float hash12(vec2 p) {
-  vec3 p3 = fract(vec3(p.xyx) * .1031);
-  p3 += dot(p3, p3.yzx + 33.33);
-  return fract((p3.x + p3.y) * p3.z);
-}
-
-float timed_hash12(vec2 p) {
-  vec3 p3 = fract(vec3(p.xyx + frameTimeCounter) * .1031);
-  p3 += dot(p3, p3.yzx + 33.33);
-  return fract((p3.x + p3.y) * p3.z);
-}
-
-vec2 hash21(float p) {
-  vec3 p3 = fract(vec3(p) * vec3(.1031, .1030, .0973));
-  p3 += dot(p3, p3.yzx + 33.33);
-  return fract((p3.xx+p3.yz)*p3.zy);
-}
-
 float texture_noise_64(vec2 p, sampler2D noise) {
   return texture(noise, p * 0.015625).r;
 }
@@ -69,12 +12,12 @@ float shifted_texture_noise_64(vec2 p, sampler2D noise) {
   return fract(frameTimeCounter * 7.0 + dither);
 }
 
-float int_hash12(uvec2 x)
-{
-  uvec2 q = 1103515245U * ((x >> 1U) ^ (x.yx));
-  uint n = 1103515245U * ((q.x) ^ (q.y >> 3U));
-  return float(n) * (1.0 / float(0xffffffffU));
-}
+// float int_hash12(uvec2 x)
+// {
+//   uvec2 q = 1103515245U * ((x >> 1U) ^ (x.yx));
+//   uint n = 1103515245U * ((q.x) ^ (q.y >> 3U));
+//   return float(n) * (1.0 / float(0xffffffffU));
+// }
 
 float timed_int_hash12(uvec2 x)
 {

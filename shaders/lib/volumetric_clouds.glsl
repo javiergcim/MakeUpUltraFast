@@ -25,7 +25,8 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
   if (cameraPosition.y < CLOUD_PLANE) {
     if (view_vector.y > .055) {  // Vista sobre el horizonte
-      umbral = mix(0.6, 0.3, wetness);
+      // umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .3;
+      umbral = mix(0.6, 0.3, rainStrength);
 
       cloud_color_aux = day_color_mixer(
         AMBIENT_MIDDLE_COLOR,
@@ -43,7 +44,8 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
             day_moment
           ),
         0.3
-      ) * mix(1.0, 0.6, wetness);
+      // ) * mix(1.0, 0.6, wetness);
+      ) * mix(1.0, 0.6, rainStrength);
 
       vec3 dark_cloud_color = block_color;
 
