@@ -24,7 +24,7 @@ varying vec3 tangent;
 varying vec3 binormal;
 
 // 'Global' constants from system
-uniform sampler2D gcolor;
+uniform sampler2D colortex0;
 uniform float rainStrength;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
@@ -78,7 +78,7 @@ void main() {
   } else if (block_type > 1.5) {  // Glass
 
     // Toma el color puro del bloque
-    block_color = texture(gcolor, texcoord);
+    block_color = texture(colortex0, texcoord);
     block_color *= tint_color * vec4(real_light, 1.0);
 
     block_color = cristal_shader(
@@ -89,10 +89,10 @@ void main() {
     );
 
   } else if (block_type > .5){  // Portal
-    block_color = texture(gcolor, texcoord);
+    block_color = texture(colortex0, texcoord);
     block_color *= tint_color * mix(vec4(real_light, 1.0), vec4(1.0), .2);
   } else {  // ?
-    block_color = texture(gcolor, texcoord);
+    block_color = texture(colortex0, texcoord);
     block_color *= tint_color * vec4(real_light, 1.0);
   }
 

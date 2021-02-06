@@ -29,7 +29,7 @@ varying float is_foliage;
 #endif
 
 // 'Global' constants from system
-uniform sampler2D gcolor;
+uniform sampler2D colortex0;
 uniform int isEyeInWater;
 
 uniform float nightVision;
@@ -48,7 +48,7 @@ uniform float rainStrength;
 
 void main() {
   // Toma el color puro del bloque
-  vec4 block_color = texture(gcolor, texcoord) * tint_color;
+  vec4 block_color = texture(colortex0, texcoord) * tint_color;
   float shadow_c;
 
   #if SHADOW_CASTING == 1
