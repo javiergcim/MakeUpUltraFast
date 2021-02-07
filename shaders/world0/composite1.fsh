@@ -9,7 +9,11 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #include "/lib/config.glsl"
 
-uniform sampler2D colortex1;
+uniform sampler2D colortex0;
+uniform sampler2D depthtex0;
+uniform float far;
+uniform float near;
+uniform float blindness;
 
 #if DOF == 1
   uniform float centerDepthSmooth;
@@ -29,27 +33,39 @@ varying vec2 texcoord;
   varying float fov_y_inv;
 #endif
 
+#include "/lib/depth.glsl"
+
 #if DOF == 1
   #include "/lib/dither.glsl"
   #include "/lib/blur.glsl"
 #endif
 
 void main() {
+  vec3 block_color = texture(colortex0, texcoord).rgb;
+  float d = texture(depthtex0, texcoord).r;
+  float linear_d = ld(d);
+
+  if (blindness > .01) {
+    block_color.rgb =
+      mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
+  }
+
   #if DOF == 1
-    vec4 color_depth = texture(colortex1, texcoord);
-    vec3 block_color = noised_blur(
-      color_depth,
-      colortex1,
+    // vec4 color_depth = texture(colortex0, texcoord);
+    block_color = noised_blur(
+      vec4(block_color, d),
+      colortex0,
       texcoord,
       DOF_STRENGTH
       );
 
-    /* DRAWBUFFERS:01 */
-    gl_FragData[1] = vec4(block_color, color_depth.a);
+    /* DRAWBUFFERS:012 */
+    gl_FragData[1] = vec4(block_color, d);
   #else
-    vec4 block_color = texture(colortex1, texcoord);
+    // vec4 block_color = texture(colortex0, texcoord);
 
-    /* DRAWBUFFERS:01 */
-    gl_FragData[1] = block_color;
+    /* DRAWBUFFERS:012 */
+    // gl_FragData[1] = block_color;
+    gl_FragData[1] = vec4(block_color, d);
   #endif
 }

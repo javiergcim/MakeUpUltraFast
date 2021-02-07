@@ -118,10 +118,10 @@ void main() {
     // block_color = vec4(vec3(linear_d), 1.0);
   #endif
 
-  if (blindness > .01) {
-    block_color.rgb =
-      mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
-  }
+  // if (blindness > .01) {
+  //   block_color.rgb =
+  //     mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
+  // }
 
   // Niebla
   if (isEyeInWater == 1) {
@@ -150,6 +150,9 @@ void main() {
       sqrt(linear_d)
       );
   }
-  /* DRAWBUFFERS:012 */
-  gl_FragData[1] = vec4(block_color.rgb, d);
+
+	/* DRAWBUFFERS:04 */
+	gl_FragData[0] = vec4(block_color.rgb, d);
+	gl_FragData[1] = block_color;
+	gl_FragData[4] = block_color;
 }
