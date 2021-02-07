@@ -32,7 +32,7 @@ uniform float day_moment;
   #define LOW_NIGHT_COLOR vec3(0.022, 0.029, 0.049)
 #elif COLOR_SCHEME == 2  // Captain
   #define AMBIENT_MIDDLE_COLOR vec3(0.6, 0.37647059, 0.1882353)
-  #define AMBIENT_DAY_COLOR vec3(0.8282353, 0.9317647, 1.1)
+  #define AMBIENT_DAY_COLOR vec3(0.74541177, 0.83858823, 0.99)
   #define AMBIENT_NIGHT_COLOR vec3(0.01505882, 0.03011765, 0.04)
 
   #define HI_MIDDLE_COLOR vec3(0.2325 , 0.27675, 0.39975)

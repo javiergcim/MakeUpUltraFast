@@ -59,23 +59,13 @@ void main() {
       DOF_STRENGTH
       );
 
-    if (blindness > .01) {
-      block_color.rgb =
-        mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
-    }
-
-    /* DRAWBUFFERS:012 */
-    gl_FragData[1] = vec4(block_color, d);
-  #else
-    // vec4 block_color = texture(colortex0, texcoord);
-
-    if (blindness > .01) {
-      block_color.rgb =
-        mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
-    }
-
-    /* DRAWBUFFERS:012 */
-    // gl_FragData[1] = block_color;
-    gl_FragData[1] = vec4(block_color, d);
   #endif
+
+  if (blindness > .01) {
+    block_color =
+    mix(block_color, vec3(0.0), blindness * linear_d * far * .12);
+  }
+
+  /* DRAWBUFFERS:012 */
+  gl_FragData[1] = vec4(block_color, d);
 }

@@ -7,7 +7,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 uniform float day_moment;
 
 #define NETHER_OMNI vec3(0.0479638 , 0.04343892, 0.04253394)
-#define NETHER_DIRECT vec3(0.1059276 , 0.09687783, 0.07506787)
+#define NETHER_DIRECT vec3(0.0529638 , 0.04843891, 0.03753393)
 
 // Ambient color luma per hour in exposure calculation
 const float ambient_exposure[25] =

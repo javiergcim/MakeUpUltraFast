@@ -12,13 +12,6 @@ float shifted_texture_noise_64(vec2 p, sampler2D noise) {
   return fract(frameTimeCounter * 7.0 + dither);
 }
 
-// float int_hash12(uvec2 x)
-// {
-//   uvec2 q = 1103515245U * ((x >> 1U) ^ (x.yx));
-//   uint n = 1103515245U * ((q.x) ^ (q.y >> 3U));
-//   return float(n) * (1.0 / float(0xffffffffU));
-// }
-
 float timed_int_hash12(uvec2 x)
 {
   x += uint(frameTimeCounter * 2400.0);
