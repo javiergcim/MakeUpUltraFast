@@ -3,6 +3,10 @@ Dither and hash functions
 
 */
 
+float dither_grad_noise(vec2 p) {
+  return fract(52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y));
+}
+
 float texture_noise_64(vec2 p, sampler2D noise) {
   return texture(noise, p * 0.015625).r;
 }
