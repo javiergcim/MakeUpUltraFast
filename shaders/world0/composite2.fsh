@@ -50,11 +50,6 @@ void main() {
   float d = texture(depthtex0, texcoord).r;
   float linear_d = ld(d);
 
-  if (blindness > .01) {
-    block_color.rgb =
-      mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
-  }
-
   #if DOF == 1
     // vec4 color_depth = texture(colortex0, texcoord);
     block_color = noised_blur(
@@ -64,10 +59,20 @@ void main() {
       DOF_STRENGTH
       );
 
+    if (blindness > .01) {
+      block_color.rgb =
+        mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
+    }
+
     /* DRAWBUFFERS:012 */
     gl_FragData[1] = vec4(block_color, d);
   #else
     // vec4 block_color = texture(colortex0, texcoord);
+
+    if (blindness > .01) {
+      block_color.rgb =
+        mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
+    }
 
     /* DRAWBUFFERS:012 */
     // gl_FragData[1] = block_color;
