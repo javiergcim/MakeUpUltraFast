@@ -15,6 +15,7 @@ varying vec3 up_vec;
 varying vec4 star_data;
 
 // 'Global' constants from system
+uniform sampler2D gaux2;
 uniform int isEyeInWater;
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
@@ -37,9 +38,11 @@ void main() {
 
   if (star_data.a < .9) {
     #if AA_TYPE == 1
-      dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
+      // dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
+      dither = shifted_texture_noise_64(gl_FragCoord.xy, gaux2);
     #else
-      dither = phi_noise(uvec2(gl_FragCoord.xy));
+      // dither = phi_noise(uvec2(gl_FragCoord.xy));
+      dither = timed_int_hash12(uvec2(gl_FragCoord.xy));
     #endif
     dither = (dither - .5) * 0.0625;
 

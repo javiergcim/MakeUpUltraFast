@@ -15,14 +15,3 @@ Blindness:
 
 Remove effects:
 /effect clear @p
-
-To Do:
-- Taa offset in shaders.properties
-
-Last changes:
-- New shader for The End
-- Tweaked couds
-- Congruent radius for ambient occlusion and depth of field for any camera FOV (under radius limits).
-- Tweaked exposure model.
-- Short distance shadows has less tendency to dissapear.
-- Revamped options screens.

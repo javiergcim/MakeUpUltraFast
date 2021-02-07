@@ -20,6 +20,13 @@ float timed_int_hash12(uvec2 x)
   return float(n) * (1.0 / float(0xffffffffU));
 }
 
+float int_hash12(uvec2 x)
+{
+  uvec2 q = 1103515245U * ((x >> 1U) ^ (x.yx));
+  uint n = 1103515245U * ((q.x) ^ (q.y >> 3U));
+  return float(n) * (1.0 / float(0xffffffffU));
+}
+
 float phi_noise(uvec2 uv)
 {
   if(((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;

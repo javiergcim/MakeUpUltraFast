@@ -24,7 +24,7 @@ uniform float current_hour_fract;
 uniform float blindness;
 
 #if AO == 1
-  uniform sampler2D colortex5;
+  // uniform sampler2D colortex5;
   uniform float inv_aspect_ratio;
 #endif
 
@@ -41,6 +41,7 @@ uniform float blindness;
 #if AO == 1 || V_CLOUDS != 0
   uniform mat4 gbufferProjection;
   uniform float frameTimeCounter;
+	uniform sampler2D colortex5;
 #endif
 
 // Varyings (per thread shared variables)
