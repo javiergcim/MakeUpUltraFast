@@ -38,11 +38,9 @@ void main() {
 
   if (star_data.a < .9) {
     #if AA_TYPE == 1
-      // dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
-      dither = shifted_texture_noise_64(gl_FragCoord.xy, gaux2);
-    #else
-      // dither = phi_noise(uvec2(gl_FragCoord.xy));
       dither = timed_int_hash12(uvec2(gl_FragCoord.xy));
+    #else
+      dither = phi_noise(uvec2(gl_FragCoord.xy));
     #endif
     dither = (dither - .5) * 0.0625;
 

@@ -23,6 +23,17 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
   float distance_aux;
   vec3 cloud_color_aux;
 
+  #if AA_TYPE == 0
+    float dither = dither_grad_noise(gl_FragCoord.xy);
+  #else
+    float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
+  #endif
+
+  block_color.rgb *=
+    clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
+
+  // block_color.rgb *= (bright * .25 + 1.0);
+
   if (cameraPosition.y < CLOUD_PLANE) {
     if (view_vector.y > .055) {  // Vista sobre el horizonte
       // umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .3;
@@ -49,11 +60,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
       vec3 dark_cloud_color = block_color;
 
-      #if AA_TYPE == 0
-        real_steps = int((dither_grad_noise(gl_FragCoord.xy) * .5 + .5) * CLOUD_STEPS);
-      #else
-        real_steps = int((shifted_phi_noise(uvec2(gl_FragCoord.xy)) * .5 + .5) * CLOUD_STEPS);
-      #endif
+      real_steps = int((dither * .5 + .5) * CLOUD_STEPS);
 
       plane_distance = (CLOUD_PLANE - cameraPosition.y) * view_y_inv;
       intersection_pos = (view_vector * plane_distance) + cameraPosition;
@@ -121,7 +128,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
         intersection_pos += increment;
       }
 
-      // cloud_value -= increment_dist;
       cloud_value = (cloud_value - increment_dist) * (1.0 / (1.0 - (1.0 / real_steps)));
       cloud_value = clamp(cloud_value / opacity_dist, 0.0, 1.0);
 

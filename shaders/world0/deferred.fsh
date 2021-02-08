@@ -24,8 +24,8 @@ uniform float current_hour_fract;
 uniform float blindness;
 
 #if AO == 1
-  // uniform sampler2D colortex5;
   uniform float inv_aspect_ratio;
+	uniform float fov_y_inv;
 #endif
 
 #if V_CLOUDS != 0
@@ -47,10 +47,6 @@ uniform float blindness;
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
-#if AO == 1
-  varying float fov_y_inv;
-#endif
-
 #include "/lib/depth.glsl"
 #include "/lib/luma.glsl"
 
@@ -66,7 +62,6 @@ varying vec2 texcoord;
   #include "/lib/projection_utils.glsl"
   #include "/lib/volumetric_clouds.glsl"
 #endif
-
 
 void main() {
   vec4 block_color = texture(colortex0, texcoord);
@@ -93,7 +88,7 @@ void main() {
 				);
 			bright = clamp(bright * bright * bright, 0.0, 1.0);
 
-			block_color.rgb *= (bright * .25 + 1.0);
+			// block_color.rgb *= (bright * .25 + 1.0);
 
       block_color.rgb =
 				get_cloud(view_vector, block_color.rgb, bright);
@@ -118,11 +113,6 @@ void main() {
     // block_color = vec4(vec3(final_ao), 1.0);
     // block_color = vec4(vec3(linear_d), 1.0);
   #endif
-
-  // if (blindness > .01) {
-  //   block_color.rgb =
-  //     mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
-  // }
 
   // Niebla
   if (isEyeInWater == 1) {

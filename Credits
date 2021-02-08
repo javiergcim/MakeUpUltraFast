@@ -6,6 +6,13 @@ Some of the code is inspired by the ideas presented below:
 BSL Shaders:
   https://bitslablab.com/bslshaders/
 
+- Interleaved noise from:
+"NEXT GENERATION POST PROCESSING IN CALL OF DUTY: ADVANCED WARFARE"
+http://advances.realtimerendering.com/s2014/index.html
+
+- Integer Hash by iq from:
+https://www.shadertoy.com/view/4tXyWN
+
 - TAA is based on Erkaman's TAA simple implementation:
   https://gist.github.com/Erkaman
 

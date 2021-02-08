@@ -68,20 +68,19 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
   #ifndef NETHER
     #ifndef THE_END
 
-      vec3 sun_reflection(vec3 fragpos) {
+      float sun_reflection(vec3 fragpos) {
         vec3 astro_pos = worldTime > 12900 ? moonPosition : sunPosition;
         float astro_vector =
           max(dot(normalize(fragpos), normalize(astro_pos)), 0.0);
 
-        return vec3(
-          clamp(
+        return clamp(
             smoothstep(
               0.997, 1.0, astro_vector) *
               clamp(4.0 * lmcoord.y - 3.0, 0.0, 1.0) *
               (1.0 - rainStrength),
             0.0,
             1.0
-          ));
+          );
       }
 
     #endif
@@ -175,7 +174,7 @@ vec3 water_shader(vec3 fragpos, vec3 normal, vec3 color, vec3 sky_reflect) {
      #ifndef NETHER
       #ifndef THE_END
         return mix(color, reflection.rgb, fresnel) +
-          sun_reflection(reflect(normalize(fragpos), normal));
+          vec3(sun_reflection(reflect(normalize(fragpos), normal)) * 0.5);
       #else
         return mix(color, reflection.rgb, fresnel);
       #endif
@@ -234,7 +233,7 @@ color.a = mix(color.a, 1.0, fresnel * .9);
       return color +
         vec4(
           mix(
-            sun_reflection(reflect(normalize(fragpos), normal)),
+            vec3(sun_reflection(reflect(normalize(fragpos), normal)) * 0.75),
             vec3(0.0),
             reflection.a
           ),

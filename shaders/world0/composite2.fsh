@@ -28,14 +28,11 @@ uniform float rainStrength;
   uniform float viewHeight;
   uniform float frameTimeCounter;
   uniform sampler2D colortex5;
+  uniform float fov_y_inv;
 #endif
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
-
-#if DOF == 1
-  varying float fov_y_inv;
-#endif
 
 #include "/lib/depth.glsl"
 #include "/lib/luma.glsl"
@@ -51,7 +48,6 @@ void main() {
   float linear_d = ld(d);
 
   #if DOF == 1
-    // vec4 color_depth = texture(colortex0, texcoord);
     block_color = noised_blur(
       vec4(block_color, d),
       colortex0,
