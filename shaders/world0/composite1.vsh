@@ -1,11 +1,9 @@
 #version 130
-/* MakeUp Ultra Fast - composite1.fsh
-Render: DoF
+/* MakeUp Ultra Fast - composite2.fsh
+Render: Antialiasing and motion blur
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
-
-#include "/lib/config.glsl"
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;

@@ -8,7 +8,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define NO_SHADOWS
 
 #include "/lib/config.glsl"
-#include "/lib/color_utils_nether.glsl"
+#include "/lib/color_utils.glsl"
 
 uniform sampler2D colortex0;
 uniform sampler2D depthtex0;
