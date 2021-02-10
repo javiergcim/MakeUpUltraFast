@@ -9,15 +9,16 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #include "/lib/config.glsl"
 
+// 'Global' constants from system
+uniform sampler2D tex;
+uniform int entityId;
+uniform vec4 entityColor;
+
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
 varying vec3 real_light;
-
-// 'Global' constants from system
-uniform sampler2D tex;
-uniform int entityId;
 
 void main() {
   // Toma el color puro del bloque
@@ -29,6 +30,7 @@ void main() {
   }
 
   block_color *= tint_color * vec4(real_light, 1.0);
+  block_color.rgb = mix(block_color.rgb, entityColor.rgb, entityColor.a * .75);
 
   #include "/src/writebuffers.glsl"
 }
