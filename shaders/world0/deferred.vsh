@@ -1,6 +1,6 @@
 #version 130
-/* MakeUp Ultra Fast - composite.vsh
-Render: Tonemap
+/* MakeUp Ultra Fast - deferred.vsh
+Render: Ambient occlusion, volumetric clouds
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */

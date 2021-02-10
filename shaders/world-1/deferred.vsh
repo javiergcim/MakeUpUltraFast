@@ -1,5 +1,5 @@
 #version 130
-/* MakeUp Ultra Fast - composite.vsh
+/* MakeUp Ultra Fast - deferred.vsh
 Render: Ambient occlusion
 
 Javier Garduño - GNU Lesser General Public License v3.0

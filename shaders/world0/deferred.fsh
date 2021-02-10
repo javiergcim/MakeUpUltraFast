@@ -1,6 +1,6 @@
 #version 130
-/* MakeUp Ultra Fast - composite.fsh
-Render: Ambient occlusion
+/* MakeUp Ultra Fast - deferred.fsh
+Render: Ambient occlusion, volumetric clouds
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */

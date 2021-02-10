@@ -1,5 +1,5 @@
 #version 130
-/* MakeUp Ultra Fast - composite1.fsh
+/* MakeUp Ultra Fast - composite.fsh
 Render: DoF
 
 Javier Garduño - GNU Lesser General Public License v3.0
