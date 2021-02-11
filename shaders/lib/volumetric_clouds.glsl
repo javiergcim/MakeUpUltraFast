@@ -128,7 +128,9 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
         intersection_pos += increment;
       }
 
-      cloud_value = (cloud_value - increment_dist) * (1.0 / (1.0 - (1.0 / real_steps)));
+      // cloud_value = (cloud_value - increment_dist) * (1.0 / (1.0 - (1.0 / real_steps)));
+      // cloud_value = (cloud_value - increment_dist);
+      cloud_value -= increment_dist;
       cloud_value = clamp(cloud_value / opacity_dist, 0.0, 1.0);
 
       density = clamp(density, .0001, 1.0);
