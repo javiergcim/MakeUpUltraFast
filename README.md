@@ -2,7 +2,7 @@
 Ultra fast Minecraft shader (Java). For a small graphic improvement. Intended
 for low-spec computers.
 
-**Version: 4.02: Denoise update**
+**Version: 4.03: Denoise update**
 
 ## Main features
 * Optional shadows
