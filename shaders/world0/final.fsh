@@ -15,7 +15,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 colortex0 - Main color canvas
 colortex1 - Antialiasing auxiliar
 colortex2 - TAA Averages history
-colortex3 - Perlin noise texture
+colortex3 - Not used
 gaux1 - Reflection texture
 colortex5 - Blue noise texture
 gaux3 - Perlin noise texture
@@ -61,7 +61,7 @@ void main() {
   float exposure =
     ((eyeBrightnessSmooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
 
-  // Map from 1.0 - 0.0 to 1.3 - 4.8
+  // Map from 1.0 - 0.0 to 1.3 - 6.8
   exposure = (exposure * -5.5) + 6.8;
 
   block_color *= exposure;
