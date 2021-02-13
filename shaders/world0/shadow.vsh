@@ -1,4 +1,4 @@
-#version 130
+#version 400 compatibility
 
 #include "/lib/config.glsl"
 

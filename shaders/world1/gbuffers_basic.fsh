@@ -1,4 +1,4 @@
-#version 130
+#version 400 compatibility
 /* MakeUp Ultra Fast - gbuffers_clouds.fsh
 Render: sky, clouds
 

@@ -36,16 +36,16 @@ float dbao() {
     offset = vec2(cos(dither), sin(dither)) * scale * current_radius;
 
     sd = ld(texture(depthtex0, texcoord.xy + offset).r);
-    float sample = (d - sd) * far_double;
-    if (hand > 0.7) sample *= 1024.0;
-    angle = clamp(0.5 - sample, 0.0, 1.0);
-    dist = clamp(0.25 * sample - 1.0, 0.0, 1.0);
+    float sample_d = (d - sd) * far_double;
+    if (hand > 0.7) sample_d *= 1024.0;
+    angle = clamp(0.5 - sample_d, 0.0, 1.0);
+    dist = clamp(0.25 * sample_d - 1.0, 0.0, 1.0);
 
     sd = ld(texture(depthtex0, texcoord.xy - offset).r);
-    sample = (d - sd) * far_double;
-    if (hand > 0.7) sample *= 1024.0;
-    angle += clamp(0.5 - sample, 0.0, 1.0);
-    dist += clamp(0.25 * sample - 1.0, 0.0, 1.0);
+    sample_d = (d - sd) * far_double;
+    if (hand > 0.7) sample_d *= 1024.0;
+    angle += clamp(0.5 - sample_d, 0.0, 1.0);
+    dist += clamp(0.25 * sample_d - 1.0, 0.0, 1.0);
 
     ao += clamp(angle + dist, 0.0, 1.0);
   }

@@ -1,4 +1,4 @@
-#version 130
+#version 400 compatibility
 /* MakeUp Ultra Fast - composite1.fsh
 Render: Antialiasing and motion blur
 

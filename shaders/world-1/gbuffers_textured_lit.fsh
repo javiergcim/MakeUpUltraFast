@@ -1,4 +1,4 @@
-#version 130
+#version 400 compatibility
 /* MakeUp Ultra Fast - gbuffers_textured_lit.fsh
 Render: Small entities, hand objects
 
