@@ -32,8 +32,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
   block_color.rgb *=
     clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
 
-  // block_color.rgb *= (bright * .25 + 1.0);
-
   if (cameraPosition.y < CLOUD_PLANE) {
     if (view_vector.y > .055) {  // Vista sobre el horizonte
       // umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .3;
@@ -55,7 +53,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
             day_moment
           ),
         0.3
-      // ) * mix(1.0, 0.6, wetness);
       ) * mix(1.0, 0.6, rainStrength);
 
       vec3 dark_cloud_color = block_color;
@@ -128,8 +125,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
         intersection_pos += increment;
       }
 
-      // cloud_value = (cloud_value - increment_dist) * (1.0 / (1.0 - (1.0 / real_steps)));
-      // cloud_value = (cloud_value - increment_dist);
       cloud_value -= increment_dist;
       cloud_value = clamp(cloud_value / opacity_dist, 0.0, 1.0);
 
