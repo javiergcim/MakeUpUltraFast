@@ -33,7 +33,7 @@ void main() {
 
   sky_luma_correction = 1.0 / ((sky_luma_correction * -3.5) + 4.5);
 
-  gl_Position = ftransform();
+  gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
   #if AA_TYPE == 1
     gl_Position.xy += offsets[frame_mod] * gl_Position.w * pixel_size;
   #endif

@@ -12,7 +12,7 @@ vec2 calc_shadow_dist(in vec2 shadow_pos) {
 }
 
 void main() {
-  gl_Position = ftransform();
+  gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 
 
   if (mc_Entity.x == ENTITY_LOWERGRASS ||
