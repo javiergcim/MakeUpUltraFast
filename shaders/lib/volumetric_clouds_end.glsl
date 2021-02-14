@@ -11,6 +11,7 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright) {
   vec3 intersection_pos_sup;
   float dif_inf;
   float dif_sup;
+  float dist_aux_coeff;
   float current_value;
   float surface_inf;
   float surface_sup;
@@ -46,8 +47,9 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
       dif_sup = CLOUD_PLANE_SUP - CLOUD_PLANE_CENTER;
       dif_inf = CLOUD_PLANE_CENTER - CLOUD_PLANE;
+      dist_aux_coeff = (CLOUD_PLANE_SUP - CLOUD_PLANE) * 0.1;
 
-      opacity_dist = (CLOUD_PLANE_SUP - CLOUD_PLANE) * .25 * view_y_inv;
+      opacity_dist = dist_aux_coeff * 2.5 * view_y_inv;
 
       increment = (intersection_pos_sup - intersection_pos) / real_steps;
       increment_dist = length(increment);
@@ -85,7 +87,7 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright) {
             abs(intersection_pos.y - surface_sup)
           );
 
-          if (distance_aux < (CLOUD_PLANE_SUP - CLOUD_PLANE) * 0.25 && i > 0) {
+          if (distance_aux < dist_aux_coeff * 2.5 && i > 0) {
             cloud_value += (1.0 - clamp(
               distance_aux / increment.y,
               0.0,
@@ -104,8 +106,7 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright) {
         intersection_pos += increment;
       }
 
-      cloud_value -= increment_dist;
-
+      cloud_value -= (dist_aux_coeff * view_y_inv);
       cloud_value = clamp(cloud_value / opacity_dist, 0.0, 1.0);
 
       cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density));
