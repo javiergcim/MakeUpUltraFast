@@ -1,4 +1,3 @@
-// #ifndef THE_END
   #ifndef NETHER
     if (isEyeInWater == 0) {  // In the air
       block_color.rgb =
@@ -9,4 +8,3 @@
         );
     }
   #endif
-// #endif
