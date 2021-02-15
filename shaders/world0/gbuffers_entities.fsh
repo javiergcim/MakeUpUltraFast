@@ -49,10 +49,11 @@ void main() {
   // Toma el color puro del bloque
   // vec4 block_color = texture(tex, texcoord) * tint_color;
   vec4 block_color = texture(tex, texcoord);
-  if (block_color.a < 0.1) {
+  if (block_color.a < 0.1) {   // Blacl entities bug workaround
     discard;
   }
   block_color *= tint_color;
+  
   float shadow_c;
 
   // Thunderbolt render

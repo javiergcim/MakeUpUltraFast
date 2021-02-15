@@ -89,7 +89,7 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
           if (distance_aux < dist_aux_coeff * 2.5 && i > 0) {
             cloud_value += (1.0 - clamp(
-              distance_aux / increment.y,
+              distance_aux / dist_aux_coeff,
               0.0,
               1.0
               )) * increment_dist;
@@ -109,7 +109,10 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright) {
       cloud_value -= (dist_aux_coeff * view_y_inv);
       cloud_value = clamp(cloud_value / opacity_dist, 0.0, 1.0);
 
+      density = clamp(density, .0001, 1.0);
+
       cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density));
+
       block_color =
         mix(
           block_color,
