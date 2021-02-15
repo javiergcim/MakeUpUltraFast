@@ -19,7 +19,6 @@ void main() {
   // Toma el color puro del bloque
   vec4 block_color = texture(tex, texcoord) * tint_color;
   block_color.rgb *= sky_luma_correction;
-  // block_color.rgb = block_color.rgb * block_color.a;
 
   #include "/src/writebuffers.glsl"
 }
