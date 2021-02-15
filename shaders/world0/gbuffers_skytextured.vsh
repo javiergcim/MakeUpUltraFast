@@ -1,4 +1,4 @@
-#version 400 compatibility
+#version 130
 /* MakeUp Ultra Fast - gbuffers_skytextured.vsh
 Render: sun, moon
 

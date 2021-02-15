@@ -1,4 +1,4 @@
-#version 400 compatibility
+#version 130
 /* MakeUp Ultra Fast - gbuffers_entities.fsh
 Render: Droped objects, mobs and things like that
 
@@ -22,12 +22,15 @@ varying vec3 real_light;
 
 void main() {
   // Toma el color puro del bloque
-  // vec4 block_color = texture(tex, texcoord) * tint_color;
-  vec4 block_color = texture(tex, texcoord);
-  if (block_color.a < 0.1) {   // Blacl entities bug workaround
-    discard;
-  }
-  block_color *= tint_color;
+  #if BLACK_ENTITY_FIX == 1
+    vec4 block_color = texture(tex, texcoord);
+    if (block_color.a < 0.1) {   // Blacl entities bug workaround
+      discard;
+    }
+    block_color *= tint_color;
+  #else
+    vec4 block_color = texture(tex, texcoord) * tint_color;
+  #endif
 
   // Thunderbolt render
   if (entityId == 11000.0){

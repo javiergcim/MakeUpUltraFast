@@ -1,4 +1,4 @@
-#version 400 compatibility
+#version 130
 /* MakeUp Ultra Fast - gbuffers_water.fsh
 Render: Water and translucent blocks
 

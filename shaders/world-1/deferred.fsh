@@ -1,4 +1,4 @@
-#version 400 compatibility
+#version 130
 /* MakeUp Ultra Fast - deferred.fsh
 Render: Ambient occlusion
 
