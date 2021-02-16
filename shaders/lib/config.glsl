@@ -41,7 +41,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define TINTED_WATER 1  // [0 1] Use the resource pack color for water.
 #define REFRACTION 1  // [0 1] Activate refractions.
 #define DOF 0  // [0 1] Enables depth of field. High performance cost.
-#define DOF_STRENGTH 0.03  // [0.01 0.02 0.03 0.04 0.05 0.06]  Depth of field strenght.
+#define DOF_STRENGTH 0.04  // [0.01 0.02 0.03 0.04 0.05 0.06]  Depth of field strenght.
 #define DOF_SAMPLES_FACTOR 1.4 // [1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.4 2.6 2.8 3.0]  DoF Quality. Lower values are suitable when TAA is active. High performance cost.
 #define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance impact).
 #define AOSTEPS 6 // [6 10 14] How many samples are taken. High performance cost.
@@ -109,7 +109,6 @@ const bool generateShadowColorMipmap = false;
   #elif SHADOW_RES == 4
     const int shadowMapResolution = 1024;
     const float shadowDistance = 79.0;
-    // #define SHADOW_DIST 0.8
     #define SHADOW_DIST 0.77
   #elif SHADOW_RES == 5
     const int shadowMapResolution = 2048;
