@@ -52,9 +52,9 @@ option.AO=Ambient occlusion
 value.AO.0=Off
 value.AO.1=On
 
-option.AOSTEPS=Ambient occlusion samples
+option.AOSTEPS=AO sample pairs
 
-option.AO_STRENGHT=Ambient occlusion strenght
+option.AO_STRENGHT=AO strenght
 
 option.AA_TYPE=Antialiasing
 value.AA_TYPE.0=Off
@@ -106,7 +106,7 @@ option.V_CLOUDS=Clouds type
 value.V_CLOUDS.0=Vanilla
 value.V_CLOUDS.1=Volumetric
 
-option.BLACK_ENTITY_FIX=Black entity bugfix
+option.BLACK_ENTITY_FIX=Black entity BUGFIX
 value.BLACK_ENTITY_FIX.0=Off
 value.BLACK_ENTITY_FIX.1=On
 

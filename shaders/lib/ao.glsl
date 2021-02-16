@@ -21,7 +21,8 @@ float dbao() {
   vec2 offset;
 
   float d = texture(depthtex0, texcoord.xy).r;
-  float hand = float(d < 0.7);
+  // float hand = float(d < 0.56);
+  float hand_check = d < 0.56 ? 1024.0 : 1.0;
   d = ld(d);
 
   float sd = 0.0;
@@ -29,6 +30,7 @@ float dbao() {
   float dist = 0.0;
   float far_double = 2.0 * far;
   vec2 scale = vec2(inv_aspect_ratio, 1.0) * (fov_y_inv / (d * far));
+  float sample_d;
 
   for (int i = 1; i <= AOSTEPS; i++) {
     dither += sample_angle_increment;
@@ -36,14 +38,14 @@ float dbao() {
     offset = vec2(cos(dither), sin(dither)) * scale * current_radius;
 
     sd = ld(texture(depthtex0, texcoord.xy + offset).r);
-    float sample_d = (d - sd) * far_double;
-    if (hand > 0.7) sample_d *= 1024.0;
+    sample_d = (d - sd) * far_double * hand_check;
+    // if (hand > 0.5) sample_d *= 1024.0;
     angle = clamp(0.5 - sample_d, 0.0, 1.0);
     dist = clamp(0.25 * sample_d - 1.0, 0.0, 1.0);
 
     sd = ld(texture(depthtex0, texcoord.xy - offset).r);
-    sample_d = (d - sd) * far_double;
-    if (hand > 0.7) sample_d *= 1024.0;
+    sample_d = (d - sd) * far_double * hand_check;
+    // if (hand > 0.5) sample_d *= 1024.0;
     angle += clamp(0.5 - sample_d, 0.0, 1.0);
     dist += clamp(0.25 * sample_d - 1.0, 0.0, 1.0);
 
