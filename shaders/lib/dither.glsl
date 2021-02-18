@@ -3,6 +3,12 @@ Dither and hash functions
 
 */
 
+#define UI0 1597334673U
+#define UI1 3812015801U
+#define UI2 uvec2(UI0, UI1)
+#define UI3 uvec3(UI0, UI1, 2798796415U)
+#define UIF (1.0 / float(0xffffffffU))
+
 float dither_grad_noise(vec2 p) {
   return fract(52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y));
 }
@@ -29,6 +35,21 @@ float int_hash12(uvec2 x)
   uvec2 q = 1103515245U * ((x >> 1U) ^ (x.yx));
   uint n = 1103515245U * ((q.x) ^ (q.y >> 3U));
   return float(n) * (1.0 / float(0xffffffffU));
+}
+
+vec3 int_hash32(uvec2 q)
+{
+  uvec3 n = q.xyx * UI3;
+  n = (n.x ^ n.y ^n.z) * UI3;
+  return vec3(n) * UIF;
+}
+
+vec3 timed_int_hash32(uvec2 q)
+{
+  q += uvec2(frameTimeCounter * 2400.0);
+  uvec3 n = q.xyx * UI3;
+  n = (n.x ^ n.y ^n.z) * UI3;
+  return vec3(n) * UIF;
 }
 
 float phi_noise(uvec2 uv)
