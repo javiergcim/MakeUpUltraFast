@@ -3,11 +3,11 @@ Dither and hash functions
 
 */
 
-#define UI0 1597334673U
-#define UI1 3812015801U
+#define UI0 1597334673u
+#define UI1 3812015801u
 #define UI2 uvec2(UI0, UI1)
-#define UI3 uvec3(UI0, UI1, 2798796415U)
-#define UIF (1.0 / float(0xffffffffU))
+#define UI3 uvec3(UI0, UI1, 2798796415u)
+#define UIF (1.0 / float(0xffffffffu))
 
 float dither_grad_noise(vec2 p) {
   return fract(52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y));
@@ -25,16 +25,16 @@ float shifted_texture_noise_64(vec2 p, sampler2D noise) {
 float timed_int_hash12(uvec2 x)
 {
   x += uint(frameTimeCounter * 2400.0);
-  uvec2 q = 1103515245U * ((x >> 1U) ^ (x.yx));
-  uint n = 1103515245U * ((q.x) ^ (q.y >> 3U));
-  return float(n) * (1.0 / float(0xffffffffU));
+  uvec2 q = 1103515245u * ((x >> 1u) ^ (x.yx));
+  uint n = 1103515245u * ((q.x) ^ (q.y >> 3u));
+  return float(n) * (1.0 / float(0xffffffffu));
 }
 
 float int_hash12(uvec2 x)
 {
-  uvec2 q = 1103515245U * ((x >> 1U) ^ (x.yx));
-  uint n = 1103515245U * ((q.x) ^ (q.y >> 3U));
-  return float(n) * (1.0 / float(0xffffffffU));
+  uvec2 q = 1103515245u * ((x >> 1u) ^ (x.yx));
+  uint n = 1103515245u * ((q.x) ^ (q.y >> 3u));
+  return float(n) * (1.0 / float(0xffffffffu));
 }
 
 vec3 int_hash32(uvec2 q)

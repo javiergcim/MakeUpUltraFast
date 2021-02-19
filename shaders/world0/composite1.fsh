@@ -1,6 +1,6 @@
 #version 130
-/* MakeUp Ultra Fast - composite1.fsh
-Render: Antialiasing and motion blur
+/* MakeUp Ultra Fast - composite.fsh
+Render: DoF
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
@@ -8,78 +8,60 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define NO_SHADOWS
 
 #include "/lib/config.glsl"
+#include "/lib/color_utils.glsl"
 
-// 'Global' constants from system
-uniform sampler2D colortex1;
-uniform float viewWidth;
-uniform float viewHeight;
+uniform sampler2D colortex0;
+uniform sampler2D depthtex0;
+uniform float far;
+uniform float near;
+uniform float blindness;
+uniform ivec2 eyeBrightnessSmooth;
+uniform int isEyeInWater;
+uniform float rainStrength;
 
-#if AA_TYPE == 1 || MOTION_BLUR == 1
-  uniform sampler2D colortex2;  // TAA past averages
+#if DOF == 1
+  uniform float centerDepthSmooth;
+  uniform float inv_aspect_ratio;
   uniform float pixel_size_x;
   uniform float pixel_size_y;
-  uniform mat4 gbufferProjectionInverse;
-  uniform mat4 gbufferProjection;
-  uniform mat4 gbufferModelViewInverse;
-  uniform vec3 cameraPosition;
-  uniform vec3 previousCameraPosition;
-  uniform mat4 gbufferPreviousProjection;
-  uniform mat4 gbufferPreviousModelView;
+  uniform float viewWidth;
+  uniform float viewHeight;
   uniform float frameTimeCounter;
+  uniform sampler2D colortex5;
+  uniform float fov_y_inv;
 #endif
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
-#if AA_TYPE == 1 || MOTION_BLUR == 1
-  #include "/lib/projection_utils.glsl"
-  #include "/lib/past_projection_utils.glsl"
-#endif
+#include "/lib/depth.glsl"
+#include "/lib/luma.glsl"
 
-#if MOTION_BLUR == 1
+#if DOF == 1
   #include "/lib/dither.glsl"
-  #include "/lib/motion_blur.glsl"
-#endif
-
-#if AA_TYPE == 1
-  #include "/lib/luma.glsl"
-  #include "/lib/fast_taa.glsl"
+  #include "/lib/blur.glsl"
 #endif
 
 void main() {
-  vec4 block_color = texture(colortex1, texcoord);
+  vec3 block_color = texture(colortex0, texcoord).rgb;
+  float d = texture(depthtex0, texcoord).r;
+  float linear_d = ld(d);
 
-  // Precalc past position and velocity
-  #if AA_TYPE == 1 || MOTION_BLUR == 1
-    // Reproyección del cuadro anterior
-    float z_depth = block_color.a;
-    vec3 closest_to_camera = vec3(texcoord, z_depth);
-    vec3 fragposition = to_screen_space(closest_to_camera);
-    fragposition = mat3(gbufferModelViewInverse) * fragposition + gbufferModelViewInverse[3].xyz + (cameraPosition - previousCameraPosition);
-    vec3 previous_position = mat3(gbufferPreviousModelView) * fragposition + gbufferPreviousModelView[3].xyz;
-    previous_position = to_clip_space(previous_position);
-    previous_position.xy = texcoord + (previous_position.xy - closest_to_camera.xy);
-    vec2 texcoord_past = previous_position.xy;  // Posición en el pasado
+  #if DOF == 1
+    block_color = noised_blur(
+      vec4(block_color, d),
+      colortex0,
+      texcoord,
+      DOF_STRENGTH
+      );
 
-    // "Velocidad"
-    vec2 velocity = texcoord - texcoord_past;
   #endif
 
-  #if MOTION_BLUR == 1
-    block_color.rgb = motion_blur(block_color, velocity);
-  #endif
+  if (blindness > .01) {
+    block_color =
+    mix(block_color, vec3(0.0), blindness * linear_d * far * .12);
+  }
 
-  #if AA_TYPE == 1
-    #if DOF == 1
-      block_color = fast_taa_depth(block_color, texcoord_past, velocity);
-    #else
-      block_color.rgb = fast_taa(block_color.rgb, texcoord_past, velocity);
-    #endif
-    /* DRAWBUFFERS:012 */
-    gl_FragData[2] = block_color;  // To TAA averages
-    gl_FragData[0] = block_color;  // colortex0
-  #else
-    /* DRAWBUFFERS:0 */
-    gl_FragData[0] = block_color;  // colortex0
-  #endif
+  /* DRAWBUFFERS:012 */
+  gl_FragData[1] = vec4(block_color, d);
 }

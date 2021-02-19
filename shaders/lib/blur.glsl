@@ -20,18 +20,14 @@ vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force) {
     vec3 blur_sample = vec3(0.0);
     vec2 blur_radius_vec = vec2(blur_radius * inv_aspect_ratio, blur_radius);
 
-    #if AA_TYPE == 1
-      float sample_c_f =
+    float sample_c_f =
         max(viewHeight * blur_radius * .333333 * DOF_SAMPLES_FACTOR, 2.0);
-    #else
-      float sample_c_f =
-        max(viewHeight * blur_radius * .333333 * DOF_SAMPLES_FACTOR, 2.0);
-    #endif
+        
     int sample_c = int(sample_c_f);
 
     #if AA_TYPE == 1
-      // float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
-      float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex5);
+      float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
+      // float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex5);
     #else
       float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
     #endif
