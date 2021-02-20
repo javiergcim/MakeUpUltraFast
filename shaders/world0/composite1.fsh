@@ -83,7 +83,7 @@ void main() {
     #else
       block_color.rgb = fast_taa(block_color.rgb, texcoord_past, velocity);
     #endif
-    /* DRAWBUFFERS:012 */
+    /* DRAWBUFFERS:01234567 */
     gl_FragData[2] = block_color;  // To TAA averages
 
     // Tonemaping ---
@@ -105,6 +105,14 @@ void main() {
     block_color.rgb = lottes_tonemap(block_color.rgb, exposure);
 
     gl_FragData[0] = block_color;  // colortex0
+
+    // Bloom source
+    block_color.rgb = vec3(
+      pow(block_color.r, 20.0),
+      pow(block_color.g, 20.0),
+      pow(block_color.b, 20.0)
+    );
+    gl_FragData[7] = vec4(block_color.rgb, 1.0);
   #else
 
     // Tonemaping ---
@@ -124,7 +132,17 @@ void main() {
 
     block_color.rgb *= exposure;
     block_color.rgb = lottes_tonemap(block_color.rgb, exposure);
-    /* DRAWBUFFERS:0 */
+
+    /* DRAWBUFFERS:01234567 */
     gl_FragData[0] = block_color;  // colortex0
+
+    // Bloom source
+    // gl_FragData[7] = vec4(pow(block_color.rgb + .5, 20.0), 1.0);
+    block_color.rgb = vec3(
+      pow(block_color.r, 2.0),
+      pow(block_color.g, 2.0),
+      pow(block_color.b, 2.0)
+    );
+    gl_FragData[7] = vec4(block_color.rgb, 1.0);
   #endif
 }
