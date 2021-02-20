@@ -8,11 +8,19 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define NO_SHADOWS
 
 #include "/lib/config.glsl"
+#include "/lib/color_utils.glsl"
+#include "/lib/basic_utils.glsl"
+#include "/lib/tone_maps.glsl"
 
 // 'Global' constants from system
 uniform sampler2D colortex1;
 uniform float viewWidth;
 uniform float viewHeight;
+
+uniform ivec2 eyeBrightnessSmooth;
+uniform int current_hour_floor;
+uniform int current_hour_ceil;
+uniform float current_hour_fract;
 
 #if AA_TYPE == 1 || MOTION_BLUR == 1
   uniform sampler2D colortex2;  // TAA past averages
@@ -77,8 +85,45 @@ void main() {
     #endif
     /* DRAWBUFFERS:012 */
     gl_FragData[2] = block_color;  // To TAA averages
+
+    // Tonemaping ---
+    // x: Block, y: Sky ---
+    float candle_bright = (eyeBrightnessSmooth.x * 0.004166666666666667) * 0.075;
+    float exposure_coef =
+      mix(
+        ambient_exposure[current_hour_floor],
+        ambient_exposure[current_hour_ceil],
+        current_hour_fract
+      );
+    float exposure =
+      ((eyeBrightnessSmooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
+
+    // Map from 1.0 - 0.0 to 1.3 - 6.8
+    exposure = (exposure * -5.5) + 6.8;
+
+    block_color.rgb *= exposure;
+    block_color.rgb = lottes_tonemap(block_color.rgb, exposure);
+
     gl_FragData[0] = block_color;  // colortex0
   #else
+
+    // Tonemaping ---
+    // x: Block, y: Sky ---
+    float candle_bright = (eyeBrightnessSmooth.x * 0.004166666666666667) * 0.075;
+    float exposure_coef =
+      mix(
+        ambient_exposure[current_hour_floor],
+        ambient_exposure[current_hour_ceil],
+        current_hour_fract
+      );
+    float exposure =
+      ((eyeBrightnessSmooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
+
+    // Map from 1.0 - 0.0 to 1.3 - 6.8
+    exposure = (exposure * -5.5) + 6.8;
+
+    block_color.rgb *= exposure;
+    block_color.rgb = lottes_tonemap(block_color.rgb, exposure);
     /* DRAWBUFFERS:0 */
     gl_FragData[0] = block_color;  // colortex0
   #endif
