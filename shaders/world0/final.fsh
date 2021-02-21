@@ -76,13 +76,13 @@ void main() {
   //
   // gl_FragColor = vec4(block_color, 1.0);
 
-  vec3 bloom = noised_bloom(colortex7, texcoord);
+  // vec3 bloom = noised_bloom(colortex7, texcoord);
   // vec3 bloom = texture(colortex7, texcoord).rgb;
 
   vec3 block_color = texture(colortex0, texcoord).rgb;
 
-  vec3 suma = block_color + bloom;
+  // vec3 suma = block_color + bloom;
 
-  gl_FragColor = vec4(suma, 1.0);
+  gl_FragColor = vec4(block_color, 1.0);
   // gl_FragColor = vec4(block_color, 1.0);
 }
