@@ -60,7 +60,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define WATER_TEXTURE 1 // [0 1] Enable or disable resource pack water texture.
 #define AVOID_DARK 1 // [0 1] Avoid absolute darkness in caves at daytime
 #define V_CLOUDS 1 // [0 1] Set clouds type
-#define BLOOM_SAMPLES_FACTOR 0.5 // [0.3 0.5 0.7 0.9 1.1 1.3 1.5] Bloom quality. Lower values are suitable when TAA is active. High performance cost.
 #define BLACK_ENTITY_FIX 0 // [0 1] Removes black entity bug (activate ONLY if you have problems with black entities)
 
 // Reflection parameters
