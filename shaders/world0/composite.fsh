@@ -16,6 +16,9 @@ uniform float far;
 uniform float near;
 uniform float blindness;
 uniform ivec2 eyeBrightnessSmooth;
+uniform int current_hour_floor;
+uniform int current_hour_ceil;
+uniform float current_hour_fract;
 uniform int isEyeInWater;
 uniform float rainStrength;
 
@@ -43,6 +46,8 @@ varying vec2 texcoord;
 #endif
 
 void main() {
+  // vec4 average_data = texture(colortex2, texcoord);
+
   vec3 block_color = texture(colortex0, texcoord).rgb;
   float d = texture(depthtex0, texcoord).r;
   float linear_d = ld(d);
@@ -62,6 +67,29 @@ void main() {
     mix(block_color, vec3(0.0), blindness * linear_d * far * .12);
   }
 
-  /* DRAWBUFFERS:012 */
+  // Exposure
+  float candle_bright = (eyeBrightnessSmooth.x * 0.004166666666666667) * 0.075;
+  float exposure_coef =
+    mix(
+      ambient_exposure[current_hour_floor],
+      ambient_exposure[current_hour_ceil],
+      current_hour_fract
+    );
+  float exposure =
+    ((eyeBrightnessSmooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
+
+  // Map from 1.0 - 0.0 to 1.3 - 6.8
+  exposure = (exposure * -5.5) + 6.8;
+
+  // block_color.rgb *= exposure;
+
+  // Bloom source
+  float bloom_luma = smoothstep(0.7, 0.9, luma(block_color * exposure));
+  // bloom_luma = pow(bloom_luma, 2.0);
+
+  /* DRAWBUFFERS:01234567 */
   gl_FragData[1] = vec4(block_color, d);
+  // gl_FragData[2] = average_data;
+  gl_FragData[7] = vec4(block_color * bloom_luma * exposure, 1.0);
+  // gl_FragData[7] = vec4(0.0);
 }

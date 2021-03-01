@@ -37,7 +37,7 @@ vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force) {
     dither *= 6.283185307;
 
     float inv_steps = 1.0 / sample_c;
-    float sample_angle_increment = 3.1415926535 * inv_steps;
+    float sample_angle_increment = 12.566370614359172 * inv_steps;
     float current_radius;
     vec2 offset;
 

@@ -9,14 +9,15 @@ float dbao() {
   #if AA_TYPE == 1
     float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
   #else
-    float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
+    // float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
+    float dither = phi_noise(uvec2(gl_FragCoord.xy));
   #endif
 
   float dither_base = dither;
   dither *= 6.283185307;
 
   float inv_steps = 1.0 / AOSTEPS;
-  float sample_angle_increment = 3.1415926535 * inv_steps;
+  float sample_angle_increment = 6.283185307 * inv_steps;
   float current_radius;
   vec2 offset;
 

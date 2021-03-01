@@ -18,6 +18,7 @@ float get_shadow(vec3 the_shadow_pos) {
         float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
       #else
         float dither = texture_noise_64(gl_FragCoord.xy, gaux2);
+        // float dither = phi_noise(uvec2(gl_FragCoord.xy));
       #endif
 
       #if SHADOW_RES == 0 || SHADOW_RES == 1
@@ -29,12 +30,10 @@ float get_shadow(vec3 the_shadow_pos) {
       float dither_base = dither;
       dither *= 6.283185307;
 
-      float sample_angle_increment = 3.1415926535;
       float current_radius;
       vec2 offset;
       shadow_sample = 0.0;
 
-      dither += sample_angle_increment;
       current_radius = dither_base * .8 + .2;
       offset = (vec2(cos(dither), sin(dither)) * current_radius * SHADOW_BLUR) / shadowMapResolution;
 
