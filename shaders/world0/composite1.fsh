@@ -24,11 +24,13 @@ varying vec2 texcoord;
 
 void main() {
   vec4 block_color = texture(colortex1, texcoord);
-  vec3 bloom = noised_bloom(colortex7, texcoord);
 
-  vec3 suma = block_color.rgb + (bloom * 0.1);
-
-  /* DRAWBUFFERS:01 */
-  gl_FragData[1] = vec4(suma, block_color.a);
-  // gl_FragData[1] = vec4(bloom * 0.1, block_color.a);
+  #if BLOOM == 1
+    vec3 bloom = noised_bloom(colortex7, texcoord);
+    // vec3 suma = block_color.rgb + (bloom * 0.1);
+    /* DRAWBUFFERS:01 */
+    gl_FragData[1] = vec4(block_color.rgb + (bloom * 0.1), block_color.a);
+  #else
+    gl_FragData[1] = block_color;
+  #endif
 }

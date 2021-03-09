@@ -9,7 +9,7 @@ uniform float day_moment;
 #if COLOR_SCHEME == 0  // Legacy
   #define AMBIENT_MIDDLE_COLOR vec3(0.75, 0.37941176, 0.16470588)
   #define AMBIENT_DAY_COLOR vec3(0.74, 0.74, 0.7)
-  #define AMBIENT_NIGHT_COLOR vec3(0.02720588, 0.02941177, 0.03474265)
+  #define AMBIENT_NIGHT_COLOR vec3(0.04080882, 0.04411765, 0.05211397)
 
   #define HI_MIDDLE_COLOR vec3(0.17647059, 0.34901961, 0.82745098)
   #define HI_DAY_COLOR vec3(0.14, 0.27, 0.58)
@@ -21,7 +21,7 @@ uniform float day_moment;
 #elif COLOR_SCHEME == 1  // Cocoa
   #define AMBIENT_MIDDLE_COLOR vec3(0.64, 0.46, 0.21)
   #define AMBIENT_DAY_COLOR vec3(0.75, 0.75, 0.478125)
-  #define AMBIENT_NIGHT_COLOR vec3(0.02720588, 0.02941177, 0.03474265)
+  #define AMBIENT_NIGHT_COLOR vec3(0.04080882, 0.04411765, 0.05211397)
 
   #define HI_MIDDLE_COLOR vec3(0.09, 0.2, 0.38)
   #define HI_DAY_COLOR vec3(0.18, 0.31, 0.52)
@@ -33,7 +33,7 @@ uniform float day_moment;
 #elif COLOR_SCHEME == 2  // Captain
   #define AMBIENT_MIDDLE_COLOR vec3(0.6, 0.37647059, 0.1882353)
   #define AMBIENT_DAY_COLOR vec3(0.74541177, 0.83858823, 0.99)
-  #define AMBIENT_NIGHT_COLOR vec3(0.01505882, 0.03011765, 0.04)
+  #define AMBIENT_NIGHT_COLOR vec3(0.02258823, 0.04517648, 0.06)
 
   #define HI_MIDDLE_COLOR vec3(0.2325 , 0.27675, 0.39975)
   #define HI_DAY_COLOR vec3(0.08, 0.2, 0.39)
@@ -78,17 +78,17 @@ const float ambient_exposure[25] =
   1.0, // 4
   1.0, // 5
   1.0, // 6
-  .1, // 7
-  .1, // 8
-  .1, // 9
-  .1, // 10
-  .1, // 11
-  .1, // 12
-  .1, // 1
-  .1, // 2
-  .1, // 3
-  .1, // 4
-  .1, // 5
+  .01, // 7
+  .01, // 8
+  .01, // 9
+  .01, // 10
+  .01, // 11
+  .01, // 12
+  .01, // 1
+  .01, // 2
+  .01, // 3
+  .01, // 4
+  .01, // 5
   1.0 // 6
   );
 

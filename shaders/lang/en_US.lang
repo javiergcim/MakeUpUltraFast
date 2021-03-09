@@ -106,6 +106,10 @@ option.V_CLOUDS=Clouds type
 value.V_CLOUDS.0=Vanilla
 value.V_CLOUDS.1=Volumetric
 
+option.BLOOM=Bloom
+value.BLOOM.0=Off
+value.BLOOM.1=On
+
 option.BLACK_ENTITY_FIX=Black entity BUGFIX
 value.BLACK_ENTITY_FIX.0=Off
 value.BLACK_ENTITY_FIX.1=On

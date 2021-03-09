@@ -174,7 +174,7 @@ vec3 water_shader(vec3 fragpos, vec3 normal, vec3 color, vec3 sky_reflect) {
      #ifndef NETHER
       #ifndef THE_END
         return mix(color, reflection.rgb, fresnel) +
-          vec3(sun_reflection(reflect(normalize(fragpos), normal)) * 0.5);
+          vec3(sun_reflection(reflect(normalize(fragpos), normal)));
       #else
         return mix(color, reflection.rgb, fresnel);
       #endif

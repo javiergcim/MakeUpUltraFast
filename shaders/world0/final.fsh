@@ -61,8 +61,8 @@ void main() {
   float exposure =
     ((eyeBrightnessSmooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
 
-  // Map from 1.0 - 0.0 to 1.3 - 6.8
-  exposure = (exposure * -5.5) + 6.8;
+  // Map from 1.0 - 0.0 to 1.3 - 3.9
+  exposure = (exposure * -2.6) + 3.9;
 
   block_color *= exposure;
   block_color = lottes_tonemap(block_color, exposure);

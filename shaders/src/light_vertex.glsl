@@ -27,9 +27,12 @@
 
   #ifdef EMMISIVE_V
   if (emissive > 0.5) {  // Es bloque es emisivo
-    tint_color.rgb += 1.0;
+    // tint_color.rgb += 1.0;
+    tint_color.rgb *= 3.0;
+    // direct_light_strenght = 0.0;
   } else if (magma > 0.5) {
-    tint_color.rgb += 0.5;
+    tint_color.rgb *= 1.5;
+    // direct_light_strenght = 0.0;
   }
   #endif
 

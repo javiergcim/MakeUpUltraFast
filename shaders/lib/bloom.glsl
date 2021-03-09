@@ -5,13 +5,13 @@ Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 vec3 noised_bloom(sampler2D image, vec2 coords) {
-  float blur_radius = 0.05;
+  float blur_radius = 0.1;
 
   vec3 blur_sample = vec3(0.0);
   vec2 blur_radius_vec = vec2(blur_radius * inv_aspect_ratio, blur_radius);
 
   float sample_c_f =
-      viewHeight * blur_radius * .25 * 2.0;
+      viewHeight * blur_radius * .25;
 
   int sample_c = int(sample_c_f);
 

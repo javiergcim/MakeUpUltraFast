@@ -67,29 +67,32 @@ void main() {
     mix(block_color, vec3(0.0), blindness * linear_d * far * .12);
   }
 
-  // Exposure
-  float candle_bright = (eyeBrightnessSmooth.x * 0.004166666666666667) * 0.075;
-  float exposure_coef =
-    mix(
-      ambient_exposure[current_hour_floor],
-      ambient_exposure[current_hour_ceil],
-      current_hour_fract
-    );
-  float exposure =
-    ((eyeBrightnessSmooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
+  #if BLOOM == 1
 
-  // Map from 1.0 - 0.0 to 1.3 - 6.8
-  exposure = (exposure * -5.5) + 6.8;
+    // Exposure
+    float candle_bright = (eyeBrightnessSmooth.x * 0.004166666666666667) * 0.075;
+    float exposure_coef =
+      mix(
+        ambient_exposure[current_hour_floor],
+        ambient_exposure[current_hour_ceil],
+        current_hour_fract
+      );
+    float exposure =
+      ((eyeBrightnessSmooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
 
-  // block_color.rgb *= exposure;
+    // Map from 1.0 - 0.0 to 1.3 - 3.9
+    exposure = (exposure * -2.6) + 3.9;
 
-  // Bloom source
-  float bloom_luma = smoothstep(0.7, 0.9, luma(block_color * exposure));
-  // bloom_luma = pow(bloom_luma, 2.0);
+    // Bloom source
+    float bloom_luma = smoothstep(0.6, 0.8, luma(block_color * exposure)) * 1.5;
+    // bloom_luma = pow(bloom_luma, 2.0);
 
-  /* DRAWBUFFERS:01234567 */
-  gl_FragData[1] = vec4(block_color, d);
-  // gl_FragData[2] = average_data;
-  gl_FragData[7] = vec4(block_color * bloom_luma * exposure, 1.0);
-  // gl_FragData[7] = vec4(0.0);
+    /* DRAWBUFFERS:01234567 */
+    gl_FragData[1] = vec4(block_color, d);
+    gl_FragData[7] = vec4(block_color * bloom_luma * exposure, 1.0);
+
+  #else
+    /* DRAWBUFFERS:01 */
+    gl_FragData[1] = vec4(block_color, d);
+  #endif
 }

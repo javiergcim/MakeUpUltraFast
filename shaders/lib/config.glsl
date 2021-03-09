@@ -62,6 +62,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define V_CLOUDS 1 // [0 1] Set clouds type
 #define BLACK_ENTITY_FIX 0 // [0 1] Removes black entity bug (activate ONLY if you have problems with black entities)
 #define BLOOM_SAMPLES_FACTOR 0.5 // [0.5 1.0] Bloom samples factor
+#define BLOOM 1 // [0 1] Set bloom
 
 // Reflection parameters
 #define RAY_STEP 0.25
