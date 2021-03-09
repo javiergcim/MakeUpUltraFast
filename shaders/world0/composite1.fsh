@@ -27,7 +27,7 @@ void main() {
 
   #if BLOOM == 1
     vec3 bloom = noised_bloom(colortex7, texcoord);
-    // vec3 suma = block_color.rgb + (bloom * 0.1);
+    
     /* DRAWBUFFERS:01 */
     gl_FragData[1] = vec4(block_color.rgb + (bloom * 0.1), block_color.a);
   #else

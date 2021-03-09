@@ -70,7 +70,7 @@ void main() {
   #if BLOOM == 1
 
     // Exposure
-    float candle_bright = (eyeBrightnessSmooth.x * 0.004166666666666667) * 0.075;
+    float candle_bright = eyeBrightnessSmooth.x * 0.0003125;  // (0.004166666666666667 * 0.075)
     float exposure_coef =
       mix(
         ambient_exposure[current_hour_floor],
@@ -85,7 +85,6 @@ void main() {
 
     // Bloom source
     float bloom_luma = smoothstep(0.6, 0.8, luma(block_color * exposure)) * 1.5;
-    // bloom_luma = pow(bloom_luma, 2.0);
 
     /* DRAWBUFFERS:01234567 */
     gl_FragData[1] = vec4(block_color, d);

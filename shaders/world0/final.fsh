@@ -36,7 +36,6 @@ uniform ivec2 eyeBrightnessSmooth;
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
-
 uniform sampler2D colortex0;
 
 // Varyings (per thread shared variables)
@@ -51,7 +50,7 @@ void main() {
 
   // Tonemaping ---
   // x: Block, y: Sky ---
-  float candle_bright = (eyeBrightnessSmooth.x * 0.004166666666666667) * 0.075;
+  float candle_bright = eyeBrightnessSmooth.x * 0.0003125;
   float exposure_coef =
     mix(
       ambient_exposure[current_hour_floor],
