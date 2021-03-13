@@ -17,14 +17,16 @@ float get_shadow(vec3 the_shadow_pos) {
       #if AA_TYPE == 1
         float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
       #else
-        float dither = texture_noise_64(gl_FragCoord.xy, gaux2);
-        // float dither = phi_noise(uvec2(gl_FragCoord.xy));
+        // float dither = texture_noise_64(gl_FragCoord.xy, gaux2);
+        float dither = phi_noise(uvec2(gl_FragCoord.xy));
       #endif
 
       #if SHADOW_RES == 0 || SHADOW_RES == 1
         float new_z = the_shadow_pos.z - 0.0025 - (0.00045 * dither);
-      #elif SHADOW_RES == 2 || SHADOW_RES == 3 || SHADOW_RES == 4 || SHADOW_RES == 5
+      #elif SHADOW_RES == 2 || SHADOW_RES == 3
         float new_z = the_shadow_pos.z - 0.001 - (0.0003 * dither);
+      #elif SHADOW_RES == 4 || SHADOW_RES == 5
+        float new_z = the_shadow_pos.z - 0.00075 - (0.00015 * dither);
       #endif
 
       float dither_base = dither;

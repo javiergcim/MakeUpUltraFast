@@ -44,7 +44,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define DOF_STRENGTH 0.04  // [0.01 0.02 0.03 0.04 0.05 0.06]  Depth of field strenght.
 #define DOF_SAMPLES_FACTOR 0.5 // [0.3 0.5 0.7 0.9 1.1 1.3 1.5]  DoF Quality. Lower values are suitable when TAA is active. High performance cost.
 #define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance impact).
-#define AOSTEPS 6 // [6 10 14] How many samples are taken. High performance cost.
+#define AOSTEPS 5 // [5 6 7 8 9 10 11 12 13 14] How many samples are taken. High performance cost.
 #define AO_STRENGHT 0.5 // [0.2 0.3 0.4 0.5 0.6] Ambient oclusion strenght
 #define AA_TYPE 1 // [0 1] Fast TAA - Enable antialiasing (Recommended). No - Disable antialiasing. Some efects looks noisy.
 #define MOTION_BLUR 0 // [0 1] Turn on motion blur
@@ -56,13 +56,15 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define SHADOW_BLUR 2.0 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0]  Shadow blur intensity
 #define OMNI_TINT 0.50 // [0.10 0.15 0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90] Tint of omnidirectional light. From sky color to direct light color.
 #define WATER_TINT 0.8 // [0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0]  Water tint percentage
-#define COLOR_SCHEME 1 // [0 1 2] Legacy: Exotic colors at sunset. Cocoa: A warm preset of vivid colors in the day. Captain: A cold preset of stylish colors
+#define COLOR_SCHEME 0 // [0 1 2] Legacy: Exotic colors at sunset. Cocoa: A warm preset of vivid colors in the day. Captain: A cold preset of stylish colors
 #define WATER_TEXTURE 1 // [0 1] Enable or disable resource pack water texture.
 #define AVOID_DARK 1 // [0 1] Avoid absolute darkness in caves at daytime
 #define V_CLOUDS 1 // [0 1] Set clouds type
 #define BLACK_ENTITY_FIX 0 // [0 1] Removes black entity bug (activate ONLY if you have problems with black entities)
-#define BLOOM_SAMPLES_FACTOR 0.5 // [0.5 1.0] Bloom samples factor
-#define BLOOM 1 // [0 1] Set bloom
+#define BLOOM 0 // [0 1] Set bloom
+#define BLOOM_SAMPLES 5.0 // [5.0 6.0 7.0 8.0 9.0 10.0] Bloom sample pairs
+#define CHROMA_ABER 0 // [0 1] Enable chroma aberration
+#define CHROMA_ABER_STRENGHT 0.05 // [0.04 0.05 0.06] Chroma aberration strenght
 
 // Reflection parameters
 #define RAY_STEP 0.25

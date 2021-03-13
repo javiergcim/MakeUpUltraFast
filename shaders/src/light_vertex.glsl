@@ -43,7 +43,8 @@
   illumination.y = max(illumination.y, 0.095);  // Remueve artefacto
 
   // Visibilidad del cielo
-  float visible_sky = illumination.y * 1.105 - .10495;
+  // float visible_sky = illumination.y * 1.105 - .10495;
+  float visible_sky = illumination.y;
 
   // Ajuste de intensidad luminosa bajo el agua
   if (isEyeInWater == 1) {
@@ -131,7 +132,7 @@
     );
 
     #if AVOID_DARK == 1
-      omni_light = max(visible_sky * visible_sky, .028) * omni_strenght *
+      omni_light = max(visible_sky * visible_sky, .055) * omni_strenght *
         mix(hi_sky_color, direct_light_color, OMNI_TINT);
     #else
       omni_light = visible_sky * visible_sky * omni_strenght *

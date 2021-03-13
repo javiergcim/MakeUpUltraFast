@@ -14,7 +14,6 @@ uniform sampler2D colortex5;
 uniform sampler2D colortex7;
 uniform float frameTimeCounter;
 uniform float inv_aspect_ratio;
-uniform float viewHeight;
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
@@ -22,14 +21,19 @@ varying vec2 texcoord;
 #include "/lib/dither.glsl"
 #include "/lib/bloom.glsl"
 
+#if BLOOM == 1
+  const bool colortex7MipmapEnabled = true;
+#endif
+
 void main() {
   vec4 block_color = texture(colortex1, texcoord);
 
   #if BLOOM == 1
-    vec3 bloom = noised_bloom(colortex7, texcoord);
-    
+    vec3 bloom = mipmap_bloom(colortex7, texcoord);
+
     /* DRAWBUFFERS:01 */
-    gl_FragData[1] = vec4(block_color.rgb + (bloom * 0.1), block_color.a);
+    gl_FragData[1] = vec4(block_color.rgb + bloom, block_color.a);
+    // gl_FragData[1] = vec4(bloom * 10.0, block_color.a);
   #else
     gl_FragData[1] = block_color;
   #endif
