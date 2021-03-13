@@ -72,10 +72,6 @@
       mix(-sun_light_strenght, sun_light_strenght, light_mix);
   #endif
 
-  #if SHADOW_CASTING == 1
-    shadow_mask = direct_light_strenght - 0.00005;  // -.00005 Flashing bug
-  #endif
-
   // Intensidad por dirección
   float omni_strenght = (direct_light_strenght * .125) + .75;
   direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);

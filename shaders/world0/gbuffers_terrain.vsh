@@ -51,7 +51,6 @@ varying vec3 omni_light;
 varying float is_foliage;
 
 #if SHADOW_CASTING == 1
-  varying float shadow_mask;
   varying vec3 shadow_pos;
   varying float shadow_diffuse;
 #endif

@@ -85,7 +85,7 @@ void main() {
 
     // Bloom source
     float bloom_luma =
-      smoothstep(0.7, 0.9, luma(block_color * exposure)) * 0.35;
+      smoothstep(0.6, 0.8, luma(block_color * exposure)) * 0.4;
 
     /* DRAWBUFFERS:01234567 */
     gl_FragData[1] = vec4(block_color, d);

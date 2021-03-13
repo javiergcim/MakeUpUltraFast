@@ -32,7 +32,7 @@ void main() {
     vec3 bloom = mipmap_bloom(colortex7, texcoord);
 
     /* DRAWBUFFERS:01 */
-    gl_FragData[1] = vec4(block_color.rgb + bloom, block_color.a);
+     gl_FragData[1] = vec4(block_color.rgb + bloom, block_color.a);
     // gl_FragData[1] = vec4(bloom * 10.0, block_color.a);
   #else
     gl_FragData[1] = block_color;
