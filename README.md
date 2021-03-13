@@ -2,7 +2,7 @@
 Ultra fast Minecraft shader (Java). For a small graphic improvement. Intended
 for low-spec computers.
 
-**Version: 4.05b: Denoise update**
+**Version: 5.0: Bloom update**
 
 ## Main features
 * Optional shadows
@@ -12,6 +12,7 @@ for low-spec computers.
 * Enhanced ambient occlusion
 * Water reflection and refraction
 * Motion blur
+* Optional bloom
 * Auto-exposure
 * Shader for all native dimensions
 * FAST!
