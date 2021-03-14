@@ -96,13 +96,13 @@ value.CHROMA_ABER.1=Yes
 
 option.CHROMA_ABER_STRENGHT=Chroma aberration strenght
 
-option.OMNI_TINT=Omni color tint
 option.WATER_TINT=Water tint
 
 option.COLOR_SCHEME=Color scheme
 value.COLOR_SCHEME.0=Legacy
 value.COLOR_SCHEME.1=Cocoa
 value.COLOR_SCHEME.2=Captain
+value.COLOR_SCHEME.3=Choca like
 
 option.AVOID_DARK=Avoid cave darkness
 value.AVOID_DARK.0=No

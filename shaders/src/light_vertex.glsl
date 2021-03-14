@@ -74,7 +74,7 @@
 
   // Intensidad por dirección
   float omni_strenght = (direct_light_strenght * .125) + .75;
-  direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
+  // direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
 
   // Calculamos color de luz directa
   direct_light_color = day_color_mixer(
@@ -86,22 +86,24 @@
 
   #ifdef FOLIAGE_V  // Puede haber plantas en este shader
     if (is_foliage > .2) {  // Es "planta" y se atenúa luz por dirección
-      #ifndef THE_END
-        float foliage_attenuation_coef = abs((light_mix - .5) * 2.0);
-      #else
-        float foliage_attenuation_coef = 1.0;
-      #endif
-
       #if SHADOW_CASTING == 1
-        direct_light_strenght =
-          mix(direct_light_strenght, 1.0, .7 * foliage_attenuation_coef);
+        direct_light_strenght = sqrt(abs(direct_light_strenght));
       #else
+        #ifndef THE_END
+          float foliage_attenuation_coef = abs((light_mix - .5) * 2.0);
+        #else
+          float foliage_attenuation_coef = 1.0;
+        #endif
+
         direct_light_strenght =
         mix(direct_light_strenght, 1.0, .2 * foliage_attenuation_coef) * .55;
-        omni_strenght = 1.0;
       #endif
+
+      omni_strenght = 1.0;
     }
   #endif
+
+  direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
 
   #ifdef THE_END
     omni_light = AMBIENT_DAY_COLOR;

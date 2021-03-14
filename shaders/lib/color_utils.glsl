@@ -7,6 +7,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 uniform float day_moment;
 
 #if COLOR_SCHEME == 0  // Legacy
+  #define OMNI_TINT 0.5
   #define AMBIENT_MIDDLE_COLOR vec3(0.75, 0.37941176, 0.16470588)
   #define AMBIENT_DAY_COLOR vec3(0.74, 0.74, 0.7)
   #define AMBIENT_NIGHT_COLOR vec3(0.04080882, 0.04411765, 0.05211397)
@@ -19,6 +20,7 @@ uniform float day_moment;
   #define LOW_DAY_COLOR vec3(0.44, 0.78, 0.96)
   #define LOW_NIGHT_COLOR vec3(0.01078431, 0.02117647, 0.05)
 #elif COLOR_SCHEME == 1  // Cocoa
+  #define OMNI_TINT 0.5
   #define AMBIENT_MIDDLE_COLOR vec3(0.64, 0.46, 0.21)
   #define AMBIENT_DAY_COLOR vec3(0.75, 0.75, 0.478125)
   #define AMBIENT_NIGHT_COLOR vec3(0.04080882, 0.04411765, 0.05211397)
@@ -31,6 +33,7 @@ uniform float day_moment;
   #define LOW_DAY_COLOR vec3(0.4, 0.75, 1.0)
   #define LOW_NIGHT_COLOR vec3(0.022, 0.029, 0.049)
 #elif COLOR_SCHEME == 2  // Captain
+  #define OMNI_TINT 0.5
   #define AMBIENT_MIDDLE_COLOR vec3(0.6, 0.37647059, 0.1882353)
   #define AMBIENT_DAY_COLOR vec3(0.74541177, 0.83858823, 0.99)
   #define AMBIENT_NIGHT_COLOR vec3(0.02258823, 0.04517648, 0.06)
@@ -42,6 +45,19 @@ uniform float day_moment;
   #define LOW_MIDDLE_COLOR vec3(1.0, 0.83, 0.38)
   #define LOW_DAY_COLOR vec3(0.5, 0.7, 1.0)
   #define LOW_NIGHT_COLOR vec3(0.025, 0.035, 0.05)
+#elif COLOR_SCHEME == 3  // Choca like
+  #define OMNI_TINT 0.3
+  #define AMBIENT_MIDDLE_COLOR vec3(0.64, 0.46, 0.21)
+  #define AMBIENT_DAY_COLOR vec3(0.9375, 0.9375, 0.59765625)
+  #define AMBIENT_NIGHT_COLOR vec3(0.04080882, 0.04411765, 0.05211397)
+
+  #define HI_MIDDLE_COLOR vec3(0.09, 0.2, 0.38)
+  #define HI_DAY_COLOR vec3(0.1, 0.17058824, 0.25490196)
+  #define HI_NIGHT_COLOR vec3(0.014, 0.019, 0.031)
+
+  #define LOW_MIDDLE_COLOR vec3(0.91, 0.66, 0.47)
+  #define LOW_DAY_COLOR vec3(0.28, 0.525, 0.7)
+  #define LOW_NIGHT_COLOR vec3(0.022, 0.029, 0.049)
 #endif
 
 vec3 day_color_mixer(vec3 middle, vec3 day, vec3 night, float moment) {

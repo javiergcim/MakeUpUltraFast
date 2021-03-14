@@ -6,6 +6,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 uniform float day_moment;
 
+#define OMNI_TINT 0.5
 #define AMBIENT_MIDDLE_COLOR vec3(0.06205, 0.04998, 0.06205)
 #define AMBIENT_DAY_COLOR vec3(0.06205, 0.04998, 0.06205)
 #define AMBIENT_NIGHT_COLOR vec3(0.06205, 0.04998, 0.06205)
