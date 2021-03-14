@@ -117,15 +117,17 @@
       day_moment
       );
 
+    vec3 sky_color = HI_SKY_RAIN_COLOR * luma(hi_sky_color);
+
     direct_light_color = mix(
       direct_light_color,
-      HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+      sky_color * 2.0,
       rainStrength
     );
 
     hi_sky_color = mix(
       hi_sky_color,
-      HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+      sky_color,
       rainStrength
     );
 

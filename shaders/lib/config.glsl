@@ -55,13 +55,13 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
 #define SHADOW_BLUR 2.0 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0]  Shadow blur intensity
 #define WATER_TINT 0.8 // [0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0]  Water tint percentage
-#define COLOR_SCHEME 0 // [0 1 2 3] Legacy: Exotic colors at sunset. Cocoa: A warm preset of vivid colors in the day. Captain: A cold preset of stylish colors. Choca like: Self-explanatory
+#define COLOR_SCHEME 1 // [0 1 2 3] Legacy: Exotic colors at sunset. Cocoa: A warm preset of vivid colors in the day. Captain: A cold preset of stylish colors. Choca-like: Warm theme, with high contrast between light and shadow, inspired by the color theme of a famous shader.
 #define WATER_TEXTURE 1 // [0 1] Enable or disable resource pack water texture.
 #define AVOID_DARK 1 // [0 1] Avoid absolute darkness in caves at daytime
 #define V_CLOUDS 1 // [0 1] Set clouds type
 #define BLACK_ENTITY_FIX 0 // [0 1] Removes black entity bug (activate ONLY if you have problems with black entities)
 #define BLOOM 1 // [0 1] Set bloom
-#define BLOOM_SAMPLES 4.0 // [4.0 5.0 6.0 7.0 8.0 9.0 10.0] Bloom sample pairs
+#define BLOOM_SAMPLES 5.0 // [5.0 6.0 7.0 8.0 9.0 10.0] Bloom sample pairs
 #define CHROMA_ABER 0 // [0 1] Enable chroma aberration
 #define CHROMA_ABER_STRENGHT 0.05 // [0.04 0.05 0.06] Chroma aberration strenght
 

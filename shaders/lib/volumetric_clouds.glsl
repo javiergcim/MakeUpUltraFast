@@ -81,7 +81,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
         current_value =
           texture(
             gaux3,
-            (intersection_pos.xz * .0002) + (frameTimeCounter * 0.001388888888888889)
+            (intersection_pos.xz * .0002) + (frameTimeCounter * 0.002777777777777778)
           ).r;
         // Ajuste por umbral
         current_value = clamp((current_value - umbral) / (1.0 - umbral), 0.0, 1.0);

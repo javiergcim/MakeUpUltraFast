@@ -46,18 +46,18 @@ uniform float day_moment;
   #define LOW_DAY_COLOR vec3(0.5, 0.7, 1.0)
   #define LOW_NIGHT_COLOR vec3(0.025, 0.035, 0.05)
 #elif COLOR_SCHEME == 3  // Choca like
-  #define OMNI_TINT 0.3
+  #define OMNI_TINT 0.35
   #define AMBIENT_MIDDLE_COLOR vec3(0.64, 0.46, 0.21)
-  #define AMBIENT_DAY_COLOR vec3(0.9375, 0.9375, 0.59765625)
-  #define AMBIENT_NIGHT_COLOR vec3(0.04080882, 0.04411765, 0.05211397)
+  #define AMBIENT_DAY_COLOR vec3(0.9375, 0.9375, 0.65)
+  #define AMBIENT_NIGHT_COLOR vec3(0.02448529, 0.02647059, 0.03126838)
 
-  #define HI_MIDDLE_COLOR vec3(0.09, 0.2, 0.38)
+  #define HI_MIDDLE_COLOR vec3(0.1, 0.17058824, 0.25490196)
   #define HI_DAY_COLOR vec3(0.1, 0.17058824, 0.25490196)
-  #define HI_NIGHT_COLOR vec3(0.014, 0.019, 0.031)
+  #define HI_NIGHT_COLOR vec3(0.014, 0.019, 0.025)
 
-  #define LOW_MIDDLE_COLOR vec3(0.91, 0.66, 0.47)
+  #define LOW_MIDDLE_COLOR vec3(0.55, 0.47, 0.4)
   #define LOW_DAY_COLOR vec3(0.28, 0.525, 0.7)
-  #define LOW_NIGHT_COLOR vec3(0.022, 0.029, 0.049)
+  #define LOW_NIGHT_COLOR vec3(0.0213, 0.0306, 0.0387)
 #endif
 
 vec3 day_color_mixer(vec3 middle, vec3 day, vec3 night, float moment) {
