@@ -46,8 +46,6 @@ varying vec2 texcoord;
 #endif
 
 void main() {
-  // vec4 average_data = texture(colortex2, texcoord);
-
   vec3 block_color = texture(colortex0, texcoord).rgb;
   float d = texture(depthtex0, texcoord).r;
   float linear_d = ld(d);

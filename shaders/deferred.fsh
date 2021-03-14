@@ -88,8 +88,6 @@ void main() {
 				);
 			bright = clamp(bright * bright * bright, 0.0, 1.0);
 
-			// block_color.rgb *= (bright * .25 + 1.0);
-
       block_color.rgb =
 				get_cloud(view_vector, block_color.rgb, bright);
     }

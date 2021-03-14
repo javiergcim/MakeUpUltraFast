@@ -29,7 +29,7 @@ const int colortex3Format = R8;
 const int gaux1Format = RGB8;
 const int colortex5Format = R8;
 const int gaux3Format = R8;
-const int colortex7Format = R8;
+const int colortex7Format = R11F_G11F_B10F;
 */
 
 // 'Global' constants from system
