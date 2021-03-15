@@ -8,7 +8,7 @@ profile.VeryHigh=Very High
 profile.Ultra=Ultra
 profile.Extreme=Extreme
 
-profile.comment=Very Low - No optional effects. Low - Adds simple reflection. Medium - Adds TAA, AO, refraction. High - Adds shadows. Very High - Adds volumetric clouds. Ultra - Adds depth of field.
+profile.comment=Very Low - No optional effects. Low - Adds simple reflection. Medium - Adds TAA, AO, refraction. High - Adds shadows. Very High - Adds volumetric clouds. Ultra - Adds depth of field. Extreme - All effects enabled
 
 #About
 #############################
