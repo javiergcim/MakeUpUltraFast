@@ -34,6 +34,10 @@ uniform float rainStrength;
   uniform float fov_y_inv;
 #endif
 
+#if DOF == 1
+  const bool colortex0MipmapEnabled = true;
+#endif
+
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 

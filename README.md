@@ -13,6 +13,7 @@ for low-spec computers.
 * Water reflection and refraction
 * Motion blur
 * Optional bloom
+* Optional chromatic aberration
 * Auto-exposure
 * Shader for all native dimensions
 * FAST!

@@ -41,8 +41,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define TINTED_WATER 1  // [0 1] Use the resource pack color for water.
 #define REFRACTION 1  // [0 1] Activate refractions.
 #define DOF 0  // [0 1] Enables depth of field. High performance cost.
-#define DOF_STRENGTH 0.04  // [0.01 0.02 0.03 0.04 0.05 0.06]  Depth of field strenght.
-#define DOF_SAMPLES_FACTOR 0.5 // [0.3 0.5 0.7 0.9 1.1 1.3 1.5]  DoF Quality. Lower values are suitable when TAA is active. High performance cost.
+#define DOF_STRENGTH 0.05  // [0.01 0.02 0.03 0.04 0.05 0.06 0.07]  Depth of field strenght.
 #define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance impact).
 #define AOSTEPS 5 // [5 6 7 8 9 10 11 12 13 14] How many samples are taken. High performance cost.
 #define AO_STRENGHT 0.5 // [0.2 0.3 0.4 0.5 0.6] Ambient oclusion strenght

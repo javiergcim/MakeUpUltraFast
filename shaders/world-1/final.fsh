@@ -36,7 +36,6 @@ uniform ivec2 eyeBrightnessSmooth;
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
-
 uniform sampler2D colortex0;
 
 // Varyings (per thread shared variables)
@@ -46,8 +45,16 @@ varying vec2 texcoord;
 #include "/lib/basic_utils.glsl"
 #include "/lib/tone_maps.glsl"
 
+#if CHROMA_ABER == 1
+  #include "/lib/aberration.glsl"
+#endif
+
 void main() {
-  vec3 block_color = texture(colortex0, texcoord).rgb;
+  #if CHROMA_ABER == 1
+    vec3 block_color = color_aberration();
+  #else
+    vec3 block_color = texture(colortex0, texcoord).rgb;
+  #endif
 
   // Tonemaping ---
   // x: Block, y: Sky ---

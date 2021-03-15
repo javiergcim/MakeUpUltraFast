@@ -1,9 +1,5 @@
 #ifdef NETHER  // The Nether ===================================================
   tint_color = gl_Color;
-  // #ifdef EMMISIVE_V
-  // if (emissive > 0.5 || magma > 0.5) {  // Es bloque es emisivo
-  //   tint_color.rgb *= 2.5;
-  // }
 
   #ifdef EMMISIVE_V
   if (emissive > 0.5) {  // Es bloque es emisivo

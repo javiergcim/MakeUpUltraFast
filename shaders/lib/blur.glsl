@@ -13,45 +13,31 @@ vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force) {
     blur_radius =
       max(abs(the_depth - centerDepthSmooth) - 0.0001, 0.0) * fov_y_inv;
     blur_radius = blur_radius * inversesqrt(0.1 + blur_radius * blur_radius) * force;
-    blur_radius = min(blur_radius, 0.05);
+    blur_radius = min(blur_radius, 0.1);
   }
 
   if (blur_radius > min(pixel_size_x, pixel_size_y)) {
     vec3 blur_sample = vec3(0.0);
     vec2 blur_radius_vec = vec2(blur_radius * inv_aspect_ratio, blur_radius);
 
-    float sample_c_f =
-        max(viewHeight * blur_radius * DOF_SAMPLES_FACTOR, 2.0);
-
-    int sample_c = int(sample_c_f);
+    int sample_c = 1;
 
     #if AA_TYPE == 1
       float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
-      // float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex5);
     #else
-      // float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
       float dither = phi_noise(uvec2(gl_FragCoord.xy));
     #endif
 
     float dither_base = dither;
     dither *= 6.283185307;
 
-    float inv_steps = 1.0 / sample_c;
-    float sample_angle_increment = 12.566370614359172 * inv_steps;
-    float current_radius;
-    vec2 offset;
+    float current_radius = (1.0 + dither_base);
+    vec2 offset = vec2(cos(dither), sin(dither)) * blur_radius_vec * current_radius;
 
-    for(int i = 1; i <= sample_c; i++) {
-      dither += sample_angle_increment;
-      current_radius = (i + dither_base) * inv_steps;
-      offset = vec2(cos(dither), sin(dither)) * blur_radius_vec * current_radius;
+    blur_sample += texture(image, coords + offset, -1.0).rgb;
+    blur_sample += texture(image, coords - offset, -1.0).rgb;
 
-      blur_sample += texture(image, coords + offset).rgb;
-      blur_sample += texture(image, coords - offset).rgb;
-    }
-
-    blur_sample /= (float(sample_c) * 2.0);
-    block_color = blur_sample;
+    block_color = blur_sample * 0.5;
   }
 
   return block_color;
