@@ -14,21 +14,21 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 colortex0 - Main color canvas
 colortex1 - Antialiasing auxiliar
-colortex2 - TAA Averages history
-colortex3 - Not used
-gaux1 - Reflection texture
+colortex2 - Bloom auxiliar
+colortex3 - TAA Averages history
+gaux1 - Sreen-Space-Reflection texture
 colortex5 - Blue noise texture
 gaux3 - Perlin noise texture
 colortex7 - Not used
 
 const int colortex0Format = R11F_G11F_B10F;
 const int colortex1Format = RGBA16F;
-const int colortex2Format = RGBA16F;
-const int colortex3Format = R8;
+const int colortex2Format = R11F_G11F_B10F;
+const int colortex3Format = RGBA16F;
 const int gaux1Format = RGB8;
 const int colortex5Format = R8;
 const int gaux3Format = R8;
-const int colortex7Format = R11F_G11F_B10F;
+const int colortex7Format = R8;
 */
 
 // 'Global' constants from system

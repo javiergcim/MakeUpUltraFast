@@ -28,7 +28,7 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past, vec2 velocity) {
     }
 
     // Muestra del pasado
-    vec3 previous = texture(colortex2, texcoord_past).rgb;
+    vec3 previous = texture(colortex3, texcoord_past).rgb;
     vec3 past_sample = clamp(previous, nmin, nmax);
 
     // Reducción de ghosting por velocidad
@@ -66,7 +66,7 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past, vec2 velocity) {
     }
 
     // Muestra del pasado
-    vec4 previous = texture(colortex2, texcoord_past);
+    vec4 previous = texture(colortex3, texcoord_past);
     vec4 past_sample = clamp(previous, nmin, nmax);
 
     // Reducción de ghosting por velocidad

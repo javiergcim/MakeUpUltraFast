@@ -15,7 +15,7 @@ uniform float viewWidth;
 uniform float viewHeight;
 
 #if AA_TYPE == 1 || MOTION_BLUR == 1
-  uniform sampler2D colortex2;  // TAA past averages
+  uniform sampler2D colortex3;  // TAA past averages
   uniform float pixel_size_x;
   uniform float pixel_size_y;
   uniform mat4 gbufferProjectionInverse;
@@ -75,8 +75,8 @@ void main() {
     #else
       block_color.rgb = fast_taa(block_color.rgb, texcoord_past, velocity);
     #endif
-    /* DRAWBUFFERS:012 */
-    gl_FragData[2] = block_color;  // To TAA averages
+    /* DRAWBUFFERS:0123 */
+    gl_FragData[3] = block_color;  // To TAA averages
     gl_FragData[0] = block_color;  // colortex0
   #else
     /* DRAWBUFFERS:0 */
