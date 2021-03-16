@@ -45,8 +45,8 @@ uniform float day_moment;
   #define LOW_MIDDLE_COLOR vec3(1.0, 0.83, 0.38)
   #define LOW_DAY_COLOR vec3(0.5, 0.7, 1.0)
   #define LOW_NIGHT_COLOR vec3(0.025, 0.035, 0.05)
-#elif COLOR_SCHEME == 3  // Choca like
-  #define OMNI_TINT 0.35
+#elif COLOR_SCHEME == 3  // Shoka
+  #define OMNI_TINT 0.5
   #define AMBIENT_MIDDLE_COLOR vec3(0.64, 0.46, 0.21)
   #define AMBIENT_DAY_COLOR vec3(0.9375, 0.9375, 0.65)
   #define AMBIENT_NIGHT_COLOR vec3(0.02448529, 0.02647059, 0.03126838)

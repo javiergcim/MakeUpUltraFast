@@ -36,7 +36,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
   #define SSR_TYPE 1
 #endif
 
-#define ACERCADE 0 // [0] //
+#define ACERCADE 0 // [0]
 #define WAVING 1 // [0 1] Waving entities
 #define TINTED_WATER 1  // [0 1] Use the resource pack color for water.
 #define REFRACTION 1  // [0 1] Activate refractions.

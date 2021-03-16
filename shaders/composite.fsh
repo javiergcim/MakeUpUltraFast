@@ -83,11 +83,13 @@ void main() {
       ((eyeBrightnessSmooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
 
     // Map from 1.0 - 0.0 to 1.3 - 3.9
-    exposure = (exposure * -2.6) + 3.9;
+    // exposure = (exposure * -2.6) + 3.9;
+    exposure = (exposure * -3.0) + 4.0;
 
     // Bloom source
     float bloom_luma =
-      smoothstep(0.6, 0.8, luma(block_color * exposure)) * 0.4;
+      // smoothstep(0.6, 0.8, luma(block_color * exposure)) * 0.4;
+      smoothstep(0.85, 0.97, luma(block_color * exposure)) * 0.4;
 
     /* DRAWBUFFERS:0123 */
     gl_FragData[1] = vec4(block_color, d);

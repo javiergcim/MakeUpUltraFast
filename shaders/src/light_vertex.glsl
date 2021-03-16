@@ -28,15 +28,6 @@
 
   tint_color = gl_Color;
 
-  #ifdef EMMISIVE_V
-  if (emissive > 0.5) {  // Es bloque es emisivo
-    // tint_color.rgb += 1.0;
-    tint_color.rgb *= 3.0;
-  } else if (magma > 0.5) {
-    tint_color.rgb *= 1.6;
-  }
-  #endif
-
   // Luz nativa (lmcoord.x: candela, lmcoord.y: cielo) ----
   vec2 illumination = lmcoord;
 
@@ -148,6 +139,18 @@
     candle_cave_strenght =
       mix(candle_cave_strenght, 1.0, visible_sky);
     candle_color *= candle_cave_strenght;
+  #endif
+
+  #ifdef EMMISIVE_V
+    if (emissive > 0.5) {  // Es bloque es emisivo
+      tint_color.rgb *= 4.0;
+      direct_light_strenght *= 0.2;
+      omni_light *= 0.5;
+    } else if (magma > 0.5) {
+      tint_color.rgb *= 2.5;
+      direct_light_strenght *= 0.2;
+      omni_light *= 0.5;
+    }
   #endif
 
   #ifndef THE_END
