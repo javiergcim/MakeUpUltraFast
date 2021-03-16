@@ -65,8 +65,7 @@
   #endif
 
   // Intensidad por dirección
-  float omni_strenght = (direct_light_strenght * .125) + 1.05;
-  // direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
+  float omni_strenght = (direct_light_strenght * .125) + 0.75;
 
   // Calculamos color de luz directa
   direct_light_color = day_color_mixer(

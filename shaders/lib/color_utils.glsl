@@ -12,12 +12,12 @@ uniform float day_moment;
   #define AMBIENT_DAY_COLOR vec3(0.74, 0.74, 0.7)
   #define AMBIENT_NIGHT_COLOR vec3(0.04080882, 0.04411765, 0.05211397)
 
-  #define HI_MIDDLE_COLOR vec3(0.17647059, 0.34901961, 0.82745098)
-  #define HI_DAY_COLOR vec3(0.14, 0.27, 0.58)
+  #define HI_MIDDLE_COLOR vec3(0.22941177, 0.45372549, 1.07568627)
+  #define HI_DAY_COLOR vec3(0.182, 0.351, 0.754)
   #define HI_NIGHT_COLOR vec3(0.00647058, 0.01270587, 0.03)
 
-  #define LOW_MIDDLE_COLOR vec3(1.0, 0.50588235, 0.21960784)
-  #define LOW_DAY_COLOR vec3(0.44, 0.78, 0.96)
+  #define LOW_MIDDLE_COLOR vec3(1.3, 0.65764706, 0.28549019)
+  #define LOW_DAY_COLOR vec3(0.572, 1.014, 1.248)
   #define LOW_NIGHT_COLOR vec3(0.01078431, 0.02117647, 0.05)
 #elif COLOR_SCHEME == 1  // Cocoa
   #define OMNI_TINT 0.5
@@ -25,12 +25,12 @@ uniform float day_moment;
   #define AMBIENT_DAY_COLOR vec3(0.75, 0.75, 0.478125)
   #define AMBIENT_NIGHT_COLOR vec3(0.04080882, 0.04411765, 0.05211397)
 
-  #define HI_MIDDLE_COLOR vec3(0.09, 0.2, 0.38)
-  #define HI_DAY_COLOR vec3(0.18, 0.31, 0.52)
+  #define HI_MIDDLE_COLOR vec3(0.117, 0.26, 0.494)
+  #define HI_DAY_COLOR vec3(0.234, 0.403, 0.676)
   #define HI_NIGHT_COLOR vec3(0.014, 0.019, 0.031)
 
-  #define LOW_MIDDLE_COLOR vec3(0.91, 0.66, 0.47)
-  #define LOW_DAY_COLOR vec3(0.4, 0.75, 1.0)
+  #define LOW_MIDDLE_COLOR vec3(1.183, 0.858, 0.611)
+  #define LOW_DAY_COLOR vec3(0.52, 0.975, 1.3)
   #define LOW_NIGHT_COLOR vec3(0.022, 0.029, 0.049)
 #elif COLOR_SCHEME == 2  // Captain
   #define OMNI_TINT 0.5
@@ -38,12 +38,12 @@ uniform float day_moment;
   #define AMBIENT_DAY_COLOR vec3(0.74541177, 0.83858823, 0.99)
   #define AMBIENT_NIGHT_COLOR vec3(0.02258823, 0.04517648, 0.06)
 
-  #define HI_MIDDLE_COLOR vec3(0.2325 , 0.27675, 0.39975)
-  #define HI_DAY_COLOR vec3(0.08, 0.2, 0.39)
-  #define HI_NIGHT_COLOR vec3(0.004 , 0.01  , 0.0195)
+  #define HI_MIDDLE_COLOR vec3(0.30225, 0.359775, 0.519675)
+  #define HI_DAY_COLOR vec3(0.104, 0.26, 0.507)
+  #define HI_NIGHT_COLOR vec3(0.004 ,0.01, 0.0195)
 
-  #define LOW_MIDDLE_COLOR vec3(1.0, 0.83, 0.38)
-  #define LOW_DAY_COLOR vec3(0.5, 0.7, 1.0)
+  #define LOW_MIDDLE_COLOR vec3(1.3, 1.079, 0.494)
+  #define LOW_DAY_COLOR vec3(0.65, 0.91, 1.3)
   #define LOW_NIGHT_COLOR vec3(0.025, 0.035, 0.05)
 #elif COLOR_SCHEME == 3  // Shoka
   #define OMNI_TINT 0.5
@@ -51,12 +51,12 @@ uniform float day_moment;
   #define AMBIENT_DAY_COLOR vec3(0.9375, 0.9375, 0.65)
   #define AMBIENT_NIGHT_COLOR vec3(0.02448529, 0.02647059, 0.03126838)
 
-  #define HI_MIDDLE_COLOR vec3(0.1, 0.17058824, 0.25490196)
-  #define HI_DAY_COLOR vec3(0.1, 0.17058824, 0.25490196)
+  #define HI_MIDDLE_COLOR vec3(0.13, 0.22176471, 0.33137255)
+  #define HI_DAY_COLOR vec3(0.13, 0.22176471, 0.33137255)
   #define HI_NIGHT_COLOR vec3(0.014, 0.019, 0.025)
 
-  #define LOW_MIDDLE_COLOR vec3(0.55, 0.47, 0.4)
-  #define LOW_DAY_COLOR vec3(0.28, 0.525, 0.7)
+  #define LOW_MIDDLE_COLOR vec3(0.715, 0.611, 0.52)
+  #define LOW_DAY_COLOR vec3(0.364 , 0.6825, 0.91)
   #define LOW_NIGHT_COLOR vec3(0.0213, 0.0306, 0.0387)
 #endif
 
