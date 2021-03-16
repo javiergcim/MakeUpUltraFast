@@ -3,9 +3,9 @@
 
   #ifdef EMMISIVE_V
   if (emissive > 0.5) {  // Es bloque es emisivo
-    tint_color.rgb *= 3.0;
+    tint_color.rgb *= 4.0;
   } else if (magma > 0.5) {
-    tint_color.rgb *= 1.6;
+    tint_color.rgb *= 2.0;
   }
   #endif
 
@@ -65,7 +65,7 @@
   #endif
 
   // Intensidad por dirección
-  float omni_strenght = (direct_light_strenght * .125) + 0.75;
+  float omni_strenght = (direct_light_strenght * .125) + 1.0;
 
   // Calculamos color de luz directa
   direct_light_color = day_color_mixer(
@@ -142,11 +142,11 @@
 
   #ifdef EMMISIVE_V
     if (emissive > 0.5) {  // Es bloque es emisivo
-      tint_color.rgb *= 4.0;
+      tint_color.rgb *= 4.75;
       direct_light_strenght *= 0.2;
       omni_light *= 0.5;
     } else if (magma > 0.5) {
-      tint_color.rgb *= 2.5;
+      tint_color.rgb *= 2.8;
       direct_light_strenght *= 0.2;
       omni_light *= 0.5;
     }

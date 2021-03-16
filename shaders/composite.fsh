@@ -84,7 +84,9 @@ void main() {
 
     // Map from 1.0 - 0.0 to 1.3 - 3.9
     // exposure = (exposure * -2.6) + 3.9;
-    exposure = (exposure * -3.0) + 4.0;
+    
+    // Map from 1.0 - 0.0 to 1.0 - 3.6
+    exposure = (exposure * -2.6) + 3.6;
 
     // Bloom source
     float bloom_luma =

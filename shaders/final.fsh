@@ -70,10 +70,10 @@ void main() {
 
   // Map from 1.0 - 0.0 to 1.3 - 3.9
   // exposure = (exposure * -2.6) + 3.9;
-  exposure = (exposure * -3.0) + 4.0;
+  exposure = (exposure * -2.6) + 3.6;
 
   block_color *= exposure;
-  block_color = lottes_tonemap(block_color, exposure);
+  block_color = lottes_tonemap(block_color, exposure + 0.5);
 
   gl_FragColor = vec4(block_color, 1.0);
 }
