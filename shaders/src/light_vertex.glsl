@@ -65,7 +65,7 @@
   #endif
 
   // Intensidad por dirección
-  float omni_strenght = (direct_light_strenght * .125) + .75;
+  float omni_strenght = (direct_light_strenght * .125) + 1.05;
   // direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
 
   // Calculamos color de luz directa
@@ -156,7 +156,7 @@
   #ifndef THE_END
     #if SHADOW_CASTING == 0
       // Fake shadows
-      direct_light_strenght = mix(0.0, direct_light_strenght, pow(visible_sky, 10.0)) * 1.5;
+      direct_light_strenght = mix(0.0, direct_light_strenght, pow(visible_sky, 10.0)) * 1.33;
     #else
       direct_light_strenght = mix(0.0, direct_light_strenght, visible_sky);
     #endif

@@ -79,7 +79,8 @@ void main() {
       ((eyeBrightnessSmooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
 
     // Map from 1.0 - 0.0 to 1.3 - 3.9
-    exposure = (exposure * -2.6) + 3.9;
+    // exposure = (exposure * -2.6) + 3.9;
+    exposure = (exposure * -3.0) + 4.0;
 
     // Bloom source
     float bloom_luma =
