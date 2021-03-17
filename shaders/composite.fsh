@@ -8,17 +8,12 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define NO_SHADOWS
 
 #include "/lib/config.glsl"
-#include "/lib/color_utils.glsl"
 
 uniform sampler2D colortex0;
 uniform sampler2D depthtex0;
 uniform float far;
 uniform float near;
 uniform float blindness;
-uniform ivec2 eyeBrightnessSmooth;
-uniform int current_hour_floor;
-uniform int current_hour_ceil;
-uniform float current_hour_fract;
 uniform int isEyeInWater;
 uniform float rainStrength;
 
@@ -40,6 +35,10 @@ uniform float rainStrength;
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
+
+#if BLOOM == 1
+  varying float exposure;
+#endif
 
 #include "/lib/depth.glsl"
 #include "/lib/luma.glsl"
@@ -70,27 +69,22 @@ void main() {
   }
 
   #if BLOOM == 1
-
-    // Exposure
-    float candle_bright = eyeBrightnessSmooth.x * 0.0003125;  // (0.004166666666666667 * 0.075)
-    float exposure_coef =
-      mix(
-        ambient_exposure[current_hour_floor],
-        ambient_exposure[current_hour_ceil],
-        current_hour_fract
-      );
-    float exposure =
-      ((eyeBrightnessSmooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
-
-    // Map from 1.0 - 0.0 to 1.3 - 3.9
-    // exposure = (exposure * -2.6) + 3.9;
-    
-    // Map from 1.0 - 0.0 to 1.0 - 3.6
-    exposure = (exposure * -2.6) + 3.6;
+    // // Exposure
+    // float candle_bright = eyeBrightnessSmooth.x * 0.0003125;  // (0.004166666666666667 * 0.075)
+    // float exposure_coef =
+    //   mix(
+    //     ambient_exposure[current_hour_floor],
+    //     ambient_exposure[current_hour_ceil],
+    //     current_hour_fract
+    //   );
+    // float exposure =
+    //   ((eyeBrightnessSmooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
+    //
+    // // Map from 1.0 - 0.0 to 1.0 - 3.6
+    // exposure = (exposure * -2.6) + 3.6;
 
     // Bloom source
     float bloom_luma =
-      // smoothstep(0.6, 0.8, luma(block_color * exposure)) * 0.4;
       smoothstep(0.85, 0.97, luma(block_color * exposure)) * 0.4;
 
     /* DRAWBUFFERS:0123 */
