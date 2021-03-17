@@ -2,7 +2,7 @@
 Ultra fast Minecraft shader (Java). For a small graphic improvement. Intended
 for low-spec computers.
 
-**Version: 5.01: Bloom update**
+**Version: 5.02: Bloom update**
 
 ## Main features
 * Optional shadows

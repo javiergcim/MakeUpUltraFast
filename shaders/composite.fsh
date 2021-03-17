@@ -69,20 +69,6 @@ void main() {
   }
 
   #if BLOOM == 1
-    // // Exposure
-    // float candle_bright = eyeBrightnessSmooth.x * 0.0003125;  // (0.004166666666666667 * 0.075)
-    // float exposure_coef =
-    //   mix(
-    //     ambient_exposure[current_hour_floor],
-    //     ambient_exposure[current_hour_ceil],
-    //     current_hour_fract
-    //   );
-    // float exposure =
-    //   ((eyeBrightnessSmooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
-    //
-    // // Map from 1.0 - 0.0 to 1.0 - 3.6
-    // exposure = (exposure * -2.6) + 3.6;
-
     // Bloom source
     float bloom_luma =
       smoothstep(0.85, 0.97, luma(block_color * exposure)) * 0.4;
