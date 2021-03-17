@@ -87,7 +87,7 @@
         #endif
 
         direct_light_strenght =
-        mix(direct_light_strenght, 1.0, .2 * foliage_attenuation_coef) * .55;
+        mix(clamp(direct_light_strenght, 0.0, 1.0), 1.0, .25 * foliage_attenuation_coef) * .75;
       #endif
 
       omni_strenght = 1.0;
