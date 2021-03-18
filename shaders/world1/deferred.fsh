@@ -60,8 +60,8 @@ void main() {
     // block_color = vec4(vec3(final_ao), 1.0);
   #endif
 
-  /* DRAWBUFFERS:04 */
+  /* DRAWBUFFERS:014 */
 	gl_FragData[0] = vec4(block_color.rgb, d);
 	gl_FragData[1] = block_color;
-	gl_FragData[4] = block_color;
+	gl_FragData[2] = block_color;
 }

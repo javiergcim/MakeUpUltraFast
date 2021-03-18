@@ -140,8 +140,8 @@ void main() {
       );
   }
 
-	/* DRAWBUFFERS:04 */
+	/* DRAWBUFFERS:014 */
 	gl_FragData[0] = vec4(block_color.rgb, d);
 	gl_FragData[1] = block_color;
-	gl_FragData[4] = block_color;
+	gl_FragData[2] = block_color;
 }

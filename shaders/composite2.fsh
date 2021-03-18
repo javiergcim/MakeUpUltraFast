@@ -75,9 +75,9 @@ void main() {
     #else
       block_color.rgb = fast_taa(block_color.rgb, texcoord_past, velocity);
     #endif
-    /* DRAWBUFFERS:0123 */
-    gl_FragData[3] = block_color;  // To TAA averages
+    /* DRAWBUFFERS:03 */
     gl_FragData[0] = block_color;  // colortex0
+    gl_FragData[1] = block_color;  // To TAA averages
   #else
     /* DRAWBUFFERS:0 */
     gl_FragData[0] = block_color;  // colortex0
