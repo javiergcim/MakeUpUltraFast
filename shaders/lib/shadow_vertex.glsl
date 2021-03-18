@@ -1,4 +1,4 @@
-/* MakeUp Ultra Fast - basic_utils.glsl
+/* MakeUp - basic_utils.glsl
 Vertex shadow function.
 
 Javier Garduño - GNU Lesser General Public License v3.0

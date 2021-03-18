@@ -1,4 +1,4 @@
-/* MakeUp Ultra Fast - basic_utils.glsl
+/* MakeUp - basic_utils.glsl
 Depth utilities.
 
 Javier Garduño - GNU Lesser General Public License v3.0

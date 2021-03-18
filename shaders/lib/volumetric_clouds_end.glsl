@@ -1,4 +1,4 @@
-/* MakeUp Ultra Fast - volumetric_clouds_end.glsl
+/* MakeUp - volumetric_clouds_end.glsl
 Fast volumetric clouds (for The End) - MakeUp implementation
 */
 

@@ -1,4 +1,4 @@
-/* MakeUp Ultra Fast - aberration.glsl
+/* MakeUp - aberration.glsl
 Color aberration effect.
 */
 

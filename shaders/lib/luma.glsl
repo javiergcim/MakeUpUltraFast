@@ -1,4 +1,4 @@
-/* MakeUp Ultra Fast - luma.glsl
+/* MakeUp - luma.glsl
 Luma related functions.
 
 Javier Garduño - GNU Lesser General Public License v3.0

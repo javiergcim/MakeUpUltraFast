@@ -1,4 +1,4 @@
-/* MakeUp Ultra Fast - water.glsl
+/* MakeUp - water.glsl
 Water reflection and refraction related functions.
 */
 

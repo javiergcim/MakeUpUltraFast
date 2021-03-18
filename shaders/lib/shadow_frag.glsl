@@ -1,4 +1,4 @@
-/* MakeUp Ultra Fast - shadow_frag.glsl
+/* MakeUp - shadow_frag.glsl
 Fragment shadow function.
 
 Javier Garduño - GNU Lesser General Public License v3.0

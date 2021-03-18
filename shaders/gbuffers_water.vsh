@@ -1,5 +1,5 @@
 #version 130
-/* MakeUp Ultra Fast - gbuffers_water.vsh
+/* MakeUp - gbuffers_water.vsh
 Render: Water and translucent blocks
 
 Javier Garduño - GNU Lesser General Public License v3.0

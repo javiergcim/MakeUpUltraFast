@@ -1,4 +1,4 @@
-/* MakeUp Ultra Fast - basic_utils.glsl
+/* MakeUp - motion_blur.glsl
 Motion blur functions.
 
 Javier Garduño - GNU Lesser General Public License v3.0

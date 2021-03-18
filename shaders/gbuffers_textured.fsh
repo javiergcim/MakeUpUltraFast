@@ -1,5 +1,5 @@
 #version 130
-/* MakeUp Ultra Fast - gbuffers_textured.fsh
+/* MakeUp - gbuffers_textured.fsh
 Render: Particles
 
 Javier Garduño - GNU Lesser General Public License v3.0

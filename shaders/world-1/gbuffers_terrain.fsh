@@ -1,5 +1,5 @@
 #version 130
-/* MakeUp Ultra Fast - gbuffers_terrain.fsh
+/* MakeUp - gbuffers_terrain.fsh
 Render: Almost everything
 
 Javier Garduño - GNU Lesser General Public License v3.0

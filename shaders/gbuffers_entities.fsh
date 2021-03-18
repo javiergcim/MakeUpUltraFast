@@ -1,5 +1,5 @@
 #version 130
-/* MakeUp Ultra Fast - gbuffers_entities.fsh
+/* MakeUp - gbuffers_entities.fsh
 Render: Droped objects, mobs and things like that
 
 Javier Garduño - GNU Lesser General Public License v3.0

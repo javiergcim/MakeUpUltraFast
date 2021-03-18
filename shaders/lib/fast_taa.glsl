@@ -1,4 +1,4 @@
-/* MakeUp Ultra Fast - basic_utils.glsl
+/* MakeUp - fast_taa.glsl
 Temporal antialiasing functions.
 
 Javier Garduño - GNU Lesser General Public License v3.0

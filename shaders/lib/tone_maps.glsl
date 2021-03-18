@@ -1,4 +1,4 @@
-/* MakeUp Ultra Fast - tone_maps.glsl
+/* MakeUp - tone_maps.glsl
 Tonemap functions.
 
 Javier Garduño - GNU Lesser General Public License v3.0

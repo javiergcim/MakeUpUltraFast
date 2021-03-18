@@ -1,4 +1,4 @@
-/* MakeUp Ultra Fast - dither.glsl
+/* MakeUp - dither.glsl
 Dither and hash functions
 
 */

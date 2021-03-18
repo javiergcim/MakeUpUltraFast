@@ -1,5 +1,5 @@
 #version 130
-/* MakeUp Ultra Fast - gbuffers_spidereyes.fsh
+/* MakeUp - gbuffers_spidereyes.fsh
 Render: Some creatures eyes (like spider)
 
 Javier Garduño - GNU Lesser General Public License v3.0

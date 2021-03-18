@@ -1,4 +1,4 @@
-/* MakeUp Ultra Fast - ao.glsl
+/* MakeUp - ao.glsl
 Based on Capt Tatsu's ambient occlusion functions.
 
 */

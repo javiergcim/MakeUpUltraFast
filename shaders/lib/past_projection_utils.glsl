@@ -1,4 +1,4 @@
-/* MakeUp Ultra Fast - basic_utils.glsl
+/* MakeUp - past_projection_utils.glsl
 Projection functions from past frame.
 
 Javier Garduño - GNU Lesser General Public License v3.0

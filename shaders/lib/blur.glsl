@@ -1,4 +1,4 @@
-/* MakeUp Ultra Fast - blur.glsl
+/* MakeUp - blur.glsl
 Blur functions.
 
 Javier Garduño - GNU Lesser General Public License v3.0

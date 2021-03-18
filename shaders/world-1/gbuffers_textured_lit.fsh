@@ -1,5 +1,5 @@
 #version 130
-/* MakeUp Ultra Fast - gbuffers_textured_lit.fsh
+/* MakeUp - gbuffers_textured_lit.fsh
 Render: Small entities, hand objects
 
 Javier Garduño - GNU Lesser General Public License v3.0

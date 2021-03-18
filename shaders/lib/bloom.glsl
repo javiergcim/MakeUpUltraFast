@@ -1,4 +1,4 @@
-/* MakeUp Ultra Fast - bloom.glsl
+/* MakeUp - bloom.glsl
 Bloom functions.
 
 Javier Garduño - GNU Lesser General Public License v3.0

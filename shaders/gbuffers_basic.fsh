@@ -1,5 +1,5 @@
 #version 130
-/* MakeUp Ultra Fast - gbuffers_clouds.fsh
+/* MakeUp - gbuffers_clouds.fsh
 Render: Basic elements
 
 Javier Garduño - GNU Lesser General Public License v3.0

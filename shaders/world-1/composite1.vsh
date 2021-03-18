@@ -1,5 +1,5 @@
 #version 130
-/* MakeUp Ultra Fast - final.fsh
+/* MakeUp - final.fsh
 Render: Bloom
 
 Javier Garduño - GNU Lesser General Public License v3.0

@@ -1,5 +1,5 @@
 #version 130
-/* MakeUp Ultra Fast - gbuffers_skybasic.fsh
+/* MakeUp - gbuffers_skybasic.fsh
 Render: Sky
 
 Javier Garduño - GNU Lesser General Public License v3.0

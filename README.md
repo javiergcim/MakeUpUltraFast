@@ -1,8 +1,7 @@
-# MakeUp - Ultra Fast
-Ultra fast Minecraft shader (Java). For a small graphic improvement. Intended
-for low-spec computers.
+# MakeUp - Ultra
+High performance Minecraft shader (Java).
 
-**Version: 5.02: Bloom update**
+**Version: 5.1: New profile**
 
 ## Main features
 * Optional shadows

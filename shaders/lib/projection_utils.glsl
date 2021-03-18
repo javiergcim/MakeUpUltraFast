@@ -1,4 +1,4 @@
-/* MakeUp Ultra Fast - basic_utils.glsl
+/* MakeUp - projection_utils.glsl
 Projection generic functions.
 
 Javier Garduño - GNU Lesser General Public License v3.0

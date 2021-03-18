@@ -1,5 +1,5 @@
 #version 130
-/* MakeUp Ultra Fast - gbuffers_skytextured.fsh
+/* MakeUp - gbuffers_skytextured.fsh
 Render: sun, moon
 
 Javier Garduño - GNU Lesser General Public License v3.0
