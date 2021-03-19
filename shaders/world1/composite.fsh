@@ -56,7 +56,7 @@ void main() {
   #if DOF == 1
     block_color.rgb = noised_blur(
       block_color,
-      colortex0,
+      colortex1,
       texcoord,
       DOF_STRENGTH
       );

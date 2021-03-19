@@ -54,12 +54,9 @@ uniform sampler2D colortex0;
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
+varying float exposure;
 
-#if BLOOM == 1
-  varying float exposure;
-#endif
-
-#include "/lib/color_utils.glsl"
+// #include "/lib/color_utils.glsl"
 #include "/lib/basic_utils.glsl"
 #include "/lib/tone_maps.glsl"
 
