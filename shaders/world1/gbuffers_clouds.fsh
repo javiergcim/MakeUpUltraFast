@@ -7,6 +7,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #define THE_END
 #define NO_SHADOWS
+#define CLOUDS_SHADER
 
 #include "/lib/config.glsl"
 #include "/lib/color_utils.glsl"

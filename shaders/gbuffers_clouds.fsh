@@ -6,6 +6,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 #define NO_SHADOWS
+#define CLOUDS_SHADER
 
 #include "/lib/config.glsl"
 #include "/lib/color_utils.glsl"
@@ -25,8 +26,7 @@ void main() {
     vec4 block_color = texture(tex, texcoord) * tint_color;
     #include "/src/cloudfinalcolor.glsl"
   #else
-    vec4 block_color = vec4(0.0, 0.0, 0.0, 0.0);
+    vec4 block_color = vec4(0.0);
   #endif
-  /* DRAWBUFFERS:01234 */
   #include "/src/writebuffers.glsl"
 }
