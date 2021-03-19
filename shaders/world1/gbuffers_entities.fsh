@@ -18,7 +18,7 @@ uniform float rainStrength;
 uniform vec4 entityColor;
 
 #if SHADOW_CASTING == 1
-  uniform sampler2D gaux2;
+  uniform sampler2D colortex5;
   uniform float frameTimeCounter;
   uniform sampler2DShadow shadowtex1;
 #endif

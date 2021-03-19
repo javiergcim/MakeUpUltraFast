@@ -82,7 +82,7 @@ const bool colortex2Clear = false;
 const bool colortex3Clear = false;
 const bool colortex4Clear = false;
 const bool colortex5Clear = false;
-const bool gaux3Clear = false;
+const bool colortex6Clear = false;
 
 // Sun rotation angle
 const float sunPathRotation = -25.0;

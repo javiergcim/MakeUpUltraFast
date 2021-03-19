@@ -15,7 +15,7 @@ varying vec3 up_vec;
 varying vec4 star_data;
 
 // 'Global' constants from system
-uniform sampler2D gaux2;
+uniform sampler2D colortex5;
 uniform int isEyeInWater;
 uniform int current_hour_floor;
 uniform int current_hour_ceil;

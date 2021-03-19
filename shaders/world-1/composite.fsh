@@ -8,17 +8,11 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define NO_SHADOWS
 
 #include "/lib/config.glsl"
-#include "/lib/color_utils_nether.glsl"
 
-uniform sampler2D colortex0;
-uniform sampler2D depthtex0;
+uniform sampler2D colortex1;
 uniform float far;
 uniform float near;
 uniform float blindness;
-uniform ivec2 eyeBrightnessSmooth;
-uniform int current_hour_floor;
-uniform int current_hour_ceil;
-uniform float current_hour_fract;
 uniform int isEyeInWater;
 uniform float rainStrength;
 
@@ -34,8 +28,16 @@ uniform float rainStrength;
   uniform float fov_y_inv;
 #endif
 
+#if DOF == 1
+  const bool colortex1MipmapEnabled = true;
+#endif
+
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
+
+#if BLOOM == 1
+  varying float exposure;
+#endif
 
 #include "/lib/depth.glsl"
 #include "/lib/luma.glsl"
@@ -46,13 +48,13 @@ varying vec2 texcoord;
 #endif
 
 void main() {
-  vec3 block_color = texture(colortex0, texcoord).rgb;
-  float d = texture(depthtex0, texcoord).r;
+  vec4 block_color = texture(colortex1, texcoord);
+  float d = block_color.a;
   float linear_d = ld(d);
 
   #if DOF == 1
-    block_color = noised_blur(
-      vec4(block_color, d),
+    block_color.rgb = noised_blur(
+      block_color,
       colortex0,
       texcoord,
       DOF_STRENGTH
@@ -61,36 +63,20 @@ void main() {
   #endif
 
   if (blindness > .01) {
-    block_color =
-    mix(block_color, vec3(0.0), blindness * linear_d * far * .12);
+    block_color.rgb =
+    mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
   }
 
   #if BLOOM == 1
-
-    // Exposure
-    float candle_bright = eyeBrightnessSmooth.x * 0.0003125;  // (0.004166666666666667 * 0.075)
-    float exposure_coef =
-      mix(
-        ambient_exposure[current_hour_floor],
-        ambient_exposure[current_hour_ceil],
-        current_hour_fract
-      );
-    float exposure =
-      ((eyeBrightnessSmooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
-
-    // Map from 1.0 - 0.0 to 1.3 - 3.9
-    // exposure = (exposure * -2.6) + 3.9;
-    exposure = (exposure * -2.6) + 3.6;
-
     // Bloom source
     float bloom_luma =
-      smoothstep(0.6, 0.8, luma(block_color * exposure)) * 0.4;
+      smoothstep(0.85, 0.97, luma(block_color.rgb * exposure)) * 0.4;
 
     /* DRAWBUFFERS:12 */
-    gl_FragData[0] = vec4(block_color, d);
-    gl_FragData[1] = vec4(block_color * bloom_luma, 1.0);
+    gl_FragData[0] = block_color;
+    gl_FragData[1] = block_color * bloom_luma;
   #else
     /* DRAWBUFFERS:1 */
-    gl_FragData[0] = vec4(block_color, d);
+    gl_FragData[0] = block_color;
   #endif
 }

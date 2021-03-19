@@ -9,7 +9,6 @@ float dbao() {
   #if AA_TYPE == 1
     float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
   #else
-    // float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
     float dither = phi_noise(uvec2(gl_FragCoord.xy));
   #endif
 

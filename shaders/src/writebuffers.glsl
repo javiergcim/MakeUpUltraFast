@@ -1,6 +1,6 @@
 #ifdef WATER_F
 
-  /* DRAWBUFFERS:0 */
+  /* DRAWBUFFERS:1 */
 
   gl_FragData[0] = block_color;
 

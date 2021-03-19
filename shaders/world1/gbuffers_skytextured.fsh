@@ -13,7 +13,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #if V_CLOUDS != 0
   uniform sampler2D depthtex0;
-  uniform sampler2D gaux3;
+  uniform sampler2D colortex6;
   uniform vec3 cameraPosition;
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;

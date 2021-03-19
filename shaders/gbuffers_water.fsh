@@ -57,7 +57,7 @@ uniform vec3 skyColor;
 uniform float light_mix;
 
 #if SHADOW_CASTING == 1
-  uniform sampler2D gaux2;
+  uniform sampler2D colortex5;
   uniform sampler2DShadow shadowtex1;
 #endif
 

@@ -59,7 +59,7 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright) {
       for (int i = 0; i < real_steps; i++) {
         current_value =
           texture(
-            gaux3,
+            colortex6,
             (intersection_pos.xz * .0002) + (frameTimeCounter * 0.002777777777777778)
           ).r;
         // Ajuste por umbral

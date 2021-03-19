@@ -19,16 +19,34 @@ colortex2 - Bloom auxiliar
 colortex3 - TAA Averages history
 colortex4 - Sreen-Space-Reflection texture
 colortex5 - Blue noise texture
-gaux3 - Perlin noise texture
+colortex6 - Perlin noise texture
 colortex7 - Not used
 
 const int colortex0Format = R11F_G11F_B10F;
 const int colortex1Format = RGBA16F;
+*/
+#if BLOOM == 1
+/*
 const int colortex2Format = R11F_G11F_B10F;
+*/
+#else
+/*
+const int colortex2Format = R8;
+*/
+#endif
+#if DOF == 1
+/*
 const int colortex3Format = RGBA16F;
+*/
+#else
+/*
+const int colortex3Format = R11F_G11F_B10F;
+*/
+#endif
+/*
 const int colortex4Format = RGB8;
 const int colortex5Format = R8;
-const int gaux3Format = R8;
+const int colortex6Format = R8;
 const int colortex7Format = R8;
 */
 

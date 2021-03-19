@@ -9,8 +9,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #include "/lib/config.glsl"
 
-uniform sampler2D colortex0;
-uniform sampler2D depthtex0;
+uniform sampler2D colortex1;
 uniform float far;
 uniform float near;
 uniform float blindness;
@@ -30,7 +29,7 @@ uniform float rainStrength;
 #endif
 
 #if DOF == 1
-  const bool colortex0MipmapEnabled = true;
+  const bool colortex1MipmapEnabled = true;
 #endif
 
 // Varyings (per thread shared variables)
@@ -49,14 +48,14 @@ varying vec2 texcoord;
 #endif
 
 void main() {
-  vec3 block_color = texture(colortex0, texcoord).rgb;
-  float d = texture(depthtex0, texcoord).r;
+  vec4 block_color = texture(colortex1, texcoord);
+  float d = block_color.a;
   float linear_d = ld(d);
 
   #if DOF == 1
-    block_color = noised_blur(
-      vec4(block_color, d),
-      colortex0,
+    block_color.rgb = noised_blur(
+      block_color,
+      colortex1,
       texcoord,
       DOF_STRENGTH
       );
@@ -64,20 +63,20 @@ void main() {
   #endif
 
   if (blindness > .01) {
-    block_color =
-    mix(block_color, vec3(0.0), blindness * linear_d * far * .12);
+    block_color.rgb =
+    mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
   }
 
   #if BLOOM == 1
     // Bloom source
     float bloom_luma =
-      smoothstep(0.85, 0.97, luma(block_color * exposure)) * 0.4;
+      smoothstep(0.85, 0.97, luma(block_color.rgb * exposure)) * 0.4;
 
     /* DRAWBUFFERS:12 */
-    gl_FragData[0] = vec4(block_color, d);
-    gl_FragData[1] = vec4(block_color * bloom_luma, 1.0);
+    gl_FragData[0] = block_color;
+    gl_FragData[1] = block_color * bloom_luma;
   #else
     /* DRAWBUFFERS:1 */
-    gl_FragData[0] = vec4(block_color, d);
+    gl_FragData[0] = block_color;
   #endif
 }
