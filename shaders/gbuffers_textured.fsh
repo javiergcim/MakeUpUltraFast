@@ -5,6 +5,8 @@ Render: Particles
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#define CLOUDS_SHADER
+
 #include "/lib/config.glsl"
 
 // Varyings (per thread shared variables)

@@ -31,6 +31,8 @@ uniform float viewHeight;
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
+const bool colortex1MipmapEnabled = false;
+
 #if AA_TYPE == 1 || MOTION_BLUR == 1
   #include "/lib/projection_utils.glsl"
   #include "/lib/past_projection_utils.glsl"

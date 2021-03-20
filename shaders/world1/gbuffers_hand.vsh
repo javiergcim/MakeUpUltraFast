@@ -1,15 +1,15 @@
 #version 130
-/* MakeUp - gbuffers_textured_lit.vsh
-Render: Small entities, hand objects
+/* MakeUp - gbuffers_hand.vsh
+Render: Hand opaque objects
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define NETHER
-#define NO_SHADOWS
+#define THE_END
+#define ENTITY_GLINT
 
 #include "/lib/config.glsl"
-#include "/lib/color_utils_nether.glsl"
+#include "/lib/color_utils_end.glsl"
 
 // 'Global' constants from system
 uniform vec3 sunPosition;
@@ -25,11 +25,29 @@ uniform vec3 skyColor;
 uniform ivec2 eyeBrightnessSmooth;
 uniform mat4 gbufferModelView;
 
+#if SHADOW_CASTING == 1
+  uniform mat4 shadowModelView;
+  uniform mat4 shadowProjection;
+  uniform vec3 shadowLightPosition;
+  uniform mat4 gbufferModelViewInverse;
+#endif
+
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
-varying vec3 real_light;
+varying vec3 current_fog_color;
+varying float frog_adjust;
+
+varying vec3 direct_light_color;
+varying vec3 candle_color;
+varying float direct_light_strenght;
+varying vec3 omni_light;
+
+#if SHADOW_CASTING == 1
+  varying vec3 shadow_pos;
+  varying float shadow_diffuse;
+#endif
 
 #if AA_TYPE == 1
   #include "/src/taa_offset.glsl"
@@ -37,8 +55,17 @@ varying vec3 real_light;
 
 #include "/lib/basic_utils.glsl"
 
+#if SHADOW_CASTING == 1
+  #include "/lib/shadow_vertex.glsl"
+#endif
+
 void main() {
   #include "/src/basiccoords_vertex.glsl"
   #include "/src/position_vertex.glsl"
   #include "/src/light_vertex.glsl"
+  #include "/src/fog_vertex.glsl"
+
+  #if SHADOW_CASTING == 1
+    #include "/src/shadow_src_vertex.glsl"
+  #endif
 }

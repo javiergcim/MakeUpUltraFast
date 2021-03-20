@@ -1,12 +1,9 @@
 #version 130
-/* MakeUp - gbuffers_textured.fsh
-Render: Particles
+/* MakeUp - gbuffers_hand.fsh
+Render: Hand opaque objects
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
-
-#define THE_END
-#define CLOUDS_SHADER
 
 #include "/lib/config.glsl"
 
@@ -30,9 +27,9 @@ varying vec3 omni_light;
 // 'Global' constants from system
 uniform sampler2D tex;
 uniform int isEyeInWater;
-
 uniform float nightVision;
 uniform float rainStrength;
+uniform float light_mix;
 
 #if SHADOW_CASTING == 1
   uniform sampler2D colortex5;
@@ -51,7 +48,7 @@ void main() {
   float shadow_c;
 
   #if SHADOW_CASTING == 1
-    if (lmcoord.y > 0.005) {
+    if (rainStrength < .95 && lmcoord.y > 0.005) {
       shadow_c = get_shadow(shadow_pos);
       shadow_c = mix(shadow_c, 1.0, rainStrength);
       shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
@@ -60,7 +57,7 @@ void main() {
     }
 
   #else
-    shadow_c = 1.0;
+    shadow_c = abs((light_mix * 2.0) - 1.0);
   #endif
 
   vec3 real_light =

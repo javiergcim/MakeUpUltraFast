@@ -1,12 +1,11 @@
 #version 130
-/* MakeUp - gbuffers_textured.fsh
-Render: Particles
+/* MakeUp - gbuffers_hand.fsh
+Render: Hand opaque objects
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 #define THE_END
-#define CLOUDS_SHADER
 
 #include "/lib/config.glsl"
 

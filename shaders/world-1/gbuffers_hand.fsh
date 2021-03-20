@@ -1,6 +1,6 @@
 #version 130
-/* MakeUp - gbuffers_textured_lit.fsh
-Render: Small entities, hand objects
+/* MakeUp - gbuffers_hand.fsh
+Render: Hand opaque objects
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
