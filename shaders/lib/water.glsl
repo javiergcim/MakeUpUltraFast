@@ -111,11 +111,11 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
     refraction_strength /= 1.0 + length(fragpos) * 0.4;
     vec2 medium_texcoord = pos.xy + refraction.xy * refraction_strength;
 
-    return texture(colortex4, medium_texcoord.st).rgb * color;
+    return texture(gaux1, medium_texcoord.st).rgb * color;
 
   #else
 
-    return texture(colortex4, pos.xy).rgb * color;
+    return texture(gaux1, pos.xy).rgb * color;
 
   #endif
 }
@@ -151,7 +151,7 @@ vec4 reflection_calc(vec3 fragpos, vec3 normal) {
     pos.x = 1.0 - (pos.x - 1.0);
   }
 
-  return vec4(texture(colortex4, pos.xy).rgb, border);
+  return vec4(texture(gaux1, pos.xy).rgb, border);
 }
 
 vec3 water_shader(vec3 fragpos, vec3 normal, vec3 color, vec3 sky_reflect) {
@@ -205,7 +205,7 @@ vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal) {
   float border_y = max(-fourth_pow(abs(2 * pos.y - 1.0)) + 1.0, 0.0);
   float border = min(border_x, border_y);
 
-  return vec4(texture(colortex4, pos.xy, 0.0).rgb, border);
+  return vec4(texture(gaux1, pos.xy, 0.0).rgb, border);
 }
 
 vec4 cristal_shader(vec3 fragpos, vec3 normal, vec4 color, vec3 sky_reflection) {

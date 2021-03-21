@@ -1,7 +1,7 @@
 # MakeUp - Ultra
 High performance Minecraft shader (Java).
 
-**Version: 5.08: Bloom update**
+**Version: 5.09: Bloom update**
 
 ## Main features
 * Optional shadows

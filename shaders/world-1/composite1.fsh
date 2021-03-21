@@ -31,18 +31,13 @@ void main() {
   #if BLOOM == 1
     vec3 bloom = mipmap_bloom(colortex2, texcoord);
     block_color.rgb += bloom;
+  #endif
 
-    #if MOTION_BLUR == 1 && DOF == 1
-      /* DRAWBUFFERS:01 */
-      gl_FragData[0] = block_color;
-      // gl_FragData[0] = vec4(bloom * 10.0, block_color.a);
-      gl_FragData[1] = block_color;
-    #else
-      /* DRAWBUFFERS:1 */
-      gl_FragData[0] = block_color;
-      // gl_FragData[0] = vec4(bloom * 10.0, block_color.a);
-    #endif
-
+  #if MOTION_BLUR == 1 && DOF == 1
+    /* DRAWBUFFERS:01 */
+    gl_FragData[0] = block_color;
+    // gl_FragData[0] = vec4(bloom * 10.0, block_color.a);
+    gl_FragData[1] = block_color;
   #else
     /* DRAWBUFFERS:1 */
     gl_FragData[0] = block_color;

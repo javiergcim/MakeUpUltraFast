@@ -17,7 +17,7 @@ colortex0 - Main color canvas
 colortex1 - Antialiasing auxiliar
 colortex2 - Bloom auxiliar
 colortex3 - TAA Averages history
-colortex4 - Sreen-Space-Reflection texture
+gaux1 - Sreen-Space-Reflection texture
 colortex5 - Blue noise texture
 colortex6 - Perlin noise texture
 colortex7 - Not used
@@ -44,7 +44,7 @@ const int colortex3Format = R11F_G11F_B10F;
 */
 #endif
 /*
-const int colortex4Format = RGB8;
+const int gaux1Format = RGB8;
 const int colortex5Format = R8;
 const int colortex6Format = R8;
 const int colortex7Format = R8;
