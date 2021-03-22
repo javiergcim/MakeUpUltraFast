@@ -25,7 +25,7 @@ colortex7 - Not used
 const int colortex0Format = R11F_G11F_B10F;
 const int colortex1Format = RGBA16F;
 */
-#if BLOOM == 1
+#ifdef BLOOM
 /*
 const int colortex2Format = R11F_G11F_B10F;
 */
@@ -34,7 +34,7 @@ const int colortex2Format = R11F_G11F_B10F;
 const int colortex2Format = R8;
 */
 #endif
-#if DOF == 1
+#ifdef DOF
 /*
 const int colortex3Format = RGBA16F;
 */

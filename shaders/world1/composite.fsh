@@ -17,7 +17,7 @@ uniform float blindness;
 uniform int isEyeInWater;
 uniform float rainStrength;
 
-#if DOF == 1
+#ifdef DOF
   uniform float centerDepthSmooth;
   uniform float inv_aspect_ratio;
   uniform float pixel_size_x;
@@ -29,21 +29,21 @@ uniform float rainStrength;
   uniform float fov_y_inv;
 #endif
 
-#if DOF == 1
+#ifdef DOF
   const bool colortex1MipmapEnabled = true;
 #endif
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
-#if BLOOM == 1
+#ifdef BLOOM
   varying float exposure;
 #endif
 
 #include "/lib/depth.glsl"
 #include "/lib/luma.glsl"
 
-#if DOF == 1
+#ifdef DOF
   #include "/lib/dither.glsl"
   #include "/lib/blur.glsl"
 #endif
@@ -53,7 +53,7 @@ void main() {
   float d = block_color.a;
   float linear_d = ld(d);
 
-  #if DOF == 1
+  #ifdef DOF
     block_color.rgb = noised_blur(
       block_color,
       colortex1,
@@ -68,7 +68,7 @@ void main() {
     mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
   }
 
-  #if BLOOM == 1
+  #ifdef BLOOM
     // Bloom source
     float bloom_luma =
       smoothstep(0.85, 0.97, luma(block_color.rgb * exposure)) * 0.4;

@@ -40,16 +40,16 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define WAVING 1 // [0 1] Waving entities
 #define TINTED_WATER 1  // [0 1] Use the resource pack color for water.
 #define REFRACTION 1  // [0 1] Activate refractions.
-#define DOF 0  // [0 1] Enables depth of field. High performance cost.
+// #define DOF // Enables depth of field. High performance cost.
 #define DOF_STRENGTH 0.045  // [0.03 0.035 0.040 0.045 0.05 0.055 0.06 0.065]  Depth of field strenght.
 #define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance impact).
 #define AOSTEPS 5 // [5 6 7 8 9 10 11 12 13 14] How many samples are taken. High performance cost.
 #define AO_STRENGHT 0.5 // [0.2 0.3 0.4 0.5 0.6] Ambient oclusion strenght
 #define AA_TYPE 1 // [0 1] Fast TAA - Enable antialiasing (Recommended). No - Disable antialiasing. Some efects looks noisy.
-#define MOTION_BLUR 0 // [0 1] Turn on motion blur
+//#define MOTION_BLUR // Turn on motion blurs
 #define MOTION_BLUR_STRENGTH 0.12 // [0.02 0.04 0.06 0.08 0.10 0.12 0.14 0.16 0.18 0.20] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
 #define SUN_REFLECTION 1 // [0 1] Set sun (or moon) reflection on water and glass
-#define SHADOW_CASTING
+#define SHADOW_CASTING // Set shadows
 #define SHADOW_RES 2 // [0 1 2 3 4 5] Set shadow quality
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
 #define SHADOW_BLUR 2.0 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0]  Shadow blur intensity
@@ -59,7 +59,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define AVOID_DARK 1 // [0 1] Avoid absolute darkness in caves at daytime
 #define V_CLOUDS 1 // [0 1] Set clouds type
 #define BLACK_ENTITY_FIX 0 // [0 1] Removes black entity bug (activate ONLY if you have problems with black entities)
-#define BLOOM 1 // [0 1] Set bloom
+#define BLOOM // [0 1] Set bloom
 #define BLOOM_SAMPLES 5.0 // [5.0 6.0 7.0 8.0 9.0 10.0] Bloom sample pairs
 #define CHROMA_ABER 0 // [0 1] Enable chroma aberration
 #define CHROMA_ABER_STRENGHT 0.05 // [0.04 0.05 0.06] Chroma aberration strenght

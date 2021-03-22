@@ -15,11 +15,13 @@ uniform sampler2D colortex1;
 uniform float viewWidth;
 uniform float viewHeight;
 
-#if MOTION_BLUR == 1 && DOF == 1
-  uniform sampler2D colortex0;
+#ifdef MOTION_BLUR
+  #ifdef DOF
+    uniform sampler2D colortex0;
+  #endif
 #endif
 
-#if AA_TYPE == 1 || MOTION_BLUR == 1
+#if AA_TYPE == 1 || defined MOTION_BLUR
   uniform sampler2D colortex3;  // TAA past averages
   uniform float pixel_size_x;
   uniform float pixel_size_y;
@@ -36,12 +38,12 @@ uniform float viewHeight;
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
-#if AA_TYPE == 1 || MOTION_BLUR == 1
+#if AA_TYPE == 1 || defined MOTION_BLUR
   #include "/lib/projection_utils.glsl"
   #include "/lib/past_projection_utils.glsl"
 #endif
 
-#if MOTION_BLUR == 1
+#ifdef MOTION_BLUR
   #include "/lib/dither.glsl"
   #include "/lib/motion_blur.glsl"
 #endif
@@ -55,7 +57,7 @@ void main() {
   vec4 block_color = texture(colortex1, texcoord);
 
   // Precalc past position and velocity
-  #if AA_TYPE == 1 || MOTION_BLUR == 1
+  #if AA_TYPE == 1 || defined MOTION_BLUR
     // Reproyección del cuadro anterior
     float z_depth = block_color.a;
     vec3 closest_to_camera = vec3(texcoord, z_depth);
@@ -70,8 +72,8 @@ void main() {
     vec2 velocity = texcoord - texcoord_past;
   #endif
 
-  #if MOTION_BLUR == 1
-    #if DOF == 1
+  #ifdef MOTION_BLUR
+    #ifdef DOF
       block_color.rgb = motion_blur(block_color, velocity, colortex0);
     #else
       block_color.rgb = motion_blur(block_color, velocity, colortex1);
@@ -79,7 +81,7 @@ void main() {
   #endif
 
   #if AA_TYPE == 1
-    #if DOF == 1
+    #ifdef DOF
       block_color = fast_taa_depth(block_color, texcoord_past, velocity);
     #else
       block_color.rgb = fast_taa(block_color.rgb, texcoord_past, velocity);

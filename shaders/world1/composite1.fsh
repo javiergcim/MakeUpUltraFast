@@ -22,23 +22,28 @@ varying vec2 texcoord;
 #include "/lib/dither.glsl"
 #include "/lib/bloom.glsl"
 
-#if BLOOM == 1
+#ifdef BLOOM
   const bool colortex2MipmapEnabled = true;
 #endif
 
 void main() {
   vec4 block_color = texture(colortex1, texcoord);
 
-  #if BLOOM == 1
+  #ifdef BLOOM
     vec3 bloom = mipmap_bloom(colortex2, texcoord);
     block_color.rgb += bloom;
   #endif
 
-  #if MOTION_BLUR == 1 && DOF == 1
-    /* DRAWBUFFERS:01 */
-    gl_FragData[0] = block_color;
-    // gl_FragData[0] = vec4(bloom * 10.0, block_color.a);
-    gl_FragData[1] = block_color;
+  #ifdef MOTION_BLUR
+    #ifdef DOF
+      /* DRAWBUFFERS:01 */
+      gl_FragData[0] = block_color;
+      // gl_FragData[0] = vec4(bloom * 10.0, block_color.a);
+      gl_FragData[1] = block_color;
+    #else
+      /* DRAWBUFFERS:1 */
+      gl_FragData[0] = block_color;
+    #endif
   #else
     /* DRAWBUFFERS:1 */
     gl_FragData[0] = block_color;

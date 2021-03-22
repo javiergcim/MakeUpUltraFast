@@ -9,7 +9,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/color_utils_nether.glsl"
 
 // Varyings (per thread shared variables)
-#if BLOOM == 1
+#ifdef BLOOM
   uniform ivec2 eyeBrightnessSmooth;
   uniform int current_hour_floor;
   uniform int current_hour_ceil;
@@ -19,7 +19,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
-#if BLOOM == 1
+#ifdef BLOOM
   varying float exposure;
 #endif
 
@@ -27,7 +27,7 @@ void main() {
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
   texcoord = gl_MultiTexCoord0.xy;
 
-  #if BLOOM == 1
+  #ifdef BLOOM
     // Exposure
     float candle_bright = eyeBrightnessSmooth.x * 0.0003125;  // (0.004166666666666667 * 0.075)
     float exposure_coef =
