@@ -28,7 +28,7 @@ varying vec3 candle_color;
 varying float direct_light_strenght;
 varying vec3 omni_light;
 
-#if SHADOW_CASTING == 1
+#ifdef SHADOW_CASTING
   varying vec3 shadow_pos;
   varying float shadow_diffuse;
 #endif
@@ -55,7 +55,7 @@ uniform int worldTime;
 uniform float nightVision;
 uniform float rainStrength;
 
-#if SHADOW_CASTING == 1
+#ifdef SHADOW_CASTING
   uniform sampler2D colortex5;
   uniform sampler2DShadow shadowtex1;
 #endif
@@ -65,7 +65,7 @@ uniform float rainStrength;
 #include "/lib/dither.glsl"
 #include "/lib/water.glsl"
 
-#if SHADOW_CASTING == 1
+#ifdef SHADOW_CASTING
   #include "/lib/shadow_frag.glsl"
 #endif
 
@@ -106,7 +106,7 @@ void main() {
     block_color = texture(tex, texcoord) * tint_color;
     float shadow_c;
 
-    #if SHADOW_CASTING == 1
+    #ifdef SHADOW_CASTING
       if (lmcoord.y > 0.005) {
         shadow_c = get_shadow(shadow_pos);
         shadow_c = mix(shadow_c, 1.0, rainStrength);
@@ -138,7 +138,7 @@ void main() {
     block_color = texture(tex, texcoord) * tint_color;
     float shadow_c;
 
-    #if SHADOW_CASTING == 1
+    #ifdef SHADOW_CASTING
       if (lmcoord.y > 0.005) {
         shadow_c = get_shadow(shadow_pos);
         shadow_c = mix(shadow_c, 1.0, rainStrength);
@@ -163,7 +163,7 @@ void main() {
     block_color = texture(tex, texcoord) * tint_color;
     float shadow_c;
 
-    #if SHADOW_CASTING == 1
+    #ifdef SHADOW_CASTING
       if (lmcoord.y > 0.005) {
         shadow_c = get_shadow(shadow_pos);
         shadow_c = mix(shadow_c, 1.0, rainStrength);

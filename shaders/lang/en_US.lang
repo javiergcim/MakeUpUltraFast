@@ -19,8 +19,6 @@ value.ACERCADE.0=by Javier
 #Options
 #############################
 option.SHADOW_CASTING=Shadows
-value.SHADOW_CASTING.0=Off
-value.SHADOW_CASTING.1=On
 
 option.SHADOW_RES=Shadow quality
 value.SHADOW_RES.0=Low

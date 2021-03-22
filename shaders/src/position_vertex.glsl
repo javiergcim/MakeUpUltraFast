@@ -62,7 +62,7 @@
 
 #else
   #ifndef NO_SHADOWS
-    #if SHADOW_CASTING == 1
+    #ifdef SHADOW_CASTING
       vec3 position =
         mat3(gbufferModelViewInverse) *
         (gl_ModelViewMatrix * gl_Vertex).xyz +

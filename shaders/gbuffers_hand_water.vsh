@@ -23,7 +23,7 @@ uniform float rainStrength;
 uniform vec3 skyColor;
 uniform ivec2 eyeBrightnessSmooth;
 
-#if SHADOW_CASTING == 1
+#ifdef SHADOW_CASTING
   uniform mat4 shadowModelView;
   uniform mat4 shadowProjection;
   uniform vec3 shadowLightPosition;
@@ -42,7 +42,7 @@ varying vec3 candle_color;
 varying float direct_light_strenght;
 varying vec3 omni_light;
 
-#if SHADOW_CASTING == 1
+#ifdef SHADOW_CASTING
   varying vec3 shadow_pos;
   varying float shadow_diffuse;
 #endif
@@ -53,7 +53,7 @@ varying vec3 omni_light;
 
 #include "/lib/basic_utils.glsl"
 
-#if SHADOW_CASTING == 1
+#ifdef SHADOW_CASTING
   #include "/lib/shadow_vertex.glsl"
 #endif
 
@@ -65,7 +65,7 @@ void main() {
   #include "/src/light_vertex.glsl"
   #include "/src/fog_vertex.glsl"
 
-  #if SHADOW_CASTING == 1
+  #ifdef SHADOW_CASTING
     #include "/src/shadow_src_vertex.glsl"
   #endif
 }

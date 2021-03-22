@@ -77,7 +77,7 @@
 
   #ifdef FOLIAGE_V  // Puede haber plantas en este shader
     if (is_foliage > .2) {  // Es "planta" y se atenúa luz por dirección
-      #if SHADOW_CASTING == 1
+      #ifdef SHADOW_CASTING
         direct_light_strenght = sqrt(abs(direct_light_strenght));
       #else
         #ifndef THE_END
@@ -153,7 +153,7 @@
   #endif
 
   #ifndef THE_END
-    #if SHADOW_CASTING == 0
+    #ifndef SHADOW_CASTING
       // Fake shadows
       direct_light_strenght = mix(0.0, direct_light_strenght, pow(visible_sky, 10.0)) * 1.33;
     #else
