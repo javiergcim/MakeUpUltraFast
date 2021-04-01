@@ -25,7 +25,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
   vec3 cloud_color_aux;
 
   #if AA_TYPE == 0
-    float dither = dither_grad_noise(gl_FragCoord.xy);
+    float dither = phi_noise(uvec2(gl_FragCoord.xy));
   #else
     float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
   #endif
@@ -35,8 +35,8 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
   if (cameraPosition.y < CLOUD_PLANE) {
     if (view_vector.y > .055) {  // Vista sobre el horizonte
-      // umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .3;
-      umbral = mix(0.6, 0.3, rainStrength);
+      umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .3;
+      // umbral = mix(0.6, 0.3, rainStrength);
 
       cloud_color_aux = day_color_mixer(
         AMBIENT_MIDDLE_COLOR,
@@ -56,7 +56,15 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
         0.3
       ) * mix(1.0, 0.6, rainStrength);
 
-      vec3 dark_cloud_color = block_color;
+      vec3 dark_color_aux = day_color_mixer(
+        HI_MIDDLE_COLOR,
+        HI_DAY_COLOR,
+        HI_NIGHT_COLOR,
+        day_moment
+      );
+
+      vec3 dark_luma = vec3(luma(dark_color_aux));
+      vec3 dark_cloud_color = mix(dark_luma, dark_color_aux, 0.9);
 
       real_steps = int((dither * .5 + .5) * CLOUD_STEPS);
 
@@ -84,7 +92,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
             (intersection_pos.xz * .0002) + (frameTimeCounter * 0.002777777777777778)
           ).r;
         // Ajuste por umbral
-        current_value = clamp((current_value - umbral) / (1.0 - umbral), 0.0, 1.0);
+        current_value = (current_value - umbral) / (1.0 - umbral);
 
         // Superficies inferior y superior de nubes
         surface_inf = CLOUD_PLANE_CENTER - (current_value * dif_inf);
@@ -102,24 +110,29 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
                 (surface_sup - intersection_pos.y) /
                 (CLOUD_PLANE_SUP - CLOUD_PLANE);
             }
-        } else {  // Fuera de la nube
-          distance_aux = min(
-            abs(intersection_pos.y - surface_inf),
-            abs(intersection_pos.y - surface_sup)
-          );
+        }
+        else if (surface_inf < surface_sup && i > 0) {  // Fuera de la nube
 
-          if (distance_aux < dist_aux_coeff * 2.5 && i > 0) {
-            cloud_value += (1.0 - clamp(
-              distance_aux / dist_aux_coeff,
-              0.0,
-              1.0
-              )) * increment_dist;
+          if (surface_inf < surface_sup) {
+            distance_aux = min(
+              abs(intersection_pos.y - surface_inf),
+              abs(intersection_pos.y - surface_sup)
+              );
+          } else {
+            distance_aux = max(
+              abs(intersection_pos.y - surface_inf),
+              abs(intersection_pos.y - surface_sup)
+              );
+          }
+
+          if (distance_aux < dist_aux_coeff) {
+            cloud_value += (abs(clamp(dist_aux_coeff - distance_aux, 0.0, dist_aux_coeff)) / dist_aux_coeff) * increment_dist * 0.5;
 
             if (first_contact) {
               first_contact = false;
               density =
-              (surface_sup - intersection_pos.y) /
-              (CLOUD_PLANE_SUP - CLOUD_PLANE);
+              ((surface_sup - intersection_pos.y) /
+              (CLOUD_PLANE_SUP - CLOUD_PLANE));
             }
           }
         }
@@ -127,13 +140,16 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
         intersection_pos += increment;
       }
 
-      cloud_value -= (dist_aux_coeff * view_y_inv);
+      // cloud_value -= (dist_aux_coeff * view_y_inv * 0.5);
       cloud_value = clamp(cloud_value / opacity_dist, 0.0, 1.0);
 
       density = clamp(density, .0001, 1.0);
 
+      dark_cloud_color = mix(dark_cloud_color, cloud_color_aux, clamp((1.0 - bright) * .4, 0.0, 1.0));
+
       cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density));
-      cloud_color = mix(cloud_color, cloud_color_aux, clamp(bright * .6, 0.0, 1.0));
+      cloud_color = mix(cloud_color, cloud_color_aux, clamp(bright * .4, 0.0, 1.0));
+      // cloud_color = mix(cloud_color, cloud_color_aux, .4);
 
       block_color =
         mix(

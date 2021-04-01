@@ -37,6 +37,21 @@ float int_hash12(uvec2 x)
   return float(n) * (1.0 / float(0xffffffffu));
 }
 
+vec2 timed_int_hash22(uvec2 q)
+{
+	q += uint(frameTimeCounter * 2400.0);
+	q *= UI2;
+	q = (q.x ^ q.y) * UI2;
+	return vec2(q) * UIF;
+}
+
+vec2 int_hash22(uvec2 q)
+{
+	q *= UI2;
+	q = (q.x ^ q.y) * UI2;
+	return vec2(q) * UIF;
+}
+
 vec3 int_hash32(uvec2 q)
 {
   uvec3 n = q.xyx * UI3;
