@@ -111,7 +111,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
                 (CLOUD_PLANE_SUP - CLOUD_PLANE);
             }
         }
-        else if (surface_inf < surface_sup && i > 0) {  // Fuera de la nube
+        else if (surface_inf < (surface_sup + dist_aux_coeff) && i > 0) {  // Fuera de la nube
 
           if (surface_inf < surface_sup) {
             distance_aux = min(
@@ -122,11 +122,12 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
             distance_aux = max(
               abs(intersection_pos.y - surface_inf),
               abs(intersection_pos.y - surface_sup)
-              );
+              ) * 1.5;
           }
 
           if (distance_aux < dist_aux_coeff) {
-            cloud_value += (abs(clamp(dist_aux_coeff - distance_aux, 0.0, dist_aux_coeff)) / dist_aux_coeff) * increment_dist * 0.5;
+            // cloud_value += (abs(clamp(dist_aux_coeff - distance_aux, 0.0, dist_aux_coeff)) / dist_aux_coeff) * increment_dist;
+            cloud_value += (clamp(dist_aux_coeff - distance_aux, 0.0, dist_aux_coeff) / dist_aux_coeff) * increment_dist;
 
             if (first_contact) {
               first_contact = false;
