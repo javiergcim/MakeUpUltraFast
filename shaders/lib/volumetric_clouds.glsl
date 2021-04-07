@@ -24,6 +24,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
   float distance_aux;
   vec3 cloud_color_aux;
   float cloud_value_aux;
+  float dist_aux_coeff_blur;
 
   #if AA_TYPE == 0
     float dither = phi_noise(uvec2(gl_FragCoord.xy));
@@ -78,6 +79,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
       dif_sup = CLOUD_PLANE_SUP - CLOUD_PLANE_CENTER;
       dif_inf = CLOUD_PLANE_CENTER - CLOUD_PLANE;
       dist_aux_coeff = (CLOUD_PLANE_SUP - CLOUD_PLANE) * 0.1;
+      dist_aux_coeff_blur = dist_aux_coeff * 0.5;
 
       opacity_dist = dist_aux_coeff * 2.5 * view_y_inv;
 
@@ -101,6 +103,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
         // Ajuste por umbral
         current_value = (current_value - umbral) / (1.0 - umbral);
+        // current_value = (current_value - umbral);
 
         // Superficies inferior y superior de nubes
         surface_inf = CLOUD_PLANE_CENTER - (current_value * dif_inf);
@@ -130,9 +133,9 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
             distance_aux = abs(intersection_pos.y - surface_inf);
           }
 
-          if (distance_aux < dist_aux_coeff) {
+          if (distance_aux < dist_aux_coeff_blur) {
             cloud_value += min(
-              (clamp(dist_aux_coeff - distance_aux, 0.0, dist_aux_coeff) / dist_aux_coeff) * increment_dist,
+              (clamp(dist_aux_coeff_blur - distance_aux, 0.0, dist_aux_coeff_blur) / dist_aux_coeff_blur) * increment_dist,
               surface_sup - surface_inf
               );
 
@@ -156,7 +159,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
       dark_cloud_color = mix(dark_cloud_color, cloud_color_aux, clamp((1.0 - bright) * .4, 0.0, 1.0));
 
       cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density));
-      cloud_color = mix(cloud_color, cloud_color_aux, clamp(bright * .4, 0.0, 1.0));
+      cloud_color = mix(cloud_color, cloud_color_aux, clamp(bright * .2, 0.0, 1.0));
 
       block_color =
         mix(
