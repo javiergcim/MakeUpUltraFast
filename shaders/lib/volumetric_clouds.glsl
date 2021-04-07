@@ -23,6 +23,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
   float view_y_inv = 1.0 / view_vector.y;
   float distance_aux;
   vec3 cloud_color_aux;
+  float cloud_value_aux;
 
   #if AA_TYPE == 0
     float dither = phi_noise(uvec2(gl_FragCoord.xy));
@@ -35,7 +36,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
   if (cameraPosition.y < CLOUD_PLANE) {
     if (view_vector.y > .055) {  // Vista sobre el horizonte
-      umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .34;
+      umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .25;
       // umbral = mix(0.6, 0.3, rainStrength);
 
       cloud_color_aux = day_color_mixer(
@@ -91,6 +92,13 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
             colortex6,
             (intersection_pos.xz * .0002) + (frameTimeCounter * 0.002777777777777778)
           ).r;
+        current_value +=
+          texture(
+            colortex6,
+            (intersection_pos.xz * .0002) + (frameTimeCounter * 0.0002777777777777778)
+          ).r;
+        current_value *= 0.5;
+
         // Ajuste por umbral
         current_value = (current_value - umbral) / (1.0 - umbral);
 
@@ -102,7 +110,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
           intersection_pos.y > surface_inf &&
           intersection_pos.y < surface_sup
           ) {
-            cloud_value += increment_dist;
+            cloud_value += min(increment_dist, surface_sup - surface_inf);
 
             if (first_contact) {
               first_contact = false;
@@ -111,7 +119,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
                 (CLOUD_PLANE_SUP - CLOUD_PLANE);
             }
         }
-        else if (surface_inf < (surface_sup + dist_aux_coeff) && i > 0) {  // Fuera de la nube
+        else if (surface_inf < (surface_sup) && i > 0) {  // Fuera de la nube
 
           if (surface_inf < surface_sup) {
             distance_aux = min(
@@ -119,15 +127,14 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
               abs(intersection_pos.y - surface_sup)
               );
           } else {
-            distance_aux = max(
-              abs(intersection_pos.y - surface_inf),
-              abs(intersection_pos.y - surface_sup)
-              ) * 1.5;
+            distance_aux = abs(intersection_pos.y - surface_inf);
           }
 
           if (distance_aux < dist_aux_coeff) {
-            // cloud_value += (abs(clamp(dist_aux_coeff - distance_aux, 0.0, dist_aux_coeff)) / dist_aux_coeff) * increment_dist;
-            cloud_value += (clamp(dist_aux_coeff - distance_aux, 0.0, dist_aux_coeff) / dist_aux_coeff) * increment_dist;
+            cloud_value += min(
+              (clamp(dist_aux_coeff - distance_aux, 0.0, dist_aux_coeff) / dist_aux_coeff) * increment_dist,
+              surface_sup - surface_inf
+              );
 
             if (first_contact) {
               first_contact = false;
@@ -150,7 +157,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
       cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density));
       cloud_color = mix(cloud_color, cloud_color_aux, clamp(bright * .4, 0.0, 1.0));
-      // cloud_color = mix(cloud_color, cloud_color_aux, .4);
 
       block_color =
         mix(
