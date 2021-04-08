@@ -68,7 +68,8 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
       vec3 dark_luma = vec3(luma(dark_color_aux));
       vec3 dark_cloud_color = mix(dark_luma, dark_color_aux, 0.9);
 
-      real_steps = int((dither * .5 + .5) * CLOUD_STEPS);
+      // real_steps = int((dither * .5 + .5) * CLOUD_STEPS);
+      real_steps = int((dither - .5) * CLOUD_STEPS_RANGE + CLOUD_STEPS_AVG);
 
       plane_distance = (CLOUD_PLANE - cameraPosition.y) * view_y_inv;
       intersection_pos = (view_vector * plane_distance) + cameraPosition;
@@ -78,8 +79,8 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
       dif_sup = CLOUD_PLANE_SUP - CLOUD_PLANE_CENTER;
       dif_inf = CLOUD_PLANE_CENTER - CLOUD_PLANE;
-      dist_aux_coeff = (CLOUD_PLANE_SUP - CLOUD_PLANE) * 0.1;
-      dist_aux_coeff_blur = dist_aux_coeff * 0.5;
+      dist_aux_coeff = (CLOUD_PLANE_SUP - CLOUD_PLANE) * 0.075;
+      dist_aux_coeff_blur = dist_aux_coeff * 0.4;
 
       opacity_dist = dist_aux_coeff * 2.5 * view_y_inv;
 
