@@ -60,7 +60,7 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
       cloud_value = 0.0;
 
-      for (int i = 0; i < real_steps; i++) {
+      for (int i = 0; i < real_steps && cloud_value < opacity_dist; i++) {
         current_value =
           texture(
             colortex6,
