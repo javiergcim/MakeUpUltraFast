@@ -57,7 +57,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define COLOR_SCHEME 1 // [0 1 2 3] Legacy: Exotic colors at sunset. Cocoa: A warm preset of vivid colors in the day. Captain: A cold preset of stylish colors. Choca-like: Warm theme, with high contrast between light and shadow, inspired by the color theme of a famous shader.
 #define WATER_TEXTURE 1 // [0 1] Enable or disable resource pack water texture.
 #define AVOID_DARK 1 // [0 1] Avoid absolute darkness in caves at daytime
-#define V_CLOUDS 1 // [0 1] Set clouds type
+#define V_CLOUDS 1 // [0 1 2] Volumetric static: The clouds move, but they keep their shape. Volumetric dynamic: Clouds change shape over time, a different cloud landscape every time (medium performance hit). Vanilla: Original vanilla clouds.
 #define BLACK_ENTITY_FIX 0 // [0 1] Removes black entity bug (activate ONLY if you have problems with black entities)
 #define BLOOM // [0 1] Set bloom
 #define BLOOM_SAMPLES 5.0 // [5.0 6.0 7.0 8.0 9.0 10.0] Bloom sample pairs
@@ -71,11 +71,10 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 // Cloud parameters
 #define CLOUD_PLANE_SUP 920.0
-#define CLOUD_PLANE_CENTER 720.0
+#define CLOUD_PLANE_CENTER 620.0
 #define CLOUD_PLANE 520.0
-#define CLOUD_STEPS_RANGE 10
-#define CLOUD_STEPS_AVG 14
-#define CLOUD_STEPS 18
+#define CLOUD_STEPS_RANGE 12
+#define CLOUD_STEPS_AVG 12
 
 // Buffers clear
 const bool colortex0Clear = false;

@@ -19,9 +19,9 @@ Javier Garduño - GNU Lesser General Public License v3.0
   uniform mat4 gbufferModelViewInverse;
   uniform mat4 gbufferProjection;
   uniform float frameTimeCounter;
-	uniform float pixel_size_x;
-	uniform float pixel_size_y;
-	uniform mat4 gbufferModelView;
+  uniform float pixel_size_x;
+  uniform float pixel_size_y;
+  uniform mat4 gbufferModelView;
 #endif
 
 varying vec2 texcoord;
@@ -40,22 +40,22 @@ void main() {
 
   #if V_CLOUDS != 0
     vec4 screen_pos =
-			vec4(
-				gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
-				gl_FragCoord.z,
-				1.0
-			);
-		vec4 fragposition = gbufferProjectionInverse * (screen_pos * 2.0 - 1.0);
+      vec4(
+        gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
+        gl_FragCoord.z,
+        1.0
+      );
+    vec4 fragposition = gbufferProjectionInverse * (screen_pos * 2.0 - 1.0);
 
-		vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
-		vec3 view_vector = normalize(world_pos.xyz);
+    vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
+    vec3 view_vector = normalize(world_pos.xyz);
 
-		float bright =
-			dot(view_vector, normalize(vec4(0.0, 0.89442719, 0.4472136, 0.0).xyz));
-		bright *= bright * bright * bright * bright;
+    float bright =
+      dot(view_vector, normalize(vec4(0.0, 0.89442719, 0.4472136, 0.0).xyz));
+    bright *= bright * bright * bright * bright;
 
-		// block_color.rgb *=
-		// 	clamp(bright, 0.0, 1.0) * 2.0 + 1.0;
+    // block_color.rgb *=
+    //   clamp(bright, 0.0, 1.0) * 2.0 + 1.0;
 
     block_color.rgb = get_end_cloud(view_vector, block_color.rgb, bright);
   #endif

@@ -25,7 +25,7 @@ uniform float blindness;
 
 #if AO == 1
   uniform float inv_aspect_ratio;
-	uniform float fov_y_inv;
+  uniform float fov_y_inv;
 #endif
 
 #if V_CLOUDS != 0
@@ -34,14 +34,14 @@ uniform float blindness;
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
   uniform float pixel_size_x;
-	uniform float pixel_size_y;
-	uniform vec3 sunPosition;
+  uniform float pixel_size_y;
+  uniform vec3 sunPosition;
 #endif
 
 #if AO == 1 || V_CLOUDS != 0
   uniform mat4 gbufferProjection;
   uniform float frameTimeCounter;
-	uniform sampler2D colortex5;
+  uniform sampler2D colortex5;
 #endif
 
 // Varyings (per thread shared variables)
@@ -71,25 +71,25 @@ void main() {
   #if V_CLOUDS != 0
     if (linear_d > 0.9999) {  // Only sky
       vec4 screen_pos =
-				vec4(
-					gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
-					gl_FragCoord.z,
-					1.0
-				);
-  		vec4 fragposition = gbufferProjectionInverse * (screen_pos * 2.0 - 1.0);
+        vec4(
+          gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
+          gl_FragCoord.z,
+          1.0
+        );
+      vec4 fragposition = gbufferProjectionInverse * (screen_pos * 2.0 - 1.0);
 
-  		vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
-  		vec3 view_vector = normalize(world_pos.xyz);
+      vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
+      vec3 view_vector = normalize(world_pos.xyz);
 
-			float bright =
-				dot(
-					view_vector,
-					normalize((gbufferModelViewInverse * vec4(sunPosition, 0.0)).xyz)
-				);
-			bright = clamp(bright * bright * bright, 0.0, 1.0);
+      float bright =
+        dot(
+          view_vector,
+          normalize((gbufferModelViewInverse * vec4(sunPosition, 0.0)).xyz)
+        );
+      bright = clamp(bright * bright * bright, 0.0, 1.0);
 
       block_color.rgb =
-				get_cloud(view_vector, block_color.rgb, bright);
+        get_cloud(view_vector, block_color.rgb, bright);
     }
   #endif
 
@@ -140,7 +140,7 @@ void main() {
       );
   }
 
-	/* DRAWBUFFERS:14 */
-	gl_FragData[0] = vec4(block_color.rgb, d);
-	gl_FragData[1] = block_color;
+  /* DRAWBUFFERS:14 */
+  gl_FragData[0] = vec4(block_color.rgb, d);
+  gl_FragData[1] = block_color;
 }
