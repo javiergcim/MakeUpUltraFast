@@ -5,6 +5,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 uniform float day_moment;
+uniform float day_mixer;
+uniform float night_mixer;
 
 #if COLOR_SCHEME == 0  // Legacy
   #define OMNI_TINT 0.5
@@ -78,6 +80,16 @@ vec3 day_color_mixer(vec3 middle, vec3 day, vec3 night, float moment) {
   return mix(day_color, night_color, step(0.5, moment));
 }
 
+vec3 day_blend(vec3 middle, vec3 day, vec3 night) {
+  // f(x) = min(−((x−.25)^2)∙20 + 1.25, 1)
+  // g(x) = min(−((x−.75)^2)∙50 + 3.125, 1)
+
+  vec3 day_color = mix(middle, day, day_mixer);
+  vec3 night_color = mix(middle, night, night_mixer);
+
+  return mix(day_color, night_color, step(0.5, day_moment));
+}
+
 // Ambient color luma per hour in exposure calculation
 const float ambient_exposure[25] =
   float[25](
@@ -141,7 +153,7 @@ const float fog_color_mix[25] =
 // Fog parameter per hour
 const float fog_density[25] =
   float[25](
-  1.0, // 6
+  2.0, // 6
   2.5, // 7
   3.0, // 8
   3.0, // 9
@@ -153,8 +165,8 @@ const float fog_density[25] =
   3.0, // 15
   3.0, // 16
   2.5, // 17
-  1.5, // 18
-  1.75, // 19
+  2.0, // 18
+  2.25, // 19
   2.5, // 20
   3.0, // 21
   3.0, // 22
@@ -164,8 +176,8 @@ const float fog_density[25] =
   3.0, // 2
   3.0, // 3
   2.5, // 4
-  1.0, // 5
-  1.0 // 6
+  2.25, // 5
+  2.0 // 6
   );
 
 // #define CANDLE_BASELIGHT vec3(0.4995, 0.38784706, 0.1998)

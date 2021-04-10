@@ -40,11 +40,17 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
       umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .25;
       // umbral = mix(0.55, 0.25, rainStrength);
 
-      vec3 dark_cloud_color = day_color_mixer(
+      // vec3 dark_cloud_color = day_color_mixer(
+      //   HI_MIDDLE_COLOR,
+      //   HI_DAY_COLOR,
+      //   HI_NIGHT_COLOR,
+      //   day_moment
+      // );
+
+      vec3 dark_cloud_color = day_blend(
         HI_MIDDLE_COLOR,
         HI_DAY_COLOR,
-        HI_NIGHT_COLOR,
-        day_moment
+        HI_NIGHT_COLOR
       );
 
       dark_cloud_color = mix(
@@ -53,24 +59,44 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
         rainStrength
       );
 
+      // cloud_color_aux = mix(
+      //   day_color_mixer(
+      //     AMBIENT_MIDDLE_COLOR,
+      //     AMBIENT_DAY_COLOR,
+      //     AMBIENT_NIGHT_COLOR,
+      //     day_moment
+      //   ),
+      //   HI_SKY_RAIN_COLOR * luma(dark_cloud_color),
+      //   rainStrength
+      //   );
+
       cloud_color_aux = mix(
-        day_color_mixer(
+        day_blend(
           AMBIENT_MIDDLE_COLOR,
           AMBIENT_DAY_COLOR,
-          AMBIENT_NIGHT_COLOR,
-          day_moment
+          AMBIENT_NIGHT_COLOR
         ),
         HI_SKY_RAIN_COLOR * luma(dark_cloud_color),
         rainStrength
         );
 
+      // vec3 cloud_color = mix(
+      //   luma(cloud_color_aux) * vec3(2.0),
+      //     day_color_mixer(
+      //       LOW_MIDDLE_COLOR,
+      //       LOW_DAY_COLOR,
+      //       LOW_NIGHT_COLOR,
+      //       day_moment
+      //     ),
+      //   0.3
+      // );
+
       vec3 cloud_color = mix(
         luma(cloud_color_aux) * vec3(2.0),
-          day_color_mixer(
+          day_blend(
             LOW_MIDDLE_COLOR,
             LOW_DAY_COLOR,
-            LOW_NIGHT_COLOR,
-            day_moment
+            LOW_NIGHT_COLOR
           ),
         0.3
       );
@@ -80,13 +106,23 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
       dark_cloud_color = mix(vec3(luma(dark_cloud_color)), dark_cloud_color, 0.9);
       dark_cloud_color = mix(dark_cloud_color, cloud_color_aux, 0.35);
 
+      // dark_cloud_color = mix(
+      //   dark_cloud_color,
+      //   day_color_mixer(
+      //     cloud_color_aux,
+      //     dark_cloud_color,
+      //     dark_cloud_color,
+      //     day_moment
+      //   ),
+      //   0.5
+      // );
+
       dark_cloud_color = mix(
         dark_cloud_color,
-        day_color_mixer(
+        day_blend(
           cloud_color_aux,
           dark_cloud_color,
-          dark_cloud_color,
-          day_moment
+          dark_cloud_color
         ),
         0.5
       );
@@ -111,7 +147,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
       cloud_value = 0.0;
 
-      for (int i = 0; i < real_steps && cloud_value < opacity_dist; i++) {
+      for (int i = 0; i < real_steps; i++) {
         current_value =
           texture(
             colortex6,
@@ -175,9 +211,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
       cloud_value = clamp(cloud_value / opacity_dist, 0.0, 1.0);
       density = clamp(density, 0.0001, 1.0);
 
-
       cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density));
-      // cloud_color = mix(cloud_color, cloud_color_aux, clamp(bright * .2, 0.0, 1.0));
 
       block_color =
         mix(
