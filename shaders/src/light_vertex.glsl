@@ -68,11 +68,10 @@
   float omni_strenght = (direct_light_strenght * .125) + 1.0;
 
   // Calculamos color de luz directa
-  direct_light_color = day_color_mixer(
+  direct_light_color = day_blend(
     AMBIENT_MIDDLE_COLOR,
     AMBIENT_DAY_COLOR,
-    AMBIENT_NIGHT_COLOR,
-    day_moment
+    AMBIENT_NIGHT_COLOR
     );
 
   #ifdef FOLIAGE_V  // Puede haber plantas en este shader
@@ -101,11 +100,10 @@
   #else
     // Calculamos color de luz ambiental
 
-    vec3 hi_sky_color = day_color_mixer(
+    vec3 hi_sky_color = day_blend(
       HI_MIDDLE_COLOR,
       HI_DAY_COLOR,
-      HI_NIGHT_COLOR,
-      day_moment
+      HI_NIGHT_COLOR
       );
 
     vec3 sky_color = HI_SKY_RAIN_COLOR * luma(hi_sky_color);

@@ -38,18 +38,16 @@ void main() {
   // vec3 direct_light_color =
   //   texture(colortex6, vec2(AMBIENT_X, current_hour)).rgb * (1.0 - rainStrength);
 
-  vec3 direct_light_color = day_color_mixer(
+  vec3 direct_light_color = day_blend(
     AMBIENT_MIDDLE_COLOR,
     AMBIENT_DAY_COLOR,
-    AMBIENT_NIGHT_COLOR,
-    day_moment
+    AMBIENT_NIGHT_COLOR
     ) * (1.0 - rainStrength);
 
-  vec3 hi_sky_color = day_color_mixer(
+  vec3 hi_sky_color = day_blend(
     HI_MIDDLE_COLOR,
     HI_DAY_COLOR,
-    HI_NIGHT_COLOR,
-    day_moment
+    HI_NIGHT_COLOR
     );
 
   direct_light_color = mix(

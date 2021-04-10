@@ -1,8 +1,7 @@
-current_fog_color = day_color_mixer(
+current_fog_color = day_blend(
   LOW_MIDDLE_COLOR,
   LOW_DAY_COLOR,
-  LOW_NIGHT_COLOR,
-  day_moment
+  LOW_NIGHT_COLOR
   );
 
 current_fog_color = mix(

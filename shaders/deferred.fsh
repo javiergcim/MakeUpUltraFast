@@ -114,11 +114,10 @@ void main() {
 
   // Niebla
   if (isEyeInWater == 1) {
-    vec3 hi_sky_color = day_color_mixer(
+    vec3 hi_sky_color = day_blend(
       HI_MIDDLE_COLOR,
       HI_DAY_COLOR,
-      HI_NIGHT_COLOR,
-      day_moment
+      HI_NIGHT_COLOR
       );
 
     hi_sky_color = mix(

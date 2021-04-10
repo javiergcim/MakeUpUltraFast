@@ -44,11 +44,10 @@ void main() {
     #endif
     dither = (dither - .5) * 0.0625;
 
-    vec3 hi_sky_color = day_color_mixer(
+    vec3 hi_sky_color = day_blend(
       HI_MIDDLE_COLOR,
       HI_DAY_COLOR,
-      HI_NIGHT_COLOR,
-      day_moment
+      HI_NIGHT_COLOR
       );
 
     hi_sky_color = mix(
@@ -57,11 +56,10 @@ void main() {
       rainStrength
     );
 
-    vec3 low_sky_color = day_color_mixer(
+    vec3 low_sky_color = day_blend(
       LOW_MIDDLE_COLOR,
       LOW_DAY_COLOR,
-      LOW_NIGHT_COLOR,
-      day_moment
+      LOW_NIGHT_COLOR
       );
 
     low_sky_color = mix(

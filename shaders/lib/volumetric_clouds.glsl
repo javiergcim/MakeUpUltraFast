@@ -40,13 +40,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
       umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .25;
       // umbral = mix(0.55, 0.25, rainStrength);
 
-      // vec3 dark_cloud_color = day_color_mixer(
-      //   HI_MIDDLE_COLOR,
-      //   HI_DAY_COLOR,
-      //   HI_NIGHT_COLOR,
-      //   day_moment
-      // );
-
       vec3 dark_cloud_color = day_blend(
         HI_MIDDLE_COLOR,
         HI_DAY_COLOR,
@@ -59,17 +52,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
         rainStrength
       );
 
-      // cloud_color_aux = mix(
-      //   day_color_mixer(
-      //     AMBIENT_MIDDLE_COLOR,
-      //     AMBIENT_DAY_COLOR,
-      //     AMBIENT_NIGHT_COLOR,
-      //     day_moment
-      //   ),
-      //   HI_SKY_RAIN_COLOR * luma(dark_cloud_color),
-      //   rainStrength
-      //   );
-
       cloud_color_aux = mix(
         day_blend(
           AMBIENT_MIDDLE_COLOR,
@@ -79,17 +61,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
         HI_SKY_RAIN_COLOR * luma(dark_cloud_color),
         rainStrength
         );
-
-      // vec3 cloud_color = mix(
-      //   luma(cloud_color_aux) * vec3(2.0),
-      //     day_color_mixer(
-      //       LOW_MIDDLE_COLOR,
-      //       LOW_DAY_COLOR,
-      //       LOW_NIGHT_COLOR,
-      //       day_moment
-      //     ),
-      //   0.3
-      // );
 
       vec3 cloud_color = mix(
         luma(cloud_color_aux) * vec3(2.0),
@@ -105,17 +76,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
       dark_cloud_color = mix(vec3(luma(dark_cloud_color)), dark_cloud_color, 0.9);
       dark_cloud_color = mix(dark_cloud_color, cloud_color_aux, 0.35);
-
-      // dark_cloud_color = mix(
-      //   dark_cloud_color,
-      //   day_color_mixer(
-      //     cloud_color_aux,
-      //     dark_cloud_color,
-      //     dark_cloud_color,
-      //     day_moment
-      //   ),
-      //   0.5
-      // );
 
       dark_cloud_color = mix(
         dark_cloud_color,

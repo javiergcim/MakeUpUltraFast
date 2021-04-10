@@ -22,11 +22,10 @@
       eyeBrightnessSmooth.y * 0.004166666666666667
     );
 
-    vec3 low_sky_color = day_color_mixer(
+    vec3 low_sky_color = day_blend(
       LOW_MIDDLE_COLOR,
       LOW_DAY_COLOR,
-      LOW_NIGHT_COLOR,
-      day_moment
+      LOW_NIGHT_COLOR
       );
 
     low_sky_color = mix(

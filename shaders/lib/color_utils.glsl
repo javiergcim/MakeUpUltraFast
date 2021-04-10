@@ -62,24 +62,6 @@ uniform float night_mixer;
   #define LOW_NIGHT_COLOR vec3(0.0213, 0.0306, 0.0387)
 #endif
 
-vec3 day_color_mixer(vec3 middle, vec3 day, vec3 night, float moment) {
-  // f(x) = min(−((x−.25)^2)∙20 + 1.25, 1)
-  // g(x) = min(−((x−.75)^2)∙50 + 3.125, 1)
-
-  float moment_aux = moment - 0.25;
-  moment_aux = moment_aux * moment_aux;
-  float day_mix = clamp(-moment_aux * 20.0 + 1.25, 0.0, 1.0);
-
-  moment_aux = moment - 0.75;
-  moment_aux = moment_aux * moment_aux;
-  float night_mix = clamp(-moment_aux * 50.0 + 3.125, 0.0, 1.0);
-
-  vec3 day_color = mix(middle, day, day_mix);
-  vec3 night_color = mix(middle, night, night_mix);
-
-  return mix(day_color, night_color, step(0.5, moment));
-}
-
 vec3 day_blend(vec3 middle, vec3 day, vec3 night) {
   // f(x) = min(−((x−.25)^2)∙20 + 1.25, 1)
   // g(x) = min(−((x−.75)^2)∙50 + 3.125, 1)

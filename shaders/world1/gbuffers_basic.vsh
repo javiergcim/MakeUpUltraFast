@@ -36,18 +36,16 @@ void main() {
   vec2 illumination = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
   float visible_sky = illumination.y * 1.105 - .10495;
 
-  vec3 direct_light_color = day_color_mixer(
+  vec3 direct_light_color = day_blend(
     AMBIENT_MIDDLE_COLOR,
     AMBIENT_DAY_COLOR,
-    AMBIENT_NIGHT_COLOR,
-    day_moment
+    AMBIENT_NIGHT_COLOR
     ) * (1.0 - rainStrength);
 
-  vec3 hi_sky_color = day_color_mixer(
+  vec3 hi_sky_color = day_blend(
     HI_MIDDLE_COLOR,
     HI_DAY_COLOR,
-    HI_NIGHT_COLOR,
-    day_moment
+    HI_NIGHT_COLOR
     );
 
   direct_light_color = mix(
