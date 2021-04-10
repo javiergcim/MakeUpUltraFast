@@ -40,6 +40,19 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
       umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .25;
       // umbral = mix(0.55, 0.25, rainStrength);
 
+      vec3 dark_cloud_color = day_color_mixer(
+        HI_MIDDLE_COLOR,
+        HI_DAY_COLOR,
+        HI_NIGHT_COLOR,
+        day_moment
+      );
+
+      dark_cloud_color = mix(
+        dark_cloud_color,
+        HI_SKY_RAIN_COLOR * luma(dark_cloud_color),
+        rainStrength
+      );
+
       cloud_color_aux = day_color_mixer(
         AMBIENT_MIDDLE_COLOR,
         AMBIENT_DAY_COLOR,
@@ -58,19 +71,25 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
         0.3
       );
 
-      cloud_color = mix(cloud_color, vec3(luma(cloud_color)), rainStrength);
+      dark_cloud_color = mix(vec3(luma(dark_cloud_color)), dark_cloud_color, 0.9);
+      dark_cloud_color = mix(dark_cloud_color, cloud_color_aux, 0.45);
 
-      // cloud_color = mix(cloud_color, vec3(luma(cloud_color)), rainStrength);
-
-      vec3 dark_color_aux = day_color_mixer(
-        HI_MIDDLE_COLOR,
-        HI_DAY_COLOR,
-        HI_NIGHT_COLOR,
-        day_moment
+      dark_cloud_color = mix(
+        dark_cloud_color,
+        day_color_mixer(
+          cloud_color_aux,
+          dark_cloud_color,
+          dark_cloud_color,
+          day_moment
+        ),
+        0.5
       );
 
-      vec3 dark_luma = vec3(luma(dark_color_aux));
-      vec3 dark_cloud_color = mix(dark_luma, dark_color_aux, 0.9);
+
+
+
+
+
 
       real_steps = int((dither - .5) * CLOUD_STEPS_RANGE + CLOUD_STEPS_AVG);
 
@@ -154,12 +173,10 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
       cloud_value = clamp(cloud_value / opacity_dist, 0.0, 1.0);
       density = clamp(density, 0.0001, 1.0);
-      dark_cloud_color = mix(dark_cloud_color, cloud_color_aux, clamp((1.0 - bright) * .2, 0.0, 1.0));
-      dark_cloud_color = mix(dark_cloud_color, vec3(luma(dark_cloud_color)), rainStrength);
+
 
       cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density));
-      cloud_color = mix(cloud_color, cloud_color_aux, clamp(bright * .2, 0.0, 1.0));
-      cloud_color *= mix(1.0, 0.4, rainStrength);
+      // cloud_color = mix(cloud_color, cloud_color_aux, clamp(bright * .2, 0.0, 1.0));
 
       block_color =
         mix(
