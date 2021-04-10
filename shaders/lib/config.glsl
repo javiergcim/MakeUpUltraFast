@@ -20,7 +20,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 // Other constants
 #define HI_SKY_RAIN_COLOR vec3(.7, .85, 1.0)
-#define LOW_SKY_RAIN_COLOR vec3(.7, .85, 1.0)
+#define LOW_SKY_RAIN_COLOR vec3(0.35 , 0.425, 0.5)
 
 // Options
 #define REFLECTION_SLIDER 2 // [0 1 2] Reflection quality
