@@ -54,7 +54,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
 #define SHADOW_BLUR 2.0 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0]  Shadow blur intensity
 #define WATER_TINT 0.8 // [0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0]  Water tint percentage
-#define COLOR_SCHEME 1 // [0 1 2 3] Legacy: Exotic colors at sunset. Cocoa: A warm preset of vivid colors in the day. Captain: A cold preset of stylish colors. Choca-like: Warm theme, with high contrast between light and shadow, inspired by the color theme of a famous shader.
+#define COLOR_SCHEME 1 // [0 1 2 3] Legacy: Exotic colors at sunset. Cocoa: A warm preset of vivid colors in the day. Captain: A cold preset of stylish colors. Shoka: Warm theme, with high contrast between light and shadow, inspired by the color theme of a famous shader.
 #define WATER_TEXTURE 1 // [0 1] Enable or disable resource pack water texture.
 #define AVOID_DARK 1 // [0 1] Avoid absolute darkness in caves at daytime
 #define V_CLOUDS 1 // [0 1 2] Volumetric static: The clouds move, but they keep their shape. Volumetric dynamic: Clouds change shape over time, a different cloud landscape every time (medium performance hit). Vanilla: Original vanilla clouds.
@@ -75,6 +75,18 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define CLOUD_PLANE 520.0
 #define CLOUD_STEPS_RANGE 12
 #define CLOUD_STEPS_AVG 12
+#define CLOUD_SPEED 0 // [0 1 2] Change the speed of clouds for display purposes.
+
+#if CLOUD_SPEED == 0
+  #define CLOUD_HI_FACTOR 0.002777777777777778
+  #define CLOUD_LOW_FACTOR 0.0002777777777777778
+#elif CLOUD_SPEED == 1
+  #define CLOUD_HI_FACTOR 0.02777777777777778
+  #define CLOUD_LOW_FACTOR 0.002777777777777778
+#elif CLOUD_SPEED == 2
+  #define CLOUD_HI_FACTOR 0.2777777777777778
+  #define CLOUD_LOW_FACTOR 0.02777777777777778
+#endif
 
 // Buffers clear
 const bool colortex0Clear = false;

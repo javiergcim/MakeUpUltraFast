@@ -108,6 +108,11 @@ value.V_CLOUDS.0=Vanilla
 value.V_CLOUDS.1=Volumetric static
 value.V_CLOUDS.2=Volumetric dyn.
 
+option.CLOUD_SPEED=Clouds speed
+value.CLOUD_SPEED.0=Normal
+value.CLOUD_SPEED.1=Time lapse 1
+value.CLOUD_SPEED.2=Time lapse 2
+
 option.BLOOM=Bloom
 value.BLOOM.0=Off
 value.BLOOM.1=On
@@ -139,3 +144,6 @@ screen.POST_SCREEN.comment=Set post effects options.
 
 screen.MISC_SCREEN=Miscellaneous options
 screen.MISC_SCREEN.comment=Non categorized options.
+
+screen.CLOUDS_SCREEN=Clouds options
+screen.CLOUDS_SCREEN.comment=Set clouds options.

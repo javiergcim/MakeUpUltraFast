@@ -1,9 +1,11 @@
 #version 130
-/* MakeUp - gbuffers_hand_water.vsh
-Render: Translucent hand objects
+/* MakeUp - gbuffers_armor_glint.vsh
+Render: Glow objects
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
+
+#define ENTITY_GLINT
 
 #include "/lib/config.glsl"
 #include "/lib/color_utils.glsl"

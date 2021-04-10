@@ -53,12 +53,16 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
         rainStrength
       );
 
-      cloud_color_aux = day_color_mixer(
-        AMBIENT_MIDDLE_COLOR,
-        AMBIENT_DAY_COLOR,
-        AMBIENT_NIGHT_COLOR,
-        day_moment
-      );
+      cloud_color_aux = mix(
+        day_color_mixer(
+          AMBIENT_MIDDLE_COLOR,
+          AMBIENT_DAY_COLOR,
+          AMBIENT_NIGHT_COLOR,
+          day_moment
+        ),
+        HI_SKY_RAIN_COLOR * luma(dark_cloud_color),
+        rainStrength
+        );
 
       vec3 cloud_color = mix(
         luma(cloud_color_aux) * vec3(2.0),
@@ -71,8 +75,10 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
         0.3
       );
 
+      cloud_color = mix(cloud_color, LOW_SKY_RAIN_COLOR * luma(cloud_color_aux) * 4.5, rainStrength);
+
       dark_cloud_color = mix(vec3(luma(dark_cloud_color)), dark_cloud_color, 0.9);
-      dark_cloud_color = mix(dark_cloud_color, cloud_color_aux, 0.45);
+      dark_cloud_color = mix(dark_cloud_color, cloud_color_aux, 0.35);
 
       dark_cloud_color = mix(
         dark_cloud_color,
@@ -84,12 +90,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
         ),
         0.5
       );
-
-
-
-
-
-
 
       real_steps = int((dither - .5) * CLOUD_STEPS_RANGE + CLOUD_STEPS_AVG);
 
@@ -115,16 +115,17 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
         current_value =
           texture(
             colortex6,
-            (intersection_pos.xz * .0002) + (frameTimeCounter * 0.002777777777777778)
+            (intersection_pos.xz * .0002) + (frameTimeCounter * CLOUD_HI_FACTOR)
           ).r;
 
         #if V_CLOUDS == 2
           current_value +=
             texture(
               colortex6,
-              (intersection_pos.zx * .0002) + (frameTimeCounter * 0.0002777777777777778)
+              (intersection_pos.zx * .0002) + (frameTimeCounter * CLOUD_LOW_FACTOR)
             ).r;
           current_value *= 0.5;
+          current_value = smoothstep(0.05, 0.95, current_value);
         #endif
 
         // Ajuste por umbral

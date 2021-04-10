@@ -112,7 +112,7 @@
 
     direct_light_color = mix(
       direct_light_color,
-      sky_color * 2.0,
+      HI_SKY_RAIN_COLOR * luma(direct_light_color),
       rainStrength
     );
 
