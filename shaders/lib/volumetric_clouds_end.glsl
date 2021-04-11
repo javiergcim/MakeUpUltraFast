@@ -37,8 +37,8 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
   if (cameraPosition.y < CLOUD_PLANE) {
     if (view_vector.y > .055) {  // Vista sobre el horizonte
-      vec3 cloud_color = block_color * 2.0;
-      vec3 dark_cloud_color = block_color;
+      vec3 cloud_color = block_color * 1.75;
+      vec3 dark_cloud_color = block_color * 0.9;
 
       real_steps = int((dither - .5) * CLOUD_STEPS_RANGE + CLOUD_STEPS_AVG);
 
@@ -64,16 +64,17 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright) {
         current_value =
           texture(
             colortex6,
-            (intersection_pos.xz * .0002) + (frameTimeCounter * 0.002777777777777778)
+            (intersection_pos.xz * .0002) + (frameTimeCounter * CLOUD_HI_FACTOR * 3.0)
           ).r;
 
         #if V_CLOUDS == 2
           current_value +=
             texture(
               colortex6,
-              (intersection_pos.zx * .0002) + (frameTimeCounter * 0.0002777777777777778)
+              (intersection_pos.zx * .0002) + (frameTimeCounter * CLOUD_LOW_FACTOR * 3.0)
             ).r;
           current_value *= 0.5;
+          current_value = smoothstep(0.05, 0.95, current_value);
         #endif
 
         // Ajuste por umbral
@@ -122,7 +123,8 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
       cloud_value = clamp(cloud_value / opacity_dist, 0.0, 1.0);
       density = clamp(density, 0.0001, 1.0);
-      dark_cloud_color = mix(dark_cloud_color, cloud_color_aux, clamp((1.0 - bright) * .4, 0.0, 1.0));
+
+      // dark_cloud_color = mix(dark_cloud_color, cloud_color_aux, clamp((1.0 - bright) * .4, 0.0, 1.0));
 
       cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density));
 
@@ -133,7 +135,7 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright) {
           cloud_value * clamp((view_vector.y - 0.055) * 10.0, 0.0, 1.0)
         );
       block_color =
-        mix(block_color, vec3(1.0), clamp(bright * .03, 0.0, 1.0));
+        mix(block_color, vec3(1.0), clamp(bright * .04, 0.0, 1.0));
     }
   }
 

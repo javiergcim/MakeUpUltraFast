@@ -5,6 +5,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 uniform float day_moment;
+uniform float day_mixer;
+uniform float night_mixer;
 
 #define OMNI_TINT 0.5
 #define AMBIENT_MIDDLE_COLOR vec3(0.06205, 0.04998, 0.06205)
