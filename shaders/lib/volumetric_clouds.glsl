@@ -28,6 +28,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
   #if AA_TYPE == 0
     float dither = phi_noise(uvec2(gl_FragCoord.xy));
+    // float dither = bayer64(gl_FragCoord.xy);
   #else
     float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
   #endif
@@ -172,6 +173,9 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
       density = clamp(density, 0.0001, 1.0);
 
       cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density));
+
+      // Halo brillante de contra al sol
+      cloud_color = mix(cloud_color, cloud_color * 2.0, (1.0 - cloud_value) * bright);
 
       block_color =
         mix(

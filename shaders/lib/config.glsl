@@ -73,7 +73,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define CLOUD_PLANE_SUP 920.0
 #define CLOUD_PLANE_CENTER 620.0
 #define CLOUD_PLANE 520.0
-#define CLOUD_STEPS_RANGE 12
+#define CLOUD_STEPS_RANGE 10
 #define CLOUD_STEPS_AVG 12
 #define CLOUD_SPEED 0 // [0 1 2] Change the speed of clouds for display purposes.
 

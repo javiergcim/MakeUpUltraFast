@@ -128,6 +128,9 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
       cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density));
 
+      // Halo brillante de contra al sol
+      cloud_color = mix(cloud_color, cloud_color * 2.0, (1.0 - cloud_value) * bright);
+
       block_color =
         mix(
           block_color,
