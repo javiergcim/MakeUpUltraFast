@@ -20,13 +20,6 @@ uniform float far;
 uniform float near;
 uniform float blindness;
 
-// #if AO == 1
-//   uniform sampler2D colortex5;
-//   uniform float inv_aspect_ratio;
-//   uniform mat4 gbufferProjection;
-//   uniform float frameTimeCounter;
-// #endif
-
 #if AO == 1
   uniform float inv_aspect_ratio;
   uniform float fov_y_inv;
@@ -39,7 +32,6 @@ uniform float blindness;
   uniform mat4 gbufferModelViewInverse;
   uniform float pixel_size_x;
   uniform float pixel_size_y;
-  // uniform vec3 sunPosition;
 #endif
 
 #if AO == 1 || V_CLOUDS != 0
@@ -67,16 +59,6 @@ varying vec2 texcoord;
   #include "/lib/volumetric_clouds_end.glsl"
 #endif
 
-// #if AO == 1
-//   varying float fov_y_inv;
-// #endif
-//
-//
-// #if AO == 1
-//   #include "/lib/dither.glsl"
-//   #include "/lib/ao.glsl"
-// #endif
-
 void main() {
   vec4 block_color = texture(colortex0, texcoord);
   float d = texture(depthtex0, texcoord).r;
@@ -102,6 +84,10 @@ void main() {
       bright *= bright * bright * bright * bright;
 
       block_color.rgb = get_end_cloud(view_vector, block_color.rgb, bright);
+    }
+  #else
+    if (linear_d > 0.9999) {  // Only sky
+      block_color = vec4(HI_DAY_COLOR, 1.0);
     }
   #endif
 
