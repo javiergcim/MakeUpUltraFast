@@ -145,7 +145,7 @@
       direct_light_strenght *= 0.2;
       omni_light *= 0.5;
       } else if (magma > 0.5) {
-        tint_color.rgb *= 1.5;
+        tint_color.rgb *= 2.0;
         direct_light_strenght *= 0.2;
         omni_light *= 0.5;
       }
