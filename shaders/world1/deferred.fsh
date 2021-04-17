@@ -67,16 +67,6 @@ varying vec2 texcoord;
   #include "/lib/volumetric_clouds_end.glsl"
 #endif
 
-// #if AO == 1
-//   varying float fov_y_inv;
-// #endif
-//
-//
-// #if AO == 1
-//   #include "/lib/dither.glsl"
-//   #include "/lib/ao.glsl"
-// #endif
-
 void main() {
   vec4 block_color = texture(colortex0, texcoord);
   float d = texture(depthtex0, texcoord).r;
@@ -102,6 +92,10 @@ void main() {
       bright *= bright * bright * bright * bright;
 
       block_color.rgb = get_end_cloud(view_vector, block_color.rgb, bright);
+    }
+  #else
+    if (linear_d > 0.9999) {  // Only sky
+      block_color = vec4(HI_DAY_COLOR, 1.0);
     }
   #endif
 
