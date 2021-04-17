@@ -17,11 +17,11 @@ uniform int isEyeInWater;
 uniform sampler2D depthtex0;
 uniform float far;
 uniform float near;
+uniform float blindness;
 uniform float rainStrength;
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
-uniform float blindness;
 
 #if AO == 1
   uniform float inv_aspect_ratio;
