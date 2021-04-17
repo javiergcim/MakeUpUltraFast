@@ -46,10 +46,10 @@ void main() {
   float d = texture(depthtex0, texcoord).r;
   float linear_d = ld(d);
 
-  if (blindness > .01) {
-    block_color.rgb =
-      mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
-  }
+  // if (blindness > .01) {
+  //   block_color.rgb =
+  //     mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
+  // }
 
   #if AO == 1
     // AO distance attenuation

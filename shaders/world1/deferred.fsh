@@ -101,20 +101,9 @@ void main() {
         dot(view_vector, normalize(vec4(0.0, 0.89442719, 0.4472136, 0.0).xyz));
       bright *= bright * bright * bright * bright;
 
-      // block_color.rgb *=
-      //   clamp(bright, 0.0, 1.0) * 2.0 + 1.0;
-
       block_color.rgb = get_end_cloud(view_vector, block_color.rgb, bright);
     }
   #endif
-
-
-
-
-  if (blindness > .01) {
-    block_color.rgb =
-      mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
-  }
 
   #if AO == 1
     // AO distance attenuation
