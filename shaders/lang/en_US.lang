@@ -8,11 +8,11 @@ profile.VeryHigh=Very High
 profile.Ultra=Ultra
 profile.Extreme=Extreme
 
-profile.comment=Very Low - No optional effects. Low - Adds simple reflection. Medium - Adds TAA, AO, refraction. High - Adds shadows. Very High - Adds volumetric clouds. Ultra - Adds depth of field. Extreme - All effects enabled
+profile.comment=Very Low - No optional effects. Low - Adds simple reflection and waving plants. Medium - Adds TAA, clouds, refraction. High - Adds shadows. Very High - Adds ambient occlusion, bloom. Ultra - Adds depth of field. Extreme - All effects enabled (except motion blur)
 
 #About
 #############################
-option.ACERCADE=MakeUp v5.21
+option.ACERCADE=MakeUp v5.23
 option.ACERCADE.comment=Thanks for using this shader! :). Set Optifine native quality controls on normal or default values for better quality.
 value.ACERCADE.0=by Javier
 
