@@ -1,11 +1,7 @@
 # MakeUp - Ultra Fast
 High performance Minecraft shader (Java).
 
-<<<<<<< HEAD
-**Version: 5.22: Clouds+ update**
-=======
-**Version: 5.23: Clouds+ update**
->>>>>>> 7714c55914c4a04a588503c3c0f64c38f366bebc
+**Version: 5.24: Clouds+ update**
 
 ## Main features
 * Optional shadows
