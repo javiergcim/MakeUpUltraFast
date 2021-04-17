@@ -20,13 +20,6 @@ uniform float far;
 uniform float near;
 uniform float blindness;
 
-// #if AO == 1
-//   uniform sampler2D colortex5;
-//   uniform float inv_aspect_ratio;
-//   uniform mat4 gbufferProjection;
-//   uniform float frameTimeCounter;
-// #endif
-
 #if AO == 1
   uniform float inv_aspect_ratio;
   uniform float fov_y_inv;
