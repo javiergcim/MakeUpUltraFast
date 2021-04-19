@@ -8,6 +8,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define WATER_F
 
 #include "/lib/config.glsl"
+#include "/lib/color_utils.glsl"
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
@@ -31,6 +32,8 @@ varying vec3 omni_light;
   varying vec3 shadow_pos;
   varying float shadow_diffuse;
 #endif
+
+varying vec3 up_vec;
 
 // 'Global' constants from system
 uniform sampler2D tex;
@@ -70,6 +73,8 @@ uniform float light_mix;
   #include "/lib/shadow_frag.glsl"
 #endif
 
+#include "/lib/luma.glsl"
+
 void main() {
   vec4 block_color;
   vec3 fragposition =
@@ -103,11 +108,55 @@ void main() {
       1.0
     );
 
+
+
+
+
+    vec3 hi_sky_color = day_blend(
+      HI_MIDDLE_COLOR,
+      HI_DAY_COLOR,
+      HI_NIGHT_COLOR
+      );
+
+    hi_sky_color = mix(
+      hi_sky_color,
+      HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+      rainStrength
+    );
+
+    vec3 low_sky_color = day_blend(
+      LOW_MIDDLE_COLOR,
+      LOW_DAY_COLOR,
+      LOW_NIGHT_COLOR
+      );
+
+    low_sky_color = mix(
+      low_sky_color,
+      LOW_SKY_RAIN_COLOR * luma(low_sky_color),
+      rainStrength
+    );
+
+    vec3 surface_normal = get_normals(water_normal_base);
+    vec3 reflect_water_vec = reflect(fragposition, surface_normal);
+
+    vec3 sky_color_reflect = mix(
+      low_sky_color,
+      hi_sky_color,
+      sqrt(clamp(dot(normalize(reflect_water_vec), up_vec), 0.0001, 1.0))
+    );
+
+
+
+
+
     block_color.rgb = water_shader(
       fragposition,
-      get_normals(water_normal_base),
+      // get_normals(water_normal_base),
+      surface_normal,
+      // vec3(0.0, 1.0, 0.0),
       block_color.rgb,
-      current_fog_color
+      // current_fog_color
+      sky_color_reflect
     );
 
   } else if (block_type > 1.5) {  // Glass

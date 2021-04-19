@@ -53,6 +53,8 @@ varying vec3 omni_light;
   varying float shadow_diffuse;
 #endif
 
+varying vec3 up_vec;
+
 attribute vec4 mc_Entity;
 attribute vec4 at_tangent;
 
@@ -95,6 +97,8 @@ void main() {
   } else if (mc_Entity.x == ENTITY_PORTAL) {  // Portal
     block_type = 1.0;
   }
+
+  up_vec = normalize(gbufferModelView[1].xyz);
 
   #include "/src/fog_vertex.glsl"
 

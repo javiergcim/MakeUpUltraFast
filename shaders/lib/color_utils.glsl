@@ -15,11 +15,13 @@ uniform float night_mixer;
   #define AMBIENT_NIGHT_COLOR vec3(0.04080882, 0.04411765, 0.05211397)
 
   #define HI_MIDDLE_COLOR vec3(0.22941177, 0.45372549, 1.07568627)
-  #define HI_DAY_COLOR vec3(0.182, 0.351, 0.754)
+  // #define HI_DAY_COLOR vec3(0.182, 0.351, 0.754)
+  #define HI_DAY_COLOR vec3(0.0, 1.0, 1.0)
   #define HI_NIGHT_COLOR vec3(0.00647058, 0.01270587, 0.03)
 
   #define LOW_MIDDLE_COLOR vec3(1.3, 0.65764706, 0.28549019)
-  #define LOW_DAY_COLOR vec3(0.572, 1.014, 1.248)
+  // #define LOW_DAY_COLOR vec3(0.572, 1.014, 1.248)
+  #define LOW_DAY_COLOR vec3(1.0, 0.0, 0.0)
   #define LOW_NIGHT_COLOR vec3(0.01078431, 0.02117647, 0.05)
 #elif COLOR_SCHEME == 1  // Cocoa
   #define OMNI_TINT 0.5
