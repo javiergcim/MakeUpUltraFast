@@ -98,6 +98,7 @@ value.COLOR_SCHEME.0=Legacy
 value.COLOR_SCHEME.1=Cocoa
 value.COLOR_SCHEME.2=Captain
 value.COLOR_SCHEME.3=Shoka
+value.COLOR_SCHEME.4=Ethereal
 
 option.AVOID_DARK=Avoid cave darkness
 value.AVOID_DARK.0=No

@@ -142,7 +142,7 @@ void main() {
       real_light
     );
 
-  } else if (block_type > .5){  // Portal
+  } else if (block_type > .5) {  // Portal
     // Toma el color puro del bloque
     block_color = texture(tex, texcoord) * tint_color;
     float shadow_c;
