@@ -5,6 +5,8 @@ Render: Water and translucent blocks
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#define WATER_F
+
 #include "/lib/config.glsl"
 #include "/lib/color_utils.glsl"
 
@@ -47,6 +49,7 @@ varying vec3 direct_light_color;
 varying vec3 candle_color;
 varying float direct_light_strenght;
 varying vec3 omni_light;
+varying float visible_sky;
 
 #ifdef SHADOW_CASTING
   varying vec3 shadow_pos;

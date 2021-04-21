@@ -27,6 +27,7 @@ varying vec3 direct_light_color;
 varying vec3 candle_color;
 varying float direct_light_strenght;
 varying vec3 omni_light;
+varying float visible_sky;
 
 #ifdef SHADOW_CASTING
   varying vec3 shadow_pos;

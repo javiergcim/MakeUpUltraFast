@@ -36,7 +36,11 @@
 
   // Visibilidad del cielo
   // float visible_sky = illumination.y * 1.105 - .10495;
-  float visible_sky = illumination.y;
+  #ifdef WATER_F
+    visible_sky = illumination.y * 1.0323886639676114;
+  #else
+    float visible_sky = illumination.y * 1.0323886639676114;
+  #endif
 
   // Ajuste de intensidad luminosa bajo el agua
   if (isEyeInWater == 1) {

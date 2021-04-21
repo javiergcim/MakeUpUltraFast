@@ -94,11 +94,9 @@ vec3 normal_waves(vec3 pos) {
 
   vec3 wave_1 =
      texture(noisetex, (pos.xy * 0.0625) + (timer * .025)).rgb;
-     // texture(noisetex, (pos.xy * 0.03125) + (timer * .0125)).rgb;
-  wave_1 = wave_1 * vec3(0.6, 0.6, 1.0) - vec3(0.3, 0.3, 0.5);
+     wave_1 = wave_1 * vec3(0.6, 0.6, 1.0) - vec3(0.3, 0.3, 0.5);
   vec3 wave_2 =
      texture(noisetex, (pos.yx * 0.03125) - (timer * .025)).rgb;
-     // texture(noisetex, (pos.yx * 0.015625) - (timer * .0125)).rgb;
   wave_2 = wave_2 * vec3(0.6, 0.6, 1.0) - vec3(0.3, 0.3, 0.5);
 
   vec3 final_wave = wave_1 + wave_2;
@@ -169,8 +167,7 @@ vec3 water_shader(vec3 fragpos, vec3 normal, vec3 color, vec3 sky_reflect) {
   float fresnel = clamp(fourth_pow(1.0 + normal_dot_eye), 0.0, 1.0);
 
   reflection.rgb = mix(
-    // sky_reflect * pow(lmcoord.y, 10.0),
-    sky_reflect,
+    sky_reflect * pow(visible_sky, 10.0),
     reflection.rgb,
     reflection.a
   );
