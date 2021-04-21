@@ -109,10 +109,7 @@ void main() {
       1.0
     );
 
-
-
-
-
+    // Reflected sky color calculation
     vec3 hi_sky_color = day_blend(
       HI_MIDDLE_COLOR,
       HI_DAY_COLOR,
@@ -146,18 +143,12 @@ void main() {
       sqrt(clamp(dot(normalize(reflect_water_vec), up_vec), 0.0001, 1.0))
     );
 
-
-
-
-
     block_color.rgb = water_shader(
       fragposition,
-      // get_normals(water_normal_base),
       surface_normal,
-      // vec3(0.0, 1.0, 0.0),
       block_color.rgb,
-      // current_fog_color
-      sky_color_reflect
+      sky_color_reflect,
+      reflect_water_vec
     );
 
   } else if (block_type > 1.5) {  // Glass

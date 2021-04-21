@@ -5,6 +5,7 @@ Render: Water and translucent blocks
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#define WATER_F
 #define NETHER
 #define NO_SHADOWS
 
@@ -38,6 +39,7 @@ varying vec4 worldposition;
 varying vec4 position2;
 varying vec3 tangent;
 varying vec3 binormal;
+varying float visible_sky;
 
 attribute vec4 mc_Entity;
 attribute vec4 at_tangent;

@@ -27,6 +27,7 @@ varying vec3 direct_light_color;
 varying vec3 candle_color;
 varying float direct_light_strenght;
 varying vec3 omni_light;
+varying float visible_sky;
 
 #ifdef SHADOW_CASTING
   varying vec3 shadow_pos;
@@ -89,7 +90,7 @@ void main() {
         tint_color.rgb,
         WATER_TINT
       );
-    #endif    
+    #endif
 
     vec3 water_normal_base = normal_waves(worldposition.xzy);
 
@@ -102,11 +103,16 @@ void main() {
       1.0
     );
 
+    vec3 surface_normal = get_normals(water_normal_base);
+    vec3 reflect_water_vec = reflect(fragposition, surface_normal);
+
     block_color.rgb = water_shader(
       fragposition,
-      get_normals(water_normal_base),
+      // get_normals(water_normal_base),
+      surface_normal,
       block_color.rgb,
-      current_fog_color
+      current_fog_color,
+      reflect_water_vec
     );
 
   } else if (block_type > 1.5) {  // Glass

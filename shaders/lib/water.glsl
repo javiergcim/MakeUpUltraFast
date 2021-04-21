@@ -57,7 +57,6 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
       return march_pos;
     }
 
-    // dir_increment *= 1.5;
     dir_increment *= 2.0;
     current_march += dir_increment;
   }
@@ -136,9 +135,10 @@ vec3 get_normals(vec3 bump) {
   return normalize(bump * tbn_matrix);
 }
 
-vec4 reflection_calc(vec3 fragpos, vec3 normal) {
+vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected) {
   #if SSR_TYPE == 0  // Flipped image
-    vec3 reflected_vector = reflect(normalize(fragpos), normal) * 35.0;
+    // vec3 reflected_vector = reflect(normalize(fragpos), normal) * 35.0;
+    vec3 reflected_vector = reflected * 35.0;
     vec3 pos = camera_to_screen(fragpos + reflected_vector);
   #else  // Raymarch
     vec3 reflected_vector = reflect(normalize(fragpos), normal);
@@ -156,11 +156,11 @@ vec4 reflection_calc(vec3 fragpos, vec3 normal) {
   return vec4(texture(gaux1, pos.xy).rgb, border);
 }
 
-vec3 water_shader(vec3 fragpos, vec3 normal, vec3 color, vec3 sky_reflect) {
+vec3 water_shader(vec3 fragpos, vec3 normal, vec3 color, vec3 sky_reflect, vec3 reflected) {
   vec4 reflection = vec4(0.0);
 
   #if REFLECTION == 1
-    reflection = reflection_calc(fragpos, normal);
+    reflection = reflection_calc(fragpos, normal, reflected);
   #endif
 
   float normal_dot_eye = dot(normal, normalize(fragpos));

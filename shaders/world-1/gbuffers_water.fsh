@@ -22,6 +22,7 @@ varying vec4 worldposition;
 varying vec4 position2;
 varying vec3 tangent;
 varying vec3 binormal;
+varying float visible_sky;
 
 // 'Global' constants from system
 uniform sampler2D tex;
@@ -76,11 +77,16 @@ void main() {
       1.0
     );
 
+    vec3 surface_normal = get_normals(water_normal_base);
+    vec3 reflect_water_vec = reflect(fragposition, surface_normal);
+
     block_color.rgb = water_shader(
       fragposition,
-      get_normals(water_normal_base),
+      // get_normals(water_normal_base),
+      surface_normal,
       block_color.rgb,
-      gl_Fog.color.rgb * .5
+      gl_Fog.color.rgb * .5,
+      reflect_water_vec
     );
 
   } else if (block_type > 1.5) {  // Glass
