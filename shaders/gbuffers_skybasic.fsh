@@ -85,13 +85,13 @@ void main() {
       sqrt(n_u)
     );
 
-    if (isEyeInWater == 1) {
-      block_color.rgb = mix(
-        hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
-        block_color.rgb,
-        clamp((n_u * 8.0) - 1.0, 0.0, 1.0)
-      );
-    }
+    // if (isEyeInWater == 1) {
+    //   block_color.rgb = mix(
+    //     hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
+    //     block_color.rgb,
+    //     clamp((n_u * 16.0) - 1.0, 0.0, 1.0)
+    //   );
+    // }
   }
 
   #include "/src/writebuffers.glsl"
