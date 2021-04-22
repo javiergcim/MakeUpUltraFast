@@ -27,6 +27,7 @@ uniform float pixel_size_x;
 uniform float pixel_size_y;
 uniform float frameTimeCounter;
 uniform float rainStrength;
+uniform ivec2 eyeBrightnessSmooth;
 
 #include "/lib/dither.glsl"
 #include "/lib/luma.glsl"
@@ -83,6 +84,14 @@ void main() {
       hi_sky_color,
       sqrt(n_u)
     );
+
+    if (isEyeInWater == 1) {
+      block_color.rgb = mix(
+        hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
+        block_color.rgb,
+        clamp((n_u * 8.0) - 1.0, 0.0, 1.0)
+      );
+    }
   }
 
   #include "/src/writebuffers.glsl"

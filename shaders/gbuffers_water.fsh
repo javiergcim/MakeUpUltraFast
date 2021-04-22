@@ -59,6 +59,7 @@ uniform float nightVision;
 uniform float rainStrength;
 uniform vec3 skyColor;
 uniform float light_mix;
+uniform ivec2 eyeBrightnessSmooth;
 
 #ifdef SHADOW_CASTING
   uniform sampler2D colortex5;
@@ -137,11 +138,17 @@ void main() {
     vec3 surface_normal = get_normals(water_normal_base);
     vec3 reflect_water_vec = reflect(fragposition, surface_normal);
 
-    vec3 sky_color_reflect = mix(
-      low_sky_color,
-      hi_sky_color,
-      sqrt(clamp(dot(normalize(reflect_water_vec), up_vec), 0.0001, 1.0))
-    );
+    vec3 sky_color_reflect;
+    if (isEyeInWater == 0 || isEyeInWater == 2) {
+      sky_color_reflect = mix(
+        low_sky_color,
+        hi_sky_color,
+        sqrt(clamp(dot(normalize(reflect_water_vec), up_vec), 0.0001, 1.0))
+        );
+    } else {
+      sky_color_reflect =
+      hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667);
+    }
 
     block_color.rgb = water_shader(
       fragposition,

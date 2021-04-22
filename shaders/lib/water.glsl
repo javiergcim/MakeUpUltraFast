@@ -61,7 +61,6 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
     current_march += dir_increment;
   }
 
-  // return march_pos;
   return camera_to_screen(current_march + (dir_increment * 100.0));
 }
 

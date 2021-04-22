@@ -113,30 +113,32 @@ void main() {
   #endif
 
   // Niebla
-  if (isEyeInWater == 1) {
-    vec3 hi_sky_color = day_blend(
-      HI_MIDDLE_COLOR,
-      HI_DAY_COLOR,
-      HI_NIGHT_COLOR
+  if (linear_d < 0.9999) {
+    if (isEyeInWater == 1) {
+      vec3 hi_sky_color = day_blend(
+        HI_MIDDLE_COLOR,
+        HI_DAY_COLOR,
+        HI_NIGHT_COLOR
+        );
+
+      hi_sky_color = mix(
+        hi_sky_color,
+        HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+        rainStrength
       );
 
-    hi_sky_color = mix(
-      hi_sky_color,
-      HI_SKY_RAIN_COLOR * luma(hi_sky_color),
-      rainStrength
-    );
-
-    block_color.rgb = mix(
-      block_color.rgb,
-      hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
-      sqrt(linear_d)
-      );
-  } else if (isEyeInWater == 2) {
-    block_color = mix(
-      block_color,
-      vec4(1.0, .1, 0.0, 1.0),
-      sqrt(linear_d)
-      );
+      block_color.rgb = mix(
+        block_color.rgb,
+        hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
+        sqrt(linear_d)
+        );
+    } else if (isEyeInWater == 2) {
+      block_color = mix(
+        block_color,
+        vec4(1.0, .1, 0.0, 1.0),
+        sqrt(linear_d)
+        );
+    }
   }
 
   /* DRAWBUFFERS:14 */
