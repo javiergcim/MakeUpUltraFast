@@ -31,9 +31,10 @@ uniform float current_hour_fract;
 #if V_CLOUDS != 0
   uniform sampler2D colortex6;
   uniform vec3 cameraPosition;
-  uniform mat4 gbufferModelViewInverse;
   uniform vec3 sunPosition;
 #endif
+
+uniform mat4 gbufferModelViewInverse;
 uniform mat4 gbufferProjectionInverse;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
@@ -69,6 +70,8 @@ void main() {
   float d = texture(depthtex0, texcoord).r;
   float linear_d = ld(d);
 
+  vec3 view_vector;
+
   #if V_CLOUDS != 0
     if (linear_d > 0.9999) {  // Only sky
       vec4 screen_pos =
@@ -80,7 +83,7 @@ void main() {
       vec4 fragposition = gbufferProjectionInverse * (screen_pos * 2.0 - 1.0);
 
       vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
-      vec3 view_vector = normalize(world_pos.xyz);
+      view_vector = normalize(world_pos.xyz);
 
       float bright =
         dot(
@@ -91,6 +94,19 @@ void main() {
 
       block_color.rgb =
         get_cloud(view_vector, block_color.rgb, bright);
+    }
+  #else
+    if (linear_d > 0.9999 && isEyeInWater == 1) {  // Only sky and water
+      vec4 screen_pos =
+        vec4(
+          gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
+          gl_FragCoord.z,
+          1.0
+        );
+      vec4 fragposition = gbufferProjectionInverse * (screen_pos * 2.0 - 1.0);
+
+      vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
+      view_vector = normalize(world_pos.xyz);
     }
   #endif
 
@@ -127,8 +143,6 @@ void main() {
       rainStrength
     );
 
-
-
     if (linear_d < 0.9999) {
       block_color.rgb = mix(
         block_color.rgb,
@@ -136,26 +150,12 @@ void main() {
         sqrt(linear_d)
         );
     } else {
-      vec4 fragpos = gbufferProjectionInverse *
-      (
-        vec4(
-          gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
-          gl_FragCoord.z,
-          1.0
-        ) * 2.0 - 1.0
-      );
-      vec3 nfragpos = normalize(fragpos.xyz);
-      float n_u = clamp(dot(nfragpos, up_vec), 0.0, 1.0);
       block_color.rgb = mix(
         hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
         block_color.rgb,
-        clamp((n_u * 1.0) - 0.25, 0.0, 1.0)
+        clamp(view_vector.y - 0.25, 0.0, 1.0)
       );
     }
-
-
-
-
   } else if (isEyeInWater == 2) {
     block_color = mix(
       block_color,
