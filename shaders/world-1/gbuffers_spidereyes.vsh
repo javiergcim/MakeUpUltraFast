@@ -10,7 +10,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/config.glsl"
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
+out vec2 texcoord;
 
 #if AA_TYPE == 1
   #include "/src/taa_offset.glsl"

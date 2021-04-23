@@ -11,7 +11,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/config.glsl"
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
+in vec2 texcoord;
 
 // 'Global' constants from system
 uniform sampler2D tex;

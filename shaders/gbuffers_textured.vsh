@@ -31,20 +31,20 @@ uniform ivec2 eyeBrightnessSmooth;
 #endif
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
-varying vec2 lmcoord;
-varying vec4 tint_color;
-varying vec3 current_fog_color;
-varying float frog_adjust;
+out vec2 texcoord;
+out vec2 lmcoord;
+out vec4 tint_color;
+flat out vec3 current_fog_color;
+out float frog_adjust;
 
-varying vec3 direct_light_color;
-varying vec3 candle_color;
-varying float direct_light_strenght;
-varying vec3 omni_light;
+flat out vec3 direct_light_color;
+out vec3 candle_color;
+flat out float direct_light_strenght;
+out vec3 omni_light;
 
 #ifdef SHADOW_CASTING
-  varying vec3 shadow_pos;
-  varying float shadow_diffuse;
+  out vec3 shadow_pos;
+  out float shadow_diffuse;
 #endif
 
 #if AA_TYPE == 1

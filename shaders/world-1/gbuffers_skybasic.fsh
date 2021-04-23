@@ -9,10 +9,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #include "/lib/config.glsl"
 
-// Varyings (per thread shared variables)
-varying vec3 up_vec;
-varying vec4 star_data;
-
 // 'Global' constants from system
 uniform int isEyeInWater;
 uniform vec3 skyColor;
@@ -20,6 +16,10 @@ uniform vec3 fogColor;
 uniform mat4 gbufferProjectionInverse;
 uniform float viewWidth;
 uniform float viewHeight;
+
+// Varyings (per thread shared variables)
+flat in vec3 up_vec;
+in vec4 star_data;
 
 void main() {
   // Toma el color puro del bloque

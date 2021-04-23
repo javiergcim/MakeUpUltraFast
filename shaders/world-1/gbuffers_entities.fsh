@@ -15,10 +15,10 @@ uniform int entityId;
 uniform vec4 entityColor;
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
-varying vec2 lmcoord;
-varying vec4 tint_color;
-varying vec3 real_light;
+in vec2 texcoord;
+in vec2 lmcoord;
+in vec4 tint_color;
+in vec3 real_light;
 
 void main() {
   // Toma el color puro del bloque

@@ -4,7 +4,7 @@
 
 uniform sampler2D tex;
 
-varying vec2 texcoord;
+in vec2 texcoord;
 
 void main() {
 

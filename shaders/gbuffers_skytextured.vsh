@@ -9,13 +9,15 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #include "/lib/color_utils.glsl"
 
-varying vec2 texcoord;
-varying vec4 tint_color;
-varying float sky_luma_correction;
-
+// 'Global' constants from system
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
+
+// Varyings (per thread shared variables)
+out vec2 texcoord;
+out vec4 tint_color;
+flat out float sky_luma_correction;
 
 #if AA_TYPE == 1
   #include "/src/taa_offset.glsl"

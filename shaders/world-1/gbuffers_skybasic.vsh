@@ -13,8 +13,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 uniform mat4 gbufferModelView;
 
 // Varyings (per thread shared variables)
-varying vec3 up_vec;
-varying vec4 star_data;
+flat out vec3 up_vec;
+out vec4 star_data;
 
 #if AA_TYPE == 1
   #include "/src/taa_offset.glsl"

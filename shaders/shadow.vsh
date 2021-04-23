@@ -2,7 +2,7 @@
 
 #include "/lib/config.glsl"
 
-varying vec2 texcoord;
+out vec2 texcoord;
 
 attribute vec4 mc_Entity;
 

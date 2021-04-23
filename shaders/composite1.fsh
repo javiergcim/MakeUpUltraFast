@@ -16,7 +16,7 @@ uniform float frameTimeCounter;
 uniform float inv_aspect_ratio;
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
+in vec2 texcoord;
 
 #include "/lib/dither.glsl"
 #include "/lib/bloom.glsl"

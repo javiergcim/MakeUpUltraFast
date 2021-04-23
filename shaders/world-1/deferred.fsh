@@ -10,7 +10,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/config.glsl"
 #include "/lib/color_utils_nether.glsl"
 
-// // 'Global' constants from system
+// 'Global' constants from system
 uniform sampler2D colortex0;
 uniform ivec2 eyeBrightnessSmooth;
 uniform int isEyeInWater;
@@ -28,10 +28,10 @@ uniform float blindness;
 #endif
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
+in vec2 texcoord;
 
 #if AO == 1
-  varying float fov_y_inv;
+  in float fov_y_inv;
 #endif
 
 #include "/lib/depth.glsl"

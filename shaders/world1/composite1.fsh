@@ -10,6 +10,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #include "/lib/config.glsl"
 
+// 'Global' constants from system
 uniform sampler2D colortex1;
 uniform sampler2D colortex5;
 uniform sampler2D colortex2;
@@ -17,7 +18,7 @@ uniform float frameTimeCounter;
 uniform float inv_aspect_ratio;
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
+in vec2 texcoord;
 
 #include "/lib/dither.glsl"
 #include "/lib/bloom.glsl"

@@ -46,8 +46,8 @@ uniform float pixel_size_y;
 #endif
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
-varying vec3 up_vec;
+in vec2 texcoord;
+flat in vec3 up_vec;
 
 #include "/lib/depth.glsl"
 #include "/lib/luma.glsl"

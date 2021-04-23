@@ -9,6 +9,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #include "/lib/config.glsl"
 
+// 'Global' constants from system
 uniform sampler2D colortex1;
 uniform float far;
 uniform float near;
@@ -33,10 +34,10 @@ uniform float rainStrength;
 #endif
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
+in vec2 texcoord;
 
 #ifdef BLOOM
-  varying float exposure;
+  flat in float exposure;
 #endif
 
 #include "/lib/depth.glsl"

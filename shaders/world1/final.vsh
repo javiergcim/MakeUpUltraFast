@@ -9,15 +9,15 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #include "/lib/color_utils_end.glsl"
 
-// Varyings (per thread shared variables)
+// 'Global' constants from system
 uniform ivec2 eyeBrightnessSmooth;
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
-varying float exposure;
+out vec2 texcoord;
+flat out float exposure;
 
 void main() {
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;

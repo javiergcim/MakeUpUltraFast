@@ -17,10 +17,10 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #endif
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
+out vec2 texcoord;
 
 #ifdef BLOOM
-  varying float exposure;
+  flat out float exposure;
 #endif
 
 void main() {

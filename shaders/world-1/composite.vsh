@@ -8,7 +8,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/config.glsl"
 #include "/lib/color_utils_nether.glsl"
 
-// Varyings (per thread shared variables)
+// 'Global' constants from system
 #ifdef BLOOM
   uniform ivec2 eyeBrightnessSmooth;
   uniform int current_hour_floor;
@@ -17,10 +17,10 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #endif
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
+out vec2 texcoord;
 
 #ifdef BLOOM
-  varying float exposure;
+  flat out float exposure;
 #endif
 
 void main() {

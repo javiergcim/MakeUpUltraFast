@@ -34,10 +34,10 @@ uniform float rainStrength;
 #endif
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
+in vec2 texcoord;
 
 #ifdef BLOOM
-  varying float exposure;
+  flat in float exposure;
 #endif
 
 #include "/lib/depth.glsl"

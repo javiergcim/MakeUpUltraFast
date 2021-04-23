@@ -12,8 +12,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/color_utils_nether.glsl"
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
-varying vec4 tint_color;
+out vec2 texcoord;
+out vec4 tint_color;
 
 uniform float far;
 uniform int current_hour_floor;

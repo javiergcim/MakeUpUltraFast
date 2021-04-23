@@ -35,7 +35,7 @@ uniform float viewHeight;
 #endif
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
+in vec2 texcoord;
 
 #if AA_TYPE == 1 || defined MOTION_BLUR
   #include "/lib/projection_utils.glsl"

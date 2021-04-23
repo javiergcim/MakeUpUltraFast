@@ -7,15 +7,16 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #include "/lib/config.glsl"
 
+// 'Global' constants from system
 #if AO == 1
   uniform mat4 gbufferProjection;
 #endif
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
+out vec2 texcoord;
 
 #if AO == 1
-  varying float fov_y_inv;
+  out float fov_y_inv;
 #endif
 
 void main() {

@@ -41,7 +41,7 @@ uniform float blindness;
 #endif
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
+in vec2 texcoord;
 
 #include "/lib/depth.glsl"
 #include "/lib/luma.glsl"

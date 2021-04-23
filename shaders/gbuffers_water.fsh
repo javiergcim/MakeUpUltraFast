@@ -11,30 +11,30 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/color_utils.glsl"
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
-varying vec2 lmcoord;
-varying vec4 tint_color;
-varying vec3 current_fog_color;
-varying float frog_adjust;
-varying vec3 water_normal;
-varying float block_type;
-varying vec4 worldposition;
-varying vec4 position2;
-varying vec3 tangent;
-varying vec3 binormal;
+in vec2 texcoord;
+in vec2 lmcoord;
+in vec4 tint_color;
+flat in vec3 current_fog_color;
+in float frog_adjust;
+flat in vec3 water_normal;
+flat in float block_type;
+in vec4 worldposition;
+in vec4 position2;
+in vec3 tangent;
+in vec3 binormal;
 
-varying vec3 direct_light_color;
-varying vec3 candle_color;
-varying float direct_light_strenght;
-varying vec3 omni_light;
-varying float visible_sky;
+flat in vec3 direct_light_color;
+in vec3 candle_color;
+flat in float direct_light_strenght;
+in vec3 omni_light;
+in float visible_sky;
 
 #ifdef SHADOW_CASTING
-  varying vec3 shadow_pos;
-  varying float shadow_diffuse;
+  in vec3 shadow_pos;
+  in float shadow_diffuse;
 #endif
 
-varying vec3 up_vec;
+flat in vec3 up_vec;
 
 // 'Global' constants from system
 uniform sampler2D tex;

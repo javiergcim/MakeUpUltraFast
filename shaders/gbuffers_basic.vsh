@@ -10,11 +10,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/config.glsl"
 #include "/lib/color_utils.glsl"
 
-// Varyings (per thread shared variables)
-varying vec4 tint_color;
-varying float frog_adjust;
-varying vec3 current_fog_color;
-
+// 'Global' constants from system
 uniform float far;
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
@@ -22,6 +18,11 @@ uniform float current_hour_fract;
 uniform float rainStrength;
 uniform int isEyeInWater;
 uniform ivec2 eyeBrightnessSmooth;
+
+// Varyings (per thread shared variables)
+out vec4 tint_color;
+out float frog_adjust;
+flat out vec3 current_fog_color;
 
 #include "/lib/luma.glsl"
 #include "/lib/basic_utils.glsl"
@@ -34,9 +35,6 @@ void main() {
   // Simplified light calculation for this basic elements
   vec2 illumination = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
   float visible_sky = illumination.y * 1.105 - .10495;
-
-  // vec3 direct_light_color =
-  //   texture(colortex6, vec2(AMBIENT_X, current_hour)).rgb * (1.0 - rainStrength);
 
   vec3 direct_light_color = day_blend(
     AMBIENT_MIDDLE_COLOR,

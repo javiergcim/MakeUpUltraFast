@@ -9,8 +9,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #include "/lib/config.glsl"
 
-varying vec2 texcoord;
-varying vec4 tint_color;
+in vec2 texcoord;
+in vec4 tint_color;
 
 // uniform sampler2D tex;
 

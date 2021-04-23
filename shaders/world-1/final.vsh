@@ -14,8 +14,8 @@ uniform int current_hour_ceil;
 uniform float current_hour_fract;
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
-varying float exposure;
+out vec2 texcoord;
+flat out float exposure;
 
 void main() {
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;

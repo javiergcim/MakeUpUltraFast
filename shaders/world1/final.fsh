@@ -54,8 +54,8 @@ const int colortex7Format = R8;
 uniform sampler2D colortex0;
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
-varying float exposure;
+in vec2 texcoord;
+flat in float exposure;
 
 #include "/lib/color_utils.glsl"
 #include "/lib/basic_utils.glsl"

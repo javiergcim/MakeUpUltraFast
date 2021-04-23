@@ -29,17 +29,17 @@ uniform mat4 gbufferModelViewInverse;
 uniform vec3 cameraPosition;
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
-varying vec2 lmcoord;
-varying vec4 tint_color;
-varying vec3 real_light;
-varying vec3 water_normal;
-varying float block_type;
-varying vec4 worldposition;
-varying vec4 position2;
-varying vec3 tangent;
-varying vec3 binormal;
-varying float visible_sky;
+out vec2 texcoord;
+out vec2 lmcoord;
+out vec4 tint_color;
+out vec3 real_light;
+flat out vec3 water_normal;
+flat out float block_type;
+out vec4 worldposition;
+out vec4 position2;
+out vec3 tangent;
+out vec3 binormal;
+out float visible_sky;
 
 attribute vec4 mc_Entity;
 attribute vec4 at_tangent;

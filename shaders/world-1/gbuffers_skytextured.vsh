@@ -7,8 +7,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #define NO_SHADOWS
 
-varying vec2 texcoord;
-varying vec4 tint_color;
+out vec2 texcoord;
+out vec4 tint_color;
 
 #if AA_TYPE == 1
   #include "/src/taa_offset.glsl"

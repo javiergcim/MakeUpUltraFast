@@ -10,8 +10,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 uniform mat4 gbufferModelView;
 
 // Varyings (per thread shared variables)
-varying vec2 texcoord;
-varying vec3 up_vec;
+out vec2 texcoord;
+flat out vec3 up_vec;
 
 void main() {
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
