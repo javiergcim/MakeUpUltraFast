@@ -113,70 +113,56 @@ void main() {
     // block_color = vec4(vec3(linear_d), 1.0);
   #endif
 
-  // Niebla
-  // if (linear_d < 0.9999) {
-    if (isEyeInWater == 1) {
-      vec3 hi_sky_color = day_blend(
-        HI_MIDDLE_COLOR,
-        HI_DAY_COLOR,
-        HI_NIGHT_COLOR
-        );
-
-      hi_sky_color = mix(
-        hi_sky_color,
-        HI_SKY_RAIN_COLOR * luma(hi_sky_color),
-        rainStrength
+  // Niebla submarina
+  if (isEyeInWater == 1) {
+    vec3 hi_sky_color = day_blend(
+      HI_MIDDLE_COLOR,
+      HI_DAY_COLOR,
+      HI_NIGHT_COLOR
       );
 
-
-
-      if (linear_d < 0.9999) {
-        block_color.rgb = mix(
-          block_color.rgb,
-          hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
-          sqrt(linear_d)
-          );
-      } else {
-        vec3 low_sky_color = day_blend(
-          LOW_MIDDLE_COLOR,
-          LOW_DAY_COLOR,
-          LOW_NIGHT_COLOR
-          );
-
-        low_sky_color = mix(
-          low_sky_color,
-          LOW_SKY_RAIN_COLOR * luma(low_sky_color),
-          rainStrength
-        );
-
-        vec4 fragpos = gbufferProjectionInverse *
-        (
-          vec4(
-            gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
-            gl_FragCoord.z,
-            1.0
-          ) * 2.0 - 1.0
-        );
-        vec3 nfragpos = normalize(fragpos.xyz);
-        float n_u = clamp(dot(nfragpos, up_vec), 0.0, 1.0);
-        block_color.rgb = mix(
-          hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
-          block_color.rgb,
-          clamp((n_u * 1.0) - 0.25, 0.0, 1.0)
-        );
-      }
+    hi_sky_color = mix(
+      hi_sky_color,
+      HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+      rainStrength
+    );
 
 
 
-
-    } else if (isEyeInWater == 2) {
-      block_color = mix(
-        block_color,
-        vec4(1.0, .1, 0.0, 1.0),
+    if (linear_d < 0.9999) {
+      block_color.rgb = mix(
+        block_color.rgb,
+        hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
         sqrt(linear_d)
         );
+    } else {
+      vec4 fragpos = gbufferProjectionInverse *
+      (
+        vec4(
+          gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
+          gl_FragCoord.z,
+          1.0
+        ) * 2.0 - 1.0
+      );
+      vec3 nfragpos = normalize(fragpos.xyz);
+      float n_u = clamp(dot(nfragpos, up_vec), 0.0, 1.0);
+      block_color.rgb = mix(
+        hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
+        block_color.rgb,
+        clamp((n_u * 1.0) - 0.25, 0.0, 1.0)
+      );
     }
-  // }
+
+
+
+
+  } else if (isEyeInWater == 2) {
+    block_color = mix(
+      block_color,
+      vec4(1.0, .1, 0.0, 1.0),
+      sqrt(linear_d)
+      );
+  }
 
   /* DRAWBUFFERS:14 */
   gl_FragData[0] = vec4(block_color.rgb, d);
