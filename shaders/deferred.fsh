@@ -31,12 +31,12 @@ uniform float current_hour_fract;
 #if V_CLOUDS != 0
   uniform sampler2D colortex6;
   uniform vec3 cameraPosition;
-  uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
-  uniform float pixel_size_x;
-  uniform float pixel_size_y;
   uniform vec3 sunPosition;
 #endif
+uniform mat4 gbufferProjectionInverse;
+uniform float pixel_size_x;
+uniform float pixel_size_y;
 
 #if AO == 1 || V_CLOUDS != 0
   uniform mat4 gbufferProjection;
@@ -46,6 +46,7 @@ uniform float current_hour_fract;
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
+varying vec3 up_vec;
 
 #include "/lib/depth.glsl"
 #include "/lib/luma.glsl"
@@ -113,7 +114,7 @@ void main() {
   #endif
 
   // Niebla
-  if (linear_d < 0.9999) {
+  // if (linear_d < 0.9999) {
     if (isEyeInWater == 1) {
       vec3 hi_sky_color = day_blend(
         HI_MIDDLE_COLOR,
@@ -127,11 +128,47 @@ void main() {
         rainStrength
       );
 
-      block_color.rgb = mix(
-        block_color.rgb,
-        hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
-        sqrt(linear_d)
+
+
+      if (linear_d < 0.9999) {
+        block_color.rgb = mix(
+          block_color.rgb,
+          hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
+          sqrt(linear_d)
+          );
+      } else {
+        vec3 low_sky_color = day_blend(
+          LOW_MIDDLE_COLOR,
+          LOW_DAY_COLOR,
+          LOW_NIGHT_COLOR
+          );
+
+        low_sky_color = mix(
+          low_sky_color,
+          LOW_SKY_RAIN_COLOR * luma(low_sky_color),
+          rainStrength
         );
+
+        vec4 fragpos = gbufferProjectionInverse *
+        (
+          vec4(
+            gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
+            gl_FragCoord.z,
+            1.0
+          ) * 2.0 - 1.0
+        );
+        vec3 nfragpos = normalize(fragpos.xyz);
+        float n_u = clamp(dot(nfragpos, up_vec), 0.0, 1.0);
+        block_color.rgb = mix(
+          hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
+          block_color.rgb,
+          clamp((n_u * 1.0) - 0.25, 0.0, 1.0)
+        );
+      }
+
+
+
+
     } else if (isEyeInWater == 2) {
       block_color = mix(
         block_color,
@@ -139,7 +176,7 @@ void main() {
         sqrt(linear_d)
         );
     }
-  }
+  // }
 
   /* DRAWBUFFERS:14 */
   gl_FragData[0] = vec4(block_color.rgb, d);
