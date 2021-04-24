@@ -12,7 +12,7 @@ profile.comment=Very Low - No optional effects. Low - Adds simple reflection and
 
 #About
 #############################
-option.ACERCADE=MakeUp v5.24b
+option.ACERCADE=MakeUp v5.25
 option.ACERCADE.comment=Thanks for using this shader! :). Set Optifine native quality controls on normal or default values for better quality.
 value.ACERCADE.0=by Javier
 

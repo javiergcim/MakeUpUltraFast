@@ -39,7 +39,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
 
         march_pos = camera_to_screen(current_march);
         screen_depth = texture(depthtex1, march_pos.xy).x;
-        depth_diff = screen_depth - camera_to_screen(current_march).z;
+        depth_diff = screen_depth - march_pos.z;
 
         // Remove unnecesary iterations
         if (abs(depth_diff) < 0.0002) {
@@ -48,7 +48,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
 
         // Searching fallbacks
         if (abs(screen_depth - prev_screen_depth) > abs(march_pos.z - prev_march_pos_z) * 2.5) {
-          return camera_to_screen(hit_coord + (direction * 35.0));
+          return camera_to_screen(hit_coord + (direction * 64.0));
         }
         prev_screen_depth = screen_depth;
         prev_march_pos_z = march_pos.z;

@@ -43,8 +43,8 @@ flat out float direct_light_strenght;
 out vec3 omni_light;
 
 #ifdef SHADOW_CASTING
-  varying vec3 shadow_pos;
-  varying float shadow_diffuse;
+  out vec3 shadow_pos;
+  out float shadow_diffuse;
 #endif
 
 #if AA_TYPE == 1

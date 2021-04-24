@@ -15,7 +15,6 @@ flat out vec3 up_vec;
 
 void main() {
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
-  // gl_Position = ftransform();
   texcoord = gl_MultiTexCoord0.xy;
   up_vec = normalize(gbufferModelView[1].xyz);
 }

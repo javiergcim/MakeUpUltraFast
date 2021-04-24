@@ -35,8 +35,8 @@ flat in float direct_light_strenght;
 in vec3 omni_light;
 
 #ifdef SHADOW_CASTING
-  varying vec3 shadow_pos;
-  varying float shadow_diffuse;
+  in vec3 shadow_pos;
+  in float shadow_diffuse;
 #endif
 
 #ifdef SHADOW_CASTING
