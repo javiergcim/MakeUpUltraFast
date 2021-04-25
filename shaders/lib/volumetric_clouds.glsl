@@ -64,7 +64,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
         );
 
       vec3 cloud_color = mix(
-        luma(cloud_color_aux) * vec3(2.0),
+        clamp(luma(cloud_color_aux) * vec3(2.0), 0.0, 1.4),
           day_blend(
             LOW_MIDDLE_COLOR,
             LOW_DAY_COLOR,

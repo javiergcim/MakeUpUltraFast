@@ -10,8 +10,8 @@ uniform float night_mixer;
 
 #if COLOR_SCHEME == 0  // Legacy
   #define OMNI_TINT 0.5
-  #define AMBIENT_MIDDLE_COLOR vec3(0.78, 0.39458823, 0.17129412)
-  #define AMBIENT_DAY_COLOR vec3(0.7696, 0.7696, 0.728)
+  #define AMBIENT_MIDDLE_COLOR vec3(0.78, 0.39458823, 0.17129412) * 1.2
+  #define AMBIENT_DAY_COLOR vec3(0.7696, 0.7696, 0.728) * 1.2
   #define AMBIENT_NIGHT_COLOR vec3(0.04080882, 0.04411765, 0.05211397)
 
   #define HI_MIDDLE_COLOR vec3(0.22941177, 0.45372549, 1.07568627)
@@ -23,8 +23,8 @@ uniform float night_mixer;
   #define LOW_NIGHT_COLOR vec3(0.01078431, 0.02117647, 0.05)
 #elif COLOR_SCHEME == 1  // Cocoa
   #define OMNI_TINT 0.5
-  #define AMBIENT_MIDDLE_COLOR vec3(0.6656, 0.4784, 0.2184)
-  #define AMBIENT_DAY_COLOR vec3(0.78, 0.78, 0.49725)
+  #define AMBIENT_MIDDLE_COLOR vec3(0.6656, 0.4784, 0.2184) * 1.2
+  #define AMBIENT_DAY_COLOR vec3(0.78, 0.78, 0.49725) * 1.2
   #define AMBIENT_NIGHT_COLOR vec3(0.04080882, 0.04411765, 0.05211397)
 
   #define HI_MIDDLE_COLOR vec3(0.117, 0.26, 0.494)
@@ -36,8 +36,8 @@ uniform float night_mixer;
   #define LOW_NIGHT_COLOR vec3(0.022, 0.029, 0.049)
 #elif COLOR_SCHEME == 2  // Captain
   #define OMNI_TINT 0.5
-  #define AMBIENT_MIDDLE_COLOR vec3(0.612, 0.384, 0.19200001)
-  #define AMBIENT_DAY_COLOR vec3(0.72230401, 0.81259199, 0.95931)
+  #define AMBIENT_MIDDLE_COLOR vec3(0.612, 0.384, 0.19200001) * 1.2
+  #define AMBIENT_DAY_COLOR vec3(0.72230401, 0.81259199, 0.95931) * 1.2
   #define AMBIENT_NIGHT_COLOR vec3(0.02258823, 0.04517648, 0.06)
 
   #define HI_MIDDLE_COLOR vec3(0.30225, 0.359775, 0.519675)
@@ -49,8 +49,8 @@ uniform float night_mixer;
   #define LOW_NIGHT_COLOR vec3(0.025, 0.035, 0.05)
 #elif COLOR_SCHEME == 3  // Shoka
   #define OMNI_TINT 0.5
-  #define AMBIENT_MIDDLE_COLOR vec3(0.64, 0.46, 0.21)
-  #define AMBIENT_DAY_COLOR vec3(0.9375, 0.9375, 0.65)
+  #define AMBIENT_MIDDLE_COLOR vec3(0.64, 0.46, 0.21) * 1.3
+  #define AMBIENT_DAY_COLOR vec3(0.9375, 0.9375, 0.65) * 1.2
   #define AMBIENT_NIGHT_COLOR vec3(0.02448529, 0.02647059, 0.03126838)
 
   #define HI_MIDDLE_COLOR vec3(0.13, 0.22176471, 0.33137255)
@@ -61,9 +61,9 @@ uniform float night_mixer;
   #define LOW_DAY_COLOR vec3(0.364 , 0.6825, 0.91)
   #define LOW_NIGHT_COLOR vec3(0.0213, 0.0306, 0.0387)
 #elif COLOR_SCHEME == 4  // Ethereal
-  #define OMNI_TINT 0.2
+  #define OMNI_TINT 0.5
   #define AMBIENT_MIDDLE_COLOR vec3(0.78, 0.39458823, 0.17129412)
-  #define AMBIENT_DAY_COLOR vec3(0.7696, 0.7696, 0.728) * 1.3
+  #define AMBIENT_DAY_COLOR vec3(0.7996, 0.7896, 0.588) * 1.3
   #define AMBIENT_NIGHT_COLOR vec3(0.04080882, 0.04411765, 0.05211397)
 
   #define HI_MIDDLE_COLOR vec3(0.30225, 0.359775, 0.519675)

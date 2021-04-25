@@ -42,7 +42,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
         depth_diff = screen_depth - march_pos.z;
 
         // Remove unnecesary iterations
-        if (abs(depth_diff) < 0.0002) {
+        if (abs(depth_diff) < 0.0001) {
           break;
         }
 

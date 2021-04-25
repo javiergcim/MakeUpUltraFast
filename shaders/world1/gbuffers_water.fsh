@@ -123,7 +123,6 @@ void main() {
     #ifdef SHADOW_CASTING
       if (lmcoord.y > 0.005) {
         shadow_c = get_shadow(shadow_pos);
-        shadow_c = mix(shadow_c, 1.0, rainStrength);
         shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
       } else {
         shadow_c = 1.0;
@@ -135,7 +134,7 @@ void main() {
 
     vec3 real_light =
       omni_light +
-      (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength) +
+      (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
       candle_color;
 
     block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
@@ -155,7 +154,6 @@ void main() {
     #ifdef SHADOW_CASTING
       if (lmcoord.y > 0.005) {
         shadow_c = get_shadow(shadow_pos);
-        shadow_c = mix(shadow_c, 1.0, rainStrength);
         shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
       } else {
         shadow_c = 1.0;
@@ -167,7 +165,7 @@ void main() {
 
     vec3 real_light =
       omni_light +
-      (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength) +
+      (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
       candle_color +
       .2;
 
@@ -180,7 +178,6 @@ void main() {
     #ifdef SHADOW_CASTING
       if (lmcoord.y > 0.005) {
         shadow_c = get_shadow(shadow_pos);
-        shadow_c = mix(shadow_c, 1.0, rainStrength);
         shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
       } else {
         shadow_c = 1.0;
@@ -192,7 +189,7 @@ void main() {
 
     vec3 real_light =
       omni_light +
-      (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength) +
+      (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
       candle_color +
       .2;
 
