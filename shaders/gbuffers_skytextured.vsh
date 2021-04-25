@@ -33,7 +33,7 @@ void main() {
     current_hour_fract
     );
 
-  sky_luma_correction = 1.3 / ((sky_luma_correction * -3.5) + 4.5);
+  sky_luma_correction = 1.3 / ((sky_luma_correction * -2.5) + 3.5);
 
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
   #if AA_TYPE == 1

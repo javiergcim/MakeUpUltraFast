@@ -47,7 +47,7 @@ out float frog_adjust;
 
 flat out vec3 direct_light_color;
 out vec3 candle_color;
-flat out float direct_light_strenght;
+out float direct_light_strenght;
 out vec3 omni_light;
 flat out float is_foliage;
 

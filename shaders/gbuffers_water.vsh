@@ -47,7 +47,7 @@ out vec3 binormal;
 
 flat out vec3 direct_light_color;
 out vec3 candle_color;
-flat out float direct_light_strenght;
+out float direct_light_strenght;
 out vec3 omni_light;
 out float visible_sky;
 

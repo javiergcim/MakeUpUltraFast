@@ -29,7 +29,7 @@ in float frog_adjust;
 
 flat in vec3 direct_light_color;
 in vec3 candle_color;
-flat in float direct_light_strenght;
+in float direct_light_strenght;
 in vec3 omni_light;
 
 #ifdef SHADOW_CASTING

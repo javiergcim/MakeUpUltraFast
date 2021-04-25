@@ -17,7 +17,6 @@ in vec2 texcoord;
 in vec4 tint_color;
 flat in float sky_luma_correction;
 
-
 void main() {
   // Toma el color puro del bloque
   vec4 block_color = texture(tex, texcoord) * tint_color;
