@@ -21,7 +21,7 @@ uniform float viewHeight;
   #endif
 #endif
 
-#if AA_TYPE == 1 || defined MOTION_BLUR
+#if AA_TYPE > 0 || defined MOTION_BLUR
   uniform sampler2D colortex3;  // TAA past averages
   uniform float pixel_size_x;
   uniform float pixel_size_y;
@@ -38,7 +38,7 @@ uniform float viewHeight;
 // Varyings (per thread shared variables)
 in vec2 texcoord;
 
-#if AA_TYPE == 1 || defined MOTION_BLUR
+#if AA_TYPE > 0 || defined MOTION_BLUR
   #include "/lib/projection_utils.glsl"
   #include "/lib/past_projection_utils.glsl"
 #endif
@@ -48,7 +48,7 @@ in vec2 texcoord;
   #include "/lib/motion_blur.glsl"
 #endif
 
-#if AA_TYPE == 1
+#if AA_TYPE > 0
   #include "/lib/luma.glsl"
   #include "/lib/fast_taa.glsl"
 #endif
@@ -57,7 +57,7 @@ void main() {
   vec4 block_color = texture(colortex1, texcoord);
 
   // Precalc past position and velocity
-  #if AA_TYPE == 1 || defined MOTION_BLUR
+  #if AA_TYPE > 0 || defined MOTION_BLUR
     // Reproyección del cuadro anterior
     float z_depth = block_color.a;
     vec3 closest_to_camera = vec3(texcoord, z_depth);
@@ -80,7 +80,7 @@ void main() {
     #endif
   #endif
 
-  #if AA_TYPE == 1
+  #if AA_TYPE > 0
     #ifdef DOF
       block_color = fast_taa_depth(block_color, texcoord_past, velocity);
     #else

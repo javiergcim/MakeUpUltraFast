@@ -29,7 +29,7 @@ flat out vec3 current_fog_color;
 #include "/lib/luma.glsl"
 #include "/lib/basic_utils.glsl"
 
-#if AA_TYPE == 1
+#if AA_TYPE > 0
   #include "/src/taa_offset.glsl"
 #endif
 

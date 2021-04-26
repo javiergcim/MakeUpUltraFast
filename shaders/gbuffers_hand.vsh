@@ -45,7 +45,7 @@ out vec3 omni_light;
   out float shadow_diffuse;
 #endif
 
-#if AA_TYPE == 1
+#if AA_TYPE > 0
   #include "/src/taa_offset.glsl"
 #endif
 

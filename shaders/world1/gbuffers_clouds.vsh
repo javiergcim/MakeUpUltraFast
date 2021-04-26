@@ -23,7 +23,7 @@ out vec4 tint_color;
 out float frog_adjust;
 flat out vec3 current_fog_color;
 
-#if AA_TYPE == 1
+#if AA_TYPE > 0
   #include "/src/taa_offset.glsl"
 #endif
 

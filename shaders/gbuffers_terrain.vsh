@@ -57,7 +57,7 @@ flat out float is_foliage;
 
 attribute vec4 mc_Entity;
 
-#if AA_TYPE == 1
+#if AA_TYPE > 0
   #include "/src/taa_offset.glsl"
 #endif
 

@@ -10,7 +10,7 @@ uniform float night_mixer;
 
 #if COLOR_SCHEME == 0  // Legacy
   #define OMNI_TINT 0.5
-  #define AMBIENT_MIDDLE_COLOR vec3(0.897, 0.45377646, 0.19698824)
+  #define AMBIENT_MIDDLE_COLOR vec3(1.0764, 0.54453175, 0.23638589)
   #define AMBIENT_DAY_COLOR vec3(0.88504, 0.88504, 0.8372)
   #define AMBIENT_NIGHT_COLOR vec3(0.04693014, 0.0507353 , 0.05993107)
 
@@ -23,7 +23,7 @@ uniform float night_mixer;
   #define LOW_NIGHT_COLOR vec3(0.01078431, 0.02117647, 0.05)
 #elif COLOR_SCHEME == 1  // Cocoa
   #define OMNI_TINT 0.5
-  #define AMBIENT_MIDDLE_COLOR vec3(0.76544, 0.55016, 0.25116)
+  #define AMBIENT_MIDDLE_COLOR vec3(0.918528, 0.660192, 0.301392)
   #define AMBIENT_DAY_COLOR vec3(0.897, 0.897, 0.5718375)
   #define AMBIENT_NIGHT_COLOR vec3(0.04693014, 0.0507353, 0.05993107)
 
@@ -36,7 +36,7 @@ uniform float night_mixer;
   #define LOW_NIGHT_COLOR vec3(0.022, 0.029, 0.049)
 #elif COLOR_SCHEME == 2  // Captain
   #define OMNI_TINT 0.5
-  #define AMBIENT_MIDDLE_COLOR vec3(0.7038, 0.4416, 0.22080001)
+  #define AMBIENT_MIDDLE_COLOR vec3(0.84456, 0.52992, 0.26496001)
   #define AMBIENT_DAY_COLOR vec3(0.83064961, 0.93448079, 1.1032065)
   #define AMBIENT_NIGHT_COLOR vec3(0.02597646, 0.05195295, 0.069)
 
@@ -49,7 +49,7 @@ uniform float night_mixer;
   #define LOW_NIGHT_COLOR vec3(0.025, 0.035, 0.05)
 #elif COLOR_SCHEME == 3  // Shoka
   #define OMNI_TINT 0.5
-  #define AMBIENT_MIDDLE_COLOR vec3(0.736, 0.529, 0.2415)
+  #define AMBIENT_MIDDLE_COLOR vec3(0.8832, 0.6348, 0.2898)
   #define AMBIENT_DAY_COLOR vec3(1.078125, 1.078125, 0.7475)
   #define AMBIENT_NIGHT_COLOR vec3(0.02815808, 0.03044118, 0.03595864)
 
@@ -62,7 +62,7 @@ uniform float night_mixer;
   #define LOW_NIGHT_COLOR vec3(0.0213, 0.0306, 0.0387)
 #elif COLOR_SCHEME == 4  // Ethereal
   #define OMNI_TINT 0.5
-  #define AMBIENT_MIDDLE_COLOR vec3(0.82294, 0.49266, 0.25116)
+  #define AMBIENT_MIDDLE_COLOR vec3(0.987528, 0.591192, 0.301392)
   #define AMBIENT_DAY_COLOR vec3(0.91954, 0.90804, 0.6762)
   #define AMBIENT_NIGHT_COLOR vec3(0.04693014, 0.0507353 , 0.05993107)
 
@@ -101,7 +101,7 @@ const float ambient_exposure[25] =
   1.0, // 4
   1.0, // 5
   1.0, // 6
-  .01, // 7
+  .4, // 7
   .01, // 8
   .01, // 9
   .01, // 10
@@ -111,7 +111,7 @@ const float ambient_exposure[25] =
   .01, // 2
   .01, // 3
   .01, // 4
-  .01, // 5
+  .4, // 5
   1.0 // 6
   );
 

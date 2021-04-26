@@ -38,7 +38,7 @@ void main() {
   float dither;
 
   if (star_data.a < .9) {
-    #if AA_TYPE == 1
+    #if AA_TYPE > 0
       dither = timed_int_hash12(uvec2(gl_FragCoord.xy));
     #else
       dither = phi_noise(uvec2(gl_FragCoord.xy));

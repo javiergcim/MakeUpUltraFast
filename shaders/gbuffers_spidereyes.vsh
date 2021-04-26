@@ -12,7 +12,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // Varyings (per thread shared variables)
 out vec2 texcoord;
 
-#if AA_TYPE == 1
+#if AA_TYPE > 0
   #include "/src/taa_offset.glsl"
 #endif
 

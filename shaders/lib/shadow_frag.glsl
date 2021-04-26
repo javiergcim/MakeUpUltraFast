@@ -14,7 +14,7 @@ float get_shadow(vec3 the_shadow_pos) {
     #if SHADOW_TYPE == 0  // Pixelated
       shadow_sample = texture(shadowtex1, vec3(the_shadow_pos.xy, shadow_pos.z - 0.001));
     #elif SHADOW_TYPE == 1  // Soft
-      #if AA_TYPE == 1
+      #if AA_TYPE > 0
         float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
       #else
         float dither = texture_noise_64(gl_FragCoord.xy, colortex5);

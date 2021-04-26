@@ -20,7 +20,7 @@ uniform float current_hour_fract;
 // Varyings (per thread shared variables)
 out vec4 tint_color;
 
-#if AA_TYPE == 1
+#if AA_TYPE > 0
   #include "/src/taa_offset.glsl"
 #endif
 

@@ -19,7 +19,7 @@ out vec2 texcoord;
 out vec4 tint_color;
 flat out float sky_luma_correction;
 
-#if AA_TYPE == 1
+#if AA_TYPE > 0
   #include "/src/taa_offset.glsl"
 #endif
 
@@ -36,7 +36,7 @@ void main() {
   sky_luma_correction = 1.3 / ((sky_luma_correction * -2.5) + 3.5);
 
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
-  #if AA_TYPE == 1
+  #if AA_TYPE > 0
     gl_Position.xy += offsets[frame_mod] * gl_Position.w * pixel_size;
   #endif
 }

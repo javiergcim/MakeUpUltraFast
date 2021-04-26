@@ -10,7 +10,7 @@ vec3 mipmap_bloom(sampler2D image, vec2 coords) {
 
   int sample_c = int(BLOOM_SAMPLES);
 
-  #if AA_TYPE == 1
+  #if AA_TYPE > 0
     float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
   #else
     float dither = phi_noise(uvec2(gl_FragCoord.xy));

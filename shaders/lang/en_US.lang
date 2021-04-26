@@ -53,9 +53,10 @@ option.AOSTEPS=AO sample pairs
 
 option.AO_STRENGHT=AO strenght
 
-option.AA_TYPE=Antialiasing
+option.AA_TYPE=Temporal sampling
 value.AA_TYPE.0=Off
-value.AA_TYPE.1=Fast TAA
+value.AA_TYPE.1=TAA
+value.AA_TYPE.2=Denoise
 
 option.MOTION_BLUR=Motion blur
 
@@ -113,6 +114,8 @@ option.CLOUD_SPEED=Clouds speed
 value.CLOUD_SPEED.0=Normal
 value.CLOUD_SPEED.1=Time lapse 1
 value.CLOUD_SPEED.2=Time lapse 2
+
+option.CLOUD_STEPS_AVG=Average samples
 
 option.BLOOM=Bloom
 value.BLOOM.0=Off
