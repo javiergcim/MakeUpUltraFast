@@ -20,7 +20,7 @@ vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force) {
     vec3 blur_sample = vec3(0.0);
     vec2 blur_radius_vec = vec2(blur_radius * inv_aspect_ratio, blur_radius);
 
-    int sample_c = 1;
+    // int sample_c = 1;
 
     #if AA_TYPE > 0
       float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));

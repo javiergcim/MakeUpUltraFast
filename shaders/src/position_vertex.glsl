@@ -12,7 +12,8 @@
       is_foliage = 0.0;
     #endif
 
-    if (mc_Entity.x == ENTITY_LOWERGRASS ||
+    if (
+        mc_Entity.x == ENTITY_LOWERGRASS ||
         mc_Entity.x == ENTITY_UPPERGRASS ||
         mc_Entity.x == ENTITY_SMALLGRASS ||
         mc_Entity.x == ENTITY_SMALLENTS ||
