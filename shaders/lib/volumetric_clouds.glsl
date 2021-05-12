@@ -38,8 +38,11 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
   if (cameraPosition.y < CLOUD_PLANE) {
     if (view_vector.y > .055) {  // Vista sobre el horizonte
-      umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .25;
-      // umbral = mix(0.55, 0.25, rainStrength);
+      #if MC_VERSION >= 11300
+        umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .25;
+      #else
+        umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .5;
+      #endif
 
       vec3 dark_cloud_color = day_blend(
         HI_MIDDLE_COLOR,
@@ -122,7 +125,11 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
               (intersection_pos.zx * .0002) + (frameTimeCounter * CLOUD_LOW_FACTOR)
             ).r;
           current_value *= 0.5;
-          current_value = smoothstep(0.05, 0.95, current_value);
+          #if MC_VERSION >= 11300
+            current_value = smoothstep(0.05, 0.95, current_value);
+          #else
+            current_value = smoothstep(0.25, 1.0, current_value);
+          #endif
         #endif
 
         // Ajuste por umbral

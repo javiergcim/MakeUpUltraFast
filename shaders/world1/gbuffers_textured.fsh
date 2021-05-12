@@ -6,7 +6,10 @@ Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 #define THE_END
-#define CLOUDS_SHADER
+
+#if MC_VERSION >= 11300
+  #define CLOUDS_SHADER
+#endif
 
 #include "/lib/config.glsl"
 

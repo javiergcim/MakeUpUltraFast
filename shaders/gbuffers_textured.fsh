@@ -66,8 +66,17 @@ void main() {
     (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
     candle_color;
 
-  block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
+  #if MC_VERSION >= 11300
+    block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
+  #else
+    block_color.rgb *= mix(real_light * 1.5, vec3(1.0), nightVision * .125);
+  #endif
 
   #include "/src/finalcolor.glsl"
-  #include "/src/writebuffers.glsl"
+  #if MC_VERSION >= 11300
+    #include "/src/writebuffers.glsl"
+  #else
+    /* DRAWBUFFERS:0 */
+    gl_FragData[0] = block_color;
+  #endif
 }

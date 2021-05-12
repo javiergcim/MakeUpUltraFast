@@ -5,7 +5,7 @@ Fast volumetric clouds (for The End) - MakeUp implementation
 vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright) {
   float plane_distance;
   float cloud_value;
-  float umbral = 0.25;
+  float umbral;
   float density;
   vec3 intersection_pos;
   vec3 intersection_pos_sup;
@@ -37,6 +37,12 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
   if (cameraPosition.y < CLOUD_PLANE) {
     if (view_vector.y > .055) {  // Vista sobre el horizonte
+      #if MC_VERSION >= 11300
+        umbral = 0.25;
+      #else
+        umbral = 0.5;
+      #endif
+
       vec3 cloud_color = block_color * 1.75;
       vec3 dark_cloud_color = block_color * 0.9;
 
