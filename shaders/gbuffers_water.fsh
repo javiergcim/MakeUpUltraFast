@@ -85,11 +85,11 @@ void main() {
       );
 
   if (block_type > 2.5) {  // Water
+    #if MC_VERSION >= 11300
       #if WATER_TEXTURE == 1
         block_color.rgb = mix(
           vec3(1.0),
-          // tint_color.rgb,
-          vec3(0.22, 0.42, 0.65),
+          tint_color.rgb,
           WATER_TINT
         ) * texture(tex, texcoord).rgb;
       #else
@@ -99,6 +99,21 @@ void main() {
           WATER_TINT
         );
       #endif
+    #else
+      #if WATER_TEXTURE == 1
+        block_color.rgb = mix(
+          vec3(1.0),
+          vec3(0.18, 0.33, 0.81),
+          WATER_TINT
+        ) * texture(tex, texcoord).a;
+      #else
+        block_color.rgb = mix(
+          vec3(1.0),
+          vec3(0.18, 0.33, 0.81),
+          WATER_TINT
+        );
+      #endif
+    #endif
 
     vec3 water_normal_base = normal_waves(worldposition.xzy);
 
