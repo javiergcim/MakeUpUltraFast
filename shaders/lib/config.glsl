@@ -98,7 +98,7 @@ const bool colortex5Clear = false;
 const bool colortex6Clear = false;
 
 // Sun rotation angle
-const float sunPathRotation = -25.0;
+const float sunPathRotation = -25.0; // [-40.0 -35.0 -30.0 -25.0 -20.0 -15.0 -10.0 -5.0 0.0 5.0 10.0 15.0 20.0 25.0 30.0 35.0 40.0]
 
 // Shadow parameters
 const float shadowIntervalSize = 4.0;

@@ -57,19 +57,5 @@ void main() {
   #include "/src/basiccoords_vertex.glsl"
   #include "/src/position_vertex.glsl"
 
-  // Special entities
-  float emissive;
-  float magma;
-  if (mc_Entity.x == ENTITY_EMISSIVE) { // Emissive entities
-    emissive = 1.0;
-    magma = 0.0;
-  } else if (mc_Entity.x == ENTITY_MAGMA) {
-    emissive = 0.0;
-    magma = 1.0;
-  } else {
-    emissive = 0.0;
-    magma = 0.0;
-  }
-
   #include "/src/light_vertex.glsl"
 }

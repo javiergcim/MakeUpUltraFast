@@ -12,7 +12,7 @@ profile.comment=Very Low - No optional effects. Low - Adds simple reflection and
 
 #About
 #############################
-option.ACERCADE=MakeUp v5.25b
+option.ACERCADE=MakeUp v5.30
 option.ACERCADE.comment=Thanks for using this shader! :). Set Optifine native quality controls on normal or default values for better quality.
 value.ACERCADE.0=by Javier
 
@@ -127,6 +127,8 @@ option.BLACK_ENTITY_FIX=Black entity BUGFIX
 value.BLACK_ENTITY_FIX.0=Off
 value.BLACK_ENTITY_FIX.1=On
 
+option.sunPathRotation=Sun angle
+
 #Screens
 screen.ADVANCED_SCREEN=Advanced options
 screen.ADVANCED_SCREEN.comment=Set advanced options
@@ -151,3 +153,6 @@ screen.MISC_SCREEN.comment=Non categorized options.
 
 screen.CLOUDS_SCREEN=Clouds options
 screen.CLOUDS_SCREEN.comment=Set clouds options.
+
+screen.SUN_SCREEN=Sun options
+screen.SUN_SCREEN.comment=Set sun options.
