@@ -1,14 +1,6 @@
 #ifdef NETHER  // The Nether ===================================================
   tint_color = gl_Color;
 
-  // #ifdef EMMISIVE_V
-  // if (emissive > 0.5) {  // Es bloque es emisivo
-  //   tint_color.rgb *= 4.0;
-  // } else if (magma > 0.5) {
-  //   tint_color.rgb *= 2.0;
-  // }
-  // #endif
-
   vec3 normal = normalize(gl_NormalMatrix * gl_Normal);
   vec3 lava_vec = normalize(gbufferModelView * vec4(0.0, -1.0, 0.0, 0.0)).xyz;
 
@@ -148,31 +140,6 @@
       mix(candle_cave_strenght, 1.0, visible_sky);
     candle_color *= candle_cave_strenght;
   #endif
-
-  // #ifdef EMMISIVE_V
-  //   #ifdef THE_END
-  //   if (emissive > 0.5) {  // Es bloque es emisivo
-  //     tint_color.rgb *= 4.75;
-  //     direct_light_strenght *= 0.2;
-  //     omni_light *= 0.5;
-  //     } else if (magma > 0.5) {
-  //       tint_color.rgb *= 2.0;
-  //       direct_light_strenght *= 0.2;
-  //       omni_light *= 0.5;
-  //     }
-  //   #else
-  //     if (emissive > 0.5) {  // Es bloque es emisivo
-  //       tint_color.rgb *= 4.75;
-  //       direct_light_strenght *= 0.2;
-  //       omni_light *= 0.5;
-  //       } else if (magma > 0.5) {
-  //         tint_color.rgb *= 2.8;
-  //         direct_light_strenght *= 0.2;
-  //         omni_light *= 0.5;
-  //       }
-  //   #endif
-  //
-  // #endif
 
   #ifndef THE_END
     #ifndef SHADOW_CASTING
