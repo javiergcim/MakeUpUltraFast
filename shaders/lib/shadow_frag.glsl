@@ -18,7 +18,7 @@ float get_shadow(vec3 the_shadow_pos) {
         float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
       #else
         #if MC_VERSION >= 11300
-          float dither = texture_noise_64(gl_FragCoord.xy, colortex5)
+          float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
         #else
           float dither = phi_noise(uvec2(gl_FragCoord.xy));
         #endif

@@ -121,4 +121,4 @@ const float fog_density[25] =
   1.0 // 6
   );
 
-#define CANDLE_BASELIGHT vec3(0.4995, 0.38784706, 0.1998)
+#define CANDLE_BASELIGHT vec3(0.4495, 0.38784706, 0.2498)

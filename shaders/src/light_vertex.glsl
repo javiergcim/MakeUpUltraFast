@@ -1,13 +1,13 @@
 #ifdef NETHER  // The Nether ===================================================
   tint_color = gl_Color;
 
-  #ifdef EMMISIVE_V
-  if (emissive > 0.5) {  // Es bloque es emisivo
-    tint_color.rgb *= 4.0;
-  } else if (magma > 0.5) {
-    tint_color.rgb *= 2.0;
-  }
-  #endif
+  // #ifdef EMMISIVE_V
+  // if (emissive > 0.5) {  // Es bloque es emisivo
+  //   tint_color.rgb *= 4.0;
+  // } else if (magma > 0.5) {
+  //   tint_color.rgb *= 2.0;
+  // }
+  // #endif
 
   vec3 normal = normalize(gl_NormalMatrix * gl_Normal);
   vec3 lava_vec = normalize(gbufferModelView * vec4(0.0, -1.0, 0.0, 0.0)).xyz;
@@ -20,7 +20,8 @@
 
   vec3 omni_color = NETHER_OMNI;
   vec3 direct_light_color = NETHER_DIRECT * direct_light_strenght;
-  vec3 candle_color = CANDLE_BASELIGHT * cube_pow(illumination.x);
+  vec3 candle_color =
+    CANDLE_BASELIGHT * ((cube_pow(illumination.x) + pow(illumination.x + .08, 20.0)));
 
   real_light = omni_color + direct_light_color + candle_color;
 
@@ -48,8 +49,14 @@
   }
 
   // Intensidad y color de luz de candelas
-  candle_color = CANDLE_BASELIGHT * cube_pow(illumination.x);
-
+  #ifdef THE_END
+    candle_color =
+      CANDLE_BASELIGHT * ((cube_pow(illumination.x) + pow(illumination.x + .03, 20.0)));
+  #else
+    candle_color =
+      CANDLE_BASELIGHT * ((cube_pow(illumination.x) + pow(illumination.x + .11, 20.0)));
+  #endif
+  // candle_color = CANDLE_BASELIGHT * cube_pow(illumination.x);
   // Atenuación por dirección de luz directa ===================================
   #ifdef THE_END
     vec3 sun_vec =
@@ -142,31 +149,30 @@
     candle_color *= candle_cave_strenght;
   #endif
 
-  #ifdef EMMISIVE_V
-    #ifdef THE_END
-    if (emissive > 0.5) {  // Es bloque es emisivo
-      tint_color.rgb *= 4.75;
-      direct_light_strenght *= 0.2;
-      omni_light *= 0.5;
-      } else if (magma > 0.5) {
-        tint_color.rgb *= 2.0;
-        direct_light_strenght *= 0.2;
-        omni_light *= 0.5;
-      }
-    #else
-      if (emissive > 0.5) {  // Es bloque es emisivo
-        tint_color.rgb *= 4.75;
-        direct_light_strenght *= 0.2;
-        omni_light *= 0.5;
-        } else if (magma > 0.5) {
-          tint_color.rgb *= 2.8;
-          direct_light_strenght *= 0.2;
-          omni_light *= 0.5;
-        }
-    #endif
-
-
-  #endif
+  // #ifdef EMMISIVE_V
+  //   #ifdef THE_END
+  //   if (emissive > 0.5) {  // Es bloque es emisivo
+  //     tint_color.rgb *= 4.75;
+  //     direct_light_strenght *= 0.2;
+  //     omni_light *= 0.5;
+  //     } else if (magma > 0.5) {
+  //       tint_color.rgb *= 2.0;
+  //       direct_light_strenght *= 0.2;
+  //       omni_light *= 0.5;
+  //     }
+  //   #else
+  //     if (emissive > 0.5) {  // Es bloque es emisivo
+  //       tint_color.rgb *= 4.75;
+  //       direct_light_strenght *= 0.2;
+  //       omni_light *= 0.5;
+  //       } else if (magma > 0.5) {
+  //         tint_color.rgb *= 2.8;
+  //         direct_light_strenght *= 0.2;
+  //         omni_light *= 0.5;
+  //       }
+  //   #endif
+  //
+  // #endif
 
   #ifndef THE_END
     #ifndef SHADOW_CASTING
