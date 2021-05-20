@@ -1,6 +1,6 @@
 #version 130
-/* MakeUp - gbuffers_textured.fsh
-Render: Particles
+/* MakeUp - gbuffers_beaconbeam.fsh
+Render: Beacon beam
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
@@ -73,5 +73,10 @@ void main() {
   #endif
 
   #include "/src/finalcolor.glsl"
-  #include "/src/writebuffers.glsl"
+  // #if MC_VERSION >= 11300
+  //   #include "/src/writebuffers.glsl"
+  // #else
+    /* DRAWBUFFERS:0 */
+    gl_FragData[0] = block_color;
+  // #endif
 }

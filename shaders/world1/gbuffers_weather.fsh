@@ -5,21 +5,25 @@ Render: Particles
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define CLOUDS_SHADER
+#define THE_END
+
+#if MC_VERSION >= 11300
+  #define CLOUDS_SHADER
+#endif
 
 #include "/lib/config.glsl"
 
 // 'Global' constants from system
 uniform sampler2D tex;
 uniform int isEyeInWater;
+
 uniform float nightVision;
 uniform float rainStrength;
-uniform float light_mix;
 
 #ifdef SHADOW_CASTING
-  uniform sampler2D colortex5;
-  uniform float frameTimeCounter;
-  uniform sampler2DShadow shadowtex1;
+uniform sampler2D colortex5;
+uniform float frameTimeCounter;
+uniform sampler2DShadow shadowtex1;
 #endif
 
 // Varyings (per thread shared variables)
@@ -46,7 +50,8 @@ in vec3 omni_light;
 
 void main() {
   // Toma el color puro del bloque
-  vec4 block_color = texture(tex, texcoord) * tint_color;
+  vec4 block_color = texture(tex, texcoord);
+  block_color.a *= .3;
   float shadow_c;
 
   #ifdef SHADOW_CASTING
@@ -58,7 +63,7 @@ void main() {
     }
 
   #else
-    shadow_c = abs((light_mix * 2.0) - 1.0);
+    shadow_c = 1.0;
   #endif
 
   vec3 real_light =
@@ -66,11 +71,7 @@ void main() {
     (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
     candle_color;
 
-  #if MC_VERSION >= 11300
-    block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
-  #else
-    block_color.rgb *= mix(real_light * 1.5, vec3(1.0), nightVision * .125);
-  #endif
+  block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
 
   #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"

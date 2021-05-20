@@ -88,7 +88,8 @@ void main() {
       #if WATER_TEXTURE == 1
         block_color.rgb = mix(
           vec3(1.0),
-          tint_color.rgb,
+          // tint_color.rgb,
+          vec3(0.22, 0.42, 0.65),
           WATER_TINT
         ) * texture(tex, texcoord).rgb;
       #else

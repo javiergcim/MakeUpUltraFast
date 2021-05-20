@@ -1,6 +1,6 @@
 #version 130
-/* MakeUp - gbuffers_textured.fsh
-Render: Particles
+/* MakeUp - gbuffers_weather.fsh
+Render: Weather
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
@@ -46,7 +46,8 @@ in vec3 omni_light;
 
 void main() {
   // Toma el color puro del bloque
-  vec4 block_color = texture(tex, texcoord) * tint_color;
+  vec4 block_color = texture(tex, texcoord);
+  block_color.a *= .3;
   float shadow_c;
 
   #ifdef SHADOW_CASTING
