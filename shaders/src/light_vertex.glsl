@@ -28,11 +28,11 @@
   illumination.y = max(illumination.y, 0.095);  // Remueve artefacto
 
   // Visibilidad del cielo
-  // float visible_sky = illumination.y * 1.105 - .10495;
   #ifdef WATER_F
-    visible_sky = illumination.y * 1.0323886639676114;
+    visible_sky = (illumination.y - 0.084) * 1.130419363418743;
   #else
-    float visible_sky = illumination.y * 1.0323886639676114;
+    // float visible_sky = illumination.y * 1.0323886639676114;
+    float visible_sky = (illumination.y - 0.084) * 1.130419363418743;
   #endif
 
   // Ajuste de intensidad luminosa bajo el agua
