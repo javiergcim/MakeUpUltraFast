@@ -20,7 +20,7 @@
 
     // vec3 current_fog_color = vec3(1.0, 0.0, 0.0);
 
-    float frog_adjust = pow(
+    float frog_adjust = FOG_FACTOR * pow(
       clamp(gl_FogFragCoord / far, 0.0, 1.0) * fog_intensity_coeff,
       mix(fog_density_coeff, .5, rainStrength)
     );

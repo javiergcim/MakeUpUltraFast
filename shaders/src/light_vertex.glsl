@@ -96,6 +96,10 @@
     }
   #endif
 
+  if (isEyeInWater == 1) {
+    omni_strenght = WATER_BRIGHTNESS;
+  }
+
   direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
 
   #ifdef THE_END
@@ -111,11 +115,11 @@
 
     vec3 sky_color = HI_SKY_RAIN_COLOR * luma(hi_sky_color);
 
-    direct_light_color = mix(
-      direct_light_color,
-      HI_SKY_RAIN_COLOR * luma(direct_light_color),
-      rainStrength
-    );
+  //  direct_light_color = mix(
+  //    direct_light_color,
+  //    HI_SKY_RAIN_COLOR * luma(direct_light_color),
+  //    rainStrength
+  //  );
 
     hi_sky_color = mix(
       hi_sky_color,
@@ -124,7 +128,7 @@
     );
 
     #if AVOID_DARK == 1
-      omni_light = max(visible_sky * visible_sky, .055) * omni_strenght *
+      omni_light = max(visible_sky * visible_sky, .5) * omni_strenght *
         mix(hi_sky_color, direct_light_color * 0.75, OMNI_TINT);
     #else
       omni_light = visible_sky * visible_sky * omni_strenght *

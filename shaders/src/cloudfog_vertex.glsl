@@ -10,4 +10,4 @@ current_fog_color = mix(
   rainStrength
 );
 
-frog_adjust = 1.0 - (rainStrength * .5);
+frog_adjust = FOG_FACTOR * (1.0 - (rainStrength * .5));

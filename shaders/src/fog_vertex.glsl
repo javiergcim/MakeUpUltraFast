@@ -37,10 +37,11 @@
     current_fog_color =
       mix(hi_sky_color, low_sky_color, fog_mix_level) * fog_intensity_coeff;
 
-    frog_adjust = pow(
+    frog_adjust = FOG_FACTOR * pow(
       clamp(gl_FogFragCoord / far, 0.0, 1.0) * fog_intensity_coeff,
       mix(fog_density_coeff, .5, rainStrength)
     );
+
   #else
     current_fog_color = HI_DAY_COLOR;
     // fog_density_coeff = 1.0;

@@ -93,6 +93,7 @@ value.CHROMA_ABER.1=Yes
 option.CHROMA_ABER_STRENGHT=Chroma aberration strenght
 
 option.WATER_TINT=Water tint
+option.WATER_BRIGHTNESS=Water brightness
 
 option.COLOR_SCHEME=Color scheme
 value.COLOR_SCHEME.0=Legacy
@@ -100,6 +101,7 @@ value.COLOR_SCHEME.1=Cocoa
 value.COLOR_SCHEME.2=Captain
 value.COLOR_SCHEME.3=Shoka
 value.COLOR_SCHEME.4=Ethereal
+value.COLOR_SCHEME.5=Shoka+
 
 option.AVOID_DARK=Avoid cave darkness
 value.AVOID_DARK.0=No
@@ -109,6 +111,8 @@ option.V_CLOUDS=Clouds
 value.V_CLOUDS.0=Vanilla
 value.V_CLOUDS.1=Volumetric static
 value.V_CLOUDS.2=Volumetric dyn.
+
+option.FOG_FACTOR=Fog factor
 
 option.CLOUD_SPEED=Clouds speed
 value.CLOUD_SPEED.0=Normal
