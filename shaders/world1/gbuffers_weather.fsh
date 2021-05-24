@@ -50,7 +50,7 @@ in vec3 omni_light;
 
 void main() {
   // Toma el color puro del bloque
-  vec4 block_color = texture(tex, texcoord);
+  vec4 block_color = texture(tex, texcoord) * tint_color;
   block_color.a *= .3;
   float shadow_c;
 

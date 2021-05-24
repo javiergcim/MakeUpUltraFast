@@ -27,11 +27,11 @@ vec3 lottes_tonemap(vec3 x, float expo) {
 
 // vec3 lottes_tonemap(vec3 x, float hdrMax) {
 //     // Lottes 2016, "Advanced Techniques and Optimization of HDR Color Pipelines"
-//     float a = 1.3;
+//     float a = 1.66;
 //     float d = 0.977;
 //     // const float hdrMax = 8.0;
 //     float midIn = 0.2;
-//     float midOut = 0.24;
+//     float midOut = 0.25;
 //
 //     // Can be precomputed
 //     float b =

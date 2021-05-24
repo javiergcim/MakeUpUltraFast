@@ -23,7 +23,7 @@ uniform sampler2D tex;
 
 void main() {
   // Toma el color puro del bloque
-  vec4 block_color = texture(tex, texcoord);
+  vec4 block_color = texture(tex, texcoord) * tint_color;
   block_color.a *= .3;
 
   block_color *= vec4(real_light, 1.0);
