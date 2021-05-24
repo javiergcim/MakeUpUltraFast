@@ -12,7 +12,7 @@ profile.comment=Very Low - No optional effects. Low - Adds simple reflection and
 
 #About
 #############################
-option.ACERCADE=MakeUp v5.32
+option.ACERCADE=MakeUp v5.33
 option.ACERCADE.comment=Thanks for using this shader! :). Set Optifine native quality controls on normal or default values for better quality.
 value.ACERCADE.0=by Javier
 
@@ -105,6 +105,8 @@ option.AVOID_DARK=Avoid cave darkness
 value.AVOID_DARK.0=No
 value.AVOID_DARK.1=Yes
 
+option.NIGHT_BRIGHT=Night brightness
+
 option.V_CLOUDS=Clouds
 value.V_CLOUDS.0=Vanilla
 value.V_CLOUDS.1=Volumetric static
@@ -148,8 +150,8 @@ screen.WATER_SCREEN.comment=Set water options.
 screen.POST_SCREEN= Post effects options
 screen.POST_SCREEN.comment=Set post effects options.
 
-screen.MISC_SCREEN=Miscellaneous options
-screen.MISC_SCREEN.comment=Non categorized options.
+screen.DARKNESS_SCREEN=Darkness options
+screen.DARKNESS_SCREEN.comment=Set brightness/darkness options.
 
 screen.CLOUDS_SCREEN=Clouds options
 screen.CLOUDS_SCREEN.comment=Set clouds options.

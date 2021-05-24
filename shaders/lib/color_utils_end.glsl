@@ -31,6 +31,16 @@ vec3 day_blend(vec3 middle, vec3 day, vec3 night) {
   return mix(day_color, night_color, step(0.5, day_moment));
 }
 
+float day_blend_float(float middle, float day, float night) {
+  // f(x) = min(−((x−.25)^2)∙20 + 1.25, 1)
+  // g(x) = min(−((x−.75)^2)∙50 + 3.125, 1)
+
+  float day_value = mix(middle, day, day_mixer);
+  float night_value = mix(middle, night, night_mixer);
+
+  return mix(day_value, night_value, step(0.5, day_moment));
+}
+
 // Ambient color luma per hour in exposure calculation
 const float ambient_exposure[25] =
   float[25](

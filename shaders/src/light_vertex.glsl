@@ -123,12 +123,25 @@
       rainStrength
     );
 
+    float omni_minimal = 0.055;
     #if AVOID_DARK == 1
-      omni_light = max(visible_sky * visible_sky, .055) * omni_strenght *
+      if (isEyeInWater != 1) {
+        omni_light = max(visible_sky * visible_sky, omni_minimal) * omni_strenght *
         mix(hi_sky_color, direct_light_color * 0.75, OMNI_TINT);
+      } else {
+        omni_minimal = day_blend_float(0.055, 0.1, 1.0);
+        omni_light = max(visible_sky * visible_sky, omni_minimal) * omni_strenght *
+        mix(hi_sky_color, direct_light_color * 0.75, OMNI_TINT);
+      }
     #else
-      omni_light = visible_sky * visible_sky * omni_strenght *
+      if (isEyeInWater != 1) {
+        omni_light = visible_sky * visible_sky * omni_strenght *
+          mix(hi_sky_color, direct_light_color * 0.75, OMNI_TINT);
+      } else {
+        omni_minimal = day_blend_float(0.055, 0.1, 1.0);
+        omni_light = max(visible_sky * visible_sky, omni_minimal) * omni_strenght *
         mix(hi_sky_color, direct_light_color * 0.75, OMNI_TINT);
+      }
     #endif
 
   #endif
