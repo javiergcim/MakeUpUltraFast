@@ -24,3 +24,22 @@ vec3 lottes_tonemap(vec3 x, float expo) {
 
     return pow(x, vec3(1.3)) / (pow(x, vec3(1.2961)) * b + c);
 }
+
+// vec3 lottes_tonemap(vec3 x, float hdrMax) {
+//     // Lottes 2016, "Advanced Techniques and Optimization of HDR Color Pipelines"
+//     float a = 1.3;
+//     float d = 0.977;
+//     // const float hdrMax = 8.0;
+//     float midIn = 0.2;
+//     float midOut = 0.24;
+//
+//     // Can be precomputed
+//     float b =
+//         (-pow(midIn, a) + pow(hdrMax, a) * midOut) /
+//         ((pow(hdrMax, a * d) - pow(midIn, a * d)) * midOut);
+//     float c =
+//         (pow(hdrMax, a * d) * pow(midIn, a) - pow(hdrMax, a) * pow(midIn, a * d) * midOut) /
+//         ((pow(hdrMax, a * d) - pow(midIn, a * d)) * midOut);
+//
+//     return pow(x, vec3(a)) / (pow(x, vec3(a * d)) * vec3(b) + vec3(c));
+// }

@@ -11,7 +11,7 @@ vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force) {
 
   if (the_depth > 0.56) {  // Manos no
     blur_radius =
-      max(abs(the_depth - centerDepthSmooth) - 0.0001, 0.0) * fov_y_inv;
+      max(abs(the_depth - centerDepthSmooth) - 0.00005, 0.0) * fov_y_inv;
     blur_radius = blur_radius * inversesqrt(0.1 + blur_radius * blur_radius) * force;
     blur_radius = min(blur_radius, 0.1);
   }
