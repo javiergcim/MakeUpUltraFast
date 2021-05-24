@@ -35,6 +35,6 @@ void main() {
   exposure =
     ((eyeBrightnessSmooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
 
-  // Map from 1.0 - 0.0 to 1.0 - 3.6
-  exposure = (exposure * -2.6) + 3.6;
+  // Map from 1.0 - 0.0 to 1.0 - 3.4
+  exposure = (exposure * -2.4) + 3.4;
 }

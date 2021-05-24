@@ -73,7 +73,7 @@ void main() {
   #endif
 
   block_color *= exposure;
-  block_color = lottes_tonemap(block_color, exposure);
+  block_color = lottes_tonemap(block_color, exposure + .2);
 
   gl_FragColor = vec4(block_color, 1.0);
 }
