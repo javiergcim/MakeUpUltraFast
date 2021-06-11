@@ -65,7 +65,7 @@ void main() {
   vec3 real_light =
     omni_light +
     (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
-    candle_color;
+    clamp(candle_color, 0.0, 4.0);
 
   #if MC_VERSION >= 11300
     block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
