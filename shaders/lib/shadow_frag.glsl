@@ -7,9 +7,9 @@ Javier Garduño - GNU Lesser General Public License v3.0
 float get_shadow(vec3 the_shadow_pos) {
   float shadow_sample = 1.0;
 
-  if (the_shadow_pos.x > 0.0 && the_shadow_pos.x < 1.0 &&
-      the_shadow_pos.y > 0.0 && the_shadow_pos.y < 1.0 &&
-      the_shadow_pos.z > 0.0 && the_shadow_pos.z < 1.0) {
+  // if (the_shadow_pos.x > 0.0 && the_shadow_pos.x < 1.0 &&
+  //     the_shadow_pos.y > 0.0 && the_shadow_pos.y < 1.0 &&
+  //     the_shadow_pos.z > 0.0 && the_shadow_pos.z < 1.0) {
 
     #if SHADOW_TYPE == 0  // Pixelated
       shadow_sample = texture(shadowtex1, vec3(the_shadow_pos.xy, shadow_pos.z - 0.001));
@@ -47,7 +47,7 @@ float get_shadow(vec3 the_shadow_pos) {
 
       shadow_sample *= 0.5;
     #endif
-  }
+  // }
 
   return shadow_sample;
 }

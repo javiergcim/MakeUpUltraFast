@@ -73,7 +73,7 @@ void main() {
   vec3 view_vector;
 
   #if V_CLOUDS != 0
-    // if (linear_d > 0.9999) {  // Only sky
+    if (linear_d > 0.9999) {  // Only sky
       vec4 screen_pos =
         vec4(
           gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
@@ -92,17 +92,11 @@ void main() {
         );
       bright = clamp(bright * bright * bright, 0.0, 1.0);
 
-      // block_color.rgb =
-      //   get_cloud(view_vector, block_color.rgb, bright);
-
-      block_color.rgb = mix(
-        block_color.rgb,
-        get_cloud(view_vector, block_color.rgb, bright),
-        step(.999, linear_d)
-      );
-    // }
+      block_color.rgb =
+        get_cloud(view_vector, block_color.rgb, bright);
+    }
   #else
-    // if (linear_d > 0.9999 && isEyeInWater == 1) {  // Only sky and water
+    if (linear_d > 0.9999 && isEyeInWater == 1) {  // Only sky and water
       vec4 screen_pos =
         vec4(
           gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
@@ -113,7 +107,7 @@ void main() {
 
       vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
       view_vector = normalize(world_pos.xyz);
-    // }
+    }
   #endif
 
   #if AO == 1

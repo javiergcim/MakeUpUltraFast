@@ -48,7 +48,7 @@ void main() {
   // Toma el color puro del bloque
   #if BLACK_ENTITY_FIX == 1
     vec4 block_color = texture(tex, texcoord);
-    if (block_color.a < 0.1) {   // Blacl entities bug workaround
+    if (block_color.a < 0.1) {   // Black entities bug workaround
       discard;
     }
     block_color *= tint_color;
@@ -64,12 +64,12 @@ void main() {
   }
 
   #ifdef SHADOW_CASTING
-    if (lmcoord.y > 0.005) {
+    // if (lmcoord.y > 0.005) {
       shadow_c = get_shadow(shadow_pos);
       shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
-    } else {
-      shadow_c = 1.0;
-    }
+    // } else {
+    //   shadow_c = 1.0;
+    // }
 
   #else
     shadow_c = abs((light_mix * 2.0) - 1.0);

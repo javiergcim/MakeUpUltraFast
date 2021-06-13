@@ -69,7 +69,7 @@ vec3 timed_int_hash32(uvec2 q)
 
 float phi_noise(uvec2 uv)
 {
-  if(((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;
+  if (((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;
 
   const uint r0 = 3242174893u;
   const uint r1 = 2447445397u;
@@ -84,7 +84,7 @@ float phi_noise(uvec2 uv)
 
 float shifted_phi_noise(uvec2 uv)
 {
-  if(((uv.x ^ uv.y) & 4u) == 0u) {
+  if (((uv.x ^ uv.y) & 4u) == 0u) {
     uv = uv.yx;
   }
 
