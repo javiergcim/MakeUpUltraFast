@@ -23,7 +23,7 @@
         is_foliage = .4;
       #endif
 
-      float weight = gl_MultiTexCoord0.t < mc_midTexCoord.t ? 1.0 : 0.0;
+      float weight = float(gl_MultiTexCoord0.t < mc_midTexCoord.t);
 
       if (mc_Entity.x == ENTITY_UPPERGRASS) {
         weight += 1.0;
@@ -33,7 +33,7 @@
         weight = 1.0;
       }
 
-      weight *= lmcoord.y;  // Evitamos movimiento en cuevas
+      weight *= lmcoord.y * lmcoord.y;  // Evitamos movimiento en cuevas
       position.xyz += wave_move(worldpos.xz) * weight * (0.03 + (rainStrength * .05));
     }
 

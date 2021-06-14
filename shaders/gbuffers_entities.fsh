@@ -64,12 +64,8 @@ void main() {
   }
 
   #ifdef SHADOW_CASTING
-    // if (lmcoord.y > 0.005) {
-      shadow_c = get_shadow(shadow_pos);
-      shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
-    // } else {
-    //   shadow_c = 1.0;
-    // }
+    shadow_c = get_shadow(shadow_pos);
+    shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
 
   #else
     shadow_c = abs((light_mix * 2.0) - 1.0);
