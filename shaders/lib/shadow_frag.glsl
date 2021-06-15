@@ -30,6 +30,8 @@ float get_shadow(vec3 the_shadow_pos) {
         float new_z = the_shadow_pos.z - 0.001 - (0.0003 * dither);
       #elif SHADOW_RES == 4 || SHADOW_RES == 5
         float new_z = the_shadow_pos.z - 0.00075 - (0.00015 * dither);
+      #elif SHADOW_RES == 6 || SHADOW_RES == 7
+        float new_z = the_shadow_pos.z - 0.0000 - (0.00005 * dither);
       #endif
 
       float dither_base = dither;

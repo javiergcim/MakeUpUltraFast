@@ -50,15 +50,15 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define MOTION_BLUR_STRENGTH 0.12 // [0.02 0.04 0.06 0.08 0.10 0.12 0.14 0.16 0.18 0.20] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
 #define SUN_REFLECTION 1 // [0 1] Set sun (or moon) reflection on water and glass
 #define SHADOW_CASTING // Set shadows
-#define SHADOW_RES 2 // [0 1 2 3 4 5] Set shadow quality
+#define SHADOW_RES 2 // [0 1 2 3 4 5 6 7] Set shadow quality
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
 #define SHADOW_BLUR 2.0 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0]  Shadow blur intensity
-#define WATER_TINT 0.8 // [0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0]  Water tint percentage
+#define WATER_TINT 0.7 // [0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0]  Water tint percentage
 #define COLOR_SCHEME 4 // [0 1 2 3 4] Legacy: Exotic colors at sunset. Cocoa: A warm preset of vivid colors in the day. Captain: A cold preset of stylish colors. Shoka: Warm theme, with high contrast between light and shadow, inspired by the color theme of a famous shader. Ethereal: Current default theme.
 #define WATER_TEXTURE 1 // [0 1] Enable or disable resource pack water texture.
 #define AVOID_DARK 1 // [0 1] Avoid absolute darkness in caves at daytime
 #define NIGHT_BRIGHT 1.0 // [1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0] Adjusts the brightness of the night light.
-#define V_CLOUDS 1 // [0 1 2] Volumetric static: The clouds move, but they keep their shape. Volumetric dynamic: Clouds change shape over time, a different cloud landscape every time (medium performance hit). Vanilla: Original vanilla clouds.
+#define V_CLOUDS 2 // [0 1 2] Volumetric static: The clouds move, but they keep their shape. Volumetric dynamic: Clouds change shape over time, a different cloud landscape every time (medium performance hit). Vanilla: Original vanilla clouds.
 #define BLACK_ENTITY_FIX 0 // [0 1] Removes black entity bug (activate ONLY if you have problems with black entities)
 #define BLOOM // [0 1] Set bloom
 #define BLOOM_SAMPLES 5.0 // [5.0 6.0 7.0 8.0 9.0 10.0] Bloom sample pairs
@@ -74,8 +74,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define CLOUD_PLANE_SUP 920.0
 #define CLOUD_PLANE_CENTER 620.0
 #define CLOUD_PLANE 520.0
-#define CLOUD_STEPS_RANGE 10
-#define CLOUD_STEPS_AVG 12 // [12 16 20 24] Average samples per pixel (high performance impact)
+#define CLOUD_STEPS_AVG 7 // [7 10 13] Samples per pixel (high performance impact)
 #define CLOUD_SPEED 0 // [0 1 2] Change the speed of clouds for display purposes.
 
 #if CLOUD_SPEED == 0
@@ -132,6 +131,14 @@ const bool generateShadowColorMipmap = false;
       const int shadowMapResolution = 2048;
       const float shadowDistance = 158.0;
       #define SHADOW_DIST 0.85
+    #elif SHADOW_RES == 6
+      const int shadowMapResolution = 2048;
+      const float shadowDistance = 79.0;
+    #define SHADOW_DIST 0.85
+    #elif SHADOW_RES == 7
+      const int shadowMapResolution = 4096;
+      const float shadowDistance = 158.0;
+    #define SHADOW_DIST 0.85
     #endif
     const float shadowDistanceRenderMul = 1.0;
     const bool shadowHardwareFiltering1 = true;

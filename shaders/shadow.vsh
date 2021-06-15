@@ -21,7 +21,16 @@ void main() {
       mc_Entity.x == ENTITY_SMALLENTS ||
       mc_Entity.x == ENTITY_SMALLENTS_NW)
   {
-      gl_Position.z -= 0.0025;  // Corrección para sombra de follaje.
+      // Corrección para sombra de follaje.
+      #if SHADOW_RES == 0 || SHADOW_RES == 1
+        gl_Position.z -= 0.0025;
+      #elif SHADOW_RES == 2 || SHADOW_RES == 3
+        gl_Position.z -= 0.0025;
+      #elif SHADOW_RES == 4 || SHADOW_RES == 5
+        gl_Position.z -= 0.0015;
+      #elif SHADOW_RES == 6 || SHADOW_RES == 7
+        gl_Position.z -= 0.000;
+      #endif
   }
 
   gl_Position.xy = calc_shadow_dist(gl_Position.xy);

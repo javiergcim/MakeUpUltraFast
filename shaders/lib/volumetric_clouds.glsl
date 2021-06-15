@@ -90,8 +90,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
       0.5
     );
 
-    real_steps = int((dither - .5) * CLOUD_STEPS_RANGE + CLOUD_STEPS_AVG);
-
     plane_distance = (CLOUD_PLANE - cameraPosition.y) * view_y_inv;
     intersection_pos = (view_vector * plane_distance) + cameraPosition;
 
@@ -105,12 +103,14 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
     opacity_dist = dist_aux_coeff * 2.5 * view_y_inv;
 
-    increment = (intersection_pos_sup - intersection_pos) / real_steps;
+    increment = (intersection_pos_sup - intersection_pos) / CLOUD_STEPS_AVG;
     increment_dist = length(increment);
 
     cloud_value = 0.0;
 
-    for (int i = 0; i < real_steps; i++) {
+    intersection_pos += (increment * dither);
+
+    for (int i = 0; i < CLOUD_STEPS_AVG; i++) {
       current_value =
         texture(
           colortex6,
