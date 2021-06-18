@@ -187,7 +187,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
       mix(
         block_color,
         cloud_color,
-        cloud_value * clamp((view_vector.y - 0.055) * 10.0, 0.0, 1.0)
+        cloud_value * clamp((view_vector.y - 0.045) * 10.0, 0.0, 1.0)
       );
   }
 

@@ -92,12 +92,13 @@ vec3 normal_waves(vec3 pos) {
 
   vec3 wave_1 =
      texture(noisetex, (pos.xy * 0.0625) + (timer * .025)).rgb;
-     wave_1 = wave_1 * vec3(0.6, 0.6, 1.0) - vec3(0.3, 0.3, 0.5);
+     wave_1 = wave_1 - .5;
   vec3 wave_2 =
-     texture(noisetex, (pos.yx * 0.03125) - (timer * .025)).rgb;
-  wave_2 = wave_2 * vec3(0.6, 0.6, 1.0) - vec3(0.3, 0.3, 0.5);
+     texture(noisetex, (pos.yx * 0.0625) - (timer * .025)).rgb;
+  wave_2 = wave_2 - .5;
 
   vec3 final_wave = wave_1 + wave_2;
+  final_wave.b *= 1.25;
 
   return normalize(final_wave);
 }
@@ -174,8 +175,11 @@ vec3 water_shader(vec3 fragpos, vec3 normal, vec3 color, vec3 sky_reflect, vec3 
   #if SUN_REFLECTION == 1
      #ifndef NETHER
       #ifndef THE_END
-        return mix(color, reflection.rgb, fresnel) +
+        return mix(color, reflection.rgb, fresnel * .75) +
           vec3(sun_reflection(reflect(normalize(fragpos), normal)));
+
+        // return (color + (reflection.rgb * fresnel)) +
+        //   vec3(sun_reflection(reflect(normalize(fragpos), normal)));
       #else
         return mix(color, reflection.rgb, fresnel);
       #endif
