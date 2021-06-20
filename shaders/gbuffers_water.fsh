@@ -105,7 +105,7 @@ void main() {
           clamp(fresnel + WATER_TINT, 0.0, 1.0)
         );
       #endif
-      block_color.rgb *= clamp(dot(surface_normal, sun_vec), 0.0, 1.0);
+      block_color.rgb *= clamp(dot(surface_normal, normalize(sunPosition)), 0.0, 1.0);
     #else
       #if WATER_TEXTURE == 1
         block_color.rgb = mix(

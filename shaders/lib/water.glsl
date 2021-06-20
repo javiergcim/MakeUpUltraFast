@@ -48,8 +48,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
 
         // Searching fallbacks
         if (abs(screen_depth - prev_screen_depth) > abs(march_pos.z - prev_march_pos_z) * 2.5) {
-          // return camera_to_screen(hit_coord + (direction * 64.0));
-          return march_pos = vec3(0.0);
+          return camera_to_screen(hit_coord + (direction * 64.0));
         }
         prev_screen_depth = screen_depth;
         prev_march_pos_z = march_pos.z;
