@@ -93,7 +93,7 @@ void main() {
 
   // Special entities
   block_type = 0.0;  // 3 - Water, 2 - Glass, 1 - Portal, 0 - ?
-  if (mc_Entity.x == ENTITY_WATER) {  // Glass
+  if (mc_Entity.x == ENTITY_WATER) {  // Water
     block_type = 3.0;
   } else if (mc_Entity.x == ENTITY_STAINED) {  // Glass
     block_type = 2.0;

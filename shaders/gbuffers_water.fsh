@@ -86,8 +86,7 @@ void main() {
 
   vec3 water_normal_base = normal_waves(worldposition.xzy);
   vec3 surface_normal = get_normals(water_normal_base);
-  vec3 fresnel_normal = get_normals(vec3(0.0, 0.0, 1.0));
-  float normal_dot_eye = dot(fresnel_normal, normalize(fragposition));
+  float normal_dot_eye = dot(surface_normal, normalize(fragposition));
   float fresnel = square_pow(1.0 + normal_dot_eye);
 
   if (block_type > 2.5) {  // Water
@@ -96,30 +95,27 @@ void main() {
         block_color.rgb = mix(
           vec3(1.0),
           tint_color.rgb,
-          clamp(fresnel + WATER_TINT, 0.0, 1.0)
+          clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
         ) * texture(tex, texcoord).rgb;
       #else
         block_color.rgb = mix(
           vec3(1.0),
           tint_color.rgb,
-          clamp(fresnel + WATER_TINT, 0.0, 1.0)
+          clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
         );
       #endif
-      block_color.rgb *= clamp(dot(surface_normal, normalize(sunPosition)), 0.0, 1.0);
     #else
       #if WATER_TEXTURE == 1
         block_color.rgb = mix(
           vec3(1.0),
           vec3(0.18, 0.33, 0.81),
-          // WATER_TINT
-          clamp(fresnel + WATER_TINT, 0.0, 1.0)
+          clamp(fresnel * .5  + WATER_TINT, 0.0, 1.0)
         ) * texture(tex, texcoord).a;
       #else
         block_color.rgb = mix(
           vec3(1.0),
           vec3(0.18, 0.33, 0.81),
-          // WATER_TINT
-          clamp(fresnel + WATER_TINT, 0.0, 1.0)
+          clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
         );
       #endif
     #endif

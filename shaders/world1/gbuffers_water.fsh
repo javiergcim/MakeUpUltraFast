@@ -77,19 +77,24 @@ void main() {
       vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z)
       );
 
+  vec3 water_normal_base = normal_waves(worldposition.xzy);
+  vec3 surface_normal = get_normals(water_normal_base);
+  float normal_dot_eye = dot(surface_normal, normalize(fragposition));
+  float fresnel = square_pow(1.0 + normal_dot_eye);
+
   if (block_type > 2.5) {  // Water
     #if MC_VERSION >= 11300
       #if WATER_TEXTURE == 1
         block_color.rgb = mix(
           vec3(1.0),
           tint_color.rgb,
-          WATER_TINT
+          clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
         ) * texture(tex, texcoord).rgb;
       #else
         block_color.rgb = mix(
           vec3(1.0),
           tint_color.rgb,
-          WATER_TINT
+          clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
         );
       #endif
     #else
@@ -97,18 +102,16 @@ void main() {
         block_color.rgb = mix(
           vec3(1.0),
           vec3(0.18, 0.33, 0.81),
-          WATER_TINT
+          clamp(fresnel * .5  + WATER_TINT, 0.0, 1.0)
         ) * texture(tex, texcoord).a;
       #else
         block_color.rgb = mix(
           vec3(1.0),
           vec3(0.18, 0.33, 0.81),
-          WATER_TINT
+          clamp(fresnel * .5  + WATER_TINT, 0.0, 1.0)
         );
       #endif
     #endif
-
-    vec3 water_normal_base = normal_waves(worldposition.xzy);
 
     block_color = vec4(
       refraction(
@@ -119,16 +122,15 @@ void main() {
       1.0
     );
 
-    vec3 surface_normal = get_normals(water_normal_base);
     vec3 reflect_water_vec = reflect(fragposition, surface_normal);
 
     block_color.rgb = water_shader(
       fragposition,
-      // get_normals(water_normal_base),
       surface_normal,
       block_color.rgb,
       current_fog_color,
-      reflect_water_vec
+      reflect_water_vec,
+      fresnel * fresnel
     );
 
   } else if (block_type > 1.5) {  // Glass
@@ -155,29 +157,9 @@ void main() {
       fragposition,
       water_normal,
       block_color,
-      real_light
+      real_light,
+      fresnel * fresnel
     );
-
-  } else if (block_type > .5){  // Portal
-    // Toma el color puro del bloque
-    block_color = texture(tex, texcoord) * tint_color;
-    float shadow_c;
-
-    #ifdef SHADOW_CASTING
-      shadow_c = get_shadow(shadow_pos);
-      shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
-
-    #else
-      shadow_c = 1.0;
-    #endif
-
-    vec3 real_light =
-      omni_light +
-      (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
-      candle_color +
-      .2;
-
-    block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
   } else {  // ?
     // Toma el color puro del bloque
     block_color = texture(tex, texcoord) * tint_color;
