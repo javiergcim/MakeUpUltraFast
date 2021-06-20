@@ -97,8 +97,6 @@ void main() {
     block_type = 3.0;
   } else if (mc_Entity.x == ENTITY_STAINED) {  // Glass
     block_type = 2.0;
-  } else if (mc_Entity.x == ENTITY_PORTAL) {  // Portal
-    block_type = 1.0;
   }
 
   up_vec = normalize(gbufferModelView[1].xyz);

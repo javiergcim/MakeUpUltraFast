@@ -48,8 +48,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
 
         // Searching fallbacks
         if (abs(screen_depth - prev_screen_depth) > abs(march_pos.z - prev_march_pos_z) * 2.5) {
-          // return camera_to_screen(hit_coord + (direction * 64.0));
-          return march_pos = vec3(0.0);
+          return camera_to_screen(hit_coord + (direction * 64.0));
         }
         prev_screen_depth = screen_depth;
         prev_march_pos_z = march_pos.z;
@@ -92,15 +91,14 @@ vec3 normal_waves(vec3 pos) {
   float timer = frameTimeCounter;
 
   vec3 wave_1 =
-     texture(noisetex, (pos.xy * 0.125) + (timer * .025)).rgb;
+     texture(noisetex, (pos.xy * 0.0625) + (timer * .025)).rgb;
      wave_1 = wave_1 - .5;
   vec3 wave_2 =
-     texture(noisetex, (pos.xy * 0.03125) - (timer * .025)).rgb;
+     texture(noisetex, (pos.yx * 0.0625) - (timer * .025)).rgb;
   wave_2 = wave_2 - .5;
-  wave_2.rg *= 2.0;
 
   vec3 final_wave = wave_1 + wave_2;
-  final_wave.b *= 2.5;
+  final_wave.b *= 1.25;
 
   return normalize(final_wave);
 }
@@ -158,21 +156,15 @@ vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected) {
   return vec4(texture(gaux1, pos.xy).rgb, border);
 }
 
-vec3 water_shader(
-  vec3 fragpos,
-  vec3 normal,
-  vec3 color,
-  vec3 sky_reflect,
-  vec3 reflected,
-  float fresnel) {
+vec3 water_shader(vec3 fragpos, vec3 normal, vec3 color, vec3 sky_reflect, vec3 reflected) {
   vec4 reflection = vec4(0.0);
 
   #if REFLECTION == 1
     reflection = reflection_calc(fragpos, normal, reflected);
   #endif
 
-  // float normal_dot_eye = dot(normal, normalize(fragpos));
-  // float fresnel = clamp(fourth_pow(1.0 + normal_dot_eye), 0.0, 1.0);
+  float normal_dot_eye = dot(normal, normalize(fragpos));
+  float fresnel = clamp(fourth_pow(1.0 + normal_dot_eye), 0.0, 1.0);
 
   reflection.rgb = mix(
     sky_reflect * pow(visible_sky, 10.0),
@@ -221,7 +213,7 @@ vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal) {
   return vec4(texture(gaux1, pos.xy, 0.0).rgb, border);
 }
 
-vec4 cristal_shader(vec3 fragpos, vec3 normal, vec4 color, vec3 sky_reflection, float fresnel) {
+vec4 cristal_shader(vec3 fragpos, vec3 normal, vec4 color, vec3 sky_reflection) {
 vec4 reflection = vec4(0.0);
 
 #if REFLECTION == 1
@@ -230,8 +222,8 @@ vec4 reflection = vec4(0.0);
 
 reflection.rgb = mix(sky_reflection * lmcoord.y * lmcoord.y, reflection.rgb, reflection.a);
 
-// float normal_dot_eye = dot(normal, normalize(fragpos));
-// float fresnel = clamp(fourth_pow(1.0 + normal_dot_eye), 0.0, 1.0);
+float normal_dot_eye = dot(normal, normalize(fragpos));
+float fresnel = clamp(fifth_pow(1.0 + normal_dot_eye), 0.0, 1.0);
 
 float reflection_index = min(fresnel * (-color.a + 1.0) * 2.0, 1.0);
 
