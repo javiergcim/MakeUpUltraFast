@@ -12,6 +12,12 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
   float depth_diff;
   vec3 march_pos;
 
+  #if AA_TYPE == 0
+    float dither = 1.5 + (phi_noise(uvec2(gl_FragCoord.xy))) * 0.5;
+  #else
+    float dither = 1.5 + (shifted_phi_noise(uvec2(gl_FragCoord.xy))) * 0.5;
+  #endif
+
   // Ray marching
   for (int i = 0; i < RAYMARCH_STEPS; i++) {
     march_pos = camera_to_screen(current_march);
@@ -42,13 +48,14 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
         depth_diff = screen_depth - march_pos.z;
 
         // Remove unnecesary iterations
-        if (abs(depth_diff) < 0.0001) {
-          break;
-        }
+        // if (abs(depth_diff) < 0.0001) {
+        //   break;
+        // }
 
         // Searching fallbacks
         if (abs(screen_depth - prev_screen_depth) > abs(march_pos.z - prev_march_pos_z) * 2.5) {
-          return camera_to_screen(hit_coord + (direction * 64.0));
+          // return camera_to_screen(hit_coord + (direction * 64.0));
+          return vec3(0.0);
         }
         prev_screen_depth = screen_depth;
         prev_march_pos_z = march_pos.z;
@@ -57,7 +64,8 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
       return march_pos;
     }
 
-    dir_increment *= 2.0;
+    dir_increment *= dither;
+    // dir_increment *= 2.0;
     current_march += dir_increment;
   }
 
@@ -99,7 +107,7 @@ vec3 normal_waves(vec3 pos) {
   wave_2.rg *= 2.0;
 
   vec3 final_wave = wave_1 + wave_2;
-  final_wave.b *= 2.5;
+  final_wave.b *= 2.0;
 
   return normalize(final_wave);
 }

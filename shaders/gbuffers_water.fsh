@@ -86,7 +86,8 @@ void main() {
 
   vec3 water_normal_base = normal_waves(worldposition.xzy);
   vec3 surface_normal = get_normals(water_normal_base);
-  float normal_dot_eye = dot(surface_normal, normalize(fragposition));
+  vec3 flat_normal = get_normals(vec3(0.0, 0.0, 1.0));
+  float normal_dot_eye = dot(flat_normal, normalize(fragposition));
   float fresnel = square_pow(1.0 + normal_dot_eye);
 
   if (block_type > 2.5) {  // Water
@@ -174,7 +175,7 @@ void main() {
       block_color.rgb,
       sky_color_reflect,
       reflect_water_vec,
-      fresnel * fresnel
+      fresnel
     );
 
   } else if (block_type > 1.5) {  // Glass

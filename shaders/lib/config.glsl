@@ -67,8 +67,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 // Reflection parameters
 #define RAY_STEP 0.25
-#define RAYMARCH_STEPS 11
-#define RAYSEARCH_STEPS 5
+#define RAYMARCH_STEPS 10
+#define RAYSEARCH_STEPS 4
 
 // Cloud parameters
 #define CLOUD_PLANE_SUP 920.0

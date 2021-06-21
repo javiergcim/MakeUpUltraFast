@@ -28,7 +28,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
 
   #if AA_TYPE == 0
     float dither = phi_noise(uvec2(gl_FragCoord.xy));
-    // float dither = bayer64(gl_FragCoord.xy);
   #else
     float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
   #endif
