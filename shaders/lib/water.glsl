@@ -2,7 +2,73 @@
 Water reflection and refraction related functions.
 */
 
-vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite) {
+vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float dither) {
+  vec3 hit_pos = camera_to_screen(hit_coord);
+  float hit_depth = texture(depthtex0, hit_pos.xy).x;
+
+  vec3 dir_increment = direction * RAY_STEP;
+  vec3 current_march = hit_coord + dir_increment;
+  float screen_depth;
+  float prev_screen_depth = 0.0;
+  float prev_march_pos_z = 0.0;
+  float depth_diff;
+  vec3 march_pos;
+  bool search_flag = false;
+  bool behind_wall = false;
+
+  // Ray marching
+  for (int i = 0; i < RAYMARCH_STEPS; i++) {
+    march_pos = camera_to_screen(current_march);
+
+    if ( // Is outside screen space (except x cordinate)
+      march_pos.y < 0.0 ||
+      march_pos.y > 1.0 ||
+      march_pos.z < 0.0 ||
+      march_pos.z > 1.0
+      ) {
+        march_pos = vec3(0.0);
+        break;
+      }
+
+    screen_depth = texture(depthtex1, march_pos.xy).x;
+    depth_diff = screen_depth - march_pos.z;
+
+    // Search phase
+    if (depth_diff < 0.0 && hit_pos.z > screen_depth) {
+      // infinite = 0.0;
+
+      march_pos = camera_to_screen(hit_coord + (direction * 128.0));
+      screen_depth = texture(depthtex1, march_pos.xy).x;
+      depth_diff = screen_depth - hit_pos.z;
+      if (depth_diff < 0.0) {
+        return vec3(0.0);
+      } else {
+        return camera_to_screen(hit_coord + (direction * 128.0));
+      }
+    }
+    if (search_flag == false && depth_diff < 0.0) {
+      search_flag = true;
+      infinite = 0.0;
+    }
+    // if (behind_wall == true && depth_diff > 0.0) {
+    //   behind_wall = false;
+    // }
+
+    if(search_flag) {
+      dir_increment *= .5;
+    } else {
+      dir_increment *= dither;
+    }
+
+    prev_march_pos_z = march_pos.z;
+    // prev_screen_depth = screen_depth;
+    current_march += dir_increment * sign(depth_diff);
+  }
+
+  return camera_to_screen(current_march);
+}
+
+vec3 fast_raymarch_old(vec3 direction, vec3 hit_coord, inout float infinite, float dither) {
   vec3 hit_pos = camera_to_screen(hit_coord);
   float hit_depth = texture(depthtex0, hit_pos.xy).x;
 
@@ -12,11 +78,11 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite) {
   float depth_diff;
   vec3 march_pos;
 
-  #if AA_TYPE == 0
-    float dither = 1.5 + (phi_noise(uvec2(gl_FragCoord.xy))) * 0.5;
-  #else
-    float dither = 1.5 + (shifted_phi_noise(uvec2(gl_FragCoord.xy))) * 0.5;
-  #endif
+  // #if AA_TYPE == 0
+  //   float dither = 1.5 + (phi_noise(uvec2(gl_FragCoord.xy))) * 0.5;
+  // #else
+  //   float dither = 1.5 + (shifted_phi_noise(uvec2(gl_FragCoord.xy))) * 0.5;
+  // #endif
 
   // Ray marching
   for (int i = 0; i < RAYMARCH_STEPS; i++) {
@@ -36,6 +102,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite) {
     depth_diff = screen_depth - march_pos.z;
 
     if (depth_diff < 0.0) {
+      infinite = 0.0;
       float prev_screen_depth = screen_depth;
       float prev_march_pos_z = march_pos.z;
       // Binary search for best screen space sample
@@ -48,15 +115,16 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite) {
         depth_diff = screen_depth - march_pos.z;
 
         // Remove unnecesary iterations
-        // if (abs(depth_diff) < 0.0001) {
-        //   break;
-        // }
+        if (abs(depth_diff) < 0.0001) {
+          break;
+        }
 
         // Searching fallbacks
         if (abs(screen_depth - prev_screen_depth) > abs(march_pos.z - prev_march_pos_z) * 2.5) {
-          // return camera_to_screen(hit_coord + (direction * 64.0));
-          return vec3(0.0);
+          return camera_to_screen(hit_coord + (direction * 64.0));
+          // return vec3(0.0);
         }
+
         prev_screen_depth = screen_depth;
         prev_march_pos_z = march_pos.z;
       }
@@ -103,10 +171,10 @@ vec3 normal_waves(vec3 pos) {
   vec3 wave_2 =
      texture(noisetex, (pos.xy * 0.03125) - (timer * .025)).rgb;
   wave_2 = wave_2 - .5;
-  wave_2.rg *= 3.0;
+  wave_2.rg *= 2.5;
 
   vec3 final_wave = wave_1 + wave_2;
-  final_wave.b *= 2.0;
+  final_wave.b *= 2.5;
 
   return normalize(final_wave);
 }
@@ -143,14 +211,14 @@ vec3 get_normals(vec3 bump) {
   return normalize(bump * tbn_matrix);
 }
 
-vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected, inout float infinite) {
+vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected, inout float infinite, float dither) {
   #if SSR_TYPE == 0  // Flipped image
     // vec3 reflected_vector = reflect(normalize(fragpos), normal) * 35.0;
     vec3 reflected_vector = reflected * 35.0;
     vec3 pos = camera_to_screen(fragpos + reflected_vector);
   #else  // Raymarch
     vec3 reflected_vector = reflect(normalize(fragpos), normal);
-    vec3 pos = fast_raymarch(reflected_vector, fragpos, infinite);
+    vec3 pos = fast_raymarch(reflected_vector, fragpos, infinite, dither);
   #endif
 
   float border =
@@ -170,12 +238,13 @@ vec3 water_shader(
   vec3 color,
   vec3 sky_reflect,
   vec3 reflected,
-  float fresnel) {
+  float fresnel,
+  float dither) {
   vec4 reflection = vec4(0.0);
-  float infinite = 0.0;
+  float infinite = 1.0;
 
   #if REFLECTION == 1
-    reflection = reflection_calc(fragpos, normal, reflected, infinite);
+    reflection = reflection_calc(fragpos, normal, reflected, infinite, dither);
   #endif
 
   // float normal_dot_eye = dot(normal, normalize(fragpos));
@@ -208,13 +277,13 @@ vec3 water_shader(
 
 //  GLASS
 
-vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal, inout float infinite) {
+vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal, inout float infinite, float dither) {
   #if SSR_TYPE == 0
     vec3 reflected_vector = reflect(normalize(fragpos), normal) * 35.0;
     vec3 pos = camera_to_screen(fragpos + reflected_vector);
   #else
     vec3 reflected_vector = reflect(normalize(fragpos), normal);
-    vec3 pos = fast_raymarch(reflected_vector, fragpos, infinite);
+    vec3 pos = fast_raymarch(reflected_vector, fragpos, infinite, dither);
 
     if (pos.x > 99.0) { // Fallback
       pos = camera_to_screen(fragpos + (reflected_vector * 35.0));
@@ -228,12 +297,12 @@ vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal, inout float infinite) {
   return vec4(texture(gaux1, pos.xy, 0.0).rgb, border);
 }
 
-vec4 cristal_shader(vec3 fragpos, vec3 normal, vec4 color, vec3 sky_reflection, float fresnel) {
+vec4 cristal_shader(vec3 fragpos, vec3 normal, vec4 color, vec3 sky_reflection, float fresnel, float dither) {
 vec4 reflection = vec4(0.0);
 float infinite = 0.0;
 
 #if REFLECTION == 1
-  reflection = cristal_reflection_calc(fragpos, normal, infinite);
+  reflection = cristal_reflection_calc(fragpos, normal, infinite, dither);
 #endif
 
 reflection.rgb = mix(sky_reflection * lmcoord.y * lmcoord.y, reflection.rgb, reflection.a);

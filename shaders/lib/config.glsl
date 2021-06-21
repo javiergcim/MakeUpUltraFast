@@ -66,8 +66,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define CHROMA_ABER_STRENGHT 0.05 // [0.04 0.05 0.06] Chroma aberration strenght
 
 // Reflection parameters
-#define RAY_STEP 0.25
-#define RAYMARCH_STEPS 10
+#define RAY_STEP 0.5
+#define RAYMARCH_STEPS 7
 #define RAYSEARCH_STEPS 4
 
 // Cloud parameters

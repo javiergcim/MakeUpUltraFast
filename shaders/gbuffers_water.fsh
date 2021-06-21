@@ -51,6 +51,8 @@ uniform sampler2D depthtex1;
 uniform float frameTimeCounter;
 uniform int isEyeInWater;
 
+// uniform sampler2D colortex5;
+
 uniform vec3 sunPosition;
 uniform vec3 moonPosition;
 uniform int worldTime;
@@ -88,6 +90,7 @@ void main() {
   vec3 water_normal_base = normal_waves(worldposition.xzy);
   vec3 surface_normal = get_normals(water_normal_base);
   vec3 flat_normal = get_normals(vec3(0.0, 0.0, 1.0));
+  surface_normal = flat_normal;
   float normal_dot_eye = dot(flat_normal, normalize(fragposition));
   float fresnel = square_pow(1.0 + normal_dot_eye);
 
@@ -130,7 +133,13 @@ void main() {
     hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667);
   }
 
+  #if AA_TYPE == 0
+    float dither = 1.9 + (phi_noise(uvec2(gl_FragCoord.xy))) * 0.3;
+  #else
+    float dither = 1.9 + (shifted_phi_noise(uvec2(gl_FragCoord.xy))) * 0.3;
+  #endif
 
+  // float dither = 2.0;
 
   if (block_type > 2.5) {  // Water
     #if MC_VERSION >= 11300
@@ -178,7 +187,8 @@ void main() {
       block_color.rgb,
       sky_color_reflect,
       reflect_water_vec,
-      fresnel
+      fresnel,
+      dither
     );
 
   // } else if (block_type > 1.5) {  // Glass
@@ -206,8 +216,10 @@ void main() {
         fragposition,
         water_normal,
         block_color,
-        real_light,
-        fresnel * fresnel
+        // real_light,
+        sky_color_reflect,
+        fresnel * fresnel,
+        dither
         );
     }
   }
