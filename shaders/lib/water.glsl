@@ -2,7 +2,7 @@
 Water reflection and refraction related functions.
 */
 
-vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
+vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite) {
   vec3 hit_pos = camera_to_screen(hit_coord);
   float hit_depth = texture(depthtex0, hit_pos.xy).x;
 
@@ -60,7 +60,6 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
         prev_screen_depth = screen_depth;
         prev_march_pos_z = march_pos.z;
       }
-
       return march_pos;
     }
 
@@ -68,7 +67,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord) {
     // dir_increment *= 2.0;
     current_march += dir_increment;
   }
-
+  infinite = 1.0;
   return camera_to_screen(current_march + (dir_increment * 100.0));
 }
 
@@ -104,7 +103,7 @@ vec3 normal_waves(vec3 pos) {
   vec3 wave_2 =
      texture(noisetex, (pos.xy * 0.03125) - (timer * .025)).rgb;
   wave_2 = wave_2 - .5;
-  wave_2.rg *= 2.0;
+  wave_2.rg *= 3.0;
 
   vec3 final_wave = wave_1 + wave_2;
   final_wave.b *= 2.0;
@@ -144,14 +143,14 @@ vec3 get_normals(vec3 bump) {
   return normalize(bump * tbn_matrix);
 }
 
-vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected) {
+vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected, inout float infinite) {
   #if SSR_TYPE == 0  // Flipped image
     // vec3 reflected_vector = reflect(normalize(fragpos), normal) * 35.0;
     vec3 reflected_vector = reflected * 35.0;
     vec3 pos = camera_to_screen(fragpos + reflected_vector);
   #else  // Raymarch
     vec3 reflected_vector = reflect(normalize(fragpos), normal);
-    vec3 pos = fast_raymarch(reflected_vector, fragpos);
+    vec3 pos = fast_raymarch(reflected_vector, fragpos, infinite);
   #endif
 
   float border =
@@ -173,9 +172,10 @@ vec3 water_shader(
   vec3 reflected,
   float fresnel) {
   vec4 reflection = vec4(0.0);
+  float infinite = 0.0;
 
   #if REFLECTION == 1
-    reflection = reflection_calc(fragpos, normal, reflected);
+    reflection = reflection_calc(fragpos, normal, reflected, infinite);
   #endif
 
   // float normal_dot_eye = dot(normal, normalize(fragpos));
@@ -191,7 +191,7 @@ vec3 water_shader(
      #ifndef NETHER
       #ifndef THE_END
         return mix(color, reflection.rgb, fresnel * .75) +
-          vec3(sun_reflection(reflect(normalize(fragpos), normal)));
+          vec3(sun_reflection(reflect(normalize(fragpos), normal))) * infinite;
 
         // return (color + (reflection.rgb * fresnel)) +
         //   vec3(sun_reflection(reflect(normalize(fragpos), normal)));
@@ -208,13 +208,13 @@ vec3 water_shader(
 
 //  GLASS
 
-vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal) {
+vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal, inout float infinite) {
   #if SSR_TYPE == 0
     vec3 reflected_vector = reflect(normalize(fragpos), normal) * 35.0;
     vec3 pos = camera_to_screen(fragpos + reflected_vector);
   #else
     vec3 reflected_vector = reflect(normalize(fragpos), normal);
-    vec3 pos = fast_raymarch(reflected_vector, fragpos);
+    vec3 pos = fast_raymarch(reflected_vector, fragpos, infinite);
 
     if (pos.x > 99.0) { // Fallback
       pos = camera_to_screen(fragpos + (reflected_vector * 35.0));
@@ -230,9 +230,10 @@ vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal) {
 
 vec4 cristal_shader(vec3 fragpos, vec3 normal, vec4 color, vec3 sky_reflection, float fresnel) {
 vec4 reflection = vec4(0.0);
+float infinite = 0.0;
 
 #if REFLECTION == 1
-  reflection = cristal_reflection_calc(fragpos, normal);
+  reflection = cristal_reflection_calc(fragpos, normal, infinite);
 #endif
 
 reflection.rgb = mix(sky_reflection * lmcoord.y * lmcoord.y, reflection.rgb, reflection.a);
@@ -253,7 +254,7 @@ color.a = mix(color.a, 1.0, fresnel * .9);
       return color +
         vec4(
           mix(
-            vec3(sun_reflection(reflect(normalize(fragpos), normal)) * 0.75),
+            vec3(sun_reflection(reflect(normalize(fragpos), normal)) * 0.75 * infinite),
             vec3(0.0),
             reflection.a
           ),
