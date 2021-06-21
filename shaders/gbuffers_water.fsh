@@ -78,7 +78,8 @@ uniform ivec2 eyeBrightnessSmooth;
 #include "/lib/luma.glsl"
 
 void main() {
-  vec4 block_color;
+  // vec4 block_color;
+  vec4 block_color = texture(tex, texcoord) * tint_color;
   vec3 fragposition =
     to_screen_space(
       vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z)
@@ -89,6 +90,47 @@ void main() {
   vec3 flat_normal = get_normals(vec3(0.0, 0.0, 1.0));
   float normal_dot_eye = dot(flat_normal, normalize(fragposition));
   float fresnel = square_pow(1.0 + normal_dot_eye);
+
+  // Reflected sky color calculation
+  vec3 hi_sky_color = day_blend(
+    HI_MIDDLE_COLOR,
+    HI_DAY_COLOR,
+    HI_NIGHT_COLOR
+    );
+
+  hi_sky_color = mix(
+    hi_sky_color,
+    HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+    rainStrength
+  );
+
+  vec3 low_sky_color = day_blend(
+    LOW_MIDDLE_COLOR,
+    LOW_DAY_COLOR,
+    LOW_NIGHT_COLOR
+    );
+
+  low_sky_color = mix(
+    low_sky_color,
+    LOW_SKY_RAIN_COLOR * luma(low_sky_color),
+    rainStrength
+  );
+
+  vec3 reflect_water_vec = reflect(fragposition, surface_normal);
+
+  vec3 sky_color_reflect;
+  if (isEyeInWater == 0 || isEyeInWater == 2) {
+    sky_color_reflect = mix(
+      low_sky_color,
+      hi_sky_color,
+      sqrt(clamp(dot(normalize(reflect_water_vec), up_vec), 0.0001, 1.0))
+      );
+  } else {
+    sky_color_reflect =
+    hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667);
+  }
+
+
 
   if (block_type > 2.5) {  // Water
     #if MC_VERSION >= 11300
@@ -130,45 +172,6 @@ void main() {
       1.0
     );
 
-    // Reflected sky color calculation
-    vec3 hi_sky_color = day_blend(
-      HI_MIDDLE_COLOR,
-      HI_DAY_COLOR,
-      HI_NIGHT_COLOR
-      );
-
-    hi_sky_color = mix(
-      hi_sky_color,
-      HI_SKY_RAIN_COLOR * luma(hi_sky_color),
-      rainStrength
-    );
-
-    vec3 low_sky_color = day_blend(
-      LOW_MIDDLE_COLOR,
-      LOW_DAY_COLOR,
-      LOW_NIGHT_COLOR
-      );
-
-    low_sky_color = mix(
-      low_sky_color,
-      LOW_SKY_RAIN_COLOR * luma(low_sky_color),
-      rainStrength
-    );
-
-    vec3 reflect_water_vec = reflect(fragposition, surface_normal);
-
-    vec3 sky_color_reflect;
-    if (isEyeInWater == 0 || isEyeInWater == 2) {
-      sky_color_reflect = mix(
-        low_sky_color,
-        hi_sky_color,
-        sqrt(clamp(dot(normalize(reflect_water_vec), up_vec), 0.0001, 1.0))
-        );
-    } else {
-      sky_color_reflect =
-      hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667);
-    }
-
     block_color.rgb = water_shader(
       fragposition,
       surface_normal,
@@ -178,17 +181,17 @@ void main() {
       fresnel
     );
 
-  } else if (block_type > 1.5) {  // Glass
+  // } else if (block_type > 1.5) {  // Glass
+  } else {
     // Toma el color puro del bloque
-    block_color = texture(tex, texcoord) * tint_color;
-    float shadow_c;
+    // block_color = texture(tex, texcoord) * tint_color;
+    // float shadow_c;
 
     #ifdef SHADOW_CASTING
-      shadow_c = get_shadow(shadow_pos);
+      float shadow_c = get_shadow(shadow_pos);
       shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
-
     #else
-      shadow_c = abs((light_mix * 2.0) - 1.0);
+      float shadow_c = abs((light_mix * 2.0) - 1.0);
     #endif
 
     vec3 real_light =
@@ -198,33 +201,36 @@ void main() {
 
     block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
 
-    block_color = cristal_shader(
-      fragposition,
-      water_normal,
-      block_color,
-      real_light,
-      fresnel * fresnel
-    );
-  } else {  // ?
-    // Toma el color puro del bloque
-    block_color = texture(tex, texcoord) * tint_color;
-    float shadow_c;
-
-    #ifdef SHADOW_CASTING
-      shadow_c = get_shadow(shadow_pos);
-      shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
-
-    #else
-      shadow_c = 1.0;
-    #endif
-
-    vec3 real_light =
-      omni_light +
-      (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
-      candle_color;
-
-    block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
+    if (block_type > 1.5) {  // Glass
+      block_color = cristal_shader(
+        fragposition,
+        water_normal,
+        block_color,
+        real_light,
+        fresnel * fresnel
+        );
+    }
   }
+  // else {  // ?
+  //   // Toma el color puro del bloque
+  //   block_color = texture(tex, texcoord) * tint_color;
+  //   float shadow_c;
+  //
+  //   #ifdef SHADOW_CASTING
+  //     shadow_c = get_shadow(shadow_pos);
+  //     shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
+  //
+  //   #else
+  //     shadow_c = 1.0;
+  //   #endif
+  //
+  //   vec3 real_light =
+  //     omni_light +
+  //     (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
+  //     candle_color;
+  //
+  //   block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
+  // }
 
   #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"
