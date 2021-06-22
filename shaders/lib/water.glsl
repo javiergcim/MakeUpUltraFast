@@ -98,7 +98,7 @@ vec3 normal_waves(vec3 pos) {
   wave_2.rg *= 2.0;
 
   vec3 final_wave = wave_1 + wave_2;
-  final_wave.b *= 3.5;
+  final_wave.b *= 3.4;
 
   return normalize(final_wave);
 }
@@ -169,9 +169,6 @@ vec3 water_shader(
   #if REFLECTION == 1
     reflection = reflection_calc(fragpos, normal, reflected, infinite, dither);
   #endif
-
-  // float normal_dot_eye = dot(normal, normalize(fragpos));
-  // float fresnel = clamp(fourth_pow(1.0 + normal_dot_eye), 0.0, 1.0);
 
   reflection.rgb = mix(
     sky_reflect * pow(visible_sky, 10.0),

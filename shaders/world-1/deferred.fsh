@@ -47,9 +47,17 @@ void main() {
   float linear_d = ld(d);
 
   #if AO == 1
+    #if AA_TYPE == 0
+      float dither = phi_noise(uvec2(gl_FragCoord.xy));
+    #else
+      float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
+    #endif
+  #endif
+
+  #if AO == 1
     // AO distance attenuation
     float ao_att = sqrt(linear_d);
-    float final_ao = mix(dbao(), 1.0, ao_att);
+    float final_ao = mix(dbao(dither), 1.0, ao_att);
     block_color *= final_ao;
     // block_color = vec4(vec3(final_ao), 1.0);
   #endif

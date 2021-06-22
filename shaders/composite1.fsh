@@ -37,7 +37,6 @@ void main() {
     #ifdef DOF
       /* DRAWBUFFERS:01 */
       gl_FragData[0] = block_color;
-      // gl_FragData[0] = vec4(bloom * 10.0, block_color.a);
       gl_FragData[1] = block_color;
     #else
       /* DRAWBUFFERS:1 */

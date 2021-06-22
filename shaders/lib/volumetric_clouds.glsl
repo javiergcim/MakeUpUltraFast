@@ -2,7 +2,7 @@
 Fast volumetric clouds - MakeUp implementation
 */
 
-vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
+vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither) {
   float plane_distance;
   float cloud_value;
   float umbral;
@@ -26,11 +26,11 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright) {
   float cloud_value_aux;
   float dist_aux_coeff_blur;
 
-  #if AA_TYPE == 0
-    float dither = phi_noise(uvec2(gl_FragCoord.xy));
-  #else
-    float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
-  #endif
+  // #if AA_TYPE == 0
+  //   float dither = phi_noise(uvec2(gl_FragCoord.xy));
+  // #else
+  //   float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
+  // #endif
 
   block_color.rgb *=
     clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;

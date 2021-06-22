@@ -16,7 +16,7 @@ colortex0 - Main color canvas
 colortex1 - Antialiasing auxiliar
 colortex2 - Bloom auxiliar
 colortex3 - TAA Averages history
-gaux1 - Sreen-Space-Reflection texture
+gaux1 - Screen-Space-Reflection texture
 colortex5 - Blue noise texture
 colortex6 - Perlin noise texture
 colortex7 - Not used

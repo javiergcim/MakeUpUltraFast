@@ -1,7 +1,7 @@
 # MakeUp - Ultra Fast
 High performance Minecraft shader (Java).
 
-**Version: 5.37: Compatibility update**
+**Version: 5.38: Compatibility update**
 
 ## Main features
 * Optional shadows
