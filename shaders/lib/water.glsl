@@ -61,79 +61,8 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
     prev_screen_depth = screen_depth;
     current_march += dir_increment * sign(depth_diff);
   }
-  
+
   return camera_to_screen(current_march);
-}
-
-vec3 fast_raymarch_old(vec3 direction, vec3 hit_coord, inout float infinite, float dither) {
-  vec3 hit_pos = camera_to_screen(hit_coord);
-  float hit_depth = texture(depthtex0, hit_pos.xy).x;
-
-  vec3 dir_increment = direction * RAY_STEP;
-  vec3 current_march = hit_coord + dir_increment;
-  float screen_depth;
-  float depth_diff;
-  vec3 march_pos;
-
-  // #if AA_TYPE == 0
-  //   float dither = 1.5 + (phi_noise(uvec2(gl_FragCoord.xy))) * 0.5;
-  // #else
-  //   float dither = 1.5 + (shifted_phi_noise(uvec2(gl_FragCoord.xy))) * 0.5;
-  // #endif
-
-  // Ray marching
-  for (int i = 0; i < RAYMARCH_STEPS; i++) {
-    march_pos = camera_to_screen(current_march);
-
-    if ( // Is outside sreen space (except x cordinate)
-      march_pos.y < 0.0 ||
-      march_pos.y > 1.0 ||
-      march_pos.z < 0.0 ||
-      march_pos.z > 1.0
-      ) {
-        march_pos = vec3(0.0);
-        break;
-      }
-
-    screen_depth = texture(depthtex1, march_pos.xy).x;
-    depth_diff = screen_depth - march_pos.z;
-
-    if (depth_diff < 0.0) {
-      infinite = 0.0;
-      float prev_screen_depth = screen_depth;
-      float prev_march_pos_z = march_pos.z;
-      // Binary search for best screen space sample
-      for (int j = 0; j < RAYSEARCH_STEPS; j++) {
-        dir_increment = dir_increment * .5;
-        current_march += (dir_increment * sign(depth_diff));
-
-        march_pos = camera_to_screen(current_march);
-        screen_depth = texture(depthtex1, march_pos.xy).x;
-        depth_diff = screen_depth - march_pos.z;
-
-        // Remove unnecesary iterations
-        if (abs(depth_diff) < 0.0001) {
-          break;
-        }
-
-        // Searching fallbacks
-        if (abs(screen_depth - prev_screen_depth) > abs(march_pos.z - prev_march_pos_z) * 2.5) {
-          return camera_to_screen(hit_coord + (direction * 64.0));
-          // return vec3(0.0);
-        }
-
-        prev_screen_depth = screen_depth;
-        prev_march_pos_z = march_pos.z;
-      }
-      return march_pos;
-    }
-
-    dir_increment *= dither;
-    // dir_increment *= 2.0;
-    current_march += dir_increment;
-  }
-  infinite = 1.0;
-  return camera_to_screen(current_march + (dir_increment * 100.0));
 }
 
 #if SUN_REFLECTION == 1
@@ -171,7 +100,7 @@ vec3 normal_waves(vec3 pos) {
   wave_2.rg *= 2.5;
 
   vec3 final_wave = wave_1 + wave_2;
-  final_wave.b *= 3.5;
+  final_wave.b *= 3.0;
 
   return normalize(final_wave);
 }
@@ -256,19 +185,20 @@ vec3 water_shader(
   #if SUN_REFLECTION == 1
      #ifndef NETHER
       #ifndef THE_END
+        //return mix(color, reflection.rgb, fresnel * .75) +
         return mix(color, reflection.rgb, fresnel * .75) +
           vec3(sun_reflection(reflect(normalize(fragpos), normal))) * infinite;
 
         // return (color + (reflection.rgb * fresnel)) +
         //   vec3(sun_reflection(reflect(normalize(fragpos), normal)));
       #else
-        return mix(color, reflection.rgb, fresnel);
+        return mix(color, reflection.rgb, fresnel * .75);
       #endif
     #else
-      return mix(color, reflection.rgb, fresnel);
+      return mix(color, reflection.rgb, fresnel * .75);
     #endif
   #else
-    return mix(color, reflection.rgb, fresnel);
+    return mix(color, reflection.rgb, fresnel * 75);
   #endif
 }
 
