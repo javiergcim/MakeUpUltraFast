@@ -34,25 +34,22 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
     depth_diff = screen_depth - march_pos.z;
 
     // Search phase
-    if (depth_diff < 0.0 && hit_pos.z > screen_depth) {
-      // infinite = 0.0;
-
-      march_pos = camera_to_screen(hit_coord + (direction * 128.0));
+    // if (depth_diff < 0.0 && hit_pos.z > (screen_depth)) {
+    if (depth_diff < 0.0 && abs(screen_depth - prev_screen_depth) > abs(march_pos.z - prev_march_pos_z)) {
+      march_pos = camera_to_screen(hit_coord + (direction * 32.0));
       screen_depth = texture(depthtex1, march_pos.xy).x;
       depth_diff = screen_depth - hit_pos.z;
       if (depth_diff < 0.0) {
         return vec3(0.0);
       } else {
-        return camera_to_screen(hit_coord + (direction * 128.0));
+        infinite = 0.0;
+        return camera_to_screen(hit_coord + (direction * 32.0));
       }
     }
     if (search_flag == false && depth_diff < 0.0) {
       search_flag = true;
       infinite = 0.0;
     }
-    // if (behind_wall == true && depth_diff > 0.0) {
-    //   behind_wall = false;
-    // }
 
     if(search_flag) {
       dir_increment *= .5;
@@ -61,10 +58,10 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
     }
 
     prev_march_pos_z = march_pos.z;
-    // prev_screen_depth = screen_depth;
+    prev_screen_depth = screen_depth;
     current_march += dir_increment * sign(depth_diff);
   }
-
+  
   return camera_to_screen(current_march);
 }
 
@@ -174,7 +171,7 @@ vec3 normal_waves(vec3 pos) {
   wave_2.rg *= 2.5;
 
   vec3 final_wave = wave_1 + wave_2;
-  final_wave.b *= 2.5;
+  final_wave.b *= 3.5;
 
   return normalize(final_wave);
 }

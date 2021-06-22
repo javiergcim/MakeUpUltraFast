@@ -90,7 +90,7 @@ void main() {
   vec3 water_normal_base = normal_waves(worldposition.xzy);
   vec3 surface_normal = get_normals(water_normal_base);
   vec3 flat_normal = get_normals(vec3(0.0, 0.0, 1.0));
-  surface_normal = flat_normal;
+  // surface_normal = flat_normal;
   float normal_dot_eye = dot(flat_normal, normalize(fragposition));
   float fresnel = square_pow(1.0 + normal_dot_eye);
 
@@ -134,9 +134,9 @@ void main() {
   }
 
   #if AA_TYPE == 0
-    float dither = 1.9 + (phi_noise(uvec2(gl_FragCoord.xy))) * 0.3;
+    float dither = 2.0 + (phi_noise(uvec2(gl_FragCoord.xy))) * 0.2;
   #else
-    float dither = 1.9 + (shifted_phi_noise(uvec2(gl_FragCoord.xy))) * 0.3;
+    float dither = 2.0 + (shifted_phi_noise(uvec2(gl_FragCoord.xy))) * 0.2;
   #endif
 
   // float dither = 2.0;
