@@ -14,7 +14,6 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
   float depth_diff;
   vec3 march_pos;
   bool search_flag = false;
-  bool behind_wall = false;
 
   // Ray marching
   for (int i = 0; i < RAYMARCH_STEPS; i++) {
@@ -34,17 +33,16 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
     depth_diff = screen_depth - march_pos.z;
 
     // Search phase
-    // if (depth_diff < 0.0 && hit_pos.z > (screen_depth)) {
     if (depth_diff < 0.0 && abs(screen_depth - prev_screen_depth) > abs(march_pos.z - prev_march_pos_z)) {
-      march_pos = camera_to_screen(hit_coord + (direction * 32.0));
-      screen_depth = texture(depthtex1, march_pos.xy).x;
-      depth_diff = screen_depth - hit_pos.z;
-      if (depth_diff < 0.0) {
-        return vec3(0.0);
-      } else {
+      // march_pos = camera_to_screen(hit_coord + (direction * 32.0));
+      // screen_depth = texture(depthtex1, march_pos.xy).x;
+      // depth_diff = screen_depth - hit_pos.z;
+      // if (depth_diff < 0.0) {
+      //   return vec3(0.0);
+      // } else {
         infinite = 0.0;
         return camera_to_screen(hit_coord + (direction * 32.0));
-      }
+      //}
     }
     if (search_flag == false && depth_diff < 0.0) {
       search_flag = true;
@@ -97,10 +95,10 @@ vec3 normal_waves(vec3 pos) {
   vec3 wave_2 =
      texture(noisetex, (pos.xy * 0.03125) - (timer * .025)).rgb;
   wave_2 = wave_2 - .5;
-  wave_2.rg *= 2.5;
+  wave_2.rg *= 2.0;
 
   vec3 final_wave = wave_1 + wave_2;
-  final_wave.b *= 3.0;
+  final_wave.b *= 3.5;
 
   return normalize(final_wave);
 }
@@ -139,7 +137,6 @@ vec3 get_normals(vec3 bump) {
 
 vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected, inout float infinite, float dither) {
   #if SSR_TYPE == 0  // Flipped image
-    // vec3 reflected_vector = reflect(normalize(fragpos), normal) * 35.0;
     vec3 reflected_vector = reflected * 35.0;
     vec3 pos = camera_to_screen(fragpos + reflected_vector);
   #else  // Raymarch
@@ -185,12 +182,8 @@ vec3 water_shader(
   #if SUN_REFLECTION == 1
      #ifndef NETHER
       #ifndef THE_END
-        //return mix(color, reflection.rgb, fresnel * .75) +
         return mix(color, reflection.rgb, fresnel * .75) +
           vec3(sun_reflection(reflect(normalize(fragpos), normal))) * infinite;
-
-        // return (color + (reflection.rgb * fresnel)) +
-        //   vec3(sun_reflection(reflect(normalize(fragpos), normal)));
       #else
         return mix(color, reflection.rgb, fresnel * .75);
       #endif

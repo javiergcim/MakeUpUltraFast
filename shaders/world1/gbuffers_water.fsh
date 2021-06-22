@@ -33,7 +33,9 @@ uniform float nightVision;
 uniform float rainStrength;
 
 #ifdef SHADOW_CASTING
-uniform sampler2D colortex5;
+#if AA_TYPE == 0
+  uniform sampler2D colortex5;
+#endif
 uniform sampler2DShadow shadowtex1;
 #endif
 
@@ -79,8 +81,19 @@ void main() {
 
   vec3 water_normal_base = normal_waves(worldposition.xzy);
   vec3 surface_normal = get_normals(water_normal_base);
-  float normal_dot_eye = dot(surface_normal, normalize(fragposition));
+  vec3 flat_normal = get_normals(vec3(0.0, 0.0, 1.0));
+  float normal_dot_eye = dot(flat_normal, normalize(fragposition));
   float fresnel = square_pow(1.0 + normal_dot_eye);
+
+  #if SSR_TYPE == 0
+    float dither = 1.0;
+  #else
+    #if AA_TYPE == 0
+      float dither = 2.0 + (phi_noise(uvec2(gl_FragCoord.xy))) * 0.2;
+    #else
+      float dither = 2.0 + (shifted_phi_noise(uvec2(gl_FragCoord.xy))) * 0.2;
+    #endif
+  #endif
 
   if (block_type > 2.5) {  // Water
     #if MC_VERSION >= 11300
@@ -130,10 +143,11 @@ void main() {
       block_color.rgb,
       current_fog_color,
       reflect_water_vec,
-      fresnel * fresnel
+      fresnel * fresnel,
+      dither
     );
 
-  } else if (block_type > 1.5) {  // Glass
+  } else {  // Otros translucidos
     // Toma el color puro del bloque
     block_color = texture(tex, texcoord) * tint_color;
     float shadow_c;
@@ -153,33 +167,16 @@ void main() {
 
     block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
 
-    block_color = cristal_shader(
-      fragposition,
-      water_normal,
-      block_color,
-      real_light,
-      fresnel * fresnel
-    );
-  } else {  // ?
-    // Toma el color puro del bloque
-    block_color = texture(tex, texcoord) * tint_color;
-    float shadow_c;
-
-    #ifdef SHADOW_CASTING
-      shadow_c = get_shadow(shadow_pos);
-      shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
-
-    #else
-      shadow_c = 1.0;
-    #endif
-
-    vec3 real_light =
-      omni_light +
-      (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
-      candle_color +
-      .2;
-
-    block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
+    if (block_type > 1.5) {  // Glass
+      block_color = cristal_shader(
+        fragposition,
+        water_normal,
+        block_color,
+        real_light,
+        fresnel * fresnel,
+        dither
+      );
+    }
   }
 
   #include "/src/finalcolor.glsl"

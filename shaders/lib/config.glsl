@@ -43,7 +43,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // #define DOF // Enables depth of field. High performance cost.
 #define DOF_STRENGTH 0.035  // [0.03 0.035 0.040 0.045 0.05 0.055 0.06 0.065]  Depth of field strenght.
 #define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance impact).
-#define AOSTEPS 5 // [5 6 7 8 9 10 11 12 13 14] How many samples are taken. High performance cost.
+#define AOSTEPS 5 // [5 6 7 8 9 10 11] How many samples are taken. High performance cost.
 #define AO_STRENGHT 0.5 // [0.2 0.3 0.4 0.5 0.6] Ambient oclusion strenght
 #define AA_TYPE 1 // [0 1 2] Fast TAA - Enable antialiasing (Recommended). Denoise only - Supersampling is only used to eliminate noise. No - Disable antialiasing.
 //#define MOTION_BLUR // Turn on motion blurs
@@ -67,7 +67,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 // Reflection parameters
 #define RAY_STEP 0.25
-#define RAYMARCH_STEPS 7
+#define RAYMARCH_STEPS 8
 #define RAYSEARCH_STEPS 4
 
 // Cloud parameters
