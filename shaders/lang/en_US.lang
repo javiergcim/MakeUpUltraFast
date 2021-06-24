@@ -12,7 +12,7 @@ profile.comment=Very Low - No optional effects. Low - Adds simple reflection and
 
 #About
 #############################
-option.ACERCADE=MakeUp v5.38
+option.ACERCADE=MakeUp v5.38b
 option.ACERCADE.comment=Thanks for using this shader! :). Set Optifine native quality controls on normal or default values for better quality.
 value.ACERCADE.0=by Javier
 
@@ -103,9 +103,7 @@ value.COLOR_SCHEME.2=Captain
 value.COLOR_SCHEME.3=Shoka
 value.COLOR_SCHEME.4=Ethereal
 
-option.AVOID_DARK=Avoid cave darkness
-value.AVOID_DARK.0=No
-value.AVOID_DARK.1=Yes
+option.AVOID_DARK_LEVEL=Avoid cave darkness
 
 option.NIGHT_BRIGHT=Night brightness
 

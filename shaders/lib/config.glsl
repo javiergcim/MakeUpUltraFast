@@ -23,7 +23,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define LOW_SKY_RAIN_COLOR vec3(0.35 , 0.425, 0.5)
 
 // Options
-#define REFLECTION_SLIDER 2 // [0 1 2] Reflection quality
+#define REFLECTION_SLIDER 2 // [0 1 2] Reflection quality. - Flipped image: Inaccurate but quick reflection. - Raymarching: Raytraced Screen Space Reflection.
 
 #if REFLECTION_SLIDER == 0
   #define REFLECTION 0
@@ -56,8 +56,9 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define WATER_TINT 0.7 // [0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0]  Water tint percentage
 #define COLOR_SCHEME 4 // [0 1 2 3 4] Legacy: Exotic colors at sunset. Cocoa: A warm preset of vivid colors in the day. Captain: A cold preset of stylish colors. Shoka: Warm theme, with high contrast between light and shadow, inspired by the color theme of a famous shader. Ethereal: Current default theme.
 #define WATER_TEXTURE 0 // [0 1] Enable or disable resource pack water texture.
-#define AVOID_DARK 1 // [0 1] Avoid absolute darkness in caves at daytime
-#define NIGHT_BRIGHT 1.0 // [1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0] Adjusts the brightness of the night light.
+#define AVOID_DARK 1 // [0 1] Avoid absolute darkness in caves at daytime.
+#define AVOID_DARK_LEVEL 0.06 // [0.00 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08]  Minimal omni light intensity in caves (percentaje)
+#define NIGHT_BRIGHT 1.1 // [1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0] Adjusts the brightness of the night light.
 #define V_CLOUDS 2 // [0 1 2] Volumetric static: The clouds move, but they keep their shape. Volumetric dynamic: Clouds change shape over time, a different cloud landscape every time (medium performance hit). Vanilla: Original vanilla clouds.
 #define BLACK_ENTITY_FIX 0 // [0 1] Removes black entity bug (activate ONLY if you have problems with black entities)
 #define BLOOM // [0 1] Set bloom
@@ -66,9 +67,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define CHROMA_ABER_STRENGHT 0.05 // [0.04 0.05 0.06] Chroma aberration strenght
 
 // Reflection parameters
-#define RAY_STEP 0.25
+#define RAY_STEP 0.5
 #define RAYMARCH_STEPS 8
-#define RAYSEARCH_STEPS 4
 
 // Cloud parameters
 #define CLOUD_PLANE_SUP 920.0

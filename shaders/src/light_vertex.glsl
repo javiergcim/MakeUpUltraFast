@@ -122,22 +122,32 @@
       rainStrength
     );
 
-    float omni_minimal = 0.055;
-    #if AVOID_DARK == 1
-      if (isEyeInWater == 1) {
-        omni_minimal = day_blend_float(0.1, 0.055, 1.0);
-      }
-      omni_light = max(visible_sky * visible_sky, omni_minimal) * omni_strenght *
-      mix(hi_sky_color, direct_light_color * 0.75, OMNI_TINT);
-    #else
-      if (isEyeInWater == 1) {
-        omni_minimal = day_blend_float(0.1, 0.055, 1.0);
-      } else {
-        omni_minimal = 0.0;
-      }
-      omni_light = max(visible_sky * visible_sky, omni_minimal) * omni_strenght *
-      mix(hi_sky_color, direct_light_color * 0.75, OMNI_TINT);
-    #endif
+    // float omni_minimal = 0.063;
+    // #if AVOID_DARK == 1
+    //   if (isEyeInWater == 1) {
+    //     omni_minimal = day_blend_float(0.1, 0.055, 1.0);
+    //   }
+    //   omni_light = max(visible_sky * visible_sky, omni_minimal) * omni_strenght *
+    //   mix(hi_sky_color, direct_light_color * 0.75, OMNI_TINT);
+    // #else
+    //   if (isEyeInWater == 1) {
+    //     omni_minimal = day_blend_float(0.1, 0.055, 1.0);
+    //   } else {
+    //     omni_minimal = 0.0;
+    //   }
+    //   omni_light = max(visible_sky * visible_sky, omni_minimal) * omni_strenght *
+    //   mix(hi_sky_color, direct_light_color * 0.75, OMNI_TINT);
+    // #endif
+
+    float omni_minimal;
+    if (isEyeInWater == 1) {
+      omni_minimal = day_blend_float(0.1, 0.055, 1.0);
+    } else {
+      omni_minimal = AVOID_DARK_LEVEL;
+    }
+    omni_light = max(visible_sky * visible_sky, omni_minimal) * omni_strenght *
+    mix(hi_sky_color, direct_light_color * 0.75, OMNI_TINT);
+
 
   #endif
 

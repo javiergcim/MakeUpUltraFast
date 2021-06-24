@@ -188,7 +188,7 @@ vec3 water_shader(
       return mix(color, reflection.rgb, fresnel * .75);
     #endif
   #else
-    return mix(color, reflection.rgb, fresnel * 75);
+    return mix(color, reflection.rgb, fresnel * .75);
   #endif
 }
 
@@ -214,45 +214,49 @@ vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal, inout float infinite, fl
   return vec4(texture(gaux1, pos.xy, 0.0).rgb, border);
 }
 
-vec4 cristal_shader(vec3 fragpos, vec3 normal, vec4 color, vec3 sky_reflection, float fresnel, float dither) {
-vec4 reflection = vec4(0.0);
-float infinite = 0.0;
+vec4 cristal_shader(
+  vec3 fragpos,
+  vec3 normal,
+  vec4 color,
+  vec3 sky_reflection,
+  float fresnel,
+  float dither)
+{
+  vec4 reflection = vec4(0.0);
+  float infinite = 0.0;
 
-#if REFLECTION == 1
-  reflection = cristal_reflection_calc(fragpos, normal, infinite, dither);
-#endif
+  #if REFLECTION == 1
+    reflection = cristal_reflection_calc(fragpos, normal, infinite, dither);
+  #endif
 
-reflection.rgb = mix(sky_reflection * lmcoord.y * lmcoord.y, reflection.rgb, reflection.a);
+  reflection.rgb = mix(sky_reflection * lmcoord.y * lmcoord.y, reflection.rgb, reflection.a);
 
-// float normal_dot_eye = dot(normal, normalize(fragpos));
-// float fresnel = clamp(fourth_pow(1.0 + normal_dot_eye), 0.0, 1.0);
+  float reflection_index = min(fresnel * (-color.a + 1.0) * 2.0, 1.0);
 
-float reflection_index = min(fresnel * (-color.a + 1.0) * 2.0, 1.0);
+  color.rgb = mix(color.rgb, sky_reflection, reflection_index);
+  color.rgb = mix(color.rgb, reflection.rgb, reflection_index);
 
-color.rgb = mix(color.rgb, sky_reflection, reflection_index);
-color.rgb = mix(color.rgb, reflection.rgb, reflection_index);
+  color.a = mix(color.a, 1.0, fresnel * .9);
 
-color.a = mix(color.a, 1.0, fresnel * .9);
-
-#if SUN_REFLECTION == 1
-   #ifndef NETHER
-    #ifndef THE_END
-      return color +
-        vec4(
-          mix(
-            vec3(sun_reflection(reflect(normalize(fragpos), normal)) * 0.75 * infinite),
-            vec3(0.0),
-            reflection.a
-          ),
-          0.0
-        );
+  #if SUN_REFLECTION == 1
+     #ifndef NETHER
+      #ifndef THE_END
+        return color +
+          vec4(
+            mix(
+              vec3(sun_reflection(reflect(normalize(fragpos), normal)) * 0.75 * infinite),
+              vec3(0.0),
+              reflection.a
+            ),
+            0.0
+          );
+      #else
+        return color;
+      #endif
     #else
       return color;
     #endif
   #else
     return color;
   #endif
-#else
-  return color;
-#endif
 }
