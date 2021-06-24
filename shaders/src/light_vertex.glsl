@@ -13,7 +13,7 @@
   vec3 omni_color = NETHER_OMNI;
   vec3 direct_light_color = NETHER_DIRECT * direct_light_strenght;
   vec3 candle_color =
-    CANDLE_BASELIGHT * ((cube_pow(illumination.x) + pow(illumination.x + .08, 20.0)));
+    CANDLE_BASELIGHT * ((cube_pow(illumination.x) + pow(illumination.x + .08, 12.0)));
 
   real_light = omni_color + direct_light_color + candle_color;
 
@@ -43,10 +43,10 @@
   // Intensidad y color de luz de candelas
   #ifdef THE_END
     candle_color =
-      CANDLE_BASELIGHT * ((cube_pow(illumination.x) + pow(illumination.x + .03, 20.0)));
+      CANDLE_BASELIGHT * ((cube_pow(illumination.x) + pow(illumination.x + .03, 12.0)));
   #else
     candle_color =
-      CANDLE_BASELIGHT * ((cube_pow(illumination.x) + pow(illumination.x + .11, 20.0)));
+      CANDLE_BASELIGHT * ((cube_pow(illumination.x) + pow(illumination.x + .11, 12.0)));
   #endif
   // Atenuación por dirección de luz directa ===================================
   #ifdef THE_END
@@ -121,23 +121,6 @@
       sky_color,
       rainStrength
     );
-
-    // float omni_minimal = 0.063;
-    // #if AVOID_DARK == 1
-    //   if (isEyeInWater == 1) {
-    //     omni_minimal = day_blend_float(0.1, 0.055, 1.0);
-    //   }
-    //   omni_light = max(visible_sky * visible_sky, omni_minimal) * omni_strenght *
-    //   mix(hi_sky_color, direct_light_color * 0.75, OMNI_TINT);
-    // #else
-    //   if (isEyeInWater == 1) {
-    //     omni_minimal = day_blend_float(0.1, 0.055, 1.0);
-    //   } else {
-    //     omni_minimal = 0.0;
-    //   }
-    //   omni_light = max(visible_sky * visible_sky, omni_minimal) * omni_strenght *
-    //   mix(hi_sky_color, direct_light_color * 0.75, OMNI_TINT);
-    // #endif
 
     float omni_minimal;
     if (isEyeInWater == 1) {
