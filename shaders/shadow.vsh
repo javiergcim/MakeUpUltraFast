@@ -1,8 +1,8 @@
-#version 130
+#version 120
 
 #include "/lib/config.glsl"
 
-out vec2 texcoord;
+varying vec2 texcoord;
 
 attribute vec4 mc_Entity;
 

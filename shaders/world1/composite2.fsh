@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - composite2.fsh
 Render: Antialiasing and motion blur
 
@@ -36,7 +36,7 @@ uniform float viewHeight;
 #endif
 
 // Varyings (per thread shared variables)
-in vec2 texcoord;
+varying vec2 texcoord;
 
 #if AA_TYPE > 0 || defined MOTION_BLUR
   #include "/lib/projection_utils.glsl"
@@ -54,7 +54,7 @@ in vec2 texcoord;
 #endif
 
 void main() {
-  vec4 block_color = texture(colortex1, texcoord);
+  vec4 block_color = texture2D(colortex1, texcoord);
 
   // Precalc past position and velocity
   #if AA_TYPE > 0 || defined MOTION_BLUR

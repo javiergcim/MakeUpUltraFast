@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - deferred.fsh
 Render: Ambient occlusion
 
@@ -41,7 +41,7 @@ uniform float blindness;
 #endif
 
 // Varyings (per thread shared variables)
-in vec2 texcoord;
+varying vec2 texcoord;
 
 #include "/lib/depth.glsl"
 #include "/lib/luma.glsl"
@@ -60,8 +60,8 @@ in vec2 texcoord;
 #endif
 
 void main() {
-  vec4 block_color = texture(colortex0, texcoord);
-  float d = texture(depthtex0, texcoord).r;
+  vec4 block_color = texture2D(colortex0, texcoord);
+  float d = texture2D(depthtex0, texcoord).r;
   float linear_d = ld(d);
 
   #if AO == 1 || V_CLOUDS != 0

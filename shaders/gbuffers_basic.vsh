@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - gbuffers_clouds.vsh
 Render: Basic elements
 
@@ -20,9 +20,9 @@ uniform int isEyeInWater;
 uniform ivec2 eyeBrightnessSmooth;
 
 // Varyings (per thread shared variables)
-out vec4 tint_color;
-out float frog_adjust;
-flat out vec3 current_fog_color;
+varying vec4 tint_color;
+varying float frog_adjust;
+flat varying vec3 current_fog_color;
 
 #include "/lib/luma.glsl"
 #include "/lib/basic_utils.glsl"

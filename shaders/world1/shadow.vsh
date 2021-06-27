@@ -1,10 +1,10 @@
-#version 130
+#version 120
 
 #define THE_END
 
 #include "/lib/config.glsl"
 
-out vec2 texcoord;
+varying vec2 texcoord;
 
 vec2 calc_shadow_dist(in vec2 shadow_pos) {
   float distortion = ((1.0 - SHADOW_DIST) + length(shadow_pos.xy * 1.25) * SHADOW_DIST) * 0.85;

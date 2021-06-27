@@ -16,7 +16,7 @@
     );
 
     vec3 current_fog_color =
-      texture(colortex7, texcoord).rgb * fog_intensity_coeff;
+      texture2D(colortex7, texcoord).rgb * fog_intensity_coeff;
 
     // vec3 current_fog_color = vec3(1.0, 0.0, 0.0);
 

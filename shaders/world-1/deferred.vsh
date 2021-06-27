@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - deferred.vsh
 Render: Ambient occlusion
 
@@ -13,10 +13,10 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #endif
 
 // Varyings (per thread shared variables)
-out vec2 texcoord;
+varying vec2 texcoord;
 
 #if AO == 1
-  out float fov_y_inv;
+  varying float fov_y_inv;
 #endif
 
 void main() {

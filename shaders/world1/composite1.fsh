@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - final.fsh
 Render: Bloom
 
@@ -18,7 +18,7 @@ uniform float frameTimeCounter;
 uniform float inv_aspect_ratio;
 
 // Varyings (per thread shared variables)
-in vec2 texcoord;
+varying vec2 texcoord;
 
 #include "/lib/dither.glsl"
 #include "/lib/bloom.glsl"
@@ -28,7 +28,7 @@ in vec2 texcoord;
 #endif
 
 void main() {
-  vec4 block_color = texture(colortex1, texcoord);
+  vec4 block_color = texture2D(colortex1, texcoord);
 
   #ifdef BLOOM
     vec3 bloom = mipmap_bloom(colortex2, texcoord);

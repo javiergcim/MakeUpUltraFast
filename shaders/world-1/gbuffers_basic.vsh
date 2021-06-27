@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - gbuffers_clouds.vsh
 Render: sky, clouds
 
@@ -18,7 +18,7 @@ uniform int current_hour_ceil;
 uniform float current_hour_fract;
 
 // Varyings (per thread shared variables)
-out vec4 tint_color;
+varying vec4 tint_color;
 
 #if AA_TYPE > 0
   #include "/src/taa_offset.glsl"

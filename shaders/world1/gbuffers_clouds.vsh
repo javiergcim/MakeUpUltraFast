@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - gbuffers_clouds.vsh
 Render: sky, clouds
 
@@ -18,10 +18,10 @@ uniform float current_hour_fract;
 uniform float rainStrength;
 
 // Varyings (per thread shared variables)
-out vec2 texcoord;
-out vec4 tint_color;
-out float frog_adjust;
-flat out vec3 current_fog_color;
+varying vec2 texcoord;
+varying vec4 tint_color;
+varying float frog_adjust;
+flat varying vec3 current_fog_color;
 
 #if AA_TYPE > 0
   #include "/src/taa_offset.glsl"

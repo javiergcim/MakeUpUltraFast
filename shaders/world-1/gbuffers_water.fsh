@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - gbuffers_water.fsh
 Render: Water and translucent blocks
 
@@ -28,17 +28,17 @@ uniform float frameTimeCounter;
 uniform sampler2D colortex5;
 
 // Varyings (per thread shared variables)
-in vec2 texcoord;
-in vec2 lmcoord;
-in vec4 tint_color;
-in vec3 real_light;
-flat in vec3 water_normal;
-flat in float block_type;
-in vec4 worldposition;
-in vec4 position2;
-in vec3 tangent;
-in vec3 binormal;
-in float visible_sky;
+varying vec2 texcoord;
+varying vec2 lmcoord;
+varying vec4 tint_color;
+varying vec3 real_light;
+flat varying vec3 water_normal;
+flat varying float block_type;
+varying vec4 worldposition;
+varying vec4 position2;
+varying vec3 tangent;
+varying vec3 binormal;
+varying float visible_sky;
 
 #include "/lib/projection_utils.glsl"
 #include "/lib/basic_utils.glsl"
@@ -75,7 +75,7 @@ void main() {
           vec3(1.0),
           tint_color.rgb,
           clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
-        ) * texture(tex, texcoord).rgb;
+        ) * texture2D(tex, texcoord).rgb;
       #else
         block_color.rgb = mix(
           vec3(1.0),
@@ -89,7 +89,7 @@ void main() {
           vec3(1.0),
           vec3(0.18, 0.33, 0.81),
           clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
-        ) * texture(tex, texcoord).a;
+        ) * texture2D(tex, texcoord).a;
       #else
         block_color.rgb = mix(
           vec3(1.0),
@@ -123,7 +123,7 @@ void main() {
   } else {  // Otros translucidos
 
     // Toma el color puro del bloque
-    block_color = texture(tex, texcoord);
+    block_color = texture2D(tex, texcoord);
     block_color *= tint_color * vec4(real_light, 1.0);
 
     if (block_type > 1.5) {  // Glass

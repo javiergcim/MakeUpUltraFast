@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - gbuffers_skybasic.fsh
 Render: Sky
 
@@ -9,10 +9,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #include "/lib/config.glsl"
 #include "/lib/color_utils.glsl"
-
-// Varyings (per thread shared variables)
-flat in vec3 up_vec;
-in vec4 star_data;
 
 // 'Global' constants from system
 uniform sampler2D colortex5;
@@ -28,6 +24,10 @@ uniform float pixel_size_y;
 uniform float frameTimeCounter;
 uniform float rainStrength;
 uniform ivec2 eyeBrightnessSmooth;
+
+// Varyings (per thread shared variables)
+flat varying vec3 up_vec;
+varying vec4 star_data;
 
 #include "/lib/dither.glsl"
 #include "/lib/luma.glsl"

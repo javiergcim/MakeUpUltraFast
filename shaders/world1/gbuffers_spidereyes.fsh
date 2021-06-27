@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - gbuffers_spidereyes.fsh
 Render: Some creatures eyes (like spider)
 
@@ -11,14 +11,14 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/config.glsl"
 
 // Varyings (per thread shared variables)
-in vec2 texcoord;
+varying vec2 texcoord;
 
 // 'Global' constants from system
 uniform sampler2D tex;
 
 void main() {
   // Toma el color puro del bloque
-  vec4 block_color = texture(tex, texcoord);
+  vec4 block_color = texture2D(tex, texcoord);
 
   #include "/src/writebuffers.glsl"
 }

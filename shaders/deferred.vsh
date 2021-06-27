@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - deferred.vsh
 Render: Ambient occlusion, volumetric clouds
 
@@ -10,8 +10,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 uniform mat4 gbufferModelView;
 
 // Varyings (per thread shared variables)
-out vec2 texcoord;
-flat out vec3 up_vec;
+varying vec2 texcoord;
+flat varying vec3 up_vec;
 
 void main() {
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;

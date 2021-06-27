@@ -1,4 +1,4 @@
-#version 130
+#version 120
 
 #define THE_END
 
@@ -6,10 +6,10 @@
 
 uniform sampler2D tex;
 
-in vec2 texcoord;
+varying vec2 texcoord;
 
 void main() {
-  vec4 block_color = texture(tex, texcoord);
+  vec4 block_color = texture2D(tex, texcoord);
 
   /* DRAWBUFFERS:0 */
   gl_FragData[0] = block_color;

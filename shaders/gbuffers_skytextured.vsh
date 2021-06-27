@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - gbuffers_skytextured.vsh
 Render: sun, moon
 
@@ -15,9 +15,9 @@ uniform int current_hour_ceil;
 uniform float current_hour_fract;
 
 // Varyings (per thread shared variables)
-out vec2 texcoord;
-out vec4 tint_color;
-flat out float sky_luma_correction;
+varying vec2 texcoord;
+varying vec4 tint_color;
+flat varying float sky_luma_correction;
 
 #if AA_TYPE > 0
   #include "/src/taa_offset.glsl"

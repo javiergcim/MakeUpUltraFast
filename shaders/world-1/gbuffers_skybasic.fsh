@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - gbuffers_skybasic.fsh
 Render: Sky
 
@@ -18,8 +18,8 @@ uniform float viewWidth;
 uniform float viewHeight;
 
 // Varyings (per thread shared variables)
-flat in vec3 up_vec;
-in vec4 star_data;
+flat varying vec3 up_vec;
+varying vec4 star_data;
 
 void main() {
   // Toma el color puro del bloque

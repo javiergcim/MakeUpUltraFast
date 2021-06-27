@@ -26,11 +26,11 @@ float dither_grad_noise(vec2 p) {
 }
 
 float texture_noise_64(vec2 p, sampler2D noise) {
-  return texture(noise, p * 0.015625).r;
+  return texture2D(noise, p * 0.015625).r;
 }
 
 float shifted_texture_noise_64(vec2 p, sampler2D noise) {
-  float dither = texture(noise, p * 0.015625).r;
+  float dither = texture2D(noise, p * 0.015625).r;
   return fract(frameTimeCounter * 13.0 + dither);
 }
 

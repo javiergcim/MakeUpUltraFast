@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - composite.fsh
 Render: DoF
 
@@ -35,10 +35,10 @@ uniform float rainStrength;
 #endif
 
 // Varyings (per thread shared variables)
-in vec2 texcoord;
+varying vec2 texcoord;
 
 #ifdef BLOOM
-  flat in float exposure;
+  flat varying float exposure;
 #endif
 
 #include "/lib/depth.glsl"
@@ -50,7 +50,7 @@ in vec2 texcoord;
 #endif
 
 void main() {
-  vec4 block_color = texture(colortex1, texcoord);
+  vec4 block_color = texture2D(colortex1, texcoord);
   float d = block_color.a;
   float linear_d = ld(d);
 

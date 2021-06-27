@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - composite1.fsh
 Render: Antialiasing and motion blur
 
@@ -6,7 +6,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 // Varyings (per thread shared variables)
-out vec2 texcoord;
+varying vec2 texcoord;
 
 void main() {
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;

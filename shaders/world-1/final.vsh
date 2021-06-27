@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - final.fsh
 Render: Final renderer
 
@@ -14,8 +14,8 @@ uniform int current_hour_ceil;
 uniform float current_hour_fract;
 
 // Varyings (per thread shared variables)
-out vec2 texcoord;
-flat out float exposure;
+varying vec2 texcoord;
+flat varying float exposure;
 
 void main() {
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;

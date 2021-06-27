@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - gbuffers_clouds.fsh
 Render: Basic elements
 
@@ -18,9 +18,9 @@ uniform float rainStrength;
 uniform int isEyeInWater;
 
 // Varyings (per thread shared variables)
-in vec4 tint_color;
-in float frog_adjust;
-flat in vec3 current_fog_color;
+varying vec4 tint_color;
+varying float frog_adjust;
+flat varying vec3 current_fog_color;
 
 void main() {
   vec4 block_color = tint_color;

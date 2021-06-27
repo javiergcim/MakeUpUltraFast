@@ -61,14 +61,14 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright, float dithe
 
     for (int i = 0; i < CLOUD_STEPS_AVG; i++) {
       current_value =
-        texture(
+        texture2D(
           colortex6,
           (intersection_pos.xz * .0002) + (frameTimeCounter * CLOUD_HI_FACTOR * 3.0)
         ).r;
 
       #if V_CLOUDS == 2
         current_value +=
-          texture(
+          texture2D(
             colortex6,
             (intersection_pos.zx * .0002) + (frameTimeCounter * CLOUD_LOW_FACTOR * 3.0)
           ).r;

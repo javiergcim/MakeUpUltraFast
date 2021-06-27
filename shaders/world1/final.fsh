@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - final.fsh
 Render: Final renderer
 
@@ -54,8 +54,8 @@ const int colortex7Format = R8;
 uniform sampler2D colortex0;
 
 // Varyings (per thread shared variables)
-in vec2 texcoord;
-flat in float exposure;
+varying vec2 texcoord;
+flat varying float exposure;
 
 #include "/lib/color_utils.glsl"
 #include "/lib/basic_utils.glsl"
@@ -69,7 +69,7 @@ void main() {
   #if CHROMA_ABER == 1
     vec3 block_color = color_aberration();
   #else
-    vec3 block_color = texture(colortex0, texcoord).rgb;
+    vec3 block_color = texture2D(colortex0, texcoord).rgb;
   #endif
 
   block_color *= exposure;

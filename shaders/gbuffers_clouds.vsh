@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - gbuffers_clouds.vsh
 Render: sky, clouds
 
@@ -11,10 +11,10 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/color_utils.glsl"
 
 // Varyings (per thread shared variables)
-out vec2 texcoord;
-out vec4 tint_color;
-out float frog_adjust;
-flat out vec3 current_fog_color;
+varying vec2 texcoord;
+varying vec4 tint_color;
+varying float frog_adjust;
+flat varying vec3 current_fog_color;
 
 uniform int current_hour_floor;
 uniform int current_hour_ceil;

@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - composite.fsh
 Render: DoF
 
@@ -19,10 +19,10 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #endif
 
 // Varyings (per thread shared variables)
-out vec2 texcoord;
+varying vec2 texcoord;
 
 #ifdef BLOOM
-  flat out float exposure;
+  flat varying float exposure;
 #endif
 
 void main() {
