@@ -36,11 +36,10 @@ uniform float light_mix;
 uniform ivec2 eyeBrightnessSmooth;
 
 #ifdef SHADOW_CASTING
-  #if AA_TYPE == 0
-    uniform sampler2D colortex5;
-  #endif
   uniform sampler2DShadow shadowtex1;
 #endif
+
+uniform sampler2D colortex5;
 
 // Varyings (per thread shared variables)
 in vec2 texcoord;
@@ -135,9 +134,11 @@ void main() {
     float dither = 1.0;
   #else
     #if AA_TYPE == 0
-      float dither = 2.0 + (phi_noise(uvec2(gl_FragCoord.xy))) * 0.2;
+      // float dither = 2.0 + (phi_noise(uvec2(gl_FragCoord.xy))) * 0.2;
+      float dither = 2.0 + (texture_noise_64(gl_FragCoord.xy, colortex5)) * 0.2;
     #else
-      float dither = 2.0 + (shifted_phi_noise(uvec2(gl_FragCoord.xy))) * 0.2;
+      // float dither = 2.0 + (shifted_phi_noise(uvec2(gl_FragCoord.xy))) * 0.2;
+      float dither = 2.0 + (shifted_texture_noise_64(gl_FragCoord.xy, colortex5)) * 0.2;
     #endif
   #endif
 

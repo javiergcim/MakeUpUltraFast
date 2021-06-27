@@ -26,9 +26,7 @@ uniform float rainStrength;
   uniform float viewHeight;
   uniform float frameTimeCounter;
   uniform float fov_y_inv;
-  // #if AA_TYPE == 0
-  //   uniform sampler2D colortex5;
-  // #endif
+  uniform sampler2D colortex5;
 #endif
 
 #ifdef DOF

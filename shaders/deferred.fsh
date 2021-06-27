@@ -42,6 +42,7 @@ uniform float pixel_size_y;
 #if AO == 1 || V_CLOUDS != 0
   uniform mat4 gbufferProjection;
   uniform float frameTimeCounter;
+  uniform sampler2D colortex5;
 #endif
 
 // Varyings (per thread shared variables)
@@ -73,9 +74,11 @@ void main() {
 
   #if AO == 1 || V_CLOUDS != 0
     #if AA_TYPE == 0
-      float dither = phi_noise(uvec2(gl_FragCoord.xy));
+      // float dither = phi_noise(uvec2(gl_FragCoord.xy));
+      float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
     #else
-      float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
+      // float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
+      float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex5);
     #endif
   #endif
 

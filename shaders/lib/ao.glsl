@@ -6,12 +6,6 @@ Based on Capt Tatsu's ambient occlusion functions.
 float dbao(float dither) {
   float ao = 0.0;
 
-  // #if AA_TYPE > 0
-  //   float dither = shifted_phi_noise(uvec2(gl_FragCoord.xy));
-  // #else
-  //   float dither = phi_noise(uvec2(gl_FragCoord.xy));
-  // #endif
-
   float dither_base = dither;
   dither *= 6.283185307;
 
