@@ -8,7 +8,7 @@ float get_shadow(vec3 the_shadow_pos) {
   float shadow_sample = 1.0;
 
     #if SHADOW_TYPE == 0  // Pixelated
-      shadow_sample = texture2D(shadowtex1, vec3(the_shadow_pos.xy, shadow_pos.z - 0.001));
+      shadow_sample = shadow2D(shadowtex1, vec3(the_shadow_pos.xy, shadow_pos.z - 0.001)).r;
     #elif SHADOW_TYPE == 1  // Soft
       #if MC_VERSION >= 11300
         #if AA_TYPE > 0
