@@ -73,10 +73,18 @@ void main() {
   vec3 view_vector;
 
   #if AO == 1 || V_CLOUDS != 0
-    #if AA_TYPE == 0
-      float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
+    #if MC_VERSION >= 11300
+      #if AA_TYPE == 0
+        float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
+      #else
+        float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex5);
+      #endif
     #else
-      float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex5);
+      #if AA_TYPE == 0
+        float dither = dither_grad_noise(gl_FragCoord.xy);
+      #else
+        float dither = timed_hash12(gl_FragCoord.xy);
+      #endif
     #endif
   #endif
 

@@ -25,6 +25,15 @@ float dither_grad_noise(vec2 p) {
   return fract(52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y));
 }
 
+float dither17(vec2 pos) {
+  return fract(dot(vec3(pos.xy, 0.0), vec3(2.0, 7.0, 23.0) / 17.0));
+}
+//
+// float timed_dither17(vec2 pos) {
+//   // return frac(dot(float3(Pos.xy, FrameIndexMod4), uint3(2, 7, 23) / 17.0f));
+//   return fract(dot(vec3(pos.xy, fract(frameTimeCounter) * 4.0), vec3(2.0, 7.0, 23.0) / 17.0));
+// }
+
 float texture_noise_64(vec2 p, sampler2D noise) {
   return texture2D(noise, p * 0.015625).r;
 }
@@ -112,14 +121,14 @@ float shifted_texture_noise_64(vec2 p, sampler2D noise) {
 //   return fract(frameTimeCounter * 7.0 + dither);
 // }
 
-// float bayer2(vec2 a) {
-//   a = floor(a);
-//   return fract(dot(a, vec2(.5, a.y * .75)));
-// }
-//
-// #define bayer4(a)   (bayer2(.5 * (a)) * .25+ bayer2(a))
-// #define bayer8(a)   (bayer4(.5 * (a)) * .25+ bayer2(a))
-// #define bayer16(a)  (bayer8(.5 * (a)) * .25+ bayer2(a))
+float bayer2(vec2 a) {
+  a = floor(a);
+  return fract(dot(a, vec2(.5, a.y * .75)));
+}
+
+#define bayer4(a)   (bayer2(.5 * (a)) * .25+ bayer2(a))
+#define bayer8(a)   (bayer4(.5 * (a)) * .25+ bayer2(a))
+#define bayer16(a)  (bayer8(.5 * (a)) * .25+ bayer2(a))
 // #define bayer32(a)  (bayer16(.5 * (a)) * .25+ bayer2(a))
 // #define bayer64(a)  (bayer32(.5 * (a)) * .25+ bayer2(a))
 // #define bayer128(a) (bayer64(.5 * (a)) * 0.25 + bayer2(a))

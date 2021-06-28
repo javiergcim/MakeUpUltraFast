@@ -10,10 +10,18 @@ vec3 mipmap_bloom(sampler2D image, vec2 coords) {
 
   int sample_c = int(BLOOM_SAMPLES);
 
-  #if AA_TYPE > 0
-    float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex5);
+  #if MC_VERSION >= 11300
+    #if AA_TYPE > 0
+      float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex5);
+    #else
+      float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
+    #endif
   #else
-    float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
+    #if AA_TYPE > 0
+      float dither = timed_hash12(gl_FragCoord.xy);
+    #else
+      float dither = dither_grad_noise(gl_FragCoord.xy);
+    #endif
   #endif
 
   float dither_base = dither;

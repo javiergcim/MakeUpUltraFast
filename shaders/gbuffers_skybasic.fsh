@@ -43,6 +43,7 @@ void main() {
     #else
       dither = hash12(gl_FragCoord.xy);
     #endif
+
     dither = (dither - .5) * 0.0625;
 
     vec3 hi_sky_color = day_blend(

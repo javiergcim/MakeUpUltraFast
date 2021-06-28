@@ -7,18 +7,18 @@ Javier Garduño - GNU Lesser General Public License v3.0
 float get_shadow(vec3 the_shadow_pos) {
   float shadow_sample = 1.0;
 
-  // if (the_shadow_pos.x > 0.0 && the_shadow_pos.x < 1.0 &&
-  //     the_shadow_pos.y > 0.0 && the_shadow_pos.y < 1.0 &&
-  //     the_shadow_pos.z > 0.0 && the_shadow_pos.z < 1.0) {
-
     #if SHADOW_TYPE == 0  // Pixelated
       shadow_sample = texture2D(shadowtex1, vec3(the_shadow_pos.xy, shadow_pos.z - 0.001));
     #elif SHADOW_TYPE == 1  // Soft
-      #if AA_TYPE > 0
-        float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex5);
-      #else
-        #if MC_VERSION >= 11300
+      #if MC_VERSION >= 11300
+        #if AA_TYPE > 0
+          float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex5);
+        #else
           float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
+        #endif
+      #else
+        #if AA_TYPE > 0
+          float dither = timed_hash12(gl_FragCoord.xy);
         #else
           float dither = dither_grad_noise(gl_FragCoord.xy);
         #endif
@@ -49,7 +49,6 @@ float get_shadow(vec3 the_shadow_pos) {
 
       shadow_sample *= 0.5;
     #endif
-  // }
 
   return shadow_sample;
 }

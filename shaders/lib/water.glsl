@@ -98,7 +98,7 @@ vec3 normal_waves(vec3 pos) {
   wave_2.rg *= 2.0;
 
   vec3 final_wave = wave_1 + wave_2;
-  final_wave.b *= 3.4;
+  final_wave.b *= 3.0;
 
   return normalize(final_wave);
 }
