@@ -26,7 +26,7 @@ uniform float rainStrength;
 uniform ivec2 eyeBrightnessSmooth;
 
 // Varyings (per thread shared variables)
-flat varying vec3 up_vec;
+varying vec3 up_vec;  // Flat
 varying vec4 star_data;
 
 #include "/lib/dither.glsl"

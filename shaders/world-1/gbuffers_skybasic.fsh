@@ -18,7 +18,7 @@ uniform float viewWidth;
 uniform float viewHeight;
 
 // Varyings (per thread shared variables)
-flat varying vec3 up_vec;
+varying vec3 up_vec;  // Flat
 varying vec4 star_data;
 
 void main() {

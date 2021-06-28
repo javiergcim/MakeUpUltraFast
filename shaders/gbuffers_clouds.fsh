@@ -15,7 +15,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 varying vec2 texcoord;
 varying vec4 tint_color;
 varying float frog_adjust;
-flat varying vec3 current_fog_color;
+varying vec3 current_fog_color;  // Flat
 
 // 'Global' constants from system
 uniform sampler2D tex;

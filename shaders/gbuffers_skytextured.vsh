@@ -17,7 +17,7 @@ uniform float current_hour_fract;
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 varying vec4 tint_color;
-flat varying float sky_luma_correction;
+varying float sky_luma_correction;  // Flat
 
 #if AA_TYPE > 0
   #include "/src/taa_offset.glsl"

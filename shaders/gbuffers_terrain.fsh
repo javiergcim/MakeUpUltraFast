@@ -24,14 +24,14 @@ uniform float light_mix;
 varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
-flat varying vec3 current_fog_color;
+varying vec3 current_fog_color;  // Flat
 varying float frog_adjust;
 
-flat varying vec3 direct_light_color;
+varying vec3 direct_light_color;  // Flat
 varying vec3 candle_color;
 varying float direct_light_strenght;
 varying vec3 omni_light;
-flat varying float is_foliage;
+varying float is_foliage;  // Flat
 
 #ifdef SHADOW_CASTING
   varying vec3 shadow_pos;

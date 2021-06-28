@@ -20,7 +20,7 @@ uniform float far;
 varying vec2 texcoord;
 varying vec4 tint_color;
 varying float frog_adjust;
-flat varying vec3 current_fog_color;
+varying vec3 current_fog_color;  // Flat
 
 void main() {
   vec4 block_color = texture2D(tex, texcoord) * tint_color;

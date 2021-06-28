@@ -24,10 +24,10 @@ uniform float light_mix;
 varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
-flat varying vec3 current_fog_color;
+varying vec3 current_fog_color;  // Flat
 varying float frog_adjust;
 
-flat varying vec3 direct_light_color;
+varying vec3 direct_light_color;  // Flat
 varying vec3 candle_color;
 varying float direct_light_strenght;
 varying vec3 omni_light;

@@ -23,7 +23,7 @@ uniform ivec2 eyeBrightnessSmooth;
 // Varyings (per thread shared variables)
 varying vec4 tint_color;
 varying float frog_adjust;
-flat varying vec3 current_fog_color;
+varying vec3 current_fog_color;  // Flat
 
 
 #include "/lib/luma.glsl"

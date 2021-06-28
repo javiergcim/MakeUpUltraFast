@@ -38,7 +38,7 @@ uniform float rainStrength;
 varying vec2 texcoord;
 
 #ifdef BLOOM
-  flat varying float exposure;
+  varying float exposure;  // Flat
 #endif
 
 #include "/lib/depth.glsl"

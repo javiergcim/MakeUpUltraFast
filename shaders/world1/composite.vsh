@@ -22,7 +22,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 varying vec2 texcoord;
 
 #ifdef BLOOM
-  flat varying float exposure;
+  varying float exposure;  // Flat
 #endif
 
 void main() {

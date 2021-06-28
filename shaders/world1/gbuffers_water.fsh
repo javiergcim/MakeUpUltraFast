@@ -42,16 +42,16 @@ uniform sampler2D colortex5;
 varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
-flat varying vec3 current_fog_color;
+varying vec3 current_fog_color;  // Flat
 varying float frog_adjust;
-flat varying vec3 water_normal;
-flat varying float block_type;
+varying vec3 water_normal;  // Flat
+varying float block_type;  // Flat
 varying vec4 worldposition;
 varying vec4 position2;
 varying vec3 tangent;
 varying vec3 binormal;
 
-flat varying vec3 direct_light_color;
+varying vec3 direct_light_color;  // Flat
 varying vec3 candle_color;
 varying float direct_light_strenght;
 varying vec3 omni_light;

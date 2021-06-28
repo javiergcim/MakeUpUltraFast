@@ -15,7 +15,7 @@ uniform sampler2D tex;
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 varying vec4 tint_color;
-flat varying float sky_luma_correction;
+varying float sky_luma_correction;  // Flat
 
 void main() {
   // Toma el color puro del bloque

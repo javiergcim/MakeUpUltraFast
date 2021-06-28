@@ -55,7 +55,7 @@ uniform sampler2D colortex0;
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
-flat varying float exposure;
+varying float exposure;  // Flat
 
 #include "/lib/color_utils.glsl"
 #include "/lib/basic_utils.glsl"

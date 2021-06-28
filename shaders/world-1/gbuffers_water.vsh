@@ -33,8 +33,8 @@ varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
 varying vec3 real_light;
-flat varying vec3 water_normal;
-flat varying float block_type;
+varying vec3 water_normal;  // Flat
+varying float block_type;  // Flat
 varying vec4 worldposition;
 varying vec4 position2;
 varying vec3 tangent;
