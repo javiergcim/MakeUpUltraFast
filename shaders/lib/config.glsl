@@ -54,7 +54,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
 #define SHADOW_BLUR 2.0 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0]  Shadow blur intensity
 #define WATER_TINT 0.7 // [0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0]  Water tint percentage
-#define COLOR_SCHEME 4 // [0 1 2 3 4] Legacy: Exotic colors at sunset. Cocoa: A warm preset of vivid colors in the day. Captain: A cold preset of stylish colors. Shoka: Warm theme, with high contrast between light and shadow, inspired by the color theme of a famous shader. Ethereal: Current default theme.
+#define COLOR_SCHEME 4 // [0 1 2 3 4 5] Legacy: Exotic colors at sunset. Cocoa: A warm preset of vivid colors in the day. Captain: A cold preset of stylish colors. Shoka: Warm theme, with high contrast between light and shadow, inspired by the color theme of a famous shader. Ethereal: Current default theme.
 #define WATER_TEXTURE 0 // [0 1] Enable or disable resource pack water texture.
 #define AVOID_DARK 1 // [0 1] Avoid absolute darkness in caves at daytime.
 #define AVOID_DARK_LEVEL 0.06 // [0.00 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08]  Minimal omni light intensity in caves (percentaje)
