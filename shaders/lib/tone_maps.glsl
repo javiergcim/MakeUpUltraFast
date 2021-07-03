@@ -16,7 +16,6 @@ vec3 lottes_tonemap(vec3 x, float hdrMax) {
     float pow_b = pow(hdrMax, 1.4655);
     float producto_a = (pow_b - 0.0945495483551584) * 0.27;
 
-    // Can be precomputed
     float b =
         (-0.0894427190999916 + pow_a * 0.27) /
         producto_a;
