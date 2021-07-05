@@ -5,7 +5,7 @@ Render: Bloom
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define NO_SHADOWS
+// #define NO_SHADOWS
 
 #include "/lib/config.glsl"
 
@@ -25,6 +25,24 @@ varying vec2 texcoord;
   const bool colortex2MipmapEnabled = true;
 #endif
 
+// GODRAY START
+  uniform mat4 gbufferProjectionInverse;
+  uniform mat4 gbufferModelViewInverse;
+  uniform mat4 shadowModelView;
+  uniform mat4 shadowProjection;
+  uniform float viewWidth;
+  uniform float viewHeight;
+  uniform float pixel_size_x;
+  uniform float pixel_size_y;
+  uniform float near;
+  uniform float far;
+  uniform sampler2DShadow shadowtex1;
+  uniform sampler2D depthtex0;
+  #include "/lib/depth.glsl"
+  #include "/lib/shadow_frag.glsl"
+  #include "/lib/volumetric_light.glsl"
+// GODRAY END
+
 void main() {
   vec4 block_color = texture2D(colortex1, texcoord);
 
@@ -32,6 +50,18 @@ void main() {
   vec3 bloom = mipmap_bloom(colortex2, texcoord);
   block_color.rgb += bloom;
 #endif
+
+// GODRAY START
+float dither = timed_hash12(gl_FragCoord.xy);
+float screen_depth = texture2D(depthtex0, texcoord).r;
+screen_depth = ld(screen_depth);
+
+float light = get_volumetric_light(dither, screen_depth);
+
+block_color.rgb = vec3(light);
+// block_color.rgb = vec3(screen_depth);
+// block_color.rgb = vec3(texcoord, screen_depth);
+// GODRAY END
 
   #ifdef MOTION_BLUR
     #ifdef DOF

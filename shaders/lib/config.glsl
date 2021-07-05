@@ -88,6 +88,9 @@ Javier Garduño - GNU Lesser General Public License v3.0
   #define CLOUD_LOW_FACTOR 0.02777777777777778
 #endif
 
+// Godrays
+#define GODRAY_STEPS 25
+
 // Buffers clear
 const bool colortex0Clear = false;
 const bool colortex1Clear = false;
