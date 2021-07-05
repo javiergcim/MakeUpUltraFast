@@ -31,12 +31,13 @@ vec3 get_volumetric_pos(vec3 the_pos, float NdotL) {
 float get_volumetric_light(float dither, float view_depth) {
   float light = 0.0;
 
-  // float increment = 0.5 / GODRAY_STEPS;  // Medio camino al cielo
+  float increment = 0.5 / GODRAY_STEPS;  // Medio camino al cielo
+  float current_depth = increment * dither;
   // float increment = .4;
   // float current_depth = 0.7 + (dither * increment);
-  float increment = 1.0 + dither;
+  // float increment = 1.0 + dither;
   // float base_depth = (increment / far);
-  float current_depth = (increment / far);
+  // float current_depth = (increment / far);
   vec3 view_pos;
   vec3 shadow_pos;
 
@@ -49,14 +50,12 @@ float get_volumetric_light(float dither, float view_depth) {
     view_pos = camera_to_world(view_pos);
     shadow_pos = get_volumetric_pos(view_pos, 1.0);
 
-    light += (1.0 / exp2(increment)) * get_shadow(shadow_pos);
+    light += get_shadow(shadow_pos);
 
-    increment++;
-    current_depth = exp2(increment) / far;
+    current_depth += increment;
   }
 
-  // light /= GODRAY_STEPS;
-  light /= 1.0;
+  light /= GODRAY_STEPS;
 
   return light;
 }
