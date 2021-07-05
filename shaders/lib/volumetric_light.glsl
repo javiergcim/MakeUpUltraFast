@@ -5,10 +5,8 @@ Volumetric light - MakeUp implementation
 #define diagonal3(m) vec3((m)[0].x, (m)[1].y, m[2].z)
 
 vec3 camera_to_world(vec3 fragpos) {
-  // vec4 pos = gbufferModelViewInverse * gbufferProjectionInverse * vec4(fragpos, 1.0);
   vec4 pos = gbufferModelViewInverse * gbufferProjectionInverse * (vec4(fragpos, 1.0) * 2.0 - 1.0);
-  // vec4 pos = gbufferProjectionInverse * (vec4(fragpos, 1.0) * 2.0 - 1.0);
-  pos /= pos.w;
+  pos.xyz /= pos.w;
 
   return pos.xyz;
 }
@@ -31,13 +29,9 @@ vec3 get_volumetric_pos(vec3 the_pos, float NdotL) {
 float get_volumetric_light(float dither, float view_depth) {
   float light = 0.0;
 
+  // float increment = ((shadowDistance / far) * 0.5) / GODRAY_STEPS;  // Medio camino al cielo
   float increment = 0.5 / GODRAY_STEPS;  // Medio camino al cielo
   float current_depth = increment * dither;
-  // float increment = .4;
-  // float current_depth = 0.7 + (dither * increment);
-  // float increment = 1.0 + dither;
-  // float base_depth = (increment / far);
-  // float current_depth = (increment / far);
   vec3 view_pos;
   vec3 shadow_pos;
 
@@ -47,6 +41,7 @@ float get_volumetric_light(float dither, float view_depth) {
     }
 
     view_pos = vec3(texcoord, current_depth);
+    view_pos.z = pow(view_pos.z, 0.005);
     view_pos = camera_to_world(view_pos);
     shadow_pos = get_volumetric_pos(view_pos, 1.0);
 

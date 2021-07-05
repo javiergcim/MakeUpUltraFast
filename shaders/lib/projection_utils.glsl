@@ -19,13 +19,6 @@ vec3 to_screen_space(vec3 p) {
   return fragposition.xyz / fragposition.w;
 }
 
-vec3 camera_to_world(vec3 fragpos) {
-  vec4 pos = gbufferModelViewInverse * vec4(fragpos, 1.0);
-  pos /= pos.w;
-
-  return pos.xyz;
-}
-
 vec3 camera_to_screen(vec3 fragpos) {
   vec4 pos  = gbufferProjection * vec4(fragpos, 1.0);
    pos /= pos.w;

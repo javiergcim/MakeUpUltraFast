@@ -89,7 +89,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #endif
 
 // Godrays
-#define GODRAY_STEPS 25
+#define GODRAY_STEPS 8
 
 // Buffers clear
 const bool colortex0Clear = false;

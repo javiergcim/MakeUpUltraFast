@@ -58,7 +58,8 @@ screen_depth = ld(screen_depth);
 
 float light = get_volumetric_light(dither, screen_depth);
 
-block_color.rgb = vec3(light);
+block_color.rgb = mix(block_color.rgb, vec3(1.0), light * .25);
+// block_color.rgb = vec3(light);
 // block_color.rgb = vec3(screen_depth);
 // block_color.rgb = vec3(texcoord, screen_depth);
 // GODRAY END
