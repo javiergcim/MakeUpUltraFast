@@ -30,27 +30,44 @@ float get_volumetric_light(float dither, float view_depth) {
   float light = 0.0;
 
   // float increment = ((shadowDistance / far) * 0.5) / GODRAY_STEPS;  // Medio camino al cielo
-  float increment = 0.5 / GODRAY_STEPS;  // Medio camino al cielo
-  float current_depth = increment * dither;
+  // float base_increment = 0.5 / GODRAY_STEPS;  // Medio camino al cielo
+  // float increment = base_increment * base_increment
+  // float current_depth = increment * dither;
+  // float current_depth = 0.0;
+  float current_depth;
   vec3 view_pos;
   vec3 shadow_pos;
 
   for (int i = 0; i < GODRAY_STEPS; i++) {
+    // current_depth = (exp2(i + 0.5) - 0.99) / exp2(GODRAY_STEPS);
+    current_depth = (exp2(i + dither) - 0.95) / exp2(GODRAY_STEPS);
     if (current_depth > view_depth) {
       break;
     }
 
     view_pos = vec3(texcoord, current_depth);
-    view_pos.z = pow(view_pos.z, 0.005);
+    view_pos.z = pow(view_pos.z, 0.0025);
     view_pos = camera_to_world(view_pos);
     shadow_pos = get_volumetric_pos(view_pos, 1.0);
 
-    light += get_shadow(shadow_pos);
+    if (shadow_pos.x > 0.0 && shadow_pos.x < 1.0 &&
+      shadow_pos.y > 0.0 && shadow_pos.y < 1.0 &&
+      shadow_pos.z > 0.0 && shadow_pos.z < 1.0) {
+        light += shadow2D(shadowtex1, shadow_pos).x;
 
-    current_depth += increment;
+    } else {
+      light++;
+    }
   }
 
-  light /= GODRAY_STEPS;
+  // light /= GODRAY_STEPS;
+  // light = sqrt(light);
 
+  light = light / (GODRAY_STEPS * 2.0);
+  light = light + (0.5 * float(light > 0.00001));
+
+  // return clamp(light, 0.0, 1.0);
   return light;
+  // return current_depth;
+  // return view_depth;
 }

@@ -8,6 +8,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // #define NO_SHADOWS
 
 #include "/lib/config.glsl"
+#include "/lib/color_utils.glsl"
 
 uniform sampler2D colortex1;
 uniform sampler2D colortex5;
@@ -38,7 +39,9 @@ varying vec2 texcoord;
   uniform float far;
   uniform sampler2DShadow shadowtex1;
   uniform sampler2D depthtex0;
+  uniform float rainStrength;
   #include "/lib/depth.glsl"
+  #include "/lib/luma.glsl"
   #include "/lib/shadow_frag.glsl"
   #include "/lib/volumetric_light.glsl"
 // GODRAY END
@@ -52,13 +55,26 @@ void main() {
 #endif
 
 // GODRAY START
-float dither = timed_hash12(gl_FragCoord.xy);
+float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
 float screen_depth = texture2D(depthtex0, texcoord).r;
 screen_depth = ld(screen_depth);
 
 float light = get_volumetric_light(dither, screen_depth);
 
-block_color.rgb = mix(block_color.rgb, vec3(1.0), light * .25);
+// Calculamos color de luz directa
+vec3 direct_light_color = day_blend(
+  AMBIENT_MIDDLE_COLOR,
+  AMBIENT_DAY_COLOR,
+  AMBIENT_NIGHT_COLOR
+  );
+
+direct_light_color = mix(
+  direct_light_color,
+  HI_SKY_RAIN_COLOR * luma(direct_light_color),
+  rainStrength
+);
+
+block_color.rgb = mix(block_color.rgb, direct_light_color, light * .25);
 // block_color.rgb = vec3(light);
 // block_color.rgb = vec3(screen_depth);
 // block_color.rgb = vec3(texcoord, screen_depth);
