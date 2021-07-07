@@ -21,19 +21,14 @@ uniform float inv_aspect_ratio;
   uniform mat4 gbufferModelViewInverse;
   uniform mat4 shadowModelView;
   uniform mat4 shadowProjection;
-  uniform float viewWidth;
-  uniform float viewHeight;
+  uniform vec3 shadowLightPosition;
+  uniform float rainStrength;
   uniform float pixel_size_x;
   uniform float pixel_size_y;
   uniform float near;
   uniform float far;
   uniform sampler2DShadow shadowtex1;
   uniform sampler2D depthtex0;
-  // uniform float rainStrength;
-  // uniform ivec2 eyeBrightnessSmooth;
-  // uniform float current_hour_fract;
-  // uniform int current_hour_floor;
-  // uniform int current_hour_ceil;
 #endif
 
 // Varyings (per thread shared variables)
@@ -83,57 +78,30 @@ void main() {
 
   #ifdef VOL_LIGHT
     float screen_distance = depth_to_distance(texture2D(depthtex0, texcoord).r);
-
     float vol_light = get_volumetric_light(dither, screen_distance);
 
-    // // Fog color calculation
-    // float fog_mix_level = mix(
-    //   fog_color_mix[current_hour_floor],
-    //   fog_color_mix[current_hour_ceil],
-    //   current_hour_fract
-    //   );
-    //
-    // // Fog intensity calculation
-    // float fog_density_coeff = mix(
-    //   fog_density[current_hour_floor],
-    //   fog_density[current_hour_ceil],
-    //   current_hour_fract
-    //   );
-    //
-    // float fog_intensity_coeff = max(
-    //   // visible_sky,
-    //   1.0,
-    //   eyeBrightnessSmooth.y * 0.004166666666666667
-    // );
-    //
-    // vec3 hi_sky_color = day_blend(
-    //   HI_MIDDLE_COLOR,
-    //   HI_DAY_COLOR,
-    //   HI_NIGHT_COLOR
-    //   );
-    //
-    // hi_sky_color = mix(
-    //   hi_sky_color,
-    //   HI_SKY_RAIN_COLOR * luma(hi_sky_color),
-    //   rainStrength
-    // );
-    //
-    // vec3 low_sky_color = day_blend(
-    //   LOW_MIDDLE_COLOR,
-    //   LOW_DAY_COLOR,
-    //   LOW_NIGHT_COLOR
-    //   );
-    //
-    // low_sky_color = mix(
-    //   low_sky_color,
-    //   LOW_SKY_RAIN_COLOR * luma(low_sky_color),
-    //   rainStrength
-    // );
-    //
-    // vec3 current_fog_color =
-    //   mix(hi_sky_color, low_sky_color, fog_mix_level) * fog_intensity_coeff;
+    // Ajuste de visibilidad
+    vec4 screen_pos =
+      vec4(
+        gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
+        gl_FragCoord.z,
+        1.0
+      );
+    vec4 fragposition = gbufferProjectionInverse * (screen_pos * 2.0 - 1.0);
 
-    block_color.rgb = mix(block_color.rgb, current_fog_color, vol_light * .4);
+    vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
+    vec3 view_vector = normalize(world_pos.xyz);
+
+    float bright =
+      dot(
+        view_vector,
+        normalize((gbufferModelViewInverse * vec4(shadowLightPosition, 0.0)).xyz)
+      );
+
+    bright = clamp(bright * 0.3, 0.0, 1.0) + .2;
+
+    // block_color.rgb = mix(block_color.rgb, current_fog_color, vol_light * bright);
+    block_color.rgb += (current_fog_color * vol_light * bright * (1.0 - rainStrength));
     // block_color.rgb = vec3(vol_light);
   #endif
 
