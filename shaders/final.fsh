@@ -71,8 +71,8 @@ void main() {
     vec3 block_color = texture2D(colortex0, texcoord).rgb;
   #endif
 
-  // block_color *= exposure;
-  // block_color = lottes_tonemap(block_color, exposure + 0.6);
+  block_color *= exposure;
+  block_color = lottes_tonemap(block_color, exposure + 0.6);
 
   gl_FragColor = vec4(block_color, 1.0);
 }

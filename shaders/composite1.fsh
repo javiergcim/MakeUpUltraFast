@@ -16,17 +16,7 @@ uniform sampler2D colortex2;
 uniform float frameTimeCounter;
 uniform float inv_aspect_ratio;
 
-// Varyings (per thread shared variables)
-varying vec2 texcoord;
-
-#include "/lib/dither.glsl"
-#include "/lib/bloom.glsl"
-
-#ifdef BLOOM
-  const bool colortex2MipmapEnabled = true;
-#endif
-
-// GODRAY START
+#ifdef VOL_LIGHT
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
   uniform mat4 shadowModelView;
@@ -40,45 +30,108 @@ varying vec2 texcoord;
   uniform sampler2DShadow shadowtex1;
   uniform sampler2D depthtex0;
   uniform float rainStrength;
+  uniform ivec2 eyeBrightnessSmooth;
+  uniform float current_hour_fract;
+  uniform int current_hour_floor;
+  uniform int current_hour_ceil;
+#endif
+
+// Varyings (per thread shared variables)
+varying vec2 texcoord;
+
+#include "/lib/dither.glsl"
+#include "/lib/bloom.glsl"
+
+#ifdef VOL_LIGHT
   #include "/lib/depth.glsl"
   #include "/lib/luma.glsl"
   #include "/lib/shadow_frag.glsl"
   #include "/lib/volumetric_light.glsl"
-// GODRAY END
+#endif
+
+#ifdef BLOOM
+  const bool colortex2MipmapEnabled = true;
+#endif
 
 void main() {
   vec4 block_color = texture2D(colortex1, texcoord);
 
-#ifdef BLOOM
-  vec3 bloom = mipmap_bloom(colortex2, texcoord);
-  block_color.rgb += bloom;
-#endif
+  #if defined BLOOM || defined VOL_LIGHT
+    #if MC_VERSION >= 11300
+      #if AA_TYPE > 0
+        float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex5);
+      #else
+        float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
+      #endif
+    #else
+      #if AA_TYPE > 0
+        float dither = timed_hash12(gl_FragCoord.xy);
+      #else
+        float dither = dither_grad_noise(gl_FragCoord.xy);
+      #endif
+    #endif
+  #endif
 
-// GODRAY START
-float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
-float screen_depth = texture2D(depthtex0, texcoord).r;
-screen_depth = ld(screen_depth);
+  #ifdef BLOOM
+    vec3 bloom = mipmap_bloom(colortex2, texcoord, dither);
+    block_color.rgb += bloom;
+  #endif
 
-float light = get_volumetric_light(dither, screen_depth);
+  #ifdef VOL_LIGHT
+    float screen_distance = depth_to_distance(texture2D(depthtex0, texcoord).r);
 
-// Calculamos color de luz directa
-vec3 direct_light_color = day_blend(
-  AMBIENT_MIDDLE_COLOR,
-  AMBIENT_DAY_COLOR,
-  AMBIENT_NIGHT_COLOR
-  );
+    float vol_light = get_volumetric_light(dither, screen_distance);
 
-direct_light_color = mix(
-  direct_light_color,
-  HI_SKY_RAIN_COLOR * luma(direct_light_color),
-  rainStrength
-);
+    // Fog color calculation
+    float fog_mix_level = mix(
+      fog_color_mix[current_hour_floor],
+      fog_color_mix[current_hour_ceil],
+      current_hour_fract
+      );
 
-block_color.rgb = mix(block_color.rgb, direct_light_color, light * .25);
-// block_color.rgb = vec3(light);
-// block_color.rgb = vec3(screen_depth);
-// block_color.rgb = vec3(texcoord, screen_depth);
-// GODRAY END
+    // Fog intensity calculation
+    float fog_density_coeff = mix(
+      fog_density[current_hour_floor],
+      fog_density[current_hour_ceil],
+      current_hour_fract
+      );
+
+    float fog_intensity_coeff = max(
+      // visible_sky,
+      1.0,
+      eyeBrightnessSmooth.y * 0.004166666666666667
+    );
+
+    vec3 hi_sky_color = day_blend(
+      HI_MIDDLE_COLOR,
+      HI_DAY_COLOR,
+      HI_NIGHT_COLOR
+      );
+
+    hi_sky_color = mix(
+      hi_sky_color,
+      HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+      rainStrength
+    );
+
+    vec3 low_sky_color = day_blend(
+      LOW_MIDDLE_COLOR,
+      LOW_DAY_COLOR,
+      LOW_NIGHT_COLOR
+      );
+
+    low_sky_color = mix(
+      low_sky_color,
+      LOW_SKY_RAIN_COLOR * luma(low_sky_color),
+      rainStrength
+    );
+
+    vec3 current_fog_color =
+      mix(hi_sky_color, low_sky_color, fog_mix_level) * fog_intensity_coeff;
+
+    block_color.rgb = mix(block_color.rgb, current_fog_color, vol_light * .4);
+    // block_color.rgb = vec3(vol_light);
+  #endif
 
   #ifdef MOTION_BLUR
     #ifdef DOF
