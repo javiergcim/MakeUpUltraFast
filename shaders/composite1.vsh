@@ -1,12 +1,9 @@
 #version 120
-/* MakeUp - final.fsh
-Render: Bloom and volumetric light
+/* MakeUp - composite1.fsh
+Render: Bloom and DoF
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
-
-// #include "/lib/config.glsl"
-// #include "/lib/color_utils.glsl"
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;

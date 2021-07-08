@@ -1,6 +1,6 @@
 #version 120
 /* MakeUp - composite.fsh
-Render: DoF
+Render: Bloom and volumetric light
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
@@ -8,7 +8,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/config.glsl"
 #include "/lib/color_utils.glsl"
 
-// Varyings (per thread shared variables)
 #if defined VOL_LIGHT && defined SHADOW_CASTING
   uniform float rainStrength;
 #endif
@@ -92,7 +91,6 @@ void main() {
 
     vol_light_color =
       mix(hi_sky_color, low_sky_color, fog_mix_level);
-
 
     // // Calculamos color de luz directa
     // vol_light_color = day_blend(

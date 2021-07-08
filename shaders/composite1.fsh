@@ -1,6 +1,6 @@
 #version 120
-/* MakeUp - final.fsh
-Render: Bloom and volumetric light
+/* MakeUp - composite1.fsh
+Render: Bloom and DoF
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
@@ -18,14 +18,11 @@ uniform float inv_aspect_ratio;
 
 #ifdef DOF
   uniform float centerDepthSmooth;
-  // uniform float inv_aspect_ratio;
   uniform float pixel_size_x;
   uniform float pixel_size_y;
   uniform float viewWidth;
   uniform float viewHeight;
-  // uniform float frameTimeCounter;
   uniform float fov_y_inv;
-  //uniform sampler2D colortex5;
 #endif
 
 #ifdef DOF
@@ -37,8 +34,11 @@ varying vec2 texcoord;
 
 #include "/lib/bloom.glsl"
 
-#ifdef DOF
+#if defined BLOOM || defined DOF
   #include "/lib/dither.glsl"
+#endif
+
+#ifdef DOF
   #include "/lib/blur.glsl"
 #endif
 

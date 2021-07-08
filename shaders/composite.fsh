@@ -1,6 +1,6 @@
 #version 120
 /* MakeUp - composite.fsh
-Render: DoF
+Render: Bloom and volumetric light
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
@@ -14,7 +14,6 @@ uniform sampler2D colortex1;
 uniform float far;
 uniform float near;
 uniform float blindness;
-uniform int isEyeInWater;
 uniform float rainStrength;
 
 #ifdef VOL_LIGHT
@@ -27,12 +26,8 @@ uniform float rainStrength;
   uniform mat4 shadowModelView;
   uniform mat4 shadowProjection;
   uniform vec3 shadowLightPosition;
-  // uniform float rainStrength;
-  // uniform float near;
-  // uniform float far;
   uniform sampler2DShadow shadowtex1;
   uniform sampler2D depthtex0;
-
   uniform sampler2D colortex5;
   uniform float frameTimeCounter;
 #endif
@@ -49,13 +44,12 @@ varying vec2 texcoord;
 #endif
 
 #include "/lib/depth.glsl"
-#include "/lib/luma.glsl"
+
+#ifdef BLOOM
+  #include "/lib/luma.glsl"
+#endif
 
 #if defined VOL_LIGHT && defined SHADOW_CASTING
-  // #include "/lib/depth.glsl"
-  // #include "/lib/luma.glsl"
-
-  //#include "/lib/shadow_frag.glsl"
   #include "/lib/volumetric_light.glsl"
   #include "/lib/dither.glsl"
 #endif
@@ -90,7 +84,7 @@ void main() {
     float screen_distance = depth_to_distance(texture2D(depthtex0, texcoord).r);
     float vol_light = get_volumetric_light(dither, screen_distance);
 
-    // Ajuste de visibilidad
+    // Ajuste de intensidad
     vec4 world_pos =
       gbufferModelViewInverse * gbufferProjectionInverse * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
     vec3 view_vector = normalize(world_pos.xyz);
