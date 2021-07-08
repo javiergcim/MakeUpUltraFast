@@ -91,12 +91,5 @@ void main() {
 
     vol_light_color =
       mix(hi_sky_color, low_sky_color, fog_mix_level);
-
-    // // Calculamos color de luz directa
-    // vol_light_color = day_blend(
-    //   AMBIENT_MIDDLE_COLOR,
-    //   AMBIENT_DAY_COLOR,
-    //   AMBIENT_NIGHT_COLOR
-    //   );
   #endif
 }

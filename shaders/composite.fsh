@@ -13,6 +13,7 @@ uniform float far;
 uniform float near;
 uniform float blindness;
 uniform float rainStrength;
+uniform sampler2D depthtex0;
 
 #ifdef VOL_LIGHT
   // Don't delete this ifdef. It's nedded to show option in menu (Optifine bug?)
@@ -25,7 +26,6 @@ uniform float rainStrength;
   uniform mat4 shadowProjection;
   uniform vec3 shadowLightPosition;
   uniform sampler2DShadow shadowtex1;
-  uniform sampler2D depthtex0;
   uniform sampler2D colortex5;
   uniform float frameTimeCounter;
   uniform float light_mix;
@@ -96,8 +96,9 @@ void main() {
 
     vol_intensity = (clamp(vol_intensity * 0.3, 0.0, 1.0) + .15) * abs(light_mix * 2.0 - 1.0);
 
-    block_color.rgb +=
-      (vol_light_color * vol_light * vol_intensity * (1.0 - rainStrength));
+    block_color.rgb =
+      mix(block_color.rgb, vol_light_color, vol_light * vol_intensity * (1.0 - rainStrength));
+
     // block_color.rgb = vec3(1.0);
   #endif
 

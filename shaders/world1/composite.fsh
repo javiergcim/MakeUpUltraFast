@@ -15,6 +15,7 @@ uniform float far;
 uniform float near;
 uniform float blindness;
 uniform float rainStrength;
+uniform sampler2D depthtex0;
 
 #ifdef VOL_LIGHT
   // Don't delete this ifdef. It's nedded to show option in menu (Optifine bug?)
@@ -27,7 +28,6 @@ uniform float rainStrength;
   uniform mat4 shadowProjection;
   uniform vec3 shadowLightPosition;
   uniform sampler2DShadow shadowtex1;
-  uniform sampler2D depthtex0;
   uniform sampler2D colortex5;
   uniform float frameTimeCounter;
 #endif
