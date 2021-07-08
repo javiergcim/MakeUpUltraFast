@@ -88,7 +88,7 @@ void main() {
   gl_FogFragCoord = length(gl_Position.xyz);
 
   // Special entities
-  block_type = 0.0;  // 3 - Water, 2 - Glass, 1 - Portal, 0 - ?
+  block_type = 0.0;  // 3 - Water, 2 - Glass, ? - Other
   if (mc_Entity.x == ENTITY_WATER) {  // Water
     block_type = 3.0;
   } else if (mc_Entity.x == ENTITY_STAINED) {  // Glass

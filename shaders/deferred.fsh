@@ -90,15 +90,8 @@ void main() {
 
   #if V_CLOUDS != 0
     if (linear_d > 0.9999) {  // Only sky
-      vec4 screen_pos =
-        vec4(
-          gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
-          gl_FragCoord.z,
-          1.0
-        );
-      vec4 fragposition = gbufferProjectionInverse * (screen_pos * 2.0 - 1.0);
-
-      vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
+      vec4 world_pos =
+        gbufferModelViewInverse * gbufferProjectionInverse * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
       view_vector = normalize(world_pos.xyz);
 
       float bright =

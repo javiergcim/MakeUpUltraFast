@@ -60,7 +60,6 @@ void main() {
       texcoord,
       DOF_STRENGTH
       );
-
   #endif
 
   if (blindness > .01) {

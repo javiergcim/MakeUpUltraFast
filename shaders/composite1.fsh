@@ -1,6 +1,6 @@
 #version 120
 /* MakeUp - final.fsh
-Render: Bloom
+Render: Bloom and volumetric light
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
@@ -27,8 +27,8 @@ uniform float inv_aspect_ratio;
   uniform mat4 shadowProjection;
   uniform vec3 shadowLightPosition;
   uniform float rainStrength;
-  uniform float pixel_size_x;
-  uniform float pixel_size_y;
+  // uniform float pixel_size_x;
+  // uniform float pixel_size_y;
   uniform float near;
   uniform float far;
   uniform sampler2DShadow shadowtex1;
@@ -85,15 +85,8 @@ void main() {
     float vol_light = get_volumetric_light(dither, screen_distance);
 
     // Ajuste de visibilidad
-    vec4 screen_pos =
-      vec4(
-        gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
-        gl_FragCoord.z,
-        1.0
-      );
-    vec4 fragposition = gbufferProjectionInverse * (screen_pos * 2.0 - 1.0);
-
-    vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
+    vec4 world_pos =
+      gbufferModelViewInverse * gbufferProjectionInverse * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
     vec3 view_vector = normalize(world_pos.xyz);
 
     float vol_intensity =
@@ -106,7 +99,7 @@ void main() {
 
     block_color.rgb +=
       (vol_light_color * vol_light * vol_intensity * (1.0 - rainStrength));
-    // block_color.rgb = vec3(vol_light);
+    // block_color.rgb = vec3(vol_intensity);
   #endif
 
   #ifdef MOTION_BLUR
