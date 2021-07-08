@@ -56,7 +56,7 @@ varying vec2 texcoord;
 
 void main() {
   vec4 block_color = texture2D(colortex1, texcoord);
-  float d = block_color.a;
+  float d = texture2D(depthtex0, texcoord).r;
   float linear_d = ld(d);
 
   if (blindness > .01) {
@@ -81,7 +81,7 @@ void main() {
   #endif
 
   #if defined VOL_LIGHT && defined SHADOW_CASTING
-    float screen_distance = depth_to_distance(texture2D(depthtex0, texcoord).r);
+    float screen_distance = depth_to_distance(d);
     float vol_light = get_volumetric_light(dither, screen_distance);
 
     // Ajuste de intensidad
