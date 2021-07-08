@@ -80,7 +80,6 @@ void main() {
     #endif
   #endif
 
-
   #if V_CLOUDS != 0
     if (linear_d > 0.9999) {  // Only sky
       block_color = vec4(HI_DAY_COLOR, 1.0);

@@ -28,6 +28,7 @@ uniform float rainStrength;
   uniform sampler2D depthtex0;
   uniform sampler2D colortex5;
   uniform float frameTimeCounter;
+  uniform float light_mix;
 #endif
 
 // Varyings (per thread shared variables)
@@ -93,7 +94,7 @@ void main() {
         normalize((gbufferModelViewInverse * vec4(shadowLightPosition, 0.0)).xyz)
       );
 
-    vol_intensity = clamp(vol_intensity * 0.3, 0.0, 1.0) + .15;
+    vol_intensity = (clamp(vol_intensity * 0.3, 0.0, 1.0) + .15) * abs(light_mix * 2.0 - 1.0);
 
     block_color.rgb +=
       (vol_light_color * vol_light * vol_intensity * (1.0 - rainStrength));

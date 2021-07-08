@@ -95,7 +95,7 @@ void main() {
         normalize(vec3(0.0, 0.89442719, 0.4472136))
       );
 
-    vol_intensity = clamp(vol_intensity * 1.0, 0.0, 1.0) + 0.0;
+    vol_intensity = clamp(vol_intensity, 0.0, 1.0);
 
     block_color.rgb +=
       (vol_light_color * vol_light * vol_intensity * (1.0 - rainStrength));
