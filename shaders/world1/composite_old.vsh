@@ -1,6 +1,6 @@
 #version 120
 /* MakeUp - composite.fsh
-Render: Bloom and volumetric light
+Render: DoF
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
@@ -10,33 +10,19 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/config.glsl"
 #include "/lib/color_utils_end.glsl"
 
-#if defined VOL_LIGHT && defined SHADOW_CASTING
-  uniform float rainStrength;
-#endif
-
-#if defined BLOOM || (defined VOL_LIGHT && defined SHADOW_CASTING)
-  uniform float current_hour_fract;
-  uniform int current_hour_floor;
-  uniform int current_hour_ceil;
-#endif
-
+// 'Global' constants from system
 #ifdef BLOOM
   uniform ivec2 eyeBrightnessSmooth;
+  uniform int current_hour_floor;
+  uniform int current_hour_ceil;
+  uniform float current_hour_fract;
 #endif
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
-#if defined VOL_LIGHT && defined SHADOW_CASTING
-  varying vec3 vol_light_color;
-#endif
-
 #ifdef BLOOM
   varying float exposure;  // Flat
-#endif
-
-#if defined VOL_LIGHT && defined SHADOW_CASTING
-  #include "/lib/luma.glsl"
 #endif
 
 void main() {
@@ -57,14 +43,5 @@ void main() {
 
     // Map from 1.0 - 0.0 to 1.0 - 3.4
     exposure = (exposure * -2.4) + 3.4;
-  #endif
-
-  #if defined VOL_LIGHT && defined SHADOW_CASTING
-    // Calculamos color de luz directa
-    vol_light_color = day_blend(
-      AMBIENT_MIDDLE_COLOR,
-      AMBIENT_DAY_COLOR,
-      AMBIENT_NIGHT_COLOR
-      );
   #endif
 }

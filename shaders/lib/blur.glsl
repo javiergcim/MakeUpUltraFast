@@ -20,20 +20,6 @@ vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force, fl
     vec3 blur_sample = vec3(0.0);
     vec2 blur_radius_vec = vec2(blur_radius * inv_aspect_ratio, blur_radius);
 
-    // #if MC_VERSION >= 11300
-    //   #if AA_TYPE > 0
-    //     float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex5);
-    //   #else
-    //     float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
-    //   #endif
-    // #else
-    //   #if AA_TYPE > 0
-    //     float dither = timed_hash12(gl_FragCoord.xy);
-    //   #else
-    //     float dither = dither_grad_noise(gl_FragCoord.xy);
-    //   #endif
-    // #endif
-
     float dither_base = dither;
     dither *= 6.283185307;
 

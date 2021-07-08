@@ -5,8 +5,6 @@ Render: Bloom and volumetric light
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-// #define NO_SHADOWS
-
 #include "/lib/config.glsl"
 #include "/lib/color_utils.glsl"
 
