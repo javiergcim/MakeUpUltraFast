@@ -128,11 +128,15 @@ void main() {
 
   #if AO == 1
     // AO distance attenuation
-    float fog_density_coeff = mix(
-      fog_density[current_hour_floor],
-      fog_density[current_hour_ceil],
-      current_hour_fract
-      );
+    #if defined VOL_LIGHT && defined SHADOW_CASTING
+      float fog_density_coeff = FOG_DENSITY;
+    #else
+      float fog_density_coeff = mix(
+        fog_density[current_hour_floor],
+        fog_density[current_hour_ceil],
+        current_hour_fract
+        );
+    #endif
 
     float ao_att = pow(
       linear_d,

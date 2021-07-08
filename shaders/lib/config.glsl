@@ -65,7 +65,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define BLOOM_SAMPLES 5.0 // [5.0 6.0 7.0 8.0 9.0 10.0] Bloom sample pairs
 #define CHROMA_ABER 0 // [0 1] Enable chroma aberration
 #define CHROMA_ABER_STRENGHT 0.05 // [0.04 0.05 0.06] Chroma aberration strenght
-#define VOL_LIGHT // Activate a volumetric light effect
+#define VOL_LIGHT // Turn on volumetric light (Shadows must be anabled)
 
 // Reflection parameters
 #define RAY_STEP 0.25

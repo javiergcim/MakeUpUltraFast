@@ -8,9 +8,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/config.glsl"
 #include "/lib/color_utils.glsl"
 
-#ifdef VOL_LIGHT
+#if defined VOL_LIGHT && defined SHADOW_CASTING
   uniform float rainStrength;
-  uniform ivec2 eyeBrightnessSmooth;
   uniform float current_hour_fract;
   uniform int current_hour_floor;
   uniform int current_hour_ceil;
@@ -19,11 +18,11 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
-#ifdef VOL_LIGHT
-  varying vec3 current_fog_color;
+#if defined VOL_LIGHT && defined SHADOW_CASTING
+  varying vec3 vol_light_color;
 #endif
 
-#ifdef VOL_LIGHT
+#if defined VOL_LIGHT && defined SHADOW_CASTING
   #include "/lib/luma.glsl"
 #endif
 
@@ -31,26 +30,13 @@ void main() {
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
   texcoord = gl_MultiTexCoord0.xy;
 
-  #ifdef VOL_LIGHT
+  #if defined VOL_LIGHT && defined SHADOW_CASTING
     // Fog color calculation
     float fog_mix_level = mix(
       fog_color_mix[current_hour_floor],
       fog_color_mix[current_hour_ceil],
       current_hour_fract
       );
-
-    // Fog intensity calculation
-    float fog_density_coeff = mix(
-      fog_density[current_hour_floor],
-      fog_density[current_hour_ceil],
-      current_hour_fract
-      );
-
-    float fog_intensity_coeff = max(
-      // visible_sky,
-      1.0,
-      eyeBrightnessSmooth.y * 0.004166666666666667
-    );
 
     vec3 hi_sky_color = day_blend(
       HI_MIDDLE_COLOR,
@@ -76,9 +62,15 @@ void main() {
       rainStrength
     );
 
-    current_fog_color =
-      mix(hi_sky_color, low_sky_color, fog_mix_level) * fog_intensity_coeff;
+    vol_light_color =
+      mix(hi_sky_color, low_sky_color, fog_mix_level);
 
-    // current_fog_color = vec3(1.0);
+
+    // // Calculamos color de luz directa
+    // vol_light_color = day_blend(
+    //   AMBIENT_MIDDLE_COLOR,
+    //   AMBIENT_DAY_COLOR,
+    //   AMBIENT_NIGHT_COLOR
+    //   );
   #endif
 }

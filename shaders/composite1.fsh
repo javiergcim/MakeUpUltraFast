@@ -17,6 +17,10 @@ uniform float frameTimeCounter;
 uniform float inv_aspect_ratio;
 
 #ifdef VOL_LIGHT
+  // Don't delete this ifdef. It's nedded to show option in menu (Optifine bug?)
+#endif
+
+#if defined VOL_LIGHT && defined SHADOW_CASTING
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
   uniform mat4 shadowModelView;
@@ -34,14 +38,14 @@ uniform float inv_aspect_ratio;
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
-#ifdef VOL_LIGHT
-  varying vec3 current_fog_color;  // Flat
+#if defined VOL_LIGHT && defined SHADOW_CASTING
+  varying vec3 vol_light_color;  // Flat
 #endif
 
 #include "/lib/dither.glsl"
 #include "/lib/bloom.glsl"
 
-#ifdef VOL_LIGHT
+#if defined VOL_LIGHT && defined SHADOW_CASTING
   #include "/lib/depth.glsl"
   #include "/lib/luma.glsl"
   #include "/lib/shadow_frag.glsl"
@@ -55,7 +59,7 @@ varying vec2 texcoord;
 void main() {
   vec4 block_color = texture2D(colortex1, texcoord);
 
-  #if defined BLOOM || defined VOL_LIGHT
+  #if defined BLOOM || (defined VOL_LIGHT && defined SHADOW_CASTING)
     #if MC_VERSION >= 11300
       #if AA_TYPE > 0
         float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex5);
@@ -76,7 +80,7 @@ void main() {
     block_color.rgb += bloom;
   #endif
 
-  #ifdef VOL_LIGHT
+  #if defined VOL_LIGHT && defined SHADOW_CASTING
     float screen_distance = depth_to_distance(texture2D(depthtex0, texcoord).r);
     float vol_light = get_volumetric_light(dither, screen_distance);
 
@@ -92,16 +96,16 @@ void main() {
     vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
     vec3 view_vector = normalize(world_pos.xyz);
 
-    float bright =
+    float vol_intensity =
       dot(
         view_vector,
         normalize((gbufferModelViewInverse * vec4(shadowLightPosition, 0.0)).xyz)
       );
 
-    bright = clamp(bright * 0.3, 0.0, 1.0) + .2;
+    vol_intensity = clamp(vol_intensity * 0.3, 0.0, 1.0) + .15;
 
-    // block_color.rgb = mix(block_color.rgb, current_fog_color, vol_light * bright);
-    block_color.rgb += (current_fog_color * vol_light * bright * (1.0 - rainStrength));
+    block_color.rgb +=
+      (vol_light_color * vol_light * vol_intensity * (1.0 - rainStrength));
     // block_color.rgb = vec3(vol_light);
   #endif
 
