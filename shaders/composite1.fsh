@@ -16,40 +16,30 @@ uniform sampler2D colortex2;
 uniform float frameTimeCounter;
 uniform float inv_aspect_ratio;
 
-#ifdef VOL_LIGHT
-  // Don't delete this ifdef. It's nedded to show option in menu (Optifine bug?)
+#ifdef DOF
+  uniform float centerDepthSmooth;
+  // uniform float inv_aspect_ratio;
+  uniform float pixel_size_x;
+  uniform float pixel_size_y;
+  uniform float viewWidth;
+  uniform float viewHeight;
+  // uniform float frameTimeCounter;
+  uniform float fov_y_inv;
+  //uniform sampler2D colortex5;
 #endif
 
-#if defined VOL_LIGHT && defined SHADOW_CASTING
-  uniform mat4 gbufferProjectionInverse;
-  uniform mat4 gbufferModelViewInverse;
-  uniform mat4 shadowModelView;
-  uniform mat4 shadowProjection;
-  uniform vec3 shadowLightPosition;
-  uniform float rainStrength;
-  // uniform float pixel_size_x;
-  // uniform float pixel_size_y;
-  uniform float near;
-  uniform float far;
-  uniform sampler2DShadow shadowtex1;
-  uniform sampler2D depthtex0;
+#ifdef DOF
+  const bool colortex1MipmapEnabled = true;
 #endif
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 
-#if defined VOL_LIGHT && defined SHADOW_CASTING
-  varying vec3 vol_light_color;  // Flat
-#endif
-
-#include "/lib/dither.glsl"
 #include "/lib/bloom.glsl"
 
-#if defined VOL_LIGHT && defined SHADOW_CASTING
-  #include "/lib/depth.glsl"
-  #include "/lib/luma.glsl"
-  #include "/lib/shadow_frag.glsl"
-  #include "/lib/volumetric_light.glsl"
+#ifdef DOF
+  #include "/lib/dither.glsl"
+  #include "/lib/blur.glsl"
 #endif
 
 #ifdef BLOOM
@@ -59,7 +49,7 @@ varying vec2 texcoord;
 void main() {
   vec4 block_color = texture2D(colortex1, texcoord);
 
-  #if defined BLOOM || (defined VOL_LIGHT && defined SHADOW_CASTING)
+  #if defined BLOOM || defined DOF
     #if MC_VERSION >= 11300
       #if AA_TYPE > 0
         float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex5);
@@ -75,31 +65,19 @@ void main() {
     #endif
   #endif
 
+  #ifdef DOF
+    block_color.rgb = noised_blur(
+      block_color,
+      colortex1,
+      texcoord,
+      DOF_STRENGTH,
+      dither
+      );
+  #endif
+
   #ifdef BLOOM
     vec3 bloom = mipmap_bloom(colortex2, texcoord, dither);
     block_color.rgb += bloom;
-  #endif
-
-  #if defined VOL_LIGHT && defined SHADOW_CASTING
-    float screen_distance = depth_to_distance(texture2D(depthtex0, texcoord).r);
-    float vol_light = get_volumetric_light(dither, screen_distance);
-
-    // Ajuste de visibilidad
-    vec4 world_pos =
-      gbufferModelViewInverse * gbufferProjectionInverse * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
-    vec3 view_vector = normalize(world_pos.xyz);
-
-    float vol_intensity =
-      dot(
-        view_vector,
-        normalize((gbufferModelViewInverse * vec4(shadowLightPosition, 0.0)).xyz)
-      );
-
-    vol_intensity = clamp(vol_intensity * 0.3, 0.0, 1.0) + .15;
-
-    block_color.rgb +=
-      (vol_light_color * vol_light * vol_intensity * (1.0 - rainStrength));
-    // block_color.rgb = vec3(vol_intensity);
   #endif
 
   #ifdef MOTION_BLUR

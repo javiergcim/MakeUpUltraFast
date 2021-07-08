@@ -133,3 +133,23 @@ float shifted_texture_noise_64(vec2 p, sampler2D noise) {
 // #define bayer64(a)  (bayer32(.5 * (a)) * .25+ bayer2(a))
 // #define bayer128(a) (bayer64(.5 * (a)) * 0.25 + bayer2(a))
 // #define bayer256(a) (bayer128(.5 * (a)) * 0.25 + bayer2(a))
+
+// uint bitfieldInterleaveReverse16(uint x,uint y){
+// 
+//     uint z = ((x&0xffu)<<16) | (y &0xffu);
+//
+//     z = (z | (z << 12u)) & 0xF0F0F0F0u;
+//     z = (z | (z >>  6u)) & 0x33333333u;
+//     z = (z | (z <<  3u)) & 0xaaaaaaaau;
+//
+//     return (z>>16)|((z>>1)&0xffffu); //17 ops
+// }
+//
+// uint bitfieldInterleaveReverse8(uint x,uint y){
+//     uint z = ((x&0xfu)<<8) | (y &0xfu);
+//
+//     z = (z | (z<<6)) & 0xccccu;
+//     z = (z | (z>>3)) & 0x5555u;
+//
+//     return (z>>7)|(z&0xffu); //13 ops
+// }
