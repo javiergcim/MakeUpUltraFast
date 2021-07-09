@@ -148,7 +148,7 @@ const bool generateShadowColorMipmap = false;
     const bool shadowHardwareFiltering1 = true;
 
     #if SHADOW_TYPE == 0
-      const bool shadowtex1Nearest = true;
+      const bool shadowtex1Nearest = false;
     #elif SHADOW_TYPE == 1
       const bool shadowtex1Nearest = false;
     #endif

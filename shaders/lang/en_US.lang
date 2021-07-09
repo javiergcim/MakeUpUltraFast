@@ -36,8 +36,8 @@ value.REFLECTION_SLIDER.1=Flipped image
 value.REFLECTION_SLIDER.2=Raymarching
 
 option.SHADOW_TYPE=Shadow type
-value.SHADOW_TYPE.0=Pixelated
-value.SHADOW_TYPE.1=Soft
+value.SHADOW_TYPE.0=Simple
+value.SHADOW_TYPE.1=Filtered
 
 option.SHADOW_BLUR=Shadow blur intensity
 
