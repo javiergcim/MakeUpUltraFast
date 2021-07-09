@@ -116,9 +116,9 @@ const bool generateShadowColorMipmap = false;
       const float shadowDistance = 70.0;
       #define SHADOW_DIST 0.77
     #elif SHADOW_RES == 1
-    const int shadowMapResolution = 512;
-    const float shadowDistance = 128.0;
-    #define SHADOW_DIST 0.75
+      const int shadowMapResolution = 512;
+      const float shadowDistance = 128.0;
+      #define SHADOW_DIST 0.75
     #elif SHADOW_RES == 2
       const int shadowMapResolution = 512;
       const float shadowDistance = 70.0;
@@ -138,20 +138,16 @@ const bool generateShadowColorMipmap = false;
     #elif SHADOW_RES == 6
       const int shadowMapResolution = 2048;
       const float shadowDistance = 79.0;
-    #define SHADOW_DIST 0.85
+      #define SHADOW_DIST 0.85
     #elif SHADOW_RES == 7
       const int shadowMapResolution = 4096;
       const float shadowDistance = 158.0;
-    #define SHADOW_DIST 0.85
+      #define SHADOW_DIST 0.85
     #endif
     const float shadowDistanceRenderMul = 1.0;
     const bool shadowHardwareFiltering1 = true;
 
-    #if SHADOW_TYPE == 0
-      const bool shadowtex1Nearest = false;
-    #elif SHADOW_TYPE == 1
-      const bool shadowtex1Nearest = false;
-    #endif
+    const bool shadowtex1Nearest = false;
   #endif
 #endif
 

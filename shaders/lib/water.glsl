@@ -112,11 +112,8 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
     vec2 medium_texcoord = pos.xy + refraction.xy * refraction_strength;
 
     return texture2D(gaux1, medium_texcoord.st).rgb * color;
-
   #else
-
     return texture2D(gaux1, pos.xy).rgb * color;
-
   #endif
 }
 
@@ -145,6 +142,8 @@ vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected, inout float infi
 
   float border =
     clamp((1.0 - (max(0.0, abs(pos.y - 0.5)) * 2.0)) * 50.0, 0.0, 1.0);
+
+  border = clamp(border - pow(pos.y, 10.0), 0.0, 1.0);
 
   pos.x = abs(pos.x);
   if (pos.x > 1.0) {

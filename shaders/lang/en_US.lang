@@ -1,12 +1,26 @@
 #Profiles
 ############################
-profile.VeryLow=Very Low
-profile.Low=Low
-profile.Medium=Medium
-profile.High=High
-profile.VeryHigh=Very High
-profile.Ultra=Ultra
-profile.Extreme=Extreme
+profile.VeryLow_a=Very Low A
+profile.VeryLow_b=Very Low B
+profile.VeryLow_c=Very Low C
+profile.Low_a=Low A
+profile.Low_b=Low B
+profile.Low_c=Low C
+profile.Medium_a=Medium A
+profile.Medium_b=Medium B
+profile.Medium_c=Medium C
+profile.High_a=High A
+profile.High_b=High B
+profile.High_c=High C
+profile.VeryHigh_a=Very High A
+profile.VeryHigh_b=Very High B
+profile.VeryHigh_c=Very High C
+profile.Ultra_a=Ultra A
+profile.Ultra_b=Ultra B
+profile.Ultra_c=Ultra C
+profile.Extreme_a=Extreme A
+profile.Extreme_b =Extreme B
+profile.Extreme_c=Extreme C
 
 profile.comment=Very Low - No optional effects. Low - Adds simple reflection and waving plants. Medium - Adds TAA, clouds, refraction. High - Adds shadows. Very High - Adds ambient occlusion, bloom. Ultra - Adds depth of field. Extreme - All effects enabled (except motion blur)
 
