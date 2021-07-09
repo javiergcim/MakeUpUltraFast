@@ -29,7 +29,7 @@ uniform sampler2D depthtex0;
   uniform vec3 shadowLightPosition;
   uniform sampler2DShadow shadowtex1;
   uniform sampler2D colortex5;
-  uniform float frameTimeCounter;
+  uniform int frame_mod;
 #endif
 
 // Varyings (per thread shared variables)

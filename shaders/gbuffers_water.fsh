@@ -22,6 +22,7 @@ uniform mat4 gbufferProjection;
 uniform sampler2D noisetex;
 uniform sampler2D depthtex0;
 uniform sampler2D depthtex1;
+uniform int frame_mod;
 uniform float frameTimeCounter;
 uniform int isEyeInWater;
 

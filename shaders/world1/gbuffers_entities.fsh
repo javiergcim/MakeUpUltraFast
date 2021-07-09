@@ -19,7 +19,7 @@ uniform vec4 entityColor;
 
 #ifdef SHADOW_CASTING
   uniform sampler2D colortex5;
-  uniform float frameTimeCounter;
+  uniform int frame_mod;
   uniform sampler2DShadow shadowtex1;
 #endif
 

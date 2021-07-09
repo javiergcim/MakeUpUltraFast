@@ -24,7 +24,7 @@ uniform float blindness;
   uniform sampler2D colortex5;
   uniform float inv_aspect_ratio;
   uniform mat4 gbufferProjection;
-  uniform float frameTimeCounter;
+  uniform int frame_mod;
 #endif
 
 // Varyings (per thread shared variables)

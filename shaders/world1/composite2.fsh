@@ -32,7 +32,7 @@ uniform float viewHeight;
   uniform vec3 previousCameraPosition;
   uniform mat4 gbufferPreviousProjection;
   uniform mat4 gbufferPreviousModelView;
-  uniform float frameTimeCounter;
+  uniform int frame_mod;
 #endif
 
 // Varyings (per thread shared variables)

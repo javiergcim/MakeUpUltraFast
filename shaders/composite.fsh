@@ -27,7 +27,7 @@ uniform sampler2D depthtex0;
   uniform vec3 shadowLightPosition;
   uniform sampler2DShadow shadowtex1;
   uniform sampler2D colortex5;
-  uniform float frameTimeCounter;
+  uniform int frame_mod;
   uniform float light_mix;
   uniform float vol_mixer;
 #endif
@@ -96,7 +96,7 @@ void main() {
       );
 
     vol_intensity =
-      ((pow(clamp(vol_intensity, 0.0, 1.0), vol_mixer) * 0.5)) * abs(light_mix * 2.0 - 1.0);;
+      ((pow(clamp((vol_intensity + .25) * 0.8, 0.0, 1.0), vol_mixer) * 0.5)) * abs(light_mix * 2.0 - 1.0);;
 
     block_color.rgb =
       mix(block_color.rgb, vol_light_color, vol_light * vol_intensity * (1.0 - rainStrength));

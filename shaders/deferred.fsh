@@ -41,6 +41,7 @@ uniform float pixel_size_y;
 
 #if AO == 1 || V_CLOUDS != 0
   uniform mat4 gbufferProjection;
+  uniform int frame_mod;
   uniform float frameTimeCounter;
   uniform sampler2D colortex5;
 #endif

@@ -24,7 +24,7 @@ uniform float rainStrength;
   uniform float pixel_size_y;
   uniform float viewWidth;
   uniform float viewHeight;
-  uniform float frameTimeCounter;
+  uniform int frame_mod;
   uniform sampler2D colortex5;
   uniform float fov_y_inv;
 #endif

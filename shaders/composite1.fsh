@@ -13,7 +13,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 uniform sampler2D colortex1;
 uniform sampler2D colortex5;
 uniform sampler2D colortex2;
-uniform float frameTimeCounter;
+uniform int frame_mod;
 uniform float inv_aspect_ratio;
 
 #ifdef DOF

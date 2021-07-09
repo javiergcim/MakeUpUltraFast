@@ -21,7 +21,7 @@ uniform float viewWidth;
 uniform float viewHeight;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
-uniform float frameTimeCounter;
+uniform int frame_mod;
 uniform float rainStrength;
 uniform ivec2 eyeBrightnessSmooth;
 

@@ -83,7 +83,7 @@ uniform float night_mixer;
   #define HI_DAY_COLOR vec3(0.15, 0.27, 0.55)
   #define HI_NIGHT_COLOR vec3(0.0157058, 0.01770587, 0.023) * NIGHT_BRIGHT
 
-  #define LOW_MIDDLE_COLOR vec3(0.75, 0.57, 0.47)
+  #define LOW_MIDDLE_COLOR vec3(1.183, 0.658, 0.311)
   #define LOW_DAY_COLOR vec3(0.55, 0.65, 0.8)
   #define LOW_NIGHT_COLOR vec3(0.01278431, 0.02517647, 0.03) * NIGHT_BRIGHT
 #endif

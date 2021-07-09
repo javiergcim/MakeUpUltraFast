@@ -18,9 +18,9 @@ uniform float nightVision;
 uniform float rainStrength;
 
 #ifdef SHADOW_CASTING
-uniform sampler2D colortex5;
-uniform float frameTimeCounter;
-uniform sampler2DShadow shadowtex1;
+  uniform sampler2D colortex5;
+  uniform int frame_mod;
+  uniform sampler2DShadow shadowtex1;
 #endif
 
 // Varyings (per thread shared variables)
