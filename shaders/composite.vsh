@@ -90,6 +90,6 @@ void main() {
     );
 
     vol_light_color =
-      mix(hi_sky_color, low_sky_color, fog_mix_level);
+      mix(hi_sky_color, low_sky_color, fog_mix_level) * 1.25;
   #endif
 }

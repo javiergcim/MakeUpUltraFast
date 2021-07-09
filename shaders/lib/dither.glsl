@@ -40,8 +40,13 @@ float texture_noise_64(vec2 p, sampler2D noise) {
 
 float shifted_texture_noise_64(vec2 p, sampler2D noise) {
   float dither = texture2D(noise, p * 0.015625).r;
-  return fract(frameTimeCounter * 13.0 + dither);
+  return fract(0.6 * frame_mod + dither);
 }
+
+// float shifted_texture_noise_64(vec2 p, sampler2D noise) {
+//   float dither = texture2D(noise, p * 0.015625).r;
+//   return fract(frameTimeCounter * 13.0 + dither);
+// }
 
 // float timed_int_hash12(uvec2 x)
 // {
@@ -135,7 +140,7 @@ float shifted_texture_noise_64(vec2 p, sampler2D noise) {
 // #define bayer256(a) (bayer128(.5 * (a)) * 0.25 + bayer2(a))
 
 // uint bitfieldInterleaveReverse16(uint x,uint y){
-// 
+//
 //     uint z = ((x&0xffu)<<16) | (y &0xffu);
 //
 //     z = (z | (z << 12u)) & 0xF0F0F0F0u;
