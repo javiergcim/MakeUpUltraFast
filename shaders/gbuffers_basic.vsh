@@ -24,6 +24,8 @@ varying vec4 tint_color;
 varying float frog_adjust;
 varying vec3 current_fog_color;  // Flat
 
+varying vec2 texcoord;
+
 #include "/lib/luma.glsl"
 #include "/lib/basic_utils.glsl"
 
@@ -32,6 +34,7 @@ varying vec3 current_fog_color;  // Flat
 #endif
 
 void main() {
+  texcoord = gl_MultiTexCoord0.xy;
   // Simplified light calculation for this basic elements
   vec2 illumination = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
   float visible_sky = illumination.y * 1.105 - .10495;

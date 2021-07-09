@@ -6,6 +6,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 #define NO_SHADOWS
+#define SET_FOG_COLOR
 
 #include "/lib/config.glsl"
 #include "/lib/color_utils.glsl"
@@ -88,4 +89,5 @@ void main() {
   }
 
   #include "/src/writebuffers.glsl"
+
 }

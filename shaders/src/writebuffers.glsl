@@ -10,6 +10,12 @@
   gl_FragData[0] = block_color;
   #endif
 #else
-  /* DRAWBUFFERS:0 */
-  gl_FragData[0] = block_color;
+  #ifdef SET_FOG_COLOR
+    /* DRAWBUFFERS:07 */
+    gl_FragData[0] = block_color;
+    gl_FragData[1] = block_color;
+  #else
+    /* DRAWBUFFERS:0 */
+    gl_FragData[0] = block_color;
+  #endif
 #endif
