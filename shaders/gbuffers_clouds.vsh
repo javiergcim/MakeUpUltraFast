@@ -14,7 +14,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 varying vec2 texcoord;
 varying vec4 tint_color;
 varying float frog_adjust;
-varying vec3 current_fog_color;  // Flat
 
 uniform int current_hour_floor;
 uniform int current_hour_ceil;

@@ -59,40 +59,6 @@ void main() {
   #endif
 
   #if defined VOL_LIGHT && defined SHADOW_CASTING
-    // Fog color calculation
-    // float fog_mix_level = mix(
-    //   fog_color_mix[current_hour_floor],
-    //   fog_color_mix[current_hour_ceil],
-    //   current_hour_fract
-    //   );
-    //
-    // vec3 hi_sky_color = day_blend(
-    //   HI_MIDDLE_COLOR,
-    //   HI_DAY_COLOR,
-    //   HI_NIGHT_COLOR
-    //   );
-    //
-    // hi_sky_color = mix(
-    //   hi_sky_color,
-    //   HI_SKY_RAIN_COLOR * luma(hi_sky_color),
-    //   rainStrength
-    // );
-    //
-    // vec3 low_sky_color = day_blend(
-    //   LOW_MIDDLE_COLOR,
-    //   LOW_DAY_COLOR,
-    //   LOW_NIGHT_COLOR
-    //   );
-    //
-    // low_sky_color = mix(
-    //   low_sky_color,
-    //   LOW_SKY_RAIN_COLOR * luma(low_sky_color),
-    //   rainStrength
-    // );
-    //
-    // vol_light_color =
-    //   mix(hi_sky_color, low_sky_color, fog_mix_level) * 1.25;
-
     float vol_attenuation;
     if (isEyeInWater == 0) {
       vol_attenuation = 1.0;

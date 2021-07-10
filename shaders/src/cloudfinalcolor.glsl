@@ -1,8 +1,6 @@
 block_color.rgb =
   mix(
     block_color.rgb,
-    current_fog_color,
+    texture2D(colortex7, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).rgb,
     clamp(pow(gl_FogFragCoord / far, 2.0), 0.0, 1.0) * frog_adjust * .8
   );
-
-// block_color.a *= (1.0 - (gl_FogFragCoord / far));

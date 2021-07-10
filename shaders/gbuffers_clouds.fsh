@@ -25,8 +25,6 @@ uniform float far;
 varying vec2 texcoord;
 varying vec4 tint_color;
 varying float frog_adjust;
-varying vec3 current_fog_color;  // Flat
-
 
 void main() {
   #if V_CLOUDS == 0
