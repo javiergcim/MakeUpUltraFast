@@ -70,7 +70,7 @@ void main() {
       #if AA_TYPE == 0
         float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
       #else
-        float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex5);
+        float dither = shifted_dither_grad_noise(gl_FragCoord.xy);
       #endif
     #else
       #if AA_TYPE == 0

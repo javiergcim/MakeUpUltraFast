@@ -31,6 +31,28 @@ float dither_grad_noise(vec2 p) {
   return fract(52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y));
 }
 
+float shifted_dither_grad_noise(vec2 p) {
+  return fract(0.8 * frame_mod + (52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y)));
+}
+
+float shifted_grid_noise(vec2 p) {
+  return fract(0.6 * frame_mod +
+    dot(
+      p - vec2(0.5, 0.5),
+      vec2(0.0625, .277777777777777777778) + 0.25
+      )
+    );
+}
+
+float grid_noise(vec2 p) {
+  return fract(
+    dot(
+      p - vec2(0.5, 0.5),
+      vec2(0.0625, .277777777777777777778) + 0.25
+      )
+    );
+}
+
 float dither17(vec2 pos) {
   return fract(dot(vec3(pos.xy, 0.0), vec3(2.0, 7.0, 23.0) / 17.0));
 }
