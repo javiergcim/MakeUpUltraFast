@@ -36,56 +36,56 @@ varying vec4 star_data;
 void main() {
   // Toma el color puro del bloque
   vec4 block_color = vec4(star_data.rgb, 1.0);
-  float dither;
+  #if AA_TYPE > 0
+    float dither = timed_hash12(gl_FragCoord.xy);
+  #else
+    float dither = hash12(gl_FragCoord.xy);
+  #endif
 
-  if (star_data.a < .9) {
-    #if AA_TYPE > 0
-      dither = timed_hash12(gl_FragCoord.xy);
-    #else
-      dither = hash12(gl_FragCoord.xy);
-    #endif
+  dither = (dither - .5) * 0.0625;
 
-    dither = (dither - .5) * 0.0625;
-
-    vec3 hi_sky_color = day_blend(
-      HI_MIDDLE_COLOR,
-      HI_DAY_COLOR,
-      HI_NIGHT_COLOR
-      );
-
-    hi_sky_color = mix(
-      hi_sky_color,
-      HI_SKY_RAIN_COLOR * luma(hi_sky_color),
-      rainStrength
+  vec3 hi_sky_color = day_blend(
+    HI_MIDDLE_COLOR,
+    HI_DAY_COLOR,
+    HI_NIGHT_COLOR
     );
 
-    vec3 low_sky_color = day_blend(
-      LOW_MIDDLE_COLOR,
-      LOW_DAY_COLOR,
-      LOW_NIGHT_COLOR
-      );
+  hi_sky_color = mix(
+    hi_sky_color,
+    HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+    rainStrength
+  );
 
-    low_sky_color = mix(
-      low_sky_color,
-      LOW_SKY_RAIN_COLOR * luma(low_sky_color),
-      rainStrength
+  vec3 low_sky_color = day_blend(
+    LOW_MIDDLE_COLOR,
+    LOW_DAY_COLOR,
+    LOW_NIGHT_COLOR
     );
 
-    vec4 fragpos = gbufferProjectionInverse *
-    (
-      vec4(
-        gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
-        gl_FragCoord.z,
-        1.0
-      ) * 2.0 - 1.0
-    );
-    vec3 nfragpos = normalize(fragpos.xyz);
-    float n_u = clamp(dot(nfragpos, up_vec) + dither, 0.0, 1.0);
-    block_color.rgb = mix(
-      low_sky_color,
-      hi_sky_color,
-      sqrt(n_u)
-    );
+  low_sky_color = mix(
+    low_sky_color,
+    LOW_SKY_RAIN_COLOR * luma(low_sky_color),
+    rainStrength
+  );
+
+  vec4 fragpos = gbufferProjectionInverse *
+  (
+    vec4(
+      gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
+      gl_FragCoord.z,
+      1.0
+    ) * 2.0 - 1.0
+  );
+  vec3 nfragpos = normalize(fragpos.xyz);
+  float n_u = clamp(dot(nfragpos, up_vec) + dither, 0.0, 1.0);
+  vec3 background_color = mix(
+    low_sky_color,
+    hi_sky_color,
+    sqrt(n_u)
+  );
+
+  if (star_data.a < 0.9) {
+    block_color.rgb = background_color;
   }
 
   #include "/src/writebuffers.glsl"
