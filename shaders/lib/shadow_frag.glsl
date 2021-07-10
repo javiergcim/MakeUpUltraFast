@@ -10,18 +10,10 @@ float get_shadow(vec3 the_shadow_pos) {
   #if SHADOW_TYPE == 0  // Pixelated
      shadow_sample = shadow2D(shadowtex1, vec3(the_shadow_pos.xy, the_shadow_pos.z - 0.001)).r;
   #elif SHADOW_TYPE == 1  // Soft
-    #if MC_VERSION >= 11300
-      #if AA_TYPE > 0
-        float dither = shifted_dither_grad_noise(gl_FragCoord.xy);
-      #else
-        float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
-      #endif
+    #if AA_TYPE > 0
+      float dither = shifted_dither_grad_noise(gl_FragCoord.xy);
     #else
-      #if AA_TYPE > 0
-        float dither = timed_hash12(gl_FragCoord.xy);
-      #else
-        float dither = dither_grad_noise(gl_FragCoord.xy);
-      #endif
+      float dither = dither_grad_noise(gl_FragCoord.xy);
     #endif
 
     #if SHADOW_RES == 0 || SHADOW_RES == 1

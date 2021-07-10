@@ -12,8 +12,13 @@ vec3 motion_blur(vec4 color, vec2 blur_velocity, sampler2D image) {
     blur_velocity =
       blur_velocity / (1.0 + length(blur_velocity)) * MOTION_BLUR_STRENGTH;
 
-    vec2 coord =
-      texcoord - blur_velocity * (1.5 + dither_grad_noise(gl_FragCoord.xy));
+    #if AA_TYPE > 0
+      vec2 coord =
+        texcoord - blur_velocity * (1.5 + shifted_dither_grad_noise(gl_FragCoord.xy));
+    #else
+      vec2 coord =
+        texcoord - blur_velocity * (1.5 + dither_grad_noise(gl_FragCoord.xy));
+    #endif
 
     float weight = 0.0;
     float mask;

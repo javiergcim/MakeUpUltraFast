@@ -136,18 +136,10 @@ void main() {
   #if SSR_TYPE == 0
     float dither = 1.0;
   #else
-    #if MC_VERSION >= 11300
-      #if AA_TYPE == 0
-        float dither = 2.0 + (texture_noise_64(gl_FragCoord.xy, colortex5)) * 0.2;
-      #else
-        float dither = 2.0 + (shifted_dither_grad_noise(gl_FragCoord.xy)) * 0.2;
-      #endif
+    #if AA_TYPE > 0
+      float dither = 2.0 + (shifted_dither_grad_noise(gl_FragCoord.xy)) * 0.2;
     #else
-      #if AA_TYPE == 0
-        float dither = 2.0 + (dither_grad_noise(gl_FragCoord.xy)) * 0.2;
-      #else
-        float dither = 2.0 + (timed_hash12(gl_FragCoord.xy)) * 0.2;
-      #endif
+      float dither = 2.0 + (dither_grad_noise(gl_FragCoord.xy)) * 0.2;
     #endif
   #endif
 

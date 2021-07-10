@@ -66,18 +66,10 @@ void main() {
   float linear_d = ld(d);
 
   #if AO == 1 || V_CLOUDS != 0
-    #if MC_VERSION >= 11300
-      #if AA_TYPE == 0
-        float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
-      #else
-        float dither = shifted_dither_grad_noise(gl_FragCoord.xy);
-      #endif
+    #if AA_TYPE > 0
+      float dither = shifted_grid_noise(gl_FragCoord.xy);
     #else
-      #if AA_TYPE == 0
-        float dither = dither_grad_noise(gl_FragCoord.xy);
-      #else
-        float dither = timed_hash12(gl_FragCoord.xy);
-      #endif
+      float dither = dither_grad_noise(gl_FragCoord.xy);
     #endif
   #endif
 
