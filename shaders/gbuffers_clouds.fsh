@@ -14,7 +14,12 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // 'Global' constants from system
 uniform sampler2D tex;
 uniform float far;
-uniform sampler2D colortex7;
+
+#if V_CLOUDS == 0
+  uniform float pixel_size_x;
+  uniform float pixel_size_y;
+  uniform sampler2D colortex7;
+#endif
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;

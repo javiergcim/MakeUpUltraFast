@@ -36,6 +36,7 @@ varying vec4 star_data;
 void main() {
   // Toma el color puro del bloque
   vec4 block_color = vec4(star_data.rgb, 1.0);
+  // vec4 block_color = vec4(0.0, 0.0, 0.0, 1.0);
   #if AA_TYPE > 0
     float dither = timed_hash12(gl_FragCoord.xy);
   #else

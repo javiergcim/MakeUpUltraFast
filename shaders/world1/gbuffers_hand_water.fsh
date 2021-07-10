@@ -13,9 +13,11 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // 'Global' constants from system
 uniform sampler2D tex;
 uniform int isEyeInWater;
-
 uniform float nightVision;
 uniform float rainStrength;
+uniform float pixel_size_x;
+uniform float pixel_size_y;
+uniform sampler2D colortex7;
 
 #ifdef SHADOW_CASTING
   uniform sampler2D colortex5;

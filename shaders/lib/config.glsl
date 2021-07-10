@@ -59,7 +59,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define AVOID_DARK 1 // [0 1] Avoid absolute darkness in caves at daytime.
 #define AVOID_DARK_LEVEL 0.06 // [0.00 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08]  Minimal omni light intensity in caves (percentaje)
 #define NIGHT_BRIGHT 1.1 // [1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0] Adjusts the brightness of the night light.
-#define V_CLOUDS 2 // [0 1 2] Volumetric static: The clouds move, but they keep their shape. Volumetric dynamic: Clouds change shape over time, a different cloud landscape every time (medium performance hit). Vanilla: Original vanilla clouds.
+#define V_CLOUDS 1 // [0 1 2] Volumetric static: The clouds move, but they keep their shape. Volumetric dynamic: Clouds change shape over time, a different cloud landscape every time (medium performance hit). Vanilla: Original vanilla clouds.
 #define BLACK_ENTITY_FIX 0 // [0 1] Removes black entity bug (activate ONLY if you have problems with black entities)
 #define BLOOM // [0 1] Set bloom
 #define BLOOM_SAMPLES 5.0 // [5.0 6.0 7.0 8.0 9.0 10.0] Bloom sample pairs

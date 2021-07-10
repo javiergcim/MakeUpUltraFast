@@ -25,13 +25,12 @@ uniform sampler2D depthtex1;
 uniform int frame_mod;
 uniform float frameTimeCounter;
 uniform int isEyeInWater;
-
 uniform vec3 sunPosition;
 uniform vec3 moonPosition;
 uniform int worldTime;
-
 uniform float nightVision;
 uniform float rainStrength;
+uniform sampler2D colortex7;
 
 #ifdef SHADOW_CASTING
   uniform sampler2DShadow shadowtex1;

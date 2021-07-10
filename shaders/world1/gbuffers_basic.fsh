@@ -17,6 +17,9 @@ uniform int current_hour_ceil;
 uniform float current_hour_fract;
 uniform float rainStrength;
 uniform int isEyeInWater;
+uniform float pixel_size_x;
+uniform float pixel_size_y;
+uniform sampler2D colortex7;
 
 // Varyings (per thread shared variables)
 varying vec4 tint_color;

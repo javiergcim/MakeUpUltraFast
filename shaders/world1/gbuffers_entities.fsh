@@ -16,6 +16,9 @@ uniform int isEyeInWater;
 uniform float nightVision;
 uniform float rainStrength;
 uniform vec4 entityColor;
+uniform float pixel_size_x;
+uniform float pixel_size_y;
+uniform sampler2D colortex7;
 
 #ifdef SHADOW_CASTING
   uniform sampler2D colortex5;

@@ -104,6 +104,6 @@ void main() {
       LOW_MIDDLE_COLOR,
       LOW_DAY_COLOR,
       LOW_NIGHT_COLOR
-      ) * 1.1 * vol_attenuation;
+      ) * vol_attenuation;
   #endif
 }

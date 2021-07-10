@@ -138,36 +138,6 @@ const float ambient_exposure[25] =
   1.0 // 6
   );
 
-// How many sky_color vs. fog_color is used for fog.
-const float fog_color_mix[25] =
-  float[25](
-  .9, // 6
-  .7, // 7
-  .5, // 8
-  .5, // 9
-  .5, // 10
-  .5, // 11
-  .5, // 12
-  .5, // 13
-  .5, // 14
-  .5, // 15
-  .5, // 16
-  .7, // 17
-  .9, // 18
-  .9, // 19
-  .9, // 20
-  .9, // 21
-  .9, // 22
-  .9, // 23
-  .9, // 24
-  .9, // 1
-  .9, // 2
-  .9, // 3
-  .9, // 4
-  .9, // 5
-  .9 // 6
-  );
-
 // Fog parameter per hour
 #if defined VOL_LIGHT && defined SHADOW_CASTING
     #define FOG_DENSITY 3.0
