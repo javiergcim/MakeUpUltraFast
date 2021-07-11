@@ -18,7 +18,7 @@ colortex1 - Antialiasing auxiliar
 colortex2 - Bloom auxiliar
 colortex3 - TAA Averages history
 gaux1 - Sreen-Space-Reflection texture
-colortex5 - Blue noise texture
+colortex5 - Blue noise texture (Not declared now)
 colortex6 - Perlin noise texture
 colortex7 - Fog auxiliar
 

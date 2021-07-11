@@ -39,8 +39,6 @@ uniform sampler2D colortex7;
   uniform sampler2DShadow shadowtex1;
 #endif
 
-uniform sampler2D colortex5;
-
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 varying vec2 lmcoord;
@@ -140,54 +138,70 @@ void main() {
   #endif
 
   if (block_type > 2.5) {  // Water
-    #if MC_VERSION >= 11300
-      #if WATER_TEXTURE == 1
-        block_color.rgb = mix(
-          vec3(1.0),
-          tint_color.rgb,
-          clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
-        ) * texture2D(tex, texcoord).rgb;
+    #ifdef VANILLA_WATER
+      #ifdef SHADOW_CASTING
+        float shadow_c = get_shadow(shadow_pos);
+        shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
       #else
-        block_color.rgb = mix(
-          vec3(1.0),
-          tint_color.rgb,
-          clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
-        );
+        float shadow_c = abs((light_mix * 2.0) - 1.0);
       #endif
+
+      vec3 real_light =
+        omni_light +
+        (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
+        candle_color;
+
+      block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
     #else
-      #if WATER_TEXTURE == 1
-        block_color.rgb = mix(
-          vec3(1.0),
-          vec3(0.18, 0.33, 0.81),
-          clamp(fresnel * .5  + WATER_TINT, 0.0, 1.0)
-        ) * texture2D(tex, texcoord).a;
+      #if MC_VERSION >= 11300
+        #if WATER_TEXTURE == 1
+          block_color.rgb = mix(
+            vec3(1.0),
+            tint_color.rgb,
+            clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
+          ) * texture2D(tex, texcoord).rgb;
+        #else
+          block_color.rgb = mix(
+            vec3(1.0),
+            tint_color.rgb,
+            clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
+          );
+        #endif
       #else
-        block_color.rgb = mix(
-          vec3(1.0),
-          vec3(0.18, 0.33, 0.81),
-          clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
-        );
+        #if WATER_TEXTURE == 1
+          block_color.rgb = mix(
+            vec3(1.0),
+            vec3(0.18, 0.33, 0.81),
+            clamp(fresnel * .5  + WATER_TINT, 0.0, 1.0)
+          ) * texture2D(tex, texcoord).a;
+        #else
+          block_color.rgb = mix(
+            vec3(1.0),
+            vec3(0.18, 0.33, 0.81),
+            clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
+          );
+        #endif
       #endif
-    #endif
 
-    block_color = vec4(
-      refraction(
+      block_color = vec4(
+        refraction(
+          fragposition,
+          block_color.rgb,
+          water_normal_base
+        ),
+        1.0
+      );
+
+      block_color.rgb = water_shader(
         fragposition,
+        surface_normal,
         block_color.rgb,
-        water_normal_base
-      ),
-      1.0
-    );
-
-    block_color.rgb = water_shader(
-      fragposition,
-      surface_normal,
-      block_color.rgb,
-      sky_color_reflect,
-      reflect_water_vec,
-      fresnel,
-      dither
-    );
+        sky_color_reflect,
+        reflect_water_vec,
+        fresnel,
+        dither
+      );
+    #endif
 
   } else {  // Otros translúcidos
 

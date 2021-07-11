@@ -11,7 +11,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/color_utils_end.glsl"
 
 uniform sampler2D colortex1;
-uniform sampler2D colortex5;
 uniform sampler2D colortex2;
 uniform int frame_mod;
 uniform float inv_aspect_ratio;

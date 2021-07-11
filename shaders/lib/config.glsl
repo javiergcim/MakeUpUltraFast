@@ -44,7 +44,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define DOF_STRENGTH 0.035  // [0.03 0.035 0.040 0.045 0.05 0.055 0.06 0.065]  Depth of field strenght.
 #define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance impact).
 #define AOSTEPS 5 // [5 6 7 8 9 10 11] How many samples are taken. High performance cost.
-#define AO_STRENGHT 0.5 // [0.2 0.3 0.4 0.5 0.6] Ambient oclusion strenght
+#define AO_STRENGHT 0.55 // [0.20 0.25 0.30 0.35 0.40 0.44 0.50 0.55 0.60 0.66 0.70 0.75 0.80 0.85] Ambient oclusion strenght
 #define AA_TYPE 1 // [0 1 2] Fast TAA - Enable antialiasing (Recommended). Denoise only - Supersampling is only used to eliminate noise. No - Disable antialiasing.
 //#define MOTION_BLUR // Turn on motion blurs
 #define MOTION_BLUR_STRENGTH 0.16 // [0.02 0.04 0.06 0.08 0.10 0.12 0.14 0.16 0.18 0.20 0.22] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
@@ -52,7 +52,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define SHADOW_CASTING // Set shadows
 #define SHADOW_RES 2 // [0 1 2 3 4 5 6 7] Set shadow quality
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
-#define SHADOW_BLUR 2.0 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0]  Shadow blur intensity
+#define SHADOW_BLUR 1.9 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0]  Shadow blur intensity
 #define WATER_TINT 0.7 // [0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0]  Water tint percentage
 #define COLOR_SCHEME 4 // [0 1 2 3 4 5] Legacy: Exotic colors at sunset. Cocoa: A warm preset of vivid colors in the day. Captain: A cold preset of stylish colors. Shoka: Warm theme, with high contrast between light and shadow, inspired by the color theme of a famous shader. Ethereal: Current default theme.
 #define WATER_TEXTURE 0 // [0 1] Enable or disable resource pack water texture.
@@ -65,7 +65,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define BLOOM_SAMPLES 5.0 // [5.0 6.0 7.0 8.0 9.0 10.0] Bloom sample pairs
 #define CHROMA_ABER 0 // [0 1] Enable chroma aberration
 #define CHROMA_ABER_STRENGHT 0.05 // [0.04 0.05 0.06] Chroma aberration strenght
-#define VOL_LIGHT // Turn on volumetric light (Shadows must be anabled)
+#define VOL_LIGHT // This option activates volumetric light (shadows must be enabled to work)
+// #define VANILLA_WATER // Establishes the appearance of water as vanilla, completely cancels reflection, refraction and other options for water.
 
 // Reflection parameters
 #define RAY_STEP 0.25
@@ -155,7 +156,7 @@ const bool generateShadowColorMipmap = false;
 #if AO == 0
   const float ambientOcclusionLevel = 1.0;
 #else
-  const float ambientOcclusionLevel = 0.5;
+  const float ambientOcclusionLevel = 0.25;
 #endif
 
 const float eyeBrightnessHalflife = 6.0;

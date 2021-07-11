@@ -1,6 +1,6 @@
 #version 120
 /* MakeUp - composite.fsh
-Render: DoF
+Render: Bloom
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
@@ -14,24 +14,6 @@ uniform sampler2D colortex1;
 uniform float far;
 uniform float near;
 uniform float blindness;
-uniform int isEyeInWater;
-uniform float rainStrength;
-
-#ifdef DOF
-  uniform float centerDepthSmooth;
-  uniform float inv_aspect_ratio;
-  uniform float pixel_size_x;
-  uniform float pixel_size_y;
-  uniform float viewWidth;
-  uniform float viewHeight;
-  uniform int frame_mod;
-  uniform sampler2D colortex5;
-  uniform float fov_y_inv;
-#endif
-
-#ifdef DOF
-  const bool colortex1MipmapEnabled = true;
-#endif
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
@@ -40,37 +22,16 @@ varying vec2 texcoord;
   varying float exposure;  // Flat
 #endif
 
-#include "/lib/depth.glsl"
-#include "/lib/luma.glsl"
-
-#ifdef DOF
-  #include "/lib/dither.glsl"
-  #include "/lib/blur.glsl"
+#ifdef BLOOM
+  #include "/lib/luma.glsl"
 #endif
+
+#include "/lib/depth.glsl"
 
 void main() {
   vec4 block_color = texture2D(colortex1, texcoord);
   float d = block_color.a;
   float linear_d = ld(d);
-
-
-
-  #ifdef DOF
-    #if AA_TYPE > 0
-      float dither = shifted_dither_grad_noise(gl_FragCoord.xy);
-    #else
-      float dither = dither_grad_noise(gl_FragCoord.xy);
-    #endif
-
-    block_color.rgb = noised_blur(
-      block_color,
-      colortex1,
-      texcoord,
-      DOF_STRENGTH,
-      dither
-      );
-
-  #endif
 
   if (blindness > .01) {
     block_color.rgb =

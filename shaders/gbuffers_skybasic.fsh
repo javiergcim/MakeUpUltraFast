@@ -12,7 +12,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/color_utils.glsl"
 
 // 'Global' constants from system
-uniform sampler2D colortex5;
 uniform int isEyeInWater;
 uniform int current_hour_floor;
 uniform int current_hour_ceil;

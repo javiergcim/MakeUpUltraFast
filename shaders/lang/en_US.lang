@@ -1,28 +1,28 @@
 #Profiles
 ############################
-profile.VeryLow_a=Very Low A
-profile.VeryLow_b=Very Low B
-profile.VeryLow_c=Very Low C
-profile.Low_a=Low A
-profile.Low_b=Low B
-profile.Low_c=Low C
-profile.Medium_a=Medium A
-profile.Medium_b=Medium B
-profile.Medium_c=Medium C
-profile.High_a=High A
-profile.High_b=High B
-profile.High_c=High C
-profile.VeryHigh_a=Very High A
-profile.VeryHigh_b=Very High B
-profile.VeryHigh_c=Very High C
-profile.Ultra_a=Ultra A
-profile.Ultra_b=Ultra B
-profile.Ultra_c=Ultra C
-profile.Extreme_a=Extreme A
-profile.Extreme_b =Extreme B
-profile.Extreme_c=Extreme C
+profile.VeryLow_a=Very Low *
+profile.VeryLow_b=Very Low **
+profile.VeryLow_c=Very Low ***
+profile.Low_a=Low *
+profile.Low_b=Low **
+profile.Low_c=Low ***
+profile.Medium_a=Medium *
+profile.Medium_b=Medium **
+profile.Medium_c=Medium ***
+profile.High_a=High *
+profile.High_b=High **
+profile.High_c=High ***
+profile.VeryHigh_a=Very High *
+profile.VeryHigh_b=Very High **
+profile.VeryHigh_c=Very High ***
+profile.Ultra_a=Ultra *
+profile.Ultra_b=Ultra **
+profile.Ultra_c=Ultra ***
+profile.Extreme_a=Extreme *
+profile.Extreme_b =Extreme **
+profile.Extreme_c=Extreme ***
 
-profile.comment=Very Low - No optional effects. Low - Adds simple reflection and waving plants. Medium - Adds TAA, clouds, refraction. High - Adds shadows. Very High - Adds ambient occlusion, bloom. Ultra - Adds depth of field. Extreme - All effects enabled (except motion blur)
+profile.comment=Very Low, Low - Suitable for low end. Medium - Suitable for good integrated GPUs. High - Suitable for low-end dedicated GPUs. Very High - Suitable for low-mid-range dedicated GPUs. Ultra, Extreme - Suitable for mid- or high-end dedicated GPUs
 
 #About
 #############################
@@ -79,6 +79,8 @@ value.AA_TYPE.2=Denoise
 option.MOTION_BLUR=Motion blur
 
 option.MOTION_BLUR_STRENGTH=Motion blur strenght
+
+option.VANILLA_WATER=Vanilla water
 
 option.WATER_TEXTURE=Water texture
 value.WATER_TEXTURE.0=No

@@ -43,7 +43,6 @@ uniform float pixel_size_y;
   uniform mat4 gbufferProjection;
   uniform int frame_mod;
   uniform float frameTimeCounter;
-  uniform sampler2D colortex5;
 #endif
 
 // Varyings (per thread shared variables)

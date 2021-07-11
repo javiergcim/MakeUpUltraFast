@@ -20,7 +20,6 @@ uniform float pixel_size_y;
 uniform sampler2D colortex7;
 
 #ifdef SHADOW_CASTING
-  uniform sampler2D colortex5;
   uniform int frame_mod;
   uniform sampler2DShadow shadowtex1;
 #endif

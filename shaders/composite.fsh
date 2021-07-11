@@ -26,7 +26,6 @@ uniform sampler2D depthtex0;
   uniform mat4 shadowProjection;
   uniform vec3 shadowLightPosition;
   uniform sampler2DShadow shadowtex1;
-  uniform sampler2D colortex5;
   uniform int frame_mod;
   uniform float light_mix;
   uniform float vol_mixer;

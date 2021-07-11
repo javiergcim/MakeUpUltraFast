@@ -21,12 +21,6 @@ float timed_hash12(vec2 p) {
   return fract(0.6 * frame_mod + ((p3.x + p3.y) * p3.z));
 }
 
-// float timed_hash12(vec2 p) {
-//   vec3 p3 = fract(vec3(p.xyx + frameTimeCounter) * .1031);
-//   p3 += dot(p3, p3.yzx + 33.33);
-//   return fract((p3.x + p3.y) * p3.z);
-// }
-
 float dither_grad_noise(vec2 p) {
   return fract(52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y));
 }
@@ -53,14 +47,6 @@ float shifted_grid_noise(vec2 p) {
     );
 }
 
-float dither17(vec2 pos) {
-  return fract(dot(vec3(pos.xy, 0.0), vec3(2.0, 7.0, 23.0) / 17.0));
-}
-
-float shifted_dither17(vec2 pos) {
-  return fract(dot(vec3(pos.xy, frame_mod), vec3(2.0, 7.0, 23.0) / 17.0));
-}
-
 float texture_noise_64(vec2 p, sampler2D noise) {
   return texture2D(noise, p * 0.015625).r;
 }
@@ -69,11 +55,6 @@ float shifted_texture_noise_64(vec2 p, sampler2D noise) {
   float dither = texture2D(noise, p * 0.015625).r;
   return fract(0.3 * frame_mod + dither);
 }
-
-// float shifted_texture_noise_64(vec2 p, sampler2D noise) {
-//   float dither = texture2D(noise, p * 0.015625).r;
-//   return fract(frameTimeCounter * 13.0 + dither);
-// }
 
 // float timed_int_hash12(uvec2 x)
 // {

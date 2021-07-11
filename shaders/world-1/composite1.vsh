@@ -1,6 +1,6 @@
 #version 120
 /* MakeUp - final.fsh
-Render: Bloom
+Render: Bloom y DoF
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */

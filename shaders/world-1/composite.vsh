@@ -1,6 +1,6 @@
 #version 120
 /* MakeUp - composite.vsh
-Render: DoF
+Render: Bloom
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
