@@ -7,6 +7,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #define NO_SHADOWS
 
+#include "/lib/config.glsl"
 #include "/lib/color_utils.glsl"
 
 // 'Global' constants from system
@@ -33,7 +34,11 @@ void main() {
     current_hour_fract
     );
 
-  sky_luma_correction = 1.3 / ((sky_luma_correction * -2.5) + 3.5);
+  #ifdef VOL_LIGHT
+    sky_luma_correction = 4.0 / ((sky_luma_correction * -2.5) + 3.5);
+  #else
+    sky_luma_correction = 1.5 / ((sky_luma_correction * -2.5) + 3.5);
+  #endif
 
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
   #if AA_TYPE > 0

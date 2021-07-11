@@ -21,7 +21,6 @@
       mix(fog_density_coeff, .5, rainStrength)
     );
   #else
-    current_fog_color = HI_DAY_COLOR;
     frog_adjust = pow(
       clamp(gl_FogFragCoord / far, 0.0, 1.0),
       .5

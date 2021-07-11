@@ -29,8 +29,16 @@ varying vec2 texcoord;
 void main() {
   vec4 block_color = texture2D(colortex1, texcoord);
 
+  #if defined BLOOM || defined DOF
+    #if AA_TYPE > 0
+      float dither = shifted_dither_grad_noise(gl_FragCoord.xy);
+    #else
+      float dither = dither_grad_noise(gl_FragCoord.xy);
+    #endif
+  #endif
+
   #ifdef BLOOM
-    vec3 bloom = mipmap_bloom(colortex2, texcoord);
+    vec3 bloom = mipmap_bloom(colortex2, texcoord, dither);
     block_color.rgb += bloom;
   #endif
 
@@ -38,7 +46,6 @@ void main() {
     #ifdef DOF
       /* DRAWBUFFERS:01 */
       gl_FragData[0] = block_color;
-      // gl_FragData[0] = vec4(bloom * 10.0, block_color.a);
       gl_FragData[1] = block_color;
     #else
       /* DRAWBUFFERS:1 */

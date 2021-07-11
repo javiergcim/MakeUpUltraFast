@@ -24,7 +24,6 @@ uniform sampler2D colortex7;
 // Varyings (per thread shared variables)
 varying vec4 tint_color;
 varying float frog_adjust;
-varying vec3 current_fog_color;  // Flat
 
 void main() {
   vec4 block_color = tint_color;

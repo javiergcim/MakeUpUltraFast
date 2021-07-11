@@ -36,7 +36,6 @@ uniform mat4 gbufferModelView;
 varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
-varying vec3 current_fog_color;  // Flat
 varying float frog_adjust;
 
 varying vec3 direct_light_color;  // Flat

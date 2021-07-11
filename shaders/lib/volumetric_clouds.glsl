@@ -26,8 +26,10 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither) {
   float cloud_value_aux;
   float dist_aux_coeff_blur;
 
-  block_color.rgb *=
-    clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
+  #ifndef VOL_LIGHT
+    block_color.rgb *=
+      clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
+  #endif
 
   if (view_vector.y > .055) {  // Vista sobre el horizonte
     #if MC_VERSION >= 11300

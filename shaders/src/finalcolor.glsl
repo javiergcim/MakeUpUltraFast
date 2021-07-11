@@ -5,6 +5,7 @@
           block_color.rgb,
           texture2D(colortex7, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).rgb,
           frog_adjust
+          // 1.0
         );
     }
   #endif

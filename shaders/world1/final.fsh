@@ -20,7 +20,7 @@ colortex3 - TAA Averages history
 gaux1 - Sreen-Space-Reflection texture
 colortex5 - Blue noise texture
 colortex6 - Perlin noise texture
-colortex7 - Not used
+colortex7 - Fog auxiliar
 
 const int colortex0Format = R11F_G11F_B10F;
 const int colortex1Format = RGBA16F;
@@ -47,7 +47,7 @@ const int colortex3Format = R11F_G11F_B10F;
 const int gaux1Format = RGB8;
 const int colortex5Format = R8;
 const int colortex6Format = R8;
-const int colortex7Format = R8;
+const int colortex7Format = RGB8;
 */
 
 // 'Global' constants from system

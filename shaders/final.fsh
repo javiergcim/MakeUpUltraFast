@@ -19,7 +19,7 @@ colortex3 - TAA Averages history
 gaux1 - Screen-Space-Reflection texture
 colortex5 - Blue noise texture
 colortex6 - Perlin noise texture
-colortex7 - Not used
+colortex7 - Fog auxiliar
 
 const int colortex0Format = R11F_G11F_B10F;
 const int colortex1Format = RGBA16F;

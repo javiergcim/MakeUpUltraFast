@@ -21,7 +21,6 @@ uniform float rainStrength;
 varying vec2 texcoord;
 varying vec4 tint_color;
 varying float frog_adjust;
-varying vec3 current_fog_color;  // Flat
 
 #if AA_TYPE > 0
   #include "/src/taa_offset.glsl"

@@ -23,7 +23,6 @@ uniform sampler2D colortex7;
 varying vec2 texcoord;
 varying vec4 tint_color;
 varying float frog_adjust;
-varying vec3 current_fog_color;  // Flat
 
 void main() {
   vec4 block_color = texture2D(tex, texcoord) * tint_color;

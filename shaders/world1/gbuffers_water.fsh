@@ -9,6 +9,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define WATER_F
 
 #include "/lib/config.glsl"
+#include "/lib/color_utils_end.glsl"
 
 // 'Global' constants from system
 uniform sampler2D tex;
@@ -42,7 +43,6 @@ uniform sampler2D colortex5;
 varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
-varying vec3 current_fog_color;  // Flat
 varying float frog_adjust;
 varying vec3 water_normal;  // Flat
 varying float block_type;  // Flat
@@ -140,7 +140,7 @@ void main() {
       fragposition,
       surface_normal,
       block_color.rgb,
-      current_fog_color,
+      HI_DAY_COLOR,
       reflect_water_vec,
       fresnel * fresnel,
       dither

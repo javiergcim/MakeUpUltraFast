@@ -36,7 +36,6 @@ uniform vec3 cameraPosition;
 varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
-varying vec3 current_fog_color;  // Flat
 varying float frog_adjust;
 varying vec3 water_normal;  // Flat
 varying float block_type;  // Flat
