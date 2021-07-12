@@ -32,14 +32,14 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past, vec2 velocity) {
     vec3 past_sample = clamp(previous, nmin, nmax);
 
     // Reducción de ghosting por velocidad
-    float blend = exp(-length(velocity * vec2(viewWidth, viewHeight))) * 0.35 + 0.6;
+    float blend = exp(-length(velocity * vec2(viewWidth, viewHeight))) * 0.35 + 0.59;
 
     // Reducción de ghosting por luma
     // float luma_p = luma(previous);
-    // float clamped = (distance(previous, past_sample) / luma_p);
+    // float clamped = distance(previous, current_color) / 1.7320508075688772;
 
     // return mix(current_color, past_sample, clamp(blend - clamped, 0.0, 1.0));
-    return mix(current_color, past_sample, clamp(blend, 0.0, 1.0));
+    return mix(current_color, past_sample, blend);
   }
 }
 
@@ -71,13 +71,13 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past, vec2 velocity) {
     vec4 past_sample = clamp(previous, nmin, nmax);
 
     // Reducción de ghosting por velocidad
-    float blend = exp(-length(velocity * vec2(viewWidth, viewHeight))) * 0.3 + 0.6;
+    float blend = exp(-length(velocity * vec2(viewWidth, viewHeight))) * 0.35 + 0.59;
 
     // Reducción de ghosting por luma
     // float luma_p = luma(previous.rgb);
     // float clamped = distance(previous, past_sample) / luma_p;
 
     // return mix(current_color, past_sample, clamp(blend - clamped, 0.0, 1.0));
-    return mix(current_color, past_sample, clamp(blend, 0.0, 1.0));
+    return mix(current_color, past_sample, blend);
   }
 }

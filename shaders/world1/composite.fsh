@@ -89,11 +89,11 @@ void main() {
         normalize(vec3(0.0, 0.89442719, 0.4472136))
       );
 
-    vol_intensity = clamp(vol_intensity, 0.0, 1.0);
+    vol_intensity =
+      (pow(clamp((vol_intensity + .25) * 0.8, 0.0, 1.0), 3.0) * 0.5);
 
     block_color.rgb +=
-      (vol_light_color * vol_light * vol_intensity * (1.0 - rainStrength));
-    // block_color.rgb = vec3(1.0);
+      (vol_light_color * vol_light * vol_intensity * 2.0);
   #endif
 
   #ifdef BLOOM

@@ -89,8 +89,11 @@ void main() {
         normalize((gbufferModelViewInverse * vec4(shadowLightPosition, 0.0)).xyz)
       );
 
+    // vol_intensity =
+    //   ((pow(clamp((vol_intensity + .25) * 0.8, 0.0, 1.0), vol_mixer) * 0.5)) * abs(light_mix * 2.0 - 1.0);
+
     vol_intensity =
-      ((pow(clamp((vol_intensity + .25) * 0.8, 0.0, 1.0), vol_mixer) * 0.5)) * abs(light_mix * 2.0 - 1.0);
+      ((pow(clamp((vol_intensity + .5) * 0.666667, 0.0, 1.0), vol_mixer) * 0.5)) * abs(light_mix * 2.0 - 1.0);
 
     block_color.rgb =
       mix(block_color.rgb, vol_light_color, vol_light * vol_intensity * (1.0 - rainStrength));

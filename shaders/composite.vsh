@@ -67,9 +67,9 @@ void main() {
     }
 
     vol_light_color = day_blend(
-      LOW_MIDDLE_COLOR,
-      LOW_DAY_COLOR,
-      LOW_NIGHT_COLOR
-      ) * vol_attenuation;
+      AMBIENT_MIDDLE_COLOR,
+      AMBIENT_DAY_COLOR,
+      AMBIENT_NIGHT_COLOR
+      ) * 1.2 * vol_attenuation;
   #endif
 }
