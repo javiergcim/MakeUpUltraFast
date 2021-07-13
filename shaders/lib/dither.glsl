@@ -29,6 +29,21 @@ float shifted_dither_grad_noise(vec2 p) {
   return fract(0.8 * frame_mod + (52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y)));
 }
 
+float r_dither(vec2 co)
+{
+	const vec2 magic = vec2(0.75487766624669276, 0.569840290998);
+    return fract(dot(co, magic));
+}
+
+float valve( vec2 vScreenPos )
+{
+    vec3 vDither = vec3( dot( vec2( 171.0, 231.0 ), vScreenPos.xy ) );
+    // vDither.rgb = fract( vDither.rgb / vec3( 103.0, 71.0, 97.0 ) );
+    vDither.rgb = fract( vDither.rgb / vec3( 101.8, 71.1, 97.0 ) );
+
+    return (vDither.rgb / 1.0).g; //note: looks better without 0.375...
+}
+
 float grid_noise(vec2 p) {
   return fract(
     dot(
@@ -139,11 +154,11 @@ float shifted_texture_noise_64(vec2 p, sampler2D noise) {
 //   return fract(dot(a, vec2(.5, a.y * .75)));
 // }
 //
-// #define bayer4(a)   (bayer2(.5 * (a)) * .25+ bayer2(a))
-// #define bayer8(a)   (bayer4(.5 * (a)) * .25+ bayer2(a))
-// #define bayer16(a)  (bayer8(.5 * (a)) * .25+ bayer2(a))
-// #define bayer32(a)  (bayer16(.5 * (a)) * .25+ bayer2(a))
-// #define bayer64(a)  (bayer32(.5 * (a)) * .25+ bayer2(a))
+// #define bayer4(a)   (bayer2(.5 * (a)) * .25 + bayer2(a))
+// #define bayer8(a)   (bayer4(.5 * (a)) * .25 + bayer2(a))
+// #define bayer16(a)  (bayer8(.5 * (a)) * .25 + bayer2(a))
+// #define bayer32(a)  (bayer16(.5 * (a)) * .25 + bayer2(a))
+// #define bayer64(a)  (bayer32(.5 * (a)) * .25 + bayer2(a))
 // #define bayer128(a) (bayer64(.5 * (a)) * 0.25 + bayer2(a))
 // #define bayer256(a) (bayer128(.5 * (a)) * 0.25 + bayer2(a))
 

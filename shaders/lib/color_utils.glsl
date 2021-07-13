@@ -75,7 +75,7 @@ uniform float night_mixer;
   #define LOW_NIGHT_COLOR vec3(0.0213, 0.0306, 0.0387) * NIGHT_BRIGHT
 #elif COLOR_SCHEME == 5  // Natural
   #define OMNI_TINT 0.5
-  #define AMBIENT_MIDDLE_COLOR vec3(0.87, 0.65, 0.37)
+  #define AMBIENT_MIDDLE_COLOR vec3(0.987528, 0.591192, 0.301392)
   #define AMBIENT_DAY_COLOR vec3(0.84, 0.84, 0.83)
   #define AMBIENT_NIGHT_COLOR vec3(0.0467353, 0.0467353, 0.0587353) * NIGHT_BRIGHT
 
