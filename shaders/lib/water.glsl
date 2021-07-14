@@ -113,7 +113,7 @@ vec3 normal_waves(vec3 pos) {
 
   vec3 final_wave = vec3(partial_wave, 1.0 - (partial_wave.x * partial_wave.x + partial_wave.y * partial_wave.y));
 
-  final_wave.b *= 3.25;
+  final_wave.b *= 3.5;
 
 
 
