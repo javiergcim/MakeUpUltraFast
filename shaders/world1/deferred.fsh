@@ -26,7 +26,7 @@ uniform float blindness;
 #endif
 
 #if V_CLOUDS != 0
-  uniform sampler2D colortex6;
+  uniform sampler2D noisetex;
   uniform vec3 cameraPosition;
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;

@@ -29,7 +29,7 @@ uniform float current_hour_fract;
 #endif
 
 #if V_CLOUDS != 0
-  uniform sampler2D colortex6;
+  uniform sampler2D noisetex;
   uniform vec3 cameraPosition;
   uniform vec3 sunPosition;
 #endif

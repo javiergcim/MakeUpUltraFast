@@ -83,7 +83,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither) {
         dark_cloud_color
       ),
       0.5
-    );
+    ) * .75;
 
     plane_distance = (CLOUD_PLANE - cameraPosition.y) * view_y_inv;
     intersection_pos = (view_vector * plane_distance) + cameraPosition;
@@ -93,7 +93,8 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither) {
 
     dif_sup = CLOUD_PLANE_SUP - CLOUD_PLANE_CENTER;
     dif_inf = CLOUD_PLANE_CENTER - CLOUD_PLANE;
-    dist_aux_coeff = (CLOUD_PLANE_SUP - CLOUD_PLANE) * 0.075;
+    // dist_aux_coeff = (CLOUD_PLANE_SUP - CLOUD_PLANE) * 0.075;
+    dist_aux_coeff = (CLOUD_PLANE_SUP - CLOUD_PLANE) * 0.06;
     dist_aux_coeff_blur = dist_aux_coeff * 0.4;
 
     opacity_dist = dist_aux_coeff * 2.5 * view_y_inv;
@@ -108,16 +109,16 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither) {
     for (int i = 0; i < CLOUD_STEPS_AVG; i++) {
       current_value =
         texture2D(
-          colortex6,
+          noisetex,
           (intersection_pos.xz * .0002) + (frameTimeCounter * CLOUD_HI_FACTOR)
-        ).r;
+        ).b;
 
       #if V_CLOUDS == 2
         current_value +=
           texture2D(
-            colortex6,
+            noisetex,
             (intersection_pos.zx * .0002) + (frameTimeCounter * CLOUD_LOW_FACTOR)
-          ).r;
+          ).b;
         current_value *= 0.5;
         #if MC_VERSION >= 11300
           current_value = smoothstep(0.05, 0.95, current_value);

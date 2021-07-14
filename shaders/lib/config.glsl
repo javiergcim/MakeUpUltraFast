@@ -74,8 +74,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 // Cloud parameters
 #define CLOUD_PLANE_SUP 920.0
-#define CLOUD_PLANE_CENTER 620.0
-#define CLOUD_PLANE 520.0
+#define CLOUD_PLANE_CENTER 570.0
+#define CLOUD_PLANE 420.0
 #define CLOUD_STEPS_AVG 7 // [7 10 13] Samples per pixel (high performance impact)
 #define CLOUD_SPEED 0 // [0 1 2] Change the speed of clouds for display purposes.
 

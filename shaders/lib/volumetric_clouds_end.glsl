@@ -62,16 +62,16 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright, float dithe
     for (int i = 0; i < CLOUD_STEPS_AVG; i++) {
       current_value =
         texture2D(
-          colortex6,
+          noisetex,
           (intersection_pos.xz * .0002) + (frameTimeCounter * CLOUD_HI_FACTOR * 3.0)
-        ).r;
+        ).b;
 
       #if V_CLOUDS == 2
         current_value +=
           texture2D(
-            colortex6,
+            noisetex,
             (intersection_pos.zx * .0002) + (frameTimeCounter * CLOUD_LOW_FACTOR * 3.0)
-          ).r;
+          ).b;
         current_value *= 0.5;
         current_value = smoothstep(0.05, 0.95, current_value);
       #endif
