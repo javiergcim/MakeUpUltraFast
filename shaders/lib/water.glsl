@@ -88,18 +88,38 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
 
 vec3 normal_waves(vec3 pos) {
 
-  vec3 wave_1 =
-     texture2D(noisetex, (pos.xy * 0.125) + (frameTimeCounter * .025)).rgb;
-     wave_1 = wave_1 - .5;
-  vec3 wave_2 =
-     texture2D(noisetex, (pos.xy * 0.03125) - (frameTimeCounter * .025)).rgb;
-  wave_2 = wave_2 - .5;
-  wave_2.rg *= 2.0;
+  // vec3 wave_1 =
+  //    texture2D(noisetex, (pos.xy * 0.125) + (frameTimeCounter * .025)).rgb;
+  //    wave_1 = wave_1 - .5;
+  // vec3 wave_2 =
+  //    texture2D(noisetex, (pos.xy * 0.03125) - (frameTimeCounter * .025)).rgb;
+  // wave_2 = wave_2 - .5;
+  // wave_2.rg *= 2.0;
+  //
+  // vec3 final_wave = wave_1 + wave_2;
+  // final_wave.b *= 2.75;
 
-  vec3 final_wave = wave_1 + wave_2;
-  final_wave.b *= 2.75;
+
+
+  vec2 wave_1 =
+     texture2D(noisetex, (pos.xy * 0.125) + (frameTimeCounter * .025)).rg;
+     wave_1 = wave_1 - .5;
+  vec2 wave_2 =
+     texture2D(noisetex, (pos.xy * 0.03125) - (frameTimeCounter * .025)).rg;
+  wave_2 = wave_2 - .5;
+  wave_2 *= 2.0;
+
+  vec2 partial_wave = wave_1 + wave_2;
+
+  vec3 final_wave = vec3(partial_wave, 1.0 - (partial_wave.x * partial_wave.x + partial_wave.y * partial_wave.y));
+
+  final_wave.b *= 3.25;
+
+
 
   return normalize(final_wave);
+
+  // return final_wave;
 }
 
 vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {

@@ -21,6 +21,7 @@ colortex5 - Blue noise texture (Not declared now)
 colortex6 - Perlin noise texture
 colortex7 - Fog auxiliar
 
+const int noisetexFormat = RG8;
 const int colortex0Format = R11F_G11F_B10F;
 const int colortex1Format = RGBA16F;
 */

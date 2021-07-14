@@ -35,15 +35,6 @@ float r_dither(vec2 co)
     return fract(dot(co, magic));
 }
 
-float valve( vec2 vScreenPos )
-{
-    vec3 vDither = vec3( dot( vec2( 171.0, 231.0 ), vScreenPos.xy ) );
-    // vDither.rgb = fract( vDither.rgb / vec3( 103.0, 71.0, 97.0 ) );
-    vDither.rgb = fract( vDither.rgb / vec3( 101.8, 71.1, 97.0 ) );
-
-    return (vDither.rgb / 1.0).g; //note: looks better without 0.375...
-}
-
 float grid_noise(vec2 p) {
   return fract(
     dot(
