@@ -16,6 +16,7 @@ uniform float near;
 uniform float blindness;
 uniform float rainStrength;
 uniform sampler2D depthtex0;
+uniform int isEyeInWater;
 
 #ifdef VOL_LIGHT
   // Don't delete this ifdef. It's nedded to show option in menu (Optifine bug?)
@@ -94,6 +95,25 @@ void main() {
 
     block_color.rgb +=
       (vol_light_color * vol_light * vol_intensity * 2.0);
+  #endif
+
+  // Dentro de la nieve
+  #ifdef BLOOM
+    if (isEyeInWater == 3) {
+      block_color.rgb = mix(
+        block_color.rgb,
+        vec3(0.7, 0.8, 1.0) / exposure,
+        clamp(screen_distance * .5, 0.0, 1.0)
+      );
+    }
+  #else
+  if (isEyeInWater == 3) {
+    block_color.rgb = mix(
+      block_color.rgb,
+      vec3(0.85, 0.9, 0.6),
+      clamp(screen_distance * .5, 0.0, 1.0)
+    );
+  }
   #endif
 
   #ifdef BLOOM

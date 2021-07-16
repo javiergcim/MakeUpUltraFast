@@ -14,6 +14,7 @@ uniform sampler2D colortex1;
 uniform float far;
 uniform float near;
 uniform float blindness;
+uniform int isEyeInWater;
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
@@ -37,6 +38,25 @@ void main() {
     block_color.rgb =
     mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
   }
+
+  // Dentro de la nieve
+  #ifdef BLOOM
+    if (isEyeInWater == 3) {
+      block_color.rgb = mix(
+        block_color.rgb,
+        vec3(0.7, 0.8, 1.0) / exposure,
+        clamp(screen_distance * .5, 0.0, 1.0)
+      );
+    }
+  #else
+  if (isEyeInWater == 3) {
+    block_color.rgb = mix(
+      block_color.rgb,
+      vec3(0.85, 0.9, 0.6),
+      clamp(screen_distance * .5, 0.0, 1.0)
+    );
+  }
+  #endif
 
   #ifdef BLOOM
     // Bloom source

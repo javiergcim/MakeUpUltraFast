@@ -14,6 +14,7 @@ uniform float near;
 uniform float blindness;
 uniform float rainStrength;
 uniform sampler2D depthtex0;
+uniform int isEyeInWater;
 
 #ifdef VOL_LIGHT
   // Don't delete this ifdef. It's nedded to show option in menu (Optifine bug?)
@@ -71,11 +72,11 @@ void main() {
     #endif
   #endif
 
-  #if defined VOL_LIGHT && defined SHADOW_CASTING
-    // Depth to distance
-    float screen_distance =
-      2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
+  // Depth to distance
+  float screen_distance =
+  2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
 
+  #if defined VOL_LIGHT && defined SHADOW_CASTING
     float vol_light = get_volumetric_light(dither, screen_distance);
 
     // Ajuste de intensidad
@@ -99,6 +100,25 @@ void main() {
       mix(block_color.rgb, vol_light_color, vol_light * vol_intensity * (1.0 - rainStrength));
 
     // block_color.rgb = vec3(vol_intensity);
+  #endif
+
+  // Dentro de la nieve
+  #ifdef BLOOM
+    if (isEyeInWater == 3) {
+      block_color.rgb = mix(
+        block_color.rgb,
+        vec3(0.7, 0.8, 1.0) / exposure,
+        clamp(screen_distance * .5, 0.0, 1.0)
+      );
+    }
+  #else
+  if (isEyeInWater == 3) {
+    block_color.rgb = mix(
+      block_color.rgb,
+      vec3(0.85, 0.9, 0.6),
+      clamp(screen_distance * .5, 0.0, 1.0)
+    );
+  }
   #endif
 
   #ifdef BLOOM
