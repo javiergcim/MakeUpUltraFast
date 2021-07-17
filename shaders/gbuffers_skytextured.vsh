@@ -35,7 +35,7 @@ void main() {
     );
 
   #ifdef VOL_LIGHT
-    sky_luma_correction = 4.0 / ((sky_luma_correction * -2.5) + 3.5);
+    sky_luma_correction = 3.5 / ((sky_luma_correction * -2.5) + 3.5);
   #else
     sky_luma_correction = 1.5 / ((sky_luma_correction * -2.5) + 3.5);
   #endif
