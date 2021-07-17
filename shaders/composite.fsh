@@ -112,13 +112,13 @@ void main() {
       );
     }
   #else
-  if (isEyeInWater == 3) {
-    block_color.rgb = mix(
-      block_color.rgb,
-      vec3(0.85, 0.9, 0.6),
-      clamp(screen_distance * .5, 0.0, 1.0)
-    );
-  }
+    if (isEyeInWater == 3) {
+      block_color.rgb = mix(
+        block_color.rgb,
+        vec3(0.85, 0.9, 0.6),
+        clamp(screen_distance * .5, 0.0, 1.0)
+      );
+    }
   #endif
 
   #ifdef BLOOM

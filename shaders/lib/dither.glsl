@@ -29,12 +29,6 @@ float shifted_dither_grad_noise(vec2 p) {
   return fract(0.8 * frame_mod + (52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y)));
 }
 
-// float r_dither(vec2 co)
-// {
-// 	const vec2 magic = vec2(0.75487766624669276, 0.569840290998);
-//     return fract(dot(co, magic));
-// }
-
 float grid_noise(vec2 p) {
   return fract(
     dot(

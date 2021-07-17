@@ -39,6 +39,9 @@ void main() {
     mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
   }
 
+  float screen_distance =
+    2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
+
   // Dentro de la nieve
   #ifdef BLOOM
     if (isEyeInWater == 3) {

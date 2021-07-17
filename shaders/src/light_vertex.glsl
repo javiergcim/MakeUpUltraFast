@@ -7,6 +7,12 @@
   float direct_light_strenght = dot(normal, lava_vec);
   direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
 
+  #ifdef EMMISIVE_V
+    if (is_fake_emmisor > 0.5) {
+      direct_light_strenght = 10.0;
+    }
+  #endif
+
   // Luz nativa (lmcoord.x: candela, lmcoord.y: cielo) ----
   vec2 illumination = lmcoord;
 
@@ -64,6 +70,10 @@
   #else
     direct_light_strenght =
       mix(-sun_light_strenght, sun_light_strenght, light_mix);
+  #endif
+
+  #ifndef SHADOW_CASTING
+    direct_light_strenght = pow((direct_light_strenght + 1.0) * 0.5, 3.0);
   #endif
 
   // Intensidad por dirección
@@ -149,6 +159,12 @@
     #else
       direct_light_strenght = mix(0.0, direct_light_strenght, visible_sky);
     #endif
+  #endif
+
+  #ifdef EMMISIVE_V
+    if (is_fake_emmisor > 0.5) {
+      direct_light_strenght = 10.0;
+    }
   #endif
 
 #endif

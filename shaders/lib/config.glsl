@@ -12,8 +12,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define ENTITY_SMALLENTS_NW 10032.0  // No waveable small ents
 #define ENTITY_LEAVES       10018.0  // Leaves
 #define ENTITY_VINES        10106.0  // Vines
-#define ENTITY_MAGMA        10213.0  // Emissors like magma
-#define ENTITY_EMISSIVE     10089.0  // Emissors like candels and others
+#define ENTITY_F_EMMISIVE   10213.0  // Fake emissors
 #define ENTITY_WATER        10008.0  // Water
 #define ENTITY_PORTAL       10090.0  // Portal
 #define ENTITY_STAINED      10079.0  // Glass
@@ -41,7 +40,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define TINTED_WATER 1  // [0 1] Use the resource pack color for water.
 #define REFRACTION 1  // [0 1] Activate refractions.
 // #define DOF // Enables depth of field. High performance cost.
-#define DOF_STRENGTH 0.035  // [0.03 0.035 0.040 0.045 0.05 0.055 0.06 0.065]  Depth of field strenght.
+#define DOF_STRENGTH 0.05  // [0.03 0.035 0.040 0.045 0.05 0.055 0.06 0.065]  Depth of field strenght.
 #define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance impact).
 #define AOSTEPS 5 // [5 6 7 8 9 10 11] How many samples are taken. High performance cost.
 #define AO_STRENGHT 0.55 // [0.20 0.25 0.30 0.35 0.40 0.44 0.50 0.55 0.60 0.66 0.70 0.75 0.80 0.85] Ambient oclusion strenght
@@ -57,7 +56,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define COLOR_SCHEME 5 // [0 1 2 3 4 5] Legacy: Exotic colors at sunset. Cocoa: A warm preset of vivid colors in the day. Captain: A cold preset of stylish colors. Shoka: Warm theme, with high contrast between light and shadow, inspired by the color theme of a famous shader. Ethereal: Current default theme.
 #define WATER_TEXTURE 0 // [0 1] Enable or disable resource pack water texture.
 #define AVOID_DARK 1 // [0 1] Avoid absolute darkness in caves at daytime.
-#define AVOID_DARK_LEVEL 0.06 // [0.00 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08]  Minimal omni light intensity in caves (percentaje)
+#define AVOID_DARK_LEVEL 0.06 // [0.00 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10]  Minimal omni light intensity in caves (percentaje). During the night, the caves are always dark.
 #define NIGHT_BRIGHT 1.1 // [1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0] Adjusts the brightness of the night light.
 #define V_CLOUDS 1 // [0 1 2] Volumetric static: The clouds move, but they keep their shape. Volumetric dynamic: Clouds change shape over time, a different cloud landscape every time (medium performance hit). Vanilla: Original vanilla clouds.
 #define BLACK_ENTITY_FIX 0 // [0 1] Removes black entity bug (activate ONLY if you have problems with black entities)

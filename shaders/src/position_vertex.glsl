@@ -75,6 +75,14 @@
 
 #endif
 
+#ifdef EMMISIVE_V
+  float is_fake_emmisor = 0.0;
+  if (mc_Entity.x == ENTITY_F_EMMISIVE)
+  {
+    is_fake_emmisor = 1.0;
+  }
+#endif
+
 #if AA_TYPE == 1
   gl_Position.xy += offsets[frame_mod] * gl_Position.w * pixel_size;
 #endif

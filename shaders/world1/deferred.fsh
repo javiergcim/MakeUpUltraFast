@@ -38,10 +38,6 @@ uniform float blindness;
   uniform mat4 gbufferProjection;
   uniform int frame_mod;
   uniform float frameTimeCounter;
-
-  #if MC_VERSION >= 11300
-    uniform sampler2D colortex5;
-  #endif
 #endif
 
 // Varyings (per thread shared variables)
@@ -72,11 +68,7 @@ void main() {
     #if AA_TYPE > 0
       float dither = shifted_dither_grad_noise(gl_FragCoord.xy);
     #else
-      #if MC_VERSION >= 11300
-        float dither = texture_noise_64(gl_FragCoord.xy, colortex5);
-      #else
-        float dither = dither_grad_noise(gl_FragCoord.xy);
-      #endif
+      float dither = dither_grad_noise(gl_FragCoord.xy);
     #endif
   #endif
 

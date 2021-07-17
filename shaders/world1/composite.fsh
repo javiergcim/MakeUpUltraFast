@@ -72,10 +72,11 @@ void main() {
     #endif
   #endif
 
+  float screen_distance =
+    2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
+    
   #if defined VOL_LIGHT && defined SHADOW_CASTING
     // Depth to distance
-    float screen_distance =
-      2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
 
     float vol_light = get_volumetric_light(dither, screen_distance);
 
