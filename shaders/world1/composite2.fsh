@@ -33,6 +33,7 @@ uniform float viewHeight;
   uniform mat4 gbufferPreviousProjection;
   uniform mat4 gbufferPreviousModelView;
   uniform int frame_mod;
+  uniform sampler2D depthtex0;
 #endif
 
 // Varyings (per thread shared variables)
@@ -59,7 +60,7 @@ void main() {
   // Precalc past position and velocity
   #if AA_TYPE > 0 || defined MOTION_BLUR
     // Reproyección del cuadro anterior
-    float z_depth = block_color.a;
+    float z_depth = texture2D(depthtex0, texcoord).r;
     vec3 closest_to_camera = vec3(texcoord, z_depth);
     vec3 fragposition = to_screen_space(closest_to_camera);
     fragposition = mat3(gbufferModelViewInverse) * fragposition + gbufferModelViewInverse[3].xyz + (cameraPosition - previousCameraPosition);
