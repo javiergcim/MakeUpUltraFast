@@ -126,24 +126,23 @@ void main() {
       dither
     );
     // #endif
+  } else {  // Otros translucidos
+
+    // Toma el color puro del bloque
+    block_color = texture2D(tex, texcoord);
+    block_color *= tint_color * vec4(real_light, 1.0);
+
+    if (block_type > 1.5) {  // Glass
+      block_color = cristal_shader(
+        fragposition,
+        water_normal,
+        block_color,
+        real_light,
+        fresnel * fresnel,
+        dither
+      );
+    }
   }
-  // } else {  // Otros translucidos
-  //
-  //   // Toma el color puro del bloque
-  //   block_color = texture2D(tex, texcoord);
-  //   block_color *= tint_color * vec4(real_light, 1.0);
-  //
-  //   if (block_type > 1.5) {  // Glass
-  //     block_color = cristal_shader(
-  //       fragposition,
-  //       water_normal,
-  //       block_color,
-  //       real_light,
-  //       fresnel * fresnel,
-  //       dither
-  //     );
-  //   }
-  // }
 
   #include "/src/writebuffers.glsl"
 }

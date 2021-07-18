@@ -1,12 +1,15 @@
 // Waving plants calculation
 #ifdef FOLIAGE_V
   #if WAVING == 1
-    vec3 position =
-      mat3(gbufferModelViewInverse) *
-      (gl_ModelViewMatrix * gl_Vertex).xyz +
-      gbufferModelViewInverse[3].xyz;
+    // vec3 position =
+    //   mat3(gbufferModelViewInverse) *
+    //   (gl_ModelViewMatrix * gl_Vertex).xyz +
+    //   gbufferModelViewInverse[3].xyz;
 
-    vec3 worldpos = position + cameraPosition;
+    vec4 position =
+      (gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex);
+
+    vec3 worldpos = position.xyz + cameraPosition;
 
     #ifndef NETHER
       is_foliage = 0.0;
@@ -37,7 +40,8 @@
       position.xyz += wave_move(worldpos.xz) * weight * (0.03 + (rainStrength * .05));
     }
 
-    gl_Position = gl_ProjectionMatrix * gbufferModelView * vec4(position, 1.0);
+    // gl_Position = gl_ProjectionMatrix * gbufferModelView * vec4(position, 1.0);
+    gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
 
   #else  // Normal position
     #ifndef NETHER
@@ -52,22 +56,26 @@
       }
     #endif
 
-    vec3 position =
-      mat3(gbufferModelViewInverse) *
-      (gl_ModelViewMatrix * gl_Vertex).xyz +
-      gbufferModelViewInverse[3].xyz;
+    // vec3 position =
+    //   mat3(gbufferModelViewInverse) *
+    //   (gl_ModelViewMatrix * gl_Vertex).xyz +
+    //   gbufferModelViewInverse[3].xyz;
+    vec4 position =
+      (gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex);
 
-    gl_Position = gl_ProjectionMatrix * gbufferModelView * vec4(position, 1.0);
+    gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
 
   #endif
 
 #else
   #ifndef NO_SHADOWS
     #ifdef SHADOW_CASTING
-      vec3 position =
-        mat3(gbufferModelViewInverse) *
-        (gl_ModelViewMatrix * gl_Vertex).xyz +
-        gbufferModelViewInverse[3].xyz;
+      // vec3 position =
+      //   mat3(gbufferModelViewInverse) *
+      //   (gl_ModelViewMatrix * gl_Vertex).xyz +
+      //   gbufferModelViewInverse[3].xyz;
+      vec4 position =
+        (gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex);
     #endif
   #endif
 

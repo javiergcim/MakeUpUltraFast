@@ -59,7 +59,7 @@ void main() {
   worldposition = position + vec4(cameraPosition.xyz, 0.0);
   gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
 
-  #if AA_TYPE > 0
+  #if AA_TYPE == 1
     gl_Position.xy += offsets[frame_mod] * gl_Position.w * pixel_size;
   #endif
 
