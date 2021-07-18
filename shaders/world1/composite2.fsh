@@ -15,12 +15,6 @@ uniform sampler2D colortex1;
 uniform float viewWidth;
 uniform float viewHeight;
 
-#ifdef MOTION_BLUR
-  #ifdef DOF
-    uniform sampler2D colortex0;
-  #endif
-#endif
-
 #if AA_TYPE > 0 || defined MOTION_BLUR
   uniform sampler2D colortex3;  // TAA past averages
   uniform float pixel_size_x;
@@ -74,11 +68,7 @@ void main() {
   #endif
 
   #ifdef MOTION_BLUR
-    #ifdef DOF
-      block_color.rgb = motion_blur(block_color, velocity, colortex0);
-    #else
-      block_color.rgb = motion_blur(block_color, velocity, colortex1);
-    #endif
+    block_color.rgb = motion_blur(block_color.rgb, z_depth, velocity, colortex1);
   #endif
 
   #if AA_TYPE > 0
