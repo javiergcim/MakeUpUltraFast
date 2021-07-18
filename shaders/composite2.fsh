@@ -54,7 +54,11 @@ varying vec2 texcoord;
 #endif
 
 void main() {
-  vec4 block_color = texture2D(colortex1, texcoord);
+  // #ifdef DOF
+    vec4 block_color = texture2D(colortex1, texcoord);
+  // #else
+  //   vec3 block_color = texture2D(colortex1, texcoord).rgb;
+  // #endif
 
   // Precalc past position and velocity
   #if AA_TYPE > 0 || defined MOTION_BLUR
@@ -73,11 +77,12 @@ void main() {
   #endif
 
   #ifdef MOTION_BLUR
-    #ifdef DOF
-      block_color.rgb = motion_blur(block_color, velocity, colortex0);
-    #else
-      block_color.rgb = motion_blur(block_color, velocity, colortex1);
-    #endif
+    // #ifdef DOF
+    //   block_color.rgb = motion_blur_depth(block_color, velocity, colortex0);
+    // #else
+    //   block_color = motion_blur(block_color, z_depth, velocity, colortex1);
+    // #endif
+    block_color.rgb = motion_blur(block_color.rgb, z_depth, velocity, colortex1);
   #endif
 
   #if AA_TYPE > 0
