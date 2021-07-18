@@ -96,17 +96,14 @@ vec3 normal_waves(vec3 pos) {
   wave_2 *= 3.0;
 
   vec2 partial_wave = wave_1 + wave_2;
-  // vec2 partial_wave = wave_2;
 
   vec3 final_wave =
     vec3(partial_wave, 1.0 - (partial_wave.x * partial_wave.x + partial_wave.y * partial_wave.y));
 
   final_wave.b *= 2.0;
-  // final_wave.b *= 2.0;
 
   return normalize(final_wave);
 
-  // return final_wave;
 }
 
 vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
@@ -175,25 +172,31 @@ vec3 water_shader(
     reflection = reflection_calc(fragpos, normal, reflected, infinite, dither);
   #endif
 
+  #ifdef NETHER
+    float visible_sky = 0.0;
+  #endif
+
   reflection.rgb = mix(
     sky_reflect * pow(visible_sky, 10.0),
     reflection.rgb,
     reflection.a
   );
 
+  vec3 test = reflection.rgb;
+
   #if SUN_REFLECTION == 1
      #ifndef NETHER
-      #ifndef THE_END
-        return mix(color, reflection.rgb, fresnel * .75) +
-          vec3(sun_reflection(reflect(normalize(fragpos), normal))) * infinite;
-      #else
+       #ifndef THE_END
+         return mix(color, reflection.rgb, fresnel * .75) +
+           vec3(sun_reflection(reflect(normalize(fragpos), normal))) * infinite;
+       #else
+          return mix(color, reflection.rgb, fresnel * .75);
+       #endif
+     #else
         return mix(color, reflection.rgb, fresnel * .75);
-      #endif
-    #else
-      return mix(color, reflection.rgb, fresnel * .75);
-    #endif
+     #endif
   #else
-    return mix(color, reflection.rgb, fresnel * .75);
+     return mix(color, reflection.rgb, fresnel * .75);
   #endif
 }
 

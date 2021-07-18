@@ -10,6 +10,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define NO_SHADOWS
 
 #include "/lib/config.glsl"
+#include "/lib/color_utils_nether.glsl"
 
 // 'Global' constants from system
 uniform sampler2D tex;
@@ -38,7 +39,6 @@ varying vec4 worldposition;
 varying vec4 position2;
 varying vec3 tangent;
 varying vec3 binormal;
-varying float visible_sky;
 
 #include "/lib/projection_utils.glsl"
 #include "/lib/basic_utils.glsl"
@@ -103,46 +103,47 @@ void main() {
           );
         #endif
       #endif
-
-      block_color = vec4(
-        refraction(
-          fragposition,
-          block_color.rgb,
-          water_normal_base
-        ),
-        1.0
-      );
-
-      vec3 reflect_water_vec = reflect(fragposition, surface_normal);
-
-      block_color.rgb = water_shader(
-        fragposition,
-        surface_normal,
-        block_color.rgb,
-        gl_Fog.color.rgb * .5,
-        reflect_water_vec,
-        fresnel * fresnel,
-        dither
-      );
     #endif
 
-  } else {  // Otros translucidos
-
-    // Toma el color puro del bloque
-    block_color = texture2D(tex, texcoord);
-    block_color *= tint_color * vec4(real_light, 1.0);
-
-    if (block_type > 1.5) {  // Glass
-      block_color = cristal_shader(
+    block_color = vec4(
+      refraction(
         fragposition,
-        water_normal,
-        block_color,
-        real_light,
-        fresnel * fresnel,
-        dither
-      );
-    }
+        block_color.rgb,
+        water_normal_base
+      ),
+      1.0
+    );
+
+    vec3 reflect_water_vec = reflect(fragposition, surface_normal);
+
+    block_color.rgb = water_shader(
+      fragposition,
+      surface_normal,
+      block_color.rgb,
+      gl_Fog.color.rgb * .5,
+      reflect_water_vec,
+      fresnel * fresnel,
+      dither
+    );
+    // #endif
   }
+  // } else {  // Otros translucidos
+  //
+  //   // Toma el color puro del bloque
+  //   block_color = texture2D(tex, texcoord);
+  //   block_color *= tint_color * vec4(real_light, 1.0);
+  //
+  //   if (block_type > 1.5) {  // Glass
+  //     block_color = cristal_shader(
+  //       fragposition,
+  //       water_normal,
+  //       block_color,
+  //       real_light,
+  //       fresnel * fresnel,
+  //       dither
+  //     );
+  //   }
+  // }
 
   #include "/src/writebuffers.glsl"
 }

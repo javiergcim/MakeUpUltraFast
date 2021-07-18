@@ -73,22 +73,19 @@ uniform float night_mixer;
   #define LOW_MIDDLE_COLOR vec3(1.183, 0.658, 0.311)
   #define LOW_DAY_COLOR vec3(0.65, 0.91, 1.3)
   #define LOW_NIGHT_COLOR vec3(0.0213, 0.0306, 0.0387) * NIGHT_BRIGHT
-#elif COLOR_SCHEME == 5  // Natural
+#elif COLOR_SCHEME == 5  // Ethereal 2.0
   #define OMNI_TINT 0.5
   #define AMBIENT_MIDDLE_COLOR vec3(0.987528, 0.591192, 0.301392)
   #define AMBIENT_DAY_COLOR vec3(0.90, 0.84, 0.79)
-  // #define AMBIENT_DAY_COLOR vec3(1.0, 0.97, 0.9)
-  #define AMBIENT_NIGHT_COLOR vec3(0.0467353, 0.0467353, 0.0587353) * NIGHT_BRIGHT
+  #define AMBIENT_NIGHT_COLOR vec3(0.0317353, 0.0467353, 0.0637353) * NIGHT_BRIGHT
 
   #define HI_MIDDLE_COLOR vec3(0.15, 0.27, 0.55)
-  // #define HI_MIDDLE_COLOR vec3(0.117, 0.26, 0.494)
   #define HI_DAY_COLOR vec3(0.15, 0.27, 0.55)
-  #define HI_NIGHT_COLOR vec3(0.014, 0.019, 0.025) * NIGHT_BRIGHT
+  #define HI_NIGHT_COLOR vec3(0.0168, 0.0228, 0.03) * NIGHT_BRIGHT
 
   #define LOW_MIDDLE_COLOR vec3(1.183, 0.658, 0.311)
-  // #define LOW_MIDDLE_COLOR vec3(1.183, 0.858, 0.611)
-  #define LOW_DAY_COLOR vec3(0.55, 0.65, 0.8)
-  #define LOW_NIGHT_COLOR vec3(0.0213, 0.0306, 0.0387) * NIGHT_BRIGHT
+  #define LOW_DAY_COLOR vec3(0.65, 0.91, 1.3)
+  #define LOW_NIGHT_COLOR vec3(0.02556, 0.03672, 0.04644) * NIGHT_BRIGHT
 #endif
 
 vec3 day_blend(vec3 middle, vec3 day, vec3 night) {
@@ -175,5 +172,4 @@ const float ambient_exposure[25] =
     );
 #endif
 
-// #define CANDLE_BASELIGHT vec3(0.4995, 0.38784706, 0.1998)
-#define CANDLE_BASELIGHT vec3(0.24975   , 0.19392353, 0.0999)
+#define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
