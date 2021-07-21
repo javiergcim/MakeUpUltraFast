@@ -33,7 +33,7 @@ uniform float rainStrength;
 uniform vec3 skyColor;
 uniform float light_mix;
 uniform ivec2 eyeBrightnessSmooth;
-uniform sampler2D colortex7;
+uniform sampler2D gaux4;
 
 #ifdef SHADOW_CASTING
   uniform sampler2DShadow shadowtex1;

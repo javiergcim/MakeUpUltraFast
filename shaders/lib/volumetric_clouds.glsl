@@ -32,11 +32,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither) {
   #endif
 
   if (view_vector.y > .055) {  // Vista sobre el horizonte
-    #if MC_VERSION >= 11300
-      umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .25;
-    #else
-      umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .5;
-    #endif
+    umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .25;
 
     vec3 dark_cloud_color = day_blend(
       HI_MIDDLE_COLOR,

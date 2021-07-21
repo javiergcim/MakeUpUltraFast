@@ -30,11 +30,7 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright, float dithe
     clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
 
   if (view_vector.y > .055) {  // Vista sobre el horizonte
-    #if MC_VERSION >= 11300
-      umbral = 0.25;
-    #else
-      umbral = 0.5;
-    #endif
+    umbral = 0.25;
 
     vec3 cloud_color = block_color * 1.75;
     vec3 dark_cloud_color = block_color * 0.9;

@@ -17,7 +17,7 @@ uniform sampler2D tex;
 uniform float far;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
-uniform sampler2D colortex7;
+uniform sampler2D gaux4;
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;

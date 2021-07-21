@@ -31,7 +31,7 @@ uniform vec3 moonPosition;
 uniform int worldTime;
 uniform float nightVision;
 uniform float rainStrength;
-uniform sampler2D colortex7;
+uniform sampler2D gaux4;
 
 #ifdef SHADOW_CASTING
   uniform sampler2DShadow shadowtex1;
