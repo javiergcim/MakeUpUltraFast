@@ -53,6 +53,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
       dir_increment *= .5;
     } else {
       dir_increment *= dither;
+      // dir_increment *= (vec3(1.0) * exp2(i + dither));
     }
 
     prev_march_pos_z = march_pos.z;

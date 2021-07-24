@@ -2,7 +2,7 @@
 Fast volumetric clouds - MakeUp implementation
 */
 
-vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither) {
+vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, vec3 base_pos, int samples) {
   float plane_distance;
   float cloud_value;
   float umbral;
@@ -81,11 +81,11 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither) {
       0.5
     ) * .75;
 
-    plane_distance = (CLOUD_PLANE - cameraPosition.y) * view_y_inv;
-    intersection_pos = (view_vector * plane_distance) + cameraPosition;
+    plane_distance = (CLOUD_PLANE - base_pos.y) * view_y_inv;
+    intersection_pos = (view_vector * plane_distance) + base_pos;
 
-    plane_distance = (CLOUD_PLANE_SUP - cameraPosition.y) * view_y_inv;
-    intersection_pos_sup = (view_vector * plane_distance) + cameraPosition;
+    plane_distance = (CLOUD_PLANE_SUP - base_pos.y) * view_y_inv;
+    intersection_pos_sup = (view_vector * plane_distance) + base_pos;
 
     dif_sup = CLOUD_PLANE_SUP - CLOUD_PLANE_CENTER;
     dif_inf = CLOUD_PLANE_CENTER - CLOUD_PLANE;
@@ -94,14 +94,14 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither) {
 
     opacity_dist = dist_aux_coeff * 2.5 * view_y_inv;
 
-    increment = (intersection_pos_sup - intersection_pos) / CLOUD_STEPS_AVG;
+    increment = (intersection_pos_sup - intersection_pos) / samples;
     increment_dist = length(increment);
 
     cloud_value = 0.0;
 
     intersection_pos += (increment * dither);
 
-    for (int i = 0; i < CLOUD_STEPS_AVG; i++) {
+    for (int i = 0; i < samples; i++) {
       current_value =
         texture2D(
           noisetex,

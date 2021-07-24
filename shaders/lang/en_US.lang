@@ -102,6 +102,8 @@ option.SUN_REFLECTION=Sun reflection
 value.SUN_REFLECTION.0=Off
 value.SUN_REFLECTION.1=On
 
+option.CLOUD_REFLECTION=Vol. clouds reflection
+
 option.WAVING=Waving plants
 value.WAVING.0=No
 value.WAVING.1=Yes

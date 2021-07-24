@@ -39,6 +39,15 @@ uniform sampler2D gaux4;
   uniform sampler2DShadow shadowtex1;
 #endif
 
+#ifdef CLOUD_REFLECTION
+  // Don't remove (Optifine bug?)
+#endif
+
+#if defined CLOUD_REFLECTION && V_CLOUDS > 0
+  uniform vec3 cameraPosition;
+  uniform mat4 gbufferModelViewInverse;
+#endif
+
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 varying vec2 lmcoord;
@@ -75,6 +84,8 @@ varying vec3 up_vec;  // Flat
 
 #include "/lib/luma.glsl"
 
+#include "/lib/volumetric_clouds.glsl"
+
 void main() {
   vec4 block_color = texture2D(tex, texcoord) * tint_color;
   vec3 fragposition =
@@ -84,6 +95,7 @@ void main() {
 
     vec3 water_normal_base = normal_waves(worldposition.xzy);
     vec3 surface_normal = get_normals(water_normal_base);
+    // vec3 surface_normal = get_normals(vec3(0.0, 0.0, 1.0));
     vec3 flat_normal = get_normals(vec3(0.0, 0.0, 1.0));
     float normal_dot_eye = dot(flat_normal, normalize(fragposition));
     float fresnel = square_pow(1.0 + normal_dot_eye);
@@ -127,14 +139,27 @@ void main() {
       hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667);
   }
 
-  #if SSR_TYPE == 0
-    float dither = 1.0;
-  #else
+  #if (defined CLOUD_REFLECTION && V_CLOUDS > 0) || SSR_TYPE > 0
     #if AA_TYPE > 0
-      float dither = 2.0 + (shifted_dither_grad_noise(gl_FragCoord.xy)) * 0.2;
+      float dither_base = shifted_dither_grad_noise(gl_FragCoord.xy);
     #else
-      float dither = 2.0 + (dither_grad_noise(gl_FragCoord.xy)) * 0.2;
+      float dither_base = dither_grad_noise(gl_FragCoord.xy);
     #endif
+  #else
+   float dither_base = 1;
+  #endif
+
+  float dither = 3.0 + dither_base * 0.5;
+
+  #if defined CLOUD_REFLECTION && V_CLOUDS > 0
+    sky_color_reflect = get_cloud(
+      normalize((gbufferModelViewInverse * vec4(reflect_water_vec, 1.0)).xyz),
+      sky_color_reflect,
+      0.0,
+      dither_base,
+      worldposition.xyz,
+      int(CLOUD_STEPS_AVG * 0.5)
+    );
   #endif
 
   if (block_type > 2.5) {  // Water

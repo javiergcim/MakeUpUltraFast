@@ -94,7 +94,7 @@ void main() {
       bright = clamp(bright * bright * bright, 0.0, 1.0);
 
       block_color.rgb =
-        get_cloud(view_vector, block_color.rgb, bright, dither);
+        get_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
     }
   #else
     if (linear_d > 0.9999 && isEyeInWater == 1) {  // Only sky and water
