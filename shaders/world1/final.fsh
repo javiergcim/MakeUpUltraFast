@@ -18,10 +18,11 @@ colortex1 - Antialiasing auxiliar
 colortex2 - Bloom auxiliar
 colortex3 - TAA Averages history
 gaux1 - Sreen-Space-Reflection texture
-colortex5 - Blue noise texture (Not declared now)
+gaux2 - Blue noise texture
 colortex6 - Perlin noise texture
 gaux4 - Fog auxiliar
 
+const int noisetexFormat = RGB8;
 const int colortex0Format = R11F_G11F_B10F;
 */
 #ifdef DOF
@@ -53,7 +54,7 @@ const int colortex3Format = R11F_G11F_B10F;
 #endif
 /*
 const int gaux1Format = RGB8;
-const int colortex5Format = R8;
+const int gaux2Format = R8;
 const int colortex6Format = R8;
 const int gaux4Format = RGB8;
 */
