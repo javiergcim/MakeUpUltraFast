@@ -84,7 +84,9 @@ varying vec3 up_vec;  // Flat
 
 #include "/lib/luma.glsl"
 
-#include "/lib/volumetric_clouds.glsl"
+#if defined CLOUD_REFLECTION && V_CLOUDS > 0
+  #include "/lib/volumetric_clouds.glsl"
+#endif
 
 void main() {
   vec4 block_color = texture2D(tex, texcoord) * tint_color;
@@ -95,7 +97,6 @@ void main() {
 
     vec3 water_normal_base = normal_waves(worldposition.xzy);
     vec3 surface_normal = get_normals(water_normal_base);
-    // vec3 surface_normal = get_normals(vec3(0.0, 0.0, 1.0));
     vec3 flat_normal = get_normals(vec3(0.0, 0.0, 1.0));
     float normal_dot_eye = dot(flat_normal, normalize(fragposition));
     float fresnel = square_pow(1.0 + normal_dot_eye);
@@ -146,7 +147,7 @@ void main() {
       float dither_base = dither_grad_noise(gl_FragCoord.xy);
     #endif
   #else
-   float dither_base = 1;
+   float dither_base = 1.0;
   #endif
 
   float dither = 3.0 + dither_base * 0.5;

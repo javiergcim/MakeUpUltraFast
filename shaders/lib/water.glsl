@@ -138,11 +138,14 @@ vec3 get_normals(vec3 bump) {
 
 vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected, inout float infinite, float dither) {
   #if SSR_TYPE == 0  // Flipped image
-    vec3 reflected_vector = reflected * 35.0;
-    vec3 pos = camera_to_screen(fragpos + reflected_vector);
+    // vec3 reflected_vector = reflected * 35.0;
+    reflected *= 35.0;
+    // vec3 pos = camera_to_screen(fragpos + reflected_vector);
+    vec3 pos = camera_to_screen(fragpos + reflected);
   #else  // Raymarch
-    vec3 reflected_vector = reflect(normalize(fragpos), normal);
-    vec3 pos = fast_raymarch(reflected_vector, fragpos, infinite, dither);
+    // vec3 reflected_vector = reflect(normalize(fragpos), normal);
+    // vec3 pos = fast_raymarch(reflected_vector, fragpos, infinite, dither);
+    vec3 pos = fast_raymarch(reflected, fragpos, infinite, dither);
   #endif
 
   float border =

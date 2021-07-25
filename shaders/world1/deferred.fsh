@@ -84,7 +84,7 @@ void main() {
       bright = clamp((bright * 2.0) - 1.0, 0.0, 1.0);
       bright *= bright * bright * bright;
 
-      block_color.rgb = get_end_cloud(view_vector, block_color.rgb, bright, dither);
+      block_color.rgb = get_end_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
     }
   #else
     if (linear_d > 0.9999) {  // Only sky
