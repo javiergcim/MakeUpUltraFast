@@ -19,7 +19,7 @@ colortex2 - Bloom auxiliar
 colortex3 - TAA Averages history
 gaux1 - Sreen-Space-Reflection texture
 gaux2 - Blue noise texture
-colortex6 - Perlin noise texture
+gaux3 - Not used
 gaux4 - Fog auxiliar
 
 const int noisetexFormat = RGB8;
@@ -55,7 +55,7 @@ const int colortex3Format = R11F_G11F_B10F;
 /*
 const int gaux1Format = RGB8;
 const int gaux2Format = R8;
-const int colortex6Format = R8;
+const int gaux3Format = R8;
 const int gaux4Format = RGB8;
 */
 

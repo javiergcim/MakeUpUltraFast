@@ -34,15 +34,8 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
 
     // Search phase
     if (depth_diff < 0.0 && abs(screen_depth - prev_screen_depth) > abs(march_pos.z - prev_march_pos_z)) {
-      // march_pos = camera_to_screen(hit_coord + (direction * 32.0));
-      // screen_depth = texture2D(depthtex1, march_pos.xy).x;
-      // depth_diff = screen_depth - hit_pos.z;
-      // if (depth_diff < 0.0) {
-      //   return vec3(0.0);
-      // } else {
-        infinite = 0.0;
-        return camera_to_screen(hit_coord + (direction * 32.0));
-      //}
+      infinite = 0.0;
+      return camera_to_screen(hit_coord + (direction * 35.0));
     }
     if (search_flag == false && depth_diff < 0.0) {
       search_flag = true;
@@ -53,7 +46,6 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
       dir_increment *= .5;
     } else {
       dir_increment *= dither;
-      // dir_increment *= (vec3(1.0) * exp2(i + dither));
     }
 
     prev_march_pos_z = march_pos.z;
@@ -138,13 +130,9 @@ vec3 get_normals(vec3 bump) {
 
 vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected, inout float infinite, float dither) {
   #if SSR_TYPE == 0  // Flipped image
-    // vec3 reflected_vector = reflected * 35.0;
     reflected *= 35.0;
-    // vec3 pos = camera_to_screen(fragpos + reflected_vector);
     vec3 pos = camera_to_screen(fragpos + reflected);
   #else  // Raymarch
-    // vec3 reflected_vector = reflect(normalize(fragpos), normal);
-    // vec3 pos = fast_raymarch(reflected_vector, fragpos, infinite, dither);
     vec3 pos = fast_raymarch(reflected, fragpos, infinite, dither);
   #endif
 
