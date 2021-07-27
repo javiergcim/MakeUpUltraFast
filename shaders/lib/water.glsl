@@ -2,9 +2,9 @@
 Water reflection and refraction related functions.
 */
 
-vec3 fast_raymarch_ori(vec3 direction, vec3 hit_coord, inout float infinite, float dither) {
+vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float dither) {
   vec3 hit_pos = camera_to_screen(hit_coord);
-  float hit_depth = texture2D(depthtex0, hit_pos.xy).x;
+  // float hit_depth = texture2D(depthtex0, hit_pos.xy).x;
 
   vec3 dir_increment = direction * RAY_STEP;
   vec3 current_march = hit_coord + dir_increment;
@@ -34,15 +34,8 @@ vec3 fast_raymarch_ori(vec3 direction, vec3 hit_coord, inout float infinite, flo
 
     // Search phase
     if (depth_diff < 0.0 && abs(screen_depth - prev_screen_depth) > abs(march_pos.z - prev_march_pos_z)) {
-      // march_pos = camera_to_screen(hit_coord + (direction * 32.0));
-      // screen_depth = texture2D(depthtex1, march_pos.xy).x;
-      // depth_diff = screen_depth - hit_pos.z;
-      // if (depth_diff < 0.0) {
-      //   return vec3(0.0);
-      // } else {
         infinite = 0.0;
         return camera_to_screen(hit_coord + (direction * 32.0));
-      //}
     }
     if (search_flag == false && depth_diff < 0.0) {
       search_flag = true;
@@ -64,7 +57,7 @@ vec3 fast_raymarch_ori(vec3 direction, vec3 hit_coord, inout float infinite, flo
   return camera_to_screen(current_march);
 }
 
-vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float dither) {
+vec3 fast_raymarch_alt(vec3 direction, vec3 hit_coord, inout float infinite, float dither) {
   vec3 hit_pos = camera_to_screen(hit_coord);
   float hit_depth = texture2D(depthtex0, hit_pos.xy).x;
 
@@ -75,8 +68,10 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
   float prev_march_pos_z = 0.0;
   float depth_diff;
   vec3 march_pos;
+  vec3 last_hidden_pos;
   bool search_flag = false;
   bool hidden_flag = false;
+  bool out_flag = false;
 
   // Ray marching
   for (int i = 0; i < RAYMARCH_STEPS; i++) {
@@ -88,7 +83,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
       march_pos.z < 0.0 ||
       march_pos.z > 1.0
       ) {
-        // march_pos = vec3(0.0);
+        out_flag = true;
         break;
       }
 
@@ -98,6 +93,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
     if (depth_diff < 0.0 && abs(screen_depth - prev_screen_depth) > abs(march_pos.z - prev_march_pos_z)) {
       hidden_flag = true;
     } else if (hidden_flag && depth_diff > 0.0) {
+      last_hidden_pos = march_pos;
       hidden_flag = false;
     }
 
@@ -123,16 +119,10 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
   }
 
   if (hidden_flag) {
-    current_march += dir_increment * 20000.0;
-    march_pos = camera_to_screen(current_march);
-
-    screen_depth = texture2D(depthtex1, march_pos.xy).x;
-    depth_diff = screen_depth - hit_depth;
-
-    if (depth_diff >= 0.0) {
+    if (out_flag) {
+      return last_hidden_pos;
+    } else {
       return camera_to_screen(current_march);
-    } else if (depth_diff < 0.0) {
-      return vec3(0.0);
     }
   } else {
     return camera_to_screen(current_march);

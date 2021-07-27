@@ -152,7 +152,6 @@ void main() {
   #endif
 
   float dither = 1.85 + dither_base;
-  // float dither = 3.0 + dither_base * 0.5;
 
   #if defined CLOUD_REFLECTION && V_CLOUDS > 0
     sky_color_reflect = get_cloud(
