@@ -53,157 +53,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
       dir_increment *= .5;
     } else {
       dir_increment *= dither;
-    }
-
-    prev_march_pos_z = march_pos.z;
-    prev_screen_depth = screen_depth;
-    current_march += dir_increment * sign(depth_diff);
-  }
-
-  return camera_to_screen(current_march);
-}
-
-vec3 fast_raymarch_new(vec3 direction, vec3 hit_coord, inout float infinite, float dither) {
-  vec3 hit_pos = camera_to_screen(hit_coord);
-  float hit_depth = texture2D(depthtex0, hit_pos.xy).x;
-
-  vec3 dir_increment = direction * RAY_STEP;
-  vec3 current_march = hit_coord + dir_increment;
-  float screen_depth;
-  float prev_screen_depth = 0.0;
-  float prev_march_pos_z = 0.0;
-  float depth_diff;
-  vec3 march_pos;
-  vec3 hidden_last_pos;
-  bool search_flag = false;
-  bool hidden_flag = false;
-  bool out_flag = false;
-
-
-  // Ray marching
-  for (int i = 0; i < RAYMARCH_STEPS; i++) {
-    march_pos = camera_to_screen(current_march);
-
-    if ( // Is outside screen space (except x cordinate)
-      march_pos.y < 0.0 ||
-      march_pos.y > 1.0 ||
-      march_pos.z < 0.0 ||
-      march_pos.z > 1.0
-      ) {
-        // march_pos = vec3(0.0);
-        out_flag = true;
-        break;
-      }
-
-    screen_depth = texture2D(depthtex1, march_pos.xy).x;
-    depth_diff = screen_depth - march_pos.z;
-
-    if (depth_diff < 0.0 && abs(screen_depth - prev_screen_depth) > abs(march_pos.z - prev_march_pos_z)) {
-      hidden_flag = true;
-      hidden_last_pos = march_pos;
-    } else if (hidden_flag && depth_diff > 0.0) {
-      hidden_flag = false;
-    }
-
-    if (search_flag == false && depth_diff < 0.0 && hidden_flag == false) {
-      search_flag = true;
-      infinite = 0.0;
-    }
-
-    if(search_flag) {
-      dir_increment *= .5;
-    } else {
-      dir_increment *= dither;
-    }
-
-    prev_march_pos_z = march_pos.z;
-    prev_screen_depth = screen_depth;
-
-    if (hidden_flag) {
-      current_march += dir_increment;
-    } else {
-      current_march += dir_increment * sign(depth_diff);
-    }
-  }
-
-  if (hidden_flag) {
-    if (out_flag == false) {
-      current_march += dir_increment * 20000.0;
-      march_pos = camera_to_screen(current_march);
-    }
-
-    screen_depth = texture2D(depthtex1, march_pos.xy).x;
-    depth_diff = screen_depth - hit_depth;
-
-    if (depth_diff >= 0.0) {
-      return camera_to_screen(current_march);
-    } else if (depth_diff < 0.0 || out_flag) {
-      return vec3(0.0);
-    }
-  } else {
-    return camera_to_screen(current_march);
-  }
-}
-
-vec3 fast_raymarch_alt(vec3 direction, vec3 hit_coord, inout float infinite, float dither) {
-  vec3 hit_pos = camera_to_screen(hit_coord);
-  // float hit_depth = texture2D(depthtex0, hit_pos.xy).x;
-
-  vec3 dir_increment = direction * RAY_STEP;
-  vec3 current_march = hit_coord + dir_increment;
-  float screen_depth;
-  float prev_screen_depth = 0.0;
-  float prev_march_pos_z = 0.0;
-  float depth_diff;
-  float prev_depth_diff;
-  vec3 march_pos;
-  bool search_flag = false;
-  bool falling_flag = false;
-
-  // Ray marching
-  for (int i = 0; i < RAYMARCH_STEPS; i++) {
-    march_pos = camera_to_screen(current_march);
-
-    if ( // Is outside screen space (except x cordinate)
-      march_pos.y < 0.0 ||
-      march_pos.y > 1.0 ||
-      march_pos.z < 0.0 ||
-      march_pos.z > 1.0
-      ) {
-        march_pos = vec3(0.0);
-        break;
-      }
-
-    screen_depth = texture2D(depthtex1, march_pos.xy).x;
-    depth_diff = screen_depth - march_pos.z;
-
-    // Search phase
-    if (depth_diff < 0.0 && abs(screen_depth - prev_screen_depth) > abs(march_pos.z - prev_march_pos_z)) {
-      // Colocamos al rayo en el infinito
-      current_march += dir_increment * 20000.0;
-      prev_march_pos_z = march_pos.z;
-      march_pos = camera_to_screen(current_march);
-      falling_flag = true;
-
-      screen_depth = texture2D(depthtex1, march_pos.xy).x;
-      depth_diff = screen_depth - prev_march_pos_z;
-
-      if (falling_flag && depth_diff >= 0.0) {
-        return camera_to_screen(current_march);
-      } else if (falling_flag && depth_diff < 0.0) {
-        return vec3(0.0);
-      }
-    }
-
-    if (search_flag == false && depth_diff < 0.0) {
-      search_flag = true;
-      infinite = 0.0;
-    }
-
-    if(search_flag && falling_flag == false) {
-      dir_increment *= .5;
-    } else {
-      dir_increment *= dither;
+      // dir_increment *= (vec3(1.0) * exp2(i + dither));
     }
 
     prev_march_pos_z = march_pos.z;
@@ -288,10 +138,11 @@ vec3 get_normals(vec3 bump) {
 
 vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected, inout float infinite, float dither) {
   #if SSR_TYPE == 0  // Flipped image
-    reflected *= 35.0;
-    vec3 pos = camera_to_screen(fragpos + reflected);
+    vec3 reflected_vector = reflected * 35.0;
+    vec3 pos = camera_to_screen(fragpos + reflected_vector);
   #else  // Raymarch
-    vec3 pos = fast_raymarch(reflected, fragpos, infinite, dither);
+    vec3 reflected_vector = reflect(normalize(fragpos), normal);
+    vec3 pos = fast_raymarch(reflected_vector, fragpos, infinite, dither);
   #endif
 
   float border =
