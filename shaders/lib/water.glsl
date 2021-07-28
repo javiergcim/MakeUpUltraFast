@@ -4,7 +4,6 @@ Water reflection and refraction related functions.
 
 vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float dither) {
   vec3 hit_pos = camera_to_screen(hit_coord);
-  // float hit_depth = texture2D(depthtex0, hit_pos.xy).x;
 
   vec3 dir_increment = direction * RAY_STEP;
   vec3 current_march = hit_coord + dir_increment;
@@ -13,78 +12,25 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
   float prev_march_pos_z = 0.0;
   float depth_diff;
   vec3 march_pos;
-  bool search_flag = false;
-
-  // Ray marching
-  for (int i = 0; i < RAYMARCH_STEPS; i++) {
-    march_pos = camera_to_screen(current_march);
-
-    if ( // Is outside screen space (except x cordinate)
-      march_pos.y < 0.0 ||
-      march_pos.y > 1.0 ||
-      march_pos.z < 0.0 ||
-      march_pos.z > 1.0
-      ) {
-        march_pos = vec3(0.0);
-        break;
-      }
-
-    screen_depth = texture2D(depthtex1, march_pos.xy).x;
-    depth_diff = screen_depth - march_pos.z;
-
-    // Search phase
-    if (depth_diff < 0.0 && abs(screen_depth - prev_screen_depth) > abs(march_pos.z - prev_march_pos_z)) {
-        infinite = 0.0;
-        return camera_to_screen(hit_coord + (direction * 32.0));
-    }
-    if (search_flag == false && depth_diff < 0.0) {
-      search_flag = true;
-      infinite = 0.0;
-    }
-
-    if(search_flag) {
-      dir_increment *= .5;
-    } else {
-      dir_increment *= dither;
-      // dir_increment *= (vec3(1.0) * exp2(i + dither));
-    }
-
-    prev_march_pos_z = march_pos.z;
-    prev_screen_depth = screen_depth;
-    current_march += dir_increment * sign(depth_diff);
-  }
-
-  return camera_to_screen(current_march);
-}
-
-vec3 fast_raymarch_alt(vec3 direction, vec3 hit_coord, inout float infinite, float dither) {
-  vec3 hit_pos = camera_to_screen(hit_coord);
-  float hit_depth = texture2D(depthtex0, hit_pos.xy).x;
-
-  vec3 dir_increment = direction * RAY_STEP;
-  vec3 current_march = hit_coord + dir_increment;
-  float screen_depth;
-  float prev_screen_depth = 0.0;
-  float prev_march_pos_z = 0.0;
-  float depth_diff;
-  vec3 march_pos;
+  vec3 last_march_pos;
   vec3 last_hidden_pos;
   bool search_flag = false;
   bool hidden_flag = false;
+  bool first_hidden = true;
   bool out_flag = false;
 
   // Ray marching
   for (int i = 0; i < RAYMARCH_STEPS; i++) {
+    last_march_pos = march_pos;
     march_pos = camera_to_screen(current_march);
 
-    if ( // Is outside screen space (except x cordinate)
+    if ( // Is outside screen space
+      march_pos.x < 0.0 ||
+      march_pos.x > 1.0 ||
       march_pos.y < 0.0 ||
-      march_pos.y > 1.0 ||
-      march_pos.z < 0.0 ||
-      march_pos.z > 1.0
+      march_pos.y > 1.0
       ) {
         out_flag = true;
-        break;
       }
 
     screen_depth = texture2D(depthtex1, march_pos.xy).x;
@@ -92,8 +38,11 @@ vec3 fast_raymarch_alt(vec3 direction, vec3 hit_coord, inout float infinite, flo
 
     if (depth_diff < 0.0 && abs(screen_depth - prev_screen_depth) > abs(march_pos.z - prev_march_pos_z)) {
       hidden_flag = true;
+      if (first_hidden) {
+        last_hidden_pos = last_march_pos;
+        first_hidden = false;
+      }
     } else if (hidden_flag && depth_diff > 0.0) {
-      last_hidden_pos = march_pos;
       hidden_flag = false;
     }
 
@@ -118,12 +67,10 @@ vec3 fast_raymarch_alt(vec3 direction, vec3 hit_coord, inout float infinite, flo
     }
   }
 
-  if (hidden_flag) {
-    if (out_flag) {
-      return last_hidden_pos;
-    } else {
-      return camera_to_screen(current_march);
-    }
+  if (out_flag) {
+    return march_pos;
+  } else if (hidden_flag) {
+       return last_hidden_pos;
   } else {
     return camera_to_screen(current_march);
   }
@@ -281,8 +228,8 @@ vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal, inout float infinite, fl
     }
   #endif
 
-  float border_x = max(-fourth_pow(abs(2 * pos.x - 1.0)) + 1.0, 0.0);
-  float border_y = max(-fourth_pow(abs(2 * pos.y - 1.0)) + 1.0, 0.0);
+  float border_x = max(-fourth_pow(abs(2.0 * pos.x - 1.0)) + 1.0, 0.0);
+  float border_y = max(-fourth_pow(abs(2.0 * pos.y - 1.0)) + 1.0, 0.0);
   float border = min(border_x, border_y);
 
   return vec4(texture2D(gaux1, pos.xy, 0.0).rgb, border);
@@ -305,10 +252,8 @@ vec4 cristal_shader(
 
   reflection.rgb = mix(sky_reflection * lmcoord.y * lmcoord.y, reflection.rgb, reflection.a);
 
-  float reflection_index = min(fresnel * (-color.a + 1.0) * 2.0, 1.0);
-
-  color.rgb = mix(color.rgb, sky_reflection, reflection_index);
-  color.rgb = mix(color.rgb, reflection.rgb, reflection_index);
+  color.rgb = mix(color.rgb, sky_reflection, fresnel);
+  color.rgb = mix(color.rgb, reflection.rgb, fresnel);
 
   color.a = mix(color.a, 1.0, fresnel * .9);
 

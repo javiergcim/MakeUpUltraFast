@@ -105,10 +105,10 @@ void main() {
     float dither_base = 1.0;
   #endif
 
-  float dither = 3.0 + dither_base * 0.5;
+  float dither = 1.75 + dither_base;
 
   vec3 reflect_water_vec = reflect(fragposition, surface_normal);
-  
+
   #if defined CLOUD_REFLECTION && V_CLOUDS > 0
     vec3 sky_color_reflect = get_end_cloud(
       normalize((gbufferModelViewInverse * vec4(reflect_water_vec, 1.0)).xyz),
