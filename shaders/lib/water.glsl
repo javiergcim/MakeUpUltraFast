@@ -5,12 +5,14 @@ Water reflection and refraction related functions.
 vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float dither) {
   vec3 hit_pos = camera_to_screen(hit_coord);
 
-  vec3 dir_increment = direction * RAY_STEP;
-  vec3 current_march = hit_coord + dir_increment;
+  vec3 dir_increment;
+  // vec3 current_march = hit_coord + dir_increment;
+  vec3 current_march = hit_coord;
+  vec3 old_current_march;
   float screen_depth;
   float prev_screen_depth = 0.0;
   float prev_march_pos_z = 0.0;
-  float depth_diff;
+  float depth_diff = 1.0;
   vec3 march_pos;
   vec3 last_march_pos;
   vec3 last_hidden_pos;
@@ -21,6 +23,15 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
 
   // Ray marching
   for (int i = 0; i < RAYMARCH_STEPS; i++) {
+    if (search_flag) {
+      dir_increment *= 0.5;
+      current_march += dir_increment * sign(depth_diff);
+    } else {
+      old_current_march = current_march;
+      current_march = hit_coord + ((direction * exp2(i + dither)) - direction);
+      dir_increment = current_march - old_current_march;
+    }
+
     last_march_pos = march_pos;
     march_pos = camera_to_screen(current_march);
 
@@ -50,20 +61,20 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
       search_flag = true;
     }
 
-    if(search_flag) {
-      dir_increment *= .5;
-    } else {
-      dir_increment *= dither;
-    }
+    // if(search_flag) {
+    //   dir_increment *= .5;
+    // } else {
+    //   dir_increment *= dither;
+    // }
 
     prev_march_pos_z = march_pos.z;
     prev_screen_depth = screen_depth;
 
-    if (hidden_flag) {
-      current_march += dir_increment;
-    } else {
-      current_march += dir_increment * sign(depth_diff);
-    }
+    // if (hidden_flag) {
+    //   current_march += dir_increment;
+    // } else {
+    //   current_march += dir_increment * sign(depth_diff);
+    // }
   }
 
   infinite = float(screen_depth > 0.9999);
