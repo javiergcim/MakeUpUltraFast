@@ -96,8 +96,8 @@ void main() {
       );
 
     vec3 water_normal_base = normal_waves(worldposition.xzy);
-    vec3 surface_normal = get_normals(water_normal_base);
-    // vec3 surface_normal = get_normals(vec3(0.0, 0.0, 1.0));
+    // vec3 surface_normal = get_normals(water_normal_base);
+    vec3 surface_normal = get_normals(vec3(0.0, 0.0, 1.0));
     vec3 flat_normal = get_normals(vec3(0.0, 0.0, 1.0));
     float normal_dot_eye = dot(flat_normal, normalize(fragposition));
     float fresnel = square_pow(1.0 + normal_dot_eye);
@@ -151,7 +151,9 @@ void main() {
    float dither_base = 1.0;
   #endif
 
-  float dither = 1.75 + dither_base;
+  // float dither = 1.75 + dither_base;
+  // float dither = 1.7 + dither_base;
+  float dither = dither_base;
 
   #if defined CLOUD_REFLECTION && V_CLOUDS > 0
     sky_color_reflect = get_cloud(

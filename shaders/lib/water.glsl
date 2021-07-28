@@ -48,7 +48,6 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
 
     if (search_flag == false && depth_diff < 0.0 && hidden_flag == false) {
       search_flag = true;
-      infinite = 0.0;
     }
 
     if(search_flag) {
@@ -67,7 +66,10 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
     }
   }
 
+  infinite = float(screen_depth > 0.9999);
+
   if (out_flag) {
+    infinite = 1.0;
     return march_pos;
   } else if (hidden_flag) {
        return last_hidden_pos;
