@@ -67,9 +67,9 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define CHROMA_ABER_STRENGHT 0.05 // [0.04 0.05 0.06] Chroma aberration strenght
 #define VOL_LIGHT // This option activates volumetric light (shadows must be enabled to work)
 // #define VANILLA_WATER // Establishes the appearance of water as vanilla, completely cancels reflection, refraction and other options for water.
+// #define OLD_WATER // Set old water model
 
 // Reflection parameters
-// #define RAY_STEP 0.25
 #define RAYMARCH_STEPS 9
 
 // Cloud parameters

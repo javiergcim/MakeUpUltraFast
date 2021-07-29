@@ -118,18 +118,40 @@ vec3 normal_waves(vec3 pos) {
 }
 
 vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
-  vec3 pos = camera_to_screen(fragpos);
+  // vec3 pos = camera_to_screen(fragpos);
+  vec2 pos = gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y);
 
   #if REFRACTION == 1
 
-    float  refraction_strength = 0.1;
+    float refraction_strength = 0.1;
     refraction_strength /= 1.0 + length(fragpos) * 0.4;
-    vec2 medium_texcoord = pos.xy + refraction.xy * refraction_strength;
+    pos.xy = pos.xy + refraction.xy * refraction_strength;
 
-    return texture2D(gaux1, medium_texcoord.st).rgb * color;
-    // return mix(texture2D(gaux1, medium_texcoord.st).rgb, color, 0.0);
-  #else
+    // return texture2D(gaux1, medium_texcoord.st).rgb * color;
+    // return mix(texture2D(gaux1, pos.xy).rgb, color, absortion);
+  // #else
+    // return texture2D(gaux1, pos.xy).rgb * color;
+  #endif
+
+
+
+  float water_distance =
+    2.0 * near * far / (far + near - (2.0 * gl_FragCoord.z - 1.0) * (far - near));
+
+  // float earth_distance = texture2D(depthtex1, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).r;
+  float earth_distance = texture2D(depthtex1, pos.xy).r;
+  earth_distance =
+    2.0 * near * far / (far + near - (2.0 * earth_distance - 1.0) * (far - near));
+
+  float water_absortion = pow(earth_distance - water_distance, 2.0);
+
+  water_absortion = (1.0 / -((water_absortion * 0.08) + 1.0)) + 1.0;
+  water_absortion = clamp(water_absortion, 0.0, 1.0);
+
+  #ifdef OLD_WATER
     return texture2D(gaux1, pos.xy).rgb * color;
+  #else
+    return mix(texture2D(gaux1, pos.xy).rgb, color, water_absortion);
   #endif
 }
 
@@ -197,16 +219,16 @@ vec3 water_shader(
   #if SUN_REFLECTION == 1
      #ifndef NETHER
        #ifndef THE_END
-         return mix(color, reflection.rgb, fresnel * .7) +
+         return mix(color, reflection.rgb, fresnel * .6) +
            vec3(sun_reflection(reflect(normalize(fragpos), normal))) * infinite;
        #else
-          return mix(color, reflection.rgb, fresnel * .7);
+          return mix(color, reflection.rgb, fresnel * .6);
        #endif
      #else
-        return mix(color, reflection.rgb, fresnel * .7);
+        return mix(color, reflection.rgb, fresnel * .6);
      #endif
   #else
-     return mix(color, reflection.rgb, fresnel * .7);
+     return mix(color, reflection.rgb, fresnel * .6);
   #endif
 }
 

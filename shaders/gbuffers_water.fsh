@@ -90,14 +90,15 @@ varying vec3 up_vec;  // Flat
 
 void main() {
   vec4 block_color = texture2D(tex, texcoord) * tint_color;
+  vec3 real_light;
   vec3 fragposition =
     to_screen_space(
       vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z)
       );
 
     vec3 water_normal_base = normal_waves(worldposition.xzy);
-    // vec3 surface_normal = get_normals(water_normal_base);
-    vec3 surface_normal = get_normals(vec3(0.0, 0.0, 1.0));
+    vec3 surface_normal = get_normals(water_normal_base);
+    // vec3 surface_normal = get_normals(vec3(0.0, 0.0, 1.0));
     vec3 flat_normal = get_normals(vec3(0.0, 0.0, 1.0));
     float normal_dot_eye = dot(flat_normal, normalize(fragposition));
     float fresnel = square_pow(1.0 + normal_dot_eye);
@@ -173,42 +174,59 @@ void main() {
         float shadow_c = abs((light_mix * 2.0) - 1.0);
       #endif
 
-      vec3 real_light =
+      real_light =
         omni_light +
         (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
         candle_color;
 
       block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
     #else
-      #if MC_VERSION >= 11300
-        #if WATER_TEXTURE == 1
-          block_color.rgb = mix(
-            vec3(1.0),
-            tint_color.rgb,
-            clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
-          ) * texture2D(tex, texcoord).rgb;
+
+
+      #ifdef OLD_WATER
+
+        #if MC_VERSION >= 11300
+          #if WATER_TEXTURE == 1
+            block_color.rgb = mix(
+              vec3(1.0),
+              tint_color.rgb,
+              clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
+            ) * texture2D(tex, texcoord).rgb;
+          #else
+            block_color.rgb = mix(
+              vec3(1.0),
+              tint_color.rgb,
+              clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
+            );
+          #endif
         #else
-          block_color.rgb = mix(
-            vec3(1.0),
-            tint_color.rgb,
-            clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
-          );
+          #if WATER_TEXTURE == 1
+            block_color.rgb = mix(
+              vec3(1.0),
+              vec3(0.18, 0.33, 0.81),
+              clamp(fresnel * .5  + WATER_TINT, 0.0, 1.0)
+            ) * texture2D(tex, texcoord).a;
+          #else
+            block_color.rgb = mix(
+              vec3(1.0),
+              vec3(0.18, 0.33, 0.81),
+              clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
+            );
+          #endif
         #endif
+
       #else
-        #if WATER_TEXTURE == 1
-          block_color.rgb = mix(
-            vec3(1.0),
-            vec3(0.18, 0.33, 0.81),
-            clamp(fresnel * .5  + WATER_TINT, 0.0, 1.0)
-          ) * texture2D(tex, texcoord).a;
-        #else
-          block_color.rgb = mix(
-            vec3(1.0),
-            vec3(0.18, 0.33, 0.81),
-            clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
-          );
-        #endif
+        real_light =
+          omni_light +
+          (direct_light_strenght * direct_light_color) * (1.0 - rainStrength * 0.75) +
+          candle_color;
+        block_color.rgb = tint_color.rgb * real_light * visible_sky * 0.5;
+        // block_color.rgb = tint_color.rgb * visible_sky;
       #endif
+
+
+
+
 
       block_color = vec4(
         refraction(
@@ -229,7 +247,7 @@ void main() {
         dither
       );
 
-      // block_color.rgb = vec3(increment_ratio);
+      // block_color.rgb = vec3(water_distance / far);
     #endif
 
   } else {  // Otros translúcidos
@@ -241,7 +259,7 @@ void main() {
       float shadow_c = abs((light_mix * 2.0) - 1.0);
     #endif
 
-    vec3 real_light =
+    real_light =
       omni_light +
       (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
       candle_color;
