@@ -96,8 +96,8 @@ void main() {
       );
 
     vec3 water_normal_base = normal_waves(worldposition.xzy);
-    // vec3 surface_normal = get_normals(water_normal_base);
-    vec3 surface_normal = get_normals(vec3(0.0, 0.0, 1.0));
+    vec3 surface_normal = get_normals(water_normal_base);
+    // vec3 surface_normal = get_normals(vec3(0.0, 0.0, 1.0));
     vec3 flat_normal = get_normals(vec3(0.0, 0.0, 1.0));
     float normal_dot_eye = dot(flat_normal, normalize(fragposition));
     float fresnel = square_pow(1.0 + normal_dot_eye);
@@ -128,6 +128,8 @@ void main() {
   );
 
   vec3 reflect_water_vec = reflect(fragposition, surface_normal);
+
+  float increment_ratio = clamp(pow(dot(normalize(fragposition), normalize(reflect_water_vec)), 1.0), 0.0, 1.0);
 
   vec3 sky_color_reflect;
   if (isEyeInWater == 0 || isEyeInWater == 2) {
@@ -230,6 +232,8 @@ void main() {
         fresnel,
         dither
       );
+
+      // block_color.rgb = vec3(increment_ratio);
     #endif
 
   } else {  // Otros translúcidos

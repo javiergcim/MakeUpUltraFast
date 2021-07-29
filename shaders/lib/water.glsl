@@ -6,12 +6,10 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
   vec3 hit_pos = camera_to_screen(hit_coord);
 
   vec3 dir_increment;
-  // vec3 current_march = hit_coord + dir_increment;
   vec3 current_march = hit_coord;
   vec3 old_current_march;
   float screen_depth;
   float prev_screen_depth = 0.0;
-  float prev_march_pos_z = 0.0;
   float depth_diff = 1.0;
   vec3 march_pos;
   vec3 last_march_pos;
@@ -47,7 +45,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
     screen_depth = texture2D(depthtex1, march_pos.xy).x;
     depth_diff = screen_depth - march_pos.z;
 
-    if (depth_diff < 0.0 && abs(screen_depth - prev_screen_depth) > abs(march_pos.z - prev_march_pos_z)) {
+    if (depth_diff < 0.0 && abs(screen_depth - prev_screen_depth) > abs(march_pos.z - last_march_pos.z)) {
       hidden_flag = true;
       if (first_hidden) {
         last_hidden_pos = last_march_pos;
@@ -60,21 +58,8 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
     if (search_flag == false && depth_diff < 0.0 && hidden_flag == false) {
       search_flag = true;
     }
-
-    // if(search_flag) {
-    //   dir_increment *= .5;
-    // } else {
-    //   dir_increment *= dither;
-    // }
-
-    prev_march_pos_z = march_pos.z;
+    
     prev_screen_depth = screen_depth;
-
-    // if (hidden_flag) {
-    //   current_march += dir_increment;
-    // } else {
-    //   current_march += dir_increment * sign(depth_diff);
-    // }
   }
 
   infinite = float(screen_depth > 0.9999);
@@ -83,7 +68,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
     infinite = 1.0;
     return march_pos;
   } else if (hidden_flag) {
-       return last_hidden_pos;
+    return last_hidden_pos;
   } else {
     return camera_to_screen(current_march);
   }
