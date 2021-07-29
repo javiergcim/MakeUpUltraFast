@@ -96,8 +96,8 @@ void main() {
       );
 
     vec3 water_normal_base = normal_waves(worldposition.xzy);
-    vec3 surface_normal = get_normals(water_normal_base);
-    // vec3 surface_normal = get_normals(vec3(0.0, 0.0, 1.0));
+    // vec3 surface_normal = get_normals(water_normal_base);
+    vec3 surface_normal = get_normals(vec3(0.0, 0.0, 1.0));
     vec3 flat_normal = get_normals(vec3(0.0, 0.0, 1.0));
     float normal_dot_eye = dot(flat_normal, normalize(fragposition));
     float fresnel = square_pow(1.0 + normal_dot_eye);
@@ -134,7 +134,6 @@ void main() {
     sky_color_reflect = mix(
       low_sky_color,
       hi_sky_color,
-      // sqrt(clamp(dot(normalize(reflect_water_vec), up_vec), 0.0001, 1.0))
       sqrt(clamp(dot(reflect_water_vec, up_vec), 0.0001, 1.0))
       );
   } else {

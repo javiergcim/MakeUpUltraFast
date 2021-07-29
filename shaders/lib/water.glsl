@@ -127,6 +127,7 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
     vec2 medium_texcoord = pos.xy + refraction.xy * refraction_strength;
 
     return texture2D(gaux1, medium_texcoord.st).rgb * color;
+    // return mix(texture2D(gaux1, medium_texcoord.st).rgb, color, 0.0);
   #else
     return texture2D(gaux1, pos.xy).rgb * color;
   #endif
@@ -148,12 +149,8 @@ vec3 get_normals(vec3 bump) {
 
 vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected, inout float infinite, float dither) {
   #if SSR_TYPE == 0  // Flipped image
-    // vec3 reflected_vector = reflected * 35.0;
-    // vec3 pos = camera_to_screen(fragpos + reflected_vector);
-    vec3 pos = camera_to_screen(fragpos + reflected * 35.0);
+    vec3 pos = camera_to_screen(fragpos + reflected * 50.0);
   #else  // Raymarch
-    // vec3 reflected_vector = reflect(normalize(fragpos), normal);
-    // vec3 pos = fast_raymarch(reflected_vector, fragpos, infinite, dither);
     vec3 pos = fast_raymarch(reflected, fragpos, infinite, dither);
   #endif
 
@@ -217,7 +214,7 @@ vec3 water_shader(
 
 vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal, inout float infinite, float dither) {
   #if SSR_TYPE == 0
-    vec3 reflected_vector = reflect(normalize(fragpos), normal) * 35.0;
+    vec3 reflected_vector = reflect(normalize(fragpos), normal) * 50.0;
     vec3 pos = camera_to_screen(fragpos + reflected_vector);
   #else
     vec3 reflected_vector = reflect(normalize(fragpos), normal);
