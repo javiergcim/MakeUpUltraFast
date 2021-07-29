@@ -91,7 +91,7 @@ varying vec3 up_vec;  // Flat
 void main() {
   vec4 block_color = texture2D(tex, texcoord) * tint_color;
   vec3 real_light;
-  vec3 fragposition =
+  vec3 fragposition =  // TODO Check simplified version
     to_screen_space(
       vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z)
       );
@@ -128,7 +128,9 @@ void main() {
     rainStrength
   );
 
-  vec3 reflect_water_vec = reflect(normalize(fragposition), surface_normal);
+  // vec3 reflect_water_vec = reflect(normalize(fragposition), surface_normal);
+  vec3 reflect_water_vec = reflect(fragposition, surface_normal);
+  vec3 norm_reflect_water_vec = normalize(reflect_water_vec);
 
   vec3 sky_color_reflect;
   if (isEyeInWater == 0 || isEyeInWater == 2) {
@@ -242,7 +244,7 @@ void main() {
         surface_normal,
         block_color.rgb,
         sky_color_reflect,
-        reflect_water_vec,
+        norm_reflect_water_vec,
         fresnel,
         dither
       );
