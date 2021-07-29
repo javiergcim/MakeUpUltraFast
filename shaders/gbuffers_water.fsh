@@ -137,7 +137,7 @@ void main() {
     sky_color_reflect = mix(
       low_sky_color,
       hi_sky_color,
-      sqrt(clamp(dot(reflect_water_vec, up_vec), 0.0001, 1.0))
+      sqrt(clamp(dot(norm_reflect_water_vec, up_vec), 0.0001, 1.0))
       );
   } else {
     sky_color_reflect =
@@ -218,12 +218,18 @@ void main() {
         #endif
 
       #else
+        // vec3 sun_vec = normalize(sunPosition);
+        // float sun_light_strenght = dot(surface_normal, sun_vec);
+        // float new_direct_light_strenght =
+        //   mix(-sun_light_strenght, sun_light_strenght, light_mix);
+        //
+        //
         real_light =
           omni_light +
           (direct_light_strenght * direct_light_color) * (1.0 - rainStrength * 0.75) +
           candle_color;
-        block_color.rgb = tint_color.rgb * real_light * visible_sky * 0.5;
-        // block_color.rgb = tint_color.rgb * visible_sky;
+        // block_color.rgb = tint_color.rgb * real_light * visible_sky * 0.5;
+        block_color.rgb = tint_color.rgb * real_light * visible_sky * 0.4;
       #endif
 
 
