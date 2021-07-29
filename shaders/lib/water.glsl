@@ -58,7 +58,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
     if (search_flag == false && depth_diff < 0.0 && hidden_flag == false) {
       search_flag = true;
     }
-    
+
     prev_screen_depth = screen_depth;
   }
 
@@ -148,11 +148,13 @@ vec3 get_normals(vec3 bump) {
 
 vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected, inout float infinite, float dither) {
   #if SSR_TYPE == 0  // Flipped image
-    vec3 reflected_vector = reflected * 35.0;
-    vec3 pos = camera_to_screen(fragpos + reflected_vector);
+    // vec3 reflected_vector = reflected * 35.0;
+    // vec3 pos = camera_to_screen(fragpos + reflected_vector);
+    vec3 pos = camera_to_screen(fragpos + reflected * 35.0);
   #else  // Raymarch
-    vec3 reflected_vector = reflect(normalize(fragpos), normal);
-    vec3 pos = fast_raymarch(reflected_vector, fragpos, infinite, dither);
+    // vec3 reflected_vector = reflect(normalize(fragpos), normal);
+    // vec3 pos = fast_raymarch(reflected_vector, fragpos, infinite, dither);
+    vec3 pos = fast_raymarch(reflected, fragpos, infinite, dither);
   #endif
 
   float border =
@@ -198,16 +200,16 @@ vec3 water_shader(
   #if SUN_REFLECTION == 1
      #ifndef NETHER
        #ifndef THE_END
-         return mix(color, reflection.rgb, fresnel * .75) +
+         return mix(color, reflection.rgb, fresnel * .7) +
            vec3(sun_reflection(reflect(normalize(fragpos), normal))) * infinite;
        #else
-          return mix(color, reflection.rgb, fresnel * .75);
+          return mix(color, reflection.rgb, fresnel * .7);
        #endif
      #else
-        return mix(color, reflection.rgb, fresnel * .75);
+        return mix(color, reflection.rgb, fresnel * .7);
      #endif
   #else
-     return mix(color, reflection.rgb, fresnel * .75);
+     return mix(color, reflection.rgb, fresnel * .7);
   #endif
 }
 

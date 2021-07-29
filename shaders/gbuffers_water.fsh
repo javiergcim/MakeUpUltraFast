@@ -127,16 +127,15 @@ void main() {
     rainStrength
   );
 
-  vec3 reflect_water_vec = reflect(fragposition, surface_normal);
-
-  float increment_ratio = clamp(pow(dot(normalize(fragposition), normalize(reflect_water_vec)), 1.0), 0.0, 1.0);
+  vec3 reflect_water_vec = reflect(normalize(fragposition), surface_normal);
 
   vec3 sky_color_reflect;
   if (isEyeInWater == 0 || isEyeInWater == 2) {
     sky_color_reflect = mix(
       low_sky_color,
       hi_sky_color,
-      sqrt(clamp(dot(normalize(reflect_water_vec), up_vec), 0.0001, 1.0))
+      // sqrt(clamp(dot(normalize(reflect_water_vec), up_vec), 0.0001, 1.0))
+      sqrt(clamp(dot(reflect_water_vec, up_vec), 0.0001, 1.0))
       );
   } else {
     sky_color_reflect =
@@ -153,8 +152,6 @@ void main() {
    float dither_base = 1.0;
   #endif
 
-  // float dither = 1.75 + dither_base;
-  // float dither = 1.7 + dither_base;
   float dither = dither_base;
 
   #if defined CLOUD_REFLECTION && V_CLOUDS > 0

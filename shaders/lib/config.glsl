@@ -69,7 +69,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // #define VANILLA_WATER // Establishes the appearance of water as vanilla, completely cancels reflection, refraction and other options for water.
 
 // Reflection parameters
-#define RAY_STEP 0.25
+// #define RAY_STEP 0.25
 #define RAYMARCH_STEPS 9
 
 // Cloud parameters
