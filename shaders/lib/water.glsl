@@ -3,7 +3,8 @@ Water reflection and refraction related functions.
 */
 
 vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float dither) {
-  vec3 hit_pos = camera_to_screen(hit_coord);
+  // vec3 hit_pos = camera_to_screen(hit_coord);
+  vec3 hit_pos = vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z);
 
   vec3 dir_increment;
   vec3 current_march = hit_coord;
@@ -124,34 +125,31 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
 
   #if REFRACTION == 1
 
-    float refraction_strength = 0.1;
+    float refraction_strength = 0.15;
     refraction_strength /= 1.0 + length(fragpos) * 0.4;
-    pos.xy = pos.xy + refraction.xy * refraction_strength;
-
-    // return texture2D(gaux1, medium_texcoord.st).rgb * color;
-    // return mix(texture2D(gaux1, pos.xy).rgb, color, absortion);
-  // #else
-    // return texture2D(gaux1, pos.xy).rgb * color;
+    pos = pos + refraction.xy * refraction_strength;
   #endif
-
-
-
-  float water_distance =
-    2.0 * near * far / (far + near - (2.0 * gl_FragCoord.z - 1.0) * (far - near));
-
-  // float earth_distance = texture2D(depthtex1, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).r;
-  float earth_distance = texture2D(depthtex1, pos.xy).r;
-  earth_distance =
-    2.0 * near * far / (far + near - (2.0 * earth_distance - 1.0) * (far - near));
-
-  float water_absortion = pow(earth_distance - water_distance, 2.0);
-
-  water_absortion = (1.0 / -((water_absortion * 0.08) + 1.0)) + 1.0;
-  water_absortion = clamp(water_absortion, 0.0, 1.0);
 
   #ifdef OLD_WATER
     return texture2D(gaux1, pos.xy).rgb * color;
   #else
+    float water_absortion;
+    if (isEyeInWater == 0) {
+      float water_distance =
+        2.0 * near * far / (far + near - (2.0 * gl_FragCoord.z - 1.0) * (far - near));
+
+      // float earth_distance = texture2D(depthtex1, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).r;
+      float earth_distance = texture2D(depthtex1, pos.xy).r;
+      earth_distance =
+        2.0 * near * far / (far + near - (2.0 * earth_distance - 1.0) * (far - near));
+
+      water_absortion = pow(earth_distance - water_distance, 2.0);
+      water_absortion = (1.0 / -((water_absortion * 0.2) + 1.125)) + 1.0;
+      water_absortion = clamp(water_absortion, 0.0, 1.0);
+    } else {
+      water_absortion = 0.0;
+    }
+
     return mix(texture2D(gaux1, pos.xy).rgb, color, water_absortion);
   #endif
 }
@@ -244,7 +242,7 @@ vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal, inout float infinite, fl
     vec3 pos = fast_raymarch(reflected_vector, fragpos, infinite, dither);
 
     if (pos.x > 99.0) { // Fallback
-      pos = camera_to_screen(fragpos + (reflected_vector * 35.0));
+      pos = camera_to_screen(fragpos + reflected_vector * 50.0);
     }
   #endif
 

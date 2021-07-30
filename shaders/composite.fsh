@@ -16,6 +16,8 @@ uniform float rainStrength;
 uniform sampler2D depthtex0;
 uniform int isEyeInWater;
 
+uniform ivec2 eyeBrightnessSmooth;
+
 #ifdef VOL_LIGHT
   // Don't delete this ifdef. It's nedded to show option in menu (Optifine bug?)
 #endif
@@ -34,6 +36,7 @@ uniform int isEyeInWater;
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
+varying float exposure_coef;
 
 #ifdef BLOOM
   varying float exposure;  // Flat
@@ -58,6 +61,36 @@ void main() {
   vec4 block_color = texture2D(colortex1, texcoord);
   float d = texture2D(depthtex0, texcoord).r;
   float linear_d = ld(d);
+
+
+
+
+
+  // Niebla submarina
+  if (isEyeInWater == 1) {
+    float water_absortion =  // Distance
+      2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
+    // water_absortion *= water_absortion;
+    water_absortion = (1.0 / -((water_absortion * 0.25) + 1.0)) + 1.0;
+
+    block_color.rgb = mix(
+      block_color.rgb,
+      WATER_COLOR * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667) * (exposure_coef * 0.9 + 0.1),
+      water_absortion);
+
+  } else if (isEyeInWater == 2) {
+    block_color = mix(
+      block_color,
+      vec4(1.0, .1, 0.0, 1.0),
+      sqrt(linear_d)
+      );
+  }
+
+
+
+
+
+
 
   if (blindness > .01) {
     block_color.rgb =

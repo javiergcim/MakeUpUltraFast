@@ -23,6 +23,8 @@ uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
 
+uniform sampler2D depthtex1;
+
 #if AO == 1
   uniform float inv_aspect_ratio;
   uniform float fov_y_inv;
@@ -136,29 +138,11 @@ void main() {
 
   // Niebla submarina
   if (isEyeInWater == 1) {
-    vec3 hi_sky_color = day_blend(
-      HI_MIDDLE_COLOR,
-      HI_DAY_COLOR,
-      HI_NIGHT_COLOR
-      );
-
-    hi_sky_color = mix(
-      hi_sky_color,
-      HI_SKY_RAIN_COLOR * luma(hi_sky_color),
-      rainStrength
-    );
-
-    if (linear_d < 0.9999) {
+    if (linear_d > 0.9999) {
       block_color.rgb = mix(
+        WATER_COLOR * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
         block_color.rgb,
-        hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
-        sqrt(linear_d)
-        );
-    } else {
-      block_color.rgb = mix(
-        hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
-        block_color.rgb,
-        clamp(view_vector.y - 0.25, 0.0, 1.0)
+        clamp(view_vector.y - 0.1, 0.0, 1.0)
       );
     }
   } else if (isEyeInWater == 2) {

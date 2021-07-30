@@ -228,8 +228,8 @@ void main() {
           omni_light +
           (direct_light_strenght * direct_light_color) * (1.0 - rainStrength * 0.75) +
           candle_color;
-        // block_color.rgb = tint_color.rgb * real_light * visible_sky * 0.5;
-        block_color.rgb = tint_color.rgb * real_light * visible_sky * 0.4;
+        // block_color.rgb = tint_color.rgb * real_light * visible_sky * 0.3;
+        block_color.rgb = WATER_COLOR * real_light * visible_sky;
       #endif
 
 

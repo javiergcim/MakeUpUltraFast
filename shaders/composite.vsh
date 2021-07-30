@@ -25,6 +25,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
+varying float exposure_coef;
 
 #if defined VOL_LIGHT && defined SHADOW_CASTING
   varying vec3 vol_light_color;
@@ -45,7 +46,7 @@ void main() {
   #ifdef BLOOM
     // Exposure
     float candle_bright = eyeBrightnessSmooth.x * 0.0003125;  // (0.004166666666666667 * 0.075)
-    float exposure_coef =
+    exposure_coef =
       mix(
         ambient_exposure[current_hour_floor],
         ambient_exposure[current_hour_ceil],
