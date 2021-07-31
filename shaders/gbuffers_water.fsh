@@ -91,16 +91,16 @@ varying vec3 up_vec;  // Flat
 void main() {
   vec4 block_color = texture2D(tex, texcoord) * tint_color;
   vec3 real_light;
-  vec3 fragposition =  // TODO Check simplified version
+  vec3 fragposition =
     to_screen_space(
       vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z)
       );
 
-    vec3 water_normal_base = normal_waves(worldposition.xzy);
-    vec3 surface_normal = get_normals(water_normal_base);
-    vec3 flat_normal = get_normals(vec3(0.0, 0.0, 1.0));
-    float normal_dot_eye = dot(flat_normal, normalize(fragposition));
-    float fresnel = square_pow(1.0 + normal_dot_eye);
+  vec3 water_normal_base = normal_waves(worldposition.xzy);
+  vec3 surface_normal = get_normals(water_normal_base);
+  vec3 flat_normal = get_normals(vec3(0.0, 0.0, 1.0));
+  float normal_dot_eye = dot(flat_normal, normalize(fragposition));
+  float fresnel = square_pow(1.0 + normal_dot_eye);
 
   // Reflected sky color calculation
   vec3 hi_sky_color = day_blend(
@@ -218,6 +218,7 @@ void main() {
         sky_color_reflect,
         norm_reflect_water_vec,
         fresnel,
+        visible_sky,
         dither
       );
 

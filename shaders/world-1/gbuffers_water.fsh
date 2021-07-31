@@ -123,6 +123,7 @@ void main() {
       gl_Fog.color.rgb * .5,
       reflect_water_vec,
       fresnel * fresnel,
+      0.0,
       dither
     );
     // #endif

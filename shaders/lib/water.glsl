@@ -185,6 +185,7 @@ vec3 water_shader(
   vec3 sky_reflect,
   vec3 reflected,
   float fresnel,
+  float visible_sky,
   float dither) {
   vec4 reflection = vec4(0.0);
   float infinite = 1.0;
@@ -193,9 +194,14 @@ vec3 water_shader(
     reflection = reflection_calc(fragpos, normal, reflected, infinite, dither);
   #endif
 
-  #ifdef NETHER
-    float visible_sky = 0.0;
-  #endif
+  // #ifdef NETHER
+  //   float visible_sky = 0.0;
+  // #endif
+  //
+  // #ifdef THE_END
+  //   float visible_sky = 1.0;
+  // #endif
+
 
   reflection.rgb = mix(
     sky_reflect * pow(visible_sky, 10.0),

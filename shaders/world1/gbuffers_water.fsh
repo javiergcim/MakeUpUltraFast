@@ -84,6 +84,7 @@ varying float visible_sky;
 
 void main() {
   vec4 block_color;
+  vec3 real_light;
   vec3 fragposition =
     to_screen_space(
       vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z)
@@ -95,83 +96,75 @@ void main() {
   float normal_dot_eye = dot(flat_normal, normalize(fragposition));
   float fresnel = square_pow(1.0 + normal_dot_eye);
 
+  vec3 reflect_water_vec = reflect(fragposition, surface_normal);
+  vec3 norm_reflect_water_vec = normalize(reflect_water_vec);
+
   #if (defined CLOUD_REFLECTION && V_CLOUDS > 0) || SSR_TYPE > 0
     #if AA_TYPE > 0
-      float dither_base = shifted_dither_grad_noise(gl_FragCoord.xy);
+      float dither = shifted_dither_grad_noise(gl_FragCoord.xy);
     #else
-      float dither_base = dither_grad_noise(gl_FragCoord.xy);
+      float dither = dither_grad_noise(gl_FragCoord.xy);
     #endif
   #else
-    float dither_base = 1.0;
+   float dither = 1.0;
   #endif
-
-  float dither = 1.75 + dither_base;
-
-  vec3 reflect_water_vec = reflect(fragposition, surface_normal);
 
   #if defined CLOUD_REFLECTION && V_CLOUDS > 0
     vec3 sky_color_reflect = get_end_cloud(
       normalize((gbufferModelViewInverse * vec4(reflect_water_vec, 1.0)).xyz),
       HI_DAY_COLOR,
       0.0,
-      dither_base,
+      dither,
       worldposition.xyz,
       int(CLOUD_STEPS_AVG * 0.5)
     );
-    // vec3 sky_color_reflect = HI_DAY_COLOR;
+    // sky_color_reflect = vec3(1.0);
   #else
     vec3 sky_color_reflect = HI_DAY_COLOR;
+    // sky_color_reflect = vec3(1.0, 0.0, 0.0);
   #endif
 
   if (block_type > 2.5) {  // Water
     #ifdef VANILLA_WATER
-    // Toma el color puro del bloque
-    block_color = texture2D(tex, texcoord) * tint_color;
-    float shadow_c;
+      // Toma el color puro del bloque
+      block_color = texture2D(tex, texcoord) * tint_color;
+      float shadow_c;
 
-    #ifdef SHADOW_CASTING
-      shadow_c = get_shadow(shadow_pos);
-      shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
+      #ifdef SHADOW_CASTING
+        shadow_c = get_shadow(shadow_pos);
+        shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
+
+      #else
+        shadow_c = 1.0;
+      #endif
+
+      real_light =
+        omni_light +
+        (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
+        candle_color;
+
+      block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
 
     #else
-      shadow_c = 1.0;
-    #endif
-
-    vec3 real_light =
-      omni_light +
-      (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
-      candle_color;
-
-    block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
-    #else
-      #if MC_VERSION >= 11300
-        #if WATER_TEXTURE == 1
-          block_color.rgb = mix(
-            vec3(1.0),
-            tint_color.rgb,
-            clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
-          ) * texture2D(tex, texcoord).rgb;
+      #if WATER_TEXTURE == 1
+        #if MC_VERSION >= 11300
+          float water_texture = texture2D(tex, texcoord).r;
         #else
-          block_color.rgb = mix(
-            vec3(1.0),
-            tint_color.rgb,
-            clamp(fresnel * .5 + WATER_TINT, 0.0, 1.0)
-          );
+          float water_texture = texture2D(tex, texcoord).a;
         #endif
       #else
-        #if WATER_TEXTURE == 1
-          block_color.rgb = mix(
-            vec3(1.0),
-            vec3(0.18, 0.33, 0.81),
-            clamp(fresnel * .5  + WATER_TINT, 0.0, 1.0)
-          ) * texture2D(tex, texcoord).a;
-        #else
-          block_color.rgb = mix(
-            vec3(1.0),
-            vec3(0.18, 0.33, 0.81),
-            clamp(fresnel * .5  + WATER_TINT, 0.0, 1.0)
-          );
-        #endif
+        float water_texture = 1.0;
+      #endif
+
+      vec3 real_light =
+        omni_light +
+        (direct_light_strenght * direct_light_color) * (1.0 - rainStrength * 0.75) +
+        candle_color;
+
+      #if WATER_COLOR_SOURCE == 0
+        block_color.rgb = water_texture * real_light * WATER_COLOR;
+      #elif WATER_COLOR_SOURCE == 1
+        block_color.rgb = 0.3 * water_texture * real_light * tint_color.rgb;
       #endif
 
       block_color = vec4(
@@ -183,15 +176,14 @@ void main() {
         1.0
       );
 
-      vec3 reflect_water_vec = reflect(fragposition, surface_normal);
-
       block_color.rgb = water_shader(
         fragposition,
         surface_normal,
         block_color.rgb,
         sky_color_reflect,
-        reflect_water_vec,
+        norm_reflect_water_vec,
         fresnel * fresnel,
+        1.0,
         dither
       );
     #endif
