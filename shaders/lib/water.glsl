@@ -3,7 +3,6 @@ Water reflection and refraction related functions.
 */
 
 vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float dither) {
-  // vec3 hit_pos = camera_to_screen(hit_coord);
   vec3 hit_pos = vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z);
 
   vec3 dir_increment;
@@ -112,46 +111,37 @@ vec3 normal_waves(vec3 pos) {
   vec3 final_wave =
     vec3(partial_wave, 1.0 - (partial_wave.x * partial_wave.x + partial_wave.y * partial_wave.y));
 
-  // final_wave.b *= 1.7;
   final_wave.b *= 1.6;
 
   return normalize(final_wave);
-
 }
 
 vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
-  // vec3 pos = camera_to_screen(fragpos);
   vec2 pos = gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y);
 
   #if REFRACTION == 1
-
-    float refraction_strength = 0.15;
+  float refraction_strength = 0.15;
     refraction_strength /= 1.0 + length(fragpos) * 0.4;
     pos = pos + refraction.xy * refraction_strength;
   #endif
 
-  #ifdef OLD_WATER
-    return texture2D(gaux1, pos.xy).rgb * color;
-  #else
-    float water_absortion;
-    if (isEyeInWater == 0) {
-      float water_distance =
-        2.0 * near * far / (far + near - (2.0 * gl_FragCoord.z - 1.0) * (far - near));
+  float water_absortion;
+  if (isEyeInWater == 0) {
+    float water_distance =
+      2.0 * near * far / (far + near - (2.0 * gl_FragCoord.z - 1.0) * (far - near));
 
-      // float earth_distance = texture2D(depthtex1, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).r;
-      float earth_distance = texture2D(depthtex1, pos.xy).r;
-      earth_distance =
-        2.0 * near * far / (far + near - (2.0 * earth_distance - 1.0) * (far - near));
+    float earth_distance = texture2D(depthtex1, pos.xy).r;
+    earth_distance =
+      2.0 * near * far / (far + near - (2.0 * earth_distance - 1.0) * (far - near));
 
-      water_absortion = pow(earth_distance - water_distance, 2.0);
-      water_absortion = (1.0 / -((water_absortion * 0.2) + 1.125)) + 1.0;
-      water_absortion = clamp(water_absortion, 0.0, 1.0);
-    } else {
-      water_absortion = 0.0;
-    }
+    water_absortion = earth_distance - water_distance;
+    water_absortion *= water_absortion;
+    water_absortion = (1.0 / -((water_absortion * WATER_ABSORPTION) + 1.125)) + 1.0;
+  } else {
+    water_absortion = 0.0;
+  }
 
-    return mix(texture2D(gaux1, pos.xy).rgb, color, water_absortion);
-  #endif
+  return mix(texture2D(gaux1, pos.xy).rgb, color, water_absortion);
 }
 
 vec3 get_normals(vec3 bump) {

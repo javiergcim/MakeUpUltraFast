@@ -15,7 +15,6 @@ uniform float blindness;
 uniform float rainStrength;
 uniform sampler2D depthtex0;
 uniform int isEyeInWater;
-
 uniform ivec2 eyeBrightnessSmooth;
 
 #ifdef VOL_LIGHT
@@ -62,16 +61,11 @@ void main() {
   float d = texture2D(depthtex0, texcoord).r;
   float linear_d = ld(d);
 
-
-
-
-
-  // Niebla submarina
+  // "Niebla" submarina
   if (isEyeInWater == 1) {
     float water_absortion =  // Distance
       2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
-    // water_absortion *= water_absortion;
-    water_absortion = (1.0 / -((water_absortion * 0.25) + 1.0)) + 1.0;
+    water_absortion = (1.0 / -((water_absortion * WATER_ABSORPTION) + 1.0)) + 1.0;
 
     block_color.rgb = mix(
       block_color.rgb,
@@ -85,12 +79,6 @@ void main() {
       sqrt(linear_d)
       );
   }
-
-
-
-
-
-
 
   if (blindness > .01) {
     block_color.rgb =
@@ -128,8 +116,6 @@ void main() {
 
     block_color.rgb =
       mix(block_color.rgb, vol_light_color, vol_light * vol_intensity * (1.0 - rainStrength));
-
-    // block_color.rgb = vec3(vol_intensity);
   #endif
 
   // Dentro de la nieve

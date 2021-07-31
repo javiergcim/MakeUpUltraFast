@@ -28,7 +28,7 @@ profile.comment=Very Low, Low - Suitable for low end. Medium - Suitable for good
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=Thanks for using this shader! :). Set Optifine native quality controls on normal or default values for better quality.
-value.ACERCADE.0=v.6.05
+value.ACERCADE.0=v.6.5
 
 #Options
 #############################
@@ -86,6 +86,10 @@ option.WATER_TEXTURE=Water texture
 value.WATER_TEXTURE.0=No
 value.WATER_TEXTURE.1=Yes
 
+option.WATER_COLOR_SOURCE=Water color
+value.WATER_COLOR_SOURCE.0=Shader scheme
+value.WATER_COLOR_SOURCE.1=Resource Pack
+
 option.REFLECTION=Reflection
 value.REFLECTION.0=Off
 value.REFLECTION.1=On
@@ -114,7 +118,7 @@ value.CHROMA_ABER.1=Yes
 
 option.CHROMA_ABER_STRENGHT=Chroma aberration strenght
 
-option.WATER_TINT=Water tint
+option.WATER_ABSORPTION=Water absorption index
 
 option.COLOR_SCHEME=Color scheme
 value.COLOR_SCHEME.0=Legacy

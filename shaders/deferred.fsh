@@ -23,8 +23,6 @@ uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
 
-uniform sampler2D depthtex1;
-
 #if AO == 1
   uniform float inv_aspect_ratio;
   uniform float fov_y_inv;
@@ -136,7 +134,7 @@ void main() {
     // block_color = vec4(vec3(linear_d), 1.0);
   #endif
 
-  // Niebla submarina
+  // Cielo bajo el agua
   if (isEyeInWater == 1) {
     if (linear_d > 0.9999) {
       block_color.rgb = mix(
@@ -145,12 +143,6 @@ void main() {
         clamp(view_vector.y - 0.1, 0.0, 1.0)
       );
     }
-  } else if (isEyeInWater == 2) {
-    block_color = mix(
-      block_color,
-      vec4(1.0, .1, 0.0, 1.0),
-      sqrt(linear_d)
-      );
   }
 
   /* DRAWBUFFERS:14 */
