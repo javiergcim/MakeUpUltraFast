@@ -48,7 +48,7 @@ const int colortex3Format = RGBA16F;
 */
 #else
 /*
-const int colortex3Format = R11F_G11F_B10F;
+const int colortex3Format = RGB16F;
 */
 #endif
 /*

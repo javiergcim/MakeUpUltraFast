@@ -47,31 +47,25 @@ varying float is_foliage;  // Flat
 #endif
 
 void main() {
-  vec4 block_color = vec4(0.0, 0.0, 0.0, 1.0);
-  if (pixel_mod == mod(gl_FragCoord.x + gl_FragCoord.y, 2)) {
-    // Toma el color puro del bloque
-    block_color = texture2D(tex, texcoord) * tint_color;
-    float shadow_c;
+  // Toma el color puro del bloque
+  vec4 block_color = texture2D(tex, texcoord) * tint_color;
+  float shadow_c;
 
-    #ifdef SHADOW_CASTING
-    shadow_c = get_shadow(shadow_pos);
-    shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
+  #ifdef SHADOW_CASTING
+  shadow_c = get_shadow(shadow_pos);
+  shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
 
-    #else
-    shadow_c = abs((light_mix * 2.0) - 1.0);
-    #endif
+  #else
+  shadow_c = abs((light_mix * 2.0) - 1.0);
+  #endif
 
-    vec3 real_light =
-    omni_light +
-    (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - (rainStrength * 0.75)) +
-    candle_color;
+  vec3 real_light =
+  omni_light +
+  (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - (rainStrength * 0.75)) +
+  candle_color;
 
-    block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
+  block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
 
-    #include "/src/finalcolor.glsl"
-    #include "/src/writebuffers.glsl"
-  } else {
-    /* DRAWBUFFERS:0 */
-    gl_FragData[0] = block_color;
-  }
+  #include "/src/finalcolor.glsl"
+  #include "/src/writebuffers.glsl"
 }
