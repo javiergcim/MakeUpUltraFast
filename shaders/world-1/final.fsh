@@ -21,7 +21,8 @@ gaux2 - Blue noise texture
 gaux3 - Not used
 gaux4 - Not used
 
-const int colortex0Format = R11F_G11F_B10F;
+const int noisetexFormat = RGB8;
+const int colortex0Format = RGB10_A2;
 */
 #ifdef DOF
 /*
