@@ -134,9 +134,12 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
     earth_distance =
       2.0 * near * far / (far + near - (2.0 * earth_distance - 1.0) * (far - near));
 
+    // water_absortion = clamp(earth_distance - water_distance, 0.0, 1.0);
     water_absortion = earth_distance - water_distance;
     water_absortion *= water_absortion;
+    // water_absortion = pow(water_absortion, 1.25);
     water_absortion = (1.0 / -((water_absortion * WATER_ABSORPTION) + 1.125)) + 1.0;
+    // water_absortion = (1.0 / -((water_absortion * 2.0) + 1.0)) + 1.0;
   } else {
     water_absortion = 0.0;
   }
@@ -194,15 +197,6 @@ vec3 water_shader(
     reflection = reflection_calc(fragpos, normal, reflected, infinite, dither);
   #endif
 
-  // #ifdef NETHER
-  //   float visible_sky = 0.0;
-  // #endif
-  //
-  // #ifdef THE_END
-  //   float visible_sky = 1.0;
-  // #endif
-
-
   reflection.rgb = mix(
     sky_reflect * pow(visible_sky, 10.0),
     reflection.rgb,
@@ -214,16 +208,16 @@ vec3 water_shader(
   #if SUN_REFLECTION == 1
      #ifndef NETHER
        #ifndef THE_END
-         return mix(color, reflection.rgb, fresnel * .6) +
+         return mix(color, reflection.rgb, fresnel * .75) +
            vec3(sun_reflection(reflect(normalize(fragpos), normal))) * infinite;
        #else
-          return mix(color, reflection.rgb, fresnel * .6);
+          return mix(color, reflection.rgb, fresnel * .75);
        #endif
      #else
-        return mix(color, reflection.rgb, fresnel * .6);
+        return mix(color, reflection.rgb, fresnel * .75);
      #endif
   #else
-     return mix(color, reflection.rgb, fresnel * .6);
+     return mix(color, reflection.rgb, fresnel * .75);
   #endif
 }
 

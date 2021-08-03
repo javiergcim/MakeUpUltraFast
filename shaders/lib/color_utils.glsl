@@ -22,7 +22,7 @@ uniform float night_mixer;
   #define LOW_DAY_COLOR vec3(0.572, 1.014, 1.248)
   #define LOW_NIGHT_COLOR vec3(0.01078431, 0.02117647, 0.05) * NIGHT_BRIGHT
 
-  #define WATER_COLOR vec3(0.08470588, 0.16941176, 0.24705882)
+  #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
 #elif COLOR_SCHEME == 1  // Cocoa
   #define OMNI_TINT 0.5
   #define AMBIENT_MIDDLE_COLOR vec3(0.918528, 0.660192, 0.301392)
@@ -37,7 +37,7 @@ uniform float night_mixer;
   #define LOW_DAY_COLOR vec3(0.52, 0.975, 1.3)
   #define LOW_NIGHT_COLOR vec3(0.022, 0.029, 0.049) * NIGHT_BRIGHT
 
-  #define WATER_COLOR vec3(0.08470588, 0.16941176, 0.24705882)
+  #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
 #elif COLOR_SCHEME == 2  // Captain
   #define OMNI_TINT 0.5
   #define AMBIENT_MIDDLE_COLOR vec3(0.84456, 0.52992, 0.26496001)
@@ -52,7 +52,7 @@ uniform float night_mixer;
   #define LOW_DAY_COLOR vec3(0.65, 0.91, 1.3)
   #define LOW_NIGHT_COLOR vec3(0.025, 0.035, 0.05) * NIGHT_BRIGHT
 
-  #define WATER_COLOR vec3(0.08470588, 0.16941176, 0.24705882)
+  #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
 #elif COLOR_SCHEME == 3  // Shoka
   #define OMNI_TINT 0.5
   #define AMBIENT_MIDDLE_COLOR vec3(0.8832, 0.6348, 0.2898)
@@ -67,7 +67,7 @@ uniform float night_mixer;
   #define LOW_DAY_COLOR vec3(0.364 , 0.6825, 0.91)
   #define LOW_NIGHT_COLOR vec3(0.0213, 0.0306, 0.0387) * NIGHT_BRIGHT
 
-  #define WATER_COLOR vec3(0.08470588, 0.16941176, 0.24705882)
+  #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
 #elif COLOR_SCHEME == 4  // Ethereal
   #define OMNI_TINT 0.5
   #define AMBIENT_MIDDLE_COLOR vec3(0.987528, 0.591192, 0.301392)
@@ -82,7 +82,7 @@ uniform float night_mixer;
   #define LOW_DAY_COLOR vec3(0.65, 0.91, 1.3)
   #define LOW_NIGHT_COLOR vec3(0.0213, 0.0306, 0.0387) * NIGHT_BRIGHT
 
-  #define WATER_COLOR vec3(0.08470588, 0.16941176, 0.24705882)
+  #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
 #elif COLOR_SCHEME == 5  // Ethereal 2.0
   #define OMNI_TINT 0.5
   #define AMBIENT_MIDDLE_COLOR vec3(0.987528, 0.591192, 0.301392)
@@ -97,7 +97,7 @@ uniform float night_mixer;
   #define LOW_DAY_COLOR vec3(0.65, 0.91, 1.3)
   #define LOW_NIGHT_COLOR vec3(0.02556, 0.03672, 0.04644) * NIGHT_BRIGHT
 
-  #define WATER_COLOR vec3(0.08470588, 0.16941176, 0.24705882)
+  #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
 #endif
 
 vec3 day_blend(vec3 middle, vec3 day, vec3 night) {

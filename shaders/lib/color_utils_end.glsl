@@ -21,7 +21,7 @@ uniform float night_mixer;
 #define LOW_DAY_COLOR vec3(0.0465375, 0.037485, 0.0465375)
 #define LOW_NIGHT_COLOR vec3(0.0465375, 0.037485, 0.0465375)
 
-#define WATER_COLOR vec3(0.08470588, 0.16941176, 0.24705882)
+#define WATER_COLOR vec3(0.018, 0.12 , 0.18)
 
 vec3 day_blend(vec3 middle, vec3 day, vec3 night) {
   // f(x) = min(−((x−.25)^2)∙20 + 1.25, 1)
