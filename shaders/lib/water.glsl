@@ -111,7 +111,7 @@ vec3 normal_waves(vec3 pos) {
   vec3 final_wave =
     vec3(partial_wave, 1.0 - (partial_wave.x * partial_wave.x + partial_wave.y * partial_wave.y));
 
-  final_wave.b *= 1.6;
+  final_wave.b *= 1.3;
 
   return normalize(final_wave);
 }
@@ -120,7 +120,7 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
   vec2 pos = gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y);
 
   #if REFRACTION == 1
-  float refraction_strength = 0.15;
+  float refraction_strength = 0.13;
     refraction_strength /= 1.0 + length(fragpos) * 0.4;
     pos = pos + refraction.xy * refraction_strength;
   #endif
@@ -208,16 +208,16 @@ vec3 water_shader(
   #if SUN_REFLECTION == 1
      #ifndef NETHER
        #ifndef THE_END
-         return mix(color, reflection.rgb, fresnel * .75) +
+         return mix(color, reflection.rgb, fresnel * .6) +
            vec3(sun_reflection(reflect(normalize(fragpos), normal))) * infinite;
        #else
-          return mix(color, reflection.rgb, fresnel * .75);
+          return mix(color, reflection.rgb, fresnel * .6);
        #endif
      #else
-        return mix(color, reflection.rgb, fresnel * .75);
+        return mix(color, reflection.rgb, fresnel * .6);
      #endif
   #else
-     return mix(color, reflection.rgb, fresnel * .75);
+     return mix(color, reflection.rgb, fresnel * .6);
   #endif
 }
 

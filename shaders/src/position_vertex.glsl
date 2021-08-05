@@ -32,7 +32,7 @@
       }
 
       weight *= lmcoord.y * lmcoord.y;  // Evitamos movimiento en cuevas
-      position.xyz += wave_move(worldpos.xz) * weight * (0.03 + (rainStrength * .05));
+      position.xyz += wave_move(worldpos.xzy) * weight * (0.03 + (rainStrength * .05));
     }
 
     // gl_Position = gl_ProjectionMatrix * gbufferModelView * vec4(position, 1.0);
