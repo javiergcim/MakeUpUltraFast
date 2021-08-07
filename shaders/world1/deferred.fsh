@@ -68,7 +68,7 @@ void main() {
     #if AA_TYPE > 0
       float dither = shifted_dither_grad_noise(gl_FragCoord.xy);
     #else
-      float dither = dither_grad_noise(gl_FragCoord.xy);
+      float dither = eclectic_dither(gl_FragCoord.xy);
     #endif
   #endif
 
