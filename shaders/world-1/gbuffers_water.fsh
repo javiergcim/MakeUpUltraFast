@@ -91,7 +91,11 @@ void main() {
       #if WATER_COLOR_SOURCE == 0
         block_color.rgb = water_texture * real_light * WATER_COLOR;
       #elif WATER_COLOR_SOURCE == 1
-        block_color.rgb = 0.3 * water_texture * real_light * tint_color.rgb;
+        #if MC_VERSION >= 11300
+          block_color.rgb = 0.3 * water_texture * real_light * tint_color.rgb;
+        #else
+          block_color.rgb = water_texture * real_light * WATER_COLOR;
+        #endif
       #endif
 
       block_color = vec4(

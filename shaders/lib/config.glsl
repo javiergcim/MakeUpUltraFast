@@ -67,7 +67,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define CHROMA_ABER_STRENGHT 0.05 // [0.04 0.05 0.06] Chroma aberration strenght
 #define VOL_LIGHT // This option activates volumetric light (shadows must be enabled to work)
 // #define VANILLA_WATER // Establishes the appearance of water as vanilla, completely cancels reflection, refraction and other options for water.
-#define WATER_COLOR_SOURCE 0 // [0 1] Select the water color source.
+#define WATER_COLOR_SOURCE 0 // [0 1] Select the water color source. This option has no effect on 1.12.x versions.
 
 // Reflection parameters
 #define RAYMARCH_STEPS 9

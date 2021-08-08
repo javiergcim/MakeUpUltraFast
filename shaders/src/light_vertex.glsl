@@ -155,7 +155,11 @@
   #ifndef THE_END
     #ifndef SHADOW_CASTING
       // Fake shadows
-      direct_light_strenght = mix(0.0, direct_light_strenght, pow(visible_sky, 10.0));
+      if (isEyeInWater == 0) {
+        direct_light_strenght = mix(0.0, direct_light_strenght, pow(visible_sky, 10.0));
+      } else {
+        direct_light_strenght = mix(0.0, direct_light_strenght, visible_sky);
+      }
     #else
       direct_light_strenght = mix(0.0, direct_light_strenght, visible_sky);
     #endif
