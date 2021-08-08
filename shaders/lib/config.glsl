@@ -61,7 +61,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define V_CLOUDS 1 // [0 1 2] Volumetric static: The clouds move, but they keep their shape. Volumetric dynamic: Clouds change shape over time, a different cloud landscape every time (medium performance hit). Vanilla: Original vanilla clouds.
 #define CLOUD_REFLECTION  // Set off-screen volumetric clouds reflection (volumetric clouds must be active)
 #define BLACK_ENTITY_FIX 0 // [0 1] Removes black entity bug (activate ONLY if you have problems with black entities)
-#define BLOOM // [0 1] Set bloom
+#define BLOOM // Set bloom
 #define BLOOM_SAMPLES 5.0 // [5.0 6.0 7.0 8.0 9.0 10.0] Bloom sample pairs
 #define CHROMA_ABER 0 // [0 1] Enable chroma aberration
 #define CHROMA_ABER_STRENGHT 0.05 // [0.04 0.05 0.06] Chroma aberration strenght
