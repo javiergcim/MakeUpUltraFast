@@ -50,10 +50,10 @@ float eclectic_dither(vec2 frag) {
 float shifted_eclectic_dither(vec2 frag) {
   vec3 p3 = fract(vec3(frag.xyx) * .1031);
   p3 += dot(p3, p3.yzx + 33.33);
-  float p4 = fract((p3.x + p3.y) * p3.z) * 0.07;
+  float p4 = fract((p3.x + p3.y) * p3.z) * 0.1;
 
   // return ((mod(9.0 * frag.x + 16.0 * frag.y, 21.0)) + 0.5) * 0.047619047619047616;
-  return fract(0.4 * frame_mod + p4 + ((mod(9.0 * frag.x + 16.0 * frag.y, 21.0)) + 0.5) * 0.047619047619047616);
+  return fract((0.8 * frame_mod) + p4 + (((mod(9.0 * frag.x + 16.0 * frag.y, 21.0)) + 0.5) * 0.047619047619047616));
 }
 
 float shifted_grid_noise(vec2 p) {
@@ -152,35 +152,15 @@ float shifted_texture_noise_64(vec2 p, sampler2D noise) {
 //   return fract(frameTimeCounter * 7.0 + dither);
 // }
 
-float bayer2(vec2 a) {
-  a = floor(a);
-  return fract(dot(a, vec2(.5, a.y * .75)));
-}
-
-#define bayer4(a)   (bayer2(.5 * (a)) * .25 + bayer2(a))
-#define bayer8(a)   (bayer4(.5 * (a)) * .25 + bayer2(a))
-#define bayer16(a)  (bayer8(.5 * (a)) * .25 + bayer2(a))
+// float bayer2(vec2 a) {
+//   a = floor(a);
+//   return fract(dot(a, vec2(.5, a.y * .75)));
+// }
+//
+// #define bayer4(a)   (bayer2(.5 * (a)) * .25 + bayer2(a))
+// #define bayer8(a)   (bayer4(.5 * (a)) * .25 + bayer2(a))
+// #define bayer16(a)  (bayer8(.5 * (a)) * .25 + bayer2(a))
 // #define bayer32(a)  (bayer16(.5 * (a)) * .25 + bayer2(a))
 // #define bayer64(a)  (bayer32(.5 * (a)) * .25 + bayer2(a))
 // #define bayer128(a) (bayer64(.5 * (a)) * 0.25 + bayer2(a))
 // #define bayer256(a) (bayer128(.5 * (a)) * 0.25 + bayer2(a))
-
-// uint bitfieldInterleaveReverse16(uint x,uint y){
-//
-//     uint z = ((x&0xffu)<<16) | (y &0xffu);
-//
-//     z = (z | (z << 12u)) & 0xF0F0F0F0u;
-//     z = (z | (z >>  6u)) & 0x33333333u;
-//     z = (z | (z <<  3u)) & 0xaaaaaaaau;
-//
-//     return (z>>16)|((z>>1)&0xffffu); //17 ops
-// }
-//
-// uint bitfieldInterleaveReverse8(uint x,uint y){
-//     uint z = ((x&0xfu)<<8) | (y &0xfu);
-//
-//     z = (z | (z<<6)) & 0xccccu;
-//     z = (z | (z>>3)) & 0x5555u;
-//
-//     return (z>>7)|(z&0xffu); //13 ops
-// }
