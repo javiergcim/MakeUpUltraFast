@@ -9,11 +9,12 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/color_utils_nether.glsl"
 
 // 'Global' constants from system
+uniform int current_hour_floor;
+uniform int current_hour_ceil;
+uniform float current_hour_fract;
+
 #ifdef BLOOM
   uniform ivec2 eyeBrightnessSmooth;
-  uniform int current_hour_floor;
-  uniform int current_hour_ceil;
-  uniform float current_hour_fract;
 #endif
 
 // Varyings (per thread shared variables)

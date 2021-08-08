@@ -8,15 +8,17 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/config.glsl"
 #include "/lib/color_utils.glsl"
 
+// 'Global' constants from system
+uniform float current_hour_fract;
+uniform int current_hour_floor;
+uniform int current_hour_ceil;
+
 #if defined VOL_LIGHT && defined SHADOW_CASTING
   uniform float rainStrength;
   uniform int isEyeInWater;
 #endif
 
 #if defined BLOOM || (defined VOL_LIGHT && defined SHADOW_CASTING)
-  uniform float current_hour_fract;
-  uniform int current_hour_floor;
-  uniform int current_hour_ceil;
   uniform ivec2 eyeBrightnessSmooth;
 #endif
 

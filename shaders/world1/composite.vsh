@@ -10,14 +10,13 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #include "/lib/config.glsl"
 #include "/lib/color_utils_end.glsl"
 
+// 'Global' constants from system
+uniform float current_hour_fract;
+uniform int current_hour_floor;
+uniform int current_hour_ceil;
+
 #if defined VOL_LIGHT && defined SHADOW_CASTING
   uniform float rainStrength;
-#endif
-
-#if defined BLOOM || (defined VOL_LIGHT && defined SHADOW_CASTING)
-  uniform float current_hour_fract;
-  uniform int current_hour_floor;
-  uniform int current_hour_ceil;
 #endif
 
 #ifdef BLOOM
