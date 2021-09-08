@@ -20,9 +20,9 @@ varying vec3 real_light;
 
 void main() {
   // Toma el color puro del bloque
-  vec4 block_color = texture2D(tex, texcoord);
+  vec4 block_color = texture2D(tex, texcoord) * tint_color;
 
-  block_color *= tint_color * vec4(real_light, 1.0);
+  block_color.rgb *= 0.4;
 
   #include "/src/writebuffers.glsl"
 }

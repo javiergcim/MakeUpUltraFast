@@ -29,6 +29,6 @@ varying vec2 texcoord;
 void main() {
   vec4 block_color = tint_color;
 
-  #include "/src/finalcolor.glsl"
+  // #include "/src/finalcolor.glsl"  // Avoid Optifine bug with fog
   #include "/src/writebuffers.glsl"
 }

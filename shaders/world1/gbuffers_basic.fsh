@@ -28,6 +28,6 @@ varying float frog_adjust;
 void main() {
   vec4 block_color = tint_color;
 
-  #include "/src/finalcolor.glsl"
+  // #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"
 }
