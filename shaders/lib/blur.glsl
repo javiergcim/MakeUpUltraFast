@@ -26,8 +26,8 @@ vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force, fl
     float current_radius = (1.0 + dither_base);
     vec2 offset = vec2(cos(dither), sin(dither)) * blur_radius_vec * current_radius;
 
-    blur_sample += texture2D(image, coords + offset, -1.0).rgb;
-    blur_sample += texture2D(image, coords - offset, -1.0).rgb;
+    blur_sample += texture(image, coords + offset, -1.0).rgb;
+    blur_sample += texture(image, coords - offset, -1.0).rgb;
 
     block_color = blur_sample * 0.5;
   }

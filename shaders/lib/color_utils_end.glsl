@@ -24,8 +24,8 @@ uniform float night_mixer;
 #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
 
 vec3 day_blend(vec3 middle, vec3 day, vec3 night) {
-  // f(x) = min(−((x−.25)^2)∙20 + 1.25, 1)
-  // g(x) = min(−((x−.75)^2)∙50 + 3.125, 1)
+  // f(x) = min(-((x-.25)^2)∙20 + 1.25, 1)
+  // g(x) = min(-((x-.75)^2)∙50 + 3.125, 1)
 
   vec3 day_color = mix(middle, day, day_mixer);
   vec3 night_color = mix(middle, night, night_mixer);
@@ -34,8 +34,8 @@ vec3 day_blend(vec3 middle, vec3 day, vec3 night) {
 }
 
 float day_blend_float(float middle, float day, float night) {
-  // f(x) = min(−((x−.25)^2)∙20 + 1.25, 1)
-  // g(x) = min(−((x−.75)^2)∙50 + 3.125, 1)
+  // f(x) = min(-((x-.25)^2)∙20 + 1.25, 1)
+  // g(x) = min(-((x-.75)^2)∙50 + 3.125, 1)
 
   float day_value = mix(middle, day, day_mixer);
   float night_value = mix(middle, night, night_mixer);

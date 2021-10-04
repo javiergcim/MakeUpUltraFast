@@ -1,28 +1,13 @@
-#version 120
+#version 150
 /* MakeUp - gbuffers_armor_glint.fsh
 Render: Glow objects
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#define NETHER
+#define GBUFFER_ARMOR_GLINT
+#define SHADER_BASIC
 #define NO_SHADOWS
 
-#include "/lib/config.glsl"
-
-// 'Global' constants from system
-uniform sampler2D tex;
-
-// Varyings (per thread shared variables)
-varying vec2 texcoord;
-varying vec2 lmcoord;
-varying vec4 tint_color;
-varying vec3 real_light;
-
-void main() {
-  // Toma el color puro del bloque
-  vec4 block_color = texture2D(tex, texcoord) * tint_color;
-
-  block_color.rgb *= 0.4;
-
-  #include "/src/writebuffers.glsl"
-}
+#include "/common/glint_blocks_fragment.glsl"

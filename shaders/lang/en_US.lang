@@ -28,7 +28,7 @@ profile.comment=Very Low, Low - Suitable for low end. Medium - Suitable for good
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=Thanks for using this shader! :). Set Optifine native quality controls on normal or default values for better quality.
-value.ACERCADE.0=v.6.52
+value.ACERCADE.0=v.6.6
 
 #Options
 #############################
@@ -80,7 +80,7 @@ option.MOTION_BLUR=Motion blur
 
 option.MOTION_BLUR_STRENGTH=Motion blur strenght
 
-option.VANILLA_WATER=Vanilla water
+option.VANILLA_WATER=Vanilla like water
 
 option.WATER_TEXTURE=Water texture
 value.WATER_TEXTURE.0=No
@@ -120,13 +120,18 @@ option.CHROMA_ABER_STRENGHT=Chroma aberration strenght
 
 option.WATER_ABSORPTION=Water absorption index
 
+option.WATER_TURBULENCE=Water turbulence
+value.WATER_TURBULENCE.2.5=Low
+value.WATER_TURBULENCE.1.7=Medium
+value.WATER_TURBULENCE.1.3=High
+
 option.COLOR_SCHEME=Color scheme
 value.COLOR_SCHEME.0=Legacy
 value.COLOR_SCHEME.1=Cocoa
 value.COLOR_SCHEME.2=Captain
 value.COLOR_SCHEME.3=Shoka
-value.COLOR_SCHEME.4=Ethereal
-value.COLOR_SCHEME.5=Ethereal II
+value.COLOR_SCHEME.4=Ethereal II
+value.COLOR_SCHEME.5=Wonderland
 
 option.AVOID_DARK_LEVEL=Cave brightness
 
@@ -153,6 +158,11 @@ option.BLOOM_SAMPLES=Bloom sample pairs
 option.BLACK_ENTITY_FIX=Black entity BUGFIX
 value.BLACK_ENTITY_FIX.0=Off
 value.BLACK_ENTITY_FIX.1=On
+
+option.FOG_ADJUST=Fog
+value.FOG_ADJUST.2.0=for short draw distances
+value.FOG_ADJUST.1.0=for regular draw distances
+value.FOG_ADJUST.0.5=for far draw distances
 
 option.sunPathRotation=Sun angle
 
@@ -183,3 +193,6 @@ screen.CLOUDS_SCREEN.comment=Set clouds options.
 
 screen.SUN_SCREEN=Sun options
 screen.SUN_SCREEN.comment=Set sun options.
+
+screen.FOG_SCREEN=Fog options
+screen.FOG_SCREEN.comment=Set fog options

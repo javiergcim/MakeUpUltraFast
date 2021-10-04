@@ -1,15 +1,10 @@
-#version 120
+#version 150
+/* MakeUp - shadow.fsh
+Render: Shadowmap
 
-#include "/lib/config.glsl"
+Javier Garduño - GNU Lesser General Public License v3.0
+*/
 
-uniform sampler2D tex;
+#define SHADOW_SHADER
 
-varying vec2 texcoord;
-
-void main() {
-
-  vec4 block_color = texture2D(tex, texcoord);
-
-  /* DRAWBUFFERS:0 */
-  gl_FragData[0] = block_color;
-}
+#include "/common/shadow_fragment.glsl"
