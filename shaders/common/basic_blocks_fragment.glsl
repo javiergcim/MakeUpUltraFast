@@ -1,6 +1,3 @@
-/* Exits */
-out vec4 outColor0;
-
 #include "/lib/config.glsl"
 
 #ifdef THE_END
@@ -12,14 +9,11 @@ out vec4 outColor0;
 #endif
 
 /* Config, uniforms, ins, outs */
-uniform float alphaTestRef;
-
-in vec4 tint_color;
-in vec2 texcoord;
+varying vec4 tint_color;
+varying vec2 texcoord;
 
 void main() {
   vec4 block_color = tint_color;
 
-  if(block_color.a < alphaTestRef) discard;  // Full transparency
   #include "/src/writebuffers.glsl"
 }

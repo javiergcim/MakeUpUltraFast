@@ -103,14 +103,14 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
 
     for (int i = 0; i < samples; i++) {
       current_value =
-        texture(
+        texture2D(
           noisetex,
           (intersection_pos.xz * .0002) + (frameTimeCounter * CLOUD_HI_FACTOR)
         ).b;
 
       #if V_CLOUDS == 2
         current_value +=
-          texture(
+          texture2D(
             noisetex,
             (intersection_pos.zx * .0002) + (frameTimeCounter * CLOUD_LOW_FACTOR)
           ).b;

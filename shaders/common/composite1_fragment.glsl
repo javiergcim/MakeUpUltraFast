@@ -48,7 +48,7 @@ in vec2 texcoord;
 #endif
 
 void main() {
-  vec4 block_color = texture(colortex1, texcoord);
+  vec4 block_color = texture2D(colortex1, texcoord);
 
   #if defined BLOOM || defined DOF
     #if AA_TYPE > 0

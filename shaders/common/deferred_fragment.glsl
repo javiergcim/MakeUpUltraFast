@@ -78,8 +78,8 @@ flat in vec3 up_vec;  // Flat
 #endif
 
 void main() {
-  vec4 block_color = texture(colortex0, texcoord);
-  float d = texture(depthtex0, texcoord).r;
+  vec4 block_color = texture2D(colortex0, texcoord);
+  float d = texture2D(depthtex0, texcoord).r;
   float linear_d = ld(d);
 
   vec3 view_vector;

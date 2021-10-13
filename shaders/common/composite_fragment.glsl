@@ -61,8 +61,8 @@ flat in float exposure_coef;
 #endif
 
 void main() {
-  vec4 block_color = texture(colortex1, texcoord);
-  float d = texture(depthtex0, texcoord).r;
+  vec4 block_color = texture2D(colortex1, texcoord);
+  float d = texture2D(depthtex0, texcoord).r;
   float linear_d = ld(d);
 
   // "Niebla" submarina

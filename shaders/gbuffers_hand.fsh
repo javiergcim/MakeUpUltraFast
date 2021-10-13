@@ -1,4 +1,4 @@
-#version 150
+#version 120
 /* MakeUp - gbuffers_hand.fsh
 Render: Hand opaque objects
 

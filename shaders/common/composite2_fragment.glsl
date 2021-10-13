@@ -44,12 +44,12 @@ in vec2 texcoord;
 #endif
 
 void main() {
-  vec4 block_color = texture(colortex1, texcoord);
+  vec4 block_color = texture2D(colortex1, texcoord);
 
   // Precalc past position and velocity
   #if AA_TYPE > 0 || defined MOTION_BLUR
     // Reproyección del cuadro anterior
-    float z_depth = texture(depthtex0, texcoord).r;
+    float z_depth = texture2D(depthtex0, texcoord).r;
     vec3 closest_to_camera = vec3(texcoord, z_depth);
     vec3 fragposition = to_screen_space(closest_to_camera);
     fragposition = mat3(gbufferModelViewInverse) * fragposition + gbufferModelViewInverse[3].xyz + (cameraPosition - previousCameraPosition);

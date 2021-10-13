@@ -1,4 +1,4 @@
-#version 150
+#version 120
 /* MakeUp - gbuffers_spidereyes.fsh
 Render: Some creatures eyes (like spider)
 

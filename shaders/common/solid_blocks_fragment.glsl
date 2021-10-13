@@ -10,7 +10,7 @@ out vec4 outColor0;
 #endif
 
 /* Config, uniforms, ins, outs */
-uniform sampler2D gtexture;
+uniform sampler2D tex;
 uniform int isEyeInWater;
 uniform float nightVision;
 uniform float rainStrength;
@@ -54,7 +54,7 @@ in float var_fog_frag_coord;
 
 void main() {
   // Toma el color puro del bloque
-  vec4 block_color = texture(gtexture, texcoord) * tint_color;
+  vec4 block_color = texture2D(tex, texcoord) * tint_color;
   
   #ifdef GBUFFER_WEATHER
     block_color.a *= .3;

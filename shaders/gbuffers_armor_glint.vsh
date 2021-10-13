@@ -1,4 +1,4 @@
-#version 150
+#version 120
 /* MakeUp - gbuffers_armor_glint.vsh
 Render: Glow objects
 

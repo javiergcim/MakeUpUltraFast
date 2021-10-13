@@ -81,7 +81,7 @@ void main() {
   #if CHROMA_ABER == 1
     vec3 block_color = color_aberration();
   #else
-    vec3 block_color = texture(colortex0, texcoord).rgb;
+    vec3 block_color = texture2D(colortex0, texcoord).rgb;
   #endif
 
   block_color *= exposure;

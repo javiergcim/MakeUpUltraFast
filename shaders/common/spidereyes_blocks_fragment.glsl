@@ -7,12 +7,12 @@ out vec4 outColor0;
 in vec2 texcoord;
 out float var_fog_frag_coord;
 
-uniform sampler2D gtexture;
+uniform sampler2D tex;
 uniform float alphaTestRef;
 
 void main() {
   // Toma el color puro del bloque
-  vec4 block_color = texture(gtexture, texcoord);
+  vec4 block_color = texture2D(tex, texcoord);
 
   if(block_color.a < alphaTestRef) discard;
   #include "/src/writebuffers.glsl"

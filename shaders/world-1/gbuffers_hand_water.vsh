@@ -1,4 +1,4 @@
-#version 150
+#version 120
 /* MakeUp - gbuffers_hand_water.vsh
 Render: Translucent hand objects
 

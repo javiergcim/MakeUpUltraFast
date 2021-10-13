@@ -12,7 +12,7 @@ out vec4 outColor0;
 #endif
 
 // 'Global' constants from system
-uniform sampler2D gtexture;
+uniform sampler2D tex;
 uniform float alphaTestRef;
 
 // Varyings (per thread shared variables)
@@ -26,7 +26,7 @@ void main() {
     vec3 background_color = HI_DAY_COLOR;
   #else
     // Toma el color puro del bloque
-    vec4 block_color = texture(gtexture, texcoord) * tint_color;
+    vec4 block_color = texture2D(tex, texcoord) * tint_color;
 
     if(block_color.a < alphaTestRef) discard;
     
