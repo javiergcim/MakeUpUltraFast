@@ -20,17 +20,15 @@ uniform int current_hour_ceil;
   uniform ivec2 eyeBrightnessSmooth;
 #endif
 
-in vec3 vaPosition;
-
-out vec2 texcoord;
-flat out float exposure_coef;  // Flat
+varying vec2 texcoord;
+varying float exposure_coef;  // Flat
 
 #if defined VOL_LIGHT && defined SHADOW_CASTING && !defined NETHER
-  flat out vec3 vol_light_color;  // Flat
+  varying vec3 vol_light_color;  // Flat
 #endif
 
 #ifdef BLOOM
-  flat out float exposure;  // Flat
+  varying float exposure;  // Flat
 #endif
 
 #if defined VOL_LIGHT && defined SHADOW_CASTING && !defined NETHER
@@ -38,8 +36,8 @@ flat out float exposure_coef;  // Flat
 #endif
 
 void main() {
-  gl_Position = vec4(vaPosition.xy * 2.0 - 1.0, 0.0, 1.0);
-  texcoord = vaPosition.xy;
+  gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+  texcoord = gl_MultiTexCoord0.xy;
 
   exposure_coef =
     mix(

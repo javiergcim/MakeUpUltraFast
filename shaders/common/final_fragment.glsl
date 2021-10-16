@@ -1,6 +1,3 @@
-/* Exits */
-out vec4 outColor0;
-
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
 
@@ -67,8 +64,8 @@ const bool gaux4Clear = false;
 uniform sampler2D colortex0;
 
 // Varyings (per thread shared variables)
-in vec2 texcoord;
-flat in float exposure;
+varying vec2 texcoord;
+varying float exposure;
 
 #include "/lib/basic_utils.glsl"
 #include "/lib/tone_maps.glsl"
@@ -87,5 +84,5 @@ void main() {
   block_color *= exposure;
   block_color = lottes_tonemap(block_color, exposure + 0.6);
 
-  outColor0 = vec4(block_color, 1.0);
+  gl_FragColor = vec4(block_color, 1.0);
 }

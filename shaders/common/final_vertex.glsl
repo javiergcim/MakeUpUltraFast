@@ -12,16 +12,12 @@ uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
 
-in vec3 vaPosition;
-
-out vec2 texcoord;
-flat out float exposure;
+varying vec2 texcoord;
+varying float exposure;
 
 void main() {
-  // gl_Position = (projectionMatrix * modelViewMatrix) * vec4(vaPosition, 1.0);  // Alt
-  gl_Position = vec4(vaPosition.xy * 2.0 - 1.0, 0.0, 1.0);
-  // texcoord = vec4(vaUV0, 0.0, 1.0).xy;  // Alt
-  texcoord = vaPosition.xy;
+  gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+  texcoord = gl_MultiTexCoord0.xy;
 
   // Tonemaping ---
   // x: Block, y: Sky ---

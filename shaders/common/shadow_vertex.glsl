@@ -1,13 +1,6 @@
 #include "/lib/config.glsl"
 
-uniform vec3 chunkOffset;
-uniform mat4 modelViewMatrix;
-uniform mat4 projectionMatrix;
-
-out vec2 texcoord;
-
-in vec2 vaUV0;  // Texture coordinates
-in vec3 vaPosition;
+varying vec2 texcoord;
 
 attribute vec4 mc_Entity;
 
@@ -17,7 +10,7 @@ vec2 calc_shadow_dist(in vec2 shadow_pos) {
 }
 
 void main() {
-  gl_Position = (projectionMatrix * modelViewMatrix) * vec4(vaPosition + chunkOffset, 1.0);
+  gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 
   if (mc_Entity.x == ENTITY_LOWERGRASS ||
       mc_Entity.x == ENTITY_UPPERGRASS ||
@@ -39,5 +32,5 @@ void main() {
 
   gl_Position.xy = calc_shadow_dist(gl_Position.xy);
 
-  texcoord = vaUV0;
+  texcoord = (gl_MultiTexCoord0).xy;
 }

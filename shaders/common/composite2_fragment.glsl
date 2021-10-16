@@ -1,7 +1,3 @@
-/* Exits */
-out vec4 outColor0;
-out vec4 outColor1;
-
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
 
@@ -26,7 +22,7 @@ uniform float viewHeight;
 #endif
 
 // Varyings (per thread shared variables)
-in vec2 texcoord;
+varying vec2 texcoord;
 
 #if AA_TYPE > 0 || defined MOTION_BLUR
   #include "/lib/projection_utils.glsl"
@@ -73,10 +69,10 @@ void main() {
       block_color.rgb = fast_taa(block_color.rgb, texcoord_past, velocity);
     #endif
     /* DRAWBUFFERS:03 */
-    outColor0 = block_color;  // colortex0
-    outColor1 = block_color;  // To TAA averages
+    gl_FragData[0] = block_color;  // colortex0
+    gl_FragData[1] = block_color;  // To TAA averages
   #else
     /* DRAWBUFFERS:0 */
-    outColor0 = block_color;  // colortex0
+    gl_FragData[0] = block_color;  // colortex0
   #endif
 }

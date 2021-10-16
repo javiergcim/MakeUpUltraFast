@@ -1,7 +1,3 @@
-/* Exits */
-out vec4 outColor0;
-out vec4 outColor1;
-
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
 
@@ -38,15 +34,15 @@ uniform ivec2 eyeBrightnessSmooth;
   uniform float vol_mixer;
 #endif
 
-in vec2 texcoord;
-flat in float exposure_coef;
+varying vec2 texcoord;
+varying float exposure_coef;
 
 #ifdef BLOOM
-  flat in float exposure;
+  varying float exposure;
 #endif
 
 #if defined VOL_LIGHT && defined SHADOW_CASTING && !defined NETHER
-  flat in vec3 vol_light_color;
+  varying vec3 vol_light_color;
 #endif
 
 #include "/lib/depth.glsl"
@@ -147,10 +143,10 @@ void main() {
       smoothstep(0.85, 0.97, luma(block_color.rgb * exposure)) * 0.4;
 
     /* DRAWBUFFERS:12 */
-    outColor0 = block_color;
-    outColor1 = block_color * bloom_luma;
+    gl_FragData[0] = block_color;
+    gl_FragData[1] = block_color * bloom_luma;
   #else
     /* DRAWBUFFERS:1 */
-    outColor0 = block_color;
+    gl_FragData[0] = block_color;
   #endif
 }

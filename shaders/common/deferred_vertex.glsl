@@ -3,13 +3,11 @@
 
 uniform mat4 gbufferModelView;
 
-in vec3 vaPosition;
-
-out vec2 texcoord;
-flat out vec3 up_vec;
+varying vec2 texcoord;
+varying vec3 up_vec;
 
 void main() {
-  gl_Position = vec4(vaPosition.xy * 2.0 - 1.0, 0.0, 1.0);
-  texcoord = vaPosition.xy;
+  gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+  texcoord = gl_MultiTexCoord0.xy;
   up_vec = normalize(gbufferModelView[1].xyz);
 }

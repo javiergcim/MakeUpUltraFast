@@ -29,7 +29,7 @@ varying float var_fog_frag_coord;
 #include "/lib/luma.glsl"
 
 void main() {
-  texcoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;;
+  texcoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
   tint_color = gl_Color;
   #include "/src/position_vertex.glsl"
   #include "/src/cloudfog_vertex.glsl"

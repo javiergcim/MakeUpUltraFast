@@ -1,6 +1,3 @@
-/* Exits */
-out vec4 outColor0;
-
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
 
@@ -31,7 +28,7 @@ uniform float inv_aspect_ratio;
 #endif
 
 // Varyings (per thread shared variables)
-in vec2 texcoord;
+varying vec2 texcoord;
 
 #include "/lib/bloom.glsl"
 
@@ -74,5 +71,5 @@ void main() {
   #endif
 
   /* DRAWBUFFERS:1 */
-  outColor0 = block_color;
+  gl_FragData[0] = block_color;
 }

@@ -1,7 +1,3 @@
-/* Exits */
-out vec4 outColor0;
-out vec4 outColor1;
-
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
 
@@ -52,8 +48,8 @@ uniform float pixel_size_y;
   uniform float frameTimeCounter;
 #endif
 
-in vec2 texcoord;
-flat in vec3 up_vec;  // Flat
+varying vec2 texcoord;
+varying vec3 up_vec;  // Flat
 
 #include "/lib/depth.glsl"
 #include "/lib/luma.glsl"
@@ -182,6 +178,6 @@ void main() {
   }
 
   /* DRAWBUFFERS:14 */
-  outColor0 = vec4(block_color.rgb, d);
-  outColor1 = block_color;
+  gl_FragData[0] = vec4(block_color.rgb, d);
+  gl_FragData[1] = block_color;
 }
