@@ -22,8 +22,8 @@ void main() {
     vec4(
       gl_Color.rgb,
       float(
-        gl_Color.r == vaColor.g &&
-        gl_Color.g == vaColor.b &&
+        gl_Color.r == gl_Color.g &&
+        gl_Color.g == gl_Color.b &&
         gl_Color.r > 0.0
       )
     );

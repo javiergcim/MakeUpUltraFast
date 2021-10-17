@@ -41,7 +41,7 @@ float get_volumetric_light(float dither, float view_distance) {
 
     shadow_pos = get_volumetric_pos(view_pos);
 
-    light += texture2D(shadowtex1, shadow_pos);
+    light += shadow2D(shadowtex1, shadow_pos).r;
   }
 
   light /= GODRAY_STEPS;

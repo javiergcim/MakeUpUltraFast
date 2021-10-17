@@ -87,12 +87,12 @@ void main() {
   gl_FogFragCoord = length(gl_Position.xyz);
 
   // Special entities
-  block_type = 2.0;  // 3 - Water, 2 - Glass, ? - Other
-  // if (mc_Entity.x == ENTITY_WATER) {  // Water
-  //   block_type = 3.0;
-  // } else if (mc_Entity.x == ENTITY_STAINED) {  // Glass
-  //   block_type = 2.0;
-  // }
+  block_type = 0.0;  // 3 - Water, 2 - Glass, ? - Other
+  if (mc_Entity.x == ENTITY_WATER) {  // Water
+    block_type = 3.0;
+  } else if (mc_Entity.x == ENTITY_STAINED) {  // Glass
+    block_type = 2.0;
+  }
 
   up_vec = normalize(gbufferModelView[1].xyz);
 
