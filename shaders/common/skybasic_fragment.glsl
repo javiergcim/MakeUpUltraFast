@@ -25,7 +25,6 @@ uniform float pixel_size_y;
 uniform int frame_mod;
 uniform float rainStrength;
 uniform ivec2 eyeBrightnessSmooth;
-uniform float alphaTestRef;
 
 flat in vec3 up_vec;
 in vec4 star_data;
