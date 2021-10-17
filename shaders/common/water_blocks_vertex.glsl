@@ -73,10 +73,10 @@ void main() {
   #include "/src/light_vertex.glsl"
 
   water_normal = normal;
-  vec4 position1 = gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex;
+  vec4 position = gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex;
   position2 = gl_ModelViewMatrix * gl_Vertex;
-  worldposition = position1 + vec4(cameraPosition.xyz, 0.0);
-  gl_Position = gl_ProjectionMatrix * gbufferModelView * position1;
+  worldposition = position + vec4(cameraPosition.xyz, 0.0);
+  gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
 
   #if AA_TYPE == 1
     gl_Position.xy += offsets[frame_mod] * gl_Position.w * pixel_size;
@@ -87,18 +87,18 @@ void main() {
   gl_FogFragCoord = length(gl_Position.xyz);
 
   // Special entities
-  block_type = 0.0;  // 3 - Water, 2 - Glass, ? - Other
-  if (mc_Entity.x == ENTITY_WATER) {  // Water
-    block_type = 3.0;
-  } else if (mc_Entity.x == ENTITY_STAINED) {  // Glass
-    block_type = 2.0;
-  }
+  block_type = 2.0;  // 3 - Water, 2 - Glass, ? - Other
+  // if (mc_Entity.x == ENTITY_WATER) {  // Water
+  //   block_type = 3.0;
+  // } else if (mc_Entity.x == ENTITY_STAINED) {  // Glass
+  //   block_type = 2.0;
+  // }
 
   up_vec = normalize(gbufferModelView[1].xyz);
 
   #include "/src/fog_vertex.glsl"
 
   #if defined SHADOW_CASTING && !defined NETHER
-    // #include "/src/shadow_src_vertex.glsl"
+    #include "/src/shadow_src_vertex.glsl"
   #endif
 }
