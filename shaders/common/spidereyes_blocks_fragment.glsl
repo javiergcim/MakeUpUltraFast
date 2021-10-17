@@ -4,11 +4,11 @@ out vec4 outColor0;
 #include "/lib/config.glsl"
 
 /* Config, uniforms, ins, outs */
-in vec2 texcoord;
-out float var_fog_frag_coord;
-
 uniform sampler2D gtexture;
 uniform float alphaTestRef;
+
+in vec2 texcoord;
+out float var_fog_frag_coord;
 
 void main() {
   // Toma el color puro del bloque
