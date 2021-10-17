@@ -32,5 +32,5 @@ void main() {
 
   gl_Position.xy = calc_shadow_dist(gl_Position.xy);
 
-  texcoord = (gl_MultiTexCoord0).xy;
+  texcoord = gl_MultiTexCoord0.xy;
 }

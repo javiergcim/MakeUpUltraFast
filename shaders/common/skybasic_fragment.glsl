@@ -1,7 +1,3 @@
-/* Exits */
-out vec4 outColor0;
-out vec4 outColor1;
-
 #include "/lib/config.glsl"
 
 #ifdef THE_END
@@ -25,10 +21,9 @@ uniform float pixel_size_y;
 uniform int frame_mod;
 uniform float rainStrength;
 uniform ivec2 eyeBrightnessSmooth;
-uniform float alphaTestRef;
 
-flat in vec3 up_vec;
-in vec4 star_data;
+varying vec3 up_vec;
+varying vec4 star_data;
 
 #include "/lib/dither.glsl"
 #include "/lib/luma.glsl"
