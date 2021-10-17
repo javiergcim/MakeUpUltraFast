@@ -99,6 +99,6 @@ void main() {
   #include "/src/fog_vertex.glsl"
 
   #if defined SHADOW_CASTING && !defined NETHER
-    #include "/src/shadow_src_vertex.glsl"
+    // #include "/src/shadow_src_vertex.glsl"
   #endif
 }

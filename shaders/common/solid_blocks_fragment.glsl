@@ -72,6 +72,9 @@ void main() {
 
   block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
 
+  // DEBUG
+  // block_color.rgb = omni_light;
+
   #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"
 }

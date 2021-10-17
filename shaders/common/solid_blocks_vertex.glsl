@@ -48,12 +48,12 @@ varying vec3 omni_light;
 varying float var_fog_frag_coord;
 
 #ifdef FOLIAGE_V
-  out float is_foliage;
+  varying float is_foliage;
 #endif
 
 #if defined SHADOW_CASTING && !defined NETHER
-  out vec3 shadow_pos;
-  out float shadow_diffuse;
+  varying vec3 shadow_pos;
+  varying float shadow_diffuse;
 #endif
 
 #ifdef FOLIAGE_V
