@@ -1,6 +1,3 @@
-/* Exits */
-out vec4 outColor0;
-
 #include "/lib/config.glsl"
 
 #if defined THE_END
@@ -18,7 +15,6 @@ uniform float light_mix;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
 uniform sampler2D gaux4;
-uniform float alphaTestRef;
 
 #ifdef NETHER
   uniform vec3 fogColor;
@@ -29,22 +25,22 @@ uniform float alphaTestRef;
   uniform sampler2DShadow shadowtex1;
 #endif
 
-in vec2 texcoord;
-in vec4 tint_color;
-in float frog_adjust;
-flat in vec3 direct_light_color;
-in vec3 candle_color;
-in float direct_light_strenght;
-in vec3 omni_light;
-in float var_fog_frag_coord;
+varying vec2 texcoord;
+varying vec4 tint_color;
+varying float frog_adjust;
+varying vec3 direct_light_color;
+varying vec3 candle_color;
+varying float direct_light_strenght;
+varying vec3 omni_light;
+varying float var_fog_frag_coord;
 
 #ifdef FOLIAGE_V
-  in float is_foliage;
+  varying float is_foliage;
 #endif
 
 #if defined SHADOW_CASTING && !defined NETHER
-  in vec3 shadow_pos;
-  in float shadow_diffuse;
+  varying vec3 shadow_pos;
+  varying float shadow_diffuse;
 #endif
 
 #if defined SHADOW_CASTING && !defined NETHER
@@ -59,8 +55,6 @@ void main() {
   #ifdef GBUFFER_WEATHER
     block_color.a *= .3;
   #endif
-
-  if(block_color.a < alphaTestRef) discard;  // Full transparency
 
   float shadow_c;
 

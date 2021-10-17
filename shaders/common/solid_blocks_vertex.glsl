@@ -18,10 +18,6 @@ uniform float light_mix;
 uniform float far;
 uniform float rainStrength;
 uniform ivec2 eyeBrightnessSmooth;
-uniform vec3 chunkOffset;
-uniform mat4 modelViewMatrix;
-uniform mat4 projectionMatrix;
-uniform mat3 normalMatrix;
 
 #if defined FOLIAGE_V || defined THE_END || defined NETHER
   uniform mat4 gbufferModelView;
@@ -42,20 +38,14 @@ uniform mat3 normalMatrix;
   uniform float frameTimeCounter;
 #endif
 
-in ivec2 vaUV2;  // Light coordinates
-in vec2 vaUV0;  // Texture coordinates
-in vec4 vaColor;
-in vec3 vaPosition;
-in vec3 vaNormal;
-
-out vec2 texcoord;
-out vec4 tint_color;
-out float frog_adjust;
-flat out vec3 direct_light_color;
-out vec3 candle_color;
-out float direct_light_strenght;
-out vec3 omni_light;
-out float var_fog_frag_coord;
+varying vec2 texcoord;
+varying vec4 tint_color;
+varying float frog_adjust;
+varying vec3 direct_light_color;
+varying vec3 candle_color;
+varying float direct_light_strenght;
+varying vec3 omni_light;
+varying float var_fog_frag_coord;
 
 #ifdef FOLIAGE_V
   out float is_foliage;
