@@ -23,10 +23,6 @@ uniform mat4 gbufferModelView;
 uniform mat4 gbufferModelViewInverse;
 uniform vec3 cameraPosition;
 uniform float rainStrength;
-uniform vec3 chunkOffset;
-uniform mat4 modelViewMatrix;
-uniform mat4 projectionMatrix;
-uniform mat3 normalMatrix;
 
 #if defined SHADOW_CASTING && !defined NETHER
   uniform mat4 shadowModelView;
@@ -34,33 +30,27 @@ uniform mat3 normalMatrix;
   uniform vec3 shadowLightPosition;
 #endif
 
-in ivec2 vaUV2;  // Light coordinates
-in vec2 vaUV0;  // Texture coordinates
-in vec4 vaColor;
-in vec3 vaPosition;
-in vec3 vaNormal;
-
-out vec2 texcoord;
-out vec2 lmcoord;
-out vec4 tint_color;
-out float frog_adjust;
-flat out vec3 water_normal;
-flat out float block_type;
-out vec4 worldposition;
-out vec4 position2;
-out vec3 tangent;
-out vec3 binormal;
-flat out vec3 direct_light_color;
-out vec3 candle_color;
-out float direct_light_strenght;
-out vec3 omni_light;
-out float visible_sky;
-flat out vec3 up_vec;
-out float var_fog_frag_coord;
+varying vec2 texcoord;
+varying vec2 lmcoord;
+varying vec4 tint_color;
+varying float frog_adjust;
+varying vec3 water_normal;
+varying float block_type;
+varying vec4 worldposition;
+varying vec4 position2;
+varying vec3 tangent;
+varying vec3 binormal;
+varying vec3 direct_light_color;
+varying vec3 candle_color;
+varying float direct_light_strenght;
+varying vec3 omni_light;
+varying float visible_sky;
+varying vec3 up_vec;
+varying float var_fog_frag_coord;
 
 #if defined SHADOW_CASTING && !defined NETHER
-  out vec3 shadow_pos;
-  out float shadow_diffuse;
+  varying vec3 shadow_pos;
+  varying float shadow_diffuse;
 #endif
 
 attribute vec4 mc_Entity;
@@ -83,19 +73,18 @@ void main() {
   #include "/src/light_vertex.glsl"
 
   water_normal = normal;
-  vec4 full_position = vec4(vaPosition + chunkOffset, 1.0);
-  vec4 position = gbufferModelViewInverse * modelViewMatrix * full_position;
-  position2 = modelViewMatrix * full_position;
-  worldposition = position + vec4(cameraPosition.xyz, 0.0);
-  gl_Position = projectionMatrix * gbufferModelView * position;
+  vec4 position1 = gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex;
+  position2 = gl_ModelViewMatrix * gl_Vertex;
+  worldposition = position1 + vec4(cameraPosition.xyz, 0.0);
+  gl_Position = gl_ProjectionMatrix * gbufferModelView * position1;
 
   #if AA_TYPE == 1
     gl_Position.xy += offsets[frame_mod] * gl_Position.w * pixel_size;
   #endif
 
-  tangent = normalize(normalMatrix * at_tangent.xyz);
-  binormal = normalize(normalMatrix * -cross(vaNormal, at_tangent.xyz));
-  var_fog_frag_coord = length(gl_Position.xyz);
+  tangent = normalize(gl_NormalMatrix * at_tangent.xyz);
+  binormal = normalize(gl_NormalMatrix * -cross(gl_Normal, at_tangent.xyz));
+  gl_FogFragCoord = length(gl_Position.xyz);
 
   // Special entities
   block_type = 0.0;  // 3 - Water, 2 - Glass, ? - Other

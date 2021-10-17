@@ -1,4 +1,4 @@
-tint_color = vaColor;
+tint_color = gl_Color;
 
 // Luz nativa (lmcoord.x: candela, lmcoord.y: cielo) ----
 vec2 illumination = (max(lmcoord, vec2(0.065)) - vec2(0.065)) * 1.06951871657754;
@@ -32,7 +32,7 @@ if (isEyeInWater == 1) {
   vec3 sun_vec = normalize(sunPosition);
 #endif
 
-vec3 normal = normalize(normalMatrix * vaNormal);
+vec3 normal = normalize(gl_NormalMatrix * gl_Normal);
 float sun_light_strenght = dot(normal, sun_vec);
 
 #if defined THE_END || defined NETHER

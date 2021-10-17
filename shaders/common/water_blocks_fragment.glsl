@@ -1,6 +1,3 @@
-/* Exits */
-out vec4 outColor0;
-
 #include "/lib/config.glsl"
 
 #ifdef THE_END
@@ -35,7 +32,6 @@ uniform vec3 skyColor;
 uniform float light_mix;
 uniform ivec2 eyeBrightnessSmooth;
 uniform sampler2D gaux4;
-uniform float alphaTestRef;
 
 #ifdef NETHER
   uniform vec3 fogColor;
@@ -54,27 +50,27 @@ uniform float alphaTestRef;
   uniform mat4 gbufferModelViewInverse;
 #endif
 
-in vec2 texcoord;
-in vec2 lmcoord;
-in vec4 tint_color;
-in float frog_adjust;
-flat in vec3 water_normal;
-flat in float block_type;
-in vec4 worldposition;
-in vec4 position2;
-in vec3 tangent;
-in vec3 binormal;
-flat in vec3 direct_light_color;
-in vec3 candle_color;
-in float direct_light_strenght;
-in vec3 omni_light;
-in float visible_sky;
-flat in vec3 up_vec;
-in float var_fog_frag_coord;
+varying vec2 texcoord;
+varying vec2 lmcoord;
+varying vec4 tint_color;
+varying float frog_adjust;
+varying vec3 water_normal;
+varying float block_type;
+varying vec4 worldposition;
+varying vec4 position2;
+varying vec3 tangent;
+varying vec3 binormal;
+varying vec3 direct_light_color;
+varying vec3 candle_color;
+varying float direct_light_strenght;
+varying vec3 omni_light;
+varying float visible_sky;
+varying vec3 up_vec;
+varying float var_fog_frag_coord;
 
 #if defined SHADOW_CASTING && !defined NETHER
-  in vec3 shadow_pos;
-  in float shadow_diffuse;
+  varying vec3 shadow_pos;
+  varying float shadow_diffuse;
 #endif
 
 #include "/lib/projection_utils.glsl"
@@ -94,8 +90,6 @@ in float var_fog_frag_coord;
 
 void main() {
   vec4 block_color = texture2D(tex, texcoord);
-
-  if(block_color.a < alphaTestRef) discard;  // Full transparency
 
   vec3 real_light;
   vec3 fragposition =

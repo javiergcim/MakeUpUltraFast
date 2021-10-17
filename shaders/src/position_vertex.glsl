@@ -2,7 +2,7 @@
 #ifdef FOLIAGE_V
   #if WAVING == 1
     vec4 position =
-      gbufferModelViewInverse * modelViewMatrix * vec4(vaPosition + chunkOffset, 1.0);
+      (gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex);
 
     vec3 worldpos = position.xyz + cameraPosition;
 
@@ -21,7 +21,7 @@
         is_foliage = .4;
       #endif
 
-      float weight = float(vaUV0.t < mc_midTexCoord.t);
+      float weight = float(gl_MultiTexCoord0.t < mc_midTexCoord.t);
 
       if (mc_Entity.x == ENTITY_UPPERGRASS) {
         weight += 1.0;
@@ -35,7 +35,7 @@
       position.xyz += wave_move(worldpos.xzy) * weight * (0.03 + (rainStrength * .05));
     }
 
-    gl_Position = projectionMatrix * gbufferModelView * position;
+    gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
 
   #else  // Normal position
     #ifndef NETHER
@@ -50,9 +50,9 @@
       }
     #endif
     vec4 position =
-      gbufferModelViewInverse * modelViewMatrix * vec4(vaPosition + chunkOffset, 1.0);
+      (gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex);
 
-    gl_Position = projectionMatrix * gbufferModelView * position;
+    gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
 
   #endif
 
@@ -60,14 +60,14 @@
   #ifndef NO_SHADOWS
     #ifdef SHADOW_CASTING
       vec4 position =
-        (gbufferModelViewInverse * modelViewMatrix * vec4(vaPosition + chunkOffset, 1.0));
+        (gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex);
     #endif
   #endif
 
   #ifdef SHADER_LINE
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(vaPosition, 1.0);
+    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
   #else
-    gl_Position = (projectionMatrix * modelViewMatrix) * vec4(vaPosition + chunkOffset, 1.0);
+    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
   #endif
 
 #endif

@@ -7,7 +7,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 float get_shadow(vec3 the_shadow_pos) {
   float shadow_sample = 1.0;
 
-  #if SHADOW_TYPE == 0  // Pixelated
+  #if SHADOW_TYPE == 0  // Simple
      shadow_sample = shadow2D(shadowtex1, vec3(the_shadow_pos.xy, the_shadow_pos.z - 0.001)).r;
   #elif SHADOW_TYPE == 1  // Soft
     #if AA_TYPE > 0

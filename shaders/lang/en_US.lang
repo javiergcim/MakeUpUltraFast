@@ -26,7 +26,7 @@ profile.comment=Very Low, Low - Suitable for low end. Medium - Suitable for good
 
 #About
 #############################
-option.ACERCADE=MakeUp
+option.ACERCADE=MakeUp Legacy
 option.ACERCADE.comment=Thanks for using this shader! :). Set Optifine native quality controls on normal or default values for better quality.
 value.ACERCADE.0=v.6.6
 
@@ -130,8 +130,8 @@ value.COLOR_SCHEME.0=Legacy
 value.COLOR_SCHEME.1=Cocoa
 value.COLOR_SCHEME.2=Captain
 value.COLOR_SCHEME.3=Shoka
-value.COLOR_SCHEME.4=Ethereal II
-value.COLOR_SCHEME.5=Wonderland
+value.COLOR_SCHEME.4=Ethereal III
+value.COLOR_SCHEME.5=Vivid
 
 option.AVOID_DARK_LEVEL=Cave brightness
 
