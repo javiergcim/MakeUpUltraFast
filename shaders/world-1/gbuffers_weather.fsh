@@ -7,7 +7,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #define NETHER
 #define GBUFFER_WEATHER
-#define CLOUDS_SHADER
+#if MC_VERSION >= 11300
+  #define CLOUDS_SHADER
 #define NO_SHADOWS
 
 #include "/common/solid_blocks_fragment.glsl"
