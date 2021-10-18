@@ -32,7 +32,6 @@ varying vec3 direct_light_color;
 varying vec3 candle_color;
 varying float direct_light_strenght;
 varying vec3 omni_light;
-varying float var_fog_frag_coord;
 
 #ifdef FOLIAGE_V
   varying float is_foliage;
@@ -71,9 +70,6 @@ void main() {
     candle_color;
 
   block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
-
-  // DEBUG
-  // block_color.rgb = omni_light;
 
   #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"

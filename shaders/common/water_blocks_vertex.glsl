@@ -46,7 +46,6 @@ varying float direct_light_strenght;
 varying vec3 omni_light;
 varying float visible_sky;
 varying vec3 up_vec;
-varying float var_fog_frag_coord;
 
 #if defined SHADOW_CASTING && !defined NETHER
   varying vec3 shadow_pos;

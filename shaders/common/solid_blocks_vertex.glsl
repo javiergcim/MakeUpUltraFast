@@ -45,7 +45,6 @@ varying vec3 direct_light_color;
 varying vec3 candle_color;
 varying float direct_light_strenght;
 varying vec3 omni_light;
-varying float var_fog_frag_coord;
 
 #ifdef FOLIAGE_V
   varying float is_foliage;

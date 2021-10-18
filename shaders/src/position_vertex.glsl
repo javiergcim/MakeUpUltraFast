@@ -60,7 +60,7 @@
   #ifndef NO_SHADOWS
     #ifdef SHADOW_CASTING
       vec4 position =
-        (gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex);
+        gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex;
     #endif
   #endif
 
@@ -85,5 +85,5 @@
 #endif
 
 #ifndef SHADER_BASIC
-  var_fog_frag_coord = length(gl_Position.xyz);
+  gl_FogFragCoord= length(gl_Position.xyz);
 #endif

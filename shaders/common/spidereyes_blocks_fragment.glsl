@@ -4,7 +4,6 @@ uniform sampler2D tex;
 
 /* Config, uniforms, ins, outs */
 varying vec2 texcoord;
-varying float var_fog_frag_coord;
 
 void main() {
   // Toma el color puro del bloque

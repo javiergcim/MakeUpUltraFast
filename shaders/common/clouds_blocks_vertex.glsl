@@ -20,7 +20,6 @@ uniform mat4 projectionMatrix;
 varying vec2 texcoord;
 varying vec4 tint_color;
 varying float frog_adjust;
-varying float var_fog_frag_coord;
 
 #if AA_TYPE > 0
   #include "/src/taa_offset.glsl"

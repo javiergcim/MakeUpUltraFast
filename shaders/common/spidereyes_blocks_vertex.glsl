@@ -2,7 +2,6 @@
 
 /* Config, uniforms, ins, outs */
 varying vec2 texcoord;
-varying float var_fog_frag_coord;
 
 #if AA_TYPE > 0
   #include "/src/taa_offset.glsl"

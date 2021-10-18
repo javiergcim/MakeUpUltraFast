@@ -6,10 +6,8 @@
 
 #ifndef SHADER_BASIC
   #ifdef WATER_F
-    // lmcoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy * 0.0041841004184100415;
-    lmcoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
+    lmcoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy * 1.0323886639676114;
   #else
-    // vec2 lmcoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy * 0.0041841004184100415;
-    vec2 lmcoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
+    vec2 lmcoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy * 1.0323886639676114;
   #endif
 #endif

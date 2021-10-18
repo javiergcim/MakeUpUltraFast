@@ -66,7 +66,6 @@ varying float direct_light_strenght;
 varying vec3 omni_light;
 varying float visible_sky;
 varying vec3 up_vec;
-varying float var_fog_frag_coord;
 
 #if defined SHADOW_CASTING && !defined NETHER
   varying vec3 shadow_pos;
@@ -90,6 +89,7 @@ varying float var_fog_frag_coord;
 
 void main() {
   vec4 block_color = texture2D(tex, texcoord);
+  // vec4 block_color = vec4(1.0);
 
   vec3 real_light;
   vec3 fragposition =
