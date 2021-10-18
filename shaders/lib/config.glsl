@@ -154,3 +154,12 @@ const bool generateShadowColorMipmap = false;
 
 const float eyeBrightnessHalflife = 6.0;
 const float centerDepthHalflife = 1.0;
+
+// const bool colortex0Clear = false;
+// const bool colortex1Clear = false;
+// const bool colortex2Clear = false;
+// const bool colortex3Clear = false;
+// const bool gaux1Clear = false;
+// const bool gaux2Clear = false;
+// const bool gaux3Clear = false;
+// const bool gaux4Clear = false;
