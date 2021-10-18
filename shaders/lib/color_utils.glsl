@@ -72,7 +72,7 @@ uniform float night_mixer;
 
   #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
   #define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
-#elif COLOR_SCHEME == 4  // Ethereal 2.0
+#elif COLOR_SCHEME == 4  // Ethereal II
   #define OMNI_TINT 0.5
   #define AMBIENT_MIDDLE_COLOR vec3(0.987528, 0.591192, 0.301392)
   #define AMBIENT_DAY_COLOR vec3(0.90, 0.84, 0.79)
@@ -88,7 +88,7 @@ uniform float night_mixer;
 
   #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
   #define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
-#elif COLOR_SCHEME == 5  // Wonderland
+#elif COLOR_SCHEME == 5  // Vivid
   #define OMNI_TINT 0.35
   #define AMBIENT_MIDDLE_COLOR vec3(0.85 , 0.47058824, 0.17921569)
   #define AMBIENT_DAY_COLOR vec3(1.008125, 1.008125, 0.4475)
