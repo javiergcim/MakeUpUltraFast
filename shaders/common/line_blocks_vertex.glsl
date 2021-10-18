@@ -1,8 +1,8 @@
-uniform mat4 modelViewMatrix;
-uniform mat4 projectionMatrix;
+// uniform mat4 modelViewMatrix;
+// uniform mat4 projectionMatrix;
 
-uniform float viewHeight;
-uniform float viewWidth;
+// uniform float viewHeight;
+// uniform float viewWidth;
 
 #include "/lib/config.glsl"
 
@@ -45,7 +45,7 @@ varying vec4 tint_color;
 
 void main() {
   tint_color = gl_Color;
-  gl_Position = ftransform();
+  gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
   #if AA_TYPE == 1
     gl_Position.xy += offsets[frame_mod] * gl_Position.w * pixel_size;
   #endif

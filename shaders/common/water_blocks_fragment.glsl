@@ -89,7 +89,6 @@ varying vec3 up_vec;
 
 void main() {
   vec4 block_color = texture2D(tex, texcoord);
-  // vec4 block_color = vec4(1.0);
 
   vec3 real_light;
   vec3 fragposition =
@@ -198,7 +197,7 @@ void main() {
 
     #else
 
-      #if WATER_TEXTURE == 1
+      #if WATER_TEXTURE == 1 && MC_VERSION >= 11300
         float water_texture = block_color.r;
       #else
         float water_texture = 1.0;
@@ -210,13 +209,13 @@ void main() {
         candle_color;
 
       #if defined NETHER || defined THE_END
-        #if WATER_COLOR_SOURCE == 0
+        #if WATER_COLOR_SOURCE == 0 || MC_VERSION < 11300
           block_color.rgb = water_texture * real_light * WATER_COLOR;
         #elif WATER_COLOR_SOURCE == 1
           block_color.rgb = 0.3 * water_texture * real_light * tint_color.rgb;
         #endif
       #else
-        #if WATER_COLOR_SOURCE == 0
+        #if WATER_COLOR_SOURCE == 0 || MC_VERSION < 11300
           block_color.rgb = water_texture * real_light * visible_sky * WATER_COLOR;
         #elif WATER_COLOR_SOURCE == 1
           block_color.rgb = 0.3 * water_texture * real_light * visible_sky * tint_color.rgb;
