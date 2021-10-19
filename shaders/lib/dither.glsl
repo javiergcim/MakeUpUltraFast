@@ -3,12 +3,6 @@ Dither and hash functions
 
 */
 
-// #define UI0 1597334673u
-// #define UI1 3812015801u
-// #define UI2 uvec2(UI0, UI1)
-// #define UI3 uvec3(UI0, UI1, 2798796415u)
-// #define UIF (1.0 / float(0xffffffffu))
-
 float hash12(vec2 p) {
   vec3 p3 = fract(vec3(p.xyx) * .1031);
   p3 += dot(p3, p3.yzx + 33.33);
@@ -29,15 +23,6 @@ float shifted_dither_grad_noise(vec2 p) {
   return fract(0.4 * frame_mod + (52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y)));
 }
 
-float grid_noise(vec2 p) {
-  return fract(
-    dot(
-      p - vec2(0.5, 0.5),
-      vec2(0.0625, .277777777777777777778) + 0.25
-      )
-    );
-}
-
 float eclectic_dither(vec2 frag) {
   vec3 p3 = fract(vec3(frag.xyx) * .1031);
   p3 += dot(p3, p3.yzx + 33.33);
@@ -52,6 +37,15 @@ float shifted_eclectic_dither(vec2 frag) {
   float p4 = fract((p3.x + p3.y) * p3.z) * 0.14;
 
   return fract((0.4 * frame_mod) + p4 + (52.9829189 * fract(0.06711056 * frag.x + 0.00583715 * frag.y)));
+}
+
+float grid_noise(vec2 p) {
+  return fract(
+    dot(
+      p - vec2(0.5, 0.5),
+      vec2(0.0625, .277777777777777777778) + 0.25
+      )
+    );
 }
 
 float shifted_grid_noise(vec2 p) {
@@ -72,59 +66,6 @@ float shifted_texture_noise_64(vec2 p, sampler2D noise) {
   return fract(0.4 * frame_mod + dither);
 }
 
-float golden_dither(vec2 p) {
-  vec3 p3 = fract(vec3(p.xyx) * .1031);
-  p3 += dot(p3, p3.yzx + 33.33);
-  float p4 = fract((p3.x + p3.y) * p3.z) * 0.25;
-
-  return fract(p4 + dot(p, 1. / vec2(1.324717957, 1.324717957 * 1.324717957)));
-}
-
-// float timed_int_hash12(uvec2 x)
-// {
-//   x += uint(frameTimeCounter * 2400.0);
-//   uvec2 q = 1103515245u * ((x >> 1u) ^ (x.yx));
-//   uint n = 1103515245u * ((q.x) ^ (q.y >> 3u));
-//   return float(n) * (1.0 / float(0xffffffffu));
-// }
-//
-// float int_hash12(uvec2 x)
-// {
-//   uvec2 q = 1103515245u * ((x >> 1u) ^ (x.yx));
-//   uint n = 1103515245u * ((q.x) ^ (q.y >> 3u));
-//   return float(n) * (1.0 / float(0xffffffffu));
-// }
-//
-// vec2 timed_int_hash22(uvec2 q)
-// {
-//   q += uint(frameTimeCounter * 2400.0);
-//   q *= UI2;
-//   q = (q.x ^ q.y) * UI2;
-//   return vec2(q) * UIF;
-// }
-//
-// vec2 int_hash22(uvec2 q)
-// {
-//   q *= UI2;
-//   q = (q.x ^ q.y) * UI2;
-//   return vec2(q) * UIF;
-// }
-//
-// vec3 int_hash32(uvec2 q)
-// {
-//   uvec3 n = q.xyx * UI3;
-//   n = (n.x ^ n.y ^n.z) * UI3;
-//   return vec3(n) * UIF;
-// }
-//
-// vec3 timed_int_hash32(uvec2 q)
-// {
-//   q += uvec2(frameTimeCounter * 2400.0);
-//   uvec3 n = q.xyx * UI3;
-//   n = (n.x ^ n.y ^n.z) * UI3;
-//   return vec3(n) * UIF;
-// }
-//
 float phi_noise(uvec2 uv)
 {
   if (((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;
@@ -154,16 +95,3 @@ float shifted_phi_noise(uvec2 uv)
 
   return fract(0.4 * frame_mod + (float(l + h) * 2.3283064365386963e-10));
 }
-
-// float bayer2(vec2 a) {
-//   a = floor(a);
-//   return fract(dot(a, vec2(.5, a.y * .75)));
-// }
-//
-// #define bayer4(a)   (bayer2(.5 * (a)) * .25 + bayer2(a))
-// #define bayer8(a)   (bayer4(.5 * (a)) * .25 + bayer2(a))
-// #define bayer16(a)  (bayer8(.5 * (a)) * .25 + bayer2(a))
-// #define bayer32(a)  (bayer16(.5 * (a)) * .25 + bayer2(a))
-// #define bayer64(a)  (bayer32(.5 * (a)) * .25 + bayer2(a))
-// #define bayer128(a) (bayer64(.5 * (a)) * 0.25 + bayer2(a))
-// #define bayer256(a) (bayer128(.5 * (a)) * 0.25 + bayer2(a))
