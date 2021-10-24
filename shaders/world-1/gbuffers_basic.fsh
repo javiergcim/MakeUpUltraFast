@@ -1,19 +1,12 @@
-#version 120
-/* MakeUp - gbuffers_clouds.fsh
-Render: sky, clouds
+#version 150
+/* MakeUp - gbuffers_basic.fsh
+Render: Basic elements - lines
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#define NETHER
+#define GBUFFER_BASIC
 #define NO_SHADOWS
 
-#include "/lib/config.glsl"
-
-// Varyings (per thread shared variables)
-varying vec4 tint_color;
-
-void main() {
-  vec4 block_color = tint_color;
-
-  #include "/src/writebuffers.glsl"
-}
+#include "/common/basic_blocks_fragment.glsl"

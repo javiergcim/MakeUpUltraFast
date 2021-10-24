@@ -13,7 +13,7 @@ Some of the code is inspired by the ideas presented below:
 - Integer Hash by iq:
   https://www.shadertoy.com/user/iq
 
-- Hash without sine (integer version) by Dave Hoskins:
+- Hash without sine by Dave Hoskins:
   https://www.shadertoy.com/user/Dave_Hoskins
 
 - TAA is based on Erkaman's TAA simple implementation:

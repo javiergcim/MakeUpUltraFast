@@ -1,16 +1,11 @@
-#version 120
-/* MakeUp - composite2.fsh
+#version 150
+/* MakeUp - composite1.fsh
 Render: Antialiasing and motion blur
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 #define THE_END
+#define COMPOSITE2_SHADER
 
-// Varyings (per thread shared variables)
-varying vec2 texcoord;
-
-void main() {
-  gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
-  texcoord = gl_MultiTexCoord0.xy;
-}
+#include "/common/composite2_vertex.glsl"

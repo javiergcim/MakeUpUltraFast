@@ -52,8 +52,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define SHADOW_RES 2 // [0 1 2 3 4 5 6 7] Set shadow quality
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
 #define SHADOW_BLUR 1.9 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0]  Shadow blur intensity
-#define WATER_ABSORPTION 0.10 // [0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.20 0.21 0.22 0.230.24 0.25 0.26 0.27 0.28 0.29 0.30 0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38] Sets how much light the water absorbs. Low levels make the water more transparent. High levels make it more opaque.
-#define COLOR_SCHEME 5 // [0 1 2 3 4 5] Legacy: Exotic colors at sunset. Cocoa: A warm preset of vivid colors in the day. Captain: A cold preset of stylish colors. Shoka: Warm theme, with high contrast between light and shadow, inspired by the color theme of a famous shader. Ethereal: Old default theme. Ethereal II: Current default theme.
+#define WATER_ABSORPTION 0.05 // [0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.20 0.21 0.22 0.230.24 0.25 0.26 0.27 0.28 0.29 0.30 0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38] Sets how much light the water absorbs. Low levels make the water more transparent. High levels make it more opaque.
+#define COLOR_SCHEME 4 // [0 1 2 3 4 5] Legacy: Exotic colors at sunset. Cocoa: A warm preset of vivid colors in the day. Captain: A cold preset of stylish colors. Shoka: Warm theme, with high contrast between light and shadow, inspired by the color theme of a famous shader. Ethereal: Current default theme. Vivid: Fantasy theme.
 #define WATER_TEXTURE 0 // [0 1] Enable or disable resource pack water texture.
 #define AVOID_DARK 1 // [0 1] Avoid absolute darkness in caves at daytime.
 #define AVOID_DARK_LEVEL 0.06 // [0.00 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10]  Minimal omni light intensity in caves (percentaje). During the night, the caves are always dark.
@@ -66,8 +66,10 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define CHROMA_ABER 0 // [0 1] Enable chroma aberration
 #define CHROMA_ABER_STRENGHT 0.05 // [0.04 0.05 0.06] Chroma aberration strenght
 #define VOL_LIGHT // This option activates volumetric light (shadows must be enabled to work)
-// #define VANILLA_WATER // Establishes the appearance of water as vanilla, completely cancels reflection, refraction and other options for water.
-#define WATER_COLOR_SOURCE 0 // [0 1] Select the water color source. This option has no effect on 1.12.x versions.
+// #define VANILLA_WATER // Establishes the appearance of water as vanilla.
+#define WATER_COLOR_SOURCE 0 // [0 1] Select the water color source. This option has no effect on 1.12.x versions or Vanilla like water.
+#define WATER_TURBULENCE 1.7 // [2.5 1.7 1.3] Set the water waves strenght
+#define FOG_ADJUST 1.0 // [2.0 1.0 0.5]  Recommended settings. 'Short' for 8 or less draw distance. 'Regular' between 9 and 19 draw distance. 'Far' for 20+ draw distance.  
 
 // Reflection parameters
 #define RAYMARCH_STEPS 9
@@ -92,16 +94,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 // Godrays
 #define GODRAY_STEPS 6
-
-// Buffers clear
-const bool colortex0Clear = false;
-const bool colortex1Clear = false;
-const bool colortex2Clear = false;
-const bool colortex3Clear = false;
-const bool gaux1Clear = false;
-const bool gaux2Clear = false;
-const bool gaux3Clear = false;
-const bool gaux4Clear = false;
 
 // Sun rotation angle
 const float sunPathRotation = -25.0; // [-40.0 -35.0 -30.0 -25.0 -20.0 -15.0 -10.0 -5.0 0.0 5.0 10.0 15.0 20.0 25.0 30.0 35.0 40.0]
@@ -155,9 +147,9 @@ const bool generateShadowColorMipmap = false;
 
 // Redefined constants
 #if AO == 0
-  const float ambientOcclusionLevel = 1.0;
+  const float ambientOcclusionLevel = 0.7;
 #else
-  const float ambientOcclusionLevel = 0.25;
+  const float ambientOcclusionLevel = 0.0;
 #endif
 
 const float eyeBrightnessHalflife = 6.0;

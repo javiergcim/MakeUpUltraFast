@@ -1,23 +1,11 @@
-#version 120
-/* MakeUp - deferred.fsh
-Render: Ambient occlusion
+#version 150
+/* MakeUp - deferred.vsh
+Render: Ambient occlusion, volumetric clouds
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 #define THE_END
+#define DEFERRED_SHADER
 
-#include "/lib/config.glsl"
-
-// 'Global' constants from system
-#if AO == 1
-  uniform mat4 gbufferProjection;
-#endif
-
-// Varyings (per thread shared variables)
-varying vec2 texcoord;
-
-void main() {
-  gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
-  texcoord = gl_MultiTexCoord0.xy;
-}
+#include "/common/deferred_vertex.glsl"

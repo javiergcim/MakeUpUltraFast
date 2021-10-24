@@ -1,4 +1,4 @@
-/* MakeUp - basic_utils.glsl
+/* MakeUp - shadow_vertex.glsl
 Vertex shadow function.
 
 Javier Garduño - GNU Lesser General Public License v3.0

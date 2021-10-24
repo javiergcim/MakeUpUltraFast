@@ -26,7 +26,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 //     vec3 b_sample;
 //     for(int i = 0; i < 3; i++, coord += blur_velocity) {
 //       sample_coord = clamp(coord, double_pixels, 1.0 - double_pixels);
-//       b_sample = texture2D(image, sample_coord).rgb;
+//       b_sample = texture(image, sample_coord).rgb;
 //       // mask = float(b_sample.a > 0.7);  // Mano
 //       // m_blur += b_sample.rgb * mask;
 //       m_blur += b_sample
@@ -63,7 +63,7 @@ vec3 motion_blur(vec3 color, float the_depth, vec2 blur_velocity, sampler2D imag
     vec3 b_sample;
     for(int i = 0; i < 3; i++, coord += blur_velocity) {
       sample_coord = clamp(coord, double_pixels, 1.0 - double_pixels);
-      b_sample = texture2D(image, sample_coord).rgb;
+      b_sample = texture(image, sample_coord).rgb;
       // mask = float(b_sample.a > 0.7);  // Mano
       // m_blur += b_sample.rgb * mask;
       m_blur += b_sample;

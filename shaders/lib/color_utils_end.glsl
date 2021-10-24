@@ -23,9 +23,23 @@ uniform float night_mixer;
 
 #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
 
+#if COLOR_SCHEME == 0  // Legacy
+  #define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
+#elif COLOR_SCHEME == 1  // Cocoa
+  #define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
+#elif COLOR_SCHEME == 2  // Captain
+  #define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
+#elif COLOR_SCHEME == 3  // Shoka
+  #define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
+#elif COLOR_SCHEME == 4  // Ethereal III
+  #define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
+#elif COLOR_SCHEME == 5  // Vivid
+  #define CANDLE_BASELIGHT vec3(0.29975, 0.15392353, 0.0799)
+#endif
+
 vec3 day_blend(vec3 middle, vec3 day, vec3 night) {
-  // f(x) = min(−((x−.25)^2)∙20 + 1.25, 1)
-  // g(x) = min(−((x−.75)^2)∙50 + 3.125, 1)
+  // f(x) = min(-((x-.25)^2)∙20 + 1.25, 1)
+  // g(x) = min(-((x-.75)^2)∙50 + 3.125, 1)
 
   vec3 day_color = mix(middle, day, day_mixer);
   vec3 night_color = mix(middle, night, night_mixer);
@@ -34,8 +48,8 @@ vec3 day_blend(vec3 middle, vec3 day, vec3 night) {
 }
 
 float day_blend_float(float middle, float day, float night) {
-  // f(x) = min(−((x−.25)^2)∙20 + 1.25, 1)
-  // g(x) = min(−((x−.75)^2)∙50 + 3.125, 1)
+  // f(x) = min(-((x-.25)^2)∙20 + 1.25, 1)
+  // g(x) = min(-((x-.75)^2)∙50 + 3.125, 1)
 
   float day_value = mix(middle, day, day_mixer);
   float night_value = mix(middle, night, night_mixer);
@@ -106,5 +120,3 @@ const float ambient_exposure[25] =
     1.0 // 6
     );
 #endif
-
-#define CANDLE_BASELIGHT vec3(0.4495, 0.38784706, 0.2498)

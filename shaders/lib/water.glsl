@@ -42,7 +42,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
         out_flag = true;
       }
 
-    screen_depth = texture2D(depthtex1, march_pos.xy).x;
+    screen_depth = texture(depthtex1, march_pos.xy).x;
     depth_diff = screen_depth - march_pos.z;
 
     if (depth_diff < 0.0 && abs(screen_depth - prev_screen_depth) > abs(march_pos.z - last_march_pos.z)) {
@@ -75,34 +75,32 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
 }
 
 #if SUN_REFLECTION == 1
-  #ifndef NETHER
-    #ifndef THE_END
+  #if !defined NETHER && !defined THE_END
 
-      float sun_reflection(vec3 fragpos) {
-        vec3 astro_pos = worldTime > 12900 ? moonPosition : sunPosition;
-        float astro_vector =
-          max(dot(normalize(fragpos), normalize(astro_pos)), 0.0);
+    float sun_reflection(vec3 fragpos) {
+      vec3 astro_pos = worldTime > 12900 ? moonPosition : sunPosition;
+      float astro_vector =
+        max(dot(normalize(fragpos), normalize(astro_pos)), 0.0);
 
-        return clamp(
-            smoothstep(
-              0.997, 1.0, astro_vector) *
-              clamp(4.0 * lmcoord.y - 3.0, 0.0, 1.0) *
-              (1.0 - rainStrength),
-            0.0,
-            1.0
-          );
-      }
+      return clamp(
+          smoothstep(
+            0.997, 1.0, astro_vector) *
+            clamp(4.0 * lmcoord.y - 3.0, 0.0, 1.0) *
+            (1.0 - rainStrength),
+          0.0,
+          1.0
+        );
+    }
 
-    #endif
   #endif
 #endif
 
 vec3 normal_waves(vec3 pos) {
   vec2 wave_1 =
-     texture2D(noisetex, (pos.xy * 0.125) + (frameTimeCounter * -.025)).rg;
+     texture(noisetex, (pos.xy * 0.125) + (frameTimeCounter * -.025)).rg;
      wave_1 = wave_1 - .5;
   vec2 wave_2 =
-     texture2D(noisetex, (pos.xy * 0.03125) - (frameTimeCounter * .025)).rg;
+     texture(noisetex, (pos.xy * 0.03125) - (frameTimeCounter * .025)).rg;
   wave_2 = wave_2 - .5;
   wave_2 *= 2.0;
 
@@ -111,7 +109,7 @@ vec3 normal_waves(vec3 pos) {
   vec3 final_wave =
     vec3(partial_wave, 1.0 - (partial_wave.x * partial_wave.x + partial_wave.y * partial_wave.y));
 
-  final_wave.b *= 1.3;
+  final_wave.b *= WATER_TURBULENCE;
 
   return normalize(final_wave);
 }
@@ -120,7 +118,7 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
   vec2 pos = gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y);
 
   #if REFRACTION == 1
-  float refraction_strength = 0.13;
+    float refraction_strength = 0.13;
     refraction_strength /= 1.0 + length(fragpos) * 0.4;
     pos = pos + refraction.xy * refraction_strength;
   #endif
@@ -130,21 +128,18 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
     float water_distance =
       2.0 * near * far / (far + near - (2.0 * gl_FragCoord.z - 1.0) * (far - near));
 
-    float earth_distance = texture2D(depthtex1, pos.xy).r;
+    float earth_distance = texture(depthtex1, pos.xy).r;
     earth_distance =
       2.0 * near * far / (far + near - (2.0 * earth_distance - 1.0) * (far - near));
 
-    // water_absortion = clamp(earth_distance - water_distance, 0.0, 1.0);
     water_absortion = earth_distance - water_distance;
     water_absortion *= water_absortion;
-    // water_absortion = pow(water_absortion, 1.25);
     water_absortion = (1.0 / -((water_absortion * WATER_ABSORPTION) + 1.125)) + 1.0;
-    // water_absortion = (1.0 / -((water_absortion * 2.0) + 1.0)) + 1.0;
   } else {
     water_absortion = 0.0;
   }
 
-  return mix(texture2D(gaux1, pos.xy).rgb, color, water_absortion);
+  return mix(texture(gaux1, pos.xy).rgb, color, water_absortion);
 }
 
 vec3 get_normals(vec3 bump) {
@@ -178,7 +173,7 @@ vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected, inout float infi
     pos.x = 1.0 - (pos.x - 1.0);
   }
 
-  return vec4(texture2D(gaux1, pos.xy).rgb, border);
+  return vec4(texture(gaux1, pos.xy).rgb, border);
 }
 
 vec3 water_shader(
@@ -203,19 +198,21 @@ vec3 water_shader(
     reflection.a
   );
 
-  vec3 test = reflection.rgb;
+  #ifdef VANILLA_WATER
+    fresnel *= 0.8;
+  #endif
 
   #if SUN_REFLECTION == 1
-     #ifndef NETHER
-       #ifndef THE_END
-         return mix(color, reflection.rgb, fresnel * .6) +
-           vec3(sun_reflection(reflect(normalize(fragpos), normal))) * infinite;
-       #else
-          return mix(color, reflection.rgb, fresnel * .6);
-       #endif
-     #else
+    #ifndef NETHER
+      #ifndef THE_END
+        return mix(color, reflection.rgb, fresnel * .6) +
+          vec3(sun_reflection(reflect(normalize(fragpos), normal))) * infinite;          
+      #else
         return mix(color, reflection.rgb, fresnel * .6);
-     #endif
+      #endif
+    #else
+      return mix(color, reflection.rgb, fresnel * .6);
+    #endif
   #else
      return mix(color, reflection.rgb, fresnel * .6);
   #endif
@@ -240,7 +237,7 @@ vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal, inout float infinite, fl
   float border_y = max(-fourth_pow(abs(2.0 * pos.y - 1.0)) + 1.0, 0.0);
   float border = min(border_x, border_y);
 
-  return vec4(texture2D(gaux1, pos.xy, 0.0).rgb, border);
+  return vec4(texture(gaux1, pos.xy, 0.0).rgb, border);
 }
 
 vec4 cristal_shader(
@@ -266,7 +263,7 @@ vec4 cristal_shader(
   color.a = mix(color.a, 1.0, fresnel * .9);
 
   #if SUN_REFLECTION == 1
-     #ifndef NETHER
+    #ifndef NETHER
       #ifndef THE_END
         return color +
           vec4(

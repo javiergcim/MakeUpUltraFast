@@ -15,3 +15,6 @@ Blindness:
 
 Remove effects:
 /effect clear @p
+
+Lightning bolt:
+/summon lightning_bolt [pos]

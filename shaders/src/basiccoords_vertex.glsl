@@ -1,7 +1,13 @@
 #ifdef ENTITY_GLINT
-  texcoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
+  texcoord = (textureMatrix * vec4(vaUV0, 0.0, 1.0)).xy;
 #else
-  texcoord = gl_MultiTexCoord0.xy;
+  texcoord = vaUV0;
 #endif
 
-lmcoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
+#ifndef SHADER_BASIC
+  #ifdef WATER_F
+    lmcoord = vec2(vaUV2) * 0.0041841004184100415;
+  #else
+    vec2 lmcoord = vec2(vaUV2) * 0.0041841004184100415;
+  #endif
+#endif

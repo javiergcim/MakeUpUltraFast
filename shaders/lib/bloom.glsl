@@ -23,8 +23,8 @@ vec3 mipmap_bloom(sampler2D image, vec2 coords, float dither) {
     current_radius = (i + dither_base) * inv_steps;
     offset = vec2(cos(dither), sin(dither)) * blur_radius_vec * current_radius;
 
-    blur_sample += texture2D(image, coords + offset, -2.5).rgb;
-    blur_sample += texture2D(image, coords - offset, -2.5).rgb;
+    blur_sample += texture(image, coords + offset, -2.5).rgb;
+    blur_sample += texture(image, coords - offset, -2.5).rgb;
   }
 
   blur_sample /= (BLOOM_SAMPLES * 2.0);
