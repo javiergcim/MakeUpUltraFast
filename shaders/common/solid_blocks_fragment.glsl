@@ -38,6 +38,10 @@ in float direct_light_strenght;
 in vec3 omni_light;
 in float var_fog_frag_coord;
 
+#if defined GBUFFER_TERRAIN
+  in float emmisive_type;
+#endif
+
 #ifdef FOLIAGE_V
   in float is_foliage;
 #endif
@@ -52,9 +56,22 @@ in float var_fog_frag_coord;
   #include "/lib/shadow_frag.glsl"
 #endif
 
+#include "/lib/luma.glsl"
+
 void main() {
   // Toma el color puro del bloque
   vec4 block_color = texture(gtexture, texcoord) * tint_color;
+
+
+  vec3 final_candle_color = candle_color;
+  #if defined GBUFFER_TERRAIN
+    float candle_luma = 1.0;
+    if (emmisive_type > 0.5) {
+      candle_luma = luma(block_color.rgb);
+    }
+    // candle_luma *= candle_luma;
+    final_candle_color *= candle_luma;
+  #endif
   
   #ifdef GBUFFER_WEATHER
     block_color.a *= .3;
@@ -74,7 +91,7 @@ void main() {
   vec3 real_light =
     omni_light +
     (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - (rainStrength * 0.75)) +
-    candle_color;
+    final_candle_color;
 
   block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
 
