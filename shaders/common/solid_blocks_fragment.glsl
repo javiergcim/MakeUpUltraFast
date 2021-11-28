@@ -69,7 +69,6 @@ void main() {
     if (emmisive_type > 0.5) {
       candle_luma = luma(block_color.rgb);
     }
-    // candle_luma *= candle_luma;
     final_candle_color *= candle_luma;
   #endif
   
