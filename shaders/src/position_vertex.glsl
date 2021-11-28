@@ -85,5 +85,5 @@
 #endif
 
 #ifndef SHADER_BASIC
-  gl_FogFragCoord= length(gl_Position.xyz);
+  gl_FogFragCoord = length(gl_Position.xyz);
 #endif

@@ -32,7 +32,18 @@ if (isEyeInWater == 1) {
   vec3 sun_vec = normalize(sunPosition);
 #endif
 
-vec3 normal = normalize(gl_NormalMatrix * gl_Normal);
+// Workaround for undefined normals
+#if defined GBUFFER_ENTITIES
+  vec3 normal = gl_NormalMatrix * gl_Normal;
+  if (length(normal) == 0.0) {
+    normal = vec3(1.0, 0.0, 0.0);
+  } else {
+    normal = normalize(normal);
+  }
+#else
+  vec3 normal = normalize(gl_NormalMatrix * gl_Normal);
+#endif
+
 float sun_light_strenght = dot(normal, sun_vec);
 
 #if defined THE_END || defined NETHER
@@ -40,6 +51,7 @@ float sun_light_strenght = dot(normal, sun_vec);
 #else
   direct_light_strenght =
     mix(-sun_light_strenght, sun_light_strenght, light_mix);
+
 #endif
 
 #ifndef SHADOW_CASTING
