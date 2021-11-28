@@ -18,10 +18,10 @@ if (isEyeInWater == 1) {
 // Intensidad y color de luz de candelas
 #if defined THE_END || defined NETHER
   candle_color =
-    CANDLE_BASELIGHT * ((illumination.x * illumination.x) + pow(illumination.x + 0.01, 13.0));
+    CANDLE_BASELIGHT * ((illumination.x * illumination.x) + pow(illumination.x + 0.09, 13.0));
 #else
   candle_color =
-    CANDLE_BASELIGHT * ((illumination.x * illumination.x) + pow(illumination.x + 0.06, 13.0));
+    CANDLE_BASELIGHT * ((illumination.x * illumination.x) + pow(illumination.x + 0.09, 13.0));
 #endif
 
 // Atenuación por dirección de luz directa ===================================

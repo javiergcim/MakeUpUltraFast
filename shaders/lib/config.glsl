@@ -12,6 +12,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define ENTITY_SMALLENTS_NW 10032.0  // No waveable small ents
 #define ENTITY_LEAVES       10018.0  // Leaves
 #define ENTITY_VINES        10106.0  // Vines
+#define ENTITY_EMMISIVE     10089.0  // Emissors
+#define ENTITY_S_EMMISIVE   10090.0  // Emissors
 #define ENTITY_F_EMMISIVE   10213.0  // Fake emissors
 #define ENTITY_WATER        10008.0  // Water
 #define ENTITY_PORTAL       10090.0  // Portal

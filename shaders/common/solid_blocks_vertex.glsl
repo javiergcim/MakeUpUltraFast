@@ -46,6 +46,10 @@ varying vec3 candle_color;
 varying float direct_light_strenght;
 varying vec3 omni_light;
 
+#if defined GBUFFER_TERRAIN
+  varying float emmisive_type;
+#endif
+
 #ifdef FOLIAGE_V
   varying float is_foliage;
 #endif
@@ -55,7 +59,7 @@ varying vec3 omni_light;
   varying float shadow_diffuse;
 #endif
 
-#ifdef FOLIAGE_V
+#if defined FOLIAGE_V || defined GBUFFER_TERRAIN
   attribute vec4 mc_Entity;
 #endif
 
@@ -84,6 +88,13 @@ void main() {
   #include "/src/position_vertex.glsl"
   #include "/src/light_vertex.glsl"
   #include "/src/fog_vertex.glsl"
+
+  #if defined GBUFFER_TERRAIN
+    emmisive_type = 0.0;
+    if (mc_Entity.x == ENTITY_EMMISIVE || mc_Entity.x == ENTITY_S_EMMISIVE) {
+      emmisive_type = 1.0;
+    }
+  #endif
 
   #if defined SHADOW_CASTING && !defined NETHER
     #include "/src/shadow_src_vertex.glsl"
