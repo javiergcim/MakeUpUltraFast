@@ -32,7 +32,18 @@ if (isEyeInWater == 1) {
   vec3 sun_vec = normalize(sunPosition);
 #endif
 
-vec3 normal = normalize(normalMatrix * vaNormal);
+// Workaround for undefined normals
+#if defined GBUFFER_ENTITIES
+  vec3 normal = normalMatrix * vaNormal;
+  if (length(normal) == 0.0) {
+    normal = vec3(1.0, 0.0, 0.0);
+  } else {
+    normal = normalize(normal);
+  }
+#else
+  vec3 normal = normalize(normalMatrix * vaNormal);
+#endif
+
 float sun_light_strenght = dot(normal, sun_vec);
 
 #if defined THE_END || defined NETHER
