@@ -57,7 +57,7 @@ out float direct_light_strenght;
 out vec3 omni_light;
 out float var_fog_frag_coord;
 
-#if defined GBUFFER_TERRAIN
+#if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
   out float emmisive_type;
 #endif
 
@@ -70,7 +70,7 @@ out float var_fog_frag_coord;
   out float shadow_diffuse;
 #endif
 
-#if defined FOLIAGE_V || defined GBUFFER_TERRAIN
+#if defined FOLIAGE_V || defined GBUFFER_TERRAIN || defined GBUFFER_HAND
   attribute vec4 mc_Entity;
 #endif
 
@@ -100,7 +100,7 @@ void main() {
   #include "/src/light_vertex.glsl"
   #include "/src/fog_vertex.glsl"
 
-  #if defined GBUFFER_TERRAIN
+  #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
     emmisive_type = 0.0;
     if (mc_Entity.x == ENTITY_EMMISIVE || mc_Entity.x == ENTITY_S_EMMISIVE) {
       emmisive_type = 1.0;

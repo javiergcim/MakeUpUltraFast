@@ -38,7 +38,7 @@ in float direct_light_strenght;
 in vec3 omni_light;
 in float var_fog_frag_coord;
 
-#if defined GBUFFER_TERRAIN
+#if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
   in float emmisive_type;
 #endif
 
@@ -62,14 +62,13 @@ void main() {
   // Toma el color puro del bloque
   vec4 block_color = texture(gtexture, texcoord) * tint_color;
 
-
   vec3 final_candle_color = candle_color;
-  #if defined GBUFFER_TERRAIN
+  #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
     float candle_luma = 1.0;
     if (emmisive_type > 0.5) {
       candle_luma = luma(block_color.rgb);
+      final_candle_color *= candle_luma * 1.5;
     }
-    final_candle_color *= candle_luma;
   #endif
   
   #ifdef GBUFFER_WEATHER
