@@ -79,6 +79,13 @@ void main() {
 
   float shadow_c;
 
+  #if defined GBUFFER_ENTITIES
+    // Thunderbolt render
+    if (entityId == 10101.0){
+      block_color = vec4(1.0, 1.0, 1.0, 0.9);
+    }
+  #endif
+
   #if defined SHADOW_CASTING && !defined NETHER
     shadow_c = get_shadow(shadow_pos);
     shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
