@@ -16,6 +16,11 @@ uniform float pixel_size_x;
 uniform float pixel_size_y;
 uniform sampler2D gaux4;
 
+#if defined GBUFFER_ENTITIES
+  uniform int entityId;
+  uniform vec4 entityColor;
+#endif
+
 #ifdef NETHER
   uniform vec3 fogColor;
 #endif
@@ -33,7 +38,7 @@ varying vec3 candle_color;
 varying float direct_light_strenght;
 varying vec3 omni_light;
 
-#if defined GBUFFER_TERRAIN
+#if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
   varying float emmisive_type;
 #endif
 
@@ -55,10 +60,22 @@ varying vec3 omni_light;
 
 void main() {
   // Toma el color puro del bloque
-  vec4 block_color = texture2D(tex, texcoord) * tint_color;
+  #if defined GBUFFER_ENTITIES
+    #if BLACK_ENTITY_FIX == 1
+      vec4 block_color = texture2D(tex, texcoord);
+      if (block_color.a < 0.1) {   // Black entities bug workaround
+        discard;
+      }
+      block_color *= tint_color;
+    #else
+      vec4 block_color = texture2D(tex, texcoord) * tint_color;
+    #endif
+  #else
+    vec4 block_color = texture2D(tex, texcoord) * tint_color;
+  #endif
 
   vec3 final_candle_color = candle_color;
-  #if defined GBUFFER_TERRAIN
+  #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
     float candle_luma = 1.0;
     if (emmisive_type > 0.5) {
       candle_luma = luma(block_color.rgb);
@@ -85,6 +102,16 @@ void main() {
     final_candle_color;
 
   block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
+
+  #if defined GBUFFER_ENTITIES
+    // Damage flash
++    block_color.rgb = mix(block_color.rgb, entityColor.rgb, entityColor.a * .75);
+
+    // Thunderbolt render
+    if (entityId == 10101){
+      block_color = vec4(1.0, 1.0, 1.0, 0.5);
+    }
+  #endif
 
   #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"
