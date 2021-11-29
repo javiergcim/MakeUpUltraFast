@@ -123,7 +123,7 @@ void main() {
 
     // Thunderbolt render
     if (entityId == 10101){
-      block_color.rgb = vec3(1.0);
+      block_color.rgb = vec4(1.0, 1.0, 1.0, 0.5);
     }
   #endif
 
