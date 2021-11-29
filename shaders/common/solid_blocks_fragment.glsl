@@ -20,6 +20,10 @@ uniform float pixel_size_y;
 uniform sampler2D gaux4;
 uniform float alphaTestRef;
 
+#if defined GBUFFER_ENTITIES
+  uniform int entityId;
+#endif
+
 #ifdef NETHER
   uniform vec3 fogColor;
 #endif
@@ -75,16 +79,16 @@ void main() {
     block_color.a *= .3;
   #endif
 
-  if(block_color.a < alphaTestRef) discard;  // Full transparency
-
-  float shadow_c;
-
   #if defined GBUFFER_ENTITIES
     // Thunderbolt render
     if (entityId == 10101.0){
-      block_color = vec4(1.0, 1.0, 1.0, 0.9);
+      block_color.a = 0.5;
     }
   #endif
+
+  if(block_color.a < alphaTestRef) discard;  // Full transparency
+
+  float shadow_c;
 
   #if defined SHADOW_CASTING && !defined NETHER
     shadow_c = get_shadow(shadow_pos);
@@ -99,6 +103,13 @@ void main() {
     final_candle_color;
 
   block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
+
+  #if defined GBUFFER_ENTITIES
+    // Thunderbolt render
+    if (entityId == 10101){
+      block_color.rgb = vec3(1.0);
+    }
+  #endif
 
   #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"
