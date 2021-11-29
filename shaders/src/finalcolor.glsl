@@ -17,7 +17,7 @@
       );
   }
 #else
-  #if defined GBUFFER_ENTITIES
+  #if defined GBUFFER_ENTITIES_GLOWING
     if (isEyeInWater == 0 && entityId != 10101) {  // In the air
     block_color.rgb =
       mix(
