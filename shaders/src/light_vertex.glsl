@@ -18,10 +18,10 @@ if (isEyeInWater == 1) {
 // Intensidad y color de luz de candelas
 #if defined THE_END || defined NETHER
   candle_color =
-    CANDLE_BASELIGHT * ((illumination.x * illumination.x) + pow(illumination.x + 0.01, 13.0));
+    CANDLE_BASELIGHT * ((illumination.x * illumination.x) + pow(illumination.x + 0.09, 13.0));
 #else
   candle_color =
-    CANDLE_BASELIGHT * ((illumination.x * illumination.x) + pow(illumination.x + 0.06, 13.0));
+    CANDLE_BASELIGHT * ((illumination.x * illumination.x) + pow(illumination.x + 0.09, 13.0));
 #endif
 
 // Atenuación por dirección de luz directa ===================================
@@ -32,7 +32,18 @@ if (isEyeInWater == 1) {
   vec3 sun_vec = normalize(sunPosition);
 #endif
 
-vec3 normal = normalize(normalMatrix * vaNormal);
+// Workaround for undefined normals
+#if defined GBUFFER_ENTITIES
+  vec3 normal = normalMatrix * vaNormal;
+  if (length(normal) == 0.0) {
+    normal = vec3(1.0, 0.0, 0.0);
+  } else {
+    normal = normalize(normal);
+  }
+#else
+  vec3 normal = normalize(normalMatrix * vaNormal);
+#endif
+
 float sun_light_strenght = dot(normal, sun_vec);
 
 #if defined THE_END || defined NETHER

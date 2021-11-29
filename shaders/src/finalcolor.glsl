@@ -17,12 +17,23 @@
       );
   }
 #else
-  if (isEyeInWater == 0) {  // In the air
+  #if defined GBUFFER_ENTITIES
+    if (isEyeInWater == 0 && entityId != 10101) {  // In the air
     block_color.rgb =
       mix(
         block_color.rgb,
         texture(gaux4, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).rgb,
         frog_adjust
       );
-  }
+    }
+  #else
+    if (isEyeInWater == 0) {  // In the air
+      block_color.rgb =
+        mix(
+          block_color.rgb,
+          texture(gaux4, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).rgb,
+          frog_adjust
+        );
+    }
+  #endif
 #endif
