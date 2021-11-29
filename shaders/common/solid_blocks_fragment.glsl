@@ -22,6 +22,7 @@ uniform float alphaTestRef;
 
 #if defined GBUFFER_ENTITIES
   uniform int entityId;
+  uniform vec4 entityColor;
 #endif
 
 #ifdef NETHER
@@ -105,6 +106,9 @@ void main() {
   block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
 
   #if defined GBUFFER_ENTITIES
+    // Damage flash
+    block_color.rgb = mix(block_color.rgb, entityColor.rgb, entityColor.a * .75);
+    
     // Thunderbolt render
     if (entityId == 10101){
       block_color.rgb = vec3(1.0);
