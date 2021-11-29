@@ -20,11 +20,12 @@ uniform float pixel_size_y;
 uniform sampler2D gaux4;
 uniform float alphaTestRef;
 
-#if defined GBUFFER_ENTITIES || defined GBUFFER_ENTITIES_GLOWING
-  uniform int entityId;
-#endif
+// #if defined GBUFFER_ENTITIES || defined GBUFFER_ENTITIES_GLOWING
+//   uniform int entityId;
+// #endif
 
 #if defined GBUFFER_ENTITIES
+  uniform int entityId;
   uniform vec4 entityColor;
 #endif
 
@@ -71,7 +72,7 @@ void main() {
   #if defined GBUFFER_ENTITIES
     #if BLACK_ENTITY_FIX == 1
       vec4 block_color = texture(gtexture, texcoord);
-      if (block_color.a < 0.1) {   // Black entities bug workaround
+      if (block_color.a < 0.1 && entityId != 10101) {   // Black entities bug workaround
         discard;
       }
       block_color *= tint_color;
@@ -95,7 +96,7 @@ void main() {
     block_color.a *= .3;
   #endif
 
-  #if defined GBUFFER_ENTITIES_GLOWING
+  #if defined GBUFFER_ENTITIES
     // Thunderbolt render
     if (entityId == 10101){
       block_color.a = 1.0;
@@ -120,18 +121,20 @@ void main() {
 
   block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
 
-  #if defined GBUFFER_ENTITIES_GLOWING
-    block_color = vec4(1.0, 1.0, 1.0, 0.5);
-    // if (entityId == 10101) {
-    //   // Thunderbolt render
-    //   block_color = vec4(1.0, 1.0, 1.0, 0.5);
-    // }
-  #endif
-
   #if defined GBUFFER_ENTITIES
-    block_color.rgb = mix(block_color.rgb, entityColor.rgb, entityColor.a * .75);
+    // block_color = vec4(1.0, 1.0, 1.0, 0.5);
+    if (entityId == 10101) {
+      // Thunderbolt render
+      block_color = vec4(1.0, 1.0, 1.0, 0.5);
+    } else {
+      block_color.rgb = mix(block_color.rgb, entityColor.rgb, entityColor.a * .75);
+    }
   #endif
 
-  // #include "/src/finalcolor.glsl"
+  // #if defined GBUFFER_ENTITIES
+  //   block_color.rgb = mix(block_color.rgb, entityColor.rgb, entityColor.a * .75);
+  // #endif
+
+  #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"
 }
