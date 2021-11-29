@@ -94,8 +94,8 @@ void main() {
 
   #if defined GBUFFER_ENTITIES
     // Thunderbolt render
-    if (entityId == 10101.0){
-      block_color.a = 0.5;
+    if (entityId == 10101){
+      block_color.a = 1.0;
     }
   #endif
 
@@ -118,12 +118,12 @@ void main() {
   block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
 
   #if defined GBUFFER_ENTITIES
-    // Damage flash
-    block_color.rgb = mix(block_color.rgb, entityColor.rgb, entityColor.a * .75);
-
-    // Thunderbolt render
-    if (entityId == 10101){
-      block_color.rgb = vec4(1.0, 1.0, 1.0, 0.5);
+    if (entityId == 10101) {
+      // Thunderbolt render
+      block_color = vec4(1.0, 1.0, 1.0, 0.5);
+    } else {
+      // Damage flash
+      block_color.rgb = mix(block_color.rgb, entityColor.rgb, entityColor.a * .75);
     }
   #endif
 
