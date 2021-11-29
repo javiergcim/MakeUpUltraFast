@@ -105,7 +105,7 @@ void main() {
 
   #if defined GBUFFER_ENTITIES
     // Damage flash
-+    block_color.rgb = mix(block_color.rgb, entityColor.rgb, entityColor.a * .75);
+    block_color.rgb = mix(block_color.rgb, entityColor.rgb, entityColor.a * .75);
 
     // Thunderbolt render
     if (entityId == 10101){

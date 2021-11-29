@@ -18,7 +18,7 @@
   }
 #else
   #if defined GBUFFER_ENTITIES
-    if (isEyeInWater == 0 || && entityId != 10101) {  // In the air
+    if (isEyeInWater == 0 && entityId != 10101) {  // In the air
       block_color.rgb =
         mix(
           block_color.rgb,
