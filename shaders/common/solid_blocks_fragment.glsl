@@ -65,7 +65,19 @@ in float var_fog_frag_coord;
 
 void main() {
   // Toma el color puro del bloque
-  vec4 block_color = texture(gtexture, texcoord) * tint_color;
+  #if defined GBUFFER_ENTITIES
+    #if BLACK_ENTITY_FIX == 1
+      vec4 block_color = texture(gtexture, texcoord);
+      if (block_color.a < 0.1) {   // Blacl entities bug workaround
+        discard;
+      }
+      block_color *= tint_color;
+    #else
+      vec4 block_color = texture(gtexture, texcoord) * tint_color;
+    #endif
+  #else
+    vec4 block_color = texture(gtexture, texcoord) * tint_color;
+  #endif
 
   vec3 final_candle_color = candle_color;
   #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
@@ -108,7 +120,7 @@ void main() {
   #if defined GBUFFER_ENTITIES
     // Damage flash
     block_color.rgb = mix(block_color.rgb, entityColor.rgb, entityColor.a * .75);
-    
+
     // Thunderbolt render
     if (entityId == 10101){
       block_color.rgb = vec3(1.0);
