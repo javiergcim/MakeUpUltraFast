@@ -63,7 +63,7 @@ void main() {
   #if defined GBUFFER_ENTITIES
     #if BLACK_ENTITY_FIX == 1
       vec4 block_color = texture2D(tex, texcoord);
-      if (block_color.a < 0.1) {   // Black entities bug workaround
+      if (block_color.a < 0.1 && entityId != 10101) {   // Black entities bug workaround
         discard;
       }
       block_color *= tint_color;
