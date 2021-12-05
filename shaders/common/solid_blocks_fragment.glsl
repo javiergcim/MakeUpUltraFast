@@ -114,12 +114,16 @@ void main() {
     shadow_c = abs((light_mix * 2.0) - 1.0);
   #endif
 
-  vec3 real_light =
+  #if defined GBUFFER_BEACONBEAM
+    block_color.rgb *= 1.5;
+  #else
+    vec3 real_light =
     omni_light +
     (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - (rainStrength * 0.75)) +
     final_candle_color;
 
-  block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
+    block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
+  #endif
 
   #if defined GBUFFER_ENTITIES
     // block_color = vec4(1.0, 1.0, 1.0, 0.5);
@@ -130,10 +134,6 @@ void main() {
       block_color.rgb = mix(block_color.rgb, entityColor.rgb, entityColor.a * .75);
     }
   #endif
-
-  // #if defined GBUFFER_ENTITIES
-  //   block_color.rgb = mix(block_color.rgb, entityColor.rgb, entityColor.a * .75);
-  // #endif
 
   #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"
