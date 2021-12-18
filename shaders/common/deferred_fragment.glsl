@@ -170,11 +170,17 @@ void main() {
     // block_color = vec4(vec3(linear_d), 1.0);
   #endif
 
+  #if defined THE_END || defined NETHER
+    #define NIGHT_CORRECTION 1.0
+  #else
+    #define NIGHT_CORRECTION day_blend_float(1.0, 1.0, 0.1)
+  #endif
+
   // Cielo bajo el agua
   if (isEyeInWater == 1) {
     if (linear_d > 0.9999) {
       block_color.rgb = mix(
-        day_blend_float(1.0, 1.0, 0.1) * WATER_COLOR * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
+        NIGHT_CORRECTION * WATER_COLOR * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
         block_color.rgb,
         max(clamp(view_vector.y - 0.1, 0.0, 1.0), rainStrength)
       );
