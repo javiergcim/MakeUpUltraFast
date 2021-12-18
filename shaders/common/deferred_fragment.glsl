@@ -170,9 +170,9 @@ void main() {
   if (isEyeInWater == 1) {
     if (linear_d > 0.9999) {
       block_color.rgb = mix(
-        WATER_COLOR * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
+        day_blend_float(1.0, 1.0, 0.1) * WATER_COLOR * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
         block_color.rgb,
-        clamp(view_vector.y - 0.1, 0.0, 1.0)
+        max(clamp(view_vector.y - 0.1, 0.0, 1.0), rainStrength)
       );
     }
   }

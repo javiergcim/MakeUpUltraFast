@@ -79,7 +79,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
         dark_cloud_color
       ),
       0.5
-    ) * .75;
+    );
 
     plane_distance = (CLOUD_PLANE - base_pos.y) * view_y_inv;
     intersection_pos = (view_vector * plane_distance) + base_pos;
