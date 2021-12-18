@@ -42,7 +42,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
 
     dark_cloud_color = mix(
       dark_cloud_color,
-      HI_SKY_RAIN_COLOR * luma(dark_cloud_color),
+      HI_SKY_RAIN_COLOR * color_average(dark_cloud_color),
       rainStrength
     );
 
