@@ -113,13 +113,15 @@ direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
     rainStrength
   );
 
-  float omni_minimal;
-  if (isEyeInWater == 1) {
-    omni_minimal = day_blend_float(0.1, 0.055, 1.0);
-  } else {
-    omni_minimal = AVOID_DARK_LEVEL;
-  }
+  float omni_minimal = AVOID_DARK_LEVEL;
+  
+  float sky_day_pseudoluma = color_average(HI_DAY_COLOR);
+  float current_sky_pseudoluma = color_average(hi_sky_color);
 
+  float luma_ratio = sky_day_pseudoluma / current_sky_pseudoluma;
+
+  // Luz mínima
+  omni_minimal *= luma_ratio;
   float visible_avoid_dark = (pow(visible_sky, 1.5) * (1.0 - omni_minimal)) + omni_minimal;
 
   omni_light = visible_avoid_dark * omni_strenght *

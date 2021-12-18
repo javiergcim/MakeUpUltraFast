@@ -84,8 +84,8 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
 
       return clamp(
           smoothstep(
-            0.997, 1.0, astro_vector) *
-            clamp(4.0 * lmcoord.y - 3.0, 0.0, 1.0) *
+            0.998, 1.0, astro_vector) *
+            clamp(lmcoord.y, 0.0, 1.0) *
             (1.0 - rainStrength),
           0.0,
           1.0
