@@ -144,7 +144,6 @@ void main() {
   #endif
 
   #if AO == 1
-    // AO distance attenuation
     #if defined VOL_LIGHT && defined SHADOW_CASTING && !defined NETHER
       float fog_density_coeff = FOG_DENSITY;
     #else
@@ -155,9 +154,12 @@ void main() {
         );
     #endif
 
+    // AO distance attenuation
+    float fog_intensity_coeff = eyeBrightnessSmooth.y * 0.004166666666666667;
+
     float ao_att = pow(
-      linear_d,
-      mix(fog_density_coeff * .5, .25, rainStrength)
+      clamp(linear_d * 1.25, 0.0, 1.0) * fog_intensity_coeff,
+      mix(fog_density_coeff, .5, rainStrength)
     );
 
     float final_ao = mix(dbao(dither), 1.0, ao_att);
