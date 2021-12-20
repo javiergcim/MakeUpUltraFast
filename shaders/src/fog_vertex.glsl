@@ -11,10 +11,7 @@
       ) * FOG_ADJUST;
   #endif
 
-  float fog_intensity_coeff = max(
-    visible_sky,
-    eyeBrightnessSmooth.y * 0.004166666666666667
-  );
+  float fog_intensity_coeff = eyeBrightnessSmooth.y * 0.004166666666666667;
 
   frog_adjust = pow(
     clamp(var_fog_frag_coord / far, 0.0, 1.0) * fog_intensity_coeff,
