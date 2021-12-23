@@ -37,7 +37,8 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
       march_pos.x < 0.0 ||
       march_pos.x > 1.0 ||
       march_pos.y < 0.0 ||
-      march_pos.y > 1.0
+      march_pos.y > 1.0 ||
+      march_pos.z < 0.0
       ) {
         out_flag = true;
       }
@@ -205,16 +206,16 @@ vec3 water_shader(
   #if SUN_REFLECTION == 1
     #ifndef NETHER
       #ifndef THE_END
-        return mix(color, reflection.rgb, fresnel * .6) +
+        return mix(color, reflection.rgb, fresnel * 0.8) +
           vec3(sun_reflection(reflect(normalize(fragpos), normal))) * infinite;          
       #else
-        return mix(color, reflection.rgb, fresnel * .6);
+        return mix(color, reflection.rgb, fresnel * 0.8);
       #endif
     #else
-      return mix(color, reflection.rgb, fresnel * .6);
+      return mix(color, reflection.rgb, fresnel * 0.8);
     #endif
   #else
-     return mix(color, reflection.rgb, fresnel * .6);
+     return mix(color, reflection.rgb, fresnel * 0.8);
   #endif
 }
 
