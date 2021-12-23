@@ -25,6 +25,7 @@ uniform ivec2 eyeBrightnessSmooth;
 #if defined VOL_LIGHT && defined SHADOW_CASTING && !defined NETHER
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
+  uniform mat4 gbufferModelView;
   uniform mat4 shadowModelView;
   uniform mat4 shadowProjection;
   uniform vec3 shadowLightPosition;
@@ -105,17 +106,31 @@ void main() {
       gbufferModelViewInverse * gbufferProjectionInverse * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
     vec3 view_vector = normalize(world_pos.xyz);
 
-    float vol_intensity =
-      dot(
-        view_vector,
-        normalize((gbufferModelViewInverse * vec4(shadowLightPosition, 0.0)).xyz)
-      );
+    #if defined THE_END || defined NETHER
+      // Fixed light source position in sky for intensity calculation
+      float vol_intensity =
+        dot(
+          view_vector,
+          normalize((gbufferModelViewInverse * gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz)
+        );
+    #else
+      // Light source position for intensity calculation
+      float vol_intensity =
+        dot(
+          view_vector,
+          normalize((gbufferModelViewInverse * vec4(shadowLightPosition, 0.0)).xyz)
+        );
+    #endif
 
     vol_intensity =
-      ((pow(clamp((vol_intensity + .5) * 0.666667, 0.0, 1.0), vol_mixer) * 0.5)) * abs(light_mix * 2.0 - 1.0);
+      ((pow(clamp((vol_intensity + .666667) * 0.6, 0.0, 1.0), vol_mixer) * 0.5)) * abs(light_mix * 2.0 - 1.0);
 
-    block_color.rgb =
-      mix(block_color.rgb, vol_light_color, vol_light * vol_intensity * (1.0 - rainStrength));
+    #if defined THE_END || defined NETHER
+      block_color.rgb += (vol_light_color * vol_light * vol_intensity * 2.0);
+    #else
+      block_color.rgb =
+        mix(block_color.rgb, vol_light_color, vol_light * vol_intensity * (1.0 - rainStrength));
+    #endif
   #endif
 
   // Dentro de la nieve
@@ -140,7 +155,7 @@ void main() {
   #ifdef BLOOM
     // Bloom source
     float bloom_luma =
-      smoothstep(0.85, 0.97, luma(block_color.rgb * exposure)) * 0.4;
+      smoothstep(0.85, 0.97, luma(block_color.rgb * exposure)) * 0.5;
 
     /* DRAWBUFFERS:12 */
     gl_FragData[0] = block_color;
