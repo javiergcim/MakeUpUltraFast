@@ -6,10 +6,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 vec3 fast_taa(vec3 current_color, vec2 texcoord_past, vec2 velocity) {
   // Verificamos si proyección queda fuera de la pantalla actual
-  bvec2 a = greaterThan(texcoord_past, vec2(1.0));
-  bvec2 b = lessThan(texcoord_past, vec2(0.0));
-
-  if (any(bvec2(any(a), any(b)))) {
+  if (clamp(texcoord_past, 0.0, 1.0) != texcoord_past) {
     return current_color;
   } else {
     vec3 neighbourhood[5];
@@ -44,10 +41,7 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past, vec2 velocity) {
 
 vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past, vec2 velocity) {
   // Verificamos si proyección queda fuera de la pantalla actual
-  bvec2 a = greaterThan(texcoord_past, vec2(1.0));
-  bvec2 b = lessThan(texcoord_past, vec2(0.0));
-
-  if (any(bvec2(any(a), any(b)))) {
+  if (clamp(texcoord_past, 0.0, 1.0) != texcoord_past) {
     return current_color;
   } else {
     vec4 neighbourhood[5];
