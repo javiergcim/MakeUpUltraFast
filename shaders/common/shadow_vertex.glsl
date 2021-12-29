@@ -26,13 +26,13 @@ void main() {
       mc_Entity.x == ENTITY_SMALLENTS_NW)
   {
       // Corrección para sombra de follaje.
-      #if SHADOW_RES == 0 || SHADOW_RES == 1
-        gl_Position.z -= 0.0025;
-      #elif SHADOW_RES == 2 || SHADOW_RES == 3
-        gl_Position.z -= 0.0025;
-      #elif SHADOW_RES == 4 || SHADOW_RES == 5
-        gl_Position.z -= 0.0015;
-      #elif SHADOW_RES == 6 || SHADOW_RES == 7
+      #if SHADOW_RES == 0 || SHADOW_RES == 1 || SHADOW_RES == 2
+        gl_Position.z -= 0.00125;
+      #elif SHADOW_RES == 3 || SHADOW_RES == 4 || SHADOW_RES == 5
+        gl_Position.z -= 0.00125;
+      #elif SHADOW_RES == 6 || SHADOW_RES == 7 || SHADOW_RES == 8
+        gl_Position.z -= 0.0003;
+      #elif SHADOW_RES == 9 || SHADOW_RES == 10 || SHADOW_RES == 11
         gl_Position.z -= 0.000;
       #endif
   }
