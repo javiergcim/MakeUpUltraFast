@@ -21,7 +21,7 @@ float get_shadow(vec3 the_shadow_pos) {
     #elif SHADOW_RES == 3 || SHADOW_RES == 4 || SHADOW_RES == 5
       float new_z = the_shadow_pos.z - 0.0005 - (0.0003 * dither);
     #elif SHADOW_RES == 6 || SHADOW_RES == 7 || SHADOW_RES == 8
-      float new_z = the_shadow_pos.z - 0.000 - (0.00015 * dither);
+      float new_z = the_shadow_pos.z - 0.0000 - (0.00015 * dither);
     #elif SHADOW_RES == 9 || SHADOW_RES == 10 || SHADOW_RES == 11
       float new_z = the_shadow_pos.z - 0.0000 - (0.00005 * dither);
     #endif

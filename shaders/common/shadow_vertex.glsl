@@ -33,7 +33,7 @@ void main() {
       #elif SHADOW_RES == 6 || SHADOW_RES == 7 || SHADOW_RES == 8
         gl_Position.z -= 0.0003;
       #elif SHADOW_RES == 9 || SHADOW_RES == 10 || SHADOW_RES == 11
-        gl_Position.z -= 0.000;
+        gl_Position.z -= 0.0001;
       #endif
   }
 
