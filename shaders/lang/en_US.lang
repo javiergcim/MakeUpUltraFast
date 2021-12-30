@@ -84,8 +84,8 @@ value.AA_TYPE.1=TAA
 value.AA_TYPE.2=Denoise
 
 option.MOTION_BLUR=Motion blur
-
 option.MOTION_BLUR_STRENGTH=Motion blur strenght
+option.MOTION_BLUR_SAMPLES=Motion blur samples
 
 option.VANILLA_WATER=Vanilla like water
 
@@ -127,7 +127,7 @@ option.CHROMA_ABER_STRENGHT=Chroma aberration strenght
 
 option.WATER_ABSORPTION=Water absorption index
 
-option.WATER_TURBULENCE=Water turbulence
+option.WATER_TURBULENCE=Waves strenght
 value.WATER_TURBULENCE.2.5=Low
 value.WATER_TURBULENCE.1.7=Medium
 value.WATER_TURBULENCE.1.3=High
@@ -203,6 +203,9 @@ screen.SUN_SCREEN.comment=Set sun options.
 
 screen.FOG_SCREEN=Fog options
 screen.FOG_SCREEN.comment=Set fog options
+
+screen.MOTION_BLUR_SCREEN=Motion blur options
+screen.FOG_SCREEN.comment=Set motion blur options
 
 screen.DEBUG_SCREEN=Debug options
 screen.DEBUG_SCREEN.comment=Set debug options

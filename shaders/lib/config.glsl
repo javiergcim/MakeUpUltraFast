@@ -29,12 +29,15 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #if REFLECTION_SLIDER == 0
   #define REFLECTION 0
   #define SSR_TYPE 0
+  #define REFLEX_INDEX 0.45
 #elif REFLECTION_SLIDER == 1
   #define REFLECTION 1
   #define SSR_TYPE 0
+  #define REFLEX_INDEX 0.6
 #elif REFLECTION_SLIDER == 2
   #define REFLECTION 1
   #define SSR_TYPE 1
+  #define REFLEX_INDEX 0.6
 #endif
 
 #define ACERCADE 0 // [0]
@@ -49,6 +52,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define AA_TYPE 1 // [0 1 2] Fast TAA - Enable antialiasing (Recommended). Denoise only - Supersampling is only used to eliminate noise. No - Disable antialiasing.
 //#define MOTION_BLUR // Turn on motion blurs
 #define MOTION_BLUR_STRENGTH 0.16 // [0.02 0.04 0.06 0.08 0.10 0.12 0.14 0.16 0.18 0.20 0.22] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
+#define MOTION_BLUR_SAMPLES 5 // [3 4 5 6 7 8] Motion blur samples 
 #define SUN_REFLECTION 1 // [0 1] Set sun (or moon) reflection on water and glass
 #define SHADOW_CASTING // Set shadows
 #define SHADOW_RES 1 // [0 1 2 3 4 5 6 7 8 9 10 11] Set shadow quality. Read as: 'Visual quality (distance)'
@@ -114,7 +118,7 @@ const bool generateShadowColorMipmap = false;
     #elif SHADOW_RES == 1
       const int shadowMapResolution = 512;
       const float shadowDistance = 128.0;
-      #define SHADOW_DIST 0.9
+      #define SHADOW_DIST 0.75
     #elif SHADOW_RES == 2
       const int shadowMapResolution = 1024;
       const float shadowDistance = 256.0;

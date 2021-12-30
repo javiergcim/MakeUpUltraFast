@@ -68,6 +68,7 @@ uniform sampler2D colortex0;
 
 #ifdef DEBUG_MODE
   uniform sampler2D shadowtex1;
+  uniform sampler2D shadowcolor0;
   uniform sampler2D colortex3;
 #endif
 
@@ -88,7 +89,11 @@ flat in float exposure;
     if (texcoord.x < 0.5 && texcoord.y < 0.5) {
       block_color = texture(shadowtex1, texcoord * 2.0).rrr;
     } else if(texcoord.x >= 0.5 && texcoord.y >= 0.5) {
-      block_color = texture(colortex3, ((texcoord - vec2(0.5)) * 2.0)).rgb;
+      block_color = texture(shadowcolor0, ((texcoord - vec2(0.5)) * 2.0)).aaa;
+    } else if (texcoord.x < 0.5 && texcoord.y >= 0.5) {
+      block_color = texture(colortex3, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb;
+    } else if (texcoord.x >= 0.5 && texcoord.y < 0.5) {
+      block_color = texture(shadowcolor0, ((texcoord - vec2(0.5, 0.0)) * 2.0)).rgb;
     } else {
       block_color = vec3(0.0);
     }
