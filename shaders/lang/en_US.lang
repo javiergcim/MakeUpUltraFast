@@ -1,7 +1,7 @@
 #Profiles
 ############################
-profile.VeryLow_a=Very Low *
-profile.VeryLow_b=Very Low **
+profile.VeryLow_a=No effects
+profile.VeryLow_b=Potato
 profile.VeryLow_c=Very Low ***
 profile.Low_a=Low *
 profile.Low_b=Low **
@@ -11,10 +11,10 @@ profile.Medium_b=Medium **
 profile.Medium_c=Medium ***
 profile.High_a=High *
 profile.High_b=High **
-profile.High_c=High ***
+profile.High_c=Fancy shadowless
 profile.VeryHigh_a=Very High *
 profile.VeryHigh_b=Very High **
-profile.VeryHigh_c=Very High ***
+profile.VeryHigh_c=Equilibrium
 profile.Ultra_a=Ultra *
 profile.Ultra_b=Ultra **
 profile.Ultra_c=Ultra ***
@@ -148,6 +148,10 @@ option.V_CLOUDS=Clouds
 value.V_CLOUDS.0=Vanilla
 value.V_CLOUDS.1=Volumetric static
 value.V_CLOUDS.2=Volumetric dyn.
+
+option.CLOUD_VOL_STYLE=Volumetric cloud style
+value.CLOUD_VOL_STYLE.0=Natural
+value.CLOUD_VOL_STYLE.1=Boxy
 
 option.CLOUD_SPEED=Clouds speed
 value.CLOUD_SPEED.0=Normal

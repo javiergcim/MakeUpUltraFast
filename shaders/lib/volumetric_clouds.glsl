@@ -166,7 +166,11 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
     cloud_value = clamp(cloud_value / opacity_dist, 0.0, 1.0);
     density = clamp(density, 0.0001, 1.0);
 
-    cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density));
+    #if CLOUD_VOL_STYLE == 1
+      cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density) * 0.75);
+    #else
+      cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density));
+    #endif
 
     // Halo brillante de contra al sol
     cloud_color = mix(cloud_color, cloud_color * 2.0, (1.0 - cloud_value) * bright);
@@ -175,7 +179,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
       mix(
         block_color,
         cloud_color,
-        cloud_value * clamp((view_vector.y - 0.045) * 10.0, 0.0, 1.0)
+        cloud_value * clamp((view_vector.y - 0.04) * 2.5, 0.0, 1.0)
       );
   }
 
