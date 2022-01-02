@@ -179,7 +179,7 @@ void main() {
     #ifdef VANILLA_WATER
       #if defined SHADOW_CASTING && !defined NETHER
         float shadow_c = get_shadow(shadow_pos);
-        shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
+        shadow_c = mix(shadow_c, 1.0, clamp(shadow_diffuse, 0.0, 1.0));
       #else
         float shadow_c = abs((light_mix * 2.0) - 1.0);
       #endif
@@ -257,7 +257,7 @@ void main() {
 
     #if defined SHADOW_CASTING && !defined NETHER
       float shadow_c = get_shadow(shadow_pos);
-      shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
+      shadow_c = mix(shadow_c, 1.0, clamp(shadow_diffuse, 0.0, 1.0));
     #else
       float shadow_c = abs((light_mix * 2.0) - 1.0);
     #endif
