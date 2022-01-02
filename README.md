@@ -1,7 +1,7 @@
 # MakeUp - Ultra Fast (Legacy)
 High performance Minecraft shader (Java).
 
-**Version: 6.80L: Consistency**
+**Version: 7.00L: Light II**
 
 ## Main features
 * Optional shadows

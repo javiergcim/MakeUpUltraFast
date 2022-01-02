@@ -49,10 +49,6 @@ float sun_light_strenght = dot(normal, sun_vec);
 
 #endif
 
-#ifndef SHADOW_CASTING
-  direct_light_strenght = pow((direct_light_strenght + 1.0) * 0.5, 3.0);
-#endif
-
 // Intensidad por dirección
 float omni_strenght = (direct_light_strenght * .125) + 1.0;
 
@@ -75,7 +71,7 @@ direct_light_color = day_blend(
       #endif
 
       direct_light_strenght =
-      mix(clamp(direct_light_strenght, 0.0, 1.0), 1.0, .25 * foliage_attenuation_coef) * .75;
+      mix(clamp(direct_light_strenght, 0.0, 1.0), 1.0, .50 * foliage_attenuation_coef) * .75;
     #endif
 
     omni_strenght = 1.0;

@@ -13,7 +13,17 @@ vec3 get_shadow_pos(vec3 shadow_pos, float NdotL) {
   float distortion = ((1.0 - SHADOW_DIST) + length(shadow_pos.xy * 1.25) * SHADOW_DIST) * 0.85;
   shadow_pos.xy /= distortion;
 
-  float bias = distortion * distortion * (0.0046 * tan(acos(NdotL)));
+  #if SHADOW_RES == 0 || SHADOW_RES == 1 || SHADOW_RES == 2
+    #define S_BIAS 0.002
+  #elif SHADOW_RES == 3 || SHADOW_RES == 4 || SHADOW_RES == 5
+    #define S_BIAS 0.0015
+  #elif SHADOW_RES == 6 || SHADOW_RES == 7 || SHADOW_RES == 8
+    #define S_BIAS 0.001
+  #elif SHADOW_RES == 9 || SHADOW_RES == 10 || SHADOW_RES == 11
+    #define S_BIAS 0.00075
+  #endif
+
+  float bias = distortion * distortion * (S_BIAS * (1.0 / NdotL));
 
   shadow_pos.xyz = shadow_pos.xyz * 0.5 + 0.5;
   shadow_pos.z -= bias;

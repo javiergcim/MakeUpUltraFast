@@ -16,14 +16,14 @@ float get_shadow(vec3 the_shadow_pos) {
       float dither = eclectic_dither(gl_FragCoord.xy);
     #endif
 
-    #if SHADOW_RES == 0 || SHADOW_RES == 1
-      float new_z = the_shadow_pos.z - 0.0025 - (0.00045 * dither);
-    #elif SHADOW_RES == 2 || SHADOW_RES == 3
-      float new_z = the_shadow_pos.z - 0.001 - (0.0003 * dither);
-    #elif SHADOW_RES == 4 || SHADOW_RES == 5
-      float new_z = the_shadow_pos.z - 0.00075 - (0.00015 * dither);
-    #elif SHADOW_RES == 6 || SHADOW_RES == 7
-      float new_z = the_shadow_pos.z - 0.0000 - (0.00005 * dither);
+    #if SHADOW_RES == 0 || SHADOW_RES == 1 || SHADOW_RES == 2
+      float new_z = the_shadow_pos.z - 0.001 - (0.00045 * dither);
+    #elif SHADOW_RES == 3 || SHADOW_RES == 4 || SHADOW_RES == 5
+      float new_z = the_shadow_pos.z - 0.0005 - (0.0003 * dither);
+    #elif SHADOW_RES == 6 || SHADOW_RES == 7 || SHADOW_RES == 8
+      float new_z = the_shadow_pos.z - (0.00015 * dither);
+    #elif SHADOW_RES == 9 || SHADOW_RES == 10 || SHADOW_RES == 11
+      float new_z = the_shadow_pos.z - (0.00005 * dither);
     #endif
 
     float dither_base = dither;
@@ -42,6 +42,6 @@ float get_shadow(vec3 the_shadow_pos) {
 
     shadow_sample *= 0.5;
   #endif
-
-  return shadow_sample;
+  
+  return clamp(shadow_sample * 2.0, 0.0, 1.0);
 }

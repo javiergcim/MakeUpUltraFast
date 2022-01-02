@@ -110,7 +110,11 @@ vec3 normal_waves(vec3 pos) {
   vec3 final_wave =
     vec3(partial_wave, 1.0 - (partial_wave.x * partial_wave.x + partial_wave.y * partial_wave.y));
 
-  final_wave.b *= WATER_TURBULENCE;
+  #if REFLECTION_SLIDER == 0
+    final_wave.b *= WATER_TURBULENCE * 0.7;
+  #else
+    final_wave.b *= WATER_TURBULENCE;
+  #endif
 
   return normalize(final_wave);
 }
@@ -206,16 +210,16 @@ vec3 water_shader(
   #if SUN_REFLECTION == 1
     #ifndef NETHER
       #ifndef THE_END
-        return mix(color, reflection.rgb, fresnel * 0.8) +
+        return mix(color, reflection.rgb, fresnel * REFLEX_INDEX) +
           vec3(sun_reflection(reflect(normalize(fragpos), normal))) * infinite;          
       #else
-        return mix(color, reflection.rgb, fresnel * 0.8);
+        return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
       #endif
     #else
-      return mix(color, reflection.rgb, fresnel * 0.8);
+      return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
     #endif
   #else
-     return mix(color, reflection.rgb, fresnel * 0.8);
+     return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
   #endif
 }
 

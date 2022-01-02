@@ -44,10 +44,10 @@ const int colortex3Format = RGB16F;
 */
 #endif
 /*
-const int gaux1Format = RGB8;
+const int gaux1Format = R11F_G11F_B10F;
 const int gaux2Format = R8;
 const int gaux3Format = R8;
-const int gaux4Format = RGB8;
+const int gaux4Format = R11F_G11F_B10F;
 */
 
 // Buffers clear
@@ -63,6 +63,12 @@ const bool gaux4Clear = false;
 // 'Global' constants from system
 uniform sampler2D colortex0;
 
+#ifdef DEBUG_MODE
+  uniform sampler2D shadowtex1;
+  uniform sampler2D shadowcolor0;
+  uniform sampler2D colortex3;
+#endif
+
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 varying float exposure;
@@ -74,15 +80,34 @@ varying float exposure;
   #include "/lib/aberration.glsl"
 #endif
 
-void main() {
-  #if CHROMA_ABER == 1
-    vec3 block_color = color_aberration();
-  #else
-    vec3 block_color = texture2D(colortex0, texcoord).rgb;
-  #endif
+#ifdef DEBUG_MODE
+  void main() {
+    vec3 block_color;
+    if (texcoord.x < 0.5 && texcoord.y < 0.5) {
+      block_color = texture2D(shadowtex1, texcoord * 2.0).rrr;
+    } else if(texcoord.x >= 0.5 && texcoord.y >= 0.5) {
+      block_color = texture2D(shadowcolor0, ((texcoord - vec2(0.5)) * 2.0)).aaa;
+    } else if (texcoord.x < 0.5 && texcoord.y >= 0.5) {
+      block_color = texture2D(colortex3, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb;
+    } else if (texcoord.x >= 0.5 && texcoord.y < 0.5) {
+      block_color = texture2D(shadowcolor0, ((texcoord - vec2(0.5, 0.0)) * 2.0)).rgb;
+    } else {
+      block_color = vec3(0.0);
+    }
 
-  block_color *= exposure;
-  block_color = lottes_tonemap(block_color, exposure + 0.6);
+    gl_FragColor = vec4(block_color, 1.0);
+  }
+#else
+  void main() {
+    #if CHROMA_ABER == 1
+      vec3 block_color = color_aberration();
+    #else
+      vec3 block_color = texture2D(colortex0, texcoord).rgb;
+    #endif
 
-  gl_FragColor = vec4(block_color, 1.0);
-}
+    block_color *= exposure;
+    block_color = lottes_tonemap(block_color, exposure + 0.6);
+
+    gl_FragColor = vec4(block_color, 1.0);
+  }
+#endif

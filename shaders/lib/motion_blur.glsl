@@ -24,7 +24,7 @@ vec3 motion_blur(vec3 color, float the_depth, vec2 blur_velocity, sampler2D imag
     float mask;
     vec2 sample_coord;
     vec3 b_sample;
-    for(int i = 0; i < 3; i++, coord += blur_velocity) {
+    for(int i = 0; i < MOTION_BLUR_SAMPLES; i++, coord += blur_velocity) {
       sample_coord = clamp(coord, double_pixels, 1.0 - double_pixels);
       b_sample = texture2D(image, sample_coord).rgb;
       m_blur += b_sample;

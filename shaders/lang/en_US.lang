@@ -1,26 +1,14 @@
 #Profiles
 ############################
-profile.VeryLow_a=Very Low *
-profile.VeryLow_b=Very Low **
-profile.VeryLow_c=Very Low ***
-profile.Low_a=Low *
-profile.Low_b=Low **
-profile.Low_c=Low ***
-profile.Medium_a=Medium *
-profile.Medium_b=Medium **
-profile.Medium_c=Medium ***
-profile.High_a=High *
-profile.High_b=High **
-profile.High_c=High ***
-profile.VeryHigh_a=Very High *
-profile.VeryHigh_b=Very High **
-profile.VeryHigh_c=Very High ***
-profile.Ultra_a=Ultra *
-profile.Ultra_b=Ultra **
-profile.Ultra_c=Ultra ***
-profile.Extreme_a=Extreme *
-profile.Extreme_b=Extreme **
-profile.Extreme_c=Extreme ***
+profile.no_effects=No effects
+profile.potato_reflection=Potato reflection
+profile.potato_shadow=Potato shadow
+profile.vanilla_like=Vanilla like
+profile.vanilla_plus=Vanilla plus
+profile.fancy_shadowless=Fancy shadowless
+profile.equilibrium=Equilibrium
+profile.all_effects=All effects
+profile.all_effects_hq=All effects HQ
 
 profile.comment=Very Low, Low - Suitable for low end. Medium - Suitable for good integrated GPUs. High - Suitable for low-end dedicated GPUs. Very High - Suitable for low-mid-range dedicated GPUs. Ultra, Extreme - Suitable for mid- or high-end dedicated GPUs
 
@@ -28,21 +16,28 @@ profile.comment=Very Low, Low - Suitable for low end. Medium - Suitable for good
 #############################
 option.ACERCADE=MakeUp Legacy
 option.ACERCADE.comment=Thanks for using this shader! :). Set Optifine native quality controls on normal or default values for better quality.
-value.ACERCADE.0=v.6.80L
+value.ACERCADE.0=v.7.00L
 
 #Options
 #############################
 option.SHADOW_CASTING=Shadows
 
-option.SHADOW_RES=Shadow quality
-value.SHADOW_RES.0=Low
-value.SHADOW_RES.1=Low far
-value.SHADOW_RES.2=Medium
-value.SHADOW_RES.3=Medium far
-value.SHADOW_RES.4=High
-value.SHADOW_RES.5=High far
-value.SHADOW_RES.6=Ultra
-value.SHADOW_RES.7=Ultra far
+option.SHADOW_RES=Shadow qlty
+value.SHADOW_RES.0=Low (close)
+value.SHADOW_RES.1=Low (normal)
+value.SHADOW_RES.2=Low (far)
+
+value.SHADOW_RES.3=Medium (close)
+value.SHADOW_RES.4=Medium (normal)
+value.SHADOW_RES.5=Medium (far)
+
+value.SHADOW_RES.6=High (close)
+value.SHADOW_RES.7=High (normal)
+value.SHADOW_RES.8=High (far)
+
+value.SHADOW_RES.9=Ultra (close)
+value.SHADOW_RES.10=Ultra (normal)
+value.SHADOW_RES.11=Ultra (far)
 
 option.REFLECTION_SLIDER=Reflection
 value.REFLECTION_SLIDER.0=Off
@@ -79,6 +74,7 @@ value.AA_TYPE.2=Denoise
 option.MOTION_BLUR=Motion blur
 
 option.MOTION_BLUR_STRENGTH=Motion blur strenght
+option.MOTION_BLUR_SAMPLES=Motion blur samples
 
 option.VANILLA_WATER=Vanilla like water
 
@@ -120,7 +116,7 @@ option.CHROMA_ABER_STRENGHT=Chroma aberration strenght
 
 option.WATER_ABSORPTION=Water absorption index
 
-option.WATER_TURBULENCE=Water turbulence
+option.WATER_TURBULENCE=Waves strenght
 value.WATER_TURBULENCE.2.5=Low
 value.WATER_TURBULENCE.1.7=Medium
 value.WATER_TURBULENCE.1.3=High
@@ -196,3 +192,6 @@ screen.SUN_SCREEN.comment=Set sun options.
 
 screen.FOG_SCREEN=Fog options
 screen.FOG_SCREEN.comment=Set fog options
+
+screen.MOTION_BLUR_SCREEN=Motion blur options
+screen.FOG_SCREEN.comment=Set motion blur options

@@ -25,7 +25,7 @@ uniform float night_mixer;
   #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
   #define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
 #elif COLOR_SCHEME == 1  // Cocoa
-  #define OMNI_TINT 0.5
+  #define OMNI_TINT 0.4
   #define AMBIENT_MIDDLE_COLOR vec3(0.918528, 0.660192, 0.301392)
   #define AMBIENT_DAY_COLOR vec3(0.897, 0.897, 0.5718375)
   #define AMBIENT_NIGHT_COLOR vec3(0.04693014, 0.0507353, 0.05993107) * NIGHT_BRIGHT

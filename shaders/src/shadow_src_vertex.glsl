@@ -70,4 +70,6 @@ shadow_diffuse = max(
   abs((shadow_pos.x - .5) * 2.0), abs((shadow_pos.y - .5) * 2.0)
   );
 
-shadow_diffuse = pow(shadow_diffuse, 8.0);
+vec2 shadow_diffuse_aux = pow((shadow_pos.xy - 0.5) * 2.05, vec2(2.0));
+shadow_diffuse = sqrt(shadow_diffuse_aux.x + shadow_diffuse_aux.y);
+shadow_diffuse = pow(shadow_diffuse, 12.0);
