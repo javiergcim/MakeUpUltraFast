@@ -10,13 +10,14 @@ profile.equilibrium=Equilibrium
 profile.all_effects=All effects
 profile.all_effects_hq=All effects HQ
 
+
 profile.comment=Very Low, Low - Suitable for low end. Medium - Suitable for good integrated GPUs. High - Suitable for low-end dedicated GPUs. Very High - Suitable for low-mid-range dedicated GPUs. Ultra, Extreme - Suitable for mid- or high-end dedicated GPUs
 
 #About
 #############################
 option.ACERCADE=MakeUp Legacy
 option.ACERCADE.comment=Thanks for using this shader! :). Set Optifine native quality controls on normal or default values for better quality.
-value.ACERCADE.0=v.7.00L
+value.ACERCADE.0=v.7.0L
 
 #Options
 #############################
@@ -72,7 +73,6 @@ value.AA_TYPE.1=TAA
 value.AA_TYPE.2=Denoise
 
 option.MOTION_BLUR=Motion blur
-
 option.MOTION_BLUR_STRENGTH=Motion blur strenght
 option.MOTION_BLUR_SAMPLES=Motion blur samples
 
@@ -138,6 +138,10 @@ value.V_CLOUDS.0=Vanilla
 value.V_CLOUDS.1=Volumetric static
 value.V_CLOUDS.2=Volumetric dyn.
 
+option.CLOUD_VOL_STYLE=Volumetric cloud style
+value.CLOUD_VOL_STYLE.0=Natural
+value.CLOUD_VOL_STYLE.1=Boxy
+
 option.CLOUD_SPEED=Clouds speed
 value.CLOUD_SPEED.0=Normal
 value.CLOUD_SPEED.1=Time lapse 1
@@ -146,8 +150,8 @@ value.CLOUD_SPEED.2=Time lapse 2
 option.CLOUD_STEPS_AVG=Cloud samples
 
 option.BLOOM=Bloom
-value.BLOOM.0=Off
-value.BLOOM.1=On
+
+option.DEBUG_MODE=Modo debug
 
 option.BLOOM_SAMPLES=Bloom sample pairs
 
@@ -195,3 +199,6 @@ screen.FOG_SCREEN.comment=Set fog options
 
 screen.MOTION_BLUR_SCREEN=Motion blur options
 screen.FOG_SCREEN.comment=Set motion blur options
+
+screen.DEBUG_SCREEN=Debug options
+screen.DEBUG_SCREEN.comment=Set debug options
