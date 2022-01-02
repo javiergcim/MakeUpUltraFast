@@ -1,7 +1,7 @@
 {
   "texture":
   {
-    "blur": false,
+    "blur": true,
     "clamp": false
   }
 }
