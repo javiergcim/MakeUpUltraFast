@@ -159,10 +159,8 @@ void main() {
     #endif
 
     // AO distance attenuation
-    float fog_intensity_coeff = eyeBrightnessSmooth.y * 0.004166666666666667;
-
     float ao_att = pow(
-      clamp(linear_d * 1.4, 0.0, 1.0) * fog_intensity_coeff,
+      clamp(linear_d * 1.4, 0.0, 1.0),
       mix(fog_density_coeff, .5, rainStrength)
     );
 
