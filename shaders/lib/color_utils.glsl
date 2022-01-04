@@ -104,6 +104,22 @@ uniform float night_mixer;
 
   #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
   #define CANDLE_BASELIGHT vec3(0.29975, 0.15392353, 0.0799)
+#elif COLOR_SCHEME == 6  // Vanilla vibe
+  #define OMNI_TINT 0.5
+  #define AMBIENT_MIDDLE_COLOR vec3(0.987528, 0.591192, 0.301392)
+  #define AMBIENT_DAY_COLOR vec3(0.85, 0.83, 0.5)
+  #define AMBIENT_NIGHT_COLOR vec3(0.0317353, 0.0467353, 0.0637353) * NIGHT_BRIGHT
+
+  #define HI_MIDDLE_COLOR vec3(0.22941177, 0.45372549, 1.07568627)
+  #define HI_DAY_COLOR vec3(0.182, 0.351, 0.754)
+  #define HI_NIGHT_COLOR vec3(0.00647058, 0.01270587, 0.03) * NIGHT_BRIGHT
+
+  #define LOW_MIDDLE_COLOR vec3(1.3, 0.65764706, 0.28549019)
+  #define LOW_DAY_COLOR vec3(0.572, 1.014, 1.248)
+  #define LOW_NIGHT_COLOR vec3(0.01078431, 0.02117647, 0.05) * NIGHT_BRIGHT
+
+  #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
+  #define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
 #endif
 
 vec3 day_blend(vec3 middle, vec3 day, vec3 night) {
