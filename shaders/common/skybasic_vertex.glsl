@@ -25,7 +25,7 @@ void main() {
   up_vec = normalize(gbufferModelView[1].xyz);
   star_data =
     vec4(
-      vaColor.rgb,
+      vaColor.rgb * .25,
       float(
         vaColor.r == vaColor.g &&
         vaColor.g == vaColor.b &&

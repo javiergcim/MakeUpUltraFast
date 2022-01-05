@@ -110,6 +110,7 @@ flat in float exposure;
 
     block_color *= exposure;
     block_color = lottes_tonemap(block_color, exposure + 0.6);
+    // block_color = uchimura(block_color);
 
     outColor0 = vec4(block_color, 1.0);
   }
