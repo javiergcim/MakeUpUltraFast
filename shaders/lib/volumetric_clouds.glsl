@@ -167,7 +167,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
     density = clamp(density, 0.0001, 1.0);
 
     #if CLOUD_VOL_STYLE == 1
-      cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density) * 0.75);
+      cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density) * 0.8);
     #else
       cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density));
     #endif

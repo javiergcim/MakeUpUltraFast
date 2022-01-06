@@ -35,6 +35,8 @@ uniform float night_mixer;
   #define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
 #elif COLOR_SCHEME == 5  // Vivid
   #define CANDLE_BASELIGHT vec3(0.29975, 0.15392353, 0.0799)
+#elif COLOR_SCHEME == 6  // Seven
+  #define CANDLE_BASELIGHT vec3(0.27475, 0.17392353, 0.0899)
 #endif
 
 vec3 day_blend(vec3 middle, vec3 day, vec3 night) {

@@ -20,7 +20,7 @@ void main() {
   up_vec = normalize(gbufferModelView[1].xyz);
   star_data =
     vec4(
-      gl_Color.rgb,
+      gl_Color.rgb * .25,
       float(
         gl_Color.r == gl_Color.g &&
         gl_Color.g == gl_Color.b &&
