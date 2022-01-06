@@ -125,9 +125,8 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
   vec2 pos = gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y);
 
   #if REFRACTION == 1
-    float refraction_strength = 0.05;
-    refraction_strength /= 1.0 + length(fragpos) * 0.4;
-    pos = pos + refraction.xy * refraction_strength;
+    // 0.06 is the pseudorefraction strenght
+    pos = pos + refraction.xy * (0.06 / (1.0 + length(fragpos) * 0.4));
   #endif
 
   float water_absortion;

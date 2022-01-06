@@ -85,5 +85,9 @@
 #endif
 
 #ifndef SHADER_BASIC
-  var_fog_frag_coord = length(gl_Position.xyz);
+  #if defined GBUFFER_CLOUDS
+    var_fog_frag_coord = length(gl_Position.xz);
+  #else
+    var_fog_frag_coord = length(gl_Position.xyz);
+  #endif
 #endif
