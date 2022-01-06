@@ -98,11 +98,9 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
 
 vec3 normal_waves(vec3 pos) {
   vec2 wave_1 =
-      // texture(noisetex, (pos.xy * 0.125) + (frameTimeCounter * -.025)).rg;
       texture(noisetex, (pos.xy * 0.25) + (frameTimeCounter * -.025)).rg;
      wave_1 = wave_1 - .5;
   vec2 wave_2 =
-      // texture(noisetex, (pos.xy * 0.03125) - (frameTimeCounter * .025)).rg;
       texture(noisetex, (pos.xy * 0.0625) - (frameTimeCounter * .025)).rg;
   wave_2 = wave_2 - .5;
   wave_2 *= 2.0;
