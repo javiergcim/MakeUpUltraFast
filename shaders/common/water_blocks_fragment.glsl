@@ -43,6 +43,10 @@ uniform float alphaTestRef;
 
 #if defined SHADOW_CASTING && !defined NETHER
   uniform sampler2DShadow shadowtex1;
+  #if defined COLORED_SHADOW
+    uniform sampler2DShadow shadowtex0;
+    uniform sampler2D shadowcolor0;
+  #endif
 #endif
 
 #ifdef CLOUD_REFLECTION
@@ -178,8 +182,13 @@ void main() {
   if (block_type > 2.5) {  // Water
     #ifdef VANILLA_WATER
       #if defined SHADOW_CASTING && !defined NETHER
-        float shadow_c = get_shadow(shadow_pos);
-        shadow_c = mix(shadow_c, 1.0, clamp(shadow_diffuse, 0.0, 1.0));
+        #if defined COLORED_SHADOW
+          vec3 shadow_c = get_colored_shadow(shadow_pos);
+          shadow_c = mix(shadow_c, vec3(1.0), clamp(shadow_diffuse, 0.0, 1.0));
+        #else
+          float shadow_c = get_shadow(shadow_pos);
+          shadow_c = mix(shadow_c, 1.0, clamp(shadow_diffuse, 0.0, 1.0));
+        #endif
       #else
         float shadow_c = abs((light_mix * 2.0) - 1.0);
       #endif
@@ -256,8 +265,13 @@ void main() {
     block_color *= tint_color;
 
     #if defined SHADOW_CASTING && !defined NETHER
-      float shadow_c = get_shadow(shadow_pos);
-      shadow_c = mix(shadow_c, 1.0, clamp(shadow_diffuse, 0.0, 1.0));
+      #if defined COLORED_SHADOW
+        vec3 shadow_c = get_colored_shadow(shadow_pos);
+        shadow_c = mix(shadow_c, vec3(1.0), clamp(shadow_diffuse, 0.0, 1.0));
+      #else
+        float shadow_c = get_shadow(shadow_pos);
+        shadow_c = mix(shadow_c, 1.0, clamp(shadow_diffuse, 0.0, 1.0));
+      #endif
     #else
       float shadow_c = abs((light_mix * 2.0) - 1.0);
     #endif

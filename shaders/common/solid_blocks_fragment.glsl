@@ -20,10 +20,6 @@ uniform float pixel_size_y;
 uniform sampler2D gaux4;
 uniform float alphaTestRef;
 
-// #if defined GBUFFER_ENTITIES || defined GBUFFER_ENTITIES_GLOWING
-//   uniform int entityId;
-// #endif
-
 #if defined GBUFFER_ENTITIES
   uniform int entityId;
   uniform vec4 entityColor;
@@ -36,7 +32,7 @@ uniform float alphaTestRef;
 #if defined SHADOW_CASTING
   uniform int frame_mod;
   uniform sampler2DShadow shadowtex1;
-  #if defined COLORED_SHADOW && defined GBUFFER_TERRAIN
+  #if defined COLORED_SHADOW
     uniform sampler2DShadow shadowtex0;
     uniform sampler2D shadowcolor0;
   #endif
@@ -109,44 +105,30 @@ void main() {
 
   if(block_color.a < alphaTestRef) discard;  // Full transparency
 
-  #if defined COLORED_SHADOW && defined SHADOW_CASTING && defined GBUFFER_TERRAIN
-    vec3 shadow_color;
-  #else
-    float shadow_c;
-  #endif
-
   #if defined SHADOW_CASTING && !defined NETHER
-    #if defined COLORED_SHADOW && defined GBUFFER_TERRAIN
-      shadow_color = get_colored_shadow(shadow_pos);
-      shadow_color = mix(shadow_color, vec3(1.0), clamp(shadow_diffuse, 0.0, 1.0));
+    #if defined COLORED_SHADOW
+      vec3 shadow_c = get_colored_shadow(shadow_pos);
+      shadow_c = mix(shadow_c, vec3(1.0), clamp(shadow_diffuse, 0.0, 1.0));
     #else
-      shadow_c = get_shadow(shadow_pos);
+      float shadow_c = get_shadow(shadow_pos);
       shadow_c = mix(shadow_c, 1.0, clamp(shadow_diffuse, 0.0, 1.0));
     #endif
   #else
-    shadow_c = abs((light_mix * 2.0) - 1.0);
+    float shadow_c = abs((light_mix * 2.0) - 1.0);
   #endif
 
   #if defined GBUFFER_BEACONBEAM
     block_color.rgb *= 1.5;
   #else
-    #if defined COLORED_SHADOW && defined SHADOW_CASTING && defined GBUFFER_TERRAIN
-      vec3 real_light =
-        omni_light +
-        (direct_light_strenght * shadow_color * direct_light_color) * (1.0 - (rainStrength * 0.75)) +
-        final_candle_color;
-    #else
-      vec3 real_light =
-        omni_light +
-        (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - (rainStrength * 0.75)) +
-        final_candle_color;
-    #endif
+    vec3 real_light =
+      omni_light +
+      (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - (rainStrength * 0.75)) +
+      final_candle_color;
 
     block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
   #endif
 
   #if defined GBUFFER_ENTITIES
-    // block_color = vec4(1.0, 1.0, 1.0, 0.5);
     if (entityId == 10101) {
       // Thunderbolt render
       block_color = vec4(1.0, 1.0, 1.0, 0.5);

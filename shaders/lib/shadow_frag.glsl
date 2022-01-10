@@ -45,7 +45,7 @@ float get_shadow(vec3 the_shadow_pos) {
   return clamp(shadow_sample * 2.0, 0.0, 1.0);
 }
 
-#if defined COLORED_SHADOW && defined GBUFFER_TERRAIN
+#if defined COLORED_SHADOW
 
   vec3 get_colored_shadow(vec3 the_shadow_pos) {
 
@@ -62,13 +62,16 @@ float get_shadow(vec3 the_shadow_pos) {
         if (shadow_black != shadow_detector) {
           shadow_color = texture(shadowcolor0, the_shadow_pos.xy);
           alpha_complement = 1.0 - shadow_color.a;
-          shadow_color.rgb *= alpha_complement;
           shadow_color.rgb = mix(shadow_color.rgb, vec3(1.0), alpha_complement);
+          shadow_color.rgb *= alpha_complement;
         }
       }
       
       shadow_color *= shadow_black;
       shadow_color.rgb = clamp(shadow_color.rgb * (1.0 - shadow_detector) + shadow_detector, vec3(0.0), vec3(1.0));
+
+      return shadow_color.rgb;
+
     #elif SHADOW_TYPE == 1  // Soft
       float shadow_detector_a = 1.0;
       float shadow_black_a = 1.0;
@@ -114,8 +117,8 @@ float get_shadow(vec3 the_shadow_pos) {
         if (shadow_black_a != shadow_detector_a) {
           shadow_color_a = texture(shadowcolor0, the_shadow_pos.xy + offset);
           alpha_complement = 1.0 - shadow_color_a.a;
-          shadow_color_a.rgb *= alpha_complement;
           shadow_color_a.rgb = mix(shadow_color_a.rgb, vec3(1.0), alpha_complement);
+          shadow_color_a.rgb *= alpha_complement;
         }
       }
       
@@ -126,8 +129,8 @@ float get_shadow(vec3 the_shadow_pos) {
         if (shadow_black_b != shadow_detector_b) {
           shadow_color_b = texture(shadowcolor0, the_shadow_pos.xy - offset);
           alpha_complement = 1.0 - shadow_color_b.a;
-          shadow_color_b.rgb *= alpha_complement;
           shadow_color_b.rgb = mix(shadow_color_b.rgb, vec3(1.0), alpha_complement);
+          shadow_color_b.rgb *= alpha_complement;
         }
       }
       
@@ -138,9 +141,10 @@ float get_shadow(vec3 the_shadow_pos) {
 
       shadow_color_a.rgb = (shadow_color_a.rgb + shadow_color_b.rgb) * 0.5;
       shadow_color_a.rgb = mix(shadow_color_a.rgb, vec3(1.0), shadow_detector_a);
+
+      return shadow_color_a.rgb;
     #endif
 
-    return shadow_color_a.rgb;
   }
 
 #endif

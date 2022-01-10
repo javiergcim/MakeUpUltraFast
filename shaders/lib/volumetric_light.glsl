@@ -50,6 +50,7 @@ float get_volumetric_light(float dither, float view_distance) {
 }
 
 #if defined COLORED_SHADOW
+
   vec3 get_volumetric_color_light(float dither, float view_distance) {
     float light = 0.0;
 
@@ -83,9 +84,6 @@ float get_volumetric_light(float dither, float view_distance) {
 
       shadow_pos = get_volumetric_pos(view_pos);
 
-      
-
-
       shadow_detector = texture(shadowtex0, vec3(shadow_pos.xy, shadow_pos.z - 0.001));
       if (shadow_detector < 1.0) {
         shadow_black = texture(shadowtex1, vec3(shadow_pos.xy, shadow_pos.z - 0.001));
@@ -98,7 +96,6 @@ float get_volumetric_light(float dither, float view_distance) {
       }
       
       shadow_color *= shadow_black;
-      // shadow_color.rgb = clamp(shadow_color.rgb * (1.0 - shadow_detector) + shadow_detector, vec3(0.0), vec3(1.0));
       light_color += clamp(shadow_color.rgb * (1.0 - shadow_detector) + shadow_detector, vec3(0.0), vec3(1.0));
     }
 
@@ -106,4 +103,5 @@ float get_volumetric_light(float dither, float view_distance) {
 
     return light_color;
   }
+  
 #endif
