@@ -37,6 +37,11 @@ uniform ivec2 eyeBrightnessSmooth;
   uniform int frame_mod;
   uniform float light_mix;
   uniform float vol_mixer;
+
+  #if defined COLORED_SHADOW
+    uniform sampler2DShadow shadowtex0;
+    uniform sampler2D shadowcolor0;
+  #endif
 #endif
 
 in vec2 texcoord;
@@ -103,7 +108,11 @@ void main() {
     2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
 
   #if defined VOL_LIGHT && defined SHADOW_CASTING && !defined NETHER
-    float vol_light = get_volumetric_light(dither, screen_distance);
+    #if defined COLORED_SHADOW
+      vec3 vol_light = get_volumetric_color_light(dither, screen_distance);
+    #else
+      float vol_light = get_volumetric_light(dither, screen_distance);
+    #endif
 
     // Ajuste de intensidad
     vec4 world_pos =
@@ -133,7 +142,10 @@ void main() {
       block_color.rgb += (vol_light_color * vol_light * vol_intensity * 2.0);
     #else
       block_color.rgb =
-        mix(block_color.rgb, vol_light_color, vol_light * vol_intensity * (1.0 - rainStrength));
+        // mix(block_color.rgb, vol_light_color, vol_light * vol_intensity * (1.0 - rainStrength));
+        mix(block_color.rgb, vol_light_color * vol_light, vol_intensity * (1.0 - rainStrength));
+
+        // block_color.rgb += (vol_light_color * vol_light * vol_intensity * (1.0 - rainStrength));
     #endif
 
   #endif

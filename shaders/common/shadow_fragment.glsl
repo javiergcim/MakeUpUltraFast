@@ -8,11 +8,18 @@ uniform float alphaTestRef;
 
 in vec2 texcoord;
 
+#ifdef COLORED_SHADOW
+  in float is_water;
+#endif
+
 void main() {
+  #ifdef COLORED_SHADOW
+    if (is_water > 0.98) discard;  // Is water
+  #endif
 
   vec4 block_color = texture(gtexture, texcoord);
 
-  if(block_color.a < alphaTestRef) discard;
+  if (block_color.a < alphaTestRef) discard;
 
   /* DRAWBUFFERS:0 */
   outColor0 = block_color;
