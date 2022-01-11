@@ -142,10 +142,7 @@ void main() {
       block_color.rgb += (vol_light_color * vol_light * vol_intensity * 2.0);
     #else
       block_color.rgb =
-        // mix(block_color.rgb, vol_light_color, vol_light * vol_intensity * (1.0 - rainStrength));
         mix(block_color.rgb, vol_light_color * vol_light, vol_intensity * (1.0 - rainStrength));
-
-        // block_color.rgb += (vol_light_color * vol_light * vol_intensity * (1.0 - rainStrength));
     #endif
 
   #endif
@@ -172,7 +169,7 @@ void main() {
   #ifdef BLOOM
     // Bloom source
     float bloom_luma =
-      smoothstep(0.85, 0.97, luma(block_color.rgb * exposure)) * 0.5;
+      smoothstep(0.85, 1.0, luma(block_color.rgb * exposure)) * 0.4;
 
     /* DRAWBUFFERS:12 */
     outColor0 = block_color;
