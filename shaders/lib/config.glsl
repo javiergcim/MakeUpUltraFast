@@ -48,7 +48,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define DOF_STRENGTH 0.09  // [0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.013]  Depth of field strenght.
 #define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance impact).
 #define AOSTEPS 4 // [4 5 6 7 8 9 10 11] How many samples are taken. High performance cost.
-#define AO_STRENGHT 0.55 // [0.20 0.25 0.30 0.35 0.40 0.44 0.50 0.55 0.60 0.66 0.70 0.75 0.80 0.85] Ambient occlusion strenght. Strenght NOT affect performance.
+#define AO_STRENGHT 0.45 // [0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.66 0.70 0.75 0.80 0.85] Ambient occlusion strenght. Strenght NOT affect performance.
 #define AA_TYPE 1 // [0 1 2] Fast TAA - Enable antialiasing (Recommended). Denoise only - Supersampling is only used to eliminate noise. No - Disable antialiasing.
 //#define MOTION_BLUR // Turn on motion blurs
 #define MOTION_BLUR_STRENGTH 0.12 // [0.02 0.04 0.06 0.08 0.10 0.12 0.14 0.16 0.18 0.20 0.22] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
