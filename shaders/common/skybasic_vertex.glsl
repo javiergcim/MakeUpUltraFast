@@ -19,7 +19,8 @@ in vec3 vaPosition;
 void main() {
   gl_Position = (projectionMatrix * modelViewMatrix) * vec4(vaPosition + chunkOffset, 1.0);
   #if AA_TYPE > 0
-    gl_Position.xy += offsets[frame_mod] * gl_Position.w * pixel_size;
+    // gl_Position.xy += offsets[frame_mod] * gl_Position.w * pixel_size;
+    gl_Position.xy += taa_offset * gl_Position.w;
   #endif
 
   up_vec = normalize(gbufferModelView[1].xyz);
