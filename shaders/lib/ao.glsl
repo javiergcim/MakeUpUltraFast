@@ -25,7 +25,7 @@ float dbao(float dither) {
   vec2 scale = vec2(inv_aspect_ratio, 1.0) * (fov_y_inv / (d * far));
   float sample_d;
 
-  for (int i = 1; i <= AOSTEPS; i++) {
+  for (int i = 0; i < AOSTEPS; i++) {
     dither += sample_angle_increment;
     current_radius = (i + dither_base) * inv_steps;
     offset = vec2(cos(dither), sin(dither)) * scale * current_radius;
