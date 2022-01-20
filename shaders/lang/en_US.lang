@@ -168,6 +168,10 @@ value.FOG_ADJUST.0.5=for far draw distances
 
 option.sunPathRotation=Sun angle
 
+option.TONE_MAP=Tone map
+value.TONE_MAP.0=Lottes like
+value.TONE_MAP.1=Custom Uchimura
+
 #Screens
 screen.ADVANCED_SCREEN=Advanced options
 screen.ADVANCED_SCREEN.comment=Set advanced options

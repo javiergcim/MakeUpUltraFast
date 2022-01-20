@@ -29,7 +29,7 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past, vec2 velocity) {
     vec3 past_sample = clamp(previous, nmin, nmax);
 
     // Reducción de ghosting por velocidad
-    float blend = exp(-length(velocity * vec2(viewWidth, viewHeight))) * 0.3 + 0.6;
+    float blend = exp(-length(velocity * vec2(viewWidth, viewHeight))) * 0.3 + 0.61;
 
     return mix(current_color, past_sample, clamp(blend, 0.0, 1.0));
   }
@@ -60,7 +60,7 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past, vec2 velocity) {
     vec4 past_sample = clamp(previous, nmin, nmax);
 
     // Reducción de ghosting por velocidad
-    float blend = exp(-length(velocity * vec2(viewWidth, viewHeight))) * 0.3 + 0.6;
+    float blend = exp(-length(velocity * vec2(viewWidth, viewHeight))) * 0.3 + 0.61;
 
     return mix(current_color, past_sample, clamp(blend, 0.0, 1.0));
   }

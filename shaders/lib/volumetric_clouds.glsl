@@ -90,7 +90,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
     dif_sup = CLOUD_PLANE_SUP - CLOUD_PLANE_CENTER;
     dif_inf = CLOUD_PLANE_CENTER - CLOUD_PLANE;
     dist_aux_coeff = (CLOUD_PLANE_SUP - CLOUD_PLANE) * 0.075;
-    dist_aux_coeff_blur = dist_aux_coeff * 0.4;
+    dist_aux_coeff_blur = dist_aux_coeff * 0.2;
 
     opacity_dist = dist_aux_coeff * 2.5 * view_y_inv;
 
@@ -179,7 +179,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
       mix(
         block_color,
         cloud_color,
-        cloud_value * clamp((view_vector.y - 0.04) * 2.5, 0.0, 1.0)
+        cloud_value * clamp((view_vector.y - 0.06) * 5.0, 0.0, 1.0)
       );
   }
 

@@ -15,6 +15,74 @@ float timed_hash12(vec2 p) {
   return fract(0.6 * frame_mod + ((p3.x + p3.y) * p3.z));
 }
 
+float r_dither(vec2 frag) {
+  return fract(dot(frag, vec2(0.75487766624669276, 0.569840290998)));
+}
+
+float shifted_r_dither(vec2 frag) {
+  return fract((0.625 * frame_mod) + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
+}
+
+float eclectic_r_dither(vec2 frag) {
+  vec3 p3 = fract(vec3(frag.xyx) * .1031);
+  p3 += dot(p3, p3.yzx + 33.33);
+  float p4 = fract((p3.x + p3.y) * p3.z) * 0.14;
+
+  return fract(p4 + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
+}
+
+float shifted_eclectic_r_dither(vec2 frag) {
+  vec3 p3 = fract(vec3(frag.xyx) * .1031);
+  p3 += dot(p3, p3.yzx + 33.33);
+  float p4 = fract((p3.x + p3.y) * p3.z) * 0.1;
+
+  return fract((0.625 * frame_mod) + p4 + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
+}
+
+float dither17(vec2 pos) {
+  return fract(dot(vec3(pos.xy, 0.0), vec3(0.11764705882352941, 0.4117647058823529, 1.3529411764705883)));
+}
+
+float shifted_dither17(vec2 pos) {
+  return fract((0.2353 * frame_mod) + dot(vec3(pos.xy, 0.0), vec3(0.11764705882352941, 0.4117647058823529, 1.3529411764705883)));
+}
+
+float eclectic_dither17(vec2 frag) {
+  vec3 p3 = fract(vec3(frag.xyx) * .1031);
+  p3 += dot(p3, p3.yzx + 33.33);
+  float p4 = fract((p3.x + p3.y) * p3.z) * 0.14;
+
+  return fract(p4 + dot(vec3(frag.xy, 0.0), vec3(2.0, 7.0, 23.0) / 17.0));
+}
+
+float shifted_eclectic_dither17(vec2 frag) {
+  vec3 p3 = fract(vec3(frag.xyx) * .1031);
+  p3 += dot(p3, p3.yzx + 33.33);
+  float p4 = fract((p3.x + p3.y) * p3.z) * 0.1;
+
+  return fract((0.625 * frame_mod) + p4 + dot(vec3(frag.xy, 0.0), vec3(2.0, 7.0, 23.0) / 17.0));
+}
+
+float valve(vec2 vScreenPos)
+{
+    vec3 vDither = vec3( dot( vec2( 171.0, 231.0 ), vScreenPos.xy ) );
+    vDither.rgb = fract( vDither.rgb / vec3( 101.8, 71.0, 97.0 ) );
+    // vDither.rgb = fract( vDither.rgb / vec3( 101.8, 71.1, 97.0 ) );
+
+    // return remap_noise_tri_erp(vDither.g);
+    return vDither.g;
+}
+
+float shifted_valve(vec2 vScreenPos)
+{
+    vec3 vDither = vec3( dot( vec2( 171.0, 231.0 ), vScreenPos.xy ) );
+    vDither.rgb = fract((0.375 * frame_mod) + (vDither.rgb / vec3( 101.8, 71.0, 97.0 )) );
+    // vDither.rgb = fract( vDither.rgb / vec3( 101.8, 71.1, 97.0 ) );
+
+    // return remap_noise_tri_erp(vDither.g);
+    return vDither.g;
+}
+
 float dither_grad_noise(vec2 p) {
   return fract(52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y));
 }
@@ -36,7 +104,7 @@ float shifted_eclectic_dither(vec2 frag) {
   p3 += dot(p3, p3.yzx + 33.33);
   float p4 = fract((p3.x + p3.y) * p3.z) * 0.14;
 
-  return fract((0.6 * frame_mod) + p4 + (52.9829189 * fract(0.06711056 * frag.x + 0.00583715 * frag.y)));
+  return fract((0.625 * frame_mod) + p4 + (52.9829189 * fract(0.06711056 * frag.x + 0.00583715 * frag.y)));
 }
 
 float grid_noise(vec2 p) {

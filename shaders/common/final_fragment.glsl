@@ -109,8 +109,12 @@ flat in float exposure;
     #endif
 
     block_color *= exposure;
-    block_color = lottes_tonemap(block_color, exposure + 0.6);
-    // block_color = uchimura(block_color);
+    
+    #if TONE_MAP == 0
+      block_color = lottes_tonemap(block_color, exposure + 0.6);
+    #elif TONE_MAP == 1
+      block_color = uchimura_precalc(block_color);
+    #endif
 
     outColor0 = vec4(block_color, 1.0);
   }

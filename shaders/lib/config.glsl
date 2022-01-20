@@ -77,7 +77,9 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define WATER_COLOR_SOURCE 0 // [0 1] Select the water color source. This option has no effect on 1.12.x versions or Vanilla like water.
 #define WATER_TURBULENCE 1.7 // [2.5 1.7 1.3] Set the water waves strenght
 #define FOG_ADJUST 1.0 // [2.0 1.0 0.5]  Recommended settings. 'Short' for 8 or less draw distance. 'Regular' between 9 and 19 draw distance. 'Far' for 20+ draw distance.  
+#define TONE_MAP 0 // [0 1] Set tome map function. 
 // #define DEBUG_MODE // Set debug mode.
+
 
 // Reflection parameters
 #define RAYMARCH_STEPS 9
