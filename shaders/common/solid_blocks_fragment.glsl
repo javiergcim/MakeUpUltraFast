@@ -7,6 +7,8 @@ out vec4 outColor0;
   #include "/lib/color_utils_end.glsl"
 #elif defined NETHER
   #include "/lib/color_utils_nether.glsl"
+#else
+  #include "/lib/color_utils.glsl"
 #endif
 
 /* Config, uniforms, ins, outs */
@@ -19,6 +21,8 @@ uniform float pixel_size_x;
 uniform float pixel_size_y;
 uniform sampler2D gaux4;
 uniform float alphaTestRef;
+
+uniform mat4 gbufferProjectionInverse;
 
 #if defined GBUFFER_ENTITIES
   uniform int entityId;
@@ -46,6 +50,8 @@ in vec3 candle_color;
 in float direct_light_strenght;
 in vec3 omni_light;
 in float var_fog_frag_coord;
+
+flat in vec3 up_vec;
 
 #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
   in float emmisive_type;

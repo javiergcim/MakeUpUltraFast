@@ -23,9 +23,9 @@ uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 uniform mat3 normalMatrix;
 
-#if defined FOLIAGE_V || defined THE_END || defined NETHER
+// #if defined FOLIAGE_V || defined THE_END || defined NETHER
   uniform mat4 gbufferModelView;
-#endif
+// #endif
 
 #if defined FOLIAGE_V || (defined SHADOW_CASTING)
   uniform mat4 gbufferModelViewInverse;
@@ -56,6 +56,8 @@ out vec3 candle_color;
 out float direct_light_strenght;
 out vec3 omni_light;
 out float var_fog_frag_coord;
+
+flat out vec3 up_vec;
 
 #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
   out float emmisive_type;
