@@ -102,7 +102,7 @@ vec3 normal_waves(vec3 pos) {
   vec2 wave_2 =
       texture(noisetex, (pos.xy * 0.0625) - (frameTimeCounter * .025)).rg;
   wave_2 = wave_2 - .5;
-  wave_2 *= 2.0;
+  wave_2 *= 3.0;
 
   vec2 partial_wave = wave_1 + wave_2;
 
@@ -123,7 +123,7 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
 
   #if REFRACTION == 1
     // 0.06 is the pseudorefraction strenght
-    pos = pos + refraction.xy * (0.06 / (1.0 + length(fragpos) * 0.4));
+    pos = pos + refraction.xy * (0.075 / (1.0 + length(fragpos) * 0.4));
   #endif
 
   float water_absortion;

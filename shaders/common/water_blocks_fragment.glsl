@@ -31,7 +31,6 @@ uniform vec3 moonPosition;
 uniform int worldTime;
 uniform float nightVision;
 uniform float rainStrength;
-uniform vec3 skyColor;
 uniform float light_mix;
 uniform ivec2 eyeBrightnessSmooth;
 uniform sampler2D gaux4;
@@ -160,7 +159,7 @@ void main() {
 
   #if (defined CLOUD_REFLECTION && V_CLOUDS > 0 && !defined NETHER) || SSR_TYPE > 0
     #if AA_TYPE > 0
-      float dither = shifted_eclectic_r_dither(gl_FragCoord.xy);
+      float dither = shifted_r_dither(gl_FragCoord.xy);
     #else
       float dither = eclectic_dither(gl_FragCoord.xy);
     #endif

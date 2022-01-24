@@ -25,10 +25,10 @@ float get_volumetric_light(float dither, float view_distance) {
 
   for (int i = 0; i < GODRAY_STEPS; i++) {
     // Exponentialy spaced shadow samples
-    current_depth = exp2(i + dither) - 0.96;  // 0.96 avoids points behind near plane
-    if (current_depth > view_distance) {
-      break;
-    }
+    current_depth = exp2(i + dither) - 0.96;  // 0.96 avoids points behind near plane2
+    // if (current_depth > view_distance) {
+    //   break;
+    // }
 
     // Distance to depth
 		current_depth = (far * (current_depth - near)) / (current_depth * (far - near));

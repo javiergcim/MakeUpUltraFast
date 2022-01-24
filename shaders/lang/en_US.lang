@@ -119,7 +119,7 @@ option.CHROMA_ABER_STRENGHT=Chroma aberration strenght
 option.WATER_ABSORPTION=Water absorption index
 
 option.WATER_TURBULENCE=Waves strenght
-value.WATER_TURBULENCE.2.5=Low
+value.WATER_TURBULENCE.3.7=Low
 value.WATER_TURBULENCE.1.7=Medium
 value.WATER_TURBULENCE.1.3=High
 
@@ -167,10 +167,6 @@ value.FOG_ADJUST.1.0=for regular draw distances
 value.FOG_ADJUST.0.5=for far draw distances
 
 option.sunPathRotation=Sun angle
-
-option.TONE_MAP=Tone map
-value.TONE_MAP.0=Lottes like
-value.TONE_MAP.1=Custom Uchimura
 
 #Screens
 screen.ADVANCED_SCREEN=Advanced options

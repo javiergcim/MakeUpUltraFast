@@ -99,7 +99,7 @@ void main() {
     #if AA_TYPE > 0
       float dither = shifted_dither_grad_noise(gl_FragCoord.xy);
     #else
-      float dither = r_dither(gl_FragCoord.xy);
+      float dither = dither_grad_noise(gl_FragCoord.xy);
     #endif
   #endif
 
@@ -135,12 +135,17 @@ void main() {
         );
     #endif
 
-    vol_intensity =
-      ((pow(clamp((vol_intensity + .666667) * 0.6, 0.0, 1.0), vol_mixer) * 0.5)) * abs(light_mix * 2.0 - 1.0);
+    // vol_intensity =
+    //   ((pow(clamp((vol_intensity + .666667) * 0.6, 0.0, 1.0), vol_mixer) * 0.5)) * abs(light_mix * 2.0 - 1.0);
 
     #if defined THE_END || defined NETHER
+      vol_intensity =
+        ((pow(clamp((vol_intensity + .666667) * 0.6, 0.0, 1.0), 2.0) * 0.5));
       block_color.rgb += (vol_light_color * vol_light * vol_intensity * 2.0);
     #else
+      vol_intensity =
+        ((pow(clamp((vol_intensity + .666667) * 0.6, 0.0, 1.0), vol_mixer) * 0.5)) * abs(light_mix * 2.0 - 1.0);
+
       block_color.rgb =
         mix(block_color.rgb, vol_light_color * vol_light, vol_intensity * (1.0 - rainStrength));
     #endif

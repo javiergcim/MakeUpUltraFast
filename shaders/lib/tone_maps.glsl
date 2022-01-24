@@ -4,27 +4,27 @@ Tonemap functions.
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-vec3 lottes_tonemap(vec3 x, float hdrMax) {
-    // Lottes 2016, "Advanced Techniques and Optimization of HDR Color Pipelines"
-    // float a = 1.5;
-    // float d = 0.977;
-    // const float hdrMax = 8.0;
-    // float midIn = 0.23;
-    // float midOut = 0.3;
+// vec3 lottes_tonemap(vec3 x, float hdrMax) {
+//     // Lottes 2016, "Advanced Techniques and Optimization of HDR Color Pipelines"
+//     // float a = 1.5;
+//     // float d = 0.977;
+//     // const float hdrMax = 8.0;
+//     // float midIn = 0.23;
+//     // float midOut = 0.3;
 
-    float pow_a = pow(hdrMax, 1.5);
-    float pow_b = pow(hdrMax, 1.4655);
-    float producto_a = (pow_b - 0.11604118194392006) * 0.3;
+//     float pow_a = pow(hdrMax, 1.5);
+//     float pow_b = pow(hdrMax, 1.4655);
+//     float producto_a = (pow_b - 0.11604118194392006) * 0.3;
 
-    float b =
-      (-0.11030412503619255 + pow_a * 0.3) /
-      producto_a;
-    float c =
-      (pow_b * 0.11030412503619255 - pow_a * 0.03481235458317602) /
-      producto_a;
+//     float b =
+//       (-0.11030412503619255 + pow_a * 0.3) /
+//       producto_a;
+//     float c =
+//       (pow_b * 0.11030412503619255 - pow_a * 0.03481235458317602) /
+//       producto_a;
 
-    return pow(x, vec3(1.5)) / (pow(x, vec3(1.4655)) * vec3(b) + vec3(c));
-}
+//     return pow(x, vec3(1.5)) / (pow(x, vec3(1.4655)) * vec3(b) + vec3(c));
+// }
 
 // vec3 lottes_tonemap(vec3 x, float hdrMax) {
 //     // Lottes 2016, "Advanced Techniques and Optimization of HDR Color Pipelines"
@@ -66,21 +66,13 @@ vec3 lottes_tonemap(vec3 x, float hdrMax) {
 // }
 
 vec3 uchimura_precalc(vec3 x) {
-  // float l0 = 0.20592;
-  // float L0 = 0.044;
-  // float L1 = 0.844;
-  // float S0 = 0.42592;
-  // float S1 = 0.4774;
-  // float C2 = 2.3918867202449294;
-  // float CP = -2.3918867202449294;
-
-  vec3 w0 = vec3(1.0 - smoothstep(0.0, 0.22, x));
-  vec3 w2 = vec3(step(0.42592, x));
+  vec3 w0 = vec3(1.0 - smoothstep(0.0, 0.1, x));
+  vec3 w2 = vec3(step(0.3, x));
   vec3 w1 = vec3(1.0 - w0 - w2);
 
-  vec3 T = vec3(0.22 * pow(x / 0.22, vec3(1.33)));
-  vec3 S = vec3(1.0 - 0.5226 * exp(-2.3918867202449294 * (x - 0.42592)));
-  vec3 L = vec3(0.22 + 1.25 * (x - 0.22));
+  vec3 T = vec3(0.1 * pow(x * vec3(10.0), vec3(1.1)));
+  vec3 S = vec3(1.0 - 0.63 * exp(-2.142857142857143 * (x - vec3(0.3))));
+  vec3 L = vec3(0.1 + 1.35 * (x - vec3(0.1)));
 
   return T * w0 + L * w1 + S * w2;
 }
@@ -94,10 +86,10 @@ vec3 uchimura_precalc(vec3 x) {
 //   // const float b = 0.0;  // pedestal
 
 //   const float P = 1.0;  // max display brightness
-//   const float a = 1.25;  // contrast
-//   const float m = 0.22; // linear section start
-//   const float l = 0.33;  // linear section length
-//   const float c = 1.33; // black
+//   const float a = 1.35;  // contrast
+//   const float m = 0.1; // linear section start
+//   const float l = 0.3;  // linear section length
+//   const float c = 1.1; // black
 //   const float b = 0.0;  // pedestal
 
 //   return uchimura_base(x, P, a, m, l, c, b);

@@ -63,26 +63,6 @@ float shifted_eclectic_dither17(vec2 frag) {
   return fract((0.625 * frame_mod) + p4 + dot(vec3(frag.xy, 0.0), vec3(2.0, 7.0, 23.0) / 17.0));
 }
 
-float valve(vec2 vScreenPos)
-{
-    vec3 vDither = vec3( dot( vec2( 171.0, 231.0 ), vScreenPos.xy ) );
-    vDither.rgb = fract( vDither.rgb / vec3( 101.8, 71.0, 97.0 ) );
-    // vDither.rgb = fract( vDither.rgb / vec3( 101.8, 71.1, 97.0 ) );
-
-    // return remap_noise_tri_erp(vDither.g);
-    return vDither.g;
-}
-
-float shifted_valve(vec2 vScreenPos)
-{
-    vec3 vDither = vec3( dot( vec2( 171.0, 231.0 ), vScreenPos.xy ) );
-    vDither.rgb = fract((0.375 * frame_mod) + (vDither.rgb / vec3( 101.8, 71.0, 97.0 )) );
-    // vDither.rgb = fract( vDither.rgb / vec3( 101.8, 71.1, 97.0 ) );
-
-    // return remap_noise_tri_erp(vDither.g);
-    return vDither.g;
-}
-
 float dither_grad_noise(vec2 p) {
   return fract(52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y));
 }

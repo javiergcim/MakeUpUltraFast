@@ -108,7 +108,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
           (intersection_pos.xz * .0002) + (frameTimeCounter * CLOUD_HI_FACTOR)
         ).b;
 
-      #if V_CLOUDS == 2
+      #if V_CLOUDS == 2 && CLOUD_VOL_STYLE == 0
         current_value +=
           texture(
             noisetex,

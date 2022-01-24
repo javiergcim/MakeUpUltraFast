@@ -63,21 +63,16 @@ direct_light_color = day_blend(
     #ifdef SHADOW_CASTING
       direct_light_strenght = sqrt(abs(direct_light_strenght));
     #else
-      #if defined THE_END || defined NETHER
-        float foliage_attenuation_coef = abs((light_mix - .5) * 2.0);
-      #else
-        float foliage_attenuation_coef = 1.0;
-      #endif
-
-      direct_light_strenght =
-      mix(clamp(direct_light_strenght, 0.0, 1.0), 1.0, .50 * foliage_attenuation_coef) * .75;
+      direct_light_strenght = (clamp(direct_light_strenght, 0.0, 1.0) * 0.5 + 0.5) * 0.75;
     #endif
 
     omni_strenght = 1.0;
+  } else {
+    direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
   }
+#else
+  direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
 #endif
-
-direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
 
 #if defined THE_END || defined NETHER
   omni_light = AMBIENT_DAY_COLOR;
@@ -90,7 +85,7 @@ direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
     HI_NIGHT_COLOR
     );
 
-  vec3 sky_color = HI_SKY_RAIN_COLOR * luma(hi_sky_color);
+  vec3 sky_rain_color = HI_SKY_RAIN_COLOR * luma(hi_sky_color);
 
   direct_light_color = mix(
     direct_light_color,
@@ -100,19 +95,17 @@ direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
 
   hi_sky_color = mix(
     hi_sky_color,
-    sky_color,
+    sky_rain_color,
     rainStrength
   );
 
-  float omni_minimal = AVOID_DARK_LEVEL;
-  
   float sky_day_pseudoluma = color_average(HI_DAY_COLOR);
   float current_sky_pseudoluma = color_average(hi_sky_color);
 
   float luma_ratio = sky_day_pseudoluma / current_sky_pseudoluma;
 
   // Luz mínima
-  omni_minimal *= luma_ratio;
+  float omni_minimal = AVOID_DARK_LEVEL * luma_ratio;
   float visible_avoid_dark = (pow(visible_sky, 1.5) * (1.0 - omni_minimal)) + omni_minimal;
 
   omni_light = visible_avoid_dark * omni_strenght *
