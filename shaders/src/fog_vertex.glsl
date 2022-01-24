@@ -24,5 +24,3 @@
       .5
     );
 #endif
-
-up_vec = normalize(gbufferModelView[1].xyz);
