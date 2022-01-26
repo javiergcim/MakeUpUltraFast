@@ -1,12 +1,12 @@
 #Profiles
 ############################
-profile.lowest=Lowest
-profile.potato_reflection=Potato reflection
-profile.potato_shadow=Potato shadow
-profile.vanilla_like=Vanilla like
-profile.vanilla_plus=Vanilla plus
-profile.fancy_shadowless=Fancy shadowless
-profile.equilibrium=Equilibrium
+profile.no_effects=No effects
+profile.very_low=Very low
+profile.low=Low
+profile.medium=Medium
+profile.high=High
+profile.very_high=Very High
+profile.extreme=Extreme
 profile.all_effects=All effects
 profile.all_effects_hq=All effects HQ
 
@@ -15,7 +15,7 @@ profile.comment=Very Low, Low - Suitable for low end. Medium - Suitable for good
 
 #About
 #############################
-option.ACERCADE=MakeUp Legacy
+option.ACERCADE=MakeUp
 option.ACERCADE.comment=Thanks for using this shader! :). Set Optifine native quality controls on normal or default values for better quality.
 value.ACERCADE.0=v.7.0L
 
@@ -50,6 +50,8 @@ value.SHADOW_TYPE.0=Simple
 value.SHADOW_TYPE.1=Filtered
 
 option.SHADOW_BLUR=Shadow blur intensity
+
+option.COLORED_SHADOW=Colored shadows
 
 option.VOL_LIGHT=Volumetric light
 
@@ -117,7 +119,7 @@ option.CHROMA_ABER_STRENGHT=Chroma aberration strenght
 option.WATER_ABSORPTION=Water absorption index
 
 option.WATER_TURBULENCE=Waves strenght
-value.WATER_TURBULENCE.2.5=Low
+value.WATER_TURBULENCE.3.7=Low
 value.WATER_TURBULENCE.1.7=Medium
 value.WATER_TURBULENCE.1.3=High
 
