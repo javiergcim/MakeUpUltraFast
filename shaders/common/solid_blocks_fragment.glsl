@@ -28,6 +28,10 @@ uniform sampler2D gaux4;
 #if defined SHADOW_CASTING
   uniform int frame_mod;
   uniform sampler2DShadow shadowtex1;
+  #if defined COLORED_SHADOW
+    uniform sampler2DShadow shadowtex0;
+    uniform sampler2D shadowcolor0;
+  #endif
 #endif
 
 varying vec2 texcoord;
