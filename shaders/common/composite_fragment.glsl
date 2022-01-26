@@ -33,6 +33,11 @@ uniform ivec2 eyeBrightnessSmooth;
   uniform int frame_mod;
   uniform float light_mix;
   uniform float vol_mixer;
+
+  #if defined COLORED_SHADOW
+    uniform sampler2DShadow shadowtex0;
+    uniform sampler2D shadowcolor0;
+  #endif
 #endif
 
 varying vec2 texcoord;
