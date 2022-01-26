@@ -64,14 +64,8 @@ direct_light_color = day_blend(
     #ifdef SHADOW_CASTING
       direct_light_strenght = sqrt(abs(direct_light_strenght));
     #else
-      #if defined THE_END || defined NETHER
-        float foliage_attenuation_coef = abs((light_mix - .5) * 2.0);
-      #else
-        float foliage_attenuation_coef = 1.0;
-      #endif
-
       direct_light_strenght =
-      mix(clamp(direct_light_strenght, 0.0, 1.0), 1.0, .50 * foliage_attenuation_coef) * .75;
+      mix(clamp(direct_light_strenght, 0.0, 1.0), 1.0, .50) * .75;
     #endif
 
     omni_strenght = 1.0;

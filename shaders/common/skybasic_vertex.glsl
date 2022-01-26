@@ -14,7 +14,7 @@ varying vec4 star_data;
 void main() {
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
   #if AA_TYPE > 0
-    gl_Position.xy += taa_offset * gl_Position.w * pixel_size;
+    gl_Position.xy += taa_offset * gl_Position.w;
   #endif
 
   up_vec = normalize(gbufferModelView[1].xyz);

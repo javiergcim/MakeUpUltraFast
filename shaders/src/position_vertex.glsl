@@ -81,7 +81,7 @@
 #endif
 
 #if AA_TYPE == 1
-  gl_Position.xy += taa_offset * gl_Position.w * pixel_size;
+  gl_Position.xy += taa_offset * gl_Position.w;
 #endif
 
 #ifndef SHADER_BASIC
