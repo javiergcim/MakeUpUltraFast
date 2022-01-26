@@ -64,15 +64,16 @@ direct_light_color = day_blend(
     #ifdef SHADOW_CASTING
       direct_light_strenght = sqrt(abs(direct_light_strenght));
     #else
-      direct_light_strenght =
-      mix(clamp(direct_light_strenght, 0.0, 1.0), 1.0, .50) * .75;
+      direct_light_strenght = (clamp(direct_light_strenght, 0.0, 1.0) * 0.5 + 0.5) * 0.75;
     #endif
 
     omni_strenght = 1.0;
+  } else {
+    direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
   }
+#else
+  direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
 #endif
-
-direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
 
 #if defined THE_END || defined NETHER
   omni_light = AMBIENT_DAY_COLOR;
