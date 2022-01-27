@@ -135,9 +135,6 @@ void main() {
         );
     #endif
 
-    // vol_intensity =
-    //   ((pow(clamp((vol_intensity + .666667) * 0.6, 0.0, 1.0), vol_mixer) * 0.5)) * abs(light_mix * 2.0 - 1.0);
-
     #if defined THE_END || defined NETHER
       vol_intensity =
         ((pow(clamp((vol_intensity + .666667) * 0.6, 0.0, 1.0), 2.0) * 0.5));

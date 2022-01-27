@@ -39,7 +39,6 @@ float get_shadow(vec3 the_shadow_pos) {
     shadow_sample *= 0.5;
   #endif
 
-  // return pow(clamp(shadow_sample * 2.0, 0.0, 1.0), 2.0);
   return clamp(shadow_sample * 2.0, 0.0, 1.0);
 }
 
