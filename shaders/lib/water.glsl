@@ -102,7 +102,7 @@ vec3 normal_waves(vec3 pos) {
   vec2 wave_2 =
       texture2D(noisetex, (pos.xy * 0.0625) - (frameTimeCounter * .025)).rg;
   wave_2 = wave_2 - .5;
-  wave_2 *= 2.0;
+  wave_2 *= 3.0;
 
   vec2 partial_wave = wave_1 + wave_2;
 
