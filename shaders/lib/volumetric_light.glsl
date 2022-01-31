@@ -114,7 +114,7 @@ Volumetric light - MakeUp implementation
     float light = 0.0;
     float comp = 1.0 - near / far / far;
 
-    vec2 deltatexcoord = vec2(lightpos - texcoord) * 0.15;
+    vec2 deltatexcoord = vec2(lightpos - texcoord) * 0.2;
     vec2 dither2d = texcoord;
 
     float depth;

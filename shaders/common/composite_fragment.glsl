@@ -107,6 +107,8 @@ void main() {
   }
 
   #if VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+    mat4 modeli_times_projectioni = gbufferModelViewInverse * gbufferProjectionInverse;
+
     #if AA_TYPE > 0
       float dither = shifted_dither17(gl_FragCoord.xy);
     #else
@@ -118,24 +120,26 @@ void main() {
   float screen_distance =
     2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
 
-  #if VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
-    mat4 modeli_times_projectioni = gbufferModelViewInverse * gbufferProjectionInverse;
 
-    #if VOL_LIGHT == 2
-      #if defined COLORED_SHADOW
-        vec3 vol_light = get_volumetric_color_light(dither, screen_distance, modeli_times_projectioni);
-      #else
-        float vol_light = get_volumetric_light(dither, screen_distance, modeli_times_projectioni);
-      #endif
-    #elif VOL_LIGHT == 1
-      float vol_light = ss_godrays(dither);
-    #endif
+
+
+
+
+
+
+
+
+
+
+
+  #if VOL_LIGHT == 1
+    float vol_light = ss_godrays(dither);
 
     // Ajuste de intensidad
 
-    vec4 world_pos =
-      modeli_times_projectioni * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
-    vec3 view_vector = normalize(world_pos.xyz);
+    // vec4 world_pos =
+    //   modeli_times_projectioni * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
+    // vec3 view_vector = normalize(world_pos.xyz);
 
 
     #if VOL_LIGHT == 1
@@ -143,9 +147,75 @@ void main() {
         modeli_times_projectioni * (vec4(0.5, 0.5, 1.0, 1.0) * 2.0 - 1.0);
       vec3 center_view_vector = normalize(center_world_pos.xyz);
 
-      vol_light *= clamp(dot(center_view_vector, normalize((gbufferModelViewInverse * vec4(astro_pos, 0.0)).xyz)), 0.0, 1.0);
+      // vol_light *= clamp(dot(center_view_vector, normalize((gbufferModelViewInverse * vec4(astro_pos, 0.0)).xyz)), 0.0, 1.0);
     #endif
 
+    #if defined THE_END
+      // Fixed light source position in sky for intensity calculation
+      float vol_intensity =
+        // dot(
+        //   view_vector,
+        //   normalize((gbufferModelViewInverse * gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz)
+        // );
+        clamp(dot(center_view_vector, normalize((gbufferModelViewInverse * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz)), 0.0, 1.0);
+    #else
+      // Light source position for intensity calculation
+        float vol_intensity =
+          // dot(
+          //   view_vector,
+          //   normalize((gbufferModelViewInverse * vec4(astro_pos, 0.0)).xyz)
+          // );
+          clamp(dot(center_view_vector, normalize((gbufferModelViewInverse * vec4(astro_pos, 0.0)).xyz)), 0.0, 1.0);
+    #endif
+
+    #if defined THE_END
+      vol_intensity *= 0.666;
+      block_color.rgb += (vol_light_color * vol_light * vol_intensity * 2.0);
+    #else
+      vol_intensity =
+        vol_intensity * 0.666 * abs(light_mix * 2.0 - 1.0);
+      
+      block_color.rgb =
+        mix(block_color.rgb, vol_light_color * vol_light, vol_intensity * (vol_light * 0.75 + 0.25) * (1.0 - rainStrength));
+
+      // block_color.rgb = block_color.rgb + (vol_light_color * vol_light * vol_light * vol_intensity * (1.0 - rainStrength));
+
+      // block_color.rgb =
+      //   mix(block_color.rgb, vol_light_color * vol_light, vol_intensity * (1.0 - rainStrength));
+
+      // block_color.rgb = vec3(vol_intensity * vol_light);
+    #endif
+  #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  #if VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER
+    #if defined COLORED_SHADOW
+      vec3 vol_light = get_volumetric_color_light(dither, screen_distance, modeli_times_projectioni);
+    #else
+      float vol_light = get_volumetric_light(dither, screen_distance, modeli_times_projectioni);
+    #endif
+
+    // Ajuste de intensidad
+
+    vec4 world_pos =
+      modeli_times_projectioni * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
+    vec3 view_vector = normalize(world_pos.xyz);
 
     #if defined THE_END
       // Fixed light source position in sky for intensity calculation
@@ -156,19 +226,11 @@ void main() {
         );
     #else
       // Light source position for intensity calculation
-      #if VOL_LIGHT == 2
         float vol_intensity =
           dot(
             view_vector,
             normalize((gbufferModelViewInverse * vec4(shadowLightPosition, 0.0)).xyz)
           );
-      #elif VOL_LIGHT == 1
-        float vol_intensity =
-          dot(
-            view_vector,
-            normalize((gbufferModelViewInverse * vec4(astro_pos, 0.0)).xyz)
-          );
-      #endif
     #endif
 
     #if defined THE_END
@@ -182,10 +244,25 @@ void main() {
       block_color.rgb =
         mix(block_color.rgb, vol_light_color * vol_light, vol_intensity * (1.0 - rainStrength));
 
-      // block_color.rgb = mix(block_color.rgb, vol_light_color * vol_light, 0.5);
-      // block_color.rgb = vec3(vol_intensity);
+      // block_color.rgb =
+      //   mix(block_color.rgb, vol_light_color * vol_light, vol_intensity * (vol_light * 0.6 + 0.4) * (1.0 - rainStrength));
     #endif
   #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // Dentro de la nieve
   #ifdef BLOOM

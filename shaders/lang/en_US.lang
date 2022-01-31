@@ -55,7 +55,7 @@ option.COLORED_SHADOW=Colored shadows
 
 option.VOL_LIGHT=Godrays
 value.VOL_LIGHT.0=Disabled
-value.VOL_LIGHT.1=Cheap
+value.VOL_LIGHT.1=Screen space
 value.VOL_LIGHT.2=Volumetric
 
 option.DOF=Depth of field
