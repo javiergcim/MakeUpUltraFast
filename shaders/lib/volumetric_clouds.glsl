@@ -26,7 +26,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
   float cloud_value_aux;
   float dist_aux_coeff_blur;
 
-  #ifndef VOL_LIGHT
+  #if VOL_LIGHT != 2  // TODO
     block_color.rgb *=
       clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
   #endif

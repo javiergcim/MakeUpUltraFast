@@ -1,7 +1,7 @@
 #if !defined THE_END && !defined NETHER
 
  // Fog intensity calculation
-  #if defined VOL_LIGHT && defined SHADOW_CASTING
+  #if VOL_LIGHT == 2 && defined SHADOW_CASTING
     float fog_density_coeff = FOG_DENSITY * FOG_ADJUST;
   #else
     float fog_density_coeff = mix(

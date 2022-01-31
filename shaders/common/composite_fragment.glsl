@@ -22,26 +22,33 @@ uniform sampler2D depthtex0;
 uniform int isEyeInWater;
 uniform ivec2 eyeBrightnessSmooth;
 
-#ifdef VOL_LIGHT
-  // Don't delete this ifdef. It's nedded to show option in menu (Optifine bug?)
+#if VOL_LIGHT == 1
+  uniform sampler2D depthtex1;
+  uniform vec3 sunPosition;
+  uniform vec3 moonPosition;
 #endif
 
-#if defined VOL_LIGHT && defined SHADOW_CASTING && !defined NETHER
+#if VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+  uniform mat4 modeli_times_projectioni;
+  uniform float light_mix;
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
   uniform mat4 gbufferModelView;
-  uniform mat4 shadowModelView;
-  uniform mat4 shadowProjection;
-  uniform vec3 shadowLightPosition;
-  uniform sampler2DShadow shadowtex1;
   uniform int frame_mod;
-  uniform float light_mix;
   uniform float vol_mixer;
 
-  #if defined COLORED_SHADOW
-    uniform sampler2DShadow shadowtex0;
-    uniform sampler2D shadowcolor0;
+  #if VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER
+    uniform vec3 shadowLightPosition;
+    uniform mat4 shadowModelView;
+    uniform mat4 shadowProjection;
+    uniform sampler2DShadow shadowtex1;
+
+    #if defined COLORED_SHADOW
+      uniform sampler2DShadow shadowtex0;
+      uniform sampler2D shadowcolor0;
+    #endif
   #endif
+
 #endif
 
 in vec2 texcoord;
@@ -51,8 +58,13 @@ flat in float exposure_coef;
   flat in float exposure;
 #endif
 
-#if defined VOL_LIGHT && defined SHADOW_CASTING && !defined NETHER
+#if VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
   flat in vec3 vol_light_color;
+#endif
+
+#if VOL_LIGHT == 1
+  flat in vec2 lightpos;
+  flat in vec3 astro_pos; 
 #endif
 
 #include "/lib/depth.glsl"
@@ -61,7 +73,7 @@ flat in float exposure_coef;
   #include "/lib/luma.glsl"
 #endif
 
-#if defined VOL_LIGHT && defined SHADOW_CASTING && !defined NETHER
+#if VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
   #include "/lib/volumetric_light.glsl"
   #include "/lib/dither.glsl"
 #endif
@@ -95,9 +107,9 @@ void main() {
     mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
   }
 
-  #if defined VOL_LIGHT && defined SHADOW_CASTING && !defined NETHER
+  #if VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
     #if AA_TYPE > 0
-      float dither = shifted_dither_grad_noise(gl_FragCoord.xy);
+      float dither = shifted_dither17(gl_FragCoord.xy);
     #else
       float dither = dither_grad_noise(gl_FragCoord.xy);
     #endif
@@ -107,19 +119,35 @@ void main() {
   float screen_distance =
     2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
 
-  #if defined VOL_LIGHT && defined SHADOW_CASTING && !defined NETHER
-    #if defined COLORED_SHADOW
-      vec3 vol_light = get_volumetric_color_light(dither, screen_distance);
-    #else
-      float vol_light = get_volumetric_light(dither, screen_distance);
+  #if VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+    #if VOL_LIGHT == 2
+      #if defined COLORED_SHADOW
+        vec3 vol_light = get_volumetric_color_light(dither, screen_distance);
+      #else
+        float vol_light = get_volumetric_light(dither, screen_distance);
+      #endif
+    #elif VOL_LIGHT == 1
+      float vol_light = ss_godrays(dither);
     #endif
 
     // Ajuste de intensidad
+
+    // mat4 pre_world = gbufferModelViewInverse * gbufferProjectionInverse;
     vec4 world_pos =
-      gbufferModelViewInverse * gbufferProjectionInverse * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
+      modeli_times_projectioni * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
     vec3 view_vector = normalize(world_pos.xyz);
 
-    #if defined THE_END || defined NETHER
+
+    #if VOL_LIGHT == 1
+      vec4 center_world_pos =
+        modeli_times_projectioni * (vec4(0.5, 0.5, 1.0, 1.0) * 2.0 - 1.0);
+      vec3 center_view_vector = normalize(center_world_pos.xyz);
+
+      vol_light *= clamp(dot(center_view_vector, normalize((gbufferModelViewInverse * vec4(astro_pos, 0.0)).xyz)), 0.0, 1.0);
+    #endif
+
+
+    #if defined THE_END
       // Fixed light source position in sky for intensity calculation
       float vol_intensity =
         dot(
@@ -128,14 +156,22 @@ void main() {
         );
     #else
       // Light source position for intensity calculation
-      float vol_intensity =
-        dot(
-          view_vector,
-          normalize((gbufferModelViewInverse * vec4(shadowLightPosition, 0.0)).xyz)
-        );
+      #if VOL_LIGHT == 2
+        float vol_intensity =
+          dot(
+            view_vector,
+            normalize((gbufferModelViewInverse * vec4(shadowLightPosition, 0.0)).xyz)
+          );
+      #elif VOL_LIGHT == 1
+        float vol_intensity =
+          dot(
+            view_vector,
+            normalize((gbufferModelViewInverse * vec4(astro_pos, 0.0)).xyz)
+          );
+      #endif
     #endif
 
-    #if defined THE_END || defined NETHER
+    #if defined THE_END
       vol_intensity =
         ((pow(clamp((vol_intensity + .666667) * 0.6, 0.0, 1.0), 2.0) * 0.5));
       block_color.rgb += (vol_light_color * vol_light * vol_intensity * 2.0);
@@ -145,8 +181,10 @@ void main() {
 
       block_color.rgb =
         mix(block_color.rgb, vol_light_color * vol_light, vol_intensity * (1.0 - rainStrength));
-    #endif
 
+      // block_color.rgb = mix(block_color.rgb, vol_light_color * vol_light, 0.5);
+      // block_color.rgb = vec3(vol_intensity);
+    #endif
   #endif
 
   // Dentro de la nieve

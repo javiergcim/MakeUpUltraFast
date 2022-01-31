@@ -38,7 +38,7 @@ void main() {
     current_hour_fract
     );
 
-  #ifdef VOL_LIGHT
+  #if VOL_LIGHT == 2  // TODO
     sky_luma_correction = 3.5 / ((sky_luma_correction * -2.5) + 3.5);
   #else
     sky_luma_correction = 1.5 / ((sky_luma_correction * -2.5) + 3.5);

@@ -12,7 +12,7 @@ float hash12(vec2 p) {
 float timed_hash12(vec2 p) {
   vec3 p3 = fract(vec3(p.xyx) * .1031);
   p3 += dot(p3, p3.yzx + 33.33);
-  return fract(0.6 * frame_mod + ((p3.x + p3.y) * p3.z));
+  return fract(0.625 * frame_mod + ((p3.x + p3.y) * p3.z));
 }
 
 float r_dither(vec2 frag) {
@@ -44,7 +44,7 @@ float dither17(vec2 pos) {
 }
 
 float shifted_dither17(vec2 pos) {
-  return fract((0.2353 * frame_mod) + dot(vec3(pos.xy, 0.0), vec3(0.11764705882352941, 0.4117647058823529, 1.3529411764705883)));
+  return fract((0.625 * frame_mod) + dot(vec3(pos.xy, 0.0), vec3(0.11764705882352941, 0.4117647058823529, 1.3529411764705883)));
 }
 
 float eclectic_dither17(vec2 frag) {
