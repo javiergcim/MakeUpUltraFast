@@ -29,7 +29,6 @@ uniform ivec2 eyeBrightnessSmooth;
 #endif
 
 #if VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
-  uniform mat4 modeli_times_projectioni;
   uniform float light_mix;
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
@@ -120,11 +119,13 @@ void main() {
     2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
 
   #if VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+    mat4 modeli_times_projectioni = gbufferModelViewInverse * gbufferProjectionInverse;
+
     #if VOL_LIGHT == 2
       #if defined COLORED_SHADOW
-        vec3 vol_light = get_volumetric_color_light(dither, screen_distance);
+        vec3 vol_light = get_volumetric_color_light(dither, screen_distance, modeli_times_projectioni);
       #else
-        float vol_light = get_volumetric_light(dither, screen_distance);
+        float vol_light = get_volumetric_light(dither, screen_distance, modeli_times_projectioni);
       #endif
     #elif VOL_LIGHT == 1
       float vol_light = ss_godrays(dither);
@@ -132,7 +133,6 @@ void main() {
 
     // Ajuste de intensidad
 
-    // mat4 pre_world = gbufferModelViewInverse * gbufferProjectionInverse;
     vec4 world_pos =
       modeli_times_projectioni * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
     vec3 view_vector = normalize(world_pos.xyz);
@@ -178,7 +178,7 @@ void main() {
     #else
       vol_intensity =
         ((pow(clamp((vol_intensity + .666667) * 0.6, 0.0, 1.0), vol_mixer) * 0.5)) * abs(light_mix * 2.0 - 1.0);
-
+      
       block_color.rgb =
         mix(block_color.rgb, vol_light_color * vol_light, vol_intensity * (1.0 - rainStrength));
 

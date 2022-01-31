@@ -41,7 +41,6 @@ uniform sampler2D gaux2;
   uniform vec3 sunPosition;
 #endif
 
-uniform mat4 modeli_times_projectioni;
 uniform mat4 gbufferModelViewInverse;
 uniform mat4 gbufferProjectionInverse;
 uniform float pixel_size_x;
@@ -96,7 +95,7 @@ void main() {
   #if V_CLOUDS != 0 && !defined NO_CLOUDY_SKY
     if (linear_d > 0.9999) {  // Only sky
       vec4 world_pos =
-        modeli_times_projectioni * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
+        gbufferModelViewInverse * gbufferProjectionInverse * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
       view_vector = normalize(world_pos.xyz);
 
       #ifdef THE_END

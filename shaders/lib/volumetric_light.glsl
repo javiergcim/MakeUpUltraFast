@@ -17,7 +17,7 @@ Volumetric light - MakeUp implementation
     return shadow_pos;
   }
 
-  float get_volumetric_light(float dither, float view_distance) {
+  float get_volumetric_light(float dither, float view_distance, mat4 modeli_times_projectioni) {
     float light = 0.0;
 
     float current_depth;
@@ -53,7 +53,7 @@ Volumetric light - MakeUp implementation
 
   #if defined COLORED_SHADOW
 
-    vec3 get_volumetric_color_light(float dither, float view_distance) {
+    vec3 get_volumetric_color_light(float dither, float view_distance, mat4 modeli_times_projectioni) {
       float light = 0.0;
 
       float current_depth;
