@@ -110,22 +110,88 @@ Volumetric light - MakeUp implementation
 
 #elif VOL_LIGHT == 1
 
-  float ss_godrays(float dither) {
-    float light = 0.0;
-    float comp = 1.0 - near / far / far;
+  // float ss_godrays(float dither) {
+  //   float light = 0.0;
+  //   float comp = 1.0 - near / far / far;
 
-    vec2 deltatexcoord = vec2(lightpos - texcoord) * 0.2;
-    vec2 dither2d = texcoord;
+  //   vec2 deltatexcoord = vec2(lightpos - texcoord) * 0.2;
+  //   vec2 dither2d = texcoord;
 
-    float depth;
+  //   float depth;
+
+  //   for (int i = 0; i < CHEAP_GODRAY_SAMPLES; i++) {
+  //     depth = texture(depthtex1, dither2d).x;
+  //     dither2d += deltatexcoord * dither;
+  //     light += clamp(dot(step(comp, depth), 1.0), 0.0, 1.0);
+  //   }
+
+  //   return light / CHEAP_GODRAY_SAMPLES;
+  // }
+
+// #endif
+
+
+
+
+
+
+
+vec3 projectOrthographicMAD(in vec3 position, in mat4 projectionMatrix) {
+    return vec3(projectionMatrix[0].x, projectionMatrix[1].y, projectionMatrix[2].z) * position + projectionMatrix[3].xyz;
+}
+
+vec4 projectHomogeneousMAD(in vec3 position, in mat4 projectionMatrix) {
+    return vec4(projectOrthographicMAD(position, projectionMatrix), -position.z);
+}
+
+float sqmag(vec2 v) {
+    return dot(v, v);
+}
+
+float dr_godrays(vec3 lightPosition, float dither) {
+  vec2 coord = gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y);
+  vec2 screenSize = vec2(viewWidth, viewHeight);
+  float fovScale = gbufferProjection[1][1] * 0.7299270073;
+  // Start transforming sunPosition from view space to screen space
+  vec4 tmp = projectHomogeneousMAD(lightPosition, gbufferProjection);
+  float light = 1.0;
+
+  if (tmp.w > 0) { // If w is negative, the sun is on the opposite side of the screen (this causes bugs, I don't want that)
+    // Finish screen space transformation
+    vec2 sunScreen    = (tmp.xy / tmp.w) * .5 + .5;
+
+    // Create ray pointing from the current pixel to the sun
+    vec2 ray          = sunScreen - coord;
+    vec2 rayCorrected = vec2(ray.x * aspectRatio, ray.y); // Aspect Ratio corrected ray for accurate exponential decay
+
+    vec2 rayStep      = ray / CHEAP_GODRAY_SAMPLES;
+    // #ifndef TAA
+    // vec2 rayPos       = coord - (grid_noise(coord * screenSize) * rayStep);
+    vec2 rayPos       = coord - (dither * rayStep);
+    // #else
+    // vec2 taa_offs     = fract(vec2(frameCounter * 0.2, -frameCounter * 0.2 - 0.5)) * 5 - 10;
+    // vec2 rayPos       = coord - (grid_noise(coord * screenSize + taa_offs) * rayStep);
+    // #endif
 
     for (int i = 0; i < CHEAP_GODRAY_SAMPLES; i++) {
-      depth = texture(depthtex1, dither2d).x;
-      dither2d += deltatexcoord * dither;
-      light += clamp(dot(step(comp, depth), 1.0), 0.0, 1.0);
+      rayPos += rayStep;
+      if (texture(depthtex1, rayPos).x != 1.0) { // Subtract from light when there is an occlusion
+        light -= 1.0 / GODRAY_STEPS;
+      }
     }
 
-    return light / CHEAP_GODRAY_SAMPLES;
+    // Exponential falloff (also making it FOV independent)
+    light *= exp2(-sqmag(rayCorrected / (fovScale * 0.40)));
+
+  //     // #if FOG != 0
+  //     //     color += saturate(light * (0.35 * 4) * customFogColor); // Additive Effect
+  //     // #else
+  //     //     color += saturate(light * 0.35 * fogColor); // Additive Effect
+  //     // #endif
+
   }
+
+  return light;
+}
 
 #endif

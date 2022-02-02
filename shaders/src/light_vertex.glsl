@@ -75,7 +75,7 @@ direct_light_color = day_blend(
 #endif
 
 #ifndef SHADOW_CASTING
-  direct_light_strenght = (direct_light_strenght * 0.75) + 0.25;
+  direct_light_strenght = (direct_light_strenght * 0.8) + 0.2;
 #endif
 
 #if defined THE_END || defined NETHER

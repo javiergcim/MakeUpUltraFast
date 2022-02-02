@@ -26,6 +26,14 @@ uniform ivec2 eyeBrightnessSmooth;
   uniform sampler2D depthtex1;
   uniform vec3 sunPosition;
   uniform vec3 moonPosition;
+
+  uniform mat4 gbufferProjection;
+  uniform mat4 projectionMatrix;
+  uniform float aspectRatio;
+  uniform float pixel_size_x;
+  uniform float pixel_size_y;
+  uniform float viewWidth;
+  uniform float viewHeight;
 #endif
 
 #if VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
@@ -73,8 +81,8 @@ flat in float exposure_coef;
 #endif
 
 #if VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
-  #include "/lib/volumetric_light.glsl"
   #include "/lib/dither.glsl"
+  #include "/lib/volumetric_light.glsl"
 #endif
 
 void main() {
@@ -133,7 +141,9 @@ void main() {
 
 
   #if VOL_LIGHT == 1
-    float vol_light = ss_godrays(dither);
+    // float vol_light = ss_godrays(dither);
+    float vol_light = dr_godrays(astro_pos, dither);
+    // float vol_light = 0.0;
 
     // Ajuste de intensidad
 
@@ -176,14 +186,14 @@ void main() {
         vol_intensity * 0.666 * abs(light_mix * 2.0 - 1.0);
       
       block_color.rgb =
-        mix(block_color.rgb, vol_light_color * vol_light, vol_intensity * (vol_light * 0.75 + 0.25) * (1.0 - rainStrength));
+        mix(block_color.rgb, vol_light_color * vol_light, vol_intensity * (vol_light * 0.5 + 0.5) * (1.0 - rainStrength));
 
       // block_color.rgb = block_color.rgb + (vol_light_color * vol_light * vol_light * vol_intensity * (1.0 - rainStrength));
 
       // block_color.rgb =
       //   mix(block_color.rgb, vol_light_color * vol_light, vol_intensity * (1.0 - rainStrength));
 
-      // block_color.rgb = vec3(vol_intensity * vol_light);
+      // block_color.rgb = vec3(vol_light);
     #endif
   #endif
 
