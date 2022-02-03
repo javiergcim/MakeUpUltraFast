@@ -38,7 +38,7 @@ void main() {
     current_hour_fract
     );
 
-  #if VOL_LIGHT == 2  // TODO
+  #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
     sky_luma_correction = 3.5 / ((sky_luma_correction * -2.5) + 3.5);
   #else
     sky_luma_correction = 1.5 / ((sky_luma_correction * -2.5) + 3.5);

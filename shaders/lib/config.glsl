@@ -72,7 +72,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define BLOOM_SAMPLES 5.0 // [5.0 6.0 7.0 8.0 9.0 10.0] Bloom sample pairs
 #define CHROMA_ABER 0 // [0 1] Enable chroma aberration
 #define CHROMA_ABER_STRENGHT 0.05 // [0.04 0.05 0.06] Chroma aberration strenght
-#define VOL_LIGHT 1 // [0 1 2] This option activates volumetric light (shadows must be enabled to work)
+#define VOL_LIGHT 2 // [0 1 2] - Depth based: Turn on depth based godrays, but they are a bit slow, but can work better than volumetric light for very short shadow distances. - Volumetric: It activates the volumetric light, but it needs the shadows enabled to work.
 // #define VANILLA_WATER // Establishes the appearance of water as vanilla.
 #define WATER_COLOR_SOURCE 0 // [0 1] Select the water color source. This option has no effect on 1.12.x versions or Vanilla like water.
 #define WATER_TURBULENCE 1.7 // [3.7 1.7 1.3] Set the water waves strenght

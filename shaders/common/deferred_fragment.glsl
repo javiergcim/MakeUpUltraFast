@@ -148,7 +148,7 @@ void main() {
   #endif
 
   #if AO == 1
-    #if VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER
+    #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
       float fog_density_coeff = FOG_DENSITY * FOG_ADJUST;
     #else
       float fog_density_coeff = mix(

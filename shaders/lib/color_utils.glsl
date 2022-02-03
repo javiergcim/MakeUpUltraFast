@@ -157,7 +157,7 @@ const float ambient_exposure[25] =
   );
 
 // Fog parameter per hour
-#if VOL_LIGHT == 2 && defined SHADOW_CASTING
+#if VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING)
     #define FOG_DENSITY 3.0
 #else
   const float fog_density[25] =
