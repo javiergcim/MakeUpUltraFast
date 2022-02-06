@@ -183,10 +183,10 @@ void main() {
       #if defined SHADOW_CASTING && !defined NETHER
         #if defined COLORED_SHADOW
           vec3 shadow_c = get_colored_shadow(shadow_pos);
-          shadow_c = mix(shadow_c, vec3(1.0), clamp(shadow_diffuse, 0.0, 1.0));
+          shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
         #else
           float shadow_c = get_shadow(shadow_pos);
-          shadow_c = mix(shadow_c, 1.0, clamp(shadow_diffuse, 0.0, 1.0));
+          shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
         #endif
       #else
         float shadow_c = abs((light_mix * 2.0) - 1.0);
@@ -266,10 +266,10 @@ void main() {
     #if defined SHADOW_CASTING && !defined NETHER
       #if defined COLORED_SHADOW
         vec3 shadow_c = get_colored_shadow(shadow_pos);
-        shadow_c = mix(shadow_c, vec3(1.0), clamp(shadow_diffuse, 0.0, 1.0));
+        shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
       #else
         float shadow_c = get_shadow(shadow_pos);
-        shadow_c = mix(shadow_c, 1.0, clamp(shadow_diffuse, 0.0, 1.0));
+        shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
       #endif
     #else
       float shadow_c = abs((light_mix * 2.0) - 1.0);

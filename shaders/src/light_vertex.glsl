@@ -59,6 +59,7 @@ direct_light_color = day_blend(
   );
 
 #ifdef FOLIAGE_V  // Puede haber plantas en este shader
+    float original_direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0) * 0.9 + 0.1;
   if (is_foliage > .2) {  // Es "planta" y se atenúa luz por dirección
     #ifdef SHADOW_CASTING
       direct_light_strenght = sqrt(abs(direct_light_strenght));

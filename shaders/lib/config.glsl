@@ -55,7 +55,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define MOTION_BLUR_SAMPLES 4 // [3 4 5 6 7 8] Motion blur samples 
 #define SUN_REFLECTION 1 // [0 1] Enable sun (or moon) reflection on water and glass
 #define SHADOW_CASTING // Turn shadow casting on or off.
-#define SHADOW_RES 4 // [0 1 2 3 4 5 6 7 8 9 10 11] Set shadow quality. Read as: 'Visual quality (distance)'. Volumetric lighting works best with "normal" or "far" distance shadows.
+#define SHADOW_RES 3 // [0 1 2 3 4 5 6 7 8 9 10 11] Set shadow quality. Read as: 'Visual quality (distance)'. Volumetric lighting works best with "normal" or "far" distance shadows.
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
 #define SHADOW_BLUR 2.5 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0 2.1 2.2 2.3 2.4 2.5]  Shadow blur intensity
 // #define COLORED_SHADOW // Attempts to tint the shadow of translucent objects, as well as the associated volumetric light (if active).
@@ -72,7 +72,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define BLOOM_SAMPLES 5.0 // [5.0 6.0 7.0 8.0 9.0 10.0] Bloom sample pairs.
 #define CHROMA_ABER 0 // [0 1] Enable chroma aberration.
 #define CHROMA_ABER_STRENGHT 0.05 // [0.04 0.05 0.06] Chroma aberration strenght.
-#define VOL_LIGHT 2 // [0 1 2] Depth based: Turn on depth based godrays, they are a bit slow, but can work better than volumetric light for very short shadow distances. Volumetric: It activates the volumetric light, more accurate and faster, but it needs the shadows enabled to work.
+#define VOL_LIGHT 1 // [0 1 2] Depth based: Turn on depth based godrays, they are a bit slow, but can work better than volumetric light for very short shadow distances. Volumetric: It activates the volumetric light, more accurate and faster, but it needs the shadows enabled to work.
 // #define VANILLA_WATER // Establishes the appearance of water as vanilla.
 #define WATER_COLOR_SOURCE 0 // [0 1] Select the water color source. This option has no effect on 1.12.x versions or "Vanilla like" water.
 #define WATER_TURBULENCE 1.7 // [3.7 1.7 1.3] Set the water waves strenght.
@@ -129,7 +129,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 const float sunPathRotation = -25.0; // [-40.0 -35.0 -30.0 -25.0 -20.0 -15.0 -10.0 -5.0 0.0 5.0 10.0 15.0 20.0 25.0 30.0 35.0 40.0]
 
 // Shadow parameters
-const float shadowIntervalSize = 4.0;
+const float shadowIntervalSize = 3.0;
 const bool generateShadowMipmap = false;
 const bool generateShadowColorMipmap = false;
 
