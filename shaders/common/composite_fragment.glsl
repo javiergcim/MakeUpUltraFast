@@ -75,7 +75,7 @@ flat in float exposure_coef;
   #include "/lib/luma.glsl"
 #endif
 
-#if VOL_LIGHT == 1
+#if VOL_LIGHT == 1 && !defined NETHER
   #include "/lib/dither.glsl"
   #include "/lib/volumetric_light.glsl"
 #endif
@@ -105,7 +105,7 @@ void main() {
     block_color = mix(
       block_color,
       vec4(1.0, .1, 0.0, 1.0),
-      sqrt(linear_d)
+      clamp(sqrt(linear_d * far * 0.125), 0.0, 1.0)
       );
   }
 
@@ -114,7 +114,7 @@ void main() {
     mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
   }
 
-  #if VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+  #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
     mat4 modeli_times_projectioni = gbufferModelViewInverse * gbufferProjectionInverse;
 
     #if AA_TYPE > 0
@@ -200,19 +200,11 @@ void main() {
         ((pow(clamp((vol_intensity + .666667) * 0.6, 0.0, 1.0), 2.0) * 0.5));
       block_color.rgb += (vol_light_color * vol_light * vol_intensity * 2.0);
     #else
-      // vol_intensity =
-      //   ((pow(clamp((vol_intensity + .666667) * 0.6, 0.0, 1.0), vol_mixer) * 0.5)) * abs(light_mix * 2.0 - 1.0);
-
       vol_intensity =
         pow(clamp(vol_intensity, 0.0, 1.0), vol_mixer) * 0.666 * abs(light_mix * 2.0 - 1.0);
-      
-      // block_color.rgb =
-      //   mix(block_color.rgb, vol_light_color * vol_light, vol_intensity * (1.0 - rainStrength));
 
       block_color.rgb =
         mix(block_color.rgb, vol_light_color * vol_light, vol_intensity * (vol_light * 0.5 + 0.5) * (1.0 - rainStrength));
-
-      // block_color.rgb = vec3(vol_light * vol_intensity);
     #endif
   #endif
 

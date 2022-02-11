@@ -15,7 +15,7 @@
 
   frog_adjust = pow(
     clamp(var_fog_frag_coord / far, 0.0, 1.0) * fog_intensity_coeff,
-    mix(fog_density_coeff, .5, rainStrength)
+    mix(fog_density_coeff, 1.0, rainStrength)
   );
 
 #else

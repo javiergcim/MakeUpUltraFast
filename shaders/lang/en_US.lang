@@ -12,8 +12,7 @@ profile.extreme=Extreme
 profile.all_effects=All effects
 profile.all_effects_hq=All effects HQ
 
-
-profile.comment=Very Low, Low - Suitable for low end. Medium - Suitable for good integrated GPUs. High - Suitable for low-end dedicated GPUs. Very High - Suitable for low-mid-range dedicated GPUs. Ultra, Extreme - Suitable for mid- or high-end dedicated GPUs
+profile.comment=The "shadowless" profiles are designed for low-performance machines, disregarding the shadows. Traditional profiles slowly add higher quality shadows and more advanced heavy effects. Please experiment with the available options and find the best combination for you.
 
 #About
 #############################

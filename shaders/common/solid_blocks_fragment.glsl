@@ -93,7 +93,7 @@ void main() {
   #endif
   
   #ifdef GBUFFER_WEATHER
-    block_color.a *= .3;
+    block_color.a *= .5;
   #endif
 
   #if defined GBUFFER_ENTITIES

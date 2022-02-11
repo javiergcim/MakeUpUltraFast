@@ -111,7 +111,7 @@ void main() {
     #include "/src/shadow_src_vertex.glsl"
   #endif
 
-  #ifdef FOLIAGE_V
+  #if defined FOLIAGE_V && !defined NETHER
     #ifdef SHADOW_CASTING
       if (is_foliage > .2) {
         direct_light_strenght = mix(direct_light_strenght, original_direct_light_strenght, pow(shadow_diffuse, .25));

@@ -161,7 +161,7 @@ void main() {
     // AO distance attenuation
     float ao_att = pow(
       clamp(linear_d * 1.4, 0.0, 1.0),
-      mix(fog_density_coeff, .5, rainStrength)
+      mix(fog_density_coeff, 1.0, rainStrength)
     );
 
     float final_ao = mix(dbao(dither), 1.0, ao_att);
