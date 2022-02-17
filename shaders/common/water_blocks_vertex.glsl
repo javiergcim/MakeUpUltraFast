@@ -17,12 +17,14 @@ uniform float current_hour_fract;
 uniform float light_mix;
 uniform float far;
 uniform float nightVision;
-uniform vec3 skyColor;
 uniform ivec2 eyeBrightnessSmooth;
 uniform mat4 gbufferModelView;
 uniform mat4 gbufferModelViewInverse;
 uniform vec3 cameraPosition;
 uniform float rainStrength;
+uniform mat4 modelViewMatrix;
+uniform mat4 projectionMatrix;
+uniform mat3 normalMatrix;
 
 #if defined SHADOW_CASTING && !defined NETHER
   uniform mat4 shadowModelView;
@@ -81,9 +83,9 @@ void main() {
     gl_Position.xy += taa_offset * gl_Position.w;
   #endif
 
-  tangent = normalize(gl_NormalMatrix * at_tangent.xyz);
+  tangent = normalize(normalMatrix * at_tangent.xyz);
   binormal = normalize(gl_NormalMatrix * -cross(gl_Normal, at_tangent.xyz));
-  gl_FogFragCoord = length(gl_Position.xyz);
+  var_fog_frag_coord = length(gl_Position.xyz);
 
   // Special entities
   block_type = 0.0;  // 3 - Water, 2 - Glass, ? - Other

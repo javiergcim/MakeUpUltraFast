@@ -82,7 +82,7 @@ void main() {
 
   #if AO == 1 || V_CLOUDS != 0
     #if AA_TYPE > 0
-      float dither = shifted_eclectic_dither(gl_FragCoord.xy);
+      float dither = shifted_eclectic_r_dither(gl_FragCoord.xy);
     #else
       float dither = eclectic_dither(gl_FragCoord.xy);
     #endif
@@ -144,20 +144,20 @@ void main() {
   #endif
 
   #if AO == 1
-    #if defined VOL_LIGHT && defined SHADOW_CASTING && !defined NETHER
-      float fog_density_coeff = FOG_DENSITY;
+    #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+      float fog_density_coeff = FOG_DENSITY * FOG_ADJUST;
     #else
       float fog_density_coeff = mix(
         fog_density[current_hour_floor],
         fog_density[current_hour_ceil],
         current_hour_fract
-        );
+        ) * FOG_ADJUST;
     #endif
 
     // AO distance attenuation
     float ao_att = pow(
       clamp(linear_d * 1.4, 0.0, 1.0),
-      mix(fog_density_coeff, .5, rainStrength)
+      mix(fog_density_coeff, 1.0, rainStrength)
     );
 
     float final_ao = mix(dbao(dither), 1.0, ao_att);
@@ -176,7 +176,7 @@ void main() {
   if (isEyeInWater == 1) {
     if (linear_d > 0.9999) {
       block_color.rgb = mix(
-        day_blend_float(1.0, 1.0, NIGHT_CORRECTION) * WATER_COLOR * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
+        NIGHT_CORRECTION * WATER_COLOR * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
         block_color.rgb,
         max(clamp(view_vector.y - 0.1, 0.0, 1.0), rainStrength)
       );

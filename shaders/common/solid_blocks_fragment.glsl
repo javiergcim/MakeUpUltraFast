@@ -83,40 +83,51 @@ void main() {
     float candle_luma = 1.0;
     if (emmisive_type > 0.5) {
       candle_luma = luma(block_color.rgb);
+      final_candle_color *= candle_luma * 1.5;
     }
-    final_candle_color *= candle_luma;
   #endif
   
   #ifdef GBUFFER_WEATHER
-    block_color.a *= .3;
+    block_color.a *= .5;
   #endif
 
-  float shadow_c;
+  #if defined GBUFFER_ENTITIES
+    // Thunderbolt render
+    if (entityId == 10101){
+      block_color.a = 1.0;
+    }
+  #endif
+
+  if(block_color.a < alphaTestRef) discard;  // Full transparency
 
   #if defined SHADOW_CASTING && !defined NETHER
-    shadow_c = get_shadow(shadow_pos);
-    shadow_c = mix(shadow_c, 1.0, clamp(shadow_diffuse, 0.0, 1.0));
+    #if defined COLORED_SHADOW
+      vec3 shadow_c = get_colored_shadow(shadow_pos);
+      shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
+    #else
+      float shadow_c = get_shadow(shadow_pos);
+      shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
+    #endif
   #else
-    shadow_c = abs((light_mix * 2.0) - 1.0);
+    float shadow_c = abs((light_mix * 2.0) - 1.0);
   #endif
 
   #if defined GBUFFER_BEACONBEAM
     block_color.rgb *= 1.5;
   #else
     vec3 real_light =
-    omni_light +
-    (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - (rainStrength * 0.75)) +
-    final_candle_color;
+      omni_light +
+      (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - (rainStrength * 0.75)) +
+      final_candle_color;
 
     block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
   #endif
 
   #if defined GBUFFER_ENTITIES
-    if (entityId == 10101){
+    if (entityId == 10101) {
       // Thunderbolt render
       block_color = vec4(1.0, 1.0, 1.0, 0.5);
     } else {
-      // Damage flash
       block_color.rgb = mix(block_color.rgb, entityColor.rgb, entityColor.a * .75);
     }
   #endif

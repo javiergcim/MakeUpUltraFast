@@ -41,20 +41,20 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #endif
 
 #define ACERCADE 0 // [0]
-#define WAVING 1 // [0 1] Waving entities
+#define WAVING 1 // [0 1] Makes objects like leaves or grass move in the wind
 #define TINTED_WATER 1  // [0 1] Use the resource pack color for water.
 #define REFRACTION 1  // [0 1] Activate refractions.
-// #define DOF // Enables depth of field. High performance cost.
+// #define DOF // Enables depth of field (high performance cost).
 #define DOF_STRENGTH 0.09  // [0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.013]  Depth of field strenght.
-#define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance impact).
-#define AOSTEPS 4 // [4 5 6 7 8 9 10 11] How many samples are taken. High performance cost.
-#define AO_STRENGHT 0.50 // [0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.66 0.70 0.75 0.80 0.85] Ambient occlusion strenght. Strenght NOT affect performance.
-#define AA_TYPE 1 // [0 1 2] Fast TAA - Enable antialiasing (Recommended). Denoise only - Supersampling is only used to eliminate noise. No - Disable antialiasing.
+#define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance cost).
+#define AOSTEPS 4 // [4 5 6 7 8 9 10 11] How many samples are taken for AO (high performance cost).
+#define AO_STRENGHT 0.55 // [0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.66 0.70 0.75 0.80 0.85] Ambient occlusion strenght (strenght NOT affect performance).
+#define AA_TYPE 1 // [0 1 2] Fast TAA: Enable antialiasing (Recommended). Denoise only: Supersampling is only used to eliminate noise. No: Disable antialiasing.
 //#define MOTION_BLUR // Turn on motion blurs
 #define MOTION_BLUR_STRENGTH 0.12 // [0.02 0.04 0.06 0.08 0.10 0.12 0.14 0.16 0.18 0.20 0.22] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
 #define MOTION_BLUR_SAMPLES 4 // [3 4 5 6 7 8] Motion blur samples 
-#define SUN_REFLECTION 1 // [0 1] Set sun (or moon) reflection on water and glass
-#define SHADOW_CASTING // Set shadows
+#define SUN_REFLECTION 1 // [0 1] Enable sun (or moon) reflection on water and glass
+#define SHADOW_CASTING // Turn shadow casting on or off.
 #define SHADOW_RES 4 // [0 1 2 3 4 5 6 7 8 9 10 11] Set shadow quality. Read as: 'Visual quality (distance)'. Volumetric lighting works best with "normal" or "far" distance shadows.
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
 #define SHADOW_BLUR 2.5 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0 2.1 2.2 2.3 2.4 2.5]  Shadow blur intensity
@@ -62,20 +62,20 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define WATER_ABSORPTION 0.05 // [0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.20 0.21 0.22 0.230.24 0.25 0.26 0.27 0.28 0.29 0.30 0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38] Sets how much light the water absorbs. Low levels make the water more transparent. High levels make it more opaque.
 #define COLOR_SCHEME 4 // [0 1 2 3 4 5] Legacy: Exotic colors at sunset. Cocoa: A warm preset of vivid colors in the day. Captain: A cold preset of stylish colors. Shoka: Warm theme, with high contrast between light and shadow, inspired by the color theme of a famous shader. Ethereal: Current default theme. Vivid: Fantasy theme.
 #define WATER_TEXTURE 0 // [0 1] Enable or disable resource pack water texture.
-#define AVOID_DARK_LEVEL 0.08 // [0.00 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10 0.11 0.12]  Minimal omni light intensity in caves (percentaje). During the night, the caves are always dark.
-#define NIGHT_BRIGHT 1.1 // [0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0] Adjusts the brightness of the night light.
+#define AVOID_DARK_LEVEL 0.09 // [0.00 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.18 0.19 0.20]  Minimal omni light intensity in caves (percentaje).
+#define NIGHT_BRIGHT 1.2 // [0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0 2.1 2.2 2.3 2.4 2.5 2.6 2.7 2.8 2.9 3.0] Adjusts the brightness of the night light in exteriors.
 #define V_CLOUDS 1 // [0 1 2] Volumetric static: The clouds move, but they keep their shape. Volumetric dynamic: Clouds change shape over time, a different cloud landscape every time (medium performance hit). Vanilla: Original vanilla clouds.
 #define CLOUD_VOL_STYLE 0 // [0 1] Set the volumetric cloud style.
-#define CLOUD_REFLECTION  // Set off-screen volumetric clouds reflection (volumetric clouds must be active)
-#define BLACK_ENTITY_FIX 0 // [0 1] Removes black entity bug (activate ONLY if you have problems with black entities)
+#define CLOUD_REFLECTION  // Set off-screen volumetric clouds reflection (volumetric clouds must be active).
+#define BLACK_ENTITY_FIX 0 // [0 1] Removes black entity bug in old video drivers (activate ONLY if you have problems with black entities)
 #define BLOOM // Set bloom
-#define BLOOM_SAMPLES 5.0 // [5.0 6.0 7.0 8.0 9.0 10.0] Bloom sample pairs
-#define CHROMA_ABER 0 // [0 1] Enable chroma aberration
-#define CHROMA_ABER_STRENGHT 0.05 // [0.04 0.05 0.06] Chroma aberration strenght
-#define VOL_LIGHT // This option activates volumetric light (shadows must be enabled to work)
+#define BLOOM_SAMPLES 5.0 // [5.0 6.0 7.0 8.0 9.0 10.0] Bloom sample pairs.
+#define CHROMA_ABER 0 // [0 1] Enable chroma aberration.
+#define CHROMA_ABER_STRENGHT 0.05 // [0.04 0.05 0.06] Chroma aberration strenght.
+#define VOL_LIGHT 1 // [0 1 2] Depth based: Turn on depth based godrays, they are a bit slow, but can work better than volumetric light for very short shadow distances. Volumetric: It activates the volumetric light, more accurate and faster, but it needs the shadows enabled to work.
 // #define VANILLA_WATER // Establishes the appearance of water as vanilla.
-#define WATER_COLOR_SOURCE 0 // [0 1] Select the water color source. This option has no effect on 1.12.x versions or Vanilla like water.
-#define WATER_TURBULENCE 1.7 // [3.7 1.7 1.3] Set the water waves strenght
+#define WATER_COLOR_SOURCE 0 // [0 1] Select the water color source. This option has no effect on 1.12.x versions or "Vanilla like" water.
+#define WATER_TURBULENCE 1.7 // [3.7 1.7 1.3] Set the water waves strenght.
 #define FOG_ADJUST 1.0 // [2.0 1.0 0.5]  Recommended settings. 'Short' for 8 or less draw distance. 'Regular' between 9 and 19 draw distance. 'Far' for 20+ draw distance.
 // #define DEBUG_MODE // Set debug mode.
 
@@ -94,7 +94,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
   #define CLOUD_PLANE 420.0
 #endif
 
-#define CLOUD_STEPS_AVG 7 // [7 10 13] Samples per pixel (high performance impact)
+#define CLOUD_STEPS_AVG 7 // [7 10 13] Samples per pixel (high performance impact).
 #define CLOUD_SPEED 0 // [0 1 2] Change the speed of clouds for display purposes.
 
 #if CLOUD_VOL_STYLE == 1
@@ -123,12 +123,13 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 // Godrays
 #define GODRAY_STEPS 6
+#define CHEAP_GODRAY_SAMPLES 4
 
 // Sun rotation angle
 const float sunPathRotation = -25.0; // [-40.0 -35.0 -30.0 -25.0 -20.0 -15.0 -10.0 -5.0 0.0 5.0 10.0 15.0 20.0 25.0 30.0 35.0 40.0]
 
 // Shadow parameters
-const float shadowIntervalSize = 4.0;
+const float shadowIntervalSize = 3.0;
 const bool generateShadowMipmap = false;
 const bool generateShadowColorMipmap = false;
 

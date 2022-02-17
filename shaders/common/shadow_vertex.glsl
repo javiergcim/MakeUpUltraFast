@@ -2,6 +2,10 @@
 
 varying vec2 texcoord;
 
+#ifdef COLORED_SHADOW
+  varying float is_water;
+#endif
+
 attribute vec4 mc_Entity;
 
 vec2 calc_shadow_dist(in vec2 shadow_pos) {
@@ -11,6 +15,10 @@ vec2 calc_shadow_dist(in vec2 shadow_pos) {
 
 void main() {
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+
+  #ifdef COLORED_SHADOW
+    is_water = 0.0;
+  #endif
 
   if (mc_Entity.x == ENTITY_LOWERGRASS ||
       mc_Entity.x == ENTITY_UPPERGRASS ||
@@ -29,6 +37,11 @@ void main() {
         gl_Position.z -= 0.0001;
       #endif
   }
+  #ifdef COLORED_SHADOW
+    else if (mc_Entity.x == ENTITY_WATER){
+      is_water = 1.0;
+    }
+  #endif
 
   gl_Position.xy = calc_shadow_dist(gl_Position.xy);
 

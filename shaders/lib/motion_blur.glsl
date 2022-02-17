@@ -14,10 +14,10 @@ vec3 motion_blur(vec3 color, float the_depth, vec2 blur_velocity, sampler2D imag
 
     #if AA_TYPE > 0
       vec2 coord =
-        texcoord - blur_velocity * (1.5 + shifted_dither_grad_noise(gl_FragCoord.xy));
+        texcoord - blur_velocity * (1.5 + shifted_r_dither(gl_FragCoord.xy));
     #else
       vec2 coord =
-        texcoord - blur_velocity * (1.5 + dither_grad_noise(gl_FragCoord.xy));
+        texcoord - blur_velocity * (1.5 + eclectic_r_dither(gl_FragCoord.xy));
     #endif
 
     float weight = 0.0;
@@ -27,7 +27,10 @@ vec3 motion_blur(vec3 color, float the_depth, vec2 blur_velocity, sampler2D imag
     for(int i = 0; i < MOTION_BLUR_SAMPLES; i++, coord += blur_velocity) {
       sample_coord = clamp(coord, double_pixels, 1.0 - double_pixels);
       b_sample = texture2D(image, sample_coord).rgb;
+      // mask = float(b_sample.a > 0.7);  // Mano
+      // m_blur += b_sample.rgb * mask;
       m_blur += b_sample;
+      // weight += mask;
       weight++;
     }
     m_blur /= max(weight, 1.0);

@@ -18,6 +18,9 @@ uniform float light_mix;
 uniform float far;
 uniform float rainStrength;
 uniform ivec2 eyeBrightnessSmooth;
+uniform mat4 modelViewMatrix;  // TODO
+uniform mat4 projectionMatrix;  // TODO
+uniform mat3 normalMatrix;  // TODO
 
 #if defined FOLIAGE_V || defined THE_END || defined NETHER
   uniform mat4 gbufferModelView;
@@ -98,5 +101,13 @@ void main() {
 
   #if defined SHADOW_CASTING && !defined NETHER
     #include "/src/shadow_src_vertex.glsl"
+  #endif
+
+  #if defined FOLIAGE_V && !defined NETHER
+    #ifdef SHADOW_CASTING
+      if (is_foliage > .2) {
+        direct_light_strenght = mix(direct_light_strenght, original_direct_light_strenght, pow(shadow_diffuse, .25));
+      }
+    #endif
   #endif
 }

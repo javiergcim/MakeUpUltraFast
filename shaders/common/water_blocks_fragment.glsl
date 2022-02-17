@@ -28,7 +28,6 @@ uniform vec3 moonPosition;
 uniform int worldTime;
 uniform float nightVision;
 uniform float rainStrength;
-uniform vec3 skyColor;
 uniform float light_mix;
 uniform ivec2 eyeBrightnessSmooth;
 uniform sampler2D gaux4;
@@ -39,6 +38,10 @@ uniform sampler2D gaux4;
 
 #if defined SHADOW_CASTING && !defined NETHER
   uniform sampler2DShadow shadowtex1;
+  #if defined COLORED_SHADOW
+    uniform sampler2DShadow shadowtex0;
+    uniform sampler2D shadowcolor0;
+  #endif
 #endif
 
 #ifdef CLOUD_REFLECTION
@@ -149,7 +152,7 @@ void main() {
 
   #if (defined CLOUD_REFLECTION && V_CLOUDS > 0 && !defined NETHER) || SSR_TYPE > 0
     #if AA_TYPE > 0
-      float dither = shifted_dither_grad_noise(gl_FragCoord.xy);
+      float dither = shifted_r_dither(gl_FragCoord.xy);
     #else
       float dither = eclectic_dither(gl_FragCoord.xy);
     #endif
@@ -171,9 +174,13 @@ void main() {
   if (block_type > 2.5) {  // Water
     #ifdef VANILLA_WATER
       #if defined SHADOW_CASTING && !defined NETHER
-        float shadow_c = get_shadow(shadow_pos);
-        shadow_c = mix(shadow_c, 1.0, clamp(shadow_diffuse, 0.0, 1.0));
-        
+        #if defined COLORED_SHADOW
+          vec3 shadow_c = get_colored_shadow(shadow_pos);
+          shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
+        #else
+          float shadow_c = get_shadow(shadow_pos);
+          shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
+        #endif
       #else
         float shadow_c = abs((light_mix * 2.0) - 1.0);
       #endif
@@ -198,7 +205,7 @@ void main() {
 
     #else
 
-      #if WATER_TEXTURE == 1 && MC_VERSION >= 11300
+      #if WATER_TEXTURE == 1
         float water_texture = block_color.r;
       #else
         float water_texture = 1.0;
@@ -210,13 +217,13 @@ void main() {
         candle_color;
 
       #if defined NETHER || defined THE_END
-        #if WATER_COLOR_SOURCE == 0 || MC_VERSION < 11300
+        #if WATER_COLOR_SOURCE == 0
           block_color.rgb = water_texture * real_light * WATER_COLOR;
         #elif WATER_COLOR_SOURCE == 1
           block_color.rgb = 0.3 * water_texture * real_light * tint_color.rgb;
         #endif
       #else
-        #if WATER_COLOR_SOURCE == 0 || MC_VERSION < 11300
+        #if WATER_COLOR_SOURCE == 0
           block_color.rgb = water_texture * real_light * visible_sky * WATER_COLOR;
         #elif WATER_COLOR_SOURCE == 1
           block_color.rgb = 0.3 * water_texture * real_light * visible_sky * tint_color.rgb;
@@ -250,8 +257,13 @@ void main() {
     block_color *= tint_color;
 
     #if defined SHADOW_CASTING && !defined NETHER
-      float shadow_c = get_shadow(shadow_pos);
-      shadow_c = mix(shadow_c, 1.0, clamp(shadow_diffuse, 0.0, 1.0));
+      #if defined COLORED_SHADOW
+        vec3 shadow_c = get_colored_shadow(shadow_pos);
+        shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
+      #else
+        float shadow_c = get_shadow(shadow_pos);
+        shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
+      #endif
     #else
       float shadow_c = abs((light_mix * 2.0) - 1.0);
     #endif

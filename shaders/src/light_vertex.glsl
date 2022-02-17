@@ -1,4 +1,4 @@
-tint_color = gl_Color;
+tint_color = vaColor;
 
 // Luz nativa (lmcoord.x: candela, lmcoord.y: cielo) ----
 vec2 illumination = (max(lmcoord, vec2(0.065)) - vec2(0.065)) * 1.06951871657754;
@@ -29,14 +29,14 @@ candle_color =
 
 // Workaround for undefined normals
 #if defined GBUFFER_ENTITIES
-  vec3 normal = gl_NormalMatrix * gl_Normal;
+  vec3 normal = normalMatrix * vaNormal;
   if (length(normal) == 0.0) {
     normal = vec3(1.0, 0.0, 0.0);
   } else {
     normal = normalize(normal);
   }
 #else
-  vec3 normal = normalize(gl_NormalMatrix * gl_Normal);
+  vec3 normal = normalize(normalMatrix * vaNormal);
 #endif
 
 float sun_light_strenght = dot(normal, sun_vec);
@@ -46,7 +46,6 @@ float sun_light_strenght = dot(normal, sun_vec);
 #else
   direct_light_strenght =
     mix(-sun_light_strenght, sun_light_strenght, light_mix);
-
 #endif
 
 // Intensidad por dirección
@@ -60,6 +59,7 @@ direct_light_color = day_blend(
   );
 
 #ifdef FOLIAGE_V  // Puede haber plantas en este shader
+    float original_direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0) * 0.9 + 0.1;
   if (is_foliage > .2) {  // Es "planta" y se atenúa luz por dirección
     #ifdef SHADOW_CASTING
       direct_light_strenght = sqrt(abs(direct_light_strenght));
@@ -86,7 +86,7 @@ direct_light_color = day_blend(
     HI_NIGHT_COLOR
     );
 
-  vec3 sky_color = HI_SKY_RAIN_COLOR * luma(hi_sky_color);
+  vec3 sky_rain_color = HI_SKY_RAIN_COLOR * luma(hi_sky_color);
 
   direct_light_color = mix(
     direct_light_color,
@@ -96,19 +96,17 @@ direct_light_color = day_blend(
 
   hi_sky_color = mix(
     hi_sky_color,
-    sky_color,
+    sky_rain_color,
     rainStrength
   );
-
-  float omni_minimal = AVOID_DARK_LEVEL;
 
   float sky_day_pseudoluma = color_average(HI_DAY_COLOR);
   float current_sky_pseudoluma = color_average(hi_sky_color);
 
   float luma_ratio = sky_day_pseudoluma / current_sky_pseudoluma;
- 
+
   // Luz mínima
-  omni_minimal *= luma_ratio;
+  float omni_minimal = AVOID_DARK_LEVEL * luma_ratio;
   float visible_avoid_dark = (pow(visible_sky, 1.5) * (1.0 - omni_minimal)) + omni_minimal;
 
   omni_light = visible_avoid_dark * omni_strenght *

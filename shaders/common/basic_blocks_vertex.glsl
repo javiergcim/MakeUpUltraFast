@@ -8,7 +8,6 @@
   #include "/lib/color_utils.glsl"
 #endif
 
-uniform vec3 chunkOffset;
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 uniform int current_hour_floor;

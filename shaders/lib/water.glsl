@@ -123,7 +123,7 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
 
   #if REFRACTION == 1
     // 0.06 is the pseudorefraction strenght
-    pos = pos + refraction.xy * (0.06 / (1.0 + length(fragpos) * 0.4));
+    pos = pos + refraction.xy * (0.075 / (1.0 + length(fragpos) * 0.4));
   #endif
 
   float water_absortion;

@@ -37,9 +37,9 @@ void main() {
     vec4 block_color = vec4(star_data.rgb, 1.0);
 
     #if AA_TYPE > 0
-      float dither = timed_hash12(gl_FragCoord.xy);
+      float dither = shifted_r_dither(gl_FragCoord.xy);
     #else
-      float dither = hash12(gl_FragCoord.xy);
+      float dither = dither17(gl_FragCoord.xy);
     #endif
 
     dither = (dither - .5) * 0.0625;

@@ -26,7 +26,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
   float cloud_value_aux;
   float dist_aux_coeff_blur;
 
-  #ifndef VOL_LIGHT
+  #if VOL_LIGHT == 0
     block_color.rgb *=
       clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
   #endif
@@ -90,7 +90,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
     dif_sup = CLOUD_PLANE_SUP - CLOUD_PLANE_CENTER;
     dif_inf = CLOUD_PLANE_CENTER - CLOUD_PLANE;
     dist_aux_coeff = (CLOUD_PLANE_SUP - CLOUD_PLANE) * 0.075;
-    dist_aux_coeff_blur = dist_aux_coeff * 0.4;
+    dist_aux_coeff_blur = dist_aux_coeff * 0.2;
 
     opacity_dist = dist_aux_coeff * 2.5 * view_y_inv;
 
@@ -108,7 +108,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
           (intersection_pos.xz * .0002) + (frameTimeCounter * CLOUD_HI_FACTOR)
         ).b;
 
-      #if V_CLOUDS == 2
+      #if V_CLOUDS == 2 && CLOUD_VOL_STYLE == 0
         current_value +=
           texture2D(
             noisetex,
@@ -179,7 +179,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
       mix(
         block_color,
         cloud_color,
-        cloud_value * clamp((view_vector.y - 0.04) * 2.5, 0.0, 1.0)
+        cloud_value * clamp((view_vector.y - 0.06) * 5.0, 0.0, 1.0)
       );
   }
 
