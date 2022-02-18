@@ -13,12 +13,11 @@ out vec4 outColor0;
 
 // 'Global' constants from system
 uniform sampler2D tex;
-uniform float alphaTestRef;
 
 // Varyings (per thread shared variables)
-in vec2 texcoord;
-in vec4 tint_color;
-flat in float sky_luma_correction;  // Flat
+varying vec2 texcoord;
+varying vec4 tint_color;
+varying float sky_luma_correction;  // Flat
 
 void main() {
   #if defined THE_END || defined NETHER
@@ -27,8 +26,6 @@ void main() {
   #else
     // Toma el color puro del bloque
     vec4 block_color = texture2D(tex, texcoord) * tint_color;
-
-    if(block_color.a < alphaTestRef) discard;
     
     block_color.rgb *= sky_luma_correction;
   #endif

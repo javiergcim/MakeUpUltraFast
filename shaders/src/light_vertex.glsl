@@ -1,4 +1,4 @@
-tint_color = vaColor;
+tint_color = gl_Color;
 
 // Luz nativa (lmcoord.x: candela, lmcoord.y: cielo) ----
 vec2 illumination = (max(lmcoord, vec2(0.065)) - vec2(0.065)) * 1.06951871657754;
@@ -29,14 +29,14 @@ candle_color =
 
 // Workaround for undefined normals
 #if defined GBUFFER_ENTITIES
-  vec3 normal = normalMatrix * vaNormal;
+  vec3 normal = gl_NormalMatrix * gl_Normal;
   if (length(normal) == 0.0) {
     normal = vec3(1.0, 0.0, 0.0);
   } else {
     normal = normalize(normal);
   }
 #else
-  vec3 normal = normalize(normalMatrix * vaNormal);
+  vec3 normal = normalize(gl_NormalMatrix * gl_Normal);
 #endif
 
 float sun_light_strenght = dot(normal, sun_vec);

@@ -2,7 +2,7 @@
 #ifdef FOLIAGE_V
   #if WAVING == 1
     vec4 position =
-      gbufferModelViewInverse * modelViewMatrix * vec4(vaPosition + chunkOffset, 1.0);
+      (gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex);
 
     vec3 worldpos = position.xyz + cameraPosition;
 
@@ -21,7 +21,7 @@
         is_foliage = .4;
       #endif
 
-      float weight = float(vaUV0.t < mc_midTexCoord.t);
+      float weight = float(gl_MultiTexCoord0.t < mc_midTexCoord.t);
 
       if (mc_Entity.x == ENTITY_UPPERGRASS) {
         weight += 1.0;
@@ -50,7 +50,7 @@
       }
     #endif
     vec4 position =
-      gbufferModelViewInverse * modelViewMatrix * vec4(vaPosition + chunkOffset, 1.0);
+      (gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex);
 
     gl_Position = projectionMatrix * gbufferModelView * position;
 
@@ -60,15 +60,16 @@
   #ifndef NO_SHADOWS
     #ifdef SHADOW_CASTING
       vec4 position =
-        (gbufferModelViewInverse * modelViewMatrix * vec4(vaPosition + chunkOffset, 1.0));
+        gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex;
     #endif
   #endif
 
-  #ifdef SHADER_LINE
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(vaPosition, 1.0);
-  #else
-    gl_Position = (projectionMatrix * modelViewMatrix) * vec4(vaPosition + chunkOffset, 1.0);
-  #endif
+  // TODO
+  // #ifdef SHADER_LINE
+    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+  // #else
+  //  gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+  // #endif
 
 #endif
 
@@ -86,8 +87,8 @@
 
 #ifndef SHADER_BASIC
   #if defined GBUFFER_CLOUDS
-    var_fog_frag_coord = length(gl_Position.xz);
+    gl_FogFragCoord = length(gl_Position.xz);
   #else
-    var_fog_frag_coord = length(gl_Position.xyz);
+    gl_FogFragCoord = length(gl_Position.xyz);
   #endif
 #endif

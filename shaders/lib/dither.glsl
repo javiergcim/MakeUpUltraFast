@@ -114,32 +114,32 @@ float shifted_grid_noise(vec2 p) {
 //   return fract(0.6 * frame_mod + dither);
 // }
 
-float phi_noise(uvec2 uv)
-{
-  if (((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;
+// float phi_noise(uvec2 uv)
+// {
+//   if (((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;
 
-  const uint r0 = 3242174893u;
-  const uint r1 = 2447445397u;
+//   const uint r0 = 3242174893u;
+//   const uint r1 = 2447445397u;
 
-  uint h = (uv.x * r0) + (uv.y * r1);
+//   uint h = (uv.x * r0) + (uv.y * r1);
 
-  uv = uv >> 2u;
-  uint l = ((uv.x * r0) ^ (uv.y * r1)) * r1;
+//   uv = uv >> 2u;
+//   uint l = ((uv.x * r0) ^ (uv.y * r1)) * r1;
 
-  return float(l + h) * 2.3283064365386963e-10;
-}
+//   return float(l + h) * 2.3283064365386963e-10;
+// }
 
-float shifted_phi_noise(uvec2 uv)
-{
-  if (((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;
+// float shifted_phi_noise(uvec2 uv)
+// {
+//   if (((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;
 
-  const uint r0 = 3242174893u;
-  const uint r1 = 2447445397u;
+//   const uint r0 = 3242174893u;
+//   const uint r1 = 2447445397u;
 
-  uint h = (uv.x * r0) + (uv.y * r1);
+//   uint h = (uv.x * r0) + (uv.y * r1);
 
-  uv = uv >> 2u;
-  uint l = ((uv.x * r0) ^ (uv.y * r1)) * r1;
+//   uv = uv >> 2u;
+//   uint l = ((uv.x * r0) ^ (uv.y * r1)) * r1;
 
-  return fract(0.6 * frame_mod + (float(l + h) * 2.3283064365386963e-10));
-}
+//   return fract(0.6 * frame_mod + (float(l + h) * 2.3283064365386963e-10));
+// }

@@ -98,8 +98,6 @@ void main() {
     }
   #endif
 
-  if(block_color.a < alphaTestRef) discard;  // Full transparency
-
   #if defined SHADOW_CASTING && !defined NETHER
     #if defined COLORED_SHADOW
       vec3 shadow_c = get_colored_shadow(shadow_pos);

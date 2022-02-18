@@ -12,8 +12,6 @@
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
-uniform mat4 modelViewMatrix;
-uniform mat4 projectionMatrix;
 
 varying vec2 texcoord;
 varying vec4 tint_color;
