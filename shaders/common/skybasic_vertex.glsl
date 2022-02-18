@@ -2,7 +2,6 @@
 
 /* Config, uniforms, ins, outs */
 uniform mat4 gbufferModelView;
-uniform mat4 modelViewMatrix;
 
 varying vec3 up_vec;
 varying vec4 star_data;

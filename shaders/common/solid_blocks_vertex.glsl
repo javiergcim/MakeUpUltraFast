@@ -18,9 +18,6 @@ uniform float light_mix;
 uniform float far;
 uniform float rainStrength;
 uniform ivec2 eyeBrightnessSmooth;
-uniform mat4 modelViewMatrix;  // TODO
-uniform mat4 projectionMatrix;  // TODO
-uniform mat3 normalMatrix;  // TODO
 
 #if defined FOLIAGE_V || defined THE_END || defined NETHER
   uniform mat4 gbufferModelView;

@@ -35,7 +35,7 @@
       position.xyz += wave_move(worldpos.xzy) * weight * (0.03 + (rainStrength * .05));
     }
 
-    gl_Position = projectionMatrix * gbufferModelView * position;
+    gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
 
   #else  // Normal position
     #ifndef NETHER
@@ -52,7 +52,7 @@
     vec4 position =
       (gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex);
 
-    gl_Position = projectionMatrix * gbufferModelView * position;
+    gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
 
   #endif
 

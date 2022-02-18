@@ -1,6 +1,3 @@
-/* Exits */
-out vec4 outColor0;
-
 #include "/lib/config.glsl"
 
 #ifdef THE_END
