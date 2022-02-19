@@ -78,6 +78,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define WATER_TURBULENCE 1.7 // [3.7 1.7 1.3] Set the water waves strenght.
 #define FOG_ADJUST 1.0 // [2.0 1.0 0.5]  Recommended settings. 'Short' for 8 or less draw distance. 'Regular' between 9 and 19 draw distance. 'Far' for 20+ draw distance.
 // #define DEBUG_MODE // Set debug mode.
+#define BLOCKLIGHT_TEMP 1 // [0 1 2 3 4] Set blacklight temperature
 
 
 // Reflection parameters

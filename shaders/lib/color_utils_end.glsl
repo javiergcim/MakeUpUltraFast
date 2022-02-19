@@ -21,24 +21,16 @@ uniform float night_mixer;
 #define LOW_DAY_COLOR vec3(0.0465375, 0.037485, 0.0465375)
 #define LOW_NIGHT_COLOR vec3(0.0465375, 0.037485, 0.0465375)
 
-#if COLOR_SCHEME == 0  // Legacy
-  #define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
-  #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
-#elif COLOR_SCHEME == 1  // Cocoa
-  #define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
-  #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
-#elif COLOR_SCHEME == 2  // Captain
-  #define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
-  #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
-#elif COLOR_SCHEME == 3  // Shoka
-  #define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
-  #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
-#elif COLOR_SCHEME == 4  // Ethereal
-  #define CANDLE_BASELIGHT vec3(0.27475, 0.17392353, 0.0899)
-  #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
-#elif COLOR_SCHEME == 5  // Vivid
+#if BLOCKLIGHT_TEMP == 0
   #define CANDLE_BASELIGHT vec3(0.29975, 0.15392353, 0.0799)
-  #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
+#elif BLOCKLIGHT_TEMP == 1
+  #define CANDLE_BASELIGHT vec3(0.27475, 0.17392353, 0.0899)
+#elif BLOCKLIGHT_TEMP == 2
+  #define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
+#elif BLOCKLIGHT_TEMP == 3
+  #define CANDLE_BASELIGHT vec3(0.22, 0.19, 0.14)
+#else
+  #define CANDLE_BASELIGHT vec3(0.19, 0.19, 0.19)
 #endif
 
 vec3 day_blend(vec3 middle, vec3 day, vec3 night) {
