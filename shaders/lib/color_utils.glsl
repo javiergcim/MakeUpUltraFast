@@ -108,12 +108,14 @@ uniform float night_mixer;
 
 #if BLOCKLIGHT_TEMP == 0
   #define CANDLE_BASELIGHT vec3(0.29975, 0.15392353, 0.0799)
-#else if BLOCKLIGHT_TEMP == 1
+#elif BLOCKLIGHT_TEMP == 1
   #define CANDLE_BASELIGHT vec3(0.27475, 0.17392353, 0.0899)
-#else if BLOCKLIGHYT_TEMP == 2
+#elif BLOCKLIGHT_TEMP == 2
   #define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
+#elif BLOCKLIGHT_TEMP == 3
+  #define CANDLE_BASELIGHT vec3(0.22, 0.19, 0.14)
 #else
-  #define CANDLE_BASELIGHT vec3(0.19)
+  #define CANDLE_BASELIGHT vec3(0.19, 0.19, 0.19)
 #endif
 
 vec3 day_blend(vec3 middle, vec3 day, vec3 night) {

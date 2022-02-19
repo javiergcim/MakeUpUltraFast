@@ -169,6 +169,13 @@ value.FOG_ADJUST.2.0=for short draw distances
 value.FOG_ADJUST.1.0=for regular draw distances
 value.FOG_ADJUST.0.5=for far draw distances
 
+option.BLOCKLIGHT_TEMP=Blocklight temp
+value.BLOCKLIGHT_TEMP.0=Warmer
+value.BLOCKLIGHT_TEMP.1=Warm
+value.BLOCKLIGHT_TEMP.2=Yellow
+value.BLOCKLIGHT_TEMP.3=Pale yellow
+value.BLOCKLIGHT_TEMP.4=White light
+
 option.sunPathRotation=Sun angle
 
 #Screens
