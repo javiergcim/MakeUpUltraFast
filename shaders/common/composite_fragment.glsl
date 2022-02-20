@@ -129,7 +129,11 @@ void main() {
     2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
 
   #if VOL_LIGHT == 1 && !defined NETHER
-    float vol_light = ss_godrays(dither);
+    #if defined THE_END
+      float vol_light = 0.5;
+    #else
+      float vol_light = ss_godrays(dither);
+    #endif
 
     vec4 center_world_pos =
       modeli_times_projectioni * (vec4(0.5, 0.5, 1.0, 1.0) * 2.0 - 1.0);
@@ -141,12 +145,24 @@ void main() {
 
     #if defined THE_END
       // Fixed light source position in sky for intensity calculation
-      float vol_intensity =
-        clamp(dot(center_view_vector, normalize((gbufferModelViewInverse * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz)), 0.0, 1.0);
-      vol_intensity *= dot(
+      float vol_intensity = clamp(
+        dot(
+          center_view_vector,
+          normalize((gbufferModelViewInverse * gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz)
+        ),
+        0.0,
+        1.0
+      );
+
+      vol_intensity *= clamp(
+        dot(
           view_vector,
           normalize((gbufferModelViewInverse * gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz)
-        );
+        ),
+        0.0,
+        1.0
+      );
+
       vol_intensity *= 0.666;
 
       block_color.rgb += (vol_light_color * vol_light * vol_intensity * 2.0);
