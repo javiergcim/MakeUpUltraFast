@@ -107,7 +107,7 @@ varying float exposure;
 
     block_color *= exposure;
     // block_color = lottes_tonemap(block_color, exposure + 0.6);
-    block_color = uchimura_precalc(block_color);
+    block_color = custom_ACES(block_color);
 
     gl_FragColor = vec4(block_color, 1.0);
   }
