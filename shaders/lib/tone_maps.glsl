@@ -4,26 +4,37 @@ Tonemap functions.
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+vec3 custom_ACES(vec3 x) {
+    // Narkowicz 2015, "ACES Filmic Tone Mapping Curve"
+    float a = 2.9;
+    float b = 0.03;
+    float c = 2.76;
+    float d = 0.5;
+    float e = 0.3;
+
+    return (x * (a * x + vec3(b))) / (x * (c * x + vec3(d)) + vec3(e));
+}
+
 vec3 lottes_tonemap(vec3 x, float hdrMax) {
     // Lottes 2016, "Advanced Techniques and Optimization of HDR Color Pipelines"
-    // float a = 1.5;
+    // float a = 1.7;
     // float d = 0.977;
     // const float hdrMax = 8.0;
-    // float midIn = 0.23;
+    // float midIn = 0.25;
     // float midOut = 0.3;
 
-    float pow_a = pow(hdrMax, 1.5);
-    float pow_b = pow(hdrMax, 1.4655);
-    float producto_a = (pow_b - 0.11604118194392006) * 0.3;
+    float pow_a = pow(hdrMax, 1.7);
+    float pow_b = pow(hdrMax, 1.6608999999999998);
+    float producto_a = (pow_b - 0.1000088792551845) * 0.3;
 
     float b =
-      (-0.11030412503619255 + pow_a * 0.3) /
+      (-0.09473228540689989 + pow_a * 0.3) /
       producto_a;
     float c =
-      (pow_b * 0.11030412503619255 - pow_a * 0.03481235458317602) /
+      (pow_b * 0.09473228540689989 - pow_a * 0.030002663776555347) /
       producto_a;
 
-    return pow(x, vec3(1.5)) / (pow(x, vec3(1.4655)) * vec3(b) + vec3(c));
+    return pow(x, vec3(1.7)) / (pow(x, vec3(1.6608999999999998)) * vec3(b) + vec3(c));
 }
 
 // vec3 lottes_tonemap_full(vec3 x) {
@@ -64,19 +75,6 @@ vec3 lottes_tonemap(vec3 x, float hdrMax) {
 
 //   return T * w0 + L * w1 + S * w2;
 // }
-
-vec3 uchimura_precalc(vec3 x) {
-  vec3 w0 = vec3(1.0 - smoothstep(0.0, 0.1, x));
-  vec3 w2 = vec3(step(0.145, x));
-  vec3 w1 = vec3(1.0 - w0 - w2);
-
-  vec3 T = vec3(0.1 * pow(x / 0.1, vec3(1.33)));
-  vec3 S = vec3(1.0 - 0.8325 * exp(-1.8018018018018018 * (x - vec3(0.145))));
-  vec3 L = vec3(0.1 + 1.5 * (x - vec3(0.1)));
-
-  return T * w0 + L * w1 + S * w2;
-}
-
 
 // vec3 uchimura(vec3 x) {
 //   // const float P = 1.0;  // max display brightness
