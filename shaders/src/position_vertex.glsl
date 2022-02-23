@@ -6,9 +6,7 @@
 
     vec3 worldpos = position.xyz + cameraPosition;
 
-    #ifndef NETHER
-      is_foliage = 0.0;
-    #endif
+    is_foliage = 0.0;
 
     if (
         mc_Entity.x == ENTITY_LOWERGRASS ||
@@ -38,17 +36,15 @@
     gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
 
   #else  // Normal position
-    #ifndef NETHER
-      is_foliage = 0.0;
-      if (mc_Entity.x == ENTITY_LOWERGRASS ||
-          mc_Entity.x == ENTITY_UPPERGRASS ||
-          mc_Entity.x == ENTITY_SMALLGRASS ||
-          mc_Entity.x == ENTITY_SMALLENTS ||
-          mc_Entity.x == ENTITY_LEAVES)
-      {
-        is_foliage = .4;
-      }
-    #endif
+    is_foliage = 0.0;
+    if (mc_Entity.x == ENTITY_LOWERGRASS ||
+        mc_Entity.x == ENTITY_UPPERGRASS ||
+        mc_Entity.x == ENTITY_SMALLGRASS ||
+        mc_Entity.x == ENTITY_SMALLENTS ||
+        mc_Entity.x == ENTITY_LEAVES)
+    {
+      is_foliage = .4;
+    }
     vec4 position =
       (gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex);
 
@@ -64,12 +60,7 @@
     #endif
   #endif
 
-  // TODO
-  // #ifdef SHADER_LINE
-    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
-  // #else
-  //  gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
-  // #endif
+  gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 
 #endif
 
