@@ -6,8 +6,8 @@
 
 #ifndef SHADER_BASIC
   #ifdef WATER_F
-    lmcoord = vec2(vaUV2) * 0.0041841004184100415;
+    lmcoord = va_UV2 * 0.0041841004184100415;
   #else
-    vec2 lmcoord = vec2(vaUV2) * 0.0041841004184100415;
+    vec2 lmcoord = va_UV2 * 0.0041841004184100415;
   #endif
 #endif

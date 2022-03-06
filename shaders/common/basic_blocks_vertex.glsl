@@ -36,7 +36,9 @@ void main() {
   #include "/src/position_vertex.glsl"
   tint_color = vaColor;
 
-  vec2 lmcoord = vec2(vaUV2) * 0.0041841004184100415;
+  vec2 va_UV2 = vec2(vaUV2);
+
+  vec2 lmcoord = va_UV2 * 0.0041841004184100415;
 
   vec2 basic_light_2 = (max(lmcoord, vec2(0.065)) - vec2(0.065)) * 1.06951871657754;
 

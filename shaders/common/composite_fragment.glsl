@@ -90,6 +90,8 @@ void main() {
   float d = texture(depthtex0, texcoord).r;
   float linear_d = ld(d);
 
+  vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
+
   // "Niebla" submarina
   if (isEyeInWater == 1) {
     float water_absorption =  // Distance
@@ -98,7 +100,7 @@ void main() {
 
     block_color.rgb = mix(
       block_color.rgb,
-      WATER_COLOR * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667) * (exposure_coef * 0.9 + 0.1),
+      WATER_COLOR * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667) * (exposure_coef * 0.9 + 0.1),
       water_absorption);
 
   } else if (isEyeInWater == 2) {
