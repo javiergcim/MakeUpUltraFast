@@ -67,6 +67,8 @@ attribute vec4 at_tangent;
 #include "/lib/luma.glsl"
 
 void main() {
+  vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
+  
   #include "/src/basiccoords_vertex.glsl"
   #include "/src/light_vertex.glsl"
 

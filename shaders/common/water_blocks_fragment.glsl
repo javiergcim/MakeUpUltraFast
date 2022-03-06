@@ -93,6 +93,8 @@ varying vec3 up_vec;
 void main() {
   vec4 block_color = texture2D(tex, texcoord);
 
+  vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
+
   vec3 real_light;
   vec3 fragposition =
     to_screen_space(
@@ -147,7 +149,7 @@ void main() {
       );
   } else {
     sky_color_reflect =
-      hi_sky_color * .5 * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667);
+      hi_sky_color * .5 * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667);
   }
 
   #if (defined CLOUD_REFLECTION && V_CLOUDS > 0 && !defined NETHER) || SSR_TYPE > 0

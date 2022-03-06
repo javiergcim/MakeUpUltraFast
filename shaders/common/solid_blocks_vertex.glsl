@@ -84,6 +84,8 @@ varying vec3 omni_light;
 #include "/lib/luma.glsl"
 
 void main() {
+  vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
+  
   #include "/src/basiccoords_vertex.glsl"
   #include "/src/position_vertex.glsl"
   #include "/src/light_vertex.glsl"

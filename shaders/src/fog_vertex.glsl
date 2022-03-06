@@ -11,7 +11,7 @@
       ) * FOG_ADJUST;
   #endif
 
-  float fog_intensity_coeff = eyeBrightnessSmooth.y * 0.004166666666666667;
+  float fog_intensity_coeff = eye_bright_smooth.y * 0.004166666666666667;
 
   frog_adjust = pow(
     clamp(gl_FogFragCoord / far, 0.0, 1.0) * fog_intensity_coeff,

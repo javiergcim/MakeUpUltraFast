@@ -20,7 +20,6 @@ uniform float pixel_size_x;
 uniform float pixel_size_y;
 uniform int frame_mod;
 uniform float rainStrength;
-uniform ivec2 eyeBrightnessSmooth;
 
 varying vec3 up_vec;
 varying vec4 star_data;

@@ -78,6 +78,8 @@ void main() {
   float d = texture2D(depthtex0, texcoord).r;
   float linear_d = ld(d);
 
+  vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
+
   vec3 view_vector;
 
   #if AO == 1 || V_CLOUDS != 0
@@ -176,7 +178,7 @@ void main() {
   if (isEyeInWater == 1) {
     if (linear_d > 0.9999) {
       block_color.rgb = mix(
-        NIGHT_CORRECTION * WATER_COLOR * ((eyeBrightnessSmooth.y * .8 + 48) * 0.004166666666666667),
+        NIGHT_CORRECTION * WATER_COLOR * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667),
         block_color.rgb,
         max(clamp(view_vector.y - 0.1, 0.0, 1.0), rainStrength)
       );

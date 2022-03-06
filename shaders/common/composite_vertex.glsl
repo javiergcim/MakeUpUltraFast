@@ -51,6 +51,10 @@ void main() {
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
   texcoord = gl_MultiTexCoord0.xy;
 
+  #if defined BLOOM || (VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER))
+    vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
+  #endif
+
   exposure_coef =
     mix(
       ambient_exposure[current_hour_floor],
@@ -60,10 +64,10 @@ void main() {
 
   #ifdef BLOOM
     // Exposure
-    float candle_bright = eyeBrightnessSmooth.x * 0.0003125;  // (0.004166666666666667 * 0.075)
+    float candle_bright = eye_bright_smooth.x * 0.0003125;  // (0.004166666666666667 * 0.075)
 
     exposure =
-      ((eyeBrightnessSmooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
+      ((eye_bright_smooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
 
     // Map from 1.0 - 0.0 to 1.0 - 3.4
     exposure = (exposure * -2.4) + 3.4;
@@ -74,7 +78,7 @@ void main() {
     if (isEyeInWater == 0) {
       vol_attenuation = 1.0;
     } else {
-      vol_attenuation = 0.1 + (eyeBrightnessSmooth.y * 0.002);
+      vol_attenuation = 0.1 + (eye_bright_smooth.y * 0.002);
     }
 
     vol_light_color = day_blend(
