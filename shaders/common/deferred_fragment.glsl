@@ -1,6 +1,6 @@
 /* Exits */
 out vec4 outColor0;
-out vec4 outColor1;
+// out vec4 outColor1;
 
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
@@ -82,6 +82,8 @@ void main() {
   float d = texture(depthtex0, texcoord).r;
   float linear_d = ld(d);
 
+  vec4 effects_color;
+
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
 
   vec3 view_vector;
@@ -117,9 +119,11 @@ void main() {
       #ifdef THE_END
         block_color = vec4(HI_DAY_COLOR, 1.0);
         block_color.rgb =
+        // block_color =
           get_end_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
       #else
-        block_color.rgb =
+        // block_color.rgb =
+        effects_color =
           get_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
       #endif
     }
@@ -189,7 +193,11 @@ void main() {
     }
   }
 
-  /* DRAWBUFFERS:14 */
-  outColor0 = vec4(block_color.rgb, d);
-  outColor1 = block_color;
+  /* DRAWBUFFERS:6 */
+  #if AO == 1
+  if (linear_d <= 0.9999) {
+    effects_color = vec4(vec3(0.0), (1.0 - final_ao));
+  }
+  #endif
+  outColor0 = effects_color;
 }

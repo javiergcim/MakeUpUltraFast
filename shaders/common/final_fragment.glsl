@@ -49,7 +49,7 @@ const int colortex3Format = RGB16F;
 /*
 const int gaux1Format = R11F_G11F_B10F;
 const int gaux2Format = R8;
-const int gaux3Format = R8;
+const int gaux3Format = RGBA16F;
 const int gaux4Format = R11F_G11F_B10F;
 */
 
