@@ -90,6 +90,7 @@ in vec2 texcoord;
 
 #include "/lib/basic_utils.glsl"
 #include "/lib/tone_maps.glsl"
+// #include "/lib/luma.glsl"
 
 #if CHROMA_ABER == 1
   #include "/lib/aberration.glsl"
@@ -123,6 +124,10 @@ void main() {
   // block_color = lottes_tonemap(block_color, exposure + 0.6);
   block_color = custom_ACES(block_color);
 
+  // TEST
+  // Saturation
+  // float actual_luma = luma(block_color);
+  // block_color = mix(vec3(actual_luma), block_color, 1.5);
 
   #ifdef DEBUG_MODE
     // vec3 block_color;
