@@ -29,12 +29,12 @@ candle_color =
 
 vec3 normal = normalMatrix * vaNormal;
 float sun_light_strenght;
-if (length(normal) == 0.0) {  // Workaround for undefined normals
-  normal = vec3(1.0, 0.0, 0.0);
-  sun_light_strenght = 1.0;
-} else {
+if (length(normal) != 0.0) {  // Workaround for undefined normals
   normal = normalize(normal);
   sun_light_strenght = dot(normal, sun_vec);
+} else {
+  normal = vec3(1.0, 0.0, 0.0);
+  sun_light_strenght = 1.0;
 }
 
 #if defined THE_END || defined NETHER
