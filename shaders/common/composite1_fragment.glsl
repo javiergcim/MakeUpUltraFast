@@ -62,7 +62,7 @@ void main() {
       texcoord,
       DOF_STRENGTH,
       dither
-      );
+    );
   #endif
 
   #ifdef BLOOM
