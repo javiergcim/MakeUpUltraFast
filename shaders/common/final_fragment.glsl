@@ -17,7 +17,7 @@ gaux3 - Not used
 gaux4 - Fog auxiliar
 
 const int noisetexFormat = RGB8;
-const int colortex0Format = RGBA16F;
+const int colortex0Format = R11F_G11F_B10F;
 */
 #ifdef DOF
 /*
@@ -25,12 +25,12 @@ const int colortex1Format = RGBA16F;
 */
 #else
 /*
-const int colortex1Format = RGBA16F;
+const int colortex1Format = R11F_G11F_B10F;
 */
 #endif
 #ifdef BLOOM
 /*
-const int colortex2Format = RGBA16F;
+const int colortex2Format = R11F_G11F_B10F;
 */
 #else
 /*
