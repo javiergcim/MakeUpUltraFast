@@ -252,6 +252,7 @@ void main() {
 
     /* DRAWBUFFERS:12 */
     outColor0 = block_color;
+    // outColor1 = vec4(block_color.rgb * vec3(clamp(bloom_luma, 0.0, 100.0)), 1.0);
     outColor1 = block_color * bloom_luma;
   #else
     /* DRAWBUFFERS:1 */

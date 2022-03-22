@@ -12,7 +12,7 @@ float hash12(vec2 p) {
 float timed_hash12(vec2 p) {
   vec3 p3 = fract(vec3(p.xyx) * .1031);
   p3 += dot(p3, p3.yzx + 33.33);
-  return fract(0.454545 * frame_mod + ((p3.x + p3.y) * p3.z));
+  return fract(0.3 * frame_mod + ((p3.x + p3.y) * p3.z));
 }
 
 float r_dither(vec2 frag) {
@@ -20,7 +20,7 @@ float r_dither(vec2 frag) {
 }
 
 float shifted_r_dither(vec2 frag) {
-  return fract((0.454545 * frame_mod) + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
+  return fract((0.7 * frame_mod) + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
 }
 
 float eclectic_r_dither(vec2 frag) {
@@ -36,7 +36,7 @@ float shifted_eclectic_r_dither(vec2 frag) {
   p3 += dot(p3, p3.yzx + 33.33);
   float p4 = fract((p3.x + p3.y) * p3.z) * 0.1;
 
-  return fract((0.4545 * frame_mod) + p4 + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
+  return fract((0.7 * frame_mod) + p4 + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
 }
 
 float dither17(vec2 pos) {
@@ -97,7 +97,20 @@ float grid_noise(vec2 p) {
 }
 
 float shifted_grid_noise(vec2 p) {
-  return fract(0.6 * frame_mod +
+  return fract(0.4 * frame_mod +
+    dot(
+      p - vec2(0.5, 0.5),
+      vec2(0.0625, .277777777777777777778) + 0.25
+      )
+    );
+}
+
+float shifted_eclectic_grid_noise(vec2 p) {
+  vec3 p3 = fract(vec3(p.xyx) * .1031);
+  p3 += dot(p3, p3.yzx + 33.33);
+  float p4 = fract((p3.x + p3.y) * p3.z) * 0.05;
+  
+  return fract(0.4 * frame_mod + p4 +
     dot(
       p - vec2(0.5, 0.5),
       vec2(0.0625, .277777777777777777778) + 0.25
