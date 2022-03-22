@@ -127,8 +127,10 @@ float shifted_eclectic_grid_noise(vec2 p) {
 //   return fract(0.6 * frame_mod + dither);
 // }
 
-float phi_noise(uvec2 uv)
+float phi_noise(vec2 uv_f)
 {
+  uvec2 uv = uvec2(uv_f);
+  
   if (((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;
 
   const uint r0 = 3242174893u;
@@ -142,8 +144,10 @@ float phi_noise(uvec2 uv)
   return float(l + h) * 2.3283064365386963e-10;
 }
 
-float shifted_phi_noise(uvec2 uv)
+float shifted_phi_noise(vec2 uv_f)
 {
+  uvec2 uv = uvec2(uv_f);
+
   if (((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;
 
   const uint r0 = 3242174893u;
@@ -154,5 +158,5 @@ float shifted_phi_noise(uvec2 uv)
   uv = uv >> 2u;
   uint l = ((uv.x * r0) ^ (uv.y * r1)) * r1;
 
-  return fract(0.454545 * frame_mod + (float(l + h) * 2.3283064365386963e-10));
+  return fract(0.7 * frame_mod + (float(l + h) * 2.3283064365386963e-10));
 }

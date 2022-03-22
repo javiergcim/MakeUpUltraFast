@@ -11,17 +11,11 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past, vec2 velocity) {
   } else {
     vec3 neighbourhood[5];
 
-    // neighbourhood[0] = texture(colortex1, texcoord + vec2(-pixel_size_x, -pixel_size_y)).rgb;
-    // neighbourhood[1] = texture(colortex1, texcoord + vec2(pixel_size_x, -pixel_size_y)).rgb;
-    // neighbourhood[2] = current_color;
-    // neighbourhood[3] = texture(colortex1, texcoord + vec2(-pixel_size_x, pixel_size_y)).rgb;
-    // neighbourhood[4] = texture(colortex1, texcoord + vec2(pixel_size_x, pixel_size_y)).rgb;
-
-    neighbourhood[0] = texture(colortex1, texcoord + vec2(-pixel_size_x, 0.0)).rgb;
-    neighbourhood[1] = texture(colortex1, texcoord + vec2(pixel_size_x, 0.0)).rgb;
+    neighbourhood[0] = texture(colortex1, texcoord + vec2(-pixel_size_x, -pixel_size_y)).rgb;
+    neighbourhood[1] = texture(colortex1, texcoord + vec2(pixel_size_x, -pixel_size_y)).rgb;
     neighbourhood[2] = current_color;
-    neighbourhood[3] = texture(colortex1, texcoord + vec2(0.0, pixel_size_y)).rgb;
-    neighbourhood[4] = texture(colortex1, texcoord + vec2(0.0, -pixel_size_y)).rgb;
+    neighbourhood[3] = texture(colortex1, texcoord + vec2(-pixel_size_x, pixel_size_y)).rgb;
+    neighbourhood[4] = texture(colortex1, texcoord + vec2(pixel_size_x, pixel_size_y)).rgb;
 
     vec3 nmin = neighbourhood[0];
     vec3 nmax = nmin;
