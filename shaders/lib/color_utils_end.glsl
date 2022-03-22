@@ -21,6 +21,8 @@ uniform float night_mixer;
 #define LOW_DAY_COLOR vec3(0.0465375, 0.037485, 0.0465375)
 #define LOW_NIGHT_COLOR vec3(0.0465375, 0.037485, 0.0465375)
 
+#define WATER_COLOR vec3(0.018, 0.12 , 0.18)
+
 #if BLOCKLIGHT_TEMP == 0
   #define CANDLE_BASELIGHT vec3(0.29975, 0.15392353, 0.0799)
 #elif BLOCKLIGHT_TEMP == 1

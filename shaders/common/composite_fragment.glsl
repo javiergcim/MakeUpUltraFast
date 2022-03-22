@@ -248,6 +248,7 @@ void main() {
 
     /* DRAWBUFFERS:12 */
     gl_FragData[0] = block_color;
+    // gl_FragData[1] = vec4(block_color.rgb * vec3(clamp(bloom_luma, 0.0, 100.0)), 1.0);
     gl_FragData[1] = block_color * bloom_luma;
   #else
     /* DRAWBUFFERS:1 */
