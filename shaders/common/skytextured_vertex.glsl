@@ -25,11 +25,11 @@ void main() {
   texcoord = gl_MultiTexCoord0.xy;
   tint_color = gl_Color;
 
-  sky_luma_correction = mix(
-    ambient_exposure[current_hour_floor],
-    ambient_exposure[current_hour_ceil],
-    current_hour_fract
-    );
+  sky_luma_correction = day_blend_float(
+    EXPOSURE_MIDDLE,
+    EXPOSURE_DAY,
+    EXPOSURE_NIGHT
+  );
 
   #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
     sky_luma_correction = 3.5 / ((sky_luma_correction * -2.5) + 3.5);

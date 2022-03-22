@@ -24,12 +24,11 @@ void main() {
   // Tonemaping ---
   // x: Block, y: Sky ---
   float candle_bright = eye_bright_smooth.x * 0.0003125;
-  float exposure_coef =
-    mix(
-      ambient_exposure[current_hour_floor],
-      ambient_exposure[current_hour_ceil],
-      current_hour_fract
-    );
+  float exposure_coef = day_blend_float(
+    EXPOSURE_MIDDLE,
+    EXPOSURE_DAY,
+    EXPOSURE_NIGHT
+  );
   exposure =
     ((eye_bright_smooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
 

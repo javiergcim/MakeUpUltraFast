@@ -11,7 +11,7 @@ float get_shadow(vec3 the_shadow_pos) {
      shadow_sample = shadow2D(shadowtex1, vec3(the_shadow_pos.xy, the_shadow_pos.z - 0.001)).r;
   #elif SHADOW_TYPE == 1  // Soft
     #if AA_TYPE > 0
-      float dither = shifted_dither17(gl_FragCoord.xy);
+      float dither = shifted_dither_grad_noise(gl_FragCoord.xy);
     #else
       float dither = r_dither(gl_FragCoord.xy);
     #endif
@@ -81,7 +81,7 @@ float get_shadow(vec3 the_shadow_pos) {
       float alpha_complement;
 
       #if AA_TYPE > 0
-        float dither = shifted_dither17(gl_FragCoord.xy);
+        float dither = shifted_dither_grad_noise(gl_FragCoord.xy);
       #else
         float dither = r_dither(gl_FragCoord.xy);
       #endif

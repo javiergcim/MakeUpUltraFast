@@ -59,6 +59,10 @@ float day_blend_float(float middle, float day, float night) {
 #define EXPOSURE_NIGHT 1.0
 
 // Fog parameter per hour
-#define FOG_DAY 1.0
-#define FOG_MIDDLE 1.0
-#define FOG_NIGHT 1.0
+#if VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING)
+    #define FOG_DENSITY 1.0
+#else
+  #define FOG_DAY 1.0
+  #define FOG_MIDDLE 1.0
+  #define FOG_NIGHT 1.0
+#endif

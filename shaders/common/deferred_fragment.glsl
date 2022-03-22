@@ -149,11 +149,11 @@ void main() {
     #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
       float fog_density_coeff = FOG_DENSITY * FOG_ADJUST;
     #else
-      float fog_density_coeff = mix(
-        fog_density[current_hour_floor],
-        fog_density[current_hour_ceil],
-        current_hour_fract
-        ) * FOG_ADJUST;
+      float fog_density_coeff = day_blend_float(
+        FOG_MIDDLE,
+        FOG_DAY,
+        FOG_NIGHT
+      ) * FOG_ADJUST;
     #endif
 
     // AO distance attenuation
