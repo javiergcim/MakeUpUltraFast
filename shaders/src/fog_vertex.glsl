@@ -20,7 +20,7 @@
 
 #else
   frog_adjust = pow(
-      clamp(var_fog_frag_coord / far, 0.0, 1.0),
-      .5
-    );
+    clamp(var_fog_frag_coord / far, 0.0, 1.0),
+    .5
+  );
 #endif

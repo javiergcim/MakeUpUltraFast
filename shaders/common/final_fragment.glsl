@@ -65,10 +65,6 @@ const bool gaux4Clear = false;
 
 // 'Global' constants from system
 uniform sampler2D colortex0;
-// uniform ivec2 eyeBrightnessSmooth;
-// uniform int current_hour_floor;
-// uniform int current_hour_ceil;
-// uniform float current_hour_fract;
 
 #ifdef DEBUG_MODE
   uniform sampler2D shadowtex1;
