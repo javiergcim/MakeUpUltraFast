@@ -27,19 +27,15 @@ candle_color =
   vec3 sun_vec = normalize(sunPosition);
 #endif
 
-// Workaround for undefined normals
-#if defined GBUFFER_ENTITIES
-  vec3 normal = normalMatrix * vaNormal;
-  if (length(normal) == 0.0) {
-    normal = vec3(1.0, 0.0, 0.0);
-  } else {
-    normal = normalize(normal);
-  }
-#else
-  vec3 normal = normalize(normalMatrix * vaNormal);
-#endif
-
-float sun_light_strenght = dot(normal, sun_vec);
+vec3 normal = normalMatrix * vaNormal;
+float sun_light_strenght;
+if (length(normal) == 0.0) {  // Workaround for undefined normals
+  normal = vec3(1.0, 0.0, 0.0);
+  sun_light_strenght = 1.0;
+} else {
+  normal = normalize(normal);
+  sun_light_strenght = dot(normal, sun_vec);
+}
 
 #if defined THE_END || defined NETHER
   direct_light_strenght = sun_light_strenght;

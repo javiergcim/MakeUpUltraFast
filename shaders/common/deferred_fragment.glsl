@@ -1,6 +1,6 @@
 /* Exits */
 out vec4 outColor0;
-// out vec4 outColor1;
+out vec4 outColor1;
 
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
@@ -82,15 +82,13 @@ void main() {
   float d = texture(depthtex0, texcoord).r;
   float linear_d = ld(d);
 
-  vec4 effects_color;
-
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
 
   vec3 view_vector;
 
   #if AO == 1 || V_CLOUDS != 0
     #if AA_TYPE > 0
-      float dither = shifted_eclectic_dither(gl_FragCoord.xy);
+      float dither = shifted_eclectic_r_dither(gl_FragCoord.xy);
     #else
       float dither = eclectic_dither(gl_FragCoord.xy);
     #endif
@@ -119,11 +117,9 @@ void main() {
       #ifdef THE_END
         block_color = vec4(HI_DAY_COLOR, 1.0);
         block_color.rgb =
-        // block_color =
           get_end_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
       #else
-        // block_color.rgb =
-        effects_color =
+        block_color.rgb =
           get_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
       #endif
     }
@@ -157,11 +153,11 @@ void main() {
     #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
       float fog_density_coeff = FOG_DENSITY * FOG_ADJUST;
     #else
-      float fog_density_coeff = mix(
-        fog_density[current_hour_floor],
-        fog_density[current_hour_ceil],
-        current_hour_fract
-        ) * FOG_ADJUST;
+      float fog_density_coeff = day_blend_float(
+        FOG_MIDDLE,
+        FOG_DAY,
+        FOG_NIGHT
+      ) * FOG_ADJUST;
     #endif
 
     // AO distance attenuation
@@ -193,11 +189,7 @@ void main() {
     }
   }
 
-  /* DRAWBUFFERS:6 */
-  #if AO == 1
-  if (linear_d <= 0.9999) {
-    effects_color = vec4(vec3(0.0), (1.0 - final_ao));
-  }
-  #endif
-  outColor0 = effects_color;
+  /* DRAWBUFFERS:14 */
+  outColor0 = vec4(block_color.rgb, d);
+  outColor1 = block_color;
 }

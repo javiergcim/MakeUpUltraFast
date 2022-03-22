@@ -170,7 +170,7 @@ void main() {
   #endif
 
   #if defined CLOUD_REFLECTION && V_CLOUDS > 0 && !defined NETHER
-    vec4 sky_color_reflect_cloud = get_cloud(
+    sky_color_reflect = get_cloud(
       normalize((gbufferModelViewInverse * vec4(reflect_water_vec, 1.0)).xyz),
       sky_color_reflect,
       0.0,
@@ -178,8 +178,6 @@ void main() {
       worldposition.xyz,
       int(CLOUD_STEPS_AVG * 0.5)
     );
-
-    sky_color_reflect = mix(sky_color_reflect, sky_color_reflect_cloud.rgb, sky_color_reflect_cloud.a);
   #endif
 
   if (block_type > 2.5) {  // Water

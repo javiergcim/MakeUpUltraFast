@@ -2,7 +2,7 @@
 Fast volumetric clouds - MakeUp implementation
 */
 
-vec4 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, vec3 base_pos, int samples) {
+vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, vec3 base_pos, int samples) {
   float plane_distance;
   float cloud_value;
   float umbral;
@@ -26,12 +26,10 @@ vec4 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
   float cloud_value_aux;
   float dist_aux_coeff_blur;
 
-  // #if VOL_LIGHT == 0
-  //   block_color.rgb *=
-  //     clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
-  // #endif
-
-  vec4 effects_color;
+  #if VOL_LIGHT == 0
+    block_color.rgb *=
+      clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
+  #endif
 
   if (view_vector.y > .055) {  // Vista sobre el horizonte
     umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .25;
@@ -177,17 +175,13 @@ vec4 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
     // Halo brillante de contra al sol
     cloud_color = mix(cloud_color, cloud_color * 2.0, (1.0 - cloud_value) * bright);
 
-    // block_color =
     block_color =
       mix(
         block_color,
         cloud_color,
         cloud_value * clamp((view_vector.y - 0.06) * 5.0, 0.0, 1.0)
       );
-
-    effects_color = vec4(block_color, cloud_value * clamp((view_vector.y - 0.06) * 5.0, 0.0, 1.0));
   }
 
-  //return block_color;
-  return effects_color;
+  return block_color;
 }

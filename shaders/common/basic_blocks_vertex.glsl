@@ -42,11 +42,11 @@ void main() {
 
   vec2 basic_light_2 = (max(lmcoord, vec2(0.065)) - vec2(0.065)) * 1.06951871657754;
 
-  basic_light = (mix(
-      ambient_exposure[current_hour_floor],
-      ambient_exposure[current_hour_ceil],
-      current_hour_fract
-    ) + .05) * basic_light_2.y;
+  basic_light = (day_blend_float(
+    EXPOSURE_MIDDLE,
+    EXPOSURE_DAY,
+    EXPOSURE_NIGHT
+  ) + .05) * basic_light_2.y;
 
   basic_light = clamp((basic_light_2.x * 0.2) + basic_light, 0.0, 1.0);
 }

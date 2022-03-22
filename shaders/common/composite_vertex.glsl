@@ -57,12 +57,11 @@ void main() {
     vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
   #endif
 
-  exposure_coef =
-    mix(
-      ambient_exposure[current_hour_floor],
-      ambient_exposure[current_hour_ceil],
-      current_hour_fract
-    );
+  exposure_coef = day_blend_float(
+    EXPOSURE_MIDDLE,
+    EXPOSURE_DAY,
+    EXPOSURE_NIGHT
+  );
 
   #ifdef BLOOM
     // Exposure
