@@ -67,9 +67,9 @@ const bool gaux4Clear = false;
 uniform sampler2D colortex0;
 
 #ifdef DEBUG_MODE
-  uniform sampler2D shadowtex1;
-  uniform sampler2D shadowcolor0;
-  uniform sampler2D colortex3;
+  // uniform sampler2D shadowtex1;
+  // uniform sampler2D shadowcolor0;
+  // uniform sampler2D colortex3;
 #endif
 
 // Varyings (per thread shared variables)
