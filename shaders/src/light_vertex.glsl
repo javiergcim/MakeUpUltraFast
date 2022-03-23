@@ -37,8 +37,6 @@ if (length(normal) != 0.0) {  // Workaround for undefined normals
   sun_light_strenght = 1.0;
 }
 
-float sun_light_strenght = dot(normal, sun_vec);
-
 #if defined THE_END || defined NETHER
   direct_light_strenght = sun_light_strenght;
 #else
