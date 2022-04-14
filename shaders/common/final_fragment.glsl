@@ -7,48 +7,23 @@ out vec4 outColor0;
 // Do not remove comments. It works!
 /*
 
+noisetex - Water normals
 colortex0 - Main color canvas
 colortex1 - Antialiasing auxiliar
 colortex2 - Bloom auxiliar
 colortex3 - TAA Averages history
 gaux1 - Screen-Space-Reflection texture
-gaux2 - Blue noise texture
-gaux3 - Not used
+gaux2 - Clouds texture
+gaux3 - Blue noise
 gaux4 - Fog auxiliar
 
-const int noisetexFormat = RGB8;
+const int noisetexFormat = RG8;
 const int colortex0Format = R11F_G11F_B10F;
-*/
-#ifdef DOF
-/*
 const int colortex1Format = RGBA16F;
-*/
-#else
-/*
-const int colortex1Format = R11F_G11F_B10F;
-*/
-#endif
-#ifdef BLOOM
-/*
 const int colortex2Format = R11F_G11F_B10F;
-*/
-#else
-/*
-const int colortex2Format = R8;
-*/
-#endif
-#ifdef DOF
-/*
 const int colortex3Format = RGBA16F;
-*/
-#else
-/*
-const int colortex3Format = RGB16F;
-*/
-#endif
-/*
 const int gaux1Format = R11F_G11F_B10F;
-const int gaux2Format = R8;
+const int gaux2Format = RG8;
 const int gaux3Format = R8;
 const int gaux4Format = R11F_G11F_B10F;
 */
@@ -92,10 +67,10 @@ void main() {
   #endif
 
   block_color *= vec3(exposure);
-  // block_color = lottes_tonemap(block_color, exposure + 0.6);
   block_color = custom_ACES(block_color);
 
-  // TEST
+  // Color-grading ---
+
   // Saturation
   // float actual_luma = luma(block_color);
   // block_color = mix(vec3(actual_luma), block_color, 1.5);

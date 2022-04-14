@@ -102,18 +102,26 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
     intersection_pos += (increment * dither);
 
     for (int i = 0; i < samples; i++) {
-      current_value =
-        texture(
-          noisetex,
-          (intersection_pos.xz * .0002) + (frameTimeCounter * CLOUD_HI_FACTOR)
-        ).b;
+      #if CLOUD_VOL_STYLE == 0
+        current_value =
+          texture(
+            gaux2,
+            (intersection_pos.xz * .0002) + (frameTimeCounter * CLOUD_HI_FACTOR)
+          ).r;
+      #else
+        current_value =
+          texture(
+            gaux2,
+            (intersection_pos.xz * .0002) + (frameTimeCounter * CLOUD_HI_FACTOR)
+          ).g;
+      #endif
 
       #if V_CLOUDS == 2 && CLOUD_VOL_STYLE == 0
         current_value +=
           texture(
-            noisetex,
+            gaux2,
             (intersection_pos.zx * .0002) + (frameTimeCounter * CLOUD_LOW_FACTOR)
-          ).b;
+          ).g;
         current_value *= 0.5;
         current_value = smoothstep(0.05, 0.95, current_value);
 

@@ -18,6 +18,7 @@ uniform float pixel_size_y;
 uniform float near;
 uniform float far;
 uniform sampler2D gaux1;
+uniform sampler2D gaux2;
 uniform mat4 gbufferProjectionInverse;
 uniform mat4 gbufferProjection;
 uniform sampler2D noisetex;

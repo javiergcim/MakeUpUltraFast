@@ -164,10 +164,10 @@ option.BLACK_ENTITY_FIX=Black entity BUGFIX
 value.BLACK_ENTITY_FIX.0=Off
 value.BLACK_ENTITY_FIX.1=On
 
-option.FOG_ADJUST=Fog
-value.FOG_ADJUST.2.0=for short draw distances
-value.FOG_ADJUST.1.0=for regular draw distances
-value.FOG_ADJUST.0.5=for far draw distances
+option.FOG_ADJUST=Fog intensity
+value.FOG_ADJUST.4.0=Low
+value.FOG_ADJUST.2.0=Medium
+value.FOG_ADJUST.1.0=High
 
 option.BLOCKLIGHT_TEMP=Blocklight temp
 value.BLOCKLIGHT_TEMP.0=Warmer
