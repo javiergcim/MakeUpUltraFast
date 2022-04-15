@@ -56,16 +56,24 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright, float dithe
     intersection_pos += (increment * dither);
 
     for (int i = 0; i < samples; i++) {
-      current_value =
-        texture2D(
-          noisetex,
-          (intersection_pos.xz * .0002) + (frameTimeCounter * CLOUD_HI_FACTOR * 3.0)
-        ).b;
+      #if CLOUD_VOL_STYLE == 0
+        current_value =
+          texture(
+            gaux2,
+            (intersection_pos.xz * .0002) + (frameTimeCounter * CLOUD_HI_FACTOR * 3.0)
+          ).r;
+      #else
+        current_value =
+          texture(
+            gaux2,
+            (intersection_pos.xz * .0002) + (frameTimeCounter * CLOUD_HI_FACTOR * 3.0)
+          ).g;
+      #endif
 
       #if V_CLOUDS == 2 && CLOUD_VOL_STYLE == 0
         current_value +=
           texture2D(
-            noisetex,
+            gaux2,
             (intersection_pos.zx * .0002) + (frameTimeCounter * CLOUD_LOW_FACTOR * 3.0)
           ).b;
         current_value *= 0.5;

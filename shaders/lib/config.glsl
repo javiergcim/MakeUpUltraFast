@@ -55,7 +55,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define MOTION_BLUR_SAMPLES 4 // [3 4 5 6 7 8] Motion blur samples 
 #define SUN_REFLECTION 1 // [0 1] Enable sun (or moon) reflection on water and glass
 #define SHADOW_CASTING // Turn shadow casting on or off.
-#define SHADOW_RES 3 // [0 1 2 3 4 5 6 7 8 9 10 11] Set shadow quality. Read as: 'Visual quality (distance)'. Volumetric lighting works best with "normal" or "far" distance shadows.
+#define SHADOW_RES 4 // [0 1 2 3 4 5 6 7 8 9 10 11] Set shadow quality. Read as: 'Visual quality (distance)'. Volumetric lighting works best with "normal" or "far" distance shadows.
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
 #define SHADOW_BLUR 2.5 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0 2.1 2.2 2.3 2.4 2.5]  Shadow blur intensity
 // #define COLORED_SHADOW // Attempts to tint the shadow of translucent objects, as well as the associated volumetric light (if active).
@@ -76,10 +76,9 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // #define VANILLA_WATER // Establishes the appearance of water as vanilla.
 #define WATER_COLOR_SOURCE 0 // [0 1] Select the water color source. It does not work properly in 1.12. In that case the default value is recommended.
 #define WATER_TURBULENCE 1.7 // [3.7 1.7 1.3] Set the water waves strenght.
-#define FOG_ADJUST 1.0 // [2.0 1.0 0.5]  Recommended settings. 'Short' for 8 or less draw distance. 'Regular' between 9 and 19 draw distance. 'Far' for 20+ draw distance.
+#define FOG_ADJUST 2.0 // [4.0 2.0 1.0]  Recommended settings. 'Short' for 8 or less draw distance. 'Regular' between 9 and 19 draw distance. 'Far' for 20+ draw distance.
 // #define DEBUG_MODE // Set debug mode.
 #define BLOCKLIGHT_TEMP 1 // [0 1 2 3 4] Set blacklight temperature
-
 
 // Reflection parameters
 #define RAYMARCH_STEPS 9
