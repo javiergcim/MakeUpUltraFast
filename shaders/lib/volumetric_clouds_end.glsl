@@ -75,7 +75,7 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright, float dithe
           texture(
             gaux2,
             (intersection_pos.zx * .0002) + (frameTimeCounter * CLOUD_LOW_FACTOR * 3.0)
-          ).g;
+          ).r;
         current_value *= 0.5;
         current_value = smoothstep(0.05, 0.95, current_value);
       #endif
