@@ -58,13 +58,13 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright, float dithe
     for (int i = 0; i < samples; i++) {
       #if CLOUD_VOL_STYLE == 0
         current_value =
-          texture(
+          texture2D(
             gaux2,
             (intersection_pos.xz * .0002) + (frameTimeCounter * CLOUD_HI_FACTOR * 3.0)
           ).r;
       #else
         current_value =
-          texture(
+          texture2D(
             gaux2,
             (intersection_pos.xz * .0002) + (frameTimeCounter * CLOUD_HI_FACTOR * 3.0)
           ).g;
