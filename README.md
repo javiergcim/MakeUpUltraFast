@@ -18,7 +18,7 @@ High performance Minecraft shader (Java).
 * FAST!
 
 ## Tested on:
-* Minecraft 1.17.+ - 1.18.x
+* Minecraft 1.12.+ - 1.16.x
 * Nvidia and Intel
 * Windows and Linux
 
