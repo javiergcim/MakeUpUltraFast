@@ -9,6 +9,7 @@ vec2 illumination = (max(lmcoord, vec2(0.065)) - vec2(0.065)) * 1.06951871657754
 #else
   float visible_sky = illumination.y;
 #endif
+visible_sky = clamp(visible_sky, 0.0, 1.0);
 
 // Ajuste de intensidad luminosa bajo el agua
 if (isEyeInWater == 1) {
@@ -18,6 +19,8 @@ if (isEyeInWater == 1) {
 // Intensidad y color de luz de candelas
 candle_color =
   CANDLE_BASELIGHT * ((illumination.x * illumination.x) + pow(illumination.x * 1.13, 9.0));
+
+candle_color = clamp(candle_color, vec3(0.0), vec3(4.0));
 
 // Atenuación por dirección de luz directa ===================================
 #if defined THE_END || defined NETHER
@@ -33,7 +36,7 @@ if (length(normal) != 0.0) {  // Workaround for undefined normals
   normal = normalize(normal);
   sun_light_strenght = dot(normal, sun_vec);
 } else {
-  normal = vec3(1.0, 0.0, 0.0);
+  normal = vec3(0.0, 1.0, 0.0);
   sun_light_strenght = 1.0;
 }
 
