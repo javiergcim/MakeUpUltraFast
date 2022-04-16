@@ -1,17 +1,6 @@
 #include "/lib/config.glsl"
 
-#ifdef THE_END
-  #include "/lib/color_utils_end.glsl"
-#elif defined NETHER
-  #include "/lib/color_utils_nether.glsl"
-#else
-  #include "/lib/color_utils.glsl"
-#endif
-
 /* Config, uniforms, ins, outs */
-uniform int current_hour_floor;
-uniform int current_hour_ceil;
-uniform float current_hour_fract;
 uniform float rainStrength;
 uniform vec3 chunkOffset;
 uniform mat4 modelViewMatrix;
