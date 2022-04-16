@@ -4,14 +4,6 @@ out vec4 outColor0;
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
 
-#ifdef THE_END
-  #include "/lib/color_utils_end.glsl"
-#elif defined NETHER
-  #include "/lib/color_utils_nether.glsl"
-#else
-  #include "/lib/color_utils.glsl"
-#endif
-
 uniform sampler2D colortex1;
 uniform sampler2D colortex2;
 uniform int frame_mod;
