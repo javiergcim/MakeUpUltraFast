@@ -3,10 +3,38 @@ Dither and hash functions
 
 */
 
-float hash12(vec2 p) {
-  vec3 p3 = fract(vec3(p.xyx) * .1031);
-  p3 += dot(p3, p3.yzx + 33.33);
-  return fract((p3.x + p3.y) * p3.z);
+#define UI0 1597334673U
+#define UI1 3812015801U
+#define UI2 uvec2(UI0, UI1)
+#define UI3 uvec3(UI0, UI1, 2798796415U)
+#define UIF (1.0 / float(0xffffffffU))
+
+float hash11(float p) {
+  p = fract(p * .1031);
+  p *= p + 33.33;
+  p *= p + p;
+  return fract(p);
+}
+
+vec2 hash22(vec2 p)
+{
+	vec3 p3 = fract(vec3(p.xyx) * vec3(.1031, .1030, .0973));
+    p3 += dot(p3, p3.yzx+33.33);
+    return fract((p3.xx+p3.yz)*p3.zy);
+
+}
+
+// float hash12(vec2 p) {
+//   vec3 p3 = fract(vec3(p.xyx) * .1031);
+//   p3 += dot(p3, p3.yzx + 33.33);
+//   return fract((p3.x + p3.y) * p3.z);
+// }
+
+float hash12(vec2 p)
+{
+	uvec2 q = uvec2(ivec2(p)) * UI2;
+	uint n = (q.x ^ q.y) * UI0;
+	return float(n) * UIF;
 }
 
 float timed_hash12(vec2 p) {
@@ -159,4 +187,31 @@ float shifted_phi_noise(vec2 uv_f)
   uint l = ((uv.x * r0) ^ (uv.y * r1)) * r1;
 
   return fract(0.7 * frame_mod + (float(l + h) * 2.3283064365386963e-10));
+}
+
+float smooth_noise(vec2 p)
+{
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+	
+	  vec2 u = f * f * (3.0 - 2.0 * f);
+
+    return mix(mix(hash12(i + vec2(0.0,0.0)), 
+                   hash12(i + vec2(1.0,0.0)), u.x),
+               mix(hash12(i + vec2(0.0,1.0)), 
+                   hash12(i + vec2(1.0,1.0)), u.x), u.y);
+}
+
+float pseudo_perlin(vec2 uv) {
+    mat2 m = mat2( 1.6,  1.2, -1.2,  1.6 );
+
+    float f  = 0.5000 * smooth_noise( uv ); uv = m*uv;
+		f += 0.2500 * smooth_noise( uv ); uv = m * uv;
+		f += 0.1250 * smooth_noise( uv ); uv = m * uv;
+		f += 0.0625 * smooth_noise( uv ); uv = m * uv;
+    f += 0.03125 * smooth_noise( uv ); uv = m * uv;
+    f += 0.015625 * smooth_noise( uv ); uv = m * uv;
+    f += 0.0078125 * smooth_noise( uv ); uv = m * uv;
+
+    return f;
 }
