@@ -26,7 +26,7 @@ float shifted_r_dither(vec2 frag) {
 float eclectic_r_dither(vec2 frag) {
   vec3 p3 = fract(vec3(frag.xyx) * .1031);
   p3 += dot(p3, p3.yzx + 33.33);
-  float p4 = fract((p3.x + p3.y) * p3.z) * 0.14;
+  float p4 = fract((p3.x + p3.y) * p3.z) * 0.125;
 
   return fract(p4 + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
 }
@@ -34,7 +34,7 @@ float eclectic_r_dither(vec2 frag) {
 float shifted_eclectic_r_dither(vec2 frag) {
   vec3 p3 = fract(vec3(frag.xyx) * .1031);
   p3 += dot(p3, p3.yzx + 33.33);
-  float p4 = fract((p3.x + p3.y) * p3.z) * 0.1;
+  float p4 = fract((p3.x + p3.y) * p3.z) * 0.125;
 
   return fract((0.7 * frame_mod) + p4 + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
 }
@@ -50,7 +50,7 @@ float shifted_dither17(vec2 pos) {
 float eclectic_dither17(vec2 frag) {
   vec3 p3 = fract(vec3(frag.xyx) * .1031);
   p3 += dot(p3, p3.yzx + 33.33);
-  float p4 = fract((p3.x + p3.y) * p3.z) * 0.14;
+  float p4 = fract((p3.x + p3.y) * p3.z) * 0.125;
 
   return fract(p4 + dot(vec3(frag.xy, 0.0), vec3(2.0, 7.0, 23.0) / 17.0));
 }
@@ -108,7 +108,7 @@ float shifted_grid_noise(vec2 p) {
 float shifted_eclectic_grid_noise(vec2 p) {
   vec3 p3 = fract(vec3(p.xyx) * .1031);
   p3 += dot(p3, p3.yzx + 33.33);
-  float p4 = fract((p3.x + p3.y) * p3.z) * 0.05;
+  float p4 = fract((p3.x + p3.y) * p3.z) * 0.125;
   
   return fract(0.4 * frame_mod + p4 +
     dot(

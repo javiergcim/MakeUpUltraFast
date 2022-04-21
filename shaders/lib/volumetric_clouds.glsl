@@ -68,7 +68,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
 
     cloud_color = mix(cloud_color, LOW_SKY_RAIN_COLOR * luma(cloud_color_aux) * 4.5, rainStrength);
 
-    dark_cloud_color = mix(vec3(luma(dark_cloud_color)), dark_cloud_color, 0.75);
+    // dark_cloud_color = mix(vec3(luma(dark_cloud_color)), dark_cloud_color, 0.9);
     dark_cloud_color = mix(dark_cloud_color, cloud_color_aux, 0.25);
 
     dark_cloud_color = mix(
@@ -90,7 +90,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
     dif_sup = CLOUD_PLANE_SUP - CLOUD_PLANE_CENTER;
     dif_inf = CLOUD_PLANE_CENTER - CLOUD_PLANE;
     dist_aux_coeff = (CLOUD_PLANE_SUP - CLOUD_PLANE) * 0.075;
-    dist_aux_coeff_blur = dist_aux_coeff * 0.2;
+    dist_aux_coeff_blur = dist_aux_coeff * 0.4;
 
     opacity_dist = dist_aux_coeff * 2.5 * view_y_inv;
 
@@ -106,13 +106,13 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
         current_value =
           texture(
             gaux2,
-            (intersection_pos.xz * .0002) + (frameTimeCounter * CLOUD_HI_FACTOR)
+            (intersection_pos.xz * .0004) + (frameTimeCounter * CLOUD_HI_FACTOR)
           ).r;
       #else
         current_value =
           texture(
             gaux2,
-            (intersection_pos.xz * .0002) + (frameTimeCounter * CLOUD_HI_FACTOR)
+            (intersection_pos.xz * .0004) + (frameTimeCounter * CLOUD_HI_FACTOR)
           ).g;
       #endif
 
@@ -120,7 +120,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
         current_value +=
           texture(
             gaux2,
-            (intersection_pos.zx * .0002) + (frameTimeCounter * CLOUD_LOW_FACTOR)
+            (intersection_pos.zx * .0004) + (frameTimeCounter * CLOUD_LOW_FACTOR)
           ).r;
         current_value *= 0.5;
         current_value = smoothstep(0.05, 0.95, current_value);
@@ -129,6 +129,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
 
       // Ajuste por umbral
       current_value = (current_value - umbral) / (1.0 - umbral);
+      // current_value = (current_value - umbral) / (1.0 - (umbral * 0.5));
 
       // Superficies inferior y superior de nubes
       surface_inf = CLOUD_PLANE_CENTER - (current_value * dif_inf);
@@ -177,7 +178,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
     #if CLOUD_VOL_STYLE == 1
       cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density) * 0.9);
     #else
-      cloud_color = mix(cloud_color, dark_cloud_color, pow(density, 0.25));
+      cloud_color = mix(cloud_color, dark_cloud_color, pow(density, 0.4));
     #endif
 
     // Halo brillante de contra al sol

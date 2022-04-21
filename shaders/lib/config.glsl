@@ -89,12 +89,16 @@ Javier Garduño - GNU Lesser General Public License v3.0
   #define CLOUD_PLANE_CENTER 470.0
   #define CLOUD_PLANE 420.0
 #else
-  #define CLOUD_PLANE_SUP 920.0
-  #define CLOUD_PLANE_CENTER 570.0
-  #define CLOUD_PLANE 420.0
+  // #define CLOUD_PLANE_SUP 492.0
+  // #define CLOUD_PLANE_CENTER 317.0
+  // #define CLOUD_PLANE 242.0
+
+  #define CLOUD_PLANE_SUP 438.0
+  #define CLOUD_PLANE_CENTER 290.0
+  #define CLOUD_PLANE 242.0
 #endif
 
-#define CLOUD_STEPS_AVG 7 // [7 10 13] Samples per pixel (high performance impact).
+#define CLOUD_STEPS_AVG 7 // [7 8 9 10 11 12 13 14 15 16] Samples per pixel (high performance impact).
 #define CLOUD_SPEED 0 // [0 1 2] Change the speed of clouds for display purposes.
 
 #if CLOUD_VOL_STYLE == 1
@@ -109,15 +113,26 @@ Javier Garduño - GNU Lesser General Public License v3.0
     #define CLOUD_LOW_FACTOR 0.01388888888888889
   #endif
 #else
+  // #if CLOUD_SPEED == 0
+  //   #define CLOUD_HI_FACTOR 0.002777777777777778
+  //   #define CLOUD_LOW_FACTOR 0.0002777777777777778
+  // #elif CLOUD_SPEED == 1
+  //   #define CLOUD_HI_FACTOR 0.02777777777777778
+  //   #define CLOUD_LOW_FACTOR 0.002777777777777778
+  // #elif CLOUD_SPEED == 2
+  //   #define CLOUD_HI_FACTOR 0.2777777777777778
+  //   #define CLOUD_LOW_FACTOR 0.02777777777777778
+  // #endif
+
   #if CLOUD_SPEED == 0
-    #define CLOUD_HI_FACTOR 0.002777777777777778
-    #define CLOUD_LOW_FACTOR 0.0002777777777777778
+    #define CLOUD_HI_FACTOR 0.0009102222222222223
+    #define CLOUD_LOW_FACTOR 0.00009102222222222223
   #elif CLOUD_SPEED == 1
-    #define CLOUD_HI_FACTOR 0.02777777777777778
-    #define CLOUD_LOW_FACTOR 0.002777777777777778
+    #define CLOUD_HI_FACTOR 0.009102222222222223
+    #define CLOUD_LOW_FACTOR 0.0009102222222222223
   #elif CLOUD_SPEED == 2
-    #define CLOUD_HI_FACTOR 0.2777777777777778
-    #define CLOUD_LOW_FACTOR 0.02777777777777778
+    #define CLOUD_HI_FACTOR 0.09102222222222223
+    #define CLOUD_LOW_FACTOR 0.009102222222222223
   #endif
 #endif
 
