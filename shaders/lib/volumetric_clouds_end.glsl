@@ -44,7 +44,7 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright, float dithe
     dif_sup = CLOUD_PLANE_SUP - CLOUD_PLANE_CENTER;
     dif_inf = CLOUD_PLANE_CENTER - CLOUD_PLANE;
     dist_aux_coeff = (CLOUD_PLANE_SUP - CLOUD_PLANE) * 0.075;
-    dist_aux_coeff_blur = dist_aux_coeff * 0.2;
+    dist_aux_coeff_blur = dist_aux_coeff * 0.4;
 
     opacity_dist = dist_aux_coeff * 2.5 * view_y_inv;
 

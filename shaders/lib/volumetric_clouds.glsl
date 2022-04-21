@@ -50,7 +50,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
       day_blend(
         AMBIENT_MIDDLE_COLOR,
         AMBIENT_DAY_COLOR,
-        AMBIENT_NIGHT_COLOR
+        AMBIENT_NIGHT_COLOR * 0.75
       ),
       HI_SKY_RAIN_COLOR * luma(dark_cloud_color),
       rainStrength
@@ -68,7 +68,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
 
     cloud_color = mix(cloud_color, LOW_SKY_RAIN_COLOR * luma(cloud_color_aux) * 4.5, rainStrength);
 
-    // dark_cloud_color = mix(vec3(luma(dark_cloud_color)), dark_cloud_color, 0.9);
     dark_cloud_color = mix(dark_cloud_color, cloud_color_aux, 0.25);
 
     dark_cloud_color = mix(
