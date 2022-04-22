@@ -31,7 +31,8 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
       clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
   #endif
 
-  if (view_vector.y > .055) {  // Vista sobre el horizonte
+  if ((view_vector.y > .055 && base_pos.y < CLOUD_PLANE) ||
+      (base_pos.y >= CLOUD_PLANE && base_pos.y < CLOUD_PLANE_SUP)) {  // Vista sobre el horizonte
     umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .25;
 
     vec3 dark_cloud_color = day_blend(
@@ -50,7 +51,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
       day_blend(
         AMBIENT_MIDDLE_COLOR,
         AMBIENT_DAY_COLOR,
-        AMBIENT_NIGHT_COLOR * 0.75
+        AMBIENT_NIGHT_COLOR * vec3(0.5, 0.6, 0.75)
       ),
       HI_SKY_RAIN_COLOR * luma(dark_cloud_color),
       rainStrength
@@ -184,11 +185,18 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
     // Halo brillante de contra al sol
     cloud_color = mix(cloud_color, cloud_color * 2.0, (1.0 - cloud_value) * bright);
 
+    // block_color =
+    //   mix(
+    //     block_color,
+    //     cloud_color,
+    //     cloud_value * clamp((view_vector.y - 0.06) * 5.0, 0.0, 1.0)
+    //   );
+
     block_color =
       mix(
         block_color,
         cloud_color,
-        cloud_value * clamp((view_vector.y - 0.06) * 5.0, 0.0, 1.0)
+        cloud_value
       );
   }
 
