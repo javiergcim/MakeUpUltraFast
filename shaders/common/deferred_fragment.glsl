@@ -95,7 +95,7 @@ void main() {
   #endif
 
   #if V_CLOUDS != 0 && !defined NO_CLOUDY_SKY
-    if (linear_d > 0.9999) {  // Only sky
+    //if (linear_d > 0.9999) {  // Only sky
       vec4 world_pos =
         gbufferModelViewInverse * gbufferProjectionInverse * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
       view_vector = normalize(world_pos.xyz);
@@ -120,9 +120,9 @@ void main() {
           get_end_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
       #else
         block_color.rgb =
-          get_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
+          get_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG, linear_d * far * .5);
       #endif
-    }
+    // }
 
   #else
     #if defined THE_END

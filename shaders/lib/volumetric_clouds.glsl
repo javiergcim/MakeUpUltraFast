@@ -2,7 +2,7 @@
 Fast volumetric clouds - MakeUp implementation
 */
 
-vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, vec3 base_pos, int samples) {
+vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, vec3 base_pos, int samples, float zbuff) {
   float plane_distance;
   float cloud_value;
   float umbral;
@@ -119,11 +119,21 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
     intersection_pos += (increment * dither);
 
     for (int i = 0; i < samples; i++) {
+      if (length(intersection_pos - base_pos) * 0.5 > zbuff && zbuff < ((far * 0.5) - 1.0)) {
+        break;
+      }
+
       #if CLOUD_VOL_STYLE == 0
+        // current_value =
+        //   texture(
+        //     gaux2,
+        //     (intersection_pos.xz * .0004) + (frameTimeCounter * CLOUD_HI_FACTOR)
+        //   ).r;
+
         current_value =
           texture(
             gaux2,
-            (intersection_pos.xz * .0004) + (frameTimeCounter * CLOUD_HI_FACTOR)
+            (intersection_pos.xz * .004)
           ).r;
 
       #else
@@ -200,13 +210,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
 
     // Halo brillante de contra al sol
     cloud_color = mix(cloud_color, cloud_color * 2.0, (1.0 - cloud_value) * bright);
-
-    // block_color =
-    //   mix(
-    //     block_color,
-    //     cloud_color,
-    //     cloud_value * clamp((view_vector.y - 0.06) * 5.0, 0.0, 1.0)
-    //   );
 
     block_color =
       mix(
