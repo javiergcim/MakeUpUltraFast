@@ -31,8 +31,8 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
       clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
   #endif
 
-  if ((view_vector.y > .055 && base_pos.y < CLOUD_PLANE) ||
-      (base_pos.y >= CLOUD_PLANE && base_pos.y < CLOUD_PLANE_SUP)) {  // Vista sobre el horizonte
+  if ((view_vector.y > 0.0 && base_pos.y < CLOUD_PLANE) ||
+      (base_pos.y >= CLOUD_PLANE && base_pos.y < CLOUD_PLANE_SUP && view_vector.y != 0.0)) {  // Vista sobre el horizonte
     umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .25;
 
     vec3 dark_cloud_color = day_blend(
@@ -81,11 +81,28 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
       0.5
     );
 
-    plane_distance = (CLOUD_PLANE - base_pos.y) * view_y_inv;
-    intersection_pos = (view_vector * plane_distance) + base_pos;
 
-    plane_distance = (CLOUD_PLANE_SUP - base_pos.y) * view_y_inv;
-    intersection_pos_sup = (view_vector * plane_distance) + base_pos;
+    if (view_vector.y > 0.0 && base_pos.y < CLOUD_PLANE) {
+      plane_distance = (CLOUD_PLANE - base_pos.y) * view_y_inv;
+      intersection_pos = (view_vector * plane_distance) + base_pos;
+
+      plane_distance = (CLOUD_PLANE_SUP - base_pos.y) * view_y_inv;
+      intersection_pos_sup = (view_vector * plane_distance) + base_pos;
+    }
+
+    else if (base_pos.y >= CLOUD_PLANE && base_pos.y < CLOUD_PLANE_SUP && view_vector.y > 0.0) {
+      intersection_pos = base_pos;
+
+      plane_distance = (CLOUD_PLANE_SUP - base_pos.y) * view_y_inv;
+      intersection_pos_sup = (view_vector * plane_distance) + base_pos;
+    }
+    else if (base_pos.y >= CLOUD_PLANE && base_pos.y < CLOUD_PLANE_SUP && view_vector.y <= 0.0) {
+      intersection_pos = base_pos;
+
+      plane_distance = (CLOUD_PLANE - base_pos.y) * view_y_inv;
+      intersection_pos_sup = (view_vector * plane_distance) + base_pos;
+      view_y_inv = -view_y_inv;  // Upside down render fix
+    }
 
     dif_sup = CLOUD_PLANE_SUP - CLOUD_PLANE_CENTER;
     dif_inf = CLOUD_PLANE_CENTER - CLOUD_PLANE;
@@ -130,7 +147,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
 
       // Ajuste por umbral
       current_value = (current_value - umbral) / (1.0 - umbral);
-      // current_value = (current_value - umbral) / (1.0 - (umbral * 0.5));
 
       // Superficies inferior y superior de nubes
       surface_inf = CLOUD_PLANE_CENTER - (current_value * dif_inf);
