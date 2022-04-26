@@ -94,6 +94,29 @@ void main() {
     #endif
   #endif
 
+  #if AO == 1
+    #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+      float fog_density_coeff = FOG_DENSITY * FOG_ADJUST;
+    #else
+      float fog_density_coeff = day_blend_float(
+        FOG_MIDDLE,
+        FOG_DAY,
+        FOG_NIGHT
+      ) * FOG_ADJUST;
+    #endif
+
+    // AO distance attenuation
+    float ao_att = pow(
+      clamp(linear_d * 1.4, 0.0, 1.0),
+      mix(fog_density_coeff, 1.0, rainStrength)
+    );
+
+    float final_ao = mix(dbao(dither), 1.0, ao_att);
+    block_color.rgb *= final_ao;
+    // block_color = vec4(vec3(final_ao), 1.0);
+    // block_color = vec4(vec3(linear_d), 1.0);
+  #endif
+
   #if V_CLOUDS != 0 && !defined NO_CLOUDY_SKY
     //if (linear_d > 0.9999) {  // Only sky
       vec4 world_pos =
@@ -120,9 +143,8 @@ void main() {
           get_end_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
       #else
         block_color.rgb =
-          get_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG, linear_d * far * .5);
+          get_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG, linear_d * far, eye_bright_smooth.y);
       #endif
-    // }
 
   #else
     #if defined THE_END
@@ -147,29 +169,6 @@ void main() {
         view_vector = normalize(world_pos.xyz);
       }
     #endif    
-  #endif
-
-  #if AO == 1
-    #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
-      float fog_density_coeff = FOG_DENSITY * FOG_ADJUST;
-    #else
-      float fog_density_coeff = day_blend_float(
-        FOG_MIDDLE,
-        FOG_DAY,
-        FOG_NIGHT
-      ) * FOG_ADJUST;
-    #endif
-
-    // AO distance attenuation
-    float ao_att = pow(
-      clamp(linear_d * 1.4, 0.0, 1.0),
-      mix(fog_density_coeff, 1.0, rainStrength)
-    );
-
-    float final_ao = mix(dbao(dither), 1.0, ao_att);
-    block_color.rgb *= final_ao;
-    // block_color = vec4(vec3(final_ao), 1.0);
-    // block_color = vec4(vec3(linear_d), 1.0);
   #endif
 
   #if defined THE_END || defined NETHER

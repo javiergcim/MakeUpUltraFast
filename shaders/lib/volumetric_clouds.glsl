@@ -2,7 +2,7 @@
 Fast volumetric clouds - MakeUp implementation
 */
 
-vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, vec3 base_pos, int samples, float zbuff) {
+vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, vec3 base_pos, int samples, float zbuff, float eye_bright) {
   float plane_distance;
   float cloud_value;
   float umbral;
@@ -18,6 +18,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
   bool first_contact = true;
   float opacity_dist;
   vec3 increment;
+  vec3 increment_aux;
   float increment_dist;
   int real_steps;
   float view_y_inv = 1.0 / view_vector.y;
@@ -31,8 +32,8 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
       clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
   #endif
 
-  if ((view_vector.y > 0.0 && base_pos.y < CLOUD_PLANE) ||
-      (base_pos.y >= CLOUD_PLANE && base_pos.y < CLOUD_PLANE_SUP && view_vector.y != 0.0)) {  // Vista sobre el horizonte
+  // if ((view_vector.y > 0.0 && base_pos.y < CLOUD_PLANE) ||
+  //     (base_pos.y >= CLOUD_PLANE && base_pos.y < CLOUD_PLANE_SUP && view_vector.y != 0.0)) {  // Vista sobre el horizonte
     umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .25;
 
     vec3 dark_cloud_color = day_blend(
@@ -81,23 +82,26 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
       0.5
     );
 
-
     if (view_vector.y > 0.0 && base_pos.y < CLOUD_PLANE) {
       plane_distance = (CLOUD_PLANE - base_pos.y) * view_y_inv;
       intersection_pos = (view_vector * plane_distance) + base_pos;
 
       plane_distance = (CLOUD_PLANE_SUP - base_pos.y) * view_y_inv;
       intersection_pos_sup = (view_vector * plane_distance) + base_pos;
-    }
-
-    else if (base_pos.y >= CLOUD_PLANE && base_pos.y < CLOUD_PLANE_SUP && view_vector.y > 0.0) {
+    } else if (base_pos.y >= CLOUD_PLANE && base_pos.y < CLOUD_PLANE_SUP && view_vector.y > 0.0) {
       intersection_pos = base_pos;
 
       plane_distance = (CLOUD_PLANE_SUP - base_pos.y) * view_y_inv;
       intersection_pos_sup = (view_vector * plane_distance) + base_pos;
-    }
-    else if (base_pos.y >= CLOUD_PLANE && base_pos.y < CLOUD_PLANE_SUP && view_vector.y <= 0.0) {
+    } else if (base_pos.y >= CLOUD_PLANE && base_pos.y < CLOUD_PLANE_SUP && view_vector.y <= 0.0) {
       intersection_pos = base_pos;
+
+      plane_distance = (CLOUD_PLANE - base_pos.y) * view_y_inv;
+      intersection_pos_sup = (view_vector * plane_distance) + base_pos;
+      view_y_inv = -view_y_inv;  // Upside down render fix
+    } else if (base_pos.y >= CLOUD_PLANE_SUP && view_vector.y < 0.0) {
+      plane_distance = (CLOUD_PLANE_SUP - base_pos.y) * view_y_inv;
+      intersection_pos = (view_vector * plane_distance) + base_pos;
 
       plane_distance = (CLOUD_PLANE - base_pos.y) * view_y_inv;
       intersection_pos_sup = (view_vector * plane_distance) + base_pos;
@@ -119,28 +123,28 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
     intersection_pos += (increment * dither);
 
     for (int i = 0; i < samples; i++) {
-      if (length(intersection_pos - base_pos) * 0.5 > zbuff && zbuff < ((far * 0.5) - 1.0)) {
+      if (length(intersection_pos - base_pos) * 1.0 > zbuff && zbuff < (far - 1.0)) {
         break;
       }
 
       #if CLOUD_VOL_STYLE == 0
-        // current_value =
-        //   texture(
-        //     gaux2,
-        //     (intersection_pos.xz * .0004) + (frameTimeCounter * CLOUD_HI_FACTOR)
-        //   ).r;
-
         current_value =
           texture(
             gaux2,
-            (intersection_pos.xz * .004)
+            (intersection_pos.xz * .0008) + (frameTimeCounter * CLOUD_HI_FACTOR)
           ).r;
+
+        // current_value =
+        //   texture(
+        //     gaux2,
+        //     (intersection_pos.xz * .004)
+        //   ).r;
 
       #else
         current_value =
           texture(
             gaux2,
-            (intersection_pos.xz * .0004) + (frameTimeCounter * CLOUD_HI_FACTOR)
+            (intersection_pos.xz * .0008) + (frameTimeCounter * CLOUD_HI_FACTOR)
           ).g;
       #endif
 
@@ -148,8 +152,14 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
         current_value +=
           texture(
             gaux2,
-            (intersection_pos.zx * .0004) + (frameTimeCounter * CLOUD_LOW_FACTOR)
+            (intersection_pos.zx * .0008) + (frameTimeCounter * CLOUD_LOW_FACTOR)
           ).r;
+
+        // current_value +=
+        //   texture(
+        //     gaux2,
+        //     (intersection_pos.zx * .004) + (frameTimeCounter * CLOUD_LOW_FACTOR)
+        //   ).r;
         current_value *= 0.5;
         current_value = smoothstep(0.05, 0.95, current_value);
 
@@ -196,7 +206,11 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
         }
       }
 
-      intersection_pos += increment;
+      // if (base_pos.y >= CLOUD_PLANE && base_pos.y < CLOUD_PLANE_SUP) {
+      //   intersection_pos += exp2(i + dither) * 10.0;
+      // } else {
+        intersection_pos += increment;
+      // }
     }
 
     cloud_value = clamp(cloud_value / opacity_dist, 0.0, 1.0);
@@ -211,13 +225,21 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
     // Halo brillante de contra al sol
     cloud_color = mix(cloud_color, cloud_color * 2.0, (1.0 - cloud_value) * bright);
 
+    if (zbuff < (far - 1.0)) {
     block_color =
       mix(
         block_color,
         cloud_color,
+        cloud_value * (eye_bright * 0.004166666666666667)
+      );
+    } else {
+      block_color = mix(
+        block_color,
+        cloud_color,
         cloud_value
       );
-  }
+    }
+  // }
 
   return block_color;
 }

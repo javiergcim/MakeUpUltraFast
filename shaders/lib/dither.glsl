@@ -36,11 +36,11 @@ float timed_hash12(vec2 p)
 }
 
 float r_dither(vec2 frag) {
-  return fract(dot(frag, vec2(0.75487766624669276, 0.569840290998)));
+  return fract(frag.x * 0.75487766624669276 + frag.y * 0.569840290998);
 }
 
 float shifted_r_dither(vec2 frag) {
-  return fract((0.7 * frame_mod) + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
+  return fract((0.7 * frame_mod) + (frag.x * 0.75487766624669276 + frag.y * 0.569840290998));
 }
 
 // float eclectic_r_dither(vec2 frag) {
@@ -197,7 +197,7 @@ float shifted_eclectic_grid_noise(vec2 p) {
       vec2(0.0625, .277777777777777777778) + 0.25
       )
     );
-}
+}  
 
 // float texture_noise_64(vec2 p, sampler2D noise) {
 //   return texture(noise, p * 0.015625).r;

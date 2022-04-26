@@ -177,7 +177,9 @@ void main() {
       0.0,
       dither,
       worldposition.xyz,
-      int(CLOUD_STEPS_AVG * 0.5)
+      int(CLOUD_STEPS_AVG * 0.5),
+      gl_FragCoord.z * far,
+      eye_bright_smooth.y
     );
   #endif
 
