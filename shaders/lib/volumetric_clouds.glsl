@@ -115,6 +115,11 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
   increment = (intersection_pos_sup - intersection_pos) / samples;
   increment_dist = length(increment);
 
+  if (increment_dist > 75.0) {
+    increment_dist = 75.0;
+    increment = normalize(increment) * 75.0;
+  }
+
   cloud_value = 0.0;
 
   intersection_pos += (increment * dither);
