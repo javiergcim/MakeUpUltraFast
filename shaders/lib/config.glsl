@@ -85,16 +85,16 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 // Cloud parameters
 #if CLOUD_VOL_STYLE == 1
-  #define CLOUD_PLANE_SUP 520.0
-  #define CLOUD_PLANE_CENTER 470.0
-  #define CLOUD_PLANE 420.0
+  #define CLOUD_PLANE_SUP 220.0
+  #define CLOUD_PLANE_CENTER 205.0
+  #define CLOUD_PLANE 190.0
 #else
-  #define CLOUD_PLANE_SUP 920.0
-  #define CLOUD_PLANE_CENTER 570.0
-  #define CLOUD_PLANE 420.0
+  #define CLOUD_PLANE_SUP 300.0
+  #define CLOUD_PLANE_CENTER 215.0
+  #define CLOUD_PLANE 190.0
 #endif
 
-#define CLOUD_STEPS_AVG 7 // [7 10 13] Samples per pixel (high performance impact).
+#define CLOUD_STEPS_AVG 7 // [7 8 9 10 11 12 13 14 15 16] Samples per pixel (high performance impact).
 #define CLOUD_SPEED 0 // [0 1 2] Change the speed of clouds for display purposes.
 
 #if CLOUD_VOL_STYLE == 1
@@ -110,14 +110,14 @@ Javier Garduño - GNU Lesser General Public License v3.0
   #endif
 #else
   #if CLOUD_SPEED == 0
-    #define CLOUD_HI_FACTOR 0.002777777777777778
-    #define CLOUD_LOW_FACTOR 0.0002777777777777778
+    #define CLOUD_HI_FACTOR 0.0018204444444444446
+    #define CLOUD_LOW_FACTOR 0.00018204444444444446
   #elif CLOUD_SPEED == 1
-    #define CLOUD_HI_FACTOR 0.02777777777777778
-    #define CLOUD_LOW_FACTOR 0.002777777777777778
+    #define CLOUD_HI_FACTOR 0.018204444444444446
+    #define CLOUD_LOW_FACTOR 0.0018204444444444446
   #elif CLOUD_SPEED == 2
-    #define CLOUD_HI_FACTOR 0.2777777777777778
-    #define CLOUD_LOW_FACTOR 0.02777777777777778
+    #define CLOUD_HI_FACTOR 0.18204444444444446
+    #define CLOUD_LOW_FACTOR 0.018204444444444446
   #endif
 #endif
 

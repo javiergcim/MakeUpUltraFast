@@ -97,7 +97,7 @@ float grid_noise(vec2 p) {
 }
 
 float shifted_grid_noise(vec2 p) {
-  return fract(0.4 * frame_mod +
+  return fract(0.3 * frame_mod +
     dot(
       p - vec2(0.5, 0.5),
       vec2(0.0625, .277777777777777777778) + 0.25
@@ -124,39 +124,5 @@ float shifted_eclectic_grid_noise(vec2 p) {
 
 // float shifted_texture_noise_64(vec2 p, sampler2D noise) {
 //   float dither = texture(noise, p * 0.015625).r;
-//   return fract(0.6 * frame_mod + dither);
-// }
-
-// float phi_noise(vec2 uv_f)
-// {
-//   uvec2 uv = uvec2(uv_f);
-  
-//   if (((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;
-
-//   const uint r0 = 3242174893u;
-//   const uint r1 = 2447445397u;
-
-//   uint h = (uv.x * r0) + (uv.y * r1);
-
-//   uv = uv >> 2u;
-//   uint l = ((uv.x * r0) ^ (uv.y * r1)) * r1;
-
-//   return float(l + h) * 2.3283064365386963e-10;
-// }
-
-// float shifted_phi_noise(vec2 uv_f)
-// {
-//   uvec2 uv = uvec2(uv_f);
-
-//   if (((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;
-
-//   const uint r0 = 3242174893u;
-//   const uint r1 = 2447445397u;
-
-//   uint h = (uv.x * r0) + (uv.y * r1);
-
-//   uv = uv >> 2u;
-//   uint l = ((uv.x * r0) ^ (uv.y * r1)) * r1;
-
-//   return fract(0.7 * frame_mod + (float(l + h) * 2.3283064365386963e-10));
+//   return fract(0.3 * frame_mod + dither);
 // }

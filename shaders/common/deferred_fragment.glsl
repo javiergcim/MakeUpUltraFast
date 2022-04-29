@@ -90,35 +90,56 @@ void main() {
     #endif
   #endif
 
+  #if AO == 1
+    #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+      float fog_density_coeff = FOG_DENSITY * FOG_ADJUST;
+    #else
+      float fog_density_coeff = day_blend_float(
+        FOG_MIDDLE,
+        FOG_DAY,
+        FOG_NIGHT
+      ) * FOG_ADJUST;
+    #endif
+
+    // AO distance attenuation
+    float ao_att = pow(
+      clamp(linear_d * 1.4, 0.0, 1.0),
+      mix(fog_density_coeff, 1.0, rainStrength)
+    );
+
+    float final_ao = mix(dbao(dither), 1.0, ao_att);
+    block_color.rgb *= final_ao;
+    // block_color = vec4(vec3(final_ao), 1.0);
+    // block_color = vec4(vec3(linear_d), 1.0);
+  #endif
+
   #if V_CLOUDS != 0 && !defined NO_CLOUDY_SKY
-    if (linear_d > 0.9999) {  // Only sky
-      vec4 world_pos =
-        gbufferModelViewInverse * gbufferProjectionInverse * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
-      view_vector = normalize(world_pos.xyz);
+    vec4 world_pos =
+      gbufferModelViewInverse * gbufferProjectionInverse * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
+    view_vector = normalize(world_pos.xyz);
 
-      #ifdef THE_END
-        float bright =
-          dot(view_vector, normalize(vec3(0.0, 0.89442719, 0.4472136)));
-        bright = clamp((bright * 2.0) - 1.0, 0.0, 1.0);
-        bright *= bright * bright * bright;
-      #else
-        float bright =
-          dot(
-            view_vector,
-            normalize((gbufferModelViewInverse * vec4(sunPosition, 0.0)).xyz)
-          );
-        bright = clamp(bright * bright * bright, 0.0, 1.0);
-      #endif
+    #ifdef THE_END
+      float bright =
+        dot(view_vector, normalize(vec3(0.0, 0.89442719, 0.4472136)));
+      bright = clamp((bright * 2.0) - 1.0, 0.0, 1.0);
+      bright *= bright * bright * bright;
+    #else
+      float bright =
+        dot(
+          view_vector,
+          normalize((gbufferModelViewInverse * vec4(sunPosition, 0.0)).xyz)
+        );
+      bright = clamp(bright * bright * bright, 0.0, 1.0);
+    #endif
 
-      #ifdef THE_END
-        block_color = vec4(HI_DAY_COLOR, 1.0);
-        block_color.rgb =
-          get_end_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
-      #else
-        block_color.rgb =
-          get_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
-      #endif
-    }
+    #ifdef THE_END
+      block_color = vec4(HI_DAY_COLOR, 1.0);
+      block_color.rgb =
+        get_end_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG, linear_d * far, eye_bright_smooth.y);
+    #else
+      block_color.rgb =
+        get_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG, linear_d * far, eye_bright_smooth.y);
+    #endif
 
   #else
     #if defined THE_END
@@ -143,29 +164,6 @@ void main() {
         view_vector = normalize(world_pos.xyz);
       }
     #endif    
-  #endif
-
-  #if AO == 1
-    #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
-      float fog_density_coeff = FOG_DENSITY * FOG_ADJUST;
-    #else
-      float fog_density_coeff = day_blend_float(
-        FOG_MIDDLE,
-        FOG_DAY,
-        FOG_NIGHT
-      ) * FOG_ADJUST;
-    #endif
-
-    // AO distance attenuation
-    float ao_att = pow(
-      clamp(linear_d * 1.4, 0.0, 1.0),
-      mix(fog_density_coeff, 1.0, rainStrength)
-    );
-
-    float final_ao = mix(dbao(dither), 1.0, ao_att);
-    block_color.rgb *= final_ao;
-    // block_color = vec4(vec3(final_ao), 1.0);
-    // block_color = vec4(vec3(linear_d), 1.0);
   #endif
 
   #if defined THE_END || defined NETHER
