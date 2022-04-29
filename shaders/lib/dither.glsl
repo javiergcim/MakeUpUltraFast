@@ -165,7 +165,7 @@ float grid_noise(vec2 p) {
 }
 
 float shifted_grid_noise(vec2 p) {
-  return fract(0.4 * frame_mod +
+  return fract(0.3 * frame_mod +
     dot(
       p - vec2(0.5, 0.5),
       vec2(0.0625, .277777777777777777778) + 0.25
@@ -208,63 +208,63 @@ float shifted_eclectic_grid_noise(vec2 p) {
 //   return fract(0.6 * frame_mod + dither);
 // }
 
-float phi_noise(vec2 uv_f)
-{
-  uvec2 uv = uvec2(uv_f);
+// float phi_noise(vec2 uv_f)
+// {
+//   uvec2 uv = uvec2(uv_f);
   
-  if (((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;
+//   if (((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;
 
-  const uint r0 = 3242174893u;
-  const uint r1 = 2447445397u;
+//   const uint r0 = 3242174893u;
+//   const uint r1 = 2447445397u;
 
-  uint h = (uv.x * r0) + (uv.y * r1);
+//   uint h = (uv.x * r0) + (uv.y * r1);
 
-  uv = uv >> 2u;
-  uint l = ((uv.x * r0) ^ (uv.y * r1)) * r1;
+//   uv = uv >> 2u;
+//   uint l = ((uv.x * r0) ^ (uv.y * r1)) * r1;
 
-  return float(l + h) * 2.3283064365386963e-10;
-}
+//   return float(l + h) * 2.3283064365386963e-10;
+// }
 
-float shifted_phi_noise(vec2 uv_f)
-{
-  uvec2 uv = uvec2(uv_f);
+// float shifted_phi_noise(vec2 uv_f)
+// {
+//   uvec2 uv = uvec2(uv_f);
 
-  if (((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;
+//   if (((uv.x ^ uv.y) & 4u) == 0u) uv = uv.yx;
 
-  const uint r0 = 3242174893u;
-  const uint r1 = 2447445397u;
+//   const uint r0 = 3242174893u;
+//   const uint r1 = 2447445397u;
 
-  uint h = (uv.x * r0) + (uv.y * r1);
+//   uint h = (uv.x * r0) + (uv.y * r1);
 
-  uv = uv >> 2u;
-  uint l = ((uv.x * r0) ^ (uv.y * r1)) * r1;
+//   uv = uv >> 2u;
+//   uint l = ((uv.x * r0) ^ (uv.y * r1)) * r1;
 
-  return fract(0.7 * frame_mod + (float(l + h) * 2.3283064365386963e-10));
-}
+//   return fract(0.7 * frame_mod + (float(l + h) * 2.3283064365386963e-10));
+// }
 
-float smooth_noise(vec2 p)
-{
-    vec2 i = floor(p);
-    vec2 f = fract(p);
+// float smooth_noise(vec2 p)
+// {
+//     vec2 i = floor(p);
+//     vec2 f = fract(p);
 	
-	  vec2 u = f * f * (3.0 - 2.0 * f);
+// 	  vec2 u = f * f * (3.0 - 2.0 * f);
 
-    return mix(mix(hash12(i + vec2(0.0,0.0)), 
-                   hash12(i + vec2(1.0,0.0)), u.x),
-               mix(hash12(i + vec2(0.0,1.0)), 
-                   hash12(i + vec2(1.0,1.0)), u.x), u.y);
-}
+//     return mix(mix(hash12(i + vec2(0.0,0.0)), 
+//                    hash12(i + vec2(1.0,0.0)), u.x),
+//                mix(hash12(i + vec2(0.0,1.0)), 
+//                    hash12(i + vec2(1.0,1.0)), u.x), u.y);
+// }
 
-float pseudo_perlin(vec2 uv) {
-    mat2 m = mat2( 1.6,  1.2, -1.2,  1.6 );
+// float pseudo_perlin(vec2 uv) {
+//     mat2 m = mat2( 1.6,  1.2, -1.2,  1.6 );
 
-    float f  = 0.5000 * smooth_noise( uv ); uv = m*uv;
-		f += 0.2500 * smooth_noise( uv ); uv = m * uv;
-		f += 0.1250 * smooth_noise( uv ); uv = m * uv;
-		f += 0.0625 * smooth_noise( uv ); uv = m * uv;
-    f += 0.03125 * smooth_noise( uv ); uv = m * uv;
-    f += 0.015625 * smooth_noise( uv ); uv = m * uv;
-    f += 0.0078125 * smooth_noise( uv ); uv = m * uv;
+//     float f  = 0.5000 * smooth_noise( uv ); uv = m*uv;
+// 		f += 0.2500 * smooth_noise( uv ); uv = m * uv;
+// 		f += 0.1250 * smooth_noise( uv ); uv = m * uv;
+// 		f += 0.0625 * smooth_noise( uv ); uv = m * uv;
+//     f += 0.03125 * smooth_noise( uv ); uv = m * uv;
+//     f += 0.015625 * smooth_noise( uv ); uv = m * uv;
+//     f += 0.0078125 * smooth_noise( uv ); uv = m * uv;
 
-    return f;
-}
+//     return f;
+// }

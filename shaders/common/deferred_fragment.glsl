@@ -138,7 +138,6 @@ void main() {
       #endif
 
       #ifdef THE_END
-        // block_color = vec4(HI_DAY_COLOR, 1.0);
         block_color.rgb =
           get_end_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG, linear_d * far, eye_bright_smooth.y);
       #else
