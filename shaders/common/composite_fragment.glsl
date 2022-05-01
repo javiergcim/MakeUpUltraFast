@@ -116,9 +116,9 @@ void main() {
     mat4 modeli_times_projectioni = gbufferModelViewInverse * gbufferProjectionInverse;
 
     #if AA_TYPE > 0
-      float dither = shifted_dither17(gl_FragCoord.xy);
+      float dither = shifted_eclectic_r_dither(gl_FragCoord.xy);
     #else
-      float dither = dither_grad_noise(gl_FragCoord.xy);
+      float dither = eclectic_r_dither(gl_FragCoord.xy);
     #endif
   #endif
 
