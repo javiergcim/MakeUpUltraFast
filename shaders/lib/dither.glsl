@@ -20,7 +20,7 @@ float r_dither(vec2 frag) {
 }
 
 float shifted_r_dither(vec2 frag) {
-  return fract((0.7 * frame_mod) + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
+  return fract((0.3 * frame_mod) + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
 }
 
 float eclectic_r_dither(vec2 frag) {
@@ -126,3 +126,51 @@ float shifted_eclectic_grid_noise(vec2 p) {
 //   float dither = texture2D(noise, p * 0.015625).r;
 //   return fract(0.3 * frame_mod + dither);
 // }
+
+float unit_dither(vec2 frag) {
+  return (mod((9.0 * frag.x + 5.0 * frag.y), 11.0) + 0.5) * 0.09090909090909091;
+}
+
+float shifted_unit_dither(vec2 frag) {
+  return fract(0.3 * frame_mod + ((mod((9.0 * frag.x + 5.0 * frag.y), 11.0) + 0.5) * 0.09090909090909091));
+}
+
+float eclectic_unit_dither(vec2 frag) {
+  vec3 p3 = fract(vec3(frag.xyx) * .1031);
+  p3 += dot(p3, p3.yzx + 33.33);
+  float p4 = fract((p3.x + p3.y) * p3.z) * 0.14;
+
+  return fract(p4 + ((mod((9.0 * frag.x + 5.0 * frag.y), 11.0) + 0.5) * 0.09090909090909091));
+}
+
+float shifted_eclectic_unit_dither(vec2 frag) {
+  vec3 p3 = fract(vec3(frag.xyx) * .1031);
+  p3 += dot(p3, p3.yzx + 33.33);
+  float p4 = fract((p3.x + p3.y) * p3.z) * 0.14;
+
+  return fract(0.3 * frame_mod + p4 + ((mod((9.0 * frag.x + 5.0 * frag.y), 11.0) + 0.5) * 0.09090909090909091));
+}
+
+float makeup_dither(vec2 frag) {
+  return fract(dot(frag, vec2(0.6180339887498948, 0.8983902273585074)));
+}
+
+float eclectic_makeup_dither(vec2 frag) {
+  vec3 p3 = fract(vec3(frag.xyx) * .1031);
+  p3 += dot(p3, p3.yzx + 33.33);
+  float p4 = fract((p3.x + p3.y) * p3.z) * 0.14;
+
+  return fract(p4 + dot(frag, vec2(0.6180339887498948, 0.8983902273585074)));
+}
+
+float shifted_makeup_dither(vec2 frag) {
+  return fract(0.3 * frame_mod + dot(frag, vec2(0.6180339887498948, 0.8983902273585074)));
+}
+
+float shifted_eclectic_makeup_dither(vec2 frag) {
+  vec3 p3 = fract(vec3(frag.xyx) * .1031);
+  p3 += dot(p3, p3.yzx + 33.33);
+  float p4 = fract((p3.x + p3.y) * p3.z) * 0.14;
+
+  return fract(0.3 * frame_mod + p4 + dot(frag, vec2(0.6180339887498948, 0.8983902273585074)));
+}
