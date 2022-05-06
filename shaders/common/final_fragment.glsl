@@ -42,9 +42,9 @@ const bool gaux4Clear = false;
 uniform sampler2D colortex0;
 
 #ifdef DEBUG_MODE
-  // uniform sampler2D shadowtex1;
-  // uniform sampler2D shadowcolor0;
-  // uniform sampler2D colortex3;
+  uniform sampler2D shadowtex1;
+  uniform sampler2D shadowcolor0;
+  uniform sampler2D colortex3;
 #endif
 
 // Varyings (per thread shared variables)
@@ -78,17 +78,14 @@ void main() {
   #ifdef DEBUG_MODE
     // vec3 block_color;
     if (texcoord.x < 0.5 && texcoord.y < 0.5) {
-      // block_color = texture(shadowtex1, texcoord * 2.0).rrr;
-      block_color = vec3(exposure / 4.0);
+      block_color = texture(shadowtex1, texcoord * 2.0).rrr;
     } else if (texcoord.x >= 0.5 && texcoord.y >= 0.5) {
-      // block_color = texture(shadowcolor0, ((texcoord - vec2(0.5)) * 2.0)).aaa;
-      block_color = vec3(eye_bright_smooth.y / 240.0);
+      block_color = vec3(exposure / 4.0);
     } else if (texcoord.x < 0.5 && texcoord.y >= 0.5) {
       block_color = texture(colortex0, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb * vec3(exposure);
       block_color = custom_ACES(block_color);
     } else if (texcoord.x >= 0.5 && texcoord.y < 0.5) {
-      // block_color = texture(shadowcolor0, ((texcoord - vec2(0.5, 0.0)) * 2.0)).rgb;
-      block_color = vec3(eye_bright_smooth.x / 240.0);
+      block_color = texture(shadowcolor0, ((texcoord - vec2(0.5, 0.0)) * 2.0)).rgb;
     } else {
       block_color = vec3(0.5);
     }
