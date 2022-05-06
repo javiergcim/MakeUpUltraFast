@@ -61,7 +61,7 @@ varying float exposure;
     if (texcoord.x < 0.5 && texcoord.y < 0.5) {
       block_color = texture2D(shadowtex1, texcoord * 2.0).rrr;
     } else if(texcoord.x >= 0.5 && texcoord.y >= 0.5) {
-      block_color = texture2D(shadowcolor0, ((texcoord - vec2(0.5)) * 2.0)).aaa;
+      block_color = vec3(exposure * .25);
     } else if (texcoord.x < 0.5 && texcoord.y >= 0.5) {
       block_color = texture2D(colortex3, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb;
     } else if (texcoord.x >= 0.5 && texcoord.y < 0.5) {
