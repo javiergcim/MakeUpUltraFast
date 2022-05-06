@@ -18,11 +18,7 @@ if (isEyeInWater == 1) {
 
 // Intensidad y color de luz de candelas
 candle_color =
-  // CANDLE_BASELIGHT * ((illumination.x * illumination.x) + pow(illumination.x * 1.13, 9.0));
   CANDLE_BASELIGHT * ((illumination.x * illumination.x) + pow(illumination.x * 1.205, 6.0));
-  // CANDLE_BASELIGHT * (pow(illumination.x, 1.5) + pow(illumination.x * 1.171, 7.0));
-  // CANDLE_BASELIGHT * (illumination.x + pow(illumination.x * 1.205, 6.0));
-  // CANDLE_BASELIGHT * pow(illumination.x * 2.0, 2.0);
 
 candle_color = clamp(candle_color, vec3(0.0), vec3(4.0));
 
