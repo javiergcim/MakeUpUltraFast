@@ -23,7 +23,6 @@ uniform float night_mixer;
   #define LOW_NIGHT_COLOR vec3(0.01078431, 0.02617647, 0.045) * NIGHT_BRIGHT
 
   #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
-  // #define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
 #elif COLOR_SCHEME == 1  // Cocoa
   #define OMNI_TINT 0.4
   #define AMBIENT_MIDDLE_COLOR vec3(0.918528, 0.660192, 0.301392)
@@ -39,7 +38,6 @@ uniform float night_mixer;
   #define LOW_NIGHT_COLOR vec3(0.022, 0.029, 0.049) * NIGHT_BRIGHT
 
   #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
-  // #define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
 #elif COLOR_SCHEME == 2  // Captain
   #define OMNI_TINT 0.5
   #define AMBIENT_MIDDLE_COLOR vec3(0.84456, 0.52992, 0.26496001)
@@ -55,7 +53,6 @@ uniform float night_mixer;
   #define LOW_NIGHT_COLOR vec3(0.025, 0.035, 0.05) * NIGHT_BRIGHT
 
   #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
-  // #define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
 #elif COLOR_SCHEME == 3  // Shoka
   #define OMNI_TINT 0.5
   #define AMBIENT_MIDDLE_COLOR vec3(0.8832, 0.6348, 0.2898)
@@ -71,7 +68,6 @@ uniform float night_mixer;
   #define LOW_NIGHT_COLOR vec3(0.0213, 0.0306, 0.0387) * NIGHT_BRIGHT
 
   #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
-  // #define CANDLE_BASELIGHT vec3(0.24975, 0.19392353, 0.0999)
 #elif COLOR_SCHEME == 4  // Ethereal
   #define OMNI_TINT 0.5
   #define AMBIENT_MIDDLE_COLOR vec3(0.887528, 0.591192, 0.401392)
