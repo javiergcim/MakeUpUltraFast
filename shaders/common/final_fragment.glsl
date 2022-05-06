@@ -63,7 +63,8 @@ varying float exposure;
     } else if(texcoord.x >= 0.5 && texcoord.y >= 0.5) {
       block_color = vec3(exposure * .25);
     } else if (texcoord.x < 0.5 && texcoord.y >= 0.5) {
-      block_color = texture2D(colortex3, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb;
+      block_color = texture2D(colortex0, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb;
+      block_color = custom_ACES(block_color);
     } else if (texcoord.x >= 0.5 && texcoord.y < 0.5) {
       block_color = texture2D(shadowcolor0, ((texcoord - vec2(0.5, 0.0)) * 2.0)).rgb;
     } else {
@@ -81,7 +82,6 @@ varying float exposure;
     #endif
 
     block_color *= exposure;
-    // block_color = lottes_tonemap(block_color, exposure + 0.6);
     block_color = custom_ACES(block_color);
 
     gl_FragColor = vec4(block_color, 1.0);
