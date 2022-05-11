@@ -67,6 +67,6 @@
 
 shadow_pos = get_shadow_pos(position.xyz, NdotL);
 
-vec2 shadow_diffuse_aux = pow((shadow_pos.xy - 0.5) * 2.05, vec2(2.0));
-shadow_diffuse = sqrt(shadow_diffuse_aux.x + shadow_diffuse_aux.y);
-shadow_diffuse = clamp(pow(shadow_diffuse, 12.0), 0.0, 1.0);
+vec2 shadow_diffuse_aux = (shadow_pos.xy - 0.5) * 2.05;
+shadow_diffuse = sqrt(shadow_diffuse_aux.x * shadow_diffuse_aux.x + shadow_diffuse_aux.y * shadow_diffuse_aux.y);
+shadow_diffuse = clamp(pow(shadow_diffuse, 10.0), 0.0, 1.0);
