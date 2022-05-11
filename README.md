@@ -1,7 +1,7 @@
 # MakeUp - Ultra Fast
 High performance Minecraft shader (Java).
 
-**Version: 7.1: Take the clouds**
+**Version: 7.2: Take the clouds**
 
 ## Main features
 * Optional shadows
