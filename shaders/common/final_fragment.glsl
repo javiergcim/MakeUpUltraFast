@@ -55,6 +55,10 @@ flat in float exposure;
 #include "/lib/tone_maps.glsl"
 // #include "/lib/luma.glsl"
 
+#ifdef COLOR_BLINDNESS
+  #include "/lib/color_blindness.glsl"
+#endif
+
 #if CHROMA_ABER == 1
   #include "/lib/aberration.glsl"
 #endif
@@ -74,6 +78,11 @@ void main() {
   // Saturation
   // float actual_luma = luma(block_color);
   // block_color = mix(vec3(actual_luma), block_color, 1.5);
+
+  // Color-blindness correction
+  #ifdef COLOR_BLINDNESS
+    block_color = color_blindness(block_color);
+  #endif
 
   #ifdef DEBUG_MODE
     // vec3 block_color;

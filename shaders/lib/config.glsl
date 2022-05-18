@@ -125,6 +125,10 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define GODRAY_STEPS 6
 #define CHEAP_GODRAY_SAMPLES 4
 
+// Color blindness
+// #define COLOR_BLINDNESS  // Enable color blindness correction
+#define COLOR_BLIND_MODE 0  // [0 1 2]  Set color blindness type
+
 // Sun rotation angle
 const float sunPathRotation = -25.0; // [-40.0 -35.0 -30.0 -25.0 -20.0 -15.0 -10.0 -5.0 0.0 5.0 10.0 15.0 20.0 25.0 30.0 35.0 40.0]
 
