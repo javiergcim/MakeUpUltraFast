@@ -17,7 +17,7 @@ profile.comment=The "shadowless" profiles are designed for low-performance machi
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=Thanks for using this shader! :). Set Optifine native quality controls on normal or default values for better quality.
-value.ACERCADE.0=v.7.2L
+value.ACERCADE.0=v.7.3L
 
 #Options
 #############################
@@ -156,6 +156,13 @@ option.CLOUD_STEPS_AVG=Cloud samples
 
 option.BLOOM=Bloom
 
+option.COLOR_BLINDNESS=Color blindness
+
+option.COLOR_BLIND_MODE=CB type
+value.COLOR_BLIND_MODE.0=Protanopia
+value.COLOR_BLIND_MODE.1=Deutranopia
+value.COLOR_BLIND_MODE.2=Tritanopia
+
 option.DEBUG_MODE=Modo debug
 
 option.BLOOM_SAMPLES=Bloom sample pairs
@@ -212,5 +219,9 @@ screen.FOG_SCREEN.comment=Set fog options
 screen.MOTION_BLUR_SCREEN=Motion blur options
 screen.FOG_SCREEN.comment=Set motion blur options
 
+screen.ACCESIBILITY_SCREEN=Accesibility options
+screen.ACCESIBILITY_SCREEN.comment=Set accesibility options
+
 screen.DEBUG_SCREEN=Debug options
 screen.DEBUG_SCREEN.comment=Set debug options
+

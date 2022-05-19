@@ -50,40 +50,55 @@ varying float exposure;
 
 #include "/lib/basic_utils.glsl"
 #include "/lib/tone_maps.glsl"
+// #include "/lib/luma.glsl"
+
+#ifdef COLOR_BLINDNESS
+  #include "/lib/color_blindness.glsl"
+#endif
 
 #if CHROMA_ABER == 1
   #include "/lib/aberration.glsl"
 #endif
 
-#ifdef DEBUG_MODE
-  void main() {
-    vec3 block_color;
+void main() {
+  #if CHROMA_ABER == 1
+    vec3 block_color = color_aberration();
+  #else
+    vec3 block_color = texture2D(colortex0, texcoord).rgb;
+  #endif
+
+  block_color *= vec3(exposure);
+  block_color = custom_ACES(block_color);
+
+  // Color-grading ---
+
+  // Saturation
+  // float actual_luma = luma(block_color);
+  // block_color = mix(vec3(actual_luma), block_color, 1.5);
+
+  // Color-blindness correction
+  #ifdef COLOR_BLINDNESS
+    block_color = color_blindness(block_color);
+  #endif
+
+  #ifdef DEBUG_MODE
+    // vec3 block_color;
     if (texcoord.x < 0.5 && texcoord.y < 0.5) {
       block_color = texture2D(shadowtex1, texcoord * 2.0).rrr;
-    } else if(texcoord.x >= 0.5 && texcoord.y >= 0.5) {
-      block_color = vec3(exposure * .25);
+    } else if (texcoord.x >= 0.5 && texcoord.y >= 0.5) {
+      block_color = vec3(exposure / 4.0);
     } else if (texcoord.x < 0.5 && texcoord.y >= 0.5) {
-      block_color = texture2D(colortex0, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb;
+      block_color = texture2D(colortex0, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb * vec3(exposure);
       block_color = custom_ACES(block_color);
     } else if (texcoord.x >= 0.5 && texcoord.y < 0.5) {
       block_color = texture2D(shadowcolor0, ((texcoord - vec2(0.5, 0.0)) * 2.0)).rgb;
     } else {
-      block_color = vec3(0.0);
+      block_color = vec3(0.5);
     }
 
-    outColor0 = vec4(block_color, 1.0);
-  }
-#else
-  void main() {
-    #if CHROMA_ABER == 1
-      vec3 block_color = color_aberration();
-    #else
-      vec3 block_color = texture2D(colortex0, texcoord).rgb;
-    #endif
-
-    block_color *= exposure;
-    block_color = custom_ACES(block_color);
-
     gl_FragColor = vec4(block_color, 1.0);
-  }
-#endif
+
+  #else
+    gl_FragColor = vec4(block_color, 1.0);
+  #endif
+}
