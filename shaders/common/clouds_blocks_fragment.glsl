@@ -8,7 +8,7 @@ uniform sampler2D gtexture;
 uniform float far;
 uniform float alphaTestRef;
 
-#if V_CLOUDS == 0
+#if V_CLOUDS == 0 || defined UNKNOWN_DIM
   uniform float pixel_size_x;
   uniform float pixel_size_y;
   uniform sampler2D gaux4;
@@ -21,7 +21,7 @@ in float frog_adjust;
 in float var_fog_frag_coord;
 
 void main() {
-  #if V_CLOUDS == 0
+  #if V_CLOUDS == 0 || defined UNKNOWN_DIM
     vec4 block_color = texture(gtexture, texcoord) * tint_color;
     #include "/src/cloudfinalcolor.glsl"
   #else

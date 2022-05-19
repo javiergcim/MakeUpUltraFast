@@ -5,6 +5,7 @@ Render: Render lines
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#define UNKNOWN_DIM
 #define GBUFFER_LINE
 #define NO_SHADOWS
 #define SHADER_BASIC

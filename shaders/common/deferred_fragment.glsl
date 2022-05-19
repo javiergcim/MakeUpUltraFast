@@ -35,7 +35,7 @@ uniform sampler2D gaux2;
   uniform float fov_y_inv;
 #endif
 
-#if V_CLOUDS != 0
+#if V_CLOUDS != 0 && !defined UNKNOWN_DIM
   uniform sampler2D noisetex;
   uniform vec3 cameraPosition;
   uniform vec3 sunPosition;
@@ -46,7 +46,7 @@ uniform mat4 gbufferProjectionInverse;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
 
-#if AO == 1 || V_CLOUDS != 0
+#if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
   uniform mat4 gbufferProjection;
   uniform int frame_mod;
   uniform float frameTimeCounter;
@@ -58,7 +58,7 @@ flat in vec3 up_vec;  // Flat
 #include "/lib/depth.glsl"
 #include "/lib/luma.glsl"
 
-#if AO == 1 || V_CLOUDS != 0
+#if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
   #include "/lib/dither.glsl"
 #endif
 
@@ -66,7 +66,7 @@ flat in vec3 up_vec;  // Flat
   #include "/lib/ao.glsl"
 #endif
 
-#if V_CLOUDS != 0
+#if (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
   #include "/lib/projection_utils.glsl"
 
   #ifdef THE_END
@@ -86,7 +86,7 @@ void main() {
 
   vec3 view_vector;
 
-  #if AO == 1 || V_CLOUDS != 0
+  #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
     #if AA_TYPE > 0
       float dither = shifted_eclectic_makeup_dither(gl_FragCoord.xy);
     #else
@@ -117,7 +117,7 @@ void main() {
     // block_color = vec4(vec3(linear_d), 1.0);
   #endif
 
-  #if V_CLOUDS != 0 && !defined NO_CLOUDY_SKY
+  #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
     //if (linear_d > 0.9999) {  // Only sky
       vec4 world_pos =
         gbufferModelViewInverse * gbufferProjectionInverse * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);

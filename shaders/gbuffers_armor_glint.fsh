@@ -5,6 +5,7 @@ Render: Glow objects
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#define UNKNOWN_DIM
 #define GBUFFER_ARMOR_GLINT
 #define SHADER_BASIC
 

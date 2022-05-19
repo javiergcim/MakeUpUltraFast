@@ -85,7 +85,6 @@ void main() {
   #endif
 
   #ifdef DEBUG_MODE
-    // vec3 block_color;
     if (texcoord.x < 0.5 && texcoord.y < 0.5) {
       block_color = texture(shadowtex1, texcoord * 2.0).rrr;
     } else if (texcoord.x >= 0.5 && texcoord.y >= 0.5) {
