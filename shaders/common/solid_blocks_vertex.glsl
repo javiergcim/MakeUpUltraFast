@@ -23,6 +23,10 @@ uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 uniform mat3 normalMatrix;
 
+#ifdef UNKNOWN_DIM
+  uniform sampler2D lightmap;
+#endif
+
 #if defined FOLIAGE_V || defined THE_END || defined NETHER
   uniform mat4 gbufferModelView;
 #endif
@@ -51,7 +55,7 @@ in vec3 vaNormal;
 out vec2 texcoord;
 out vec4 tint_color;
 out float frog_adjust;
-flat out vec3 direct_light_color;
+out vec3 direct_light_color;
 out vec3 candle_color;
 out float direct_light_strenght;
 out vec3 omni_light;

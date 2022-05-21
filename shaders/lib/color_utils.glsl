@@ -8,6 +8,11 @@ uniform float day_moment;
 uniform float day_mixer;
 uniform float night_mixer;
 
+#ifdef UNKNOWN_DIM
+  uniform vec3 fogColor;
+  uniform vec3 skyColor;
+#endif
+
 #if COLOR_SCHEME == 0  // Legacy
   #define OMNI_TINT 0.5
   #define AMBIENT_MIDDLE_COLOR vec3(1.0764, 0.54453175, 0.23638589)
@@ -133,12 +138,18 @@ float day_blend_float(float middle, float day, float night) {
 }
 
 // Ambient color luma per hour in exposure calculation
-#define EXPOSURE_DAY 1.0
-#define EXPOSURE_MIDDLE 1.0
-#define EXPOSURE_NIGHT 0.01
+#if defined UNKNOWN_DIM
+  #define EXPOSURE_DAY 1.0
+  #define EXPOSURE_MIDDLE 1.0
+  #define EXPOSURE_NIGHT 0.01
+#else
+  #define EXPOSURE_DAY 1.0
+  #define EXPOSURE_MIDDLE 1.0
+  #define EXPOSURE_NIGHT 1.0
+#endif
 
 // Fog parameter per hour
-#if VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING)
+#if VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING) || defined UNKNOWN_DIM
     #define FOG_DENSITY 3.0
 #else
   #define FOG_DAY 3.0

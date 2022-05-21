@@ -27,6 +27,10 @@ uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 uniform mat3 normalMatrix;
 
+#ifdef UNKNOWN_DIM
+  uniform sampler2D lightmap;
+#endif
+
 #if defined SHADOW_CASTING && !defined NETHER
   uniform mat4 shadowModelView;
   uniform mat4 shadowProjection;

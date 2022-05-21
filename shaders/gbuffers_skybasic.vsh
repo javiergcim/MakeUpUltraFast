@@ -5,6 +5,7 @@ Render: Sky
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
+#define UNKNOWN_DIM
 #define GBUFFER_SKYBASIC
 #define NO_SHADOWS
 

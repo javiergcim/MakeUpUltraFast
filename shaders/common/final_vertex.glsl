@@ -25,14 +25,18 @@ void main() {
 
   // Tonemaping ---
   // x: Block, y: Sky ---
-  float candle_bright = eye_bright_smooth.x * 0.0003125;
-  float exposure_coef = day_blend_float(
-    EXPOSURE_MIDDLE,
-    EXPOSURE_DAY,
-    EXPOSURE_NIGHT
-  );
-  exposure =
-    ((eye_bright_smooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
+  #if !defined UNKNOWN_DIM
+    float candle_bright = eye_bright_smooth.x * 0.0003125;
+    float exposure_coef = day_blend_float(
+      EXPOSURE_MIDDLE,
+      EXPOSURE_DAY,
+      EXPOSURE_NIGHT
+    );
+    exposure =
+      ((eye_bright_smooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
+  #else
+    exposure = 1.0;
+  #endif
 
   // Map from 1.0 - 0.0 to 1.0 - 3.4
   exposure = (exposure * -2.4) + 3.4;

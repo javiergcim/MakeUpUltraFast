@@ -41,7 +41,7 @@ uniform float alphaTestRef;
 in vec2 texcoord;
 in vec4 tint_color;
 in float frog_adjust;
-flat in vec3 direct_light_color;
+in vec3 direct_light_color;
 in vec3 candle_color;
 in float direct_light_strenght;
 in vec3 omni_light;
@@ -68,6 +68,7 @@ in float var_fog_frag_coord;
 #include "/lib/luma.glsl"
 
 void main() {
+  vec3 direct_test = direct_light_color;
   // Toma el color puro del bloque
   #if defined GBUFFER_ENTITIES
     #if BLACK_ENTITY_FIX == 1
@@ -136,6 +137,8 @@ void main() {
       block_color.rgb = mix(block_color.rgb, entityColor.rgb, entityColor.a * .75);
     }
   #endif
+
+  // block_color.rgb = direct_test;
 
   #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"
