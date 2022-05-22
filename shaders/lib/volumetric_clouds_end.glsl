@@ -2,7 +2,7 @@
 Fast volumetric clouds (for The End) - MakeUp implementation
 */
 
-vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, vec3 base_pos, int samples) {
+vec4 get_end_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, vec3 base_pos, int samples) {
   float plane_distance;
   float cloud_value;
   float umbral;
@@ -25,6 +25,8 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright, float dithe
   vec3 cloud_color_aux;
   float cloud_value_aux;
   float dist_aux_coeff_blur;
+
+  vec4 effects_color;
 
   block_color.rgb *=
     clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
@@ -140,7 +142,9 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright, float dithe
     
     block_color =
       mix(block_color, vec3(1.0), clamp(bright * .04, 0.0, 1.0));
+
+    effects_color = vec4(block_color, cloud_value * clamp((view_vector.y - 0.06) * 5.0, 0.0, 1.0));
   }
 
-  return block_color;
+  return effects_color;
 }

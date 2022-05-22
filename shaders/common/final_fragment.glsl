@@ -24,7 +24,7 @@ const int colortex2Format = R11F_G11F_B10F;
 const int colortex3Format = RGBA16F;
 const int gaux1Format = R11F_G11F_B10F;
 const int gaux2Format = RG8;
-const int gaux3Format = R8;
+const int gaux3Format = RGBA16F;
 const int gaux4Format = R11F_G11F_B10F;
 */
 

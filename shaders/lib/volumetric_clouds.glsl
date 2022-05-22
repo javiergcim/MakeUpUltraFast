@@ -2,7 +2,7 @@
 Fast volumetric clouds - MakeUp implementation
 */
 
-vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, vec3 base_pos, int samples) {
+vec4 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, vec3 base_pos, int samples) {
   float plane_distance;
   float cloud_value;
   float umbral;
@@ -26,10 +26,12 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
   float cloud_value_aux;
   float dist_aux_coeff_blur;
 
-  #if VOL_LIGHT == 0
-    block_color.rgb *=
-      clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
-  #endif
+  // #if VOL_LIGHT == 0
+  //   block_color.rgb *=
+  //     clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
+  // #endif
+
+  vec4 effects_color;
 
   if (view_vector.y > .055) {  // Vista sobre el horizonte
 
@@ -191,7 +193,8 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
       cloud_value
     );
 
+    effects_color = vec4(block_color, cloud_value * clamp((view_vector.y - 0.06) * 5.0, 0.0, 1.0));
   }
 
-  return block_color;
+  return effects_color;
 }
