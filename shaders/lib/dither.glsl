@@ -221,7 +221,7 @@ float shifted_eclectic_unit_dither(vec2 frag) {
 }
 
 float makeup_dither(vec2 frag) {
-  return fract(dot(frag, vec2(0.6180339887498948, 0.8983902273585074)));
+  return fract(dot(frag, vec2(0.5562305898749054, 0.8083512046226566)));
 }
 
 float eclectic_makeup_dither(vec2 frag) {
@@ -229,11 +229,11 @@ float eclectic_makeup_dither(vec2 frag) {
 	uint n = (q.x ^ q.y) * UI0;
 	float p4 = float(n) * UIF * 0.14;
 
-  return fract(p4 + dot(frag, vec2(0.6180339887498948, 0.8983902273585074)));
+  return fract(p4 + dot(frag, vec2(0.5562305898749054, 0.8083512046226566)));
 }
 
 float shifted_makeup_dither(vec2 frag) {
-  return fract(0.3 * frame_mod + dot(frag, vec2(0.6180339887498948, 0.8983902273585074)));
+  return fract(0.3 * frame_mod + dot(frag, vec2(0.5562305898749054, 0.8083512046226566)));
 }
 
 float shifted_eclectic_makeup_dither(vec2 frag) {
@@ -241,5 +241,5 @@ float shifted_eclectic_makeup_dither(vec2 frag) {
   uint n = (q.x ^ q.y) * UI0;
   float p4 = float(n) * UIF * 0.14;
 
-  return fract(0.3 * frame_mod + p4 + dot(frag, vec2(0.6180339887498948, 0.8983902273585074)));
+  return fract(0.3 * frame_mod + p4 + dot(frag, vec2(0.5562305898749054, 0.8083512046226566)));
 }

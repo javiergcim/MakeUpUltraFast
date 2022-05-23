@@ -13,8 +13,8 @@ out vec4 outColor0;
 #endif
 
 uniform sampler2D colortex0;
-uniform ivec2 eyeBrightnessSmooth;
-uniform int isEyeInWater;
+// uniform ivec2 eyeBrightnessSmooth;
+// uniform int isEyeInWater;
 uniform sampler2D depthtex0;
 uniform float far;
 uniform float near;
@@ -42,8 +42,8 @@ uniform sampler2D gaux2;
 
 uniform mat4 gbufferModelViewInverse;
 uniform mat4 gbufferProjectionInverse;
-uniform float pixel_size_x;
-uniform float pixel_size_y;
+// uniform float pixel_size_x;
+// uniform float pixel_size_y;
 
 #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
   uniform mat4 gbufferProjection;
@@ -81,9 +81,9 @@ void main() {
   float d = texture(depthtex0, texcoord).r;
   float linear_d = ld(d);
 
-  vec4 effects_color;
+  vec4 effects_color = vec4(0.0);
 
-  vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
+  // vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
 
   vec3 view_vector;
 
@@ -148,47 +148,48 @@ void main() {
           get_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
       #endif
     }
-  #else
-    #if defined THE_END
-      if (linear_d > 0.9999) {  // Only sky
-        block_color = vec4(HI_DAY_COLOR, 1.0);
-      }
-    #elif defined NETHER
-      if (linear_d > 0.9999) {  // Only sky
-        block_color = vec4(mix(fogColor * 0.1, vec3(1.0), 0.04), 1.0);
-      }
-    #else
-      if (linear_d > 0.9999 && isEyeInWater == 1) {  // Only sky and water
-        vec4 screen_pos =
-          vec4(
-            gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
-            gl_FragCoord.z,
-            1.0
-          );
-        vec4 fragposition = gbufferProjectionInverse * (screen_pos * 2.0 - 1.0);
+  // #else
+  //   #if defined THE_END
+  //     if (linear_d > 0.9999) {  // Only sky
+  //       block_color = vec4(HI_DAY_COLOR, 1.0);
+  //     }
+  //   #elif defined NETHER
+  //     if (linear_d > 0.9999) {  // Only sky
+  //       block_color = vec4(mix(fogColor * 0.1, vec3(1.0), 0.04), 1.0);
+  //     }
+  //   #else
+  //     if (linear_d > 0.9999 && isEyeInWater == 1) {  // Only sky and water
+  //       vec4 screen_pos =
+  //         vec4(
+  //           gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
+  //           gl_FragCoord.z,
+  //           1.0
+  //         );
+  //       vec4 fragposition = gbufferProjectionInverse * (screen_pos * 2.0 - 1.0);
 
-        vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
-        view_vector = normalize(world_pos.xyz);
-      }
-    #endif    
+  //       vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
+  //       view_vector = normalize(world_pos.xyz);
+  //     }
+  //   #endif
+
   #endif
 
-  #if defined THE_END || defined NETHER
-    #define NIGHT_CORRECTION 1.0
-  #else
-    #define NIGHT_CORRECTION day_blend_float(1.0, 1.0, 0.1)
-  #endif
+  // #if defined THE_END || defined NETHER
+  //   #define NIGHT_CORRECTION 1.0
+  // #else
+  //   #define NIGHT_CORRECTION day_blend_float(1.0, 1.0, 0.1)
+  // #endif
 
-  // Cielo bajo el agua
-  if (isEyeInWater == 1) {
-    if (linear_d > 0.9999) {
-      block_color.rgb = mix(
-        NIGHT_CORRECTION * WATER_COLOR * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667),
-        block_color.rgb,
-        max(clamp(view_vector.y - 0.1, 0.0, 1.0), rainStrength)
-      );
-    }
-  }
+  // // Cielo bajo el agua
+  // if (isEyeInWater == 1) {
+  //   if (linear_d > 0.9999) {
+  //     block_color.rgb = mix(
+  //       NIGHT_CORRECTION * WATER_COLOR * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667),
+  //       block_color.rgb,
+  //       max(clamp(view_vector.y - 0.1, 0.0, 1.0), rainStrength)
+  //     );
+  //   }
+  // }
 
   /* DRAWBUFFERS:6 */
   #if AO == 1
@@ -196,5 +197,6 @@ void main() {
     effects_color = vec4(vec3(0.0), (1.0 - final_ao));
   }
   #endif
+
   outColor0 = effects_color;
 }
