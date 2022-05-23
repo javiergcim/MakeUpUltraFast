@@ -67,10 +67,7 @@ void main() {
     }
   #endif
 
-
-
   vec3 result = mix(block_color.rgb, effects_color.rgb, effects_color.a);
-
 
   #if defined THE_END || defined NETHER
     #define NIGHT_CORRECTION 1.0
@@ -91,13 +88,7 @@ void main() {
     }
   }
 
-
-
-
   /* DRAWBUFFERS:14 */
   outColor0 = vec4(result, d);
   outColor1 = vec4(result, 1.0);
-
-  // outColor0 = vec4(vec3(effects_color.a), 1.0);
-  // outColor1 = vec4(vec3(effects_color.a), 1.0);
 }

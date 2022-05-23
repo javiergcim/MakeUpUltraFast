@@ -5,7 +5,9 @@ Render: Basic elements - lines
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define UNKNOWN_DIM
+#ifdef USE_BASIC_SH
+  #define UNKNOWN_DIM
+#endif
 #define GBUFFER_BASIC
 #define NO_SHADOWS
 #define SHADER_BASIC

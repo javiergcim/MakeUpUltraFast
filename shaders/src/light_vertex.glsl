@@ -125,6 +125,8 @@ float omni_strenght = (direct_light_strenght * .125) + 1.0;
   omni_light = visible_avoid_dark * omni_strenght *
     mix(hi_sky_color, direct_light_color * 0.75, OMNI_TINT);
 
+  // omni_light = visible_avoid_dark * omni_strenght * vec3(1.0, 0.0, 0.0);
+
 #endif
 
 #ifdef CAVEENTITY_V

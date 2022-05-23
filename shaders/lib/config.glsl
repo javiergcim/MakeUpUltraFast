@@ -79,6 +79,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define FOG_ADJUST 2.0 // [4.0 2.0 1.0]  Recommended settings. 'Short' for 8 or less draw distance. 'Regular' between 9 and 19 draw distance. 'Far' for 20+ draw distance.
 // #define DEBUG_MODE // Set debug mode.
 #define BLOCKLIGHT_TEMP 1 // [0 1 2 3 4] Set blacklight temperature
+// #define USE_BASIC_SH // Sets the use of a "basic" or "generic" shader for custom dimensions, instead of the default overworld shader.
 
 // Reflection parameters
 #define RAYMARCH_STEPS 9

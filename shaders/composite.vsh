@@ -5,7 +5,9 @@ Render: Bloom and volumetric light
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-#define UNKNOWN_DIM
+#ifdef USE_BASIC_SH
+  #define UNKNOWN_DIM
+#endif
 #define COMPOSITE_SHADER
 
 #include "/common/composite_vertex.glsl"
