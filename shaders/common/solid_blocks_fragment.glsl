@@ -138,10 +138,6 @@ void main() {
     }
   #endif
 
-  #if defined GBUFFER_TERRAIN
-    // block_color.a = block_color.a * 0.0;
-  #endif
-
   #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"
 }

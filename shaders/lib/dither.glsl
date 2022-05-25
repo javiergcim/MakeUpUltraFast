@@ -95,37 +95,6 @@ float shifted_eclectic_dither(vec2 frag) {
   return fract((0.3975 * frame_mod) + p4 + (52.9829189 * fract(0.06711056 * frag.x + 0.00583715 * frag.y)));
 }
 
-float grid_noise(vec2 p) {
-  return fract(
-    dot(
-      p - vec2(0.5, 0.5),
-      vec2(0.0625, .277777777777777777778) + 0.25
-      )
-    );
-}
-
-float shifted_grid_noise(vec2 p) {
-  return fract(0.3 * frame_mod +
-    dot(
-      p - vec2(0.5, 0.5),
-      vec2(0.0625, .277777777777777777778) + 0.25
-      )
-    );
-}
-
-float shifted_eclectic_grid_noise(vec2 p) {
-  uvec2 q = uvec2(ivec2(p)) * UI2;
-	uint n = (q.x ^ q.y) * UI0;
-	float p4 = float(n) * UIF * 0.125;
-  
-  return fract(0.4 * frame_mod + p4 +
-    dot(
-      p - vec2(0.5, 0.5),
-      vec2(0.0625, .277777777777777777778) + 0.25
-      )
-    );
-}  
-
 // float texture_noise_64(vec2 p, sampler2D noise) {
 //   return texture(noise, p * 0.015625).r;
 // }
