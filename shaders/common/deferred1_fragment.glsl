@@ -87,10 +87,8 @@ void main() {
   // Cielo bajo el agua
   if (isEyeInWater == 1) {
     if (linear_d > 0.9999) {
-      // block_color.rgb = mix(
       result = mix(
         NIGHT_CORRECTION * WATER_COLOR * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667),
-        // block_color.rgb,
         result,
         max(clamp(view_vector.y - 0.1, 0.0, 1.0), rainStrength)
       );
