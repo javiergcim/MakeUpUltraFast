@@ -38,34 +38,39 @@ void main() {
     #if AA_TYPE > 0
       float dither = shifted_r_dither(gl_FragCoord.xy);
     #else
-      float dither = makeup_dither(gl_FragCoord.xy);
+      float dither = r_dither(gl_FragCoord.xy);
     #endif
 
     dither = (dither - .5) * 0.0625;
 
-    vec3 hi_sky_color = day_blend(
-      HI_MIDDLE_COLOR,
-      HI_DAY_COLOR,
-      HI_NIGHT_COLOR
+    #ifdef UNKNOWN_DIM
+      vec3 hi_sky_color = skyColor;
+      vec3 low_sky_color = fogColor;
+    #else
+      vec3 hi_sky_color = day_blend(
+        HI_MIDDLE_COLOR,
+        HI_DAY_COLOR,
+        HI_NIGHT_COLOR
+        );
+
+      hi_sky_color = mix(
+        hi_sky_color,
+        HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+        rainStrength
       );
 
-    hi_sky_color = mix(
-      hi_sky_color,
-      HI_SKY_RAIN_COLOR * luma(hi_sky_color),
-      rainStrength
-    );
+      vec3 low_sky_color = day_blend(
+        LOW_MIDDLE_COLOR,
+        LOW_DAY_COLOR,
+        LOW_NIGHT_COLOR
+        );
 
-    vec3 low_sky_color = day_blend(
-      LOW_MIDDLE_COLOR,
-      LOW_DAY_COLOR,
-      LOW_NIGHT_COLOR
+      low_sky_color = mix(
+        low_sky_color,
+        LOW_SKY_RAIN_COLOR * luma(low_sky_color),
+        rainStrength
       );
-
-    low_sky_color = mix(
-      low_sky_color,
-      LOW_SKY_RAIN_COLOR * luma(low_sky_color),
-      rainStrength
-    );
+    #endif
 
     vec4 fragpos = gbufferProjectionInverse *
     (

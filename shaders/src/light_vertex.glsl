@@ -9,15 +9,27 @@ vec2 illumination = (max(lmcoord, vec2(0.065)) - vec2(0.065)) * 1.06951871657754
 #else
   float visible_sky = illumination.y;
 #endif
+visible_sky = clamp(visible_sky, 0.0, 1.0);
 
 // Ajuste de intensidad luminosa bajo el agua
 if (isEyeInWater == 1) {
   visible_sky = (visible_sky * .95) + .05;
 }
 
+#if defined UNKNOWN_DIM
+  visible_sky = (visible_sky * 0.6) + 0.4;
+#endif
+
 // Intensidad y color de luz de candelas
-candle_color =
-  CANDLE_BASELIGHT * ((illumination.x * illumination.x) + pow(illumination.x * 1.205, 6.0));
+#if defined UNKNOWN_DIM
+  candle_color =
+    CANDLE_BASELIGHT * ((illumination.x * illumination.x) + pow(illumination.x * 1.205, 6.0)) * 2.75;
+#else
+  candle_color =
+    CANDLE_BASELIGHT * ((illumination.x * illumination.x) + pow(illumination.x * 1.205, 6.0));
+#endif
+
+candle_color = clamp(candle_color, vec3(0.0), vec3(4.0));
 
 // Atenuación por dirección de luz directa ===================================
 #if defined THE_END || defined NETHER
@@ -48,11 +60,16 @@ if (length(normal) != 0.0) {  // Workaround for undefined normals
 float omni_strenght = (direct_light_strenght * .125) + 1.0;
 
 // Calculamos color de luz directa
-direct_light_color = day_blend(
-  AMBIENT_MIDDLE_COLOR,
-  AMBIENT_DAY_COLOR,
-  AMBIENT_NIGHT_COLOR
-  );
+#ifdef UNKNOWN_DIM
+  direct_light_color = texture2D(lightmap, va_UV2 * vec2(0.0, 0.00392156862745098)).rgb;
+  direct_light_color = pow(direct_light_color, vec3(2.5));
+#else
+  direct_light_color = day_blend(
+    AMBIENT_MIDDLE_COLOR,
+    AMBIENT_DAY_COLOR,
+    AMBIENT_NIGHT_COLOR
+    );
+#endif
 
 #ifdef FOLIAGE_V  // Puede haber plantas en este shader
     float original_direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0) * 0.9 + 0.1;

@@ -79,45 +79,46 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define FOG_ADJUST 2.0 // [4.0 2.0 1.0]  Recommended settings. 'Short' for 8 or less draw distance. 'Regular' between 9 and 19 draw distance. 'Far' for 20+ draw distance.
 // #define DEBUG_MODE // Set debug mode.
 #define BLOCKLIGHT_TEMP 1 // [0 1 2 3 4] Set blacklight temperature
+// #define USE_BASIC_SH // Sets the use of a "basic" or "generic" shader for custom dimensions, instead of the default overworld shader. This can solve some rendering issues as the shader is closer to vanilla rendering.
 
 // Reflection parameters
 #define RAYMARCH_STEPS 9
 
 // Cloud parameters
 #if CLOUD_VOL_STYLE == 1
-  #define CLOUD_PLANE_SUP 220.0
-  #define CLOUD_PLANE_CENTER 205.0
-  #define CLOUD_PLANE 190.0
+  #define CLOUD_PLANE_SUP 349.0
+  #define CLOUD_PLANE_CENTER 334.0
+  #define CLOUD_PLANE 319.0
 #else
-  #define CLOUD_PLANE_SUP 300.0
-  #define CLOUD_PLANE_CENTER 215.0
-  #define CLOUD_PLANE 190.0
+  #define CLOUD_PLANE_SUP 640.0
+  #define CLOUD_PLANE_CENTER 400.0
+  #define CLOUD_PLANE 319.0
 #endif
 
-#define CLOUD_STEPS_AVG 7 // [7 8 9 10 11 12 13 14 15 16] Samples per pixel (high performance impact).
+#define CLOUD_STEPS_AVG 8 // [7 8 9 10 11 12 13 14 15 16] Samples per pixel (high performance impact).
 #define CLOUD_SPEED 0 // [0 1 2] Change the speed of clouds for display purposes.
 
 #if CLOUD_VOL_STYLE == 1
   #if CLOUD_SPEED == 0
     #define CLOUD_HI_FACTOR 0.001388888888888889
-    #define CLOUD_LOW_FACTOR 0.0001388888888888889
+    #define CLOUD_LOW_FACTOR 0.0002777777777777778
   #elif CLOUD_SPEED == 1
     #define CLOUD_HI_FACTOR 0.01388888888888889
-    #define CLOUD_LOW_FACTOR 0.001388888888888889
+    #define CLOUD_LOW_FACTOR 0.002777777777777778
   #elif CLOUD_SPEED == 2
     #define CLOUD_HI_FACTOR 0.1388888888888889
-    #define CLOUD_LOW_FACTOR 0.01388888888888889
+    #define CLOUD_LOW_FACTOR 0.02777777777777778
   #endif
 #else
   #if CLOUD_SPEED == 0
-    #define CLOUD_HI_FACTOR 0.0018204444444444446
-    #define CLOUD_LOW_FACTOR 0.00018204444444444446
+    #define CLOUD_HI_FACTOR 0.0016666666666666666
+    #define CLOUD_LOW_FACTOR 0.0002777777777777778
   #elif CLOUD_SPEED == 1
-    #define CLOUD_HI_FACTOR 0.018204444444444446
-    #define CLOUD_LOW_FACTOR 0.0018204444444444446
+    #define CLOUD_HI_FACTOR 0.016666666666666666
+    #define CLOUD_LOW_FACTOR 0.002777777777777778
   #elif CLOUD_SPEED == 2
-    #define CLOUD_HI_FACTOR 0.18204444444444446
-    #define CLOUD_LOW_FACTOR 0.018204444444444446
+    #define CLOUD_HI_FACTOR 0.16666666666666666
+    #define CLOUD_LOW_FACTOR 0.02777777777777778
   #endif
 #endif
 

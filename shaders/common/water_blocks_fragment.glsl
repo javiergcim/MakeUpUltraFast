@@ -49,7 +49,7 @@ uniform sampler2D gaux4;
   // Don't remove (Optifine bug?)
 #endif
 
-#if defined CLOUD_REFLECTION && V_CLOUDS > 0 && !defined NETHER
+#if defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER
   uniform vec3 cameraPosition;
   uniform mat4 gbufferModelViewInverse;
 #endif
@@ -87,7 +87,7 @@ varying vec3 up_vec;
 
 #include "/lib/luma.glsl"
 
-#if defined CLOUD_REFLECTION && V_CLOUDS > 0 && !defined NETHER
+#if defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER
   #include "/lib/volumetric_clouds.glsl"
 #endif
 
@@ -153,7 +153,7 @@ void main() {
       hi_sky_color * .5 * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667);
   }
 
-  #if (defined CLOUD_REFLECTION && V_CLOUDS > 0 && !defined NETHER) || SSR_TYPE > 0
+  #if (defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER) || SSR_TYPE > 0
     #if AA_TYPE > 0
       float dither = shifted_makeup_dither(gl_FragCoord.xy);
     #else
@@ -163,16 +163,14 @@ void main() {
     float dither = 1.0;
   #endif
 
-  #if defined CLOUD_REFLECTION && V_CLOUDS > 0 && !defined NETHER
+  #if defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER
     sky_color_reflect = get_cloud(
       normalize((gbufferModelViewInverse * vec4(reflect_water_vec, 1.0)).xyz),
       sky_color_reflect,
       0.0,
       dither,
       worldposition.xyz,
-      int(CLOUD_STEPS_AVG * 0.5),
-      far,
-      eye_bright_smooth.y
+      int(CLOUD_STEPS_AVG * 0.5)
     );
   #endif
 

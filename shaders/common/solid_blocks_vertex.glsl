@@ -19,6 +19,10 @@ uniform float far;
 uniform float rainStrength;
 uniform ivec2 eyeBrightnessSmooth;
 
+#ifdef UNKNOWN_DIM
+  uniform sampler2D lightmap;
+#endif
+
 #if defined FOLIAGE_V || defined THE_END || defined NETHER
   uniform mat4 gbufferModelView;
 #endif

@@ -23,6 +23,10 @@ uniform mat4 gbufferModelViewInverse;
 uniform vec3 cameraPosition;
 uniform float rainStrength;
 
+#ifdef UNKNOWN_DIM
+  uniform sampler2D lightmap;
+#endif
+
 #if defined SHADOW_CASTING && !defined NETHER
   uniform mat4 shadowModelView;
   uniform mat4 shadowProjection;
