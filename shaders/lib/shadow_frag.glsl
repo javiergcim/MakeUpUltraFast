@@ -81,9 +81,9 @@ float get_shadow(vec3 the_shadow_pos) {
       float alpha_complement;
 
       #if AA_TYPE > 0
-        float dither = shifted_makeup_dither(gl_FragCoord.xy);
+        float dither = shifted_unit_dither(gl_FragCoord.xy);
       #else
-        float dither = r_dither(gl_FragCoord.xy);
+        float dither = unit_dither(gl_FragCoord.xy);
       #endif
 
       #if SHADOW_RES == 0 || SHADOW_RES == 1 || SHADOW_RES == 2
