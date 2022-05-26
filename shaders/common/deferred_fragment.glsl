@@ -13,6 +13,7 @@ out vec4 outColor0;
 #endif
 
 uniform sampler2D colortex0;
+// uniform sampler2D gaux4;
 uniform sampler2D depthtex0;
 uniform float far;
 uniform float near;
@@ -73,11 +74,10 @@ flat in vec3 up_vec;  // Flat
 #endif
 
 void main() {
-  vec4 block_color = texture(colortex0, texcoord);
   float d = texture(depthtex0, texcoord).r;
   float linear_d = ld(d);
 
-  vec4 effects_color = vec4(0.0);
+  vec4 effects_color = vec4(texture(colortex0, texcoord).rgb, 1.0);
 
   vec3 view_vector;
 
@@ -130,22 +130,20 @@ void main() {
       #endif
 
       #ifdef THE_END
-        // block_color.rgb =
-        effects_color =
-          get_end_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
+        effects_color.rgb =
+          get_end_cloud(view_vector, effects_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
       #else
-        // block_color.rgb =
-        effects_color =
-          get_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
+        effects_color.rgb =
+          get_cloud(view_vector, effects_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
       #endif
     }
   #endif
 
   /* DRAWBUFFERS:6 */
   #if AO == 1
-  if (linear_d <= 0.9999) {
-    effects_color = vec4(vec3(0.0), (1.0 - final_ao));
-  }
+    if (linear_d <= 0.9999) {
+      effects_color.a = final_ao;
+    }
   #endif
 
   outColor0 = effects_color;

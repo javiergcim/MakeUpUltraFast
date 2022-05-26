@@ -67,7 +67,16 @@ void main() {
     }
   #endif
 
-  vec3 result = mix(block_color.rgb, effects_color.rgb, effects_color.a);
+  vec3 result;
+  #if !defined NETHER
+    if (linear_d > 0.9999) {
+      result = effects_color.rgb;
+    } else {
+      result = mix(vec3(0.0), block_color.rgb , effects_color.a);
+    }
+  #else
+    result = block_color.rgb;
+  #endif
 
   #if defined THE_END || defined NETHER
     #define NIGHT_CORRECTION 1.0
