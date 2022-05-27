@@ -86,8 +86,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 // Cloud parameters
 #if CLOUD_VOL_STYLE == 1
-  #define CLOUD_PLANE_SUP 349.0
-  #define CLOUD_PLANE_CENTER 334.0
+  #define CLOUD_PLANE_SUP 369.0
+  #define CLOUD_PLANE_CENTER 344.0
   #define CLOUD_PLANE 319.0
 #else
   #define CLOUD_PLANE_SUP 640.0
