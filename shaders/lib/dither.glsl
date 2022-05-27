@@ -25,16 +25,17 @@ float timed_hash12(vec2 p)
 
 float r_dither(vec2 frag) {
   return fract(frag.x * 0.75487766624669276 + frag.y * 0.569840290998);
+  // return fract(frag.x * 0.569840290998 + frag.y * 0.75487766624669276);
 }
 
 float shifted_r_dither(vec2 frag) {
-  return fract((0.7 * frame_mod) + (frag.x * 0.75487766624669276 + frag.y * 0.569840290998));
+  return fract((0.3 * frame_mod) + (frag.x * 0.75487766624669276 + frag.y * 0.569840290998));
 }
 
 float eclectic_r_dither(vec2 frag) {
   uvec2 q = uvec2(ivec2(frag)) * UI2;
 	uint n = (q.x ^ q.y) * UI0;
-	float p4 = float(n) * UIF * 0.125;
+	float p4 = float(n) * UIF * 0.175;
 
   return fract(p4 + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
 }
@@ -42,9 +43,9 @@ float eclectic_r_dither(vec2 frag) {
 float shifted_eclectic_r_dither(vec2 frag) {
   uvec2 q = uvec2(ivec2(frag)) * UI2;
 	uint n = (q.x ^ q.y) * UI0;
-	float p4 = float(n) * UIF * 0.125;
+	float p4 = float(n) * UIF * 0.175;
 
-  return fract((0.7 * frame_mod) + p4 + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
+  return fract((0.3 * frame_mod) + p4 + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
 }
 
 float dither17(vec2 pos) {
@@ -190,25 +191,25 @@ float shifted_eclectic_unit_dither(vec2 frag) {
 }
 
 float makeup_dither(vec2 frag) {
-  return fract(dot(frag, vec2(0.5562305898749054, 0.8083512046226566)));
+  return fract(dot(frag, vec2(0.6180339887498948, 0.8983902273585074)));
 }
 
 float eclectic_makeup_dither(vec2 frag) {
   uvec2 q = uvec2(ivec2(frag)) * UI2;
 	uint n = (q.x ^ q.y) * UI0;
-	float p4 = float(n) * UIF * 0.14;
+	float p4 = float(n) * UIF * 0.175;
 
-  return fract(p4 + dot(frag, vec2(0.5562305898749054, 0.8083512046226566)));
+  return fract(p4 + dot(frag, vec2(0.6180339887498948, 0.8983902273585074)));
 }
 
 float shifted_makeup_dither(vec2 frag) {
-  return fract(0.3 * frame_mod + dot(frag, vec2(0.5562305898749054, 0.8083512046226566)));
+  return fract(0.3 * frame_mod + dot(frag, vec2(0.6180339887498948, 0.8983902273585074)));
 }
 
 float shifted_eclectic_makeup_dither(vec2 frag) {
   uvec2 q = uvec2(ivec2(frag)) * UI2;
   uint n = (q.x ^ q.y) * UI0;
-  float p4 = float(n) * UIF * 0.14;
+  float p4 = float(n) * UIF * 0.175;
 
-  return fract(0.3 * frame_mod + p4 + dot(frag, vec2(0.5562305898749054, 0.8083512046226566)));
+  return fract(0.3 * frame_mod + p4 + dot(frag, vec2(0.6180339887498948, 0.8983902273585074)));
 }

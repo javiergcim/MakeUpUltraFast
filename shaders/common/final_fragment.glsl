@@ -73,9 +73,9 @@ void main() {
   block_color *= vec3(exposure);
 
   #if defined UNKNOWN_DIM
-    block_color = custom_ACES_alt(block_color);
+    block_color = custom_sigmoid_alt(block_color);
   #else
-    block_color = custom_ACES(block_color);
+    block_color = custom_sigmoid(block_color);
   #endif
 
   // Color-grading ---
