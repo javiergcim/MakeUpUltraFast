@@ -209,7 +209,7 @@ void main() {
     #else
 
       #if WATER_TEXTURE == 1
-        float water_texture = block_color.r;
+        float water_texture = block_color.r * 2.0;
       #else
         float water_texture = 1.0;
       #endif
