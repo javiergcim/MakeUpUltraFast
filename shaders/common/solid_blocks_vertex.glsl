@@ -80,11 +80,20 @@ out vec2 imcoord_alt;
 
 
 
-out vec2 lmcoord_alt;
-flat out vec3 material_normal;
-out vec4 position2;
-out vec3 tangent;
-out vec3 binormal;
+uniform int worldTime;
+uniform vec3 moonPosition;
+// uniform vec3 sunPosition;
+// uniform mat4 gbufferProjectionInverse;
+// uniform mat4 gbufferProjection;
+// uniform float pixel_size_x;
+// uniform float pixel_size_y;
+
+// out vec2 lmcoord_alt;
+// flat out vec3 material_normal;
+// out vec4 position2;
+// out vec3 tangent;
+// out vec3 binormal;
+out float material_gloss_factor;
 
 attribute vec4 at_tangent;
 
@@ -118,6 +127,49 @@ attribute vec4 at_tangent;
 
 #include "/lib/luma.glsl"
 
+
+
+
+
+
+
+// #include "/lib/projection_utils.glsl"
+
+float material_gloss(vec3 fragpos, vec2 lmcoord_alt) {
+  vec3 astro_pos = worldTime > 12900 ? moonPosition : sunPosition;
+  float astro_vector =
+    max(dot(normalize(fragpos), normalize(astro_pos)), 0.0);
+
+  return clamp(
+      // smoothstep(0.875, 1.0, pow(astro_vector, 0.5)) *
+      mix(0.0, 1.0, pow(clamp(astro_vector * 2.0 - 1.0, 0.0, 1.0), 7.0)) *
+      clamp(lmcoord_alt.y, 0.0, 1.0) *
+      (1.0 - rainStrength),
+      0.0,
+      1.0
+    ) * 1.5;
+}
+  
+vec3 get_mat_normal(vec3 bump, vec3 material_normal, vec3 tangent, vec3 binormal, vec3 position2) {
+  float NdotE = abs(dot(material_normal, normalize(position2)));
+
+  bump *= vec3(NdotE) + vec3(0.0, 0.0, 1.0 - NdotE);
+
+  mat3 tbn_matrix = mat3(
+    tangent.x, binormal.x, material_normal.x,
+    tangent.y, binormal.y, material_normal.y,
+    tangent.z, binormal.z, material_normal.z
+    );
+
+  return normalize(bump * tbn_matrix);
+}
+
+
+
+
+
+
+
 void main() {
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
   vec2 va_UV2 = vec2(vaUV2);
@@ -126,9 +178,6 @@ void main() {
   #include "/src/position_vertex.glsl"
   #include "/src/light_vertex.glsl"
   #include "/src/fog_vertex.glsl"
-
-  lmcoord_alt = lmcoord;
-  material_normal = normal;
 
   #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
     emmisive_type = 0.0;
@@ -156,7 +205,25 @@ void main() {
 
 
   vec4 full_position = vec4(vaPosition + chunkOffset, 1.0);
-  position2 = modelViewMatrix * full_position;
-  tangent = normalize(normalMatrix * at_tangent.xyz);
-  binormal = normalize(normalMatrix * -cross(vaNormal, at_tangent.xyz));
+  vec3 position2 = (modelViewMatrix * full_position).xyz;
+  vec3 tangent = normalize(normalMatrix * at_tangent.xyz);
+  vec3 binormal = normalize(normalMatrix * -cross(vaNormal, at_tangent.xyz));
+
+
+
+
+
+  // vec3 fragpos =
+    // to_screen_space(
+    //   vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z)
+    //   );
+
+    // to_screen_space(
+    //   vec3(position2.xy * vec2(pixel_size_x, pixel_size_y), position2.z)
+    //   );
+  vec3 flat_normal = get_mat_normal(vec3(0.0, 0.0, 1.0), normal, tangent, binormal, position2);
+
+  // material_gloss_factor = material_gloss(reflect(normalize(fragpos), normal), lmcoord);
+  material_gloss_factor = material_gloss(reflect(normalize(position2.xyz), normal), lmcoord);
+  // material_gloss_factor = 0.0;
 }
