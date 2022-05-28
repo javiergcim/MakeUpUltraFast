@@ -180,7 +180,6 @@ void main() {
       int(CLOUD_STEPS_AVG * 0.5)
     );
 
-    // sky_color_reflect = mix(sky_color_reflect, sky_color_reflect_cloud.rgb, sky_color_reflect_cloud.a);
   #endif
 
   if (block_type > 2.5) {  // Water
@@ -213,7 +212,6 @@ void main() {
         sky_color_reflect,
         norm_reflect_water_vec,
         fresnel * (clamp((fresnel_tex * 3.0 - 1.5), 0.0, 1.0) + 0.2),
-        // fresnel,
         visible_sky,
         dither,
         direct_light_color

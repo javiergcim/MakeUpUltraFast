@@ -31,9 +31,9 @@ uniform mat3 normalMatrix;
   uniform mat4 gbufferModelView;
 #endif
 
-#if defined FOLIAGE_V || (defined SHADOW_CASTING)
+// #if defined FOLIAGE_V || (defined SHADOW_CASTING)
   uniform mat4 gbufferModelViewInverse;
-#endif
+// #endif
 
 #if defined SHADOW_CASTING && !defined NETHER
   uniform mat4 shadowModelView;
@@ -61,6 +61,8 @@ out float direct_light_strenght;
 out vec3 omni_light;
 out float var_fog_frag_coord;
 
+out vec2 imcoord_alt;
+
 #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
   out float emmisive_type;
 #endif
@@ -73,6 +75,24 @@ out float var_fog_frag_coord;
   out vec3 shadow_pos;
   out float shadow_diffuse;
 #endif
+
+
+
+
+
+out vec2 lmcoord_alt;
+flat out vec3 material_normal;
+out vec4 position2;
+out vec3 tangent;
+out vec3 binormal;
+
+attribute vec4 at_tangent;
+
+
+
+
+
+
 
 #if defined FOLIAGE_V || defined GBUFFER_TERRAIN || defined GBUFFER_HAND
   attribute vec4 mc_Entity;
@@ -107,6 +127,9 @@ void main() {
   #include "/src/light_vertex.glsl"
   #include "/src/fog_vertex.glsl"
 
+  lmcoord_alt = lmcoord;
+  material_normal = normal;
+
   #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
     emmisive_type = 0.0;
     if (mc_Entity.x == ENTITY_EMMISIVE || mc_Entity.x == ENTITY_S_EMMISIVE) {
@@ -125,4 +148,15 @@ void main() {
       }
     #endif
   #endif
+
+
+
+
+
+
+
+  vec4 full_position = vec4(vaPosition + chunkOffset, 1.0);
+  position2 = modelViewMatrix * full_position;
+  tangent = normalize(normalMatrix * at_tangent.xyz);
+  binormal = normalize(normalMatrix * -cross(vaNormal, at_tangent.xyz));
 }
