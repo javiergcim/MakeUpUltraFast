@@ -135,7 +135,7 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright, float dithe
     block_color = mix(
       block_color,
       cloud_color,
-      cloud_value
+      cloud_value * clamp((view_vector.y - 0.06) * 5.0, 0.0, 1.0)
     );
     
     block_color =

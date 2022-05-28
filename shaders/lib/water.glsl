@@ -89,7 +89,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
           (1.0 - rainStrength),
           0.0,
           1.0
-        );
+        ) * 5.0;
     }
 
   #endif
@@ -187,7 +187,8 @@ vec3 water_shader(
   vec3 reflected,
   float fresnel,
   float visible_sky,
-  float dither) {
+  float dither,
+  vec3 light_color) {
   vec4 reflection = vec4(0.0);
   float infinite = 1.0;
 
@@ -209,7 +210,7 @@ vec3 water_shader(
     #ifndef NETHER
       #ifndef THE_END
         return mix(color, reflection.rgb, fresnel * REFLEX_INDEX) +
-          vec3(sun_reflection(reflect(normalize(fragpos), normal))) * infinite;          
+          vec3(sun_reflection(reflect(normalize(fragpos), normal))) * light_color * infinite;          
       #else
         return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
       #endif
