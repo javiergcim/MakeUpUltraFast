@@ -52,7 +52,7 @@ in float var_fog_frag_coord;
 #endif
 
 #ifdef FOLIAGE_V
-  in float is_foliage;
+  flat in float is_foliage;
 #endif
 
 #if defined SHADOW_CASTING && !defined NETHER
@@ -67,74 +67,12 @@ in float var_fog_frag_coord;
 
 #include "/lib/luma.glsl"
 
-
-
-
-
-
-
-
-
-// uniform int worldTime;
-// uniform vec3 moonPosition;
-// uniform vec3 sunPosition;
-// uniform mat4 gbufferProjectionInverse;
-// uniform mat4 gbufferProjection;
-
-in float material_gloss_factor;
-// in vec2 lmcoord_alt;
-// flat in vec3 material_normal;
-// in vec4 position2;
-// in vec3 tangent;
-// in vec3 binormal;
-
-// #include "/lib/projection_utils.glsl"
-
-// float material_gloss(vec3 fragpos) {
-//   vec3 astro_pos = worldTime > 12900 ? moonPosition : sunPosition;
-//   float astro_vector =
-//     max(dot(normalize(fragpos), normalize(astro_pos)), 0.0);
-
-//   return clamp(
-//       // smoothstep(0.875, 1.0, pow(astro_vector, 0.5)) *
-//       mix(0.0, 1.0, pow(clamp(astro_vector * 2.0 - 1.0, 0.0, 1.0), 7.0)) *
-//       clamp(lmcoord_alt.y, 0.0, 1.0) *
-//       (1.0 - rainStrength),
-//       0.0,
-//       1.0
-//     ) * 1.5;
-// }
-  
-// vec3 get_mat_normal(vec3 bump) {
-//   float NdotE = abs(dot(material_normal, normalize(position2.xyz)));
-
-//   bump *= vec3(NdotE) + vec3(0.0, 0.0, 1.0 - NdotE);
-
-//   mat3 tbn_matrix = mat3(
-//     tangent.x, binormal.x, material_normal.x,
-//     tangent.y, binormal.y, material_normal.y,
-//     tangent.z, binormal.z, material_normal.z
-//     );
-
-//   return normalize(bump * tbn_matrix);
-// }
-
-
-
-
-
+#if defined MATERIAL_GLOSS
+  in float material_gloss_factor;
+  flat in float block_type;
+#endif
 
 void main() {
-  // vec3 fragpos =
-  //   to_screen_space(
-  //     vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z)
-  //     );
-  // vec3 flat_normal = get_mat_normal(vec3(0.0, 0.0, 1.0));
-
-
-
-
-  // vec3 direct_test = direct_light_color;
   // Toma el color puro del bloque
   #if defined GBUFFER_ENTITIES
     #if BLACK_ENTITY_FIX == 1
@@ -150,13 +88,7 @@ void main() {
     vec4 block_color = texture(gtexture, texcoord) * tint_color;
   #endif
 
-
-
-
   float block_luma = luma(block_color.rgb);
-
-
-
 
   vec3 final_candle_color = candle_color;
   #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
@@ -196,21 +128,29 @@ void main() {
   #if defined GBUFFER_BEACONBEAM
     block_color.rgb *= 1.5;
   #else
-    // vec3 real_light =
-    //   omni_light +
-    //   (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - (rainStrength * 0.75)) +
-    //   final_candle_color;
 
+  #if defined MATERIAL_GLOSS
+    if (block_type > 2.5) {  // Metal-like
+      block_luma *= 1.35;
+      block_luma = pow(block_luma, 3.0);
+    } else if (block_type > 1.5) {  // Sand-like
+      block_luma = pow(block_luma, 5.0);
+    } else {
+      block_luma *= 1.7;
+      block_luma *= block_luma;
+    }
 
-    // vec3 material_gloss_color = direct_light_color * material_gloss(reflect(normalize(fragpos), flat_normal));
     float material = material_gloss_factor * block_luma;
     vec3 real_light =
       omni_light +
-      // ((direct_light_strenght * shadow_c * direct_light_color) + (direct_light_color * material_gloss_factor * shadow_c)) * (1.0 - (rainStrength * 0.75)) +
       (shadow_c * ((direct_light_color * direct_light_strenght) + (direct_light_color * material))) * (1.0 - (rainStrength * 0.75)) +
       final_candle_color;
-
-    // vec3 real_light = vec3(material_gloss_factor);
+  #else
+    vec3 real_light =
+      omni_light +
+      (shadow_c * direct_light_color * direct_light_strenght) * (1.0 - (rainStrength * 0.75)) +
+      final_candle_color;
+  #endif
 
     block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
   #endif

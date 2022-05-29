@@ -33,9 +33,14 @@ uniform mat3 normalMatrix;
   uniform mat4 gbufferModelView;
 #endif
 
-// #if defined FOLIAGE_V || (defined SHADOW_CASTING)
+#if defined FOLIAGE_V || defined SHADOW_CASTING || defined MATERIAL_GLOSS
   uniform mat4 gbufferModelViewInverse;
-// #endif
+#endif
+
+#if defined MATERIAL_GLOSS
+  uniform int worldTime;
+  uniform vec3 moonPosition;
+#endif
 
 #if defined SHADOW_CASTING && !defined NETHER
   uniform mat4 shadowModelView;
@@ -63,14 +68,12 @@ out float direct_light_strenght;
 out vec3 omni_light;
 out float var_fog_frag_coord;
 
-out vec2 imcoord_alt;
-
 #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
   out float emmisive_type;
 #endif
 
 #ifdef FOLIAGE_V
-  out float is_foliage;
+  flat out float is_foliage;
 #endif
 
 #if defined SHADOW_CASTING && !defined NETHER
@@ -78,34 +81,16 @@ out vec2 imcoord_alt;
   out float shadow_diffuse;
 #endif
 
+#if defined MATERIAL_GLOSS
+  out float material_gloss_factor;
+  flat out float block_type;
+#endif
 
+#if defined MATERIAL_GLOSS
+  attribute vec4 at_tangent;
+#endif
 
-
-
-uniform int worldTime;
-uniform vec3 moonPosition;
-// uniform vec3 sunPosition;
-// uniform mat4 gbufferProjectionInverse;
-// uniform mat4 gbufferProjection;
-// uniform float pixel_size_x;
-// uniform float pixel_size_y;
-
-// out vec2 lmcoord_alt;
-// flat out vec3 material_normal;
-// out vec4 position2;
-// out vec3 tangent;
-// out vec3 binormal;
-out float material_gloss_factor;
-
-attribute vec4 at_tangent;
-
-
-
-
-
-
-
-#if defined FOLIAGE_V || defined GBUFFER_TERRAIN || defined GBUFFER_HAND
+#if defined FOLIAGE_V || defined GBUFFER_TERRAIN || defined GBUFFER_HAND || defined MATERIAL_GLOSS
   attribute vec4 mc_Entity;
 #endif
 
@@ -129,22 +114,9 @@ attribute vec4 at_tangent;
 
 #include "/lib/luma.glsl"
 
-
-
-
-
-
 #if defined MATERIAL_GLOSS
   #include "/lib/material_gloss.glsl"
 #endif
-
-
-
-
-
-
-
-
 
 void main() {
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
@@ -174,32 +146,29 @@ void main() {
     #endif
   #endif
 
+  #if defined MATERIAL_GLOSS
+    block_type = 0.0;  // 3 - Metal-like, 2 - Sand-like, ? - Default
+    float gloss_power = 7.0;
+    float gloss_factor = 1.0;
 
+    if (mc_Entity.x == ENTITY_METAL) {  // Metal-like block
+    float gloss_power = 10.0;
+      block_type = 3.0;
+      gloss_factor = 1.0;
+    } else if (mc_Entity.x == ENTITY_SAND) {  // Sand-like block
+      block_type = 2.0;
+      gloss_factor = 1.0;
+    }
 
+    if (mc_Entity.x == ENTITY_METAL) {
+    } else
 
-
-
-
-  // vec4 full_position = vec4(vaPosition + chunkOffset, 1.0);
-  // vec3 position2 = (modelViewMatrix * full_position).xyz;
-  // vec3 tangent = normalize(normalMatrix * at_tangent.xyz);
-  // vec3 binormal = normalize(normalMatrix * -cross(vaNormal, at_tangent.xyz));
-
-
-
-
-
-  // vec3 fragpos =
-    // to_screen_space(
-    //   vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z)
-    //   );
-
-    // to_screen_space(
-    //   vec3(position2.xy * vec2(pixel_size_x, pixel_size_y), position2.z)
-    //   );
-  vec3 flat_normal = get_mat_normal(normal, tangent, binormal, sub_position.xyz);
-
-  // material_gloss_factor = material_gloss(reflect(normalize(fragpos), normal), lmcoord);
-  material_gloss_factor = material_gloss(reflect(normalize(sub_position.xyz), normal), lmcoord);
-  // material_gloss_factor = 0.0;
+    vec3 flat_normal = get_mat_normal(normal, tangent, binormal, sub_position.xyz);
+    material_gloss_factor =
+      material_gloss(
+        reflect(normalize(sub_position.xyz), normal),
+        lmcoord,
+        gloss_power
+      ) * gloss_factor;
+  #endif
 }
