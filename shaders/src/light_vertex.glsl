@@ -153,3 +153,8 @@ float omni_strenght = (direct_light_strenght * .125) + 1.0;
     direct_light_strenght = 10.0;
   }
 #endif
+
+#if defined MATERIAL_GLOSS && defined SOLID_COMMON
+  vec3 tangent = normalize(normalMatrix * at_tangent.xyz);
+  vec3 binormal = normalize(normalMatrix * -cross(vaNormal, at_tangent.xyz));
+#endif

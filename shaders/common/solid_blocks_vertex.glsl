@@ -1,3 +1,5 @@
+#define SOLID_COMMON
+
 #include "/lib/config.glsl"
 
 #if defined THE_END
@@ -132,37 +134,11 @@ attribute vec4 at_tangent;
 
 
 
+#if defined MATERIAL_GLOSS
+  #include "/lib/material_gloss.glsl"
+#endif
 
-// #include "/lib/projection_utils.glsl"
 
-float material_gloss(vec3 fragpos, vec2 lmcoord_alt) {
-  vec3 astro_pos = worldTime > 12900 ? moonPosition : sunPosition;
-  float astro_vector =
-    max(dot(normalize(fragpos), normalize(astro_pos)), 0.0);
-
-  return clamp(
-      // smoothstep(0.875, 1.0, pow(astro_vector, 0.5)) *
-      mix(0.0, 1.0, pow(clamp(astro_vector * 2.0 - 1.0, 0.0, 1.0), 7.0)) *
-      clamp(lmcoord_alt.y, 0.0, 1.0) *
-      (1.0 - rainStrength),
-      0.0,
-      1.0
-    ) * 1.5;
-}
-  
-vec3 get_mat_normal(vec3 bump, vec3 material_normal, vec3 tangent, vec3 binormal, vec3 position2) {
-  float NdotE = abs(dot(material_normal, normalize(position2)));
-
-  bump *= vec3(NdotE) + vec3(0.0, 0.0, 1.0 - NdotE);
-
-  mat3 tbn_matrix = mat3(
-    tangent.x, binormal.x, material_normal.x,
-    tangent.y, binormal.y, material_normal.y,
-    tangent.z, binormal.z, material_normal.z
-    );
-
-  return normalize(bump * tbn_matrix);
-}
 
 
 
@@ -204,10 +180,10 @@ void main() {
 
 
 
-  vec4 full_position = vec4(vaPosition + chunkOffset, 1.0);
-  vec3 position2 = (modelViewMatrix * full_position).xyz;
-  vec3 tangent = normalize(normalMatrix * at_tangent.xyz);
-  vec3 binormal = normalize(normalMatrix * -cross(vaNormal, at_tangent.xyz));
+  // vec4 full_position = vec4(vaPosition + chunkOffset, 1.0);
+  // vec3 position2 = (modelViewMatrix * full_position).xyz;
+  // vec3 tangent = normalize(normalMatrix * at_tangent.xyz);
+  // vec3 binormal = normalize(normalMatrix * -cross(vaNormal, at_tangent.xyz));
 
 
 
@@ -221,9 +197,9 @@ void main() {
     // to_screen_space(
     //   vec3(position2.xy * vec2(pixel_size_x, pixel_size_y), position2.z)
     //   );
-  vec3 flat_normal = get_mat_normal(vec3(0.0, 0.0, 1.0), normal, tangent, binormal, position2);
+  vec3 flat_normal = get_mat_normal(normal, tangent, binormal, sub_position.xyz);
 
   // material_gloss_factor = material_gloss(reflect(normalize(fragpos), normal), lmcoord);
-  material_gloss_factor = material_gloss(reflect(normalize(position2.xyz), normal), lmcoord);
+  material_gloss_factor = material_gloss(reflect(normalize(sub_position.xyz), normal), lmcoord);
   // material_gloss_factor = 0.0;
 }

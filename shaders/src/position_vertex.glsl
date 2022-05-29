@@ -1,8 +1,10 @@
 // Waving plants calculation
 #ifdef FOLIAGE_V
   #if WAVING == 1
+    vec4 full_position = vec4(vaPosition + chunkOffset, 1.0);
+    vec4 sub_position = modelViewMatrix * full_position;
     vec4 position =
-      gbufferModelViewInverse * modelViewMatrix * vec4(vaPosition + chunkOffset, 1.0);
+      gbufferModelViewInverse * sub_position;
 
     vec3 worldpos = position.xyz + cameraPosition;
 
@@ -46,25 +48,29 @@
       is_foliage = .4;
     }
 
+    vec4 full_position = vec4(vaPosition + chunkOffset, 1.0);
+    vec4 sub_position = modelViewMatrix * full_position;
     vec4 position =
-      gbufferModelViewInverse * modelViewMatrix * vec4(vaPosition + chunkOffset, 1.0);
+      gbufferModelViewInverse * sub_position;
 
     gl_Position = projectionMatrix * gbufferModelView * position;
 
   #endif
 
 #else
+  vec4 full_position = vec4(vaPosition + chunkOffset, 1.0);
+  vec4 sub_position = modelViewMatrix * full_position;
   #ifndef NO_SHADOWS
     #ifdef SHADOW_CASTING
       vec4 position =
-        (gbufferModelViewInverse * modelViewMatrix * vec4(vaPosition + chunkOffset, 1.0));
+        gbufferModelViewInverse * sub_position;
     #endif
   #endif
 
   #ifdef SHADER_LINE
     gl_Position = projectionMatrix * modelViewMatrix * vec4(vaPosition, 1.0);
   #else
-    gl_Position = (projectionMatrix * modelViewMatrix) * vec4(vaPosition + chunkOffset, 1.0);
+    gl_Position = projectionMatrix * sub_position;
   #endif
 
 #endif

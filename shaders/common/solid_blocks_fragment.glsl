@@ -150,12 +150,21 @@ void main() {
     vec4 block_color = texture(gtexture, texcoord) * tint_color;
   #endif
 
+
+
+
+  float block_luma = luma(block_color.rgb);
+
+
+
+
   vec3 final_candle_color = candle_color;
   #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
     float candle_luma = 1.0;
     if (emmisive_type > 0.5) {
-      candle_luma = luma(block_color.rgb);
-      final_candle_color *= candle_luma * 1.5;
+      // candle_luma = luma(block_color.rgb);
+      // final_candle_color *= candle_luma * 1.5;
+      final_candle_color *= block_luma * 1.5;
     }
   #endif
   
@@ -194,10 +203,11 @@ void main() {
 
 
     // vec3 material_gloss_color = direct_light_color * material_gloss(reflect(normalize(fragpos), flat_normal));
+    float material = material_gloss_factor * block_luma;
     vec3 real_light =
       omni_light +
       // ((direct_light_strenght * shadow_c * direct_light_color) + (direct_light_color * material_gloss_factor * shadow_c)) * (1.0 - (rainStrength * 0.75)) +
-      (shadow_c * ((direct_light_color * direct_light_strenght) + (direct_light_color * material_gloss_factor))) * (1.0 - (rainStrength * 0.75)) +
+      (shadow_c * ((direct_light_color * direct_light_strenght) + (direct_light_color * material))) * (1.0 - (rainStrength * 0.75)) +
       final_candle_color;
 
     // vec3 real_light = vec3(material_gloss_factor);

@@ -80,7 +80,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // #define DEBUG_MODE // Set debug mode.
 #define BLOCKLIGHT_TEMP 1 // [0 1 2 3 4] Set blacklight temperature
 // #define USE_BASIC_SH // Sets the use of a "basic" or "generic" shader for custom dimensions, instead of the default overworld shader. This can solve some rendering issues as the shader is closer to vanilla rendering.
-
+#define MATERIAL_GLOSS // Enable material gloss effect
 // Reflection parameters
 #define RAYMARCH_STEPS 9
 
