@@ -160,10 +160,9 @@ void main() {
       gloss_factor = 1.0;
     }
 
-    if (mc_Entity.x == ENTITY_METAL) {
-    } else
 
-    vec3 flat_normal = get_mat_normal(normal, tangent, binormal, sub_position.xyz);
+
+    // vec3 flat_normal = get_mat_normal(normal, tangent, binormal, sub_position.xyz);
     material_gloss_factor =
       material_gloss(
         reflect(normalize(sub_position.xyz), normal),
