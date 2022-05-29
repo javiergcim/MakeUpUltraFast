@@ -82,13 +82,13 @@ out float var_fog_frag_coord;
 #endif
 
 #if defined MATERIAL_GLOSS
-  // out float material_gloss_factor;
-  flat out float block_type;
   out vec3 flat_normal;
   out vec3 sub_position3;
   out vec2 lmcoord_alt;
   flat out float gloss_factor;
   flat out float gloss_power;
+  flat out float luma_factor;
+  flat out float luma_power;
 #endif
 
 #if defined MATERIAL_GLOSS
@@ -152,27 +152,24 @@ void main() {
   #endif
 
   #if defined MATERIAL_GLOSS
-    block_type = 0.0;  // 3 - Metal-like, 2 - Sand-like, ? - Default
+    luma_factor = 1.7;
+    luma_power = 2.0;
     gloss_power = 7.0;
     gloss_factor = 1.0;
 
     if (mc_Entity.x == ENTITY_METAL) {  // Metal-like block
+      luma_factor = 1.35;
+      luma_power = 3.0;
       gloss_power = 10.0;
-      block_type = 3.0;
-      gloss_factor = 1.0;
     } else if (mc_Entity.x == ENTITY_SAND) {  // Sand-like block
-      block_type = 2.0;
-      gloss_factor = 1.0;
+      luma_factor = 1.0;
+      luma_power = 5.0;
     }
 
     flat_normal = normal;
     sub_position3 = sub_position.xyz;
 
     lmcoord_alt = lmcoord;
-
-
-
-    // vec3 flat_normal = get_mat_normal(normal, tangent, binormal, sub_position.xyz);
     
   #endif
 }

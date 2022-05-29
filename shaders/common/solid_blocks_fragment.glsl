@@ -80,13 +80,13 @@ in float var_fog_frag_coord;
 #include "/lib/luma.glsl"
 
 #if defined MATERIAL_GLOSS
-  // in float material_gloss_factor;
-  flat in float block_type;
   in vec3 flat_normal;
   in vec3 sub_position3;
   in vec2 lmcoord_alt;
   flat in float gloss_factor;
   flat in float gloss_power;
+  flat in float luma_factor;
+  flat in float luma_power;
 #endif
 
 float material_gloss(vec3 fragpos, vec2 lmcoord_alt, float gloss_power) {
@@ -175,18 +175,8 @@ void main() {
         gloss_power
       ) * gloss_factor;
 
-    // float material_gloss_factor = 1.0;
-
-
-    if (block_type > 2.5) {  // Metal-like
-      block_luma *= 1.35;
-      block_luma = pow(block_luma, 3.0);
-    } else if (block_type > 1.5) {  // Sand-like
-      block_luma = pow(block_luma, 5.0);
-    } else {
-      block_luma *= 1.7;
-      block_luma *= block_luma;
-    }
+    block_luma *= luma_factor;
+    block_luma = pow(block_luma, luma_power);
 
     float material = material_gloss_factor * block_luma;
     vec3 real_light =
