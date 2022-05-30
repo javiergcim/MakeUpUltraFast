@@ -1,5 +1,3 @@
-#define SOLID_COMMON
-
 #include "/lib/config.glsl"
 
 #if defined THE_END
@@ -119,10 +117,6 @@ out float var_fog_frag_coord;
 
 #include "/lib/luma.glsl"
 
-#if defined MATERIAL_GLOSS
-  #include "/lib/material_gloss.glsl"
-#endif
-
 void main() {
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
   vec2 va_UV2 = vec2(vaUV2);
@@ -157,13 +151,19 @@ void main() {
     gloss_power = 7.0;
     gloss_factor = 1.0;
 
-    if (mc_Entity.x == ENTITY_METAL) {  // Metal-like block
+    if (mc_Entity.x == ENTITY_COBBLESTONE) {
+      luma_factor = 1.35;
+      luma_power = 7.0;
+    } else if (mc_Entity.x == ENTITY_METAL) {  // Metal-like block
       luma_factor = 1.35;
       luma_power = 3.0;
       gloss_power = 10.0;
     } else if (mc_Entity.x == ENTITY_SAND) {  // Sand-like block
       luma_factor = 1.0;
       luma_power = 5.0;
+    } else if (mc_Entity.x == ENTITY_SNOW) {
+      luma_factor = 1.0;
+      luma_power = 3.0;
     }
 
     flat_normal = normal;

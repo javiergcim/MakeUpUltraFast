@@ -38,17 +38,11 @@ uniform float alphaTestRef;
   #endif
 #endif
 
-
-
-
 #if defined MATERIAL_GLOSS
   uniform int worldTime;
   uniform vec3 moonPosition;
   uniform vec3 sunPosition;
 #endif
-
-
-
 
 in vec2 texcoord;
 in vec4 tint_color;
@@ -72,13 +66,6 @@ in float var_fog_frag_coord;
   in float shadow_diffuse;
 #endif
 
-#if defined SHADOW_CASTING && !defined NETHER
-  #include "/lib/dither.glsl"
-  #include "/lib/shadow_frag.glsl"
-#endif
-
-#include "/lib/luma.glsl"
-
 #if defined MATERIAL_GLOSS
   in vec3 flat_normal;
   in vec3 sub_position3;
@@ -89,26 +76,16 @@ in float var_fog_frag_coord;
   flat in float luma_power;
 #endif
 
-float material_gloss(vec3 fragpos, vec2 lmcoord_alt, float gloss_power) {
-  vec3 astro_pos = worldTime > 12900 ? moonPosition : sunPosition;
-  float astro_vector =
-    max(dot(normalize(fragpos), normalize(astro_pos)), 0.0);
+#if defined SHADOW_CASTING && !defined NETHER
+  #include "/lib/dither.glsl"
+  #include "/lib/shadow_frag.glsl"
+#endif
 
-  return clamp(
-      mix(0.0, 1.0, pow(clamp(astro_vector * 2.0 - 1.0, 0.0, 1.0), gloss_power)) *
-      clamp(lmcoord_alt.y, 0.0, 1.0) *
-      (1.0 - rainStrength),
-      0.0,
-      1.0
-    );
-}
+#include "/lib/luma.glsl"
 
-
-
-
-
-
-
+#if defined MATERIAL_GLOSS
+  #include "/lib/material_gloss_fragment.glsl"
+#endif
 
 void main() {
   // Toma el color puro del bloque

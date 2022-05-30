@@ -250,7 +250,8 @@ vec4 cristal_shader(
   vec4 color,
   vec3 sky_reflection,
   float fresnel,
-  float dither)
+  float dither,
+  vec3 light_color)
 {
   vec4 reflection = vec4(0.0);
   float infinite = 0.0;
@@ -272,7 +273,7 @@ vec4 cristal_shader(
         return color +
           vec4(
             mix(
-              vec3(sun_reflection(reflect(normalize(fragpos), normal)) * 0.75 * infinite),
+              vec3(sun_reflection(reflect(normalize(fragpos), normal)) * light_color * infinite),
               vec3(0.0),
               reflection.a
             ),

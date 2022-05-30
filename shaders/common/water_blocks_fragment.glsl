@@ -297,7 +297,8 @@ void main() {
         block_color,
         real_light,
         fresnel * fresnel,
-        dither
+        dither,
+        direct_light_color
         );
     }
   }
