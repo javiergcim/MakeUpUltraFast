@@ -22,6 +22,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define ENTITY_SAND         10410.0  // Sand-like glossy blocks
 #define ENTITY_SNOW         10420.0  // Snow-like glossy blocks
 #define ENTITY_COBBLESTONE  10430.0  // Cobblestone-like glossy blocks
+#define ENTITY_FABRIC       10440.0  // Cobblestone-like glossy blocks
 
 // Other constants
 #define HI_SKY_RAIN_COLOR vec3(.7, .85, 1.0)

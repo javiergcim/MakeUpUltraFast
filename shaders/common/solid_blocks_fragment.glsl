@@ -38,10 +38,13 @@ uniform float alphaTestRef;
   #endif
 #endif
 
-#if defined MATERIAL_GLOSS
+#if defined MATERIAL_GLOSS && !defined NETHER
   uniform int worldTime;
   uniform vec3 moonPosition;
   uniform vec3 sunPosition;
+  #if defined THE_END
+    uniform mat4 gbufferModelView;
+  #endif
 #endif
 
 in vec2 texcoord;
@@ -66,7 +69,7 @@ in float var_fog_frag_coord;
   in float shadow_diffuse;
 #endif
 
-#if defined MATERIAL_GLOSS
+#if defined MATERIAL_GLOSS && !defined NETHER
   in vec3 flat_normal;
   in vec3 sub_position3;
   in vec2 lmcoord_alt;
@@ -83,7 +86,7 @@ in float var_fog_frag_coord;
 
 #include "/lib/luma.glsl"
 
-#if defined MATERIAL_GLOSS
+#if defined MATERIAL_GLOSS && !defined NETHER
   #include "/lib/material_gloss_fragment.glsl"
 #endif
 
@@ -144,7 +147,7 @@ void main() {
     block_color.rgb *= 1.5;
   #else
 
-  #if defined MATERIAL_GLOSS
+  #if defined MATERIAL_GLOSS && !defined NETHER
     float material_gloss_factor =
       material_gloss(
         reflect(normalize(sub_position3), flat_normal),
