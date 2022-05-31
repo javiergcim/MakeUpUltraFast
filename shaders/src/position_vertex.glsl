@@ -17,9 +17,7 @@
         mc_Entity.x == ENTITY_SMALLENTS ||
         mc_Entity.x == ENTITY_LEAVES)
     {
-      #ifndef NETHER
-        is_foliage = .4;
-      #endif
+      is_foliage = .4;
 
       float weight = float(gl_MultiTexCoord0.t < mc_midTexCoord.t);
 
