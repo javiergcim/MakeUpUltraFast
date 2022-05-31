@@ -145,8 +145,8 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
   return mix(texture(gaux1, pos.xy).rgb, color, water_absortion);
 }
 
-vec3 get_normals(vec3 bump) {
-  float NdotE = abs(dot(water_normal, normalize(position2.xyz)));
+vec3 get_normals(vec3 bump, vec3 fragpos) {
+  float NdotE = abs(dot(water_normal, normalize(fragpos)));
 
   bump *= vec3(NdotE) + vec3(0.0, 0.0, 1.0 - NdotE);
 

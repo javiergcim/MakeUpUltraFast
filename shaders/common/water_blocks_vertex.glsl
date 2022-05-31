@@ -50,7 +50,7 @@ out float frog_adjust;
 flat out vec3 water_normal;
 flat out float block_type;
 out vec4 worldposition;
-out vec4 position2;
+out vec3 fragposition;
 out vec3 tangent;
 out vec3 binormal;
 flat out vec3 direct_light_color;
@@ -90,8 +90,9 @@ void main() {
 
   water_normal = normal;
   vec4 full_position = vec4(vaPosition + chunkOffset, 1.0);
-  vec4 position = gbufferModelViewInverse * modelViewMatrix * full_position;
-  position2 = modelViewMatrix * full_position;
+  vec4 position2 = modelViewMatrix * full_position;
+  fragposition = position2.xyz;
+  vec4 position = gbufferModelViewInverse * position2;
   worldposition = position + vec4(cameraPosition.xyz, 0.0);
   gl_Position = projectionMatrix * gbufferModelView * position;
 
