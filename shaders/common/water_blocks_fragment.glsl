@@ -104,11 +104,6 @@ void main() {
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
 
   vec3 real_light;
-  // vec3 fragposition =
-  //   to_screen_space(
-  //     vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z)
-  //     );
-  // vec3 fragposition = position2.xyz;
 
   #ifdef VANILLA_WATER
     vec3 water_normal_base = vec3(0.0, 0.0, 1.0);
