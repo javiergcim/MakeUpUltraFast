@@ -122,6 +122,7 @@ option.CHROMA_ABER_STRENGHT=Chroma aberration strenght
 option.WATER_ABSORPTION=Water absorption index
 
 option.WATER_TURBULENCE=Waves strenght
+value.WATER_TURBULENCE.8.0=Very low
 value.WATER_TURBULENCE.3.7=Low
 value.WATER_TURBULENCE.1.7=Medium
 value.WATER_TURBULENCE.1.3=High
@@ -186,6 +187,8 @@ value.BLOCKLIGHT_TEMP.4=White light
 option.sunPathRotation=Sun angle
 
 option.USE_BASIC_SH=Custom dimensions basic shader
+
+option.MATERIAL_GLOSS=Material gloss
 
 #Screens
 screen.ADVANCED_SCREEN=Advanced options
