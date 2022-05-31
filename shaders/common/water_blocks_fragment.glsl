@@ -165,7 +165,7 @@ void main() {
 
   #if defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER
     sky_color_reflect = get_cloud(
-      normalize((gbufferModelViewInverse * vec4(reflect_water_vec, 1.0)).xyz),
+      normalize((gbufferModelViewInverse * vec4(reflect_water_vec * far, 1.0)).xyz),
       sky_color_reflect,
       0.0,
       dither,
@@ -193,6 +193,8 @@ void main() {
         (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
         candle_color;
 
+      float fresnel_tex = luma(block_color.rgb);
+
       block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125) * tint_color.rgb;
 
       block_color.rgb = water_shader(
@@ -201,9 +203,10 @@ void main() {
         block_color.rgb,
         sky_color_reflect,
         norm_reflect_water_vec,
-        fresnel,
+        fresnel * (clamp((fresnel_tex * 3.0 - 1.5), 0.0, 1.0) + 0.2),
         visible_sky,
-        dither
+        dither,
+        direct_light_color
       );
 
     #else
@@ -250,7 +253,8 @@ void main() {
         norm_reflect_water_vec,
         fresnel,
         visible_sky,
-        dither
+        dither,
+        direct_light_color
       );
 
     #endif
@@ -285,7 +289,8 @@ void main() {
         block_color,
         real_light,
         fresnel * fresnel,
-        dither
+        dither,
+        direct_light_color
         );
     }
   }

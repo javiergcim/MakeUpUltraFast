@@ -18,6 +18,11 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define ENTITY_WATER        10008.0  // Water
 #define ENTITY_PORTAL       10090.0  // Portal
 #define ENTITY_STAINED      10079.0  // Glass
+#define ENTITY_METAL        10400.0  // Metal-like glossy blocks
+#define ENTITY_SAND         10410.0  // Sand-like glossy blocks
+#define ENTITY_SNOW         10420.0  // Snow-like glossy blocks
+#define ENTITY_COBBLESTONE  10430.0  // Cobblestone-like glossy blocks
+#define ENTITY_FABRIC       10440.0  // Cobblestone-like glossy blocks
 
 // Other constants
 #define HI_SKY_RAIN_COLOR vec3(.7, .85, 1.0)
@@ -48,7 +53,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define DOF_STRENGTH 0.09  // [0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.013]  Depth of field strenght.
 #define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance cost).
 #define AOSTEPS 4 // [4 5 6 7 8 9 10 11] How many samples are taken for AO (high performance cost).
-#define AO_STRENGHT 0.55 // [0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.66 0.70 0.75 0.80 0.85] Ambient occlusion strenght (strenght NOT affect performance).
+#define AO_STRENGHT 0.60 // [0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.66 0.70 0.75 0.80 0.85] Ambient occlusion strenght (strenght NOT affect performance).
 #define AA_TYPE 1 // [0 1 2] Fast TAA: Enable antialiasing (Recommended). Denoise only: Supersampling is only used to eliminate noise. No: Disable antialiasing.
 //#define MOTION_BLUR // Turn on motion blurs
 #define MOTION_BLUR_STRENGTH 0.12 // [0.02 0.04 0.06 0.08 0.10 0.12 0.14 0.16 0.18 0.20 0.22] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
@@ -80,7 +85,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // #define DEBUG_MODE // Set debug mode.
 #define BLOCKLIGHT_TEMP 1 // [0 1 2 3 4] Set blacklight temperature
 // #define USE_BASIC_SH // Sets the use of a "basic" or "generic" shader for custom dimensions, instead of the default overworld shader. This can solve some rendering issues as the shader is closer to vanilla rendering.
-
+#define MATERIAL_GLOSS // Enable material gloss effect
 // Reflection parameters
 #define RAYMARCH_STEPS 9
 

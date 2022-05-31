@@ -27,8 +27,13 @@ uniform ivec2 eyeBrightnessSmooth;
   uniform mat4 gbufferModelView;
 #endif
 
-#if defined FOLIAGE_V || (defined SHADOW_CASTING)
+#if defined FOLIAGE_V || defined SHADOW_CASTING || (defined MATERIAL_GLOSS && !defined NETHER)
   uniform mat4 gbufferModelViewInverse;
+#endif
+
+#if defined MATERIAL_GLOSS && !defined NETHER
+  uniform int worldTime;
+  uniform vec3 moonPosition;
 #endif
 
 #if defined SHADOW_CASTING && !defined NETHER
@@ -63,7 +68,21 @@ varying vec3 omni_light;
   varying float shadow_diffuse;
 #endif
 
-#if defined FOLIAGE_V || defined GBUFFER_TERRAIN || defined GBUFFER_HAND
+#if defined MATERIAL_GLOSS && !defined NETHER
+  varying vec3 flat_normal;
+  varying vec3 sub_position3;
+  varying vec2 lmcoord_alt;
+  varying float gloss_factor;
+  varying float gloss_power;
+  varying float luma_factor;
+  varying float luma_power;
+#endif
+
+#if defined MATERIAL_GLOSS && !defined NETHER
+  attribute vec4 at_tangent;
+#endif
+
+#if defined FOLIAGE_V || defined GBUFFER_TERRAIN || defined GBUFFER_HAND || (defined MATERIAL_GLOSS && !defined NETHER)
   attribute vec4 mc_Entity;
 #endif
 
@@ -112,5 +131,36 @@ void main() {
         direct_light_strenght = mix(direct_light_strenght, original_direct_light_strenght, shadow_diffuse);
       }
     #endif
+  #endif
+
+  #if defined MATERIAL_GLOSS && !defined NETHER
+    luma_factor = 1.7;
+    luma_power = 2.0;
+    gloss_power = 7.0;
+    gloss_factor = 1.0;
+
+    if (mc_Entity.x == ENTITY_COBBLESTONE) {
+      luma_factor = 1.2;
+      luma_power = 7.0;
+    } else if (mc_Entity.x == ENTITY_METAL) {  // Metal-like block
+      luma_factor = 1.35;
+      luma_power = 3.0;
+      gloss_power = 10.0;
+    } else if (mc_Entity.x == ENTITY_SAND) {  // Sand-like block
+      luma_factor = 1.0;
+      luma_power = 5.0;
+    } else if (mc_Entity.x == ENTITY_SNOW) {  // Snow-like blocks
+      luma_factor = 1.0;
+      luma_power = 3.0;
+    } else if (mc_Entity.x == ENTITY_FABRIC) {  // Fabri-like blocks
+      gloss_power = 3.0;
+      gloss_factor = 0.1;
+    }
+
+    flat_normal = normal;
+    sub_position3 = sub_position.xyz;
+
+    lmcoord_alt = lmcoord;
+    
   #endif
 }
