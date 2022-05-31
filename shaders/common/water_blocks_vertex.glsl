@@ -40,7 +40,7 @@ varying float frog_adjust;
 varying vec3 water_normal;
 varying float block_type;
 varying vec4 worldposition;
-varying vec4 position2;
+varying vec3 fragposition;
 varying vec3 tangent;
 varying vec3 binormal;
 varying vec3 direct_light_color;
@@ -77,8 +77,9 @@ void main() {
   #include "/src/light_vertex.glsl"
 
   water_normal = normal;
-  vec4 position = gbufferModelViewInverse * gl_ModelViewMatrix * gl_Vertex;
-  position2 = gl_ModelViewMatrix * gl_Vertex;
+  vec4 position2 = gl_ModelViewMatrix * gl_Vertex;
+  fragposition = position2.xyz;
+  vec4 position = gbufferModelViewInverse * position2;
   worldposition = position + vec4(cameraPosition.xyz, 0.0);
   gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
 

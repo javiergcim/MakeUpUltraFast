@@ -61,7 +61,7 @@ varying float frog_adjust;
 varying vec3 water_normal;
 varying float block_type;
 varying vec4 worldposition;
-varying vec4 position2;
+varying vec3 fragposition;
 varying vec3 tangent;
 varying vec3 binormal;
 varying vec3 direct_light_color;
@@ -97,10 +97,6 @@ void main() {
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
 
   vec3 real_light;
-  vec3 fragposition =
-    to_screen_space(
-      vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z)
-      );
 
   #ifdef VANILLA_WATER
     vec3 water_normal_base = vec3(0.0, 0.0, 1.0);
@@ -108,8 +104,8 @@ void main() {
     vec3 water_normal_base = normal_waves(worldposition.xzy);
   #endif
 
-  vec3 surface_normal = get_normals(water_normal_base);
-  vec3 flat_normal = get_normals(vec3(0.0, 0.0, 1.0));
+  vec3 surface_normal = get_normals(water_normal_base, fragposition);
+  vec3 flat_normal = get_normals(vec3(0.0, 0.0, 1.0), fragposition);
   float normal_dot_eye = dot(flat_normal, normalize(fragposition));
   float fresnel = square_pow(1.0 + normal_dot_eye);
 
