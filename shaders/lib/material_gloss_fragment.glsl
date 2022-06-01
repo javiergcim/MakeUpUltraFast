@@ -15,7 +15,7 @@
 #else
 
   float material_gloss(vec3 fragpos, vec2 lmcoord_alt, float gloss_power, vec3 flat_normal) {
-    vec3 astro_pos = worldTime > 12900 ? moonPosition : sunPosition;
+    vec3 astro_pos = mix(-sunPosition, sunPosition, light_mix);
     float astro_vector =
       max(dot(normalize(fragpos), normalize(astro_pos)), 0.0) *
       step(0.0, dot(astro_pos, flat_normal));
@@ -26,7 +26,7 @@
         (1.0 - rainStrength),
         0.0,
         1.0
-      );
+      ) * abs(mix(1.0, -1.0, light_mix));
   }
 
 #endif
