@@ -34,6 +34,10 @@ uniform sampler2D gaux4;
   #endif
 #endif
 
+#ifdef MATERIAL_GLOSS
+  // Optifine menu bug workaround. Don't remove
+#endif
+
 #if defined MATERIAL_GLOSS && !defined NETHER
   uniform int worldTime;
   uniform vec3 moonPosition;
