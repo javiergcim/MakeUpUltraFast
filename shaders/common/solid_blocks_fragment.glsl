@@ -148,7 +148,8 @@ void main() {
       material_gloss(
         reflect(normalize(sub_position3), flat_normal),
         lmcoord_alt,
-        gloss_power
+        gloss_power,
+        flat_normal
       ) * gloss_factor;
 
     block_luma *= luma_factor;
