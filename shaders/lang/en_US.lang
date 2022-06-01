@@ -128,12 +128,12 @@ value.WATER_TURBULENCE.1.7=Medium
 value.WATER_TURBULENCE.1.3=High
 
 option.COLOR_SCHEME=Color scheme
-value.COLOR_SCHEME.0=Legado
+value.COLOR_SCHEME.0=Legacy
 value.COLOR_SCHEME.1=Cocoa
-value.COLOR_SCHEME.2=Capitán
+value.COLOR_SCHEME.2=Captain
 value.COLOR_SCHEME.3=Shoka
-value.COLOR_SCHEME.4=Etéreo
-value.COLOR_SCHEME.5=Vívido
+value.COLOR_SCHEME.4=Ethereal
+value.COLOR_SCHEME.5=Vivid
 
 option.AVOID_DARK_LEVEL=Cave brightness
 
