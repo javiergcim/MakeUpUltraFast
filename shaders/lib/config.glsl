@@ -20,9 +20,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define ENTITY_STAINED      10079.0  // Glass
 #define ENTITY_METAL        10400.0  // Metal-like glossy blocks
 #define ENTITY_SAND         10410.0  // Sand-like glossy blocks
-#define ENTITY_SNOW         10420.0  // Snow-like glossy blocks
-#define ENTITY_COBBLESTONE  10430.0  // Cobblestone-like glossy blocks
-#define ENTITY_FABRIC       10440.0  // Cobblestone-like glossy blocks
+#define ENTITY_FABRIC       10440.0  // Fabric-like glossy blocks
 
 // Other constants
 #define HI_SKY_RAIN_COLOR vec3(.7, .85, 1.0)
@@ -100,7 +98,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
   #define CLOUD_PLANE 319.0
 #endif
 
-#define CLOUD_STEPS_AVG 8 // [7 8 9 10 11 12 13 14 15 16] Samples per pixel (high performance impact).
+#define CLOUD_STEPS_AVG 7 // [7 8 9 10 11 12 13 14 15 16] Samples per pixel (high performance impact).
 #define CLOUD_SPEED 0 // [0 1 2] Change the speed of clouds for display purposes.
 
 #if CLOUD_VOL_STYLE == 1
