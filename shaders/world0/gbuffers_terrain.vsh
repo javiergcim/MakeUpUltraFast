@@ -1,4 +1,4 @@
-#version 150
+#version 120
 /* MakeUp - gbuffers_terrain.vsh
 Render: Almost everything
 

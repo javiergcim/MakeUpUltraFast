@@ -1,4 +1,4 @@
-#version 150
+#version 120
 /* MakeUp - gbuffers_basic.fsh
 Render: Basic elements - lines
 

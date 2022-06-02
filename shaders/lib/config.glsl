@@ -20,7 +20,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define ENTITY_STAINED      10079.0  // Glass
 #define ENTITY_METAL        10400.0  // Metal-like glossy blocks
 #define ENTITY_SAND         10410.0  // Sand-like glossy blocks
-#define ENTITY_FABRIC       10440.0  // Cobblestone-like glossy blocks
+#define ENTITY_FABRIC       10440.0  // Fabric-like glossy blocks
 
 // Other constants
 #define HI_SKY_RAIN_COLOR vec3(.7, .85, 1.0)
@@ -82,7 +82,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define FOG_ADJUST 2.0 // [4.0 2.0 1.0]  Recommended settings. 'Short' for 8 or less draw distance. 'Regular' between 9 and 19 draw distance. 'Far' for 20+ draw distance.
 // #define DEBUG_MODE // Set debug mode.
 #define BLOCKLIGHT_TEMP 1 // [0 1 2 3 4] Set blocklight temperature
-// #define USE_BASIC_SH // Sets the use of a "basic" or "generic" shader for custom dimensions, instead of the default overworld shader. This can solve some rendering issues as the shader is closer to vanilla rendering.
 #define MATERIAL_GLOSS // Enable material gloss effect
 // Reflection parameters
 #define RAYMARCH_STEPS 9
@@ -98,7 +97,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
   #define CLOUD_PLANE 319.0
 #endif
 
-#define CLOUD_STEPS_AVG 8 // [7 8 9 10 11 12 13 14 15 16] Samples per pixel (high performance impact).
+#define CLOUD_STEPS_AVG 7 // [7 8 9 10 11 12 13 14 15 16] Samples per pixel (high performance impact).
 #define CLOUD_SPEED 0 // [0 1 2] Change the speed of clouds for display purposes.
 
 #if CLOUD_VOL_STYLE == 1
