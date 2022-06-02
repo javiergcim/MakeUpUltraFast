@@ -94,7 +94,7 @@ void main() {
       block_color = vec3(exposure / 4.0);
     } else if (texcoord.x < 0.5 && texcoord.y >= 0.5) {
       block_color = texture2D(colortex0, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb * vec3(exposure);
-      block_color = custom_ACES(block_color);
+      block_color = custom_sigmoid(block_color);
     } else if (texcoord.x >= 0.5 && texcoord.y < 0.5) {
       block_color = texture2D(shadowcolor0, ((texcoord - vec2(0.5, 0.0)) * 2.0)).rgb;
     } else {
