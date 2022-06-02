@@ -45,7 +45,7 @@ if (length(normal) != 0.0) {  // Workaround for undefined normals
   normal = normalize(normal);
   sun_light_strenght = dot(normal, sun_vec);
 } else {
-  normal = vec3(1.0, 0.0, 0.0);
+  normal = vec3(0.0, 1.0, 0.0);
   sun_light_strenght = 1.0;
 }
 
@@ -61,7 +61,8 @@ float omni_strenght = (direct_light_strenght * .125) + 1.0;
 
 // Calculamos color de luz directa
 #ifdef UNKNOWN_DIM
-  direct_light_color = texture2D(lightmap, va_UV2 * vec2(0.0, 0.00392156862745098)).rgb;
+  // direct_light_color = texture2D(lightmap, va_UV2 * vec2(0.0, 0.00392156862745098)).rgb;
+  direct_light_color = texture2D(lightmap, vec2(0.0, lmcoord.y)).rgb;
   direct_light_color = pow(direct_light_color, vec3(2.5));
 #else
   direct_light_color = day_blend(

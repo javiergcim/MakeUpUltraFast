@@ -15,7 +15,6 @@ uniform float light_mix;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
 uniform sampler2D gaux4;
-uniform float lightmix;
 
 #if defined GBUFFER_ENTITIES
   uniform int entityId;
