@@ -146,25 +146,18 @@ void main() {
   #endif
 
   #if defined MATERIAL_GLOSS && !defined NETHER
-    luma_factor = 1.7;
+    luma_factor = 1.0;
     luma_power = 2.0;
-    gloss_power = 7.0;
-    gloss_factor = 1.0;
+    gloss_power = 6.0;
+    gloss_factor = 1.05;
 
-    if (mc_Entity.x == ENTITY_COBBLESTONE) {
-      luma_factor = 1.2;
-      luma_power = 7.0;
+    if (mc_Entity.x == ENTITY_SAND) {  // Sand-like block
+      luma_power = 4.0;
     } else if (mc_Entity.x == ENTITY_METAL) {  // Metal-like block
       luma_factor = 1.35;
       luma_power = 3.0;
       gloss_power = 10.0;
-    } else if (mc_Entity.x == ENTITY_SAND) {  // Sand-like block
-      luma_factor = 1.0;
-      luma_power = 5.0;
-    } else if (mc_Entity.x == ENTITY_SNOW) {  // Snow-like blocks
-      luma_factor = 1.0;
-      luma_power = 3.0;
-    } else if (mc_Entity.x == ENTITY_FABRIC) {  // Fabri-like blocks
+    } else if (mc_Entity.x == ENTITY_FABRIC) {  // Fabric-like blocks
       gloss_power = 3.0;
       gloss_factor = 0.1;
     }
