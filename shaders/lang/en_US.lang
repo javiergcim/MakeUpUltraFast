@@ -128,12 +128,11 @@ value.WATER_TURBULENCE.1.7=Medium
 value.WATER_TURBULENCE.1.3=High
 
 option.COLOR_SCHEME=Color scheme
-value.COLOR_SCHEME.0=Legacy
-value.COLOR_SCHEME.1=Cocoa
-value.COLOR_SCHEME.2=Captain
-value.COLOR_SCHEME.3=Shoka
-value.COLOR_SCHEME.4=Ethereal
-value.COLOR_SCHEME.5=Vivid
+value.COLOR_SCHEME.0=Ethereal
+value.COLOR_SCHEME.1=New shoka
+value.COLOR_SCHEME.2=Legacy
+value.COLOR_SCHEME.3=Captain
+value.COLOR_SCHEME.4=Psychedelic
 
 option.AVOID_DARK_LEVEL=Cave brightness
 
