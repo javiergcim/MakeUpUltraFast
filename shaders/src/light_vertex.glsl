@@ -62,7 +62,7 @@ float omni_strenght = (direct_light_strenght * .125) + 1.0;
 // Calculamos color de luz directa
 #ifdef UNKNOWN_DIM
   direct_light_color = texture(lightmap, va_UV2 * vec2(0.0, 0.00392156862745098)).rgb;
-  direct_light_color = pow(direct_light_color, vec3(2.5));
+  // direct_light_color = texture(lightmap, va_UV2 * vec2(0.0, 0.004166666666666667)).rgb;
 #else
   direct_light_color = day_blend(
     AMBIENT_MIDDLE_COLOR,
