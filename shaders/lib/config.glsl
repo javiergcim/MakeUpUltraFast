@@ -143,55 +143,67 @@ const bool generateShadowColorMipmap = false;
 #ifdef SHADOW_CASTING
   #ifndef NO_SHADOWS
     #if SHADOW_RES == 0
-      const int shadowMapResolution = 256;
-      const float shadowDistance = 70.0;
+      #define SHADOW_LIMIT 75.0
+      const int shadowMapResolution = 300;
+      const float shadowDistance = 75.0;
       #define SHADOW_DIST 0.7
     #elif SHADOW_RES == 1
-      const int shadowMapResolution = 512;
-      const float shadowDistance = 128.0;
+      #define SHADOW_LIMIT 105.0
+      const int shadowMapResolution = 420;
+      const float shadowDistance = 105.0;
       #define SHADOW_DIST 0.77
     #elif SHADOW_RES == 2
-      const int shadowMapResolution = 1024;
-      const float shadowDistance = 256.0;
+      #define SHADOW_LIMIT 255.0
+      const int shadowMapResolution = 1020;
+      const float shadowDistance = 255.0;
       #define SHADOW_DIST 0.8
 
     #elif SHADOW_RES == 3
-      const int shadowMapResolution = 512;
-      const float shadowDistance = 70.0;
+      #define SHADOW_LIMIT 75.0
+      const int shadowMapResolution = 600;
+      const float shadowDistance = 75.0;
       #define SHADOW_DIST 0.77
     #elif SHADOW_RES == 4
-      const int shadowMapResolution = 1024;
-      const float shadowDistance = 128.0;
+      #define SHADOW_LIMIT 105.0
+      const int shadowMapResolution = 840;
+      const float shadowDistance = 105.0;
       #define SHADOW_DIST 0.8
     #elif SHADOW_RES == 5
-      const int shadowMapResolution = 2048;
-      const float shadowDistance = 256.0;
+      #define SHADOW_LIMIT 255.0
+      const int shadowMapResolution = 2040;
+      const float shadowDistance = 255.0;
       #define SHADOW_DIST 0.85
 
     #elif SHADOW_RES == 6
-      const int shadowMapResolution = 1024;
-      const float shadowDistance = 70.0;
+      #define SHADOW_LIMIT 75.0
+      const int shadowMapResolution = 1200;
+      const float shadowDistance = 75.0;
       #define SHADOW_DIST 0.77
     #elif SHADOW_RES == 7
-      const int shadowMapResolution = 2048;
-      const float shadowDistance = 128.0;
+      #define SHADOW_LIMIT 105.0
+      const int shadowMapResolution = 1680;
+      const float shadowDistance = 105.0;
       #define SHADOW_DIST 0.8
     #elif SHADOW_RES == 8
-      const int shadowMapResolution = 4096;
-      const float shadowDistance = 256.0;
+      #define SHADOW_LIMIT 255.0
+      const int shadowMapResolution = 4080;
+      const float shadowDistance = 255.0;
       #define SHADOW_DIST 0.85
 
     #elif SHADOW_RES == 9
-      const int shadowMapResolution = 2048;
-      const float shadowDistance = 70.0;
+      #define SHADOW_LIMIT 75.0
+      const int shadowMapResolution = 2400;
+      const float shadowDistance = 75.0;
       #define SHADOW_DIST 0.77
     #elif SHADOW_RES == 10
-      const int shadowMapResolution = 4096;
-      const float shadowDistance = 128.0;
+      #define SHADOW_LIMIT 105.0
+      const int shadowMapResolution = 3360;
+      const float shadowDistance = 105.0;
       #define SHADOW_DIST 0.8
     #elif SHADOW_RES == 11
-      const int shadowMapResolution = 8192;
-      const float shadowDistance = 256.0;
+      #define SHADOW_LIMIT 255.0
+      const int shadowMapResolution = 8160;
+      const float shadowDistance = 255.0;
       #define SHADOW_DIST 0.85
     #endif
 

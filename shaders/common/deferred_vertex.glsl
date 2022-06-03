@@ -13,3 +13,4 @@ void main() {
   texcoord = vaPosition.xy;
   up_vec = normalize(gbufferModelView[1].xyz);
 }
+
