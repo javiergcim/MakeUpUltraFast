@@ -161,8 +161,11 @@ void main() {
     #endif
 
     // AO distance attenuation
+    #if defined NETHER
+      linear_d = sqrt(linear_d);
+    #endif
     float ao_att = pow(
-      clamp(linear_d * 1.4, 0.0, 1.0),
+      clamp(linear_d * 1.6, 0.0, 1.0),
       mix(fog_density_coeff, 1.0, rainStrength)
     );
 
