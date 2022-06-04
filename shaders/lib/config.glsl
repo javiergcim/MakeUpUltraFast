@@ -82,18 +82,18 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define FOG_ADJUST 2.0 // [10.0 8.0 4.0 2.0 1.0]  Sets the fog strenght
 // #define DEBUG_MODE // Set debug mode.
 #define BLOCKLIGHT_TEMP 1 // [0 1 2 3 4] Set blocklight temperature
-#define MATERIAL_GLOSS // Enable material gloss effect
+#define MATERIAL_GLOSS // A very subtle effect that adds some ability to reflect direct light on some blocks. It is most noticeable on metals and luminous objects.
 // Reflection parameters
 #define RAYMARCH_STEPS 9
 
 // Cloud parameters
 #if CLOUD_VOL_STYLE == 1
-  #define CLOUD_PLANE_SUP 369.0
-  #define CLOUD_PLANE_CENTER 344.0
+  #define CLOUD_PLANE_SUP 380.0
+  #define CLOUD_PLANE_CENTER 335.0
   #define CLOUD_PLANE 319.0
 #else
-  #define CLOUD_PLANE_SUP 640.0
-  #define CLOUD_PLANE_CENTER 400.0
+  #define CLOUD_PLANE_SUP 590.0
+  #define CLOUD_PLANE_CENTER 375.0
   #define CLOUD_PLANE 319.0
 #endif
 
@@ -136,7 +136,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 const float sunPathRotation = -25.0; // [-40.0 -35.0 -30.0 -25.0 -20.0 -15.0 -10.0 -5.0 0.0 5.0 10.0 15.0 20.0 25.0 30.0 35.0 40.0]
 
 // Shadow parameters
-const float shadowIntervalSize = 2.0;
+const float shadowIntervalSize = 3.0;
 const bool generateShadowMipmap = false;
 const bool generateShadowColorMipmap = false;
 

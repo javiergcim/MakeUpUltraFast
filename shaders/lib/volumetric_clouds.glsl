@@ -58,7 +58,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
       );
 
     vec3 cloud_color = mix(
-      clamp(luma(cloud_color_aux) * vec3(2.0), 0.0, 1.4),
+      clamp(mix(vec3(luma(cloud_color_aux)),cloud_color_aux, 0.6) * vec3(2.0), 0.0, 1.4),
         day_blend(
           LOW_MIDDLE_COLOR,
           LOW_DAY_COLOR,
@@ -177,7 +177,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
     density = clamp(density, 0.0001, 1.0);
 
     #if CLOUD_VOL_STYLE == 1
-      cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density) * 0.9);
+      cloud_color = mix(cloud_color, dark_cloud_color, pow(density, 0.3) * 0.85);
     #else
       cloud_color = mix(cloud_color, dark_cloud_color, pow(density, 0.4));
     #endif
