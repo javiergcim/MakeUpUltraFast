@@ -223,7 +223,7 @@ screen.FOG_SCREEN=Fog options
 screen.FOG_SCREEN.comment=Set fog options
 
 screen.MOTION_BLUR_SCREEN=Motion blur options
-screen.FOG_SCREEN.comment=Set motion blur options
+screen.MOTION_BLUR_SCREEN.comment=Set motion blur options
 
 screen.ACCESIBILITY_SCREEN=Accesibility options
 screen.ACCESIBILITY_SCREEN.comment=Set accesibility options
