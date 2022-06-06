@@ -76,6 +76,12 @@ varying vec3 up_vec;
   varying float shadow_diffuse;
 #endif
 
+#if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
+  varying float umbral;
+  varying vec3 cloud_color;
+  varying vec3 dark_cloud_color;
+#endif
+
 #include "/lib/projection_utils.glsl"
 #include "/lib/basic_utils.glsl"
 #include "/lib/dither.glsl"
@@ -166,7 +172,10 @@ void main() {
       0.0,
       dither,
       worldposition.xyz,
-      int(CLOUD_STEPS_AVG * 0.5)
+      int(CLOUD_STEPS_AVG * 0.5),
+      umbral,
+      cloud_color,
+      dark_cloud_color
     );
   #endif
 

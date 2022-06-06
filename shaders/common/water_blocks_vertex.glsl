@@ -55,6 +55,12 @@ varying vec3 up_vec;
   varying float shadow_diffuse;
 #endif
 
+#if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
+  varying float umbral;
+  varying vec3 cloud_color;
+  varying vec3 dark_cloud_color;
+#endif
+
 attribute vec4 mc_Entity;
 attribute vec4 at_tangent;
 
@@ -105,5 +111,9 @@ void main() {
 
   #if defined SHADOW_CASTING && !defined NETHER
     #include "/src/shadow_src_vertex.glsl"
+  #endif
+
+  #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
+    #include "/lib/volumetric_clouds_vertex.glsl"
   #endif
 }
