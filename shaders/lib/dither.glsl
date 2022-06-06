@@ -28,7 +28,8 @@ float eclectic_r_dither(vec2 frag) {
   p3 += dot(p3, p3.yzx + 33.33);
   float p4 = fract((p3.x + p3.y) * p3.z) * 0.175;
 
-  return fract(p4 + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
+  // return fract(p4 + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
+  return fract(p4 + dot(frag, vec2(0.569840290998, 0.75487766624669276)));
 }
 
 float shifted_eclectic_r_dither(vec2 frag) {
