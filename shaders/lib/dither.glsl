@@ -193,12 +193,6 @@ float makeup_dither(vec2 frag) {
   return fract(dot(frag, vec2(0.6180339887498948, 0.8983902273585074)));
 }
 
-// float makeup_dither(vec2 frag) {
-//   frag = vec2(frag.x + mod(frag.y, 2.0), frag.y);
-
-//   return fract(dot(frag, vec2(0.6180339887498948*0.9, 0.8983902273585074*0.9)));
-// }
-
 float eclectic_makeup_dither(vec2 frag) {
   uvec2 q = uvec2(ivec2(frag)) * UI2;
   uint n = (q.x ^ q.y) * UI0;
