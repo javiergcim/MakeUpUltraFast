@@ -55,6 +55,12 @@ uniform float pixel_size_y;
 in vec2 texcoord;
 flat in vec3 up_vec;  // Flat
 
+#if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
+  flat in float umbral;
+  flat in vec3 cloud_color;
+  flat in vec3 dark_cloud_color;
+#endif
+
 #include "/lib/depth.glsl"
 #include "/lib/luma.glsl"
 
@@ -120,7 +126,7 @@ void main() {
           get_end_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
       #else
         block_color.rgb =
-          get_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
+          get_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG, umbral, cloud_color, dark_cloud_color);
       #endif
     }
 
