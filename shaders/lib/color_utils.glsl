@@ -24,7 +24,6 @@ uniform float night_mixer;
   #define HI_NIGHT_COLOR vec3(0.0168, 0.0228, 0.03) * NIGHT_BRIGHT
 
   #define LOW_MIDDLE_COLOR vec3(1.0, 0.6, 0.394)
-  // #define LOW_DAY_COLOR vec3(0.57, 0.81, 1.3)
   #define LOW_DAY_COLOR vec3(0.65, 0.91, 1.3)
   #define LOW_NIGHT_COLOR vec3(0.02556, 0.03772, 0.05244) * NIGHT_BRIGHT
 
@@ -44,7 +43,22 @@ uniform float night_mixer;
   #define LOW_NIGHT_COLOR vec3(0.0213, 0.0306, 0.0387) * NIGHT_BRIGHT
 
   #define WATER_COLOR vec3(0.01647059, 0.13882353, 0.16470588)
-#elif COLOR_SCHEME == 2  // Legacy
+#elif COLOR_SCHEME == 2  // Shoka
+  #define OMNI_TINT 0.5
+  #define AMBIENT_MIDDLE_COLOR vec3(0.8832, 0.6348, 0.2898)
+  #define AMBIENT_DAY_COLOR vec3(0.91640625, 0.91640625, 0.635375)
+  #define AMBIENT_NIGHT_COLOR vec3(0.04786874, 0.05175001, 0.06112969) * NIGHT_BRIGHT
+
+  #define HI_MIDDLE_COLOR vec3(0.13, 0.22176471, 0.33137255)
+  #define HI_DAY_COLOR vec3(0.13, 0.22176471, 0.33137255)
+  #define HI_NIGHT_COLOR vec3(0.014, 0.019, 0.025) * NIGHT_BRIGHT
+
+  #define LOW_MIDDLE_COLOR vec3(0.715, 0.611, 0.52)
+  #define LOW_DAY_COLOR vec3(0.364 , 0.6825, 0.91)
+  #define LOW_NIGHT_COLOR vec3(0.0213, 0.0306, 0.0387) * NIGHT_BRIGHT
+
+  #define WATER_COLOR vec3(0.01647059, 0.13882353, 0.16470588)
+#elif COLOR_SCHEME == 3  // Legacy
   #define OMNI_TINT 0.5
   #define AMBIENT_MIDDLE_COLOR vec3(1.0764, 0.54453175, 0.23638589)
   #define AMBIENT_DAY_COLOR vec3(0.88504, 0.88504, 0.8372)
@@ -60,7 +74,7 @@ uniform float night_mixer;
 
   #define WATER_COLOR vec3(0.01647059, 0.13882353, 0.16470588)
 
-#elif COLOR_SCHEME == 3  // Captain
+#elif COLOR_SCHEME == 4  // Captain
   #define OMNI_TINT 0.5
   #define AMBIENT_MIDDLE_COLOR vec3(0.84456, 0.52992, 0.26496001)
   #define AMBIENT_DAY_COLOR vec3(0.83064961, 0.93448079, 1.1032065)
@@ -75,7 +89,7 @@ uniform float night_mixer;
   #define LOW_NIGHT_COLOR vec3(0.025, 0.035, 0.05) * NIGHT_BRIGHT
 
   #define WATER_COLOR vec3(0.04647059, 0.11082353, 0.11470588)
-#elif COLOR_SCHEME == 4  // psychedelic
+#elif COLOR_SCHEME == 5  // Psychedelic
   #define OMNI_TINT 0.45
   #define AMBIENT_MIDDLE_COLOR vec3(0.85 , 0.47058824, 0.17921569)
   #define AMBIENT_DAY_COLOR vec3(0.91021875, 0.95771875, 0.472625)
