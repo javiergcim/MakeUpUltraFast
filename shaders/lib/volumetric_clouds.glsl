@@ -5,7 +5,6 @@ Fast volumetric clouds - MakeUp implementation
 vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, vec3 base_pos, int samples, float umbral, vec3 cloud_color, vec3 dark_cloud_color) {
   float plane_distance;
   float cloud_value;
-  // float umbral;
   float density;
   vec3 intersection_pos;
   vec3 intersection_pos_sup;
@@ -22,7 +21,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
   int real_steps;
   float view_y_inv = 1.0 / view_vector.y;
   float distance_aux;
-  // vec3 cloud_color_aux;
   float cloud_value_aux;
   float dist_aux_coeff_blur;
 
