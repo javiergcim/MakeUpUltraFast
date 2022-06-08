@@ -20,7 +20,7 @@ float timed_hash12(vec2 p)
 {
 	uvec2 q = uvec2(ivec2(p)) * UI2;
 	uint n = (q.x ^ q.y) * UI0;
-	return fract(0.3 * frame_mod + (float(n) * UIF));
+	return fract(0.4 * frame_mod + (float(n) * UIF));
 }
 
 float r_dither(vec2 frag) {
@@ -28,7 +28,7 @@ float r_dither(vec2 frag) {
 }
 
 float shifted_r_dither(vec2 frag) {
-  return fract((0.3 * frame_mod) + (frag.x * 0.75487766624669276 + frag.y * 0.569840290998));
+  return fract((0.3333333 * frame_mod) + (frag.x * 0.75487766624669276 + frag.y * 0.569840290998));
 }
 
 float eclectic_r_dither(vec2 frag) {
@@ -44,7 +44,7 @@ float shifted_eclectic_r_dither(vec2 frag) {
 	uint n = (q.x ^ q.y) * UI0;
 	float p4 = float(n) * UIF * 0.175;
 
-  return fract((0.3 * frame_mod) + p4 + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
+  return fract((0.4 * frame_mod) + p4 + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
 }
 
 float dither17(vec2 pos) {
@@ -52,7 +52,7 @@ float dither17(vec2 pos) {
 }
 
 float shifted_dither17(vec2 pos) {
-  return fract((0.25 * frame_mod) + dot(vec3(pos, 0.0), vec3(0.11764705882352941, 0.4117647058823529, 1.3529411764705883)));
+  return fract((0.4 * frame_mod) + dot(vec3(pos, 0.0), vec3(0.11764705882352941, 0.4117647058823529, 1.3529411764705883)));
 }
 
 float eclectic_dither17(vec2 frag) {
@@ -68,7 +68,7 @@ float shifted_eclectic_dither17(vec2 frag) {
 	uint n = (q.x ^ q.y) * UI0;
 	float p4 = float(n) * UIF * 0.1;
 
-  return fract((0.3 * frame_mod) + p4 + dot(vec3(frag.xy, 0.0), vec3(2.0, 7.0, 23.0) / 17.0));
+  return fract((0.4 * frame_mod) + p4 + dot(vec3(frag.xy, 0.0), vec3(2.0, 7.0, 23.0) / 17.0));
 }
 
 float dither_grad_noise(vec2 p) {
@@ -76,7 +76,7 @@ float dither_grad_noise(vec2 p) {
 }
 
 float shifted_dither_grad_noise(vec2 p) {
-  return fract(0.3975 * frame_mod + (52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y)));
+  return fract(0.4 * frame_mod + (52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y)));
 }
 
 float eclectic_dither(vec2 frag) {
@@ -92,7 +92,7 @@ float shifted_eclectic_dither(vec2 frag) {
 	uint n = (q.x ^ q.y) * UI0;
 	float p4 = float(n) * UIF * 0.175;
 
-  return fract((0.3975 * frame_mod) + p4 + (52.9829189 * fract(0.06711056 * frag.x + 0.00583715 * frag.y)));
+  return fract((0.4 * frame_mod) + p4 + (52.9829189 * fract(0.06711056 * frag.x + 0.00583715 * frag.y)));
 }
 
 // float texture_noise_64(vec2 p, sampler2D noise) {
@@ -186,7 +186,7 @@ float shifted_eclectic_unit_dither(vec2 frag) {
 	uint n = (q.x ^ q.y) * UI0;
 	float p4 = float(n) * UIF * 0.175;
 
-  return fract(0.3 * frame_mod + p4 + ((mod((9.0 * frag.x + 5.0 * frag.y), 11.0) + 0.5) * 0.09090909090909091));
+  return fract(0.4 * frame_mod + p4 + ((mod((9.0 * frag.x + 5.0 * frag.y), 11.0) + 0.5) * 0.09090909090909091));
 }
 
 float makeup_dither(vec2 frag) {
@@ -202,7 +202,7 @@ float eclectic_makeup_dither(vec2 frag) {
 }
 
 float shifted_makeup_dither(vec2 frag) {
-  return fract(0.3 * frame_mod + dot(frag, vec2(0.6180339887498948, 0.8983902273585074)));
+  return fract(0.23 * frame_mod + dot(frag, vec2(0.6180339887498948, 0.8983902273585074)));
 }
 
 float shifted_eclectic_makeup_dither(vec2 frag) {
@@ -210,5 +210,5 @@ float shifted_eclectic_makeup_dither(vec2 frag) {
   uint n = (q.x ^ q.y) * UI0;
   float p4 = float(n) * UIF * 0.175;
 
-  return fract(0.3 * frame_mod + p4 + dot(frag, vec2(0.6180339887498948, 0.8983902273585074)));
+  return fract(0.23 * frame_mod + p4 + dot(frag, vec2(0.6180339887498948, 0.8983902273585074)));
 }

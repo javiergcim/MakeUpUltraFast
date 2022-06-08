@@ -28,8 +28,12 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past, vec2 velocity) {
     vec3 previous = texture(colortex3, texcoord_past).rgb;
     vec3 past_sample = clamp(previous, nmin, nmax);
 
+    float local_distance = distance(previous, current_color) * 0.5773502691896258;
+
     // Reducción de ghosting por velocidad
     float blend = exp(-length(velocity * vec2(viewWidth, viewHeight))) * 0.2 + 0.7;
+    // float blend = 0.6 + (pow(local_distance, .25) * 0.4);
+    // float blend = 0.0;
 
     return mix(current_color, past_sample, clamp(blend, 0.0, 1.0));
   }
@@ -60,7 +64,7 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past, vec2 velocity) {
     vec4 past_sample = clamp(previous, nmin, nmax);
 
     // Reducción de ghosting por velocidad
-    float blend = exp(-length(velocity * vec2(viewWidth, viewHeight))) * 0.2 + 0.7;
+    float blend = exp(-length(velocity * vec2(viewWidth, viewHeight))) * 0.25 + 0.65;
 
     return mix(current_color, past_sample, clamp(blend, 0.0, 1.0));
   }
