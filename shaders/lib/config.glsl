@@ -32,7 +32,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #if REFLECTION_SLIDER == 0
   #define REFLECTION 0
   #define SSR_TYPE 0
-  #define REFLEX_INDEX 0.45
+  #define REFLEX_INDEX 0.5
 #elif REFLECTION_SLIDER == 1
   #define REFLECTION 1
   #define SSR_TYPE 0
