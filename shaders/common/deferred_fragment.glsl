@@ -90,9 +90,9 @@ void main() {
 
   #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
     #if AA_TYPE > 0
-      float dither = shifted_eclectic_r_dither(gl_FragCoord.xy);
+      float dither = shifted_eclectic_makeup_dither(gl_FragCoord.xy);
     #else
-      float dither = eclectic_makeup_dither(gl_FragCoord.xy);
+      float dither = phinoise(gl_FragCoord.xy);
     #endif
   #endif
 

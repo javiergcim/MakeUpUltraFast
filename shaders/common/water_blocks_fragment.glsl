@@ -159,7 +159,7 @@ void main() {
     #if AA_TYPE > 0
       float dither = shifted_makeup_dither(gl_FragCoord.xy);
     #else
-      float dither = r_dither(gl_FragCoord.xy);
+      float dither = phinoise(gl_FragCoord.xy);
     #endif
   #else
     float dither = 1.0;

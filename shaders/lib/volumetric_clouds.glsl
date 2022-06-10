@@ -40,9 +40,9 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
     dif_sup = CLOUD_PLANE_SUP - CLOUD_PLANE_CENTER;
     dif_inf = CLOUD_PLANE_CENTER - CLOUD_PLANE;
     dist_aux_coeff = (CLOUD_PLANE_SUP - CLOUD_PLANE) * 0.075;
-    dist_aux_coeff_blur = dist_aux_coeff * 0.4;
+    dist_aux_coeff_blur = dist_aux_coeff * 0.3;
 
-    opacity_dist = dist_aux_coeff * 2.5 * view_y_inv;
+    opacity_dist = dist_aux_coeff * 2.0 * view_y_inv;
 
     increment = (intersection_pos_sup - intersection_pos) / samples;
     increment_dist = length(increment);
@@ -126,14 +126,16 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
     cloud_value = clamp(cloud_value / opacity_dist, 0.0, 1.0);
     density = clamp(density, 0.0001, 1.0);
 
+    float att_factor = mix(1.0, 0.75, bright * (1.0 - rainStrength));
+
     #if CLOUD_VOL_STYLE == 1
-      cloud_color = mix(cloud_color, dark_cloud_color, pow(density, 0.3) * 0.85);
+      cloud_color = mix(cloud_color * att_factor, dark_cloud_color * att_factor, pow(density, 0.3) * 0.85);
     #else
-      cloud_color = mix(cloud_color, dark_cloud_color, pow(density, 0.4));
+    cloud_color = mix(cloud_color * att_factor, dark_cloud_color * att_factor, pow(density, 0.4));
     #endif
 
     // Halo brillante de contra al sol
-    cloud_color = mix(cloud_color, cloud_color * 2.0, (1.0 - cloud_value) * bright);
+    cloud_color = mix(cloud_color, cloud_color * 13.0, (1.0 - pow(cloud_value, 0.2)) * bright * bright * (1.0 - rainStrength));
 
     block_color = mix(
       block_color,
