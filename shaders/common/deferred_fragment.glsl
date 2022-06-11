@@ -92,7 +92,7 @@ void main() {
     #if AA_TYPE > 0
       float dither = shifted_eclectic_makeup_dither(gl_FragCoord.xy);
     #else
-      float dither = phinoise(gl_FragCoord.xy);
+      float dither = eclectic_makeup_dither(gl_FragCoord.xy);
     #endif
   #endif
 

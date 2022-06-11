@@ -156,4 +156,8 @@ void main() {
     lmcoord_alt = lmcoord;
     
   #endif
+
+  #if defined GBUFFER_ENTITY_GLOW
+    gl_Position.z *= 0.01;
+  #endif
 }

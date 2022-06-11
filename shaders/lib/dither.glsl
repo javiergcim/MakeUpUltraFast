@@ -96,7 +96,7 @@ float shifted_eclectic_dither(vec2 frag) {
 
 // float shifted_texture_noise_64(vec2 p, sampler2D noise) {
 //   float dither = texture2D(noise, p * 0.015625).r;
-//   return fract(0.3 * frame_mod + dither);
+//   return fract(dither_shift + dither);
 // }
 
 float phinoise(vec2 xy) {
@@ -105,6 +105,7 @@ float phinoise(vec2 xy) {
   xy = mix(xy, xy.yx, flip);
 
   return fract(dot(vec2(0.75487766624669276, 0.569840290998), xy) + hash12(tile));
+  // return fract(dot(vec2(0.5562305898749054, 0.8085512046226566), xy) + hash12(tile));
 }
 
 float shifted_phinoise(vec2 xy) {
