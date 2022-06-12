@@ -11,7 +11,7 @@ colortex2 - Bloom auxiliar
 colortex3 - TAA Averages history
 gaux1 - Screen-Space-Reflection texture
 gaux2 - Clouds texture
-gaux3 - Clouds/AO buffer
+gaux3 - None
 gaux4 - Fog auxiliar
 
 const int noisetexFormat = RG8;
