@@ -13,7 +13,7 @@ varying vec4 tint_color;
 
 vec4 my_ftransform()
 {
-  float lineWidth = 1.5;
+  float lineWidth = 1.75;
   vec2 screenSize = vec2(viewWidth, viewHeight);
   const mat4 VIEW_SCALE = mat4(mat3(1.0 - 0.00390625));
   mat4 tempmat = projectionMatrix * VIEW_SCALE * modelViewMatrix;

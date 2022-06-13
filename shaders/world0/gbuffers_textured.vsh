@@ -7,4 +7,4 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #define GBUFFER_TEXTURED
 
-#include "/common/solid_blocks_vertex.glsl"
+#include "/common/solid_blocks_vefrtex.glsl"
