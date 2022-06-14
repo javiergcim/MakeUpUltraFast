@@ -66,9 +66,11 @@ float eclectic_dither(vec2 frag) {
   return fract(p4 + (52.9829189 * fract(dot(vec2(0.06711056, 0.00583715), frag))));
 }
 
-// float texture_noise_64(vec2 p, sampler2D noise) {
-//   return texture2D(noise, p * 0.015625).r;
-// }
+float texture_noise_64(vec2 p, sampler2D noise) {
+  // ivec2 s = ivec2(p) % 64;
+  // return texelFetch(noise, s, 0).r;
+  return texture2D(noise, p * 0.015625).r;
+}
 
 float phinoise(vec2 xy) {
   vec2 tile = floor(xy * 0.25);
@@ -76,6 +78,7 @@ float phinoise(vec2 xy) {
   xy = mix(xy, xy.yx, flip);
 
   return fract(dot(vec2(0.75487766624669276, 0.569840290998), xy) + hash12(tile));
+  // return fract(dot(vec2(0.8085512046226566, 0.5562305898749054), xy) + hash12(tile));
 }
 
 float makeup_dither(vec2 frag) {

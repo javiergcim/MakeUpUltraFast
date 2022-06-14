@@ -56,13 +56,22 @@ void main() {
   #if AA_TYPE > 0 || defined MOTION_BLUR
     // Reproyección del cuadro anterior
     float z_depth = texture2D(depthtex0, texcoord).r;
-    vec3 closest_to_camera = vec3(texcoord, z_depth);
-    vec3 fragposition = to_screen_space(closest_to_camera);
-    fragposition = mat3(gbufferModelViewInverse) * fragposition + gbufferModelViewInverse[3].xyz + (cameraPosition - previousCameraPosition);
-    vec3 previous_position = mat3(gbufferPreviousModelView) * fragposition + gbufferPreviousModelView[3].xyz;
-    previous_position = to_clip_space(previous_position);
-    previous_position.xy = texcoord + (previous_position.xy - closest_to_camera.xy);
-    vec2 texcoord_past = previous_position.xy;  // Posición en el pasado
+    vec3 closest_to_camera;
+    vec3 fragposition;
+    vec3 previous_position;
+    vec2 texcoord_past;
+
+    if (z_depth < 0.56) {
+      texcoord_past = texcoord;
+    } else {
+      closest_to_camera = vec3(texcoord, z_depth);
+      fragposition = to_screen_space(closest_to_camera);
+      fragposition = mat3(gbufferModelViewInverse) * fragposition + gbufferModelViewInverse[3].xyz + (cameraPosition - previousCameraPosition);
+      previous_position = mat3(gbufferPreviousModelView) * fragposition + gbufferPreviousModelView[3].xyz;
+      previous_position = to_clip_space(previous_position);
+      previous_position.xy = texcoord + (previous_position.xy - closest_to_camera.xy);
+      texcoord_past = previous_position.xy;  // Posición en el pasado
+    }
 
     // "Velocidad"
     vec2 velocity = texcoord - texcoord_past;

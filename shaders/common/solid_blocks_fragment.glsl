@@ -139,8 +139,7 @@ void main() {
   #if defined GBUFFER_BEACONBEAM
     block_color.rgb *= 1.5;
   #elif defined GBUFFER_ENTITY_GLOW
-    block_color.rgb = vec3(luma(block_color.rgb)) * vec3(0.75, 0.75, 1.5);
-    // block_color.rgb += vec3(0.0);  
+    block_color.rgb = clamp(vec3(luma(block_color.rgb)) * vec3(0.75, 0.75, 1.5), vec3(0.3), vec3(1.0));
   #else
     #if defined MATERIAL_GLOSS && !defined NETHER
     float material_gloss_factor =
