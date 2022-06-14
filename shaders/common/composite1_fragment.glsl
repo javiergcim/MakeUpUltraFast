@@ -3,7 +3,6 @@
 
 uniform sampler2D colortex1;
 uniform sampler2D colortex2;
-uniform int frame_mod;
 uniform float inv_aspect_ratio;
 
 #ifdef DOF

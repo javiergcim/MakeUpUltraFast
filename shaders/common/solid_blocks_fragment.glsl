@@ -26,7 +26,6 @@ uniform sampler2D gaux4;
 #endif
 
 #if defined SHADOW_CASTING
-  uniform int frame_mod;
   uniform sampler2DShadow shadowtex1;
   #if defined COLORED_SHADOW
     uniform sampler2DShadow shadowtex0;
@@ -177,6 +176,10 @@ void main() {
     } else {
       block_color.rgb = mix(block_color.rgb, entityColor.rgb, entityColor.a * .75);
     }
+  #endif
+
+  #if MC_VERSION < 11300 && defined GBUFFER_TEXTURED
+    block_color.rgb *= 1.5;
   #endif
 
   #include "/src/finalcolor.glsl"

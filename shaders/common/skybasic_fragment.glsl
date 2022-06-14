@@ -18,7 +18,6 @@ uniform float viewWidth;
 uniform float viewHeight;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
-uniform int frame_mod;
 uniform float rainStrength;
 
 varying vec3 up_vec;

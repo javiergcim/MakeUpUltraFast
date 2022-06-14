@@ -44,7 +44,6 @@ uniform float pixel_size_y;
 
 #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
   uniform mat4 gbufferProjection;
-  uniform int frame_mod;
   uniform float frameTimeCounter;
 #endif
 

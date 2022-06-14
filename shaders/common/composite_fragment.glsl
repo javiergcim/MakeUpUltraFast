@@ -26,7 +26,6 @@ uniform ivec2 eyeBrightnessSmooth;
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
   uniform mat4 gbufferModelView;
-  uniform int frame_mod;
   uniform float vol_mixer;
 #endif
 
@@ -35,7 +34,6 @@ uniform ivec2 eyeBrightnessSmooth;
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
   uniform mat4 gbufferModelView;
-  uniform int frame_mod;
   uniform float vol_mixer;
   uniform vec3 shadowLightPosition;
   uniform mat4 shadowModelView;

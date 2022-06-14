@@ -28,7 +28,6 @@ uniform float viewHeight;
   uniform vec3 previousCameraPosition;
   uniform mat4 gbufferPreviousProjection;
   uniform mat4 gbufferPreviousModelView;
-  uniform int frame_mod;
   uniform sampler2D depthtex0;
 #endif
 

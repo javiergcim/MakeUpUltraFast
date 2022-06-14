@@ -1,7 +1,7 @@
 #ifdef WATER_F
   /* DRAWBUFFERS:1 */
   gl_FragData[0] = block_color;
-#elif defined CLOUDS_SHADER
+#elif (defined PARTICLE_SHADER && MC_VERSION >= 11300) || defined GBUFFER_HAND_WATER
   /* DRAWBUFFERS:1 */
   gl_FragData[0] = block_color;
 #else
