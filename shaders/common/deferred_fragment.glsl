@@ -21,7 +21,7 @@ uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
 uniform sampler2D gaux2;
-uniform sampler2D gaux3;
+// uniform sampler2D gaux3;
 
 #ifdef NETHER
   uniform vec3 fogColor;
@@ -93,10 +93,7 @@ void main() {
       float dither = shifted_eclectic_r_dither(gl_FragCoord.xy);
       // float dither = shifted_phinoise(gl_FragCoord.xy);
     #else
-      // float dither = eclectic_makeup_dither(gl_FragCoord.xy);
-      // float dither = texture_noise_64(gl_FragCoord.xy, gaux3);
       float dither = phinoise(gl_FragCoord.xy);
-      // float dither = hash12(gl_FragCoord.xy);
     #endif
   #endif
 

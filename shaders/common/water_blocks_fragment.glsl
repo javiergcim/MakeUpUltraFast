@@ -156,9 +156,10 @@ void main() {
 
   #if (defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER) || SSR_TYPE > 0
     #if AA_TYPE > 0
-      float dither = shifted_makeup_dither(gl_FragCoord.xy);
+      float dither = r_dither(gl_FragCoord.xy);
     #else
       float dither = phinoise(gl_FragCoord.xy);
+      // float dither = eclectic_makeup_dither(gl_FragCoord.xy);
     #endif
   #else
     float dither = 1.0;
