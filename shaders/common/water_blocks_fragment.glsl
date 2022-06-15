@@ -159,7 +159,6 @@ void main() {
       float dither = r_dither(gl_FragCoord.xy);
     #else
       float dither = phinoise(gl_FragCoord.xy);
-      // float dither = eclectic_makeup_dither(gl_FragCoord.xy);
     #endif
   #else
     float dither = 1.0;
