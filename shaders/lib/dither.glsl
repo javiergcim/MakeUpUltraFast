@@ -162,7 +162,7 @@ float eclectic_makeup_dither(vec2 frag) {
 
 #else
 
-float shifted_hash12(vec2 v)
+  float shifted_hash12(vec2 v)
   {
     v = 0.0002314814814814815 * v + vec2(0.25, 0.0);
     float state = fract(dot(v * v, vec2(3571.0)));
@@ -182,7 +182,7 @@ float shifted_hash12(vec2 v)
   }
 
   float shifted_dither17(vec2 frag) {
-    return fract((frame_mod * 0.4) + dot(frag, vec2(0.11764705882352941, 0.4117647058823529))));
+    return fract((frame_mod * 0.4) + dot(frag, vec2(0.5882352941176471, 0.8823529411764706)));
   }
 
   float shifted_eclectic_dither17(vec2 frag) {
