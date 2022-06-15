@@ -27,6 +27,11 @@ uniform int current_hour_ceil;
   uniform mat4 gbufferProjection;
 #endif
 
+#if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+  uniform mat4 gbufferModelViewInverse;
+  uniform mat4 gbufferProjectionInverse;
+#endif
+
 varying vec2 texcoord;
 varying float exposure_coef;  // Flat
 
@@ -41,6 +46,10 @@ varying float exposure_coef;  // Flat
 #if VOL_LIGHT == 1 && !defined NETHER
   varying vec2 lightpos;  // Flat
   varying vec3 astro_pos;  // Flat
+#endif
+
+#if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+  varying mat4 modeli_times_projectioni;
 #endif
 
 #if VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER
@@ -97,5 +106,9 @@ void main() {
     tpos = vec4(tpos.xyz / tpos.w, 1.0);
     vec2 pos1 = tpos.xy / tpos.z;
     lightpos = pos1 * 0.5 + 0.5;
+  #endif
+
+  #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+    modeli_times_projectioni = gbufferModelViewInverse * gbufferProjectionInverse;
   #endif
 }

@@ -63,6 +63,10 @@ varying float exposure_coef;
   varying vec3 vol_light_color;
 #endif
 
+#if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+  varying mat4 modeli_times_projectioni;
+#endif
+
 #include "/lib/depth.glsl"
 
 #ifdef BLOOM
@@ -86,11 +90,16 @@ void main() {
 
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
 
+  // Depth to distance
+  float screen_distance =
+    2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
+
   // "Niebla" submarina
   if (isEyeInWater == 1) {
-    float water_absorption =  // Distance
-      2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
-    water_absorption = (1.0 / -((water_absorption * WATER_ABSORPTION) + 1.0)) + 1.0;
+    // float water_absorption =  // Distance
+    //   2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
+    // water_absorption = (1.0 / -((water_absorption * WATER_ABSORPTION) + 1.0)) + 1.0;
+    float water_absorption = (1.0 / -((screen_distance * WATER_ABSORPTION) + 1.0)) + 1.0;
 
     block_color.rgb = mix(
       block_color.rgb,
@@ -111,7 +120,7 @@ void main() {
   }
 
   #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
-    mat4 modeli_times_projectioni = gbufferModelViewInverse * gbufferProjectionInverse;
+    // mat4 modeli_times_projectioni = gbufferModelViewInverse * gbufferProjectionInverse;
 
     #if AA_TYPE > 0
       float dither = shifted_eclectic_makeup_dither(gl_FragCoord.xy);
@@ -121,8 +130,8 @@ void main() {
   #endif
 
   // Depth to distance
-  float screen_distance =
-    2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
+  // float screen_distance =
+  //   2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
 
   #if VOL_LIGHT == 1 && !defined NETHER
     #if defined THE_END
