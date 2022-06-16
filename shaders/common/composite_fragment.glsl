@@ -165,8 +165,8 @@ void main() {
       block_color.rgb += (vol_light_color * vol_light * vol_intensity * 2.0);
     #else
       // Light source position for intensity calculation
-      vec3 intermediate_vector = 
-      float vol_intensity = normalize((gbufferModelViewInverse * vec4(astro_pos, 0.0)).xyz);
+      vec3 intermediate_vector = normalize((gbufferModelViewInverse * vec4(astro_pos, 0.0)).xyz);
+      float vol_intensity = clamp(dot(center_view_vector, intermediate_vector), 0.0, 1.0);
         clamp(dot(center_view_vector, intermediate_vector), 0.0, 1.0);
       vol_intensity *= dot(
           view_vector,
