@@ -96,9 +96,6 @@ void main() {
 
   // "Niebla" submarina
   if (isEyeInWater == 1) {
-    // float water_absorption =  // Distance
-    //   2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
-    // water_absorption = (1.0 / -((water_absorption * WATER_ABSORPTION) + 1.0)) + 1.0;
     float water_absorption = (1.0 / -((screen_distance * WATER_ABSORPTION) + 1.0)) + 1.0;
 
     block_color.rgb = mix(
@@ -120,18 +117,12 @@ void main() {
   }
 
   #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
-    // mat4 modeli_times_projectioni = gbufferModelViewInverse * gbufferProjectionInverse;
-
     #if AA_TYPE > 0
       float dither = shifted_eclectic_makeup_dither(gl_FragCoord.xy);
     #else
       float dither = phinoise(gl_FragCoord.xy);
     #endif
   #endif
-
-  // Depth to distance
-  // float screen_distance =
-  //   2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
 
   #if VOL_LIGHT == 1 && !defined NETHER
     #if defined THE_END
@@ -150,10 +141,11 @@ void main() {
 
     #if defined THE_END
       // Fixed light source position in sky for intensity calculation
+      vec3 intermediate_vector = normalize((gbufferModelViewInverse * gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz);
       float vol_intensity = clamp(
         dot(
           center_view_vector,
-          normalize((gbufferModelViewInverse * gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz)
+          intermediate_vector
         ),
         0.0,
         1.0
@@ -162,7 +154,7 @@ void main() {
       vol_intensity *= clamp(
         dot(
           view_vector,
-          normalize((gbufferModelViewInverse * gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz)
+          intermediate_vector
         ),
         0.0,
         1.0
@@ -173,11 +165,12 @@ void main() {
       block_color.rgb += (vol_light_color * vol_light * vol_intensity * 2.0);
     #else
       // Light source position for intensity calculation
-      float vol_intensity =
-        clamp(dot(center_view_vector, normalize((gbufferModelViewInverse * vec4(astro_pos, 0.0)).xyz)), 0.0, 1.0);
+      vec3 intermediate_vector = 
+      float vol_intensity = normalize((gbufferModelViewInverse * vec4(astro_pos, 0.0)).xyz);
+        clamp(dot(center_view_vector, intermediate_vector), 0.0, 1.0);
       vol_intensity *= dot(
           view_vector,
-          normalize((gbufferModelViewInverse * vec4(astro_pos, 0.0)).xyz)
+          intermediate_vector
         );
       vol_intensity =
       pow(clamp(vol_intensity, 0.0, 1.0), vol_mixer) * 0.666 * abs(light_mix * 2.0 - 1.0);
@@ -255,7 +248,6 @@ void main() {
 
     /* DRAWBUFFERS:12 */
     gl_FragData[0] = block_color;
-    // gl_FragData[1] = vec4(block_color.rgb * vec3(clamp(bloom_luma, 0.0, 100.0)), 1.0);
     gl_FragData[1] = block_color * bloom_luma;
   #else
     /* DRAWBUFFERS:1 */
