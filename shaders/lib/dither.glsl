@@ -72,7 +72,8 @@ float eclectic_dither(vec2 frag) {
 }
 
 float texture_noise_64(vec2 p, sampler2D noise) {
-  return texture2D(noise, p * 0.015625).r;
+  // return texture2D(noise, p * 0.015625).r;
+  return texelFetch2D(noise, ivec2(mod(p, 64)), 0).r;
 }
 
 float phinoise(vec2 xy) {

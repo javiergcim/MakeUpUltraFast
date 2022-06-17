@@ -1,4 +1,5 @@
 #version 120
+#extension GL_EXT_gpu_shader4 : enable
 /* MakeUp - gbuffers_entities_glowing.fsh
 Render: Droped objects, mobs and things like that... glowing
 
