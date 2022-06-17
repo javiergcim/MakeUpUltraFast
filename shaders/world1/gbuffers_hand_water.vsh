@@ -1,5 +1,4 @@
 #version 120
-#extension GL_EXT_gpu_shader4 : enable
 /* MakeUp - gbuffers_hand_water.vsh
 Render: Translucent hand objects
 

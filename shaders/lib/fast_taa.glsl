@@ -11,20 +11,11 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past, vec2 velocity) {
   } else {
     vec3 neighbourhood[5];
 
-    ivec2 coords = ivec2(texcoord * ivec2(viewWidth, viewHeight));
-    ivec2 past_coords = ivec2(texcoord_past * ivec2(viewWidth, viewHeight));
-
-    // neighbourhood[0] = texture2D(colortex1, texcoord + vec2(-pixel_size_x, -pixel_size_y)).rgb;
-    // neighbourhood[1] = texture2D(colortex1, texcoord + vec2(pixel_size_x, -pixel_size_y)).rgb;
-    // neighbourhood[2] = current_color;
-    // neighbourhood[3] = texture2D(colortex1, texcoord + vec2(-pixel_size_x, pixel_size_y)).rgb;
-    // neighbourhood[4] = texture2D(colortex1, texcoord + vec2(pixel_size_x, pixel_size_y)).rgb;
-
-    neighbourhood[0] = texelFetch2D(colortex1, coords + ivec2(-1, -1), 0).rgb;
-    neighbourhood[1] = texelFetch2D(colortex1, coords + ivec2(1, -1), 0).rgb;
+    neighbourhood[0] = texture2D(colortex1, texcoord + vec2(-pixel_size_x, -pixel_size_y)).rgb;
+    neighbourhood[1] = texture2D(colortex1, texcoord + vec2(pixel_size_x, -pixel_size_y)).rgb;
     neighbourhood[2] = current_color;
-    neighbourhood[3] = texelFetch2D(colortex1, coords + ivec2(-1, 1), 0).rgb;
-    neighbourhood[4] = texelFetch2D(colortex1, coords + ivec2(1, 1), 0).rgb;
+    neighbourhood[3] = texture2D(colortex1, texcoord + vec2(-pixel_size_x, pixel_size_y)).rgb;
+    neighbourhood[4] = texture2D(colortex1, texcoord + vec2(pixel_size_x, pixel_size_y)).rgb;
 
     vec3 nmin = neighbourhood[0];
     vec3 nmax = nmin;
@@ -34,8 +25,7 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past, vec2 velocity) {
     }
 
     // Muestra del pasado
-    // vec3 previous = texture2D(colortex3, texcoord_past).rgb;
-    vec3 previous = texelFetch2D(colortex3, past_coords, 0).rgb;
+    vec3 previous = texture2D(colortex3, texcoord_past).rgb;
     vec3 past_sample = clamp(previous, nmin, nmax);
 
     // Reducción de ghosting por velocidad
