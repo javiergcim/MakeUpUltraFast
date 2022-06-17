@@ -71,9 +71,9 @@ float eclectic_dither(vec2 frag) {
   return fract(p4 + (52.9829189 * fract(dot(vec2(0.06711056, 0.00583715), frag))));
 }
 
-// float texture_noise_64(vec2 p, sampler2D noise) {
-//   return texture2D(noise, p * 0.015625).r;
-// }
+float texture_noise_64(vec2 p, sampler2D noise) {
+  return texture2D(noise, p * 0.015625).r;
+}
 
 float phinoise(vec2 xy) {
   vec2 tile = floor(xy * 0.25);
@@ -116,6 +116,11 @@ float eclectic_makeup_dither(vec2 frag) {
     return fract(dither_shift + p4 + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
   }
 
+  float shifted_dither_plastic(vec2 frag)
+  {
+    return fract(dither_shift + (2.0 * abs(fract(dot(frag, vec2(0.75487766624669276, 0.569840290998))) - 0.5)));
+  }
+
   float shifted_dither13(vec2 pos)
   {
     return fract(dither_shift + dot(pos, vec2(0.3076923076923077, 0.5384615384615384)));
@@ -145,10 +150,10 @@ float eclectic_makeup_dither(vec2 frag) {
     return fract(dither_shift + p4 + (52.9829189 * fract(dot(vec2(0.06711056, 0.00583715), frag))));
   }
 
-  // float shifted_texture_noise_64(vec2 p, sampler2D noise) {
-  //   float dither = texture2D(noise, p * 0.015625).r;
-  //   return fract(dither_shift + dither);
-  // }
+  float shifted_texture_noise_64(vec2 p, sampler2D noise) {
+    float dither = texture2D(noise, p * 0.015625).r;
+    return fract(dither_shift + dither);
+  }
 
   float shifted_phinoise(vec2 xy) {
     vec2 tile = floor(xy * 0.25);
@@ -191,6 +196,11 @@ float eclectic_makeup_dither(vec2 frag) {
     return fract((frame_mod * 0.4) + p4 + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
   }
 
+  float shifted_dither_plastic(vec2 frag)
+  {
+    return fract((frame_mod * 0.4) + (2.0 * abs(fract(dot(frag, vec2(0.75487766624669276, 0.569840290998))) - 0.5)));
+  }
+
   float shifted_dither13(vec2 pos)
   {
     return fract((frame_mod * 0.4) + dot(pos, vec2(0.3076923076923077, 0.5384615384615384)));
@@ -220,10 +230,10 @@ float eclectic_makeup_dither(vec2 frag) {
     return fract((frame_mod * 0.4) + p4 + (52.9829189 * fract(dot(vec2(0.06711056, 0.00583715), frag))));
   }
 
-  // float shifted_texture_noise_64(vec2 p, sampler2D noise) {
-  //   float dither = texture2D(noise, p * 0.015625).r;
-  //   return fract((frame_mod * 0.4) + dither);
-  // }
+  float shifted_texture_noise_64(vec2 p, sampler2D noise) {
+    float dither = texture2D(noise, p * 0.015625).r;
+    return fract((frame_mod * 0.4) + dither);
+  }
 
   float shifted_phinoise(vec2 xy) {
     vec2 tile = floor(xy * 0.25);
