@@ -32,6 +32,11 @@ uniform int current_hour_ceil;
   uniform mat4 gbufferProjectionInverse;
 #endif
 
+uniform sampler2D colortex1;
+uniform sampler2D gaux3;
+uniform float viewWidth;
+uniform float frameTime;
+
 varying vec2 texcoord;
 varying float exposure_coef;  // Flat
 
@@ -39,9 +44,9 @@ varying float exposure_coef;  // Flat
   varying vec3 vol_light_color;  // Flat
 #endif
 
-#ifdef BLOOM
+// #ifdef BLOOM
   varying float exposure;  // Flat
-#endif
+// #endif
 
 #if VOL_LIGHT == 1 && !defined NETHER
   varying vec2 lightpos;  // Flat
@@ -52,9 +57,11 @@ varying float exposure_coef;  // Flat
   varying mat4 modeli_times_projectioni;
 #endif
 
-#if VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER
+// #if VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER
   #include "/lib/luma.glsl"
-#endif
+// #endif
+
+const bool colortex1MipmapEnabled = true;
 
 void main() {
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
@@ -70,20 +77,31 @@ void main() {
     EXPOSURE_NIGHT
   );
 
-  #ifdef BLOOM
+  // #ifdef BLOOM
     // Exposure
     #if !defined UNKNOWN_DIM
-      float candle_bright = eye_bright_smooth.x * 0.0003125;  // (0.004166666666666667 * 0.075)
+      // float candle_bright = eye_bright_smooth.x * 0.0003125;  // (0.004166666666666667 * 0.075)
 
-      exposure =
-        ((eye_bright_smooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
+      // exposure =
+      //   ((eye_bright_smooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
+
+      exposure = luma(texture2DLod(colortex1, vec2(0.5), log2(viewWidth * 0.3)).rgb);
+      // exposure = luma(texture2D(colortex1, vec2(0.5)).rgb);
+      float prev_exposure = texture2D(gaux3, vec2(0.5)).r;
+
+      // exposure = (exp(-exposure * 4.0) * 3.5) + 0.5;
+      exposure = (exp(-exposure * 4.5) * 3.4) + 0.6;
+
+      // exposure = mix(exposure, prev_exposure, 0.98);
+      exposure = mix(exposure, prev_exposure, exp(-frameTime * 1.25));
+
     #else
       exposure = 1.0;
     #endif
 
     // Map from 1.0 - 0.0 to 1.0 - 3.4
-    exposure = (exposure * -2.4) + 3.4;
-  #endif
+    // exposure = (exposure * -2.4) + 3.4;
+  // #endif
 
   #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
     float vol_attenuation;

@@ -49,9 +49,9 @@ uniform ivec2 eyeBrightnessSmooth;
 varying vec2 texcoord;
 varying float exposure_coef;
 
-#ifdef BLOOM
+// #ifdef BLOOM
   varying float exposure;
-#endif
+// #endif
 
 #if VOL_LIGHT == 1 && !defined NETHER
   varying vec3 vol_light_color;
@@ -82,6 +82,8 @@ varying float exposure_coef;
   #include "/lib/dither.glsl"
   #include "/lib/volumetric_light.glsl"
 #endif
+
+const bool colortex1MipmapEnabled = true;
 
 void main() {
   vec4 block_color = texture2D(colortex1, texcoord);
@@ -118,7 +120,7 @@ void main() {
 
   #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
     #if AA_TYPE > 0
-      float dither = shifted_eclectic_makeup_dither(gl_FragCoord.xy);
+      float dither = shifted_eclectic_r_dither(gl_FragCoord.xy);
     #else
       float dither = phinoise(gl_FragCoord.xy);
     #endif
@@ -244,13 +246,15 @@ void main() {
   #ifdef BLOOM
     // Bloom source
     float bloom_luma =
-      smoothstep(0.85, 1.0, luma(block_color.rgb * exposure)) * 0.4;
+      smoothstep(0.8, 1.0, luma(block_color.rgb * exposure)) * 0.4;
 
-    /* DRAWBUFFERS:12 */
+    /* DRAWBUFFERS:126 */
     gl_FragData[0] = block_color;
     gl_FragData[1] = block_color * bloom_luma;
+    gl_FragData[2] = vec4(exposure, 0.0, 0.0, 0.0);
   #else
-    /* DRAWBUFFERS:1 */
+    /* DRAWBUFFERS:16 */
     gl_FragData[0] = block_color;
+    gl_FragData[1] = vec4(exposure, 0.0, 0.0, 0.0);
   #endif
 }

@@ -11,7 +11,7 @@ colortex2 - Bloom auxiliar
 colortex3 - TAA Averages history
 gaux1 - Screen-Space-Reflection texture
 gaux2 - Clouds texture
-gaux3 - None
+gaux3 - Exposure auxiliar
 gaux4 - Fog auxiliar
 
 const int noisetexFormat = RG8;
@@ -47,7 +47,7 @@ const int colortex3Format = R11F_G11F_B10F;
 /*
 const int gaux1Format = R11F_G11F_B10F;
 const int gaux2Format = RG8;
-const int gaux3Format = R8;
+const int gaux3Format = R16F;
 const int gaux4Format = R11F_G11F_B10F;
 */
 
@@ -70,6 +70,10 @@ uniform sampler2D colortex0;
   uniform sampler2D colortex3;
 #endif
 
+uniform sampler2D gaux3;
+uniform sampler2D colortex1;
+uniform float viewWidth;
+
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 varying float exposure;
@@ -85,6 +89,8 @@ varying float exposure;
 #if CHROMA_ABER == 1
   #include "/lib/aberration.glsl"
 #endif
+
+// const bool colortex1MipmapEnabled = true;
 
 void main() {
   #if CHROMA_ABER == 1
@@ -117,10 +123,13 @@ void main() {
     if (texcoord.x < 0.5 && texcoord.y < 0.5) {
       block_color = texture2D(shadowtex1, texcoord * 2.0).rrr;
     } else if (texcoord.x >= 0.5 && texcoord.y >= 0.5) {
-      block_color = vec3(exposure / 4.0);
+      // block_color = vec3(exposure / 4.0);
+      // block_color = texture2D(gaux3, texcoord).rgb * 0.25;
+      block_color = vec3(texture2D(gaux3, vec2(0.5)).r * 0.25);
     } else if (texcoord.x < 0.5 && texcoord.y >= 0.5) {
-      block_color = texture2D(colortex0, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb * vec3(exposure);
-      block_color = custom_sigmoid(block_color);
+      // block_color = texture2D(colortex0, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb * vec3(exposure);
+      // block_color = custom_sigmoid(block_color);
+      block_color = texture2D(colortex0, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb;
     } else if (texcoord.x >= 0.5 && texcoord.y < 0.5) {
       block_color = texture2D(shadowcolor0, ((texcoord - vec2(0.5, 0.0)) * 2.0)).rgb;
     } else {
@@ -130,6 +139,8 @@ void main() {
     gl_FragColor = vec4(block_color, 1.0);
 
   #else
+    // block_color = texture2DLod(colortex1, texcoord, log2(viewWidth * 0.1)).rgb;
+
     gl_FragColor = vec4(block_color, 1.0);
   #endif
 }

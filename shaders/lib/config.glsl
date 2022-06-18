@@ -72,7 +72,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define CLOUD_REFLECTION  // Set off-screen volumetric clouds reflection (volumetric clouds must be active).
 #define BLACK_ENTITY_FIX 0 // [0 1] Removes black entity bug in old video drivers (activate ONLY if you have problems with black entities)
 #define BLOOM // Enable or disable bloom effect
-#define BLOOM_SAMPLES 5.0 // [5.0 6.0 7.0 8.0 9.0 10.0] Bloom sample pairs.
+#define BLOOM_SAMPLES 4.0 // [4.0 5.0 6.0 7.0 8.0 9.0 10.0] Bloom sample pairs.
 #define CHROMA_ABER 0 // [0 1] Enable chroma aberration.
 #define CHROMA_ABER_STRENGHT 0.04 // [0.04 0.05 0.06] Chroma aberration strenght.
 #define VOL_LIGHT 1 // [0 1 2] Depth based: Turn on depth based godrays, they are a bit slow, but can work better than volumetric light for very short shadow distances. Volumetric: It activates the volumetric light, more accurate and faster, but it needs the shadows enabled to work.

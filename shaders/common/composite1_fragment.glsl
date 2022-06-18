@@ -63,4 +63,5 @@ void main() {
 
   /* DRAWBUFFERS:1 */
   gl_FragData[0] = block_color;
+  // gl_FragData[0] = vec4(bloom, block_color.a);
 }

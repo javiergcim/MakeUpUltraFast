@@ -1,9 +1,9 @@
 #include "/lib/config.glsl"
 
 /* Config, uniforms, ins, outs */
-uniform vec3 chunkOffset;
-uniform mat4 modelViewMatrix;
-uniform mat4 projectionMatrix;
+// uniform vec3 chunkOffset;
+// uniform mat4 modelViewMatrix;
+// uniform mat4 projectionMatrix;
 
 varying vec2 texcoord;
 varying float var_fog_frag_coord;
@@ -15,5 +15,7 @@ varying float var_fog_frag_coord;
 void main() {
   texcoord = gl_MultiTexCoord0.xy;
 
-  #include "/src/position_vertex.glsl"
+  // #include "/src/position_vertex.glsl"
+  gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+  gl_FogFragCoord = length(gl_Position.xyz);
 }
