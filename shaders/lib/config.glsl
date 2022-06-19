@@ -83,6 +83,12 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // #define DEBUG_MODE // Set debug mode.
 #define BLOCKLIGHT_TEMP 1 // [0 1 2 3 4] Set blocklight temperature
 #define MATERIAL_GLOSS // A very subtle effect that adds some ability to reflect direct light on some blocks. It is most noticeable on metals and luminous objects.
+// #define SIMPLE_AUTOEXP // Toggle between advanced and simple auto-exposure. Intel GPUs use always simple auto-exposure.
+
+#ifdef SIMPLE_AUTOEXP
+  // Menu bug workaround. Don't remove
+#endif
+
 // Reflection parameters
 #define RAYMARCH_STEPS 9
 

@@ -1,4 +1,7 @@
 /* Config, uniforms, ins, outs */
+#include "/lib/config.glsl"
+
+/* Config, uniforms, ins, outs */
 #ifdef THE_END
   #include "/lib/color_utils_end.glsl"
 #elif defined NETHER
@@ -12,7 +15,7 @@ uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
 
-#if (!defined MC_GL_VENDOR_MESA || !defined MC_GL_RENDERER_MESA) && !defined MC_GL_RENDERER_INTEL
+#if (!defined MC_GL_VENDOR_MESA || !defined MC_GL_RENDERER_MESA) && !defined MC_GL_RENDERER_INTEL && !defined SIMPLE_AUTOEXP
   uniform sampler2D gaux3;
   uniform float viewWidth;
 #endif
@@ -31,7 +34,7 @@ void main() {
   // Tonemaping ---
   // x: Block, y: Sky ---
   #if !defined UNKNOWN_DIM
-    #if (defined MC_GL_VENDOR_MESA && defined MC_GL_RENDERER_MESA) || defined MC_GL_RENDERER_INTEL
+    #if (defined MC_GL_VENDOR_MESA && defined MC_GL_RENDERER_MESA) || defined MC_GL_RENDERER_INTEL || defined SIMPLE_AUTOEXP
 
       float exposure_coef = day_blend_float(
         EXPOSURE_MIDDLE,
