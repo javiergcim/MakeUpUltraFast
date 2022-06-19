@@ -72,12 +72,6 @@ void main() {
     vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
   #endif
 
-  // exposure_coef = day_blend_float(
-  //   EXPOSURE_MIDDLE,
-  //   EXPOSURE_DAY,
-  //   EXPOSURE_NIGHT
-  // );
-
   direct_light_color = day_blend(
     AMBIENT_MIDDLE_COLOR,
     AMBIENT_DAY_COLOR,
@@ -93,28 +87,15 @@ void main() {
   // #ifdef BLOOM
     // Exposure
     #if !defined UNKNOWN_DIM
-      // float candle_bright = eye_bright_smooth.x * 0.0003125;  // (0.004166666666666667 * 0.075)
-
-      // exposure =
-      //   ((eye_bright_smooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
-
       exposure = luma(texture2DLod(colortex1, vec2(0.5), log2(viewWidth * 0.3)).rgb);
-      // exposure = luma(texture2D(colortex1, vec2(0.5)).rgb);
       float prev_exposure = texture2D(gaux3, vec2(0.5)).r;
 
-      // exposure = (exp(-exposure * 4.0) * 3.5) + 0.5;
-      exposure = (exp(-exposure * 4.5) * 3.3) + 0.5;
-
-      // exposure = mix(exposure, prev_exposure, 0.98);
+      exposure = (exp(-exposure * 4.9) * 3.2) + 0.6;
       exposure = mix(exposure, prev_exposure, exp(-frameTime * 1.25));
 
     #else
       exposure = 1.0;
     #endif
-
-    // Map from 1.0 - 0.0 to 1.0 - 3.4
-    // exposure = (exposure * -2.4) + 3.4;
-  // #endif
 
   #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
     float vol_attenuation;

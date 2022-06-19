@@ -90,8 +90,6 @@ varying float exposure;
   #include "/lib/aberration.glsl"
 #endif
 
-// const bool colortex1MipmapEnabled = true;
-
 void main() {
   #if CHROMA_ABER == 1
     vec3 block_color = color_aberration();
@@ -123,12 +121,8 @@ void main() {
     if (texcoord.x < 0.5 && texcoord.y < 0.5) {
       block_color = texture2D(shadowtex1, texcoord * 2.0).rrr;
     } else if (texcoord.x >= 0.5 && texcoord.y >= 0.5) {
-      // block_color = vec3(exposure / 4.0);
-      // block_color = texture2D(gaux3, texcoord).rgb * 0.25;
       block_color = vec3(texture2D(gaux3, vec2(0.5)).r * 0.25);
     } else if (texcoord.x < 0.5 && texcoord.y >= 0.5) {
-      // block_color = texture2D(colortex0, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb * vec3(exposure);
-      // block_color = custom_sigmoid(block_color);
       block_color = texture2D(colortex0, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb;
     } else if (texcoord.x >= 0.5 && texcoord.y < 0.5) {
       block_color = texture2D(shadowcolor0, ((texcoord - vec2(0.5, 0.0)) * 2.0)).rgb;
@@ -139,8 +133,6 @@ void main() {
     gl_FragColor = vec4(block_color, 1.0);
 
   #else
-    // block_color = texture2DLod(colortex1, texcoord, log2(viewWidth * 0.1)).rgb;
-
     gl_FragColor = vec4(block_color, 1.0);
   #endif
 }

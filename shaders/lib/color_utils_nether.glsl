@@ -55,11 +55,6 @@ float day_blend_float(float middle, float day, float night) {
   return mix(day_value, night_value, step(0.5, day_moment));
 }
 
-// Ambient color luma per hour in exposure calculation
-#define EXPOSURE_DAY 1.0
-#define EXPOSURE_MIDDLE 1.0
-#define EXPOSURE_NIGHT 1.0
-
 // Fog parameter per hour
 #define FOG_DAY 1.0
 #define FOG_MIDDLE 1.0
