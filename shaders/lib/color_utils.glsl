@@ -153,6 +153,19 @@ float day_blend_float(float middle, float day, float night) {
   return mix(day_value, night_value, step(0.5, day_moment));
 }
 
+#if (defined MC_GL_VENDOR_MESA && defined MC_GL_RENDERER_MESA)
+  // Ambient color luma per hour in exposure calculation
+  #if !defined UNKNOWN_DIM
+    #define EXPOSURE_DAY 1.0
+    #define EXPOSURE_MIDDLE 1.0
+    #define EXPOSURE_NIGHT 0.01
+  #else
+    #define EXPOSURE_DAY 1.0
+    #define EXPOSURE_MIDDLE 1.0
+    #define EXPOSURE_NIGHT 1.0
+  #endif
+#endif
+
 // Fog parameter per hour
 #if VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING) || defined UNKNOWN_DIM
     #define FOG_DENSITY 3.0

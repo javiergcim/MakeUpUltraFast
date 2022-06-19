@@ -1,6 +1,4 @@
 #version 120
-#extension GL_ARB_shader_objects : enable
-#extension GL_ARB_shader_texture_lod : enable
 /* MakeUp - composite.fsh
 Render: Bloom and volumetric light
 

@@ -250,13 +250,24 @@ void main() {
     float bloom_luma =
       smoothstep(0.825, 1.0, luma(block_color.rgb * exposure)) * 0.4;
 
-    /* DRAWBUFFERS:126 */
-    gl_FragData[0] = block_color;
-    gl_FragData[1] = block_color * bloom_luma;
-    gl_FragData[2] = vec4(exposure, 0.0, 0.0, 0.0);
+    #if (defined MC_GL_VENDOR_MESA && defined MC_GL_RENDERER_MESA)
+      /* DRAWBUFFERS:12 */
+      gl_FragData[0] = block_color;
+      gl_FragData[1] = block_color * bloom_luma;
+    #else
+      /* DRAWBUFFERS:126 */
+      gl_FragData[0] = block_color;
+      gl_FragData[1] = block_color * bloom_luma;
+      gl_FragData[2] = vec4(exposure, 0.0, 0.0, 0.0);
+    #endif
   #else
-    /* DRAWBUFFERS:16 */
-    gl_FragData[0] = block_color;
-    gl_FragData[1] = vec4(exposure, 0.0, 0.0, 0.0);
+    #if (defined MC_GL_VENDOR_MESA && defined MC_GL_RENDERER_MESA)
+      /* DRAWBUFFERS:1 */
+      gl_FragData[0] = block_color;
+    #else
+      /* DRAWBUFFERS:16 */
+      gl_FragData[0] = block_color;
+      gl_FragData[1] = vec4(exposure, 0.0, 0.0, 0.0);
+    #endif
   #endif
 }

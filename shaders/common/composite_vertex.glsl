@@ -10,14 +10,13 @@
 uniform float current_hour_fract;
 uniform int current_hour_floor;
 uniform int current_hour_ceil;
+uniform float rainStrength;
+uniform ivec2 eyeBrightnessSmooth;
 
 #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
   uniform int isEyeInWater;
 #endif
 
-#if defined BLOOM || (VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER))
-  uniform ivec2 eyeBrightnessSmooth;
-#endif
 
 #if VOL_LIGHT == 1 && !defined NETHER
   uniform float light_mix; 
@@ -31,11 +30,12 @@ uniform int current_hour_ceil;
   uniform mat4 gbufferProjectionInverse;
 #endif
 
-uniform sampler2D colortex1;
-uniform sampler2D gaux3;
-uniform float viewWidth;
-uniform float frameTime;
-uniform float rainStrength;
+#if (!defined MC_GL_VENDOR_MESA || !defined MC_GL_RENDERER_MESA)
+  uniform sampler2D colortex1;
+  uniform sampler2D gaux3;
+  uniform float viewWidth;
+  uniform float frameTime;
+#endif
 
 varying vec2 texcoord;
 // varying float exposure_coef;  // Flat
@@ -45,9 +45,7 @@ varying vec3 direct_light_color;
   varying vec3 vol_light_color;  // Flat
 #endif
 
-// #ifdef BLOOM
-  varying float exposure;  // Flat
-// #endif
+varying float exposure;  // Flat
 
 #if VOL_LIGHT == 1 && !defined NETHER
   varying vec2 lightpos;  // Flat
@@ -58,19 +56,17 @@ varying vec3 direct_light_color;
   varying mat4 modeli_times_projectioni;
 #endif
 
-// #if VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER
-  #include "/lib/luma.glsl"
-// #endif
+#include "/lib/luma.glsl"
 
-const bool colortex1MipmapEnabled = true;
+#if (!defined MC_GL_VENDOR_MESA || !defined MC_GL_RENDERER_MESA)
+  const bool colortex1MipmapEnabled = true;
+#endif
 
 void main() {
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
   texcoord = gl_MultiTexCoord0.xy;
 
-  #if defined BLOOM || (VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER))
-    vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
-  #endif
+  vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
 
   direct_light_color = day_blend(
     AMBIENT_MIDDLE_COLOR,
@@ -84,18 +80,33 @@ void main() {
     rainStrength
   );
 
-  // #ifdef BLOOM
-    // Exposure
-    #if !defined UNKNOWN_DIM
+  // Exposure
+  #if !defined UNKNOWN_DIM
+    #if (defined MC_GL_VENDOR_MESA && defined MC_GL_RENDERER_MESA)
+
+      float exposure_coef = day_blend_float(
+        EXPOSURE_MIDDLE,
+        EXPOSURE_DAY,
+        EXPOSURE_NIGHT
+      );
+
+      float candle_bright = eye_bright_smooth.x * 0.0003125;  // (0.004166666666666667 * 0.075)
+
+      exposure =
+        ((eye_bright_smooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
+
+      // Map from 1.0 - 0.0 to 1.0 - 3.4
+      exposure = (exposure * -2.4) + 3.4;
+    #else
       exposure = luma(texture2DLod(colortex1, vec2(0.5), log2(viewWidth * 0.3)).rgb);
       float prev_exposure = texture2D(gaux3, vec2(0.5)).r;
 
-      exposure = (exp(-exposure * 4.9) * 3.2) + 0.6;
+      exposure = (exp(-exposure * 4.9) * 3.0) + 0.6;
       exposure = mix(exposure, prev_exposure, exp(-frameTime * 1.25));
-
-    #else
-      exposure = 1.0;
     #endif
+  #else
+    exposure = 1.0;
+  #endif
 
   #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
     float vol_attenuation;
