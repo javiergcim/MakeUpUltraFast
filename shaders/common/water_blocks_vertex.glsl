@@ -11,9 +11,6 @@
 /* Config, uniforms, ins, outs */
 uniform vec3 sunPosition;
 uniform int isEyeInWater;
-uniform int current_hour_floor;
-uniform int current_hour_ceil;
-uniform float current_hour_fract;
 uniform float light_mix;
 uniform float far;
 uniform float nightVision;

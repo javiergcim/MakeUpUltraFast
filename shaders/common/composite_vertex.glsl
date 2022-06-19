@@ -7,9 +7,6 @@
   #include "/lib/color_utils.glsl"
 #endif
 
-uniform float current_hour_fract;
-uniform int current_hour_floor;
-uniform int current_hour_ceil;
 uniform float rainStrength;
 uniform ivec2 eyeBrightnessSmooth;
 

@@ -17,9 +17,6 @@ uniform float far;
 uniform float near;
 uniform float blindness;
 uniform float rainStrength;
-uniform int current_hour_floor;
-uniform int current_hour_ceil;
-uniform float current_hour_fract;
 uniform sampler2D gaux2;
 uniform sampler2D gaux3;
 

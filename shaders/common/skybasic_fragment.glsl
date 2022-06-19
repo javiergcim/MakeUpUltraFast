@@ -10,9 +10,6 @@
 
 /* Config, uniforms, ins, outs */
 uniform int isEyeInWater;
-uniform int current_hour_floor;
-uniform int current_hour_ceil;
-uniform float current_hour_fract;
 uniform mat4 gbufferProjectionInverse;
 uniform float viewWidth;
 uniform float viewHeight;

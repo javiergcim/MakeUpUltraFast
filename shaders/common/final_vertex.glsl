@@ -11,9 +11,6 @@
 #endif
 
 uniform ivec2 eyeBrightnessSmooth;
-uniform int current_hour_floor;
-uniform int current_hour_ceil;
-uniform float current_hour_fract;
 
 #if (!defined MC_GL_VENDOR_MESA || !defined MC_GL_RENDERER_MESA) && !defined MC_GL_RENDERER_INTEL && !defined SIMPLE_AUTOEXP
   uniform sampler2D gaux3;

@@ -8,11 +8,6 @@
   #include "/lib/color_utils.glsl"
 #endif
 
-/* Config, uniforms, ins, outs */
-uniform int current_hour_floor;
-uniform int current_hour_ceil;
-uniform float current_hour_fract;
-
 varying vec2 texcoord;
 varying vec4 tint_color;
 varying float sky_luma_correction;

@@ -8,9 +8,6 @@
   #include "/lib/color_utils.glsl"
 #endif
 
-uniform int current_hour_floor;
-uniform int current_hour_ceil;
-uniform float current_hour_fract;
 uniform float rainStrength;
 
 varying vec4 tint_color;
