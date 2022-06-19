@@ -12,7 +12,6 @@ uniform int current_hour_floor;
 uniform int current_hour_ceil;
 
 #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
-  uniform float rainStrength;
   uniform int isEyeInWater;
 #endif
 
@@ -36,9 +35,11 @@ uniform sampler2D colortex1;
 uniform sampler2D gaux3;
 uniform float viewWidth;
 uniform float frameTime;
+uniform float rainStrength;
 
 varying vec2 texcoord;
-varying float exposure_coef;  // Flat
+// varying float exposure_coef;  // Flat
+varying vec3 direct_light_color;
 
 #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
   varying vec3 vol_light_color;  // Flat
@@ -71,10 +72,22 @@ void main() {
     vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
   #endif
 
-  exposure_coef = day_blend_float(
-    EXPOSURE_MIDDLE,
-    EXPOSURE_DAY,
-    EXPOSURE_NIGHT
+  // exposure_coef = day_blend_float(
+  //   EXPOSURE_MIDDLE,
+  //   EXPOSURE_DAY,
+  //   EXPOSURE_NIGHT
+  // );
+
+  direct_light_color = day_blend(
+    AMBIENT_MIDDLE_COLOR,
+    AMBIENT_DAY_COLOR,
+    AMBIENT_NIGHT_COLOR
+  );
+
+  direct_light_color = mix(
+    direct_light_color,
+    HI_SKY_RAIN_COLOR * luma(direct_light_color),
+    rainStrength
   );
 
   // #ifdef BLOOM
@@ -90,7 +103,7 @@ void main() {
       float prev_exposure = texture2D(gaux3, vec2(0.5)).r;
 
       // exposure = (exp(-exposure * 4.0) * 3.5) + 0.5;
-      exposure = (exp(-exposure * 4.5) * 3.4) + 0.6;
+      exposure = (exp(-exposure * 4.5) * 3.3) + 0.5;
 
       // exposure = mix(exposure, prev_exposure, 0.98);
       exposure = mix(exposure, prev_exposure, exp(-frameTime * 1.25));

@@ -54,8 +54,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define AO_STRENGHT 0.60 // [0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.66 0.70 0.75 0.80 0.85] Ambient occlusion strenght (strenght NOT affect performance).
 #define AA_TYPE 1 // [0 1 2] Fast TAA: Enable antialiasing (Recommended). Denoise only: Supersampling is only used to eliminate noise. No: Disable antialiasing (not recommended).
 //#define MOTION_BLUR // Turn on motion blur
-#define MOTION_BLUR_STRENGTH 0.12 // [0.02 0.04 0.06 0.08 0.10 0.12 0.14 0.16 0.18 0.20 0.22] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
-#define MOTION_BLUR_SAMPLES 6 // [3 4 5 6 7 8] Motion blur samples 
+#define MOTION_BLUR_STRENGTH 1.0 // [0.5 1.0 1.5 2.0 2.5 3.0 3.5 4.0] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
+#define MOTION_BLUR_SAMPLES 4 // [3 4 5 6 7 8] Motion blur samples 
 #define SUN_REFLECTION 1 // [0 1] Enable sun (or moon) reflection on water and glass
 #define SHADOW_CASTING // Turn shadow casting on or off.
 #define SHADOW_RES 4 // [0 1 2 3 4 5 6 7 8 9 10 11] Set shadow quality. Read as: 'Visual quality (distance)'. Volumetric lighting works best with "normal" or "far" distance shadows.

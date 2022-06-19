@@ -17,6 +17,7 @@ uniform sampler2D colortex1;
 uniform float viewWidth;
 uniform float viewHeight;
 
+
 #if AA_TYPE > 0 || defined MOTION_BLUR
   uniform sampler2D colortex3;  // TAA past averages
   uniform float pixel_size_x;
@@ -29,6 +30,7 @@ uniform float viewHeight;
   uniform mat4 gbufferPreviousProjection;
   uniform mat4 gbufferPreviousModelView;
   uniform sampler2D depthtex0;
+  uniform float frameTime;
 #endif
 
 // Varyings (per thread shared variables)

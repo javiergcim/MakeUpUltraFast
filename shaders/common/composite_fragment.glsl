@@ -47,10 +47,11 @@ uniform ivec2 eyeBrightnessSmooth;
 #endif
 
 varying vec2 texcoord;
-varying float exposure_coef;
+// varying float exposure_coef;
+varying vec3 direct_light_color;
 
 // #ifdef BLOOM
-  varying float exposure;
+varying float exposure;
 // #endif
 
 #if VOL_LIGHT == 1 && !defined NETHER
@@ -102,7 +103,8 @@ void main() {
 
     block_color.rgb = mix(
       block_color.rgb,
-      WATER_COLOR * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667) * (exposure_coef * 0.9 + 0.1),
+      // WATER_COLOR * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667) * (exposure_coef * 0.9 + 0.1),
+      WATER_COLOR * direct_light_color * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667),
       water_absorption);
 
   } else if (isEyeInWater == 2) {
@@ -122,7 +124,7 @@ void main() {
     #if AA_TYPE > 0
       float dither = shifted_eclectic_r_dither(gl_FragCoord.xy);
     #else
-      float dither = phinoise(gl_FragCoord.xy);
+      float dither = semiblue(gl_FragCoord.xy);
     #endif
   #endif
 
@@ -246,7 +248,7 @@ void main() {
   #ifdef BLOOM
     // Bloom source
     float bloom_luma =
-      smoothstep(0.8, 1.0, luma(block_color.rgb * exposure)) * 0.4;
+      smoothstep(0.825, 1.0, luma(block_color.rgb * exposure)) * 0.4;
 
     /* DRAWBUFFERS:126 */
     gl_FragData[0] = block_color;

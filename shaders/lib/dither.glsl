@@ -75,12 +75,12 @@ float texture_noise_64(vec2 p, sampler2D noise) {
   return texture2D(noise, p * 0.015625).r;
 }
 
-float phinoise(vec2 xy) {
+float semiblue(vec2 xy) {
   vec2 tile = floor(xy * 0.25);
   float flip = mod(tile.x + tile.y, 2.0);
   xy = mix(xy, xy.yx, flip);
 
-  return fract(dot(vec2(0.75487766624669276, 0.569840290998), xy) + hash12(tile));
+  return fract(dot(vec2(0.55555555555555555, 0.308641975308642), xy) + hash12(tile));
 }
 
 float makeup_dither(vec2 frag) {
@@ -155,12 +155,12 @@ float eclectic_makeup_dither(vec2 frag) {
     return fract(dither_shift + dither);
   }
 
-  float shifted_phinoise(vec2 xy) {
+  float shifted_semiblue(vec2 xy) {
     vec2 tile = floor(xy * 0.25);
     float flip = mod(tile.x + tile.y, 2.0);
     xy = mix(xy, xy.yx, flip);
 
-    return fract(dither_shift + dot(vec2(0.75487766624669276, 0.569840290998), xy) + hash12(tile));
+    return fract(dither_shift + dot(vec2(0.55555555555555555, 0.308641975308642), xy) + hash12(tile));
   }
 
   float shifted_makeup_dither(vec2 frag) {
@@ -235,12 +235,12 @@ float eclectic_makeup_dither(vec2 frag) {
     return fract((frame_mod * 0.4) + dither);
   }
 
-  float shifted_phinoise(vec2 xy) {
+  float shifted_semiblue(vec2 xy) {
     vec2 tile = floor(xy * 0.25);
     float flip = mod(tile.x + tile.y, 2.0);
     xy = mix(xy, xy.yx, flip);
 
-    return fract((frame_mod * 0.4) + dot(vec2(0.75487766624669276, 0.569840290998), xy) + hash12(tile));
+    return fract((frame_mod * 0.4) + dot(vec2(0.55555555555555555, 0.308641975308642), xy) + hash12(tile));
   }
 
   float shifted_makeup_dither(vec2 frag) {
