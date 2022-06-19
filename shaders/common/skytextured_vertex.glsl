@@ -21,15 +21,17 @@ varying float sky_luma_correction;
   #include "/src/taa_offset.glsl"
 #endif
 
+#include "/lib/luma.glsl"
+
 void main() {
   texcoord = gl_MultiTexCoord0.xy;
   tint_color = gl_Color;
 
-  sky_luma_correction = day_blend_float(
-    EXPOSURE_MIDDLE,
-    EXPOSURE_DAY,
-    EXPOSURE_NIGHT
-  );
+  sky_luma_correction = luma(day_blend(
+    AMBIENT_MIDDLE_COLOR,
+    AMBIENT_DAY_COLOR,
+    AMBIENT_NIGHT_COLOR
+  ));
 
   #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
     sky_luma_correction = 3.5 / ((sky_luma_correction * -2.5) + 3.5);
