@@ -80,7 +80,6 @@ varying float exposure;
 
 #include "/lib/basic_utils.glsl"
 #include "/lib/tone_maps.glsl"
-// #include "/lib/luma.glsl"
 
 #ifdef COLOR_BLINDNESS
   #include "/lib/color_blindness.glsl"
