@@ -30,7 +30,7 @@ uniform ivec2 eyeBrightnessSmooth;
   uniform mat4 gbufferProjectionInverse;
 #endif
 
-#if (!defined MC_GL_VENDOR_MESA || !defined MC_GL_RENDERER_MESA)
+#if (!defined MC_GL_VENDOR_MESA || !defined MC_GL_RENDERER_MESA) && !defined MC_GL_RENDERER_INTEL
   uniform sampler2D colortex1;
   uniform sampler2D gaux3;
   uniform float viewWidth;
@@ -58,7 +58,7 @@ varying float exposure;  // Flat
 
 #include "/lib/luma.glsl"
 
-#if (!defined MC_GL_VENDOR_MESA || !defined MC_GL_RENDERER_MESA)
+#if (!defined MC_GL_VENDOR_MESA || !defined MC_GL_RENDERER_MESA) && !defined MC_GL_RENDERER_INTEL
   const bool colortex1MipmapEnabled = true;
 #endif
 
@@ -82,7 +82,7 @@ void main() {
 
   // Exposure
   #if !defined UNKNOWN_DIM
-    #if (defined MC_GL_VENDOR_MESA && defined MC_GL_RENDERER_MESA)
+    #if (defined MC_GL_VENDOR_MESA && defined MC_GL_RENDERER_MESA) || defined MC_GL_RENDERER_INTEL
 
       float exposure_coef = day_blend_float(
         EXPOSURE_MIDDLE,

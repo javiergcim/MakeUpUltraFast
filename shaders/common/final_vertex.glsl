@@ -12,7 +12,7 @@ uniform int current_hour_floor;
 uniform int current_hour_ceil;
 uniform float current_hour_fract;
 
-#if (!defined MC_GL_VENDOR_MESA || !defined MC_GL_RENDERER_MESA)
+#if (!defined MC_GL_VENDOR_MESA || !defined MC_GL_RENDERER_MESA) && !defined MC_GL_RENDERER_INTEL
   uniform sampler2D gaux3;
   uniform float viewWidth;
 #endif
@@ -31,7 +31,7 @@ void main() {
   // Tonemaping ---
   // x: Block, y: Sky ---
   #if !defined UNKNOWN_DIM
-    #if (defined MC_GL_VENDOR_MESA && defined MC_GL_RENDERER_MESA)
+    #if (defined MC_GL_VENDOR_MESA && defined MC_GL_RENDERER_MESA) || defined MC_GL_RENDERER_INTEL
 
       float exposure_coef = day_blend_float(
         EXPOSURE_MIDDLE,
