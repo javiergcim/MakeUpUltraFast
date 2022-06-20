@@ -1,6 +1,3 @@
-/* Exits */
-out vec4 outColor0;
-
 #include "/lib/config.glsl"
 
 #ifdef THE_END
@@ -12,13 +9,12 @@ out vec4 outColor0;
 #endif
 
 // 'Global' constants from system
-uniform sampler2D gtexture;
-uniform float alphaTestRef;
+uniform sampler2D tex;
 
 // Varyings (per thread shared variables)
-in vec2 texcoord;
-in vec4 tint_color;
-flat in float sky_luma_correction;  // Flat
+varying vec2 texcoord;
+varying vec4 tint_color;
+varying float sky_luma_correction;  // Flat
 
 void main() {
   #if defined THE_END || defined NETHER
@@ -26,9 +22,7 @@ void main() {
     vec3 background_color = HI_DAY_COLOR;
   #else
     // Toma el color puro del bloque
-    vec4 block_color = texture(gtexture, texcoord) * tint_color;
-
-    if(block_color.a < alphaTestRef) discard;
+    vec4 block_color = texture2D(tex, texcoord) * tint_color;
     
     block_color.rgb *= sky_luma_correction;
   #endif

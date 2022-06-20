@@ -1,4 +1,4 @@
-#version 150
+#version 120
 /* MakeUp - gbuffers_entities.fsh
 Render: Droped objects, mobs and things like that
 

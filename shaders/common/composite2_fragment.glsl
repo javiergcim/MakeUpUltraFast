@@ -1,6 +1,13 @@
-/* Exits */
-out vec4 outColor0;
-out vec4 outColor1;
+#if MC_VERSION < 11300
+  const bool colortex0Clear = false;
+  const bool colortex1Clear = false;
+  const bool colortex2Clear = false;
+  const bool colortex3Clear = false;
+  const bool gaux1Clear = false;
+  const bool gaux2Clear = false;
+  const bool gaux3Clear = false;
+  const bool gaux4Clear = false;
+#endif
 
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
@@ -9,6 +16,7 @@ out vec4 outColor1;
 uniform sampler2D colortex1;
 uniform float viewWidth;
 uniform float viewHeight;
+
 
 #if AA_TYPE > 0 || defined MOTION_BLUR
   uniform sampler2D colortex3;  // TAA past averages
@@ -21,12 +29,12 @@ uniform float viewHeight;
   uniform vec3 previousCameraPosition;
   uniform mat4 gbufferPreviousProjection;
   uniform mat4 gbufferPreviousModelView;
-  uniform int frame_mod;
   uniform sampler2D depthtex0;
+  uniform float frameTime;
 #endif
 
 // Varyings (per thread shared variables)
-in vec2 texcoord;
+varying vec2 texcoord;
 
 #if AA_TYPE > 0 || defined MOTION_BLUR
   #include "/lib/projection_utils.glsl"
@@ -44,19 +52,28 @@ in vec2 texcoord;
 #endif
 
 void main() {
-  vec4 block_color = texture(colortex1, texcoord);
+  vec4 block_color = texture2D(colortex1, texcoord);
 
   // Precalc past position and velocity
   #if AA_TYPE > 0 || defined MOTION_BLUR
     // Reproyección del cuadro anterior
-    float z_depth = texture(depthtex0, texcoord).r;
-    vec3 closest_to_camera = vec3(texcoord, z_depth);
-    vec3 fragposition = to_screen_space(closest_to_camera);
-    fragposition = mat3(gbufferModelViewInverse) * fragposition + gbufferModelViewInverse[3].xyz + (cameraPosition - previousCameraPosition);
-    vec3 previous_position = mat3(gbufferPreviousModelView) * fragposition + gbufferPreviousModelView[3].xyz;
-    previous_position = to_clip_space(previous_position);
-    previous_position.xy = texcoord + (previous_position.xy - closest_to_camera.xy);
-    vec2 texcoord_past = previous_position.xy;  // Posición en el pasado
+    float z_depth = texture2D(depthtex0, texcoord).r;
+    vec3 closest_to_camera;
+    vec3 fragposition;
+    vec3 previous_position;
+    vec2 texcoord_past;
+
+    if (z_depth < 0.56) {
+      texcoord_past = texcoord;
+    } else {
+      closest_to_camera = vec3(texcoord, z_depth);
+      fragposition = to_screen_space(closest_to_camera);
+      fragposition = mat3(gbufferModelViewInverse) * fragposition + gbufferModelViewInverse[3].xyz + (cameraPosition - previousCameraPosition);
+      previous_position = mat3(gbufferPreviousModelView) * fragposition + gbufferPreviousModelView[3].xyz;
+      previous_position = to_clip_space(previous_position);
+      previous_position.xy = texcoord + (previous_position.xy - closest_to_camera.xy);
+      texcoord_past = previous_position.xy;  // Posición en el pasado
+    }
 
     // "Velocidad"
     vec2 velocity = texcoord - texcoord_past;
@@ -73,10 +90,10 @@ void main() {
       block_color.rgb = fast_taa(block_color.rgb, texcoord_past, velocity);
     #endif
     /* DRAWBUFFERS:03 */
-    outColor0 = block_color;  // colortex0
-    outColor1 = block_color;  // To TAA averages
+    gl_FragData[0] = block_color;  // colortex0
+    gl_FragData[1] = block_color;  // To TAA averages
   #else
     /* DRAWBUFFERS:0 */
-    outColor0 = block_color;  // colortex0
+    gl_FragData[0] = block_color;  // colortex0
   #endif
 }

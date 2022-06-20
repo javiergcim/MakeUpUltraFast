@@ -1,6 +1,3 @@
-/* Exits */
-out vec4 outColor0;
-
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
 
@@ -14,7 +11,7 @@ colortex2 - Bloom auxiliar
 colortex3 - TAA Averages history
 gaux1 - Screen-Space-Reflection texture
 gaux2 - Clouds texture
-gaux3 - Clouds / AO buffer
+gaux3 - Exposure auxiliar
 gaux4 - Fog auxiliar
 
 const int noisetexFormat = RG8;
@@ -50,7 +47,7 @@ const int colortex3Format = R11F_G11F_B10F;
 /*
 const int gaux1Format = R11F_G11F_B10F;
 const int gaux2Format = RG8;
-const int gaux3Format = RGBA16F;
+const int gaux3Format = R16F;
 const int gaux4Format = R11F_G11F_B10F;
 */
 
@@ -73,13 +70,16 @@ uniform sampler2D colortex0;
   uniform sampler2D colortex3;
 #endif
 
+uniform sampler2D gaux3;
+uniform sampler2D colortex1;
+uniform float viewWidth;
+
 // Varyings (per thread shared variables)
-in vec2 texcoord;
-flat in float exposure;
+varying vec2 texcoord;
+varying float exposure;
 
 #include "/lib/basic_utils.glsl"
 #include "/lib/tone_maps.glsl"
-// #include "/lib/luma.glsl"
 
 #ifdef COLOR_BLINDNESS
   #include "/lib/color_blindness.glsl"
@@ -93,7 +93,7 @@ void main() {
   #if CHROMA_ABER == 1
     vec3 block_color = color_aberration();
   #else
-    vec3 block_color = texture(colortex0, texcoord).rgb;
+    vec3 block_color = texture2D(colortex0, texcoord).rgb;
   #endif
 
   block_color *= vec3(exposure);
@@ -103,7 +103,7 @@ void main() {
   #else
     block_color = custom_sigmoid(block_color);
   #endif
-
+  
   // Color-grading ---
 
   // Saturation
@@ -116,22 +116,22 @@ void main() {
   #endif
 
   #ifdef DEBUG_MODE
+    // vec3 block_color;
     if (texcoord.x < 0.5 && texcoord.y < 0.5) {
-      block_color = texture(shadowtex1, texcoord * 2.0).rrr;
+      block_color = texture2D(shadowtex1, texcoord * 2.0).rrr;
     } else if (texcoord.x >= 0.5 && texcoord.y >= 0.5) {
-      block_color = vec3(exposure / 4.0);
+      block_color = vec3(texture2D(gaux3, vec2(0.5)).r * 0.25);
     } else if (texcoord.x < 0.5 && texcoord.y >= 0.5) {
-      block_color = texture(colortex0, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb * vec3(exposure);
-      block_color = custom_sigmoid(block_color);
+      block_color = texture2D(colortex0, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb;
     } else if (texcoord.x >= 0.5 && texcoord.y < 0.5) {
-      block_color = texture(shadowcolor0, ((texcoord - vec2(0.5, 0.0)) * 2.0)).rgb;
+      block_color = texture2D(shadowcolor0, ((texcoord - vec2(0.5, 0.0)) * 2.0)).rgb;
     } else {
       block_color = vec3(0.5);
     }
 
-    outColor0 = vec4(block_color, 1.0);
+    gl_FragColor = vec4(block_color, 1.0);
 
   #else
-    outColor0 = vec4(block_color, 1.0);
+    gl_FragColor = vec4(block_color, 1.0);
   #endif
 }

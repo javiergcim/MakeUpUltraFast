@@ -9,9 +9,9 @@ uniform float day_mixer;
 uniform float night_mixer;
 
 #define OMNI_TINT 0.5
-#define AMBIENT_MIDDLE_COLOR vec3(0.0529638 , 0.04843891, 0.03753393)
-#define AMBIENT_DAY_COLOR vec3(0.0529638 , 0.04843891, 0.03753393)
-#define AMBIENT_NIGHT_COLOR vec3(0.0529638 , 0.04843891, 0.03753393)
+#define AMBIENT_MIDDLE_COLOR vec3(0.06885294, 0.06297058, 0.04879411)
+#define AMBIENT_DAY_COLOR vec3(0.06885294, 0.06297058, 0.04879411)
+#define AMBIENT_NIGHT_COLOR vec3(0.06885294, 0.06297058, 0.04879411)
 
 #define HI_MIDDLE_COLOR vec3(0.0479638 , 0.04343892, 0.04253394)
 #define HI_DAY_COLOR vec3(0.0479638 , 0.04343892, 0.04253394)
@@ -55,11 +55,12 @@ float day_blend_float(float middle, float day, float night) {
   return mix(day_value, night_value, step(0.5, day_moment));
 }
 
-// Ambient color luma per hour in exposure calculation
-// Ambient color luma per hour in exposure calculation
-#define EXPOSURE_DAY 1.0
-#define EXPOSURE_MIDDLE 1.0
-#define EXPOSURE_NIGHT 1.0
+#if (defined MC_GL_VENDOR_MESA && defined MC_GL_RENDERER_MESA) || defined MC_GL_RENDERER_INTEL || defined SIMPLE_AUTOEXP
+  // Ambient color luma per hour in exposure calculation
+  #define EXPOSURE_DAY 1.0
+  #define EXPOSURE_MIDDLE 1.0
+  #define EXPOSURE_NIGHT 1.0
+#endif
 
 // Fog parameter per hour
 #define FOG_DAY 1.0

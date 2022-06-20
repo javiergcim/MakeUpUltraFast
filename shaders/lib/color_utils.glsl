@@ -104,6 +104,21 @@ uniform float night_mixer;
   #define LOW_NIGHT_COLOR vec3(0.01392647, 0.0415147, 0.0675) * NIGHT_BRIGHT
 
   #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
+#elif COLOR_SCHEME == 6  // Cocoa
+  #define OMNI_TINT 0.4
+  #define AMBIENT_MIDDLE_COLOR vec3(0.918528, 0.660192, 0.301392)
+  #define AMBIENT_DAY_COLOR vec3(0.897, 0.897, 0.5718375)
+  #define AMBIENT_NIGHT_COLOR vec3(0.04693014, 0.0507353, 0.05993107) * NIGHT_BRIGHT
+
+  #define HI_MIDDLE_COLOR vec3(0.117, 0.26, 0.494)
+  #define HI_DAY_COLOR vec3(0.234, 0.403, 0.676)
+  #define HI_NIGHT_COLOR vec3(0.014, 0.019, 0.031) * NIGHT_BRIGHT
+
+  #define LOW_MIDDLE_COLOR vec3(1.183, 0.858, 0.611)
+  #define LOW_DAY_COLOR vec3(0.52, 0.975, 1.3)
+  #define LOW_NIGHT_COLOR vec3(0.022, 0.029, 0.049) * NIGHT_BRIGHT
+
+  #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
 #endif
 
 #if BLOCKLIGHT_TEMP == 0
@@ -138,15 +153,17 @@ float day_blend_float(float middle, float day, float night) {
   return mix(day_value, night_value, step(0.5, day_moment));
 }
 
-// Ambient color luma per hour in exposure calculation
-#if !defined UNKNOWN_DIM
-  #define EXPOSURE_DAY 1.0
-  #define EXPOSURE_MIDDLE 1.0
-  #define EXPOSURE_NIGHT 0.01
-#else
-  #define EXPOSURE_DAY 1.0
-  #define EXPOSURE_MIDDLE 1.0
-  #define EXPOSURE_NIGHT 1.0
+#if (defined MC_GL_VENDOR_MESA && defined MC_GL_RENDERER_MESA) || defined MC_GL_RENDERER_INTEL || defined SIMPLE_AUTOEXP
+  // Ambient color luma per hour in exposure calculation
+  #if !defined UNKNOWN_DIM
+    #define EXPOSURE_DAY 1.0
+    #define EXPOSURE_MIDDLE 1.0
+    #define EXPOSURE_NIGHT 0.01
+  #else
+    #define EXPOSURE_DAY 1.0
+    #define EXPOSURE_MIDDLE 1.0
+    #define EXPOSURE_NIGHT 1.0
+  #endif
 #endif
 
 // Fog parameter per hour

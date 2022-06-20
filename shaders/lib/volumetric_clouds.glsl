@@ -2,10 +2,9 @@
 Fast volumetric clouds - MakeUp implementation
 */
 
-vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, vec3 base_pos, int samples) {
+vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, vec3 base_pos, int samples, float umbral, vec3 cloud_color, vec3 dark_cloud_color) {
   float plane_distance;
   float cloud_value;
-  float umbral;
   float density;
   vec3 intersection_pos;
   vec3 intersection_pos_sup;
@@ -22,7 +21,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
   int real_steps;
   float view_y_inv = 1.0 / view_vector.y;
   float distance_aux;
-  vec3 cloud_color_aux;
   float cloud_value_aux;
   float dist_aux_coeff_blur;
 
@@ -33,54 +31,6 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
 
   if (view_vector.y > 0.0) {  // Vista sobre el horizonte
 
-    umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .25;
-
-    vec3 dark_cloud_color = day_blend(
-      HI_MIDDLE_COLOR,
-      HI_DAY_COLOR,
-      HI_NIGHT_COLOR
-    );
-
-    dark_cloud_color = mix(
-      dark_cloud_color,
-      HI_SKY_RAIN_COLOR * color_average(dark_cloud_color),
-      rainStrength
-    );
-
-    cloud_color_aux = mix(
-      day_blend(
-        AMBIENT_MIDDLE_COLOR,
-        AMBIENT_DAY_COLOR,
-        AMBIENT_NIGHT_COLOR * vec3(0.5, 0.6, 0.75)
-      ),
-      HI_SKY_RAIN_COLOR * luma(dark_cloud_color),
-      rainStrength
-      );
-
-    vec3 cloud_color = mix(
-      clamp(mix(vec3(luma(cloud_color_aux)),cloud_color_aux, 0.6) * vec3(2.0), 0.0, 1.4),
-        day_blend(
-          LOW_MIDDLE_COLOR,
-          LOW_DAY_COLOR,
-          LOW_NIGHT_COLOR
-        ),
-      0.3
-    );
-
-    cloud_color = mix(cloud_color, LOW_SKY_RAIN_COLOR * luma(cloud_color_aux) * 4.5, rainStrength);
-
-    dark_cloud_color = mix(dark_cloud_color, cloud_color_aux, 0.25);
-
-    dark_cloud_color = mix(
-      dark_cloud_color,
-      day_blend(
-        cloud_color_aux,
-        dark_cloud_color,
-        dark_cloud_color
-      ),
-      0.5
-    );
-
     plane_distance = (CLOUD_PLANE - base_pos.y) * view_y_inv;
     intersection_pos = (view_vector * plane_distance) + base_pos;
 
@@ -90,9 +40,9 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
     dif_sup = CLOUD_PLANE_SUP - CLOUD_PLANE_CENTER;
     dif_inf = CLOUD_PLANE_CENTER - CLOUD_PLANE;
     dist_aux_coeff = (CLOUD_PLANE_SUP - CLOUD_PLANE) * 0.075;
-    dist_aux_coeff_blur = dist_aux_coeff * 0.4;
+    dist_aux_coeff_blur = dist_aux_coeff * 0.3;
 
-    opacity_dist = dist_aux_coeff * 2.5 * view_y_inv;
+    opacity_dist = dist_aux_coeff * 2.0 * view_y_inv;
 
     increment = (intersection_pos_sup - intersection_pos) / samples;
     increment_dist = length(increment);
@@ -104,14 +54,14 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
     for (int i = 0; i < samples; i++) {
       #if CLOUD_VOL_STYLE == 0
         current_value =
-          texture(
+          texture2D(
             gaux2,
             (intersection_pos.xz * 0.0002777777777777778) + (frameTimeCounter * CLOUD_HI_FACTOR)
           ).r;
 
       #else
         current_value =
-          texture(
+          texture2D(
             gaux2,
             (intersection_pos.xz * 0.0002777777777777778) + (frameTimeCounter * CLOUD_HI_FACTOR)
           ).g;
@@ -119,7 +69,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
 
       #if V_CLOUDS == 2 && CLOUD_VOL_STYLE == 0
         current_value +=
-          texture(
+          texture2D(
             gaux2,
             (intersection_pos.zx * 0.0002777777777777778) + (frameTimeCounter * CLOUD_LOW_FACTOR)
           ).r;
@@ -176,14 +126,16 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
     cloud_value = clamp(cloud_value / opacity_dist, 0.0, 1.0);
     density = clamp(density, 0.0001, 1.0);
 
+    float att_factor = mix(1.0, 0.75, bright * (1.0 - rainStrength));
+
     #if CLOUD_VOL_STYLE == 1
-      cloud_color = mix(cloud_color, dark_cloud_color, pow(density, 0.3) * 0.85);
+      cloud_color = mix(cloud_color * att_factor, dark_cloud_color * att_factor, pow(density, 0.3) * 0.85);
     #else
-      cloud_color = mix(cloud_color, dark_cloud_color, pow(density, 0.4));
+    cloud_color = mix(cloud_color * att_factor, dark_cloud_color * att_factor, pow(density, 0.4));
     #endif
 
     // Halo brillante de contra al sol
-    cloud_color = mix(cloud_color, cloud_color * 2.0, (1.0 - cloud_value) * bright);
+    cloud_color = mix(cloud_color, cloud_color * 13.0, (1.0 - pow(cloud_value, 0.2)) * bright * bright * (1.0 - rainStrength));
 
     block_color = mix(
       block_color,

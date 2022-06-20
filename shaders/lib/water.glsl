@@ -43,7 +43,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
         out_flag = true;
       }
 
-    screen_depth = texture(depthtex1, march_pos.xy).x;
+    screen_depth = texture2D(depthtex1, march_pos.xy).x;
     depth_diff = screen_depth - march_pos.z;
 
     if (depth_diff < 0.0 && abs(screen_depth - prev_screen_depth) > abs(march_pos.z - last_march_pos.z)) {
@@ -97,10 +97,10 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
 
 vec3 normal_waves(vec3 pos) {
   vec2 wave_1 =
-      texture(noisetex, (pos.xy * 0.25) + (frameTimeCounter * -.025)).rg;
+      texture2D(noisetex, (pos.xy * 0.25) + (frameTimeCounter * -.025)).rg;
      wave_1 = wave_1 - .5;
   vec2 wave_2 =
-      texture(noisetex, (pos.xy * 0.0625) - (frameTimeCounter * .025)).rg;
+      texture2D(noisetex, (pos.xy * 0.0625) - (frameTimeCounter * .025)).rg;
   wave_2 = wave_2 - .5;
   wave_2 *= 3.0;
 
@@ -131,7 +131,7 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
     float water_distance =
       2.0 * near * far / (far + near - (2.0 * gl_FragCoord.z - 1.0) * (far - near));
 
-    float earth_distance = texture(depthtex1, pos.xy).r;
+    float earth_distance = texture2D(depthtex1, pos.xy).r;
     earth_distance =
       2.0 * near * far / (far + near - (2.0 * earth_distance - 1.0) * (far - near));
 
@@ -142,7 +142,7 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
     water_absortion = 0.0;
   }
 
-  return mix(texture(gaux1, pos.xy).rgb, color, water_absortion);
+  return mix(texture2D(gaux1, pos.xy).rgb, color, water_absortion);
 }
 
 vec3 get_normals(vec3 bump, vec3 fragpos) {
@@ -176,7 +176,7 @@ vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected, inout float infi
     pos.x = 1.0 - (pos.x - 1.0);
   }
 
-  return vec4(texture(gaux1, pos.xy).rgb, border);
+  return vec4(texture2D(gaux1, pos.xy).rgb, border);
 }
 
 vec3 water_shader(
@@ -241,7 +241,7 @@ vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal, inout float infinite, fl
   float border_y = max(-fourth_pow(abs(2.0 * pos.y - 1.0)) + 1.0, 0.0);
   float border = min(border_x, border_y);
 
-  return vec4(texture(gaux1, pos.xy, 0.0).rgb, border);
+  return vec4(texture2D(gaux1, pos.xy, 0.0).rgb, border);
 }
 
 vec4 cristal_shader(

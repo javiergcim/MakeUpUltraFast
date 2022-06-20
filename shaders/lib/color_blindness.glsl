@@ -28,7 +28,6 @@ vec3 color_blindness(vec3 color) {
   error.r = (0.0809444479 * l) + (-0.130504409 * m) + (0.116721066 * s);
   error.g = (-0.0102485335 * l) + (0.0540193266 * m) + (-0.113614708 * s);
   error.b = (-0.000365296938 * l) + (-0.00412161469 * m) + (0.693511405 * s);
-  // error.a = 1.0;
 
   vec3 diff = color - error;
   vec3 correction;
@@ -36,7 +35,6 @@ vec3 color_blindness(vec3 color) {
   correction.g = (diff.r * 0.7) + (diff.g * 1.0);
   correction.b = (diff.r * 0.7) + (diff.b * 1.0);
   correction = color + correction;
-  // correction.a = color.a * intensity;
 
   return correction;
 }

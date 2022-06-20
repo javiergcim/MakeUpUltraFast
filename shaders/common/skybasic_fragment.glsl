@@ -1,7 +1,3 @@
-/* Exits */
-out vec4 outColor0;
-out vec4 outColor1;
-
 #include "/lib/config.glsl"
 
 #ifdef THE_END
@@ -14,19 +10,15 @@ out vec4 outColor1;
 
 /* Config, uniforms, ins, outs */
 uniform int isEyeInWater;
-uniform int current_hour_floor;
-uniform int current_hour_ceil;
-uniform float current_hour_fract;
 uniform mat4 gbufferProjectionInverse;
 uniform float viewWidth;
 uniform float viewHeight;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
-uniform int frame_mod;
 uniform float rainStrength;
 
-flat in vec3 up_vec;
-in vec4 star_data;
+varying vec3 up_vec;
+varying vec4 star_data;
 
 #include "/lib/dither.glsl"
 #include "/lib/luma.glsl"
@@ -40,9 +32,9 @@ void main() {
     vec4 block_color = vec4(star_data.rgb, 1.0);
 
     #if AA_TYPE > 0
-      float dither = shifted_r_dither(gl_FragCoord.xy);
+      float dither = shifted_dither13(gl_FragCoord.xy);
     #else
-      float dither = makeup_dither(gl_FragCoord.xy);
+      float dither = dither13(gl_FragCoord.xy);
     #endif
 
     dither = (dither - .5) * 0.0625;

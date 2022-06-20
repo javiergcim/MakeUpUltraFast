@@ -11,9 +11,6 @@
 /* Config, uniforms, ins, outs */
 uniform vec3 sunPosition;
 uniform int isEyeInWater;
-uniform int current_hour_floor;
-uniform int current_hour_ceil;
-uniform float current_hour_fract;
 uniform float light_mix;
 uniform float far;
 uniform float nightVision;
@@ -22,10 +19,6 @@ uniform mat4 gbufferModelView;
 uniform mat4 gbufferModelViewInverse;
 uniform vec3 cameraPosition;
 uniform float rainStrength;
-uniform vec3 chunkOffset;
-uniform mat4 modelViewMatrix;
-uniform mat4 projectionMatrix;
-uniform mat3 normalMatrix;
 
 #ifdef UNKNOWN_DIM
   uniform sampler2D lightmap;
@@ -37,33 +30,32 @@ uniform mat3 normalMatrix;
   uniform vec3 shadowLightPosition;
 #endif
 
-in ivec2 vaUV2;  // Light coordinates
-in vec2 vaUV0;  // Texture coordinates
-in vec4 vaColor;
-in vec3 vaPosition;
-in vec3 vaNormal;
-
-out vec2 texcoord;
-out vec2 lmcoord;
-out vec4 tint_color;
-out float frog_adjust;
-flat out vec3 water_normal;
-flat out float block_type;
-out vec4 worldposition;
-out vec3 fragposition;
-out vec3 tangent;
-out vec3 binormal;
-flat out vec3 direct_light_color;
-out vec3 candle_color;
-out float direct_light_strenght;
-out vec3 omni_light;
-out float visible_sky;
-flat out vec3 up_vec;
-out float var_fog_frag_coord;
+varying vec2 texcoord;
+varying vec2 lmcoord;
+varying vec4 tint_color;
+varying float frog_adjust;
+varying vec3 water_normal;
+varying float block_type;
+varying vec4 worldposition;
+varying vec3 fragposition;
+varying vec3 tangent;
+varying vec3 binormal;
+varying vec3 direct_light_color;
+varying vec3 candle_color;
+varying float direct_light_strenght;
+varying vec3 omni_light;
+varying float visible_sky;
+varying vec3 up_vec;
 
 #if defined SHADOW_CASTING && !defined NETHER
-  out vec3 shadow_pos;
-  out float shadow_diffuse;
+  varying vec3 shadow_pos;
+  varying float shadow_diffuse;
+#endif
+
+#if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
+  varying float umbral;
+  varying vec3 cloud_color;
+  varying vec3 dark_cloud_color;
 #endif
 
 attribute vec4 mc_Entity;
@@ -83,26 +75,24 @@ attribute vec4 at_tangent;
 
 void main() {
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
-  vec2 va_UV2 = vec2(vaUV2);
   
   #include "/src/basiccoords_vertex.glsl"
   #include "/src/light_vertex.glsl"
 
   water_normal = normal;
-  vec4 full_position = vec4(vaPosition + chunkOffset, 1.0);
-  vec4 position2 = modelViewMatrix * full_position;
+  vec4 position2 = gl_ModelViewMatrix * gl_Vertex;
   fragposition = position2.xyz;
   vec4 position = gbufferModelViewInverse * position2;
   worldposition = position + vec4(cameraPosition.xyz, 0.0);
-  gl_Position = projectionMatrix * gbufferModelView * position;
+  gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
 
   #if AA_TYPE == 1
     gl_Position.xy += taa_offset * gl_Position.w;
   #endif
 
-  tangent = normalize(normalMatrix * at_tangent.xyz);
-  binormal = normalize(normalMatrix * -cross(vaNormal, at_tangent.xyz));
-  var_fog_frag_coord = length(gl_Position.xyz);
+  tangent = normalize(gl_NormalMatrix * at_tangent.xyz);
+  binormal = normalize(gl_NormalMatrix * -cross(gl_Normal, at_tangent.xyz));
+  gl_FogFragCoord = length(gl_Position.xyz);
 
   // Special entities
   block_type = 0.0;  // 3 - Water, 2 - Glass, ? - Other
@@ -118,5 +108,9 @@ void main() {
 
   #if defined SHADOW_CASTING && !defined NETHER
     #include "/src/shadow_src_vertex.glsl"
+  #endif
+
+  #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
+    #include "/lib/volumetric_clouds_vertex.glsl"
   #endif
 }

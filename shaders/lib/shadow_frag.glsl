@@ -8,12 +8,12 @@ float get_shadow(vec3 the_shadow_pos) {
   float shadow_sample = 1.0;
 
   #if SHADOW_TYPE == 0  // Pixelated
-     shadow_sample = texture(shadowtex1, vec3(the_shadow_pos.xy, the_shadow_pos.z - 0.001));
+     shadow_sample = shadow2D(shadowtex1, vec3(the_shadow_pos.xy, the_shadow_pos.z - 0.001)).r;
   #elif SHADOW_TYPE == 1  // Soft
     #if AA_TYPE > 0
-      float dither = shifted_unit_dither(gl_FragCoord.xy);
+      float dither = shifted_dither13(gl_FragCoord.xy);
     #else
-      float dither = unit_dither(gl_FragCoord.xy);
+      float dither = dither13(gl_FragCoord.xy);
     #endif
 
     #if SHADOW_RES == 0 || SHADOW_RES == 1 || SHADOW_RES == 2
@@ -33,8 +33,8 @@ float get_shadow(vec3 the_shadow_pos) {
 
     vec2 offset = (vec2(cos(dither), sin(dither)) * current_radius * SHADOW_BLUR) / shadowMapResolution;
 
-    shadow_sample += texture(shadowtex1, vec3(the_shadow_pos.st + offset, new_z));
-    shadow_sample += texture(shadowtex1, vec3(the_shadow_pos.st - offset, new_z));
+    shadow_sample += shadow2D(shadowtex1, vec3(the_shadow_pos.st + offset, new_z)).r;
+    shadow_sample += shadow2D(shadowtex1, vec3(the_shadow_pos.st - offset, new_z)).r;
 
     shadow_sample *= 0.5;
   #endif
@@ -53,11 +53,11 @@ float get_shadow(vec3 the_shadow_pos) {
 
       float alpha_complement;
 
-      shadow_detector = texture(shadowtex0, vec3(the_shadow_pos.xy, the_shadow_pos.z - 0.001));
+      shadow_detector = shadow2D(shadowtex0, vec3(the_shadow_pos.xy, the_shadow_pos.z - 0.001)).r;
       if (shadow_detector < 1.0) {
-        shadow_black = texture(shadowtex1, vec3(the_shadow_pos.xy, the_shadow_pos.z - 0.001));
+        shadow_black = shadow2D(shadowtex1, vec3(the_shadow_pos.xy, the_shadow_pos.z - 0.001)).r;
         if (shadow_black != shadow_detector) {
-          shadow_color = texture(shadowcolor0, the_shadow_pos.xy);
+          shadow_color = texture2D(shadowcolor0, the_shadow_pos.xy);
           alpha_complement = 1.0 - shadow_color.a;
           shadow_color.rgb = mix(shadow_color.rgb, vec3(1.0), alpha_complement);
           shadow_color.rgb *= alpha_complement;
@@ -81,9 +81,9 @@ float get_shadow(vec3 the_shadow_pos) {
       float alpha_complement;
 
       #if AA_TYPE > 0
-        float dither = shifted_unit_dither(gl_FragCoord.xy);
+        float dither = shifted_dither13(gl_FragCoord.xy);
       #else
-        float dither = unit_dither(gl_FragCoord.xy);
+        float dither = dither13(gl_FragCoord.xy);
       #endif
 
       #if SHADOW_RES == 0 || SHADOW_RES == 1 || SHADOW_RES == 2
@@ -101,13 +101,13 @@ float get_shadow(vec3 the_shadow_pos) {
 
       vec2 offset = (vec2(cos(dither), sin(dither)) * current_radius * SHADOW_BLUR) / shadowMapResolution;
 
-      shadow_detector_a = texture(shadowtex0, vec3(the_shadow_pos.xy + offset, new_z));
-      shadow_detector_b = texture(shadowtex0, vec3(the_shadow_pos.xy - offset, new_z));
+      shadow_detector_a = shadow2D(shadowtex0, vec3(the_shadow_pos.xy + offset, new_z)).r;
+      shadow_detector_b = shadow2D(shadowtex0, vec3(the_shadow_pos.xy - offset, new_z)).r;
 
       if (shadow_detector_a < 1.0) {
-        shadow_black_a = texture(shadowtex1, vec3(the_shadow_pos.xy + offset, new_z));
+        shadow_black_a = shadow2D(shadowtex1, vec3(the_shadow_pos.xy + offset, new_z)).r;
         if (shadow_black_a != shadow_detector_a) {
-          shadow_color_a = texture(shadowcolor0, the_shadow_pos.xy + offset);
+          shadow_color_a = texture2D(shadowcolor0, the_shadow_pos.xy + offset);
           alpha_complement = 1.0 - shadow_color_a.a;
           shadow_color_a.rgb = mix(shadow_color_a.rgb, vec3(1.0), alpha_complement);
           shadow_color_a.rgb *= alpha_complement;
@@ -117,9 +117,9 @@ float get_shadow(vec3 the_shadow_pos) {
       shadow_color_a *= shadow_black_a;
 
       if (shadow_detector_b < 1.0) {
-        shadow_black_b = texture(shadowtex1, vec3(the_shadow_pos.xy - offset, new_z));
+        shadow_black_b = shadow2D(shadowtex1, vec3(the_shadow_pos.xy - offset, new_z)).r;
         if (shadow_black_b != shadow_detector_b) {
-          shadow_color_b = texture(shadowcolor0, the_shadow_pos.xy - offset);
+          shadow_color_b = texture2D(shadowcolor0, the_shadow_pos.xy - offset);
           alpha_complement = 1.0 - shadow_color_b.a;
           shadow_color_b.rgb = mix(shadow_color_b.rgb, vec3(1.0), alpha_complement);
           shadow_color_b.rgb *= alpha_complement;

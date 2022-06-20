@@ -1,7 +1,7 @@
 # MakeUp - Ultra Fast
 High performance Minecraft shader (Java).
 
-**Version: 8.0: Speed gloss**
+**Version: 8.5: Unification**
 
 ## Main features
 * Optional shadows
@@ -18,7 +18,7 @@ High performance Minecraft shader (Java).
 * FAST!
 
 ## Tested on:
-* Minecraft 1.17.+ - 1.18.x
+* Minecraft 1.12.+ - 1.18.x
 * Nvidia and Intel
 * Windows and Linux
 

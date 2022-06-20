@@ -43,7 +43,7 @@ Volumetric light - MakeUp implementation
 
       shadow_pos = get_volumetric_pos(view_pos);
 
-      light += texture(shadowtex1, shadow_pos);
+      light += shadow2D(shadowtex1, shadow_pos).r;
     }
 
     light /= GODRAY_STEPS;
@@ -86,11 +86,11 @@ Volumetric light - MakeUp implementation
 
         shadow_pos = get_volumetric_pos(view_pos);
 
-        shadow_detector = texture(shadowtex0, vec3(shadow_pos.xy, shadow_pos.z - 0.001));
+        shadow_detector = shadow2D(shadowtex0, vec3(shadow_pos.xy, shadow_pos.z - 0.001)).r;
         if (shadow_detector < 1.0) {
-          shadow_black = texture(shadowtex1, vec3(shadow_pos.xy, shadow_pos.z - 0.001));
+          shadow_black = shadow2D(shadowtex1, vec3(shadow_pos.xy, shadow_pos.z - 0.001)).r;
           if (shadow_black != shadow_detector) {
-            shadow_color = texture(shadowcolor0, shadow_pos.xy);
+            shadow_color = texture2D(shadowcolor0, shadow_pos.xy);
             alpha_complement = 1.0 - shadow_color.a;
             shadow_color.rgb *= alpha_complement;
             shadow_color.rgb = mix(shadow_color.rgb, vec3(1.0), alpha_complement);
@@ -120,7 +120,7 @@ Volumetric light - MakeUp implementation
     float depth;
 
     for (int i = 0; i < CHEAP_GODRAY_SAMPLES; i++) {
-      depth = texture(depthtex1, dither2d).x;
+      depth = texture2D(depthtex1, dither2d).x;
       dither2d += ray_step;
       light += step(comp, depth);
     }

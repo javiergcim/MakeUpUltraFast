@@ -1,15 +1,11 @@
-/* Exits */
-out vec4 outColor0;
-
 #include "/lib/config.glsl"
 
-uniform sampler2D gtexture;
-uniform float alphaTestRef;
+uniform sampler2D tex;
 
-in vec2 texcoord;
+varying vec2 texcoord;
 
 #ifdef COLORED_SHADOW
-  in float is_water;
+  varying float is_water;
 #endif
 
 void main() {
@@ -17,10 +13,8 @@ void main() {
     if (is_water > 0.98) discard;  // Is water
   #endif
 
-  vec4 block_color = texture(gtexture, texcoord);
-
-  if (block_color.a < alphaTestRef) discard;
+  vec4 block_color = texture2D(tex, texcoord);
 
   /* DRAWBUFFERS:0 */
-  outColor0 = block_color;
+  gl_FragData[0] = block_color;
 }

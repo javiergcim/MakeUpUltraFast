@@ -1,15 +1,11 @@
-in vec4 vaColor;
-in vec3 vaPosition;
-in vec3 vaNormal;
-uniform mat4 modelViewMatrix;
-uniform mat4 projectionMatrix;
+#include "/lib/config.glsl"
 
+// uniform mat4 modelViewMatrix;
+// uniform mat4 projectionMatrix;
 uniform float viewHeight;
 uniform float viewWidth;
 
-#include "/lib/config.glsl"
-
-out vec4 tint_color;
+varying vec4 tint_color;
 
 #if AA_TYPE > 0
   #include "/src/taa_offset.glsl"
@@ -17,12 +13,12 @@ out vec4 tint_color;
 
 vec4 my_ftransform()
 {
-  float lineWidth = 2.5;
+  float lineWidth = 1.75;
   vec2 screenSize = vec2(viewWidth, viewHeight);
   const mat4 VIEW_SCALE = mat4(mat3(1.0 - 0.00390625));
-  mat4 tempmat = projectionMatrix * VIEW_SCALE * modelViewMatrix;
-  vec4 linePosStart = tempmat * vec4(vaPosition, 1.0);
-  vec4 linePosEnd = tempmat * vec4(vaPosition + vaNormal, 1.0);
+  mat4 tempmat = gl_ProjectionMatrix * VIEW_SCALE * gl_ModelViewMatrix;
+  vec4 linePosStart = tempmat * gl_Vertex;
+  vec4 linePosEnd = tempmat * vec4(gl_Vertex.xyz + gl_Normal, 1.0);
   vec3 ndc1 = linePosStart.xyz / linePosStart.w;
   vec3 ndc2 = linePosEnd.xyz / linePosEnd.w;
   vec2 lineScreenDirection = normalize((ndc2.xy - ndc1.xy) * screenSize);
@@ -36,7 +32,7 @@ vec4 my_ftransform()
 }
 
 void main() {
-  tint_color = vaColor;
+  tint_color = gl_Color;
   gl_Position = my_ftransform();
   #if AA_TYPE == 1
     gl_Position.xy += taa_offset * gl_Position.w;
