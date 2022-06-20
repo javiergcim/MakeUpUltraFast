@@ -1,6 +1,3 @@
-/* Exits */
-out vec4 outColor0;
-
 #include "/lib/config.glsl"
 
 #ifdef THE_END
@@ -12,7 +9,7 @@ out vec4 outColor0;
 #endif
 
 /* Config, uniforms, ins, outs */
-uniform sampler2D gtexture;
+uniform sampler2D tex;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
 uniform float near;
@@ -24,7 +21,6 @@ uniform mat4 gbufferProjection;
 uniform sampler2D noisetex;
 uniform sampler2D depthtex0;
 uniform sampler2D depthtex1;
-uniform int frame_mod;
 uniform float frameTimeCounter;
 uniform int isEyeInWater;
 uniform vec3 sunPosition;
@@ -35,7 +31,6 @@ uniform float rainStrength;
 uniform float light_mix;
 uniform ivec2 eyeBrightnessSmooth;
 uniform sampler2D gaux4;
-uniform float alphaTestRef;
 
 #ifdef NETHER
   uniform vec3 fogColor;
@@ -58,33 +53,32 @@ uniform float alphaTestRef;
   uniform mat4 gbufferModelViewInverse;
 #endif
 
-in vec2 texcoord;
-in vec2 lmcoord;
-in vec4 tint_color;
-in float frog_adjust;
-flat in vec3 water_normal;
-flat in float block_type;
-in vec4 worldposition;
-in vec3 fragposition;
-in vec3 tangent;
-in vec3 binormal;
-flat in vec3 direct_light_color;
-in vec3 candle_color;
-in float direct_light_strenght;
-in vec3 omni_light;
-in float visible_sky;
-flat in vec3 up_vec;
-in float var_fog_frag_coord;
+varying vec2 texcoord;
+varying vec2 lmcoord;
+varying vec4 tint_color;
+varying float frog_adjust;
+varying vec3 water_normal;
+varying float block_type;
+varying vec4 worldposition;
+varying vec3 fragposition;
+varying vec3 tangent;
+varying vec3 binormal;
+varying vec3 direct_light_color;
+varying vec3 candle_color;
+varying float direct_light_strenght;
+varying vec3 omni_light;
+varying float visible_sky;
+varying vec3 up_vec;
 
 #if defined SHADOW_CASTING && !defined NETHER
-  in vec3 shadow_pos;
-  in float shadow_diffuse;
+  varying vec3 shadow_pos;
+  varying float shadow_diffuse;
 #endif
 
 #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
-  flat in float umbral;
-  flat in vec3 cloud_color;
-  flat in vec3 dark_cloud_color;
+  varying float umbral;
+  varying vec3 cloud_color;
+  varying vec3 dark_cloud_color;
 #endif
 
 #include "/lib/projection_utils.glsl"
@@ -103,9 +97,7 @@ in float var_fog_frag_coord;
 #endif
 
 void main() {
-  vec4 block_color = texture(gtexture, texcoord);
-
-  if(block_color.a < alphaTestRef) discard;  // Full transparency
+  vec4 block_color = texture2D(tex, texcoord);
 
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
 
@@ -164,9 +156,9 @@ void main() {
 
   #if (defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER) || SSR_TYPE > 0
     #if AA_TYPE > 0
-      float dither = shifted_makeup_dither(gl_FragCoord.xy);
+      float dither = shifted_dither17(gl_FragCoord.xy);
     #else
-      float dither = phinoise(gl_FragCoord.xy);
+      float dither = dither13(gl_FragCoord.xy);
     #endif
   #else
     float dither = 1.0;
@@ -174,7 +166,7 @@ void main() {
 
   #if defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER
     sky_color_reflect = get_cloud(
-      normalize((gbufferModelViewInverse * vec4(reflect_water_vec * far, 1.0) ).xyz),
+      normalize((gbufferModelViewInverse * vec4(reflect_water_vec * far, 1.0)).xyz),
       sky_color_reflect,
       0.0,
       dither,
@@ -184,7 +176,6 @@ void main() {
       cloud_color,
       dark_cloud_color
     );
-
   #endif
 
   if (block_type > 2.5) {  // Water

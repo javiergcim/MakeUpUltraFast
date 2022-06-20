@@ -1,4 +1,4 @@
-#version 150
+#version 120
 /* MakeUp - deferred.vsh
 Render: Ambient occlusion, volumetric clouds
 

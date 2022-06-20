@@ -11,17 +11,10 @@
 /* Config, uniforms, ins, outs */
 uniform vec3 sunPosition;
 uniform int isEyeInWater;
-uniform int current_hour_floor;
-uniform int current_hour_ceil;
-uniform float current_hour_fract;
 uniform float light_mix;
 uniform float far;
 uniform float rainStrength;
 uniform ivec2 eyeBrightnessSmooth;
-uniform vec3 chunkOffset;
-uniform mat4 modelViewMatrix;
-uniform mat4 projectionMatrix;
-uniform mat3 normalMatrix;
 
 #ifdef UNKNOWN_DIM
   uniform sampler2D lightmap;
@@ -51,42 +44,35 @@ uniform mat3 normalMatrix;
   uniform float frameTimeCounter;
 #endif
 
-in ivec2 vaUV2;  // Light coordinates
-in vec2 vaUV0;  // Texture coordinates
-in vec4 vaColor;
-in vec3 vaPosition;
-in vec3 vaNormal;
-
-out vec2 texcoord;
-out vec4 tint_color;
-out float frog_adjust;
-out vec3 direct_light_color;
-out vec3 candle_color;
-out float direct_light_strenght;
-out vec3 omni_light;
-out float var_fog_frag_coord;
+varying vec2 texcoord;
+varying vec4 tint_color;
+varying float frog_adjust;
+varying vec3 direct_light_color;
+varying vec3 candle_color;
+varying float direct_light_strenght;
+varying vec3 omni_light;
 
 #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
-  out float emmisive_type;
+  varying float emmisive_type;
 #endif
 
 #ifdef FOLIAGE_V
-  flat out float is_foliage;
+  varying float is_foliage;
 #endif
 
 #if defined SHADOW_CASTING && !defined NETHER
-  out vec3 shadow_pos;
-  out float shadow_diffuse;
+  varying vec3 shadow_pos;
+  varying float shadow_diffuse;
 #endif
 
 #if defined MATERIAL_GLOSS && !defined NETHER
-  out vec3 flat_normal;
-  out vec3 sub_position3;
-  out vec2 lmcoord_alt;
-  flat out float gloss_factor;
-  flat out float gloss_power;
-  flat out float luma_factor;
-  flat out float luma_power;
+  varying vec3 flat_normal;
+  varying vec3 sub_position3;
+  varying vec2 lmcoord_alt;
+  varying float gloss_factor;
+  varying float gloss_power;
+  varying float luma_factor;
+  varying float luma_power;
 #endif
 
 #if defined MATERIAL_GLOSS && !defined NETHER
@@ -119,7 +105,6 @@ out float var_fog_frag_coord;
 
 void main() {
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
-  vec2 va_UV2 = vec2(vaUV2);
   
   #include "/src/basiccoords_vertex.glsl"
   #include "/src/position_vertex.glsl"
@@ -167,5 +152,9 @@ void main() {
 
     lmcoord_alt = lmcoord;
     
+  #endif
+
+  #if defined GBUFFER_ENTITY_GLOW
+    gl_Position.z *= 0.01;
   #endif
 }

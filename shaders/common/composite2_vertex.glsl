@@ -1,9 +1,7 @@
 /* Config, uniforms, ins, outs */
-in vec3 vaPosition;
-
-out vec2 texcoord;
+varying vec2 texcoord;
 
 void main() {
-  gl_Position = vec4(vaPosition.xy * 2.0 - 1.0, 0.0, 1.0);
-  texcoord = vaPosition.xy;
+  gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+  texcoord = gl_MultiTexCoord0.xy;
 }

@@ -1,4 +1,4 @@
-#version 150
+#version 120
 /* MakeUp - gbuffers_skybasic.fsh
 Render: Sky
 

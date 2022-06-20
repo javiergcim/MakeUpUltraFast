@@ -1,4 +1,4 @@
-#version 130
+#version 120
 /* MakeUp - gbuffers_clouds.vsh
 Render: sky, clouds
 

@@ -1,7 +1,3 @@
-/* Exits */
-out vec4 outColor0;
-out vec4 outColor1;
-
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
 
@@ -30,7 +26,6 @@ uniform ivec2 eyeBrightnessSmooth;
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
   uniform mat4 gbufferModelView;
-  uniform int frame_mod;
   uniform float vol_mixer;
 #endif
 
@@ -39,7 +34,6 @@ uniform ivec2 eyeBrightnessSmooth;
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
   uniform mat4 gbufferModelView;
-  uniform int frame_mod;
   uniform float vol_mixer;
   uniform vec3 shadowLightPosition;
   uniform mat4 shadowModelView;
@@ -52,21 +46,26 @@ uniform ivec2 eyeBrightnessSmooth;
   #endif
 #endif
 
-in vec2 texcoord;
-flat in float exposure_coef;
+varying vec2 texcoord;
+// varying float exposure_coef;
+varying vec3 direct_light_color;
 
-#ifdef BLOOM
-  flat in float exposure;
-#endif
+// #ifdef BLOOM
+varying float exposure;
+// #endif
 
 #if VOL_LIGHT == 1 && !defined NETHER
-  flat in vec3 vol_light_color;
-  flat in vec2 lightpos;
-  flat in vec3 astro_pos;
+  varying vec3 vol_light_color;
+  varying vec2 lightpos;
+  varying vec3 astro_pos;
 #endif
 
 #if VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER
-  flat in vec3 vol_light_color;
+  varying vec3 vol_light_color;
+#endif
+
+#if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+  varying mat4 modeli_times_projectioni;
 #endif
 
 #include "/lib/depth.glsl"
@@ -85,22 +84,27 @@ flat in float exposure_coef;
   #include "/lib/volumetric_light.glsl"
 #endif
 
+const bool colortex1MipmapEnabled = true;
+
 void main() {
-  vec4 block_color = texture(colortex1, texcoord);
-  float d = texture(depthtex0, texcoord).r;
+  vec4 block_color = texture2D(colortex1, texcoord);
+  float d = texture2D(depthtex0, texcoord).r;
   float linear_d = ld(d);
 
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
 
+  // Depth to distance
+  float screen_distance =
+    2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
+
   // "Niebla" submarina
   if (isEyeInWater == 1) {
-    float water_absorption =  // Distance
-      2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
-    water_absorption = (1.0 / -((water_absorption * WATER_ABSORPTION) + 1.0)) + 1.0;
+    float water_absorption = (1.0 / -((screen_distance * WATER_ABSORPTION) + 1.0)) + 1.0;
 
     block_color.rgb = mix(
       block_color.rgb,
-      WATER_COLOR * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667) * (exposure_coef * 0.9 + 0.1),
+      // WATER_COLOR * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667) * (exposure_coef * 0.9 + 0.1),
+      WATER_COLOR * direct_light_color * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667),
       water_absorption);
 
   } else if (isEyeInWater == 2) {
@@ -117,18 +121,12 @@ void main() {
   }
 
   #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
-    mat4 modeli_times_projectioni = gbufferModelViewInverse * gbufferProjectionInverse;
-
     #if AA_TYPE > 0
-      float dither = shifted_eclectic_makeup_dither(gl_FragCoord.xy);
+      float dither = shifted_eclectic_r_dither(gl_FragCoord.xy);
     #else
-      float dither = phinoise(gl_FragCoord.xy);
+      float dither = semiblue(gl_FragCoord.xy);
     #endif
   #endif
-
-  // Depth to distance
-  float screen_distance =
-    2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
 
   #if VOL_LIGHT == 1 && !defined NETHER
     #if defined THE_END
@@ -147,10 +145,11 @@ void main() {
 
     #if defined THE_END
       // Fixed light source position in sky for intensity calculation
+      vec3 intermediate_vector = normalize((gbufferModelViewInverse * gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz);
       float vol_intensity = clamp(
         dot(
           center_view_vector,
-          normalize((gbufferModelViewInverse * gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz)
+          intermediate_vector
         ),
         0.0,
         1.0
@@ -159,7 +158,7 @@ void main() {
       vol_intensity *= clamp(
         dot(
           view_vector,
-          normalize((gbufferModelViewInverse * gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz)
+          intermediate_vector
         ),
         0.0,
         1.0
@@ -170,11 +169,12 @@ void main() {
       block_color.rgb += (vol_light_color * vol_light * vol_intensity * 2.0);
     #else
       // Light source position for intensity calculation
-      float vol_intensity =
-        clamp(dot(center_view_vector, normalize((gbufferModelViewInverse * vec4(astro_pos, 0.0)).xyz)), 0.0, 1.0);
+      vec3 intermediate_vector = normalize((gbufferModelViewInverse * vec4(astro_pos, 0.0)).xyz);
+      float vol_intensity = clamp(dot(center_view_vector, intermediate_vector), 0.0, 1.0);
+        clamp(dot(center_view_vector, intermediate_vector), 0.0, 1.0);
       vol_intensity *= dot(
           view_vector,
-          normalize((gbufferModelViewInverse * vec4(astro_pos, 0.0)).xyz)
+          intermediate_vector
         );
       vol_intensity =
       pow(clamp(vol_intensity, 0.0, 1.0), vol_mixer) * 0.666 * abs(light_mix * 2.0 - 1.0);
@@ -248,14 +248,26 @@ void main() {
   #ifdef BLOOM
     // Bloom source
     float bloom_luma =
-      smoothstep(0.85, 1.0, luma(block_color.rgb * exposure)) * 0.4;
+      smoothstep(0.825, 1.0, luma(block_color.rgb * exposure)) * 0.4;
 
-    /* DRAWBUFFERS:12 */
-    outColor0 = block_color;
-    // outColor1 = vec4(block_color.rgb * vec3(clamp(bloom_luma, 0.0, 100.0)), 1.0);
-    outColor1 = block_color * bloom_luma;
+    #if (defined MC_GL_VENDOR_MESA && defined MC_GL_RENDERER_MESA) || defined MC_GL_RENDERER_INTEL || defined SIMPLE_AUTOEXP
+      /* DRAWBUFFERS:12 */
+      gl_FragData[0] = block_color;
+      gl_FragData[1] = block_color * bloom_luma;
+    #else
+      /* DRAWBUFFERS:126 */
+      gl_FragData[0] = block_color;
+      gl_FragData[1] = block_color * bloom_luma;
+      gl_FragData[2] = vec4(exposure, 0.0, 0.0, 0.0);
+    #endif
   #else
-    /* DRAWBUFFERS:1 */
-    outColor0 = block_color;
+    #if (defined MC_GL_VENDOR_MESA && defined MC_GL_RENDERER_MESA) || defined MC_GL_RENDERER_INTEL || defined SIMPLE_AUTOEXP
+      /* DRAWBUFFERS:1 */
+      gl_FragData[0] = block_color;
+    #else
+      /* DRAWBUFFERS:16 */
+      gl_FragData[0] = block_color;
+      gl_FragData[1] = vec4(exposure, 0.0, 0.0, 0.0);
+    #endif
   #endif
 }

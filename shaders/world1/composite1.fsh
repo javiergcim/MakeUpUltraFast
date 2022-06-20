@@ -1,4 +1,4 @@
-#version 150
+#version 120
 /* MakeUp - composite1.fsh
 Render: Bloom and DoF
 

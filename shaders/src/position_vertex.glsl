@@ -1,15 +1,14 @@
 // Waving plants calculation
 #ifdef FOLIAGE_V
   #if WAVING == 1
-    vec4 full_position = vec4(vaPosition + chunkOffset, 1.0);
-    vec4 sub_position = modelViewMatrix * full_position;
+    // vec4 full_position = gl_ModelViewMatrix * gl_Vertex;
+    vec4 sub_position = gl_ModelViewMatrix * gl_Vertex;
     vec4 position =
       gbufferModelViewInverse * sub_position;
 
     vec3 worldpos = position.xyz + cameraPosition;
 
     is_foliage = 0.0;
-
 
     if (
         mc_Entity.x == ENTITY_LOWERGRASS ||
@@ -18,10 +17,9 @@
         mc_Entity.x == ENTITY_SMALLENTS ||
         mc_Entity.x == ENTITY_LEAVES)
     {
-        is_foliage = .4;
+      is_foliage = .4;
 
-
-      float weight = float(vaUV0.t < mc_midTexCoord.t);
+      float weight = float(gl_MultiTexCoord0.t < mc_midTexCoord.t);
 
       if (mc_Entity.x == ENTITY_UPPERGRASS) {
         weight += 1.0;
@@ -35,7 +33,7 @@
       position.xyz += wave_move(worldpos.xzy) * weight * (0.03 + (rainStrength * .05));
     }
 
-    gl_Position = projectionMatrix * gbufferModelView * position;
+    gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
 
   #else  // Normal position
     is_foliage = 0.0;
@@ -48,18 +46,18 @@
       is_foliage = .4;
     }
 
-    vec4 full_position = vec4(vaPosition + chunkOffset, 1.0);
-    vec4 sub_position = modelViewMatrix * full_position;
+    // vec4 full_position = gl_ModelViewMatrix * gl_Vertex;
+    vec4 sub_position = gl_ModelViewMatrix * gl_Vertex;
     vec4 position =
       gbufferModelViewInverse * sub_position;
 
-    gl_Position = projectionMatrix * gbufferModelView * position;
+    gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
 
   #endif
 
 #else
-  vec4 full_position = vec4(vaPosition + chunkOffset, 1.0);
-  vec4 sub_position = modelViewMatrix * full_position;
+  // vec4 full_position = gl_ModelViewMatrix * gl_Vertex;
+  vec4 sub_position = gl_ModelViewMatrix * gl_Vertex;
   #ifndef NO_SHADOWS
     #ifdef SHADOW_CASTING
       vec4 position =
@@ -67,11 +65,7 @@
     #endif
   #endif
 
-  #ifdef SHADER_LINE
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(vaPosition, 1.0);
-  #else
-    gl_Position = projectionMatrix * sub_position;
-  #endif
+  gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 
 #endif
 
@@ -89,8 +83,8 @@
 
 #ifndef SHADER_BASIC
   #if defined GBUFFER_CLOUDS
-    var_fog_frag_coord = length(gl_Position.xz);
+    gl_FogFragCoord = length(gl_Position.xz);
   #else
-    var_fog_frag_coord = length(gl_Position.xyz);
+    gl_FogFragCoord = length(gl_Position.xyz);
   #endif
 #endif

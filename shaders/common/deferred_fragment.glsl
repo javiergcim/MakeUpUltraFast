@@ -1,7 +1,3 @@
-/* Exits */
-out vec4 outColor0;
-out vec4 outColor1;
-
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
 
@@ -21,10 +17,8 @@ uniform float far;
 uniform float near;
 uniform float blindness;
 uniform float rainStrength;
-uniform int current_hour_floor;
-uniform int current_hour_ceil;
-uniform float current_hour_fract;
 uniform sampler2D gaux2;
+uniform sampler2D gaux3;
 
 #ifdef NETHER
   uniform vec3 fogColor;
@@ -48,17 +42,16 @@ uniform float pixel_size_y;
 
 #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
   uniform mat4 gbufferProjection;
-  uniform int frame_mod;
   uniform float frameTimeCounter;
 #endif
 
-in vec2 texcoord;
-flat in vec3 up_vec;  // Flat
+varying vec2 texcoord;
+varying vec3 up_vec;  // Flat
 
 #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
-  flat in float umbral;
-  flat in vec3 cloud_color;
-  flat in vec3 dark_cloud_color;
+  varying float umbral;
+  varying vec3 cloud_color;
+  varying vec3 dark_cloud_color;
 #endif
 
 #include "/lib/depth.glsl"
@@ -84,8 +77,8 @@ flat in vec3 up_vec;  // Flat
 #endif
 
 void main() {
-  vec4 block_color = texture(colortex0, texcoord);
-  float d = texture(depthtex0, texcoord).r;
+  vec4 block_color = texture2D(colortex0, texcoord);
+  float d = texture2D(depthtex0, texcoord).r;
   float linear_d = ld(d);
 
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
@@ -94,9 +87,10 @@ void main() {
 
   #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
     #if AA_TYPE > 0
-      float dither = shifted_eclectic_makeup_dither(gl_FragCoord.xy);
+      float dither = shifted_eclectic_r_dither(gl_FragCoord.xy);
     #else
-      float dither = phinoise(gl_FragCoord.xy);
+      // float dither = texture_noise_64(gl_FragCoord.xy, gaux3);
+      float dither = semiblue(gl_FragCoord.xy);
     #endif
   #endif
 
@@ -199,6 +193,6 @@ void main() {
   }
 
   /* DRAWBUFFERS:14 */
-  outColor0 = vec4(block_color.rgb, d);
-  outColor1 = block_color;
+  gl_FragData[0] = vec4(block_color.rgb, d);
+  gl_FragData[1] = block_color;
 }

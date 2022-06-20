@@ -1,4 +1,4 @@
-#version 150
+#version 120
 /* MakeUp - composite.fsh
 Render: Bloom and volumetric light
 

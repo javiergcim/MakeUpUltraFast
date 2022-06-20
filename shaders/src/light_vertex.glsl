@@ -1,4 +1,4 @@
-tint_color = vaColor;
+tint_color = gl_Color;
 
 // Luz nativa (lmcoord.x: candela, lmcoord.y: cielo) ----
 vec2 illumination = (max(lmcoord, vec2(0.065)) - vec2(0.065)) * 1.06951871657754;
@@ -39,7 +39,7 @@ candle_color = clamp(candle_color, vec3(0.0), vec3(4.0));
   vec3 sun_vec = normalize(sunPosition);
 #endif
 
-vec3 normal = normalMatrix * vaNormal;
+vec3 normal = gl_NormalMatrix * gl_Normal;
 float sun_light_strenght;
 if (length(normal) != 0.0) {  // Workaround for undefined normals
   normal = normalize(normal);
@@ -61,8 +61,7 @@ float omni_strenght = (direct_light_strenght * .125) + 1.0;
 
 // Calculamos color de luz directa
 #ifdef UNKNOWN_DIM
-  direct_light_color = texture(lightmap, va_UV2 * vec2(0.0, 0.00392156862745098)).rgb;
-  // direct_light_color = texture(lightmap, va_UV2 * vec2(0.0, 0.004166666666666667)).rgb;
+  direct_light_color = texture2D(lightmap, vec2(0.0, lmcoord.y)).rgb;
 #else
   direct_light_color = day_blend(
     AMBIENT_MIDDLE_COLOR,
