@@ -1,6 +1,11 @@
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
 
+// Pseudo-uniforms uniforms
+#if !defined NETHER
+  uniform int worldTime;
+#endif
+
 #ifdef THE_END
   #include "/lib/color_utils_end.glsl"
 #else
@@ -13,7 +18,6 @@ uniform ivec2 eyeBrightnessSmooth;
 #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
   uniform int isEyeInWater;
 #endif
-
 
 #if VOL_LIGHT == 1 && !defined NETHER
   uniform float light_mix; 
@@ -59,6 +63,13 @@ varying float exposure;  // Flat
 #endif
 
 void main() {
+  // Pseudo-uniforms section
+  #if !defined NETHER
+    float day_moment = day_moment();
+    float day_mixer = day_mixer(day_moment);
+    float night_mixer = night_mixer(day_moment);
+  #endif
+
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
   texcoord = gl_MultiTexCoord0.xy;
 
@@ -67,7 +78,10 @@ void main() {
   direct_light_color = day_blend(
     AMBIENT_MIDDLE_COLOR,
     AMBIENT_DAY_COLOR,
-    AMBIENT_NIGHT_COLOR
+    AMBIENT_NIGHT_COLOR,
+    day_mixer,
+    night_mixer,
+    day_moment
   );
 
   direct_light_color = mix(
@@ -83,7 +97,10 @@ void main() {
       float exposure_coef = day_blend_float(
         EXPOSURE_MIDDLE,
         EXPOSURE_DAY,
-        EXPOSURE_NIGHT
+        EXPOSURE_NIGHT,
+        day_mixer,
+        night_mixer,
+        day_moment
       );
 
       float candle_bright = eye_bright_smooth.x * 0.0003125;  // (0.004166666666666667 * 0.075)
@@ -115,7 +132,10 @@ void main() {
     vol_light_color = day_blend(
       AMBIENT_MIDDLE_COLOR,
       AMBIENT_DAY_COLOR,
-      AMBIENT_NIGHT_COLOR
+      AMBIENT_NIGHT_COLOR,
+      day_mixer,
+      night_mixer,
+      day_moment
     ) * 1.2 * vol_attenuation;
   #endif
 

@@ -1,5 +1,8 @@
 #include "/lib/config.glsl"
 
+// Pseudo-uniforms uniforms
+uniform int worldTime;
+
 #ifdef THE_END
   #include "/lib/color_utils_end.glsl"
 #elif defined NETHER
@@ -24,6 +27,11 @@ varying vec4 star_data;
 #include "/lib/luma.glsl"
 
 void main() {
+  // Pseudo-uniforms section
+  float day_moment = day_moment();
+  float day_mixer = day_mixer(day_moment);
+  float night_mixer = night_mixer(day_moment);
+  
   #if defined THE_END || defined NETHER
     vec4 block_color = vec4(0.0, 0.0, 0.0, 1.0);
     vec3 background_color = HI_DAY_COLOR;
@@ -46,7 +54,10 @@ void main() {
       vec3 hi_sky_color = day_blend(
         HI_MIDDLE_COLOR,
         HI_DAY_COLOR,
-        HI_NIGHT_COLOR
+        HI_NIGHT_COLOR,
+        day_mixer,
+        night_mixer,
+        day_moment
         );
 
       hi_sky_color = mix(
@@ -58,7 +69,10 @@ void main() {
       vec3 low_sky_color = day_blend(
         LOW_MIDDLE_COLOR,
         LOW_DAY_COLOR,
-        LOW_NIGHT_COLOR
+        LOW_NIGHT_COLOR,
+        day_mixer,
+        night_mixer,
+        day_moment
         );
 
       low_sky_color = mix(

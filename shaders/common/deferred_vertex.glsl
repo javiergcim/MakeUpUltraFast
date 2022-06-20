@@ -1,6 +1,9 @@
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
 
+// Pseudo-uniforms uniforms
+uniform int worldTime;
+
 #ifdef THE_END
   #include "/lib/color_utils_end.glsl"
 #elif defined NETHER
@@ -29,6 +32,11 @@ varying vec3 up_vec;
 #endif
 
 void main() {
+  // Pseudo-uniforms section
+  float day_moment = day_moment();
+  float day_mixer = day_mixer(day_moment);
+  float night_mixer = night_mixer(day_moment);
+  
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
   texcoord = gl_MultiTexCoord0.xy;
   up_vec = normalize(gbufferModelView[1].xyz);

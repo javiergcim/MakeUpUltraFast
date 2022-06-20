@@ -1,6 +1,9 @@
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
 
+// Pseudo-uniforms uniforms
+uniform int worldTime;
+
 /* Config, uniforms, ins, outs */
 #ifdef THE_END
   #include "/lib/color_utils_end.glsl"
@@ -20,9 +23,14 @@ uniform ivec2 eyeBrightnessSmooth;
 varying vec2 texcoord;
 varying float exposure;
 
- #include "/lib/luma.glsl"
+#include "/lib/luma.glsl"
 
 void main() {
+  // Pseudo-uniforms section
+  float day_moment = day_moment();
+  float day_mixer = day_mixer(day_moment);
+  float night_mixer = night_mixer(day_moment);
+
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
   texcoord = gl_MultiTexCoord0.xy;
 
@@ -36,7 +44,10 @@ void main() {
       float exposure_coef = day_blend_float(
         EXPOSURE_MIDDLE,
         EXPOSURE_DAY,
-        EXPOSURE_NIGHT
+        EXPOSURE_NIGHT,
+        day_mixer,
+        night_mixer,
+        day_moment
       );
 
       float candle_bright = eye_bright_smooth.x * 0.0003125;  // (0.004166666666666667 * 0.075)

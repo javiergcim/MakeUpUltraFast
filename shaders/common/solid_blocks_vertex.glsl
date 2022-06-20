@@ -1,5 +1,8 @@
 #include "/lib/config.glsl"
 
+// Pseudo-uniforms uniforms
+uniform int worldTime;
+
 #if defined THE_END
   #include "/lib/color_utils_end.glsl"
 #elif defined NETHER
@@ -29,7 +32,7 @@ uniform ivec2 eyeBrightnessSmooth;
 #endif
 
 #if defined MATERIAL_GLOSS && !defined NETHER
-  uniform int worldTime;
+  // uniform int worldTime;
   uniform vec3 moonPosition;
 #endif
 
@@ -104,6 +107,11 @@ varying vec3 omni_light;
 #include "/lib/luma.glsl"
 
 void main() {
+  // Pseudo-uniforms section
+  float day_moment = day_moment();
+  float day_mixer = day_mixer(day_moment);
+  float night_mixer = night_mixer(day_moment);
+
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
   
   #include "/src/basiccoords_vertex.glsl"

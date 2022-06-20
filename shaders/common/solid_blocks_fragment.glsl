@@ -1,5 +1,10 @@
 #include "/lib/config.glsl"
 
+// Pseudo-uniforms uniforms
+#if defined NETHER || defined THE_END
+  uniform int worldTime;
+#endif
+
 #if defined THE_END
   #include "/lib/color_utils_end.glsl"
 #elif defined NETHER
@@ -89,6 +94,12 @@ varying vec3 omni_light;
 #endif
 
 void main() {
+  // Pseudo-uniforms section
+  #if defined NETHER || defined THE_END
+    float day_moment = day_moment();
+    float day_mixer = day_mixer(day_moment);
+    float night_mixer = night_mixer(day_moment);
+  #endif
   // Toma el color puro del bloque
   #if defined GBUFFER_ENTITIES
     #if BLACK_ENTITY_FIX == 1

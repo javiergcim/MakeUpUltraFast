@@ -66,7 +66,10 @@ float omni_strenght = (direct_light_strenght * .125) + 1.0;
   direct_light_color = day_blend(
     AMBIENT_MIDDLE_COLOR,
     AMBIENT_DAY_COLOR,
-    AMBIENT_NIGHT_COLOR
+    AMBIENT_NIGHT_COLOR,
+    day_mixer,
+    night_mixer,
+    day_moment
     );
 #endif
 
@@ -95,7 +98,10 @@ float omni_strenght = (direct_light_strenght * .125) + 1.0;
   vec3 hi_sky_color = day_blend(
     HI_MIDDLE_COLOR,
     HI_DAY_COLOR,
-    HI_NIGHT_COLOR
+    HI_NIGHT_COLOR,
+    day_mixer,
+    night_mixer,
+    day_moment
     );
 
   vec3 sky_rain_color = HI_SKY_RAIN_COLOR * luma(hi_sky_color);
