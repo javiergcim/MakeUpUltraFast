@@ -4,9 +4,9 @@ Usefull data for color manipulation.
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-uniform float day_moment;
-uniform float day_mixer;
-uniform float night_mixer;
+#include "/iris_uniforms/day_moment.glsl"
+#include "/iris_uniforms/day_mixer.glsl"
+#include "/iris_uniforms/night_mixer.glsl"
 
 #ifdef UNKNOWN_DIM
   uniform vec3 fogColor;
@@ -133,7 +133,7 @@ uniform float night_mixer;
   #define CANDLE_BASELIGHT vec3(0.19, 0.19, 0.19)
 #endif
 
-vec3 day_blend(vec3 middle, vec3 day, vec3 night) {
+vec3 day_blend(vec3 middle, vec3 day, vec3 night, float day_mixer, float night_mixer, float day_moment) {
   // f(x) = min(-((x-.25)^2)∙20 + 1.25, 1)
   // g(x) = min(-((x-.75)^2)∙50 + 3.125, 1)
 
@@ -143,7 +143,7 @@ vec3 day_blend(vec3 middle, vec3 day, vec3 night) {
   return mix(day_color, night_color, step(0.5, day_moment));
 }
 
-float day_blend_float(float middle, float day, float night) {
+float day_blend_float(float middle, float day, float night, float day_mixer, float night_mixer, float day_moment) {
   // f(x) = min(-((x-.25)^2)∙20 + 1.25, 1)
   // g(x) = min(-((x-.75)^2)∙50 + 3.125, 1)
 
