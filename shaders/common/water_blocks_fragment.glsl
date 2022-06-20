@@ -28,7 +28,7 @@ uniform float frameTimeCounter;
 uniform int isEyeInWater;
 uniform vec3 sunPosition;
 uniform vec3 moonPosition;
-uniform int worldTime;
+// uniform int worldTime;
 uniform float nightVision;
 uniform float rainStrength;
 uniform float light_mix;
