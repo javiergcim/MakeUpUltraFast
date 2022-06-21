@@ -2,7 +2,12 @@
 #include "/lib/config.glsl"
 
 // Pseudo-uniforms uniforms
+uniform float viewWidth;
+uniform float viewHeight;
 uniform int worldTime;
+
+#include "/iris_uniforms/pixel_size_x.glsl"
+#include "/iris_uniforms/pixel_size_y.glsl"
 
 #ifdef THE_END
   #include "/lib/color_utils_end.glsl"
@@ -40,8 +45,8 @@ uniform sampler2D gaux3;
 
 uniform mat4 gbufferModelViewInverse;
 uniform mat4 gbufferProjectionInverse;
-uniform float pixel_size_x;
-uniform float pixel_size_y;
+// uniform float pixel_size_x;
+// uniform float pixel_size_y;
 
 #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
   uniform mat4 gbufferProjection;
@@ -84,6 +89,8 @@ void main() {
   float day_moment = day_moment();
   float day_mixer = day_mixer(day_moment);
   float night_mixer = night_mixer(day_moment);
+  float pixel_size_x = pixel_size_x();
+  float pixel_size_y = pixel_size_y();
 
   vec4 block_color = texture2D(colortex0, texcoord);
   float d = texture2D(depthtex0, texcoord).r;

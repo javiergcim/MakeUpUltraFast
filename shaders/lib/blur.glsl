@@ -4,7 +4,7 @@ Blur functions.
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force, float dither) {
+vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force, float dither, float pixel_size_x, float pixel_size_y) {
   vec3 block_color = color_depth.rgb;
   float the_depth = color_depth.a;
   float blur_radius = 0.0;

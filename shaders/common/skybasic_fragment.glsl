@@ -1,7 +1,12 @@
 #include "/lib/config.glsl"
 
 // Pseudo-uniforms uniforms
+uniform float viewWidth;
+uniform float viewHeight;
 uniform int worldTime;
+
+#include "/iris_uniforms/pixel_size_x.glsl"
+#include "/iris_uniforms/pixel_size_y.glsl"
 
 #ifdef THE_END
   #include "/lib/color_utils_end.glsl"
@@ -14,10 +19,10 @@ uniform int worldTime;
 /* Config, uniforms, ins, outs */
 uniform int isEyeInWater;
 uniform mat4 gbufferProjectionInverse;
-uniform float viewWidth;
-uniform float viewHeight;
-uniform float pixel_size_x;
-uniform float pixel_size_y;
+// uniform float viewWidth;
+// uniform float viewHeight;
+// uniform float pixel_size_x;
+// uniform float pixel_size_y;
 uniform float rainStrength;
 
 varying vec3 up_vec;
@@ -31,6 +36,8 @@ void main() {
   float day_moment = day_moment();
   float day_mixer = day_mixer(day_moment);
   float night_mixer = night_mixer(day_moment);
+  float pixel_size_x = pixel_size_x();
+  float pixel_size_y = pixel_size_y();
   
   #if defined THE_END || defined NETHER
     vec4 block_color = vec4(0.0, 0.0, 0.0, 1.0);

@@ -1,16 +1,23 @@
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
 
+// Pseudo-uniforms uniforms
+uniform float viewWidth;
+uniform float viewHeight;
+
+#include "/iris_uniforms/pixel_size_x.glsl"
+#include "/iris_uniforms/pixel_size_y.glsl"
+
 uniform sampler2D colortex1;
 uniform sampler2D colortex2;
 uniform float inv_aspect_ratio;
 
 #ifdef DOF
   uniform float centerDepthSmooth;
-  uniform float pixel_size_x;
-  uniform float pixel_size_y;
-  uniform float viewWidth;
-  uniform float viewHeight;
+  // uniform float pixel_size_x;
+  // uniform float pixel_size_y;
+  // uniform float viewWidth;
+  // uniform float viewHeight;
   uniform float fov_y_inv;
 #endif
 
@@ -36,6 +43,12 @@ varying vec2 texcoord;
 #endif
 
 void main() {
+  // Pseudo-uniforms section
+  #ifdef DOF
+    float pixel_size_x = pixel_size_x();
+    float pixel_size_y = pixel_size_y();
+  #endif
+
   vec4 block_color = texture2D(colortex1, texcoord);
 
   #if defined BLOOM || defined DOF
@@ -52,7 +65,9 @@ void main() {
       colortex1,
       texcoord,
       DOF_STRENGTH,
-      dither
+      dither,
+      pixel_size_x,
+      pixel_size_y
     );
   #endif
 

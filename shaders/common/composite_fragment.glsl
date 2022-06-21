@@ -1,10 +1,10 @@
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
 
-#include "/iris_uniforms/vol_mixer.glsl"
-
 // Pseudo-uniforms uniforms
 uniform int worldTime;
+
+#include "/iris_uniforms/vol_mixer.glsl"
 
 #ifdef THE_END
   #include "/lib/color_utils_end.glsl"

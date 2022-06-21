@@ -1,9 +1,14 @@
 #include "/lib/config.glsl"
 
 // Pseudo-uniforms uniforms
+uniform float viewWidth;
+uniform float viewHeight;
 #if defined NETHER || defined THE_END
   uniform int worldTime;
 #endif
+
+#include "/iris_uniforms/pixel_size_x.glsl"
+#include "/iris_uniforms/pixel_size_y.glsl"
 
 #if defined THE_END
   #include "/lib/color_utils_end.glsl"
@@ -17,8 +22,8 @@ uniform int isEyeInWater;
 uniform float nightVision;
 uniform float rainStrength;
 uniform float light_mix;
-uniform float pixel_size_x;
-uniform float pixel_size_y;
+// uniform float pixel_size_x;
+// uniform float pixel_size_y;
 uniform sampler2D gaux4;
 
 #if defined GBUFFER_ENTITIES
@@ -100,6 +105,9 @@ void main() {
     float day_mixer = day_mixer(day_moment);
     float night_mixer = night_mixer(day_moment);
   #endif
+  float pixel_size_x = pixel_size_x();
+  float pixel_size_y = pixel_size_y();
+  
   // Toma el color puro del bloque
   #if defined GBUFFER_ENTITIES
     #if BLACK_ENTITY_FIX == 1

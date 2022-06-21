@@ -12,16 +12,23 @@
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
 
-// 'Global' constants from system
-uniform sampler2D colortex1;
+// Pseudo-uniforms uniforms
 uniform float viewWidth;
 uniform float viewHeight;
+
+#include "/iris_uniforms/pixel_size_x.glsl"
+#include "/iris_uniforms/pixel_size_y.glsl"
+
+// 'Global' constants from system
+uniform sampler2D colortex1;
+// uniform float viewWidth;
+// uniform float viewHeight;
 
 
 #if AA_TYPE > 0 || defined MOTION_BLUR
   uniform sampler2D colortex3;  // TAA past averages
-  uniform float pixel_size_x;
-  uniform float pixel_size_y;
+  // uniform float pixel_size_x;
+  // uniform float pixel_size_y;
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferProjection;
   uniform mat4 gbufferModelViewInverse;
@@ -52,6 +59,12 @@ varying vec2 texcoord;
 #endif
 
 void main() {
+  // Pseudo-uniforms section
+  #if AA_TYPE > 0 || defined MOTION_BLUR
+    float pixel_size_x = pixel_size_x();
+    float pixel_size_y = pixel_size_y();
+  #endif
+
   vec4 block_color = texture2D(colortex1, texcoord);
 
   // Precalc past position and velocity
@@ -80,14 +93,14 @@ void main() {
   #endif
 
   #ifdef MOTION_BLUR
-    block_color.rgb = motion_blur(block_color.rgb, z_depth, velocity, colortex1);
+    block_color.rgb = motion_blur(block_color.rgb, z_depth, velocity, colortex1, pixel_size_x, pixel_size_y);
   #endif
 
   #if AA_TYPE > 0
     #ifdef DOF
-      block_color = fast_taa_depth(block_color, texcoord_past, velocity);
+      block_color = fast_taa_depth(block_color, texcoord_past, velocity, pixel_size_x, pixel_size_y);
     #else
-      block_color.rgb = fast_taa(block_color.rgb, texcoord_past, velocity);
+      block_color.rgb = fast_taa(block_color.rgb, texcoord_past, velocity, pixel_size_x, pixel_size_y);
     #endif
     /* DRAWBUFFERS:03 */
     gl_FragData[0] = block_color;  // colortex0

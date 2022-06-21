@@ -2,6 +2,11 @@
 
 // Pseudo-uniforms uniforms
 uniform int worldTime;
+uniform float viewWidth;
+uniform float viewHeight;
+
+#include "/iris_uniforms/pixel_size_x.glsl"
+#include "/iris_uniforms/pixel_size_y.glsl"
 
 #ifdef THE_END
   #include "/lib/color_utils_end.glsl"
@@ -13,8 +18,8 @@ uniform int worldTime;
 
 /* Config, uniforms, ins, outs */
 uniform sampler2D tex;
-uniform float pixel_size_x;
-uniform float pixel_size_y;
+// uniform float pixel_size_x;
+// uniform float pixel_size_y;
 uniform float near;
 uniform float far;
 uniform sampler2D gaux1;
@@ -104,6 +109,8 @@ void main() {
   float day_moment = day_moment();
   float day_mixer = day_mixer(day_moment);
   float night_mixer = night_mixer(day_moment);
+  float pixel_size_x = pixel_size_x();
+  float pixel_size_y = pixel_size_y();
   
   vec4 block_color = texture2D(tex, texcoord);
 
@@ -224,7 +231,9 @@ void main() {
         fresnel * (clamp((fresnel_tex * 3.0 - 1.5), 0.0, 1.0) + 0.2),
         visible_sky,
         dither,
-        direct_light_color
+        direct_light_color,
+        pixel_size_x,
+        pixel_size_y
       );
 
     #else
@@ -258,7 +267,9 @@ void main() {
         refraction(
           fragposition,
           block_color.rgb,
-          water_normal_base
+          water_normal_base,
+          pixel_size_x,
+          pixel_size_y
         ),
         1.0
       );
@@ -272,7 +283,9 @@ void main() {
         fresnel,
         visible_sky,
         dither,
-        direct_light_color
+        direct_light_color,
+        pixel_size_x,
+        pixel_size_y
       );
 
     #endif
@@ -308,7 +321,9 @@ void main() {
         real_light,
         fresnel * fresnel,
         dither,
-        direct_light_color
+        direct_light_color,
+        pixel_size_x,
+        pixel_size_y
         );
     }
   }

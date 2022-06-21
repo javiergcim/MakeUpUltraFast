@@ -2,7 +2,7 @@
 Water reflection and refraction related functions.
 */
 
-vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float dither) {
+vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float dither, float pixel_size_x, float pixel_size_y) {
   vec3 hit_pos = vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z);
 
   vec3 dir_increment;
@@ -118,7 +118,7 @@ vec3 normal_waves(vec3 pos) {
   return normalize(final_wave);
 }
 
-vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
+vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction, float pixel_size_x, float pixel_size_y) {
   vec2 pos = gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y);
 
   #if REFRACTION == 1
@@ -159,11 +159,11 @@ vec3 get_normals(vec3 bump, vec3 fragpos) {
   return normalize(bump * tbn_matrix);
 }
 
-vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected, inout float infinite, float dither) {
+vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected, inout float infinite, float dither, float pixel_size_x, float pixel_size_y) {
   #if SSR_TYPE == 0  // Flipped image
     vec3 pos = camera_to_screen(fragpos + reflected * 50.0);
   #else  // Raymarch
-    vec3 pos = fast_raymarch(reflected, fragpos, infinite, dither);
+    vec3 pos = fast_raymarch(reflected, fragpos, infinite, dither, pixel_size_x, pixel_size_y);
   #endif
 
   float border =
@@ -188,12 +188,14 @@ vec3 water_shader(
   float fresnel,
   float visible_sky,
   float dither,
-  vec3 light_color) {
+  vec3 light_color,
+  float pixel_size_x,
+  float pixel_size_y) {
   vec4 reflection = vec4(0.0);
   float infinite = 1.0;
 
   #if REFLECTION == 1
-    reflection = reflection_calc(fragpos, normal, reflected, infinite, dither);
+    reflection = reflection_calc(fragpos, normal, reflected, infinite, dither, pixel_size_x, pixel_size_y);
   #endif
 
   reflection.rgb = mix(
@@ -224,13 +226,13 @@ vec3 water_shader(
 
 //  GLASS
 
-vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal, inout float infinite, float dither) {
+vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal, inout float infinite, float dither, float pixel_size_x, float pixel_size_y) {
   #if SSR_TYPE == 0
     vec3 reflected_vector = reflect(normalize(fragpos), normal) * 50.0;
     vec3 pos = camera_to_screen(fragpos + reflected_vector);
   #else
     vec3 reflected_vector = reflect(normalize(fragpos), normal);
-    vec3 pos = fast_raymarch(reflected_vector, fragpos, infinite, dither);
+    vec3 pos = fast_raymarch(reflected_vector, fragpos, infinite, dither, pixel_size_x, pixel_size_y);
 
     if (pos.x > 99.0) { // Fallback
       pos = camera_to_screen(fragpos + reflected_vector * 50.0);
@@ -251,13 +253,15 @@ vec4 cristal_shader(
   vec3 sky_reflection,
   float fresnel,
   float dither,
-  vec3 light_color)
+  vec3 light_color,
+  float pixel_size_x,
+  float pixel_size_y)
 {
   vec4 reflection = vec4(0.0);
   float infinite = 0.0;
 
   #if REFLECTION == 1
-    reflection = cristal_reflection_calc(fragpos, normal, infinite, dither);
+    reflection = cristal_reflection_calc(fragpos, normal, infinite, dither, pixel_size_x, pixel_size_y);
   #endif
 
   reflection.rgb = mix(sky_reflection * lmcoord.y * lmcoord.y, reflection.rgb, reflection.a);
