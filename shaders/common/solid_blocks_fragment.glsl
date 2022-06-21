@@ -3,12 +3,11 @@
 // Pseudo-uniforms uniforms
 uniform float viewWidth;
 uniform float viewHeight;
-#if defined NETHER || defined THE_END
-  uniform int worldTime;
-#endif
+uniform int worldTime;
 
 #include "/iris_uniforms/pixel_size_x.glsl"
 #include "/iris_uniforms/pixel_size_y.glsl"
+#include "/iris_uniforms/light_mix.glsl"
 
 #if defined THE_END
   #include "/lib/color_utils_end.glsl"
@@ -21,7 +20,7 @@ uniform sampler2D tex;
 uniform int isEyeInWater;
 uniform float nightVision;
 uniform float rainStrength;
-uniform float light_mix;
+// uniform float light_mix;
 // uniform float pixel_size_x;
 // uniform float pixel_size_y;
 uniform sampler2D gaux4;
@@ -48,7 +47,7 @@ uniform sampler2D gaux4;
 #endif
 
 #if defined MATERIAL_GLOSS && !defined NETHER
-  uniform int worldTime;
+  // uniform int worldTime;
   uniform vec3 moonPosition;
   uniform vec3 sunPosition;
   #if defined THE_END
@@ -107,6 +106,7 @@ void main() {
   #endif
   float pixel_size_x = pixel_size_x();
   float pixel_size_y = pixel_size_y();
+  float light_mix = light_mix();
   
   // Toma el color puro del bloque
   #if defined GBUFFER_ENTITIES
@@ -166,7 +166,8 @@ void main() {
         reflect(normalize(sub_position3), flat_normal),
         lmcoord_alt,
         gloss_power,
-        flat_normal
+        flat_normal,
+        light_mix
       ) * gloss_factor;
 
     block_luma *= luma_factor;

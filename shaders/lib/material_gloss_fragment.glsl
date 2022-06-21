@@ -14,7 +14,7 @@
 
 #else
 
-  float material_gloss(vec3 reflected_vector, vec2 lmcoord_alt, float gloss_power, vec3 flat_normal) {
+  float material_gloss(vec3 reflected_vector, vec2 lmcoord_alt, float gloss_power, vec3 flat_normal, float light_mix) {
     vec3 astro_pos = mix(-sunPosition, sunPosition, light_mix);
     float astro_vector =
       max(dot(normalize(reflected_vector), normalize(astro_pos)), 0.0) *

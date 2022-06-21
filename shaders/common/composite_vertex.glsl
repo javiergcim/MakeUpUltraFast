@@ -6,6 +6,10 @@
   uniform int worldTime;
 #endif
 
+#if VOL_LIGHT == 1 && !defined NETHER
+  #include "/iris_uniforms/light_mix.glsl"
+#endif
+
 #ifdef THE_END
   #include "/lib/color_utils_end.glsl"
 #else
@@ -20,7 +24,7 @@ uniform ivec2 eyeBrightnessSmooth;
 #endif
 
 #if VOL_LIGHT == 1 && !defined NETHER
-  uniform float light_mix; 
+  // uniform float light_mix; 
   uniform vec3 sunPosition;
   uniform vec3 moonPosition;
   uniform mat4 gbufferProjection;
@@ -68,6 +72,9 @@ void main() {
     float day_moment = day_moment();
     float day_mixer = day_mixer(day_moment);
     float night_mixer = night_mixer(day_moment);
+  #endif
+  #if VOL_LIGHT == 1 && !defined NETHER
+    float light_mix = light_mix();
   #endif
 
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;

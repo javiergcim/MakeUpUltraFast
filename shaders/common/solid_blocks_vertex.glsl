@@ -3,6 +3,8 @@
 // Pseudo-uniforms uniforms
 uniform int worldTime;
 
+#include "/iris_uniforms/light_mix.glsl"
+
 #if defined THE_END
   #include "/lib/color_utils_end.glsl"
 #elif defined NETHER
@@ -14,7 +16,7 @@ uniform int worldTime;
 /* Config, uniforms, ins, outs */
 uniform vec3 sunPosition;
 uniform int isEyeInWater;
-uniform float light_mix;
+// uniform float light_mix;
 uniform float far;
 uniform float rainStrength;
 uniform ivec2 eyeBrightnessSmooth;
@@ -111,6 +113,7 @@ void main() {
   float day_moment = day_moment();
   float day_mixer = day_mixer(day_moment);
   float night_mixer = night_mixer(day_moment);
+  float light_mix = light_mix();
 
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
   

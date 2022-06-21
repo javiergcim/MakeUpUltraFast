@@ -7,6 +7,7 @@ uniform float viewHeight;
 
 #include "/iris_uniforms/pixel_size_x.glsl"
 #include "/iris_uniforms/pixel_size_y.glsl"
+#include "/iris_uniforms/light_mix.glsl"
 
 #ifdef THE_END
   #include "/lib/color_utils_end.glsl"
@@ -36,7 +37,7 @@ uniform vec3 moonPosition;
 // uniform int worldTime;
 uniform float nightVision;
 uniform float rainStrength;
-uniform float light_mix;
+// uniform float light_mix;
 uniform ivec2 eyeBrightnessSmooth;
 uniform sampler2D gaux4;
 
@@ -111,6 +112,7 @@ void main() {
   float night_mixer = night_mixer(day_moment);
   float pixel_size_x = pixel_size_x();
   float pixel_size_y = pixel_size_y();
+  float light_mix = light_mix();
   
   vec4 block_color = texture2D(tex, texcoord);
 

@@ -5,6 +5,7 @@
 uniform int worldTime;
 
 #include "/iris_uniforms/vol_mixer.glsl"
+#include "/iris_uniforms/light_mix.glsl"
 
 #ifdef THE_END
   #include "/lib/color_utils_end.glsl"
@@ -27,14 +28,14 @@ uniform ivec2 eyeBrightnessSmooth;
   uniform sampler2D depthtex1;
   uniform vec3 sunPosition;
   uniform vec3 moonPosition;
-  uniform float light_mix;
+  // uniform float light_mix;
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
   uniform mat4 gbufferModelView;
 #endif
 
 #if VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER
-  uniform float light_mix;
+  // uniform float light_mix;
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
   uniform mat4 gbufferModelView;
@@ -96,6 +97,9 @@ void main() {
   float night_mixer = night_mixer(day_moment);
   #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
     float vol_mixer = vol_mixer(day_moment);
+  #endif
+  #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+    float light_mix = light_mix();
   #endif
   
   vec4 block_color = texture2D(colortex1, texcoord);
