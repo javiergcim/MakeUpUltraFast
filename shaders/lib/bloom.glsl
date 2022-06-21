@@ -4,7 +4,7 @@ Bloom functions.
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-vec3 mipmap_bloom(sampler2D image, vec2 coords, float dither) {
+vec3 mipmap_bloom(sampler2D image, vec2 coords, float dither, float inv_aspect_ratio) {
   vec3 blur_sample = vec3(0.0);
   vec2 blur_radius_vec = vec2(0.1 * inv_aspect_ratio, 0.1);
 

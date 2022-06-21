@@ -3,7 +3,7 @@ Based on Capt Tatsu's ambient occlusion functions.
 
 */
 
-float dbao(float dither) {
+float dbao(float dither, float inv_aspect_ratio) {
   float ao = 0.0;
 
   float dither_base = dither;

@@ -5,9 +5,11 @@
 uniform float viewWidth;
 uniform float viewHeight;
 uniform int worldTime;
+uniform float aspectRatio;
 
 #include "/iris_uniforms/pixel_size_x.glsl"
 #include "/iris_uniforms/pixel_size_y.glsl"
+#include "/iris_uniforms/inv_aspect_ratio.glsl"
 
 #ifdef THE_END
   #include "/lib/color_utils_end.glsl"
@@ -33,7 +35,7 @@ uniform sampler2D gaux3;
 #endif
 
 #if AO == 1
-  uniform float inv_aspect_ratio;
+  // uniform float inv_aspect_ratio;
   uniform float fov_y_inv;
 #endif
 
@@ -91,6 +93,9 @@ void main() {
   float night_mixer = night_mixer(day_moment);
   float pixel_size_x = pixel_size_x();
   float pixel_size_y = pixel_size_y();
+  #if AO == 1
+    float inv_aspect_ratio = inv_aspect_ratio();
+  #endif
 
   vec4 block_color = texture2D(colortex0, texcoord);
   float d = texture2D(depthtex0, texcoord).r;
@@ -187,7 +192,7 @@ void main() {
       mix(fog_density_coeff, 1.0, rainStrength)
     );
 
-    float final_ao = mix(dbao(dither), 1.0, ao_att);
+    float final_ao = mix(dbao(dither, inv_aspect_ratio), 1.0, ao_att);
     block_color.rgb *= final_ao;
     // block_color = vec4(vec3(final_ao), 1.0);
     // block_color = vec4(vec3(linear_d), 1.0);

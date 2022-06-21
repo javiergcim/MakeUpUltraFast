@@ -4,13 +4,15 @@
 // Pseudo-uniforms uniforms
 uniform float viewWidth;
 uniform float viewHeight;
+uniform float aspectRatio;
 
 #include "/iris_uniforms/pixel_size_x.glsl"
 #include "/iris_uniforms/pixel_size_y.glsl"
+#include "/iris_uniforms/inv_aspect_ratio.glsl"
 
 uniform sampler2D colortex1;
 uniform sampler2D colortex2;
-uniform float inv_aspect_ratio;
+// uniform float inv_aspect_ratio;
 
 #ifdef DOF
   uniform float centerDepthSmooth;
@@ -48,6 +50,7 @@ void main() {
     float pixel_size_x = pixel_size_x();
     float pixel_size_y = pixel_size_y();
   #endif
+  float inv_aspect_ratio = inv_aspect_ratio();
 
   vec4 block_color = texture2D(colortex1, texcoord);
 
@@ -72,7 +75,7 @@ void main() {
   #endif
 
   #ifdef BLOOM
-    vec3 bloom = mipmap_bloom(colortex2, texcoord, dither);
+    vec3 bloom = mipmap_bloom(colortex2, texcoord, dither, inv_aspect_ratio);
     block_color.rgb += bloom;
   #endif
 
