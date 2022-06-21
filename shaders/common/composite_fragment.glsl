@@ -1,6 +1,8 @@
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
 
+#include "/iris_uniforms/vol_mixer.glsl"
+
 // Pseudo-uniforms uniforms
 uniform int worldTime;
 
@@ -29,7 +31,6 @@ uniform ivec2 eyeBrightnessSmooth;
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
   uniform mat4 gbufferModelView;
-  uniform float vol_mixer;
 #endif
 
 #if VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER
@@ -37,7 +38,6 @@ uniform ivec2 eyeBrightnessSmooth;
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
   uniform mat4 gbufferModelView;
-  uniform float vol_mixer;
   uniform vec3 shadowLightPosition;
   uniform mat4 shadowModelView;
   uniform mat4 shadowProjection;
@@ -94,6 +94,9 @@ void main() {
   float day_moment = day_moment();
   float day_mixer = day_mixer(day_moment);
   float night_mixer = night_mixer(day_moment);
+  #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+    float vol_mixer = vol_mixer(day_moment);
+  #endif
   
   vec4 block_color = texture2D(colortex1, texcoord);
   float d = texture2D(depthtex0, texcoord).r;
