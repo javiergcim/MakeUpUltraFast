@@ -6,7 +6,10 @@ uniform float viewWidth;
 uniform float viewHeight;
 uniform int worldTime;
 uniform float aspectRatio;
+uniform int frameCounter;
 
+#include "/iris_uniforms/frame_mod.glsl"
+#include "/iris_uniforms/dither_shift.glsl"
 #include "/iris_uniforms/pixel_size_x.glsl"
 #include "/iris_uniforms/pixel_size_y.glsl"
 #include "/iris_uniforms/inv_aspect_ratio.glsl"
@@ -96,6 +99,10 @@ void main() {
   #if AO == 1
     float inv_aspect_ratio = inv_aspect_ratio();
   #endif
+  #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
+    int frame_mod = frame_mod();
+    float dither_shift = dither_shift(frame_mod);
+  #endif
 
   vec4 block_color = texture2D(colortex0, texcoord);
   float d = texture2D(depthtex0, texcoord).r;
@@ -107,7 +114,7 @@ void main() {
 
   #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
     #if AA_TYPE > 0
-      float dither = shifted_eclectic_r_dither(gl_FragCoord.xy);
+      float dither = shifted_eclectic_r_dither(gl_FragCoord.xy, dither_shift);
     #else
       // float dither = texture_noise_64(gl_FragCoord.xy, gaux3);
       float dither = semiblue(gl_FragCoord.xy);

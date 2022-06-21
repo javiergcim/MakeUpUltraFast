@@ -3,7 +3,10 @@
 
 // Pseudo-uniforms uniforms
 uniform int worldTime;
+uniform int frameCounter;
 
+#include "/iris_uniforms/frame_mod.glsl"
+#include "/iris_uniforms/dither_shift.glsl"
 #include "/iris_uniforms/vol_mixer.glsl"
 #include "/iris_uniforms/light_mix.glsl"
 
@@ -101,6 +104,10 @@ void main() {
   #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
     float light_mix = light_mix();
   #endif
+  #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+    int frame_mod = frame_mod();
+    float dither_shift = dither_shift(frame_mod);
+  #endif
   
   vec4 block_color = texture2D(colortex1, texcoord);
   float d = texture2D(depthtex0, texcoord).r;
@@ -137,7 +144,7 @@ void main() {
 
   #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
     #if AA_TYPE > 0
-      float dither = shifted_eclectic_r_dither(gl_FragCoord.xy);
+      float dither = shifted_eclectic_r_dither(gl_FragCoord.xy, dither_shift);
     #else
       float dither = semiblue(gl_FragCoord.xy);
     #endif

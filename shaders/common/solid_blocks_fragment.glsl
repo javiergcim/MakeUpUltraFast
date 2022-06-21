@@ -4,6 +4,10 @@
 uniform float viewWidth;
 uniform float viewHeight;
 uniform int worldTime;
+uniform int frameCounter;
+
+#include "/iris_uniforms/frame_mod.glsl"
+#include "/iris_uniforms/dither_shift.glsl"
 
 #include "/iris_uniforms/pixel_size_x.glsl"
 #include "/iris_uniforms/pixel_size_y.glsl"
@@ -107,6 +111,10 @@ void main() {
   float pixel_size_x = pixel_size_x();
   float pixel_size_y = pixel_size_y();
   float light_mix = light_mix();
+  #if defined SHADOW_CASTING && !defined NETHER
+    int frame_mod = frame_mod();
+    float dither_shift = dither_shift(frame_mod);
+  #endif
   
   // Toma el color puro del bloque
   #if defined GBUFFER_ENTITIES

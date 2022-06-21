@@ -1,5 +1,11 @@
 #include "/lib/config.glsl"
 
+// Pseudo-uniforms uniforms
+uniform int frameCounter;
+
+#include "/iris_uniforms/frame_mod.glsl"
+#include "/iris_uniforms/taa_offset.glsl"
+
 // uniform mat4 modelViewMatrix;
 // uniform mat4 projectionMatrix;
 uniform float viewHeight;
@@ -32,6 +38,12 @@ vec4 my_ftransform()
 }
 
 void main() {
+  // Pseudo-uniforms section
+  #if AA_TYPE > 0
+    int frame_mod = frame_mod();
+    vec2 taa_offset = taa_offset(frame_mod);
+  #endif
+  
   tint_color = gl_Color;
   gl_Position = my_ftransform();
   #if AA_TYPE == 1

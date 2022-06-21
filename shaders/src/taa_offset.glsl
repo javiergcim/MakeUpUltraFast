@@ -1,1 +1,1 @@
-uniform vec2 taa_offset;
+// uniform vec2 taa_offset;

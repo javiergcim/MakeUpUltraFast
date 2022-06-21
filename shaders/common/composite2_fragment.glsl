@@ -13,6 +13,12 @@
 #include "/lib/config.glsl"
 
 // Pseudo-uniforms uniforms
+uniform int frameCounter;
+
+#include "/iris_uniforms/frame_mod.glsl"
+#include "/iris_uniforms/dither_shift.glsl"
+
+// Pseudo-uniforms uniforms
 uniform float viewWidth;
 uniform float viewHeight;
 
@@ -64,6 +70,10 @@ void main() {
     float pixel_size_x = pixel_size_x();
     float pixel_size_y = pixel_size_y();
   #endif
+  #ifdef MOTION_BLUR
+    int frame_mod = frame_mod();
+    float dither_shift = dither_shift(frame_mod);
+  #endif
 
   vec4 block_color = texture2D(colortex1, texcoord);
 
@@ -93,7 +103,7 @@ void main() {
   #endif
 
   #ifdef MOTION_BLUR
-    block_color.rgb = motion_blur(block_color.rgb, z_depth, velocity, colortex1, pixel_size_x, pixel_size_y);
+    block_color.rgb = motion_blur(block_color.rgb, z_depth, velocity, colortex1, pixel_size_x, pixel_size_y, dither_shift);
   #endif
 
   #if AA_TYPE > 0

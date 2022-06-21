@@ -2,7 +2,10 @@
 
 // Pseudo-uniforms uniforms
 uniform int worldTime;
+uniform int frameCounter;
 
+#include "/iris_uniforms/frame_mod.glsl"
+#include "/iris_uniforms/taa_offset.glsl"
 #include "/iris_uniforms/light_mix.glsl"
 
 #ifdef THE_END
@@ -84,6 +87,10 @@ void main() {
   float day_mixer = day_mixer(day_moment);
   float night_mixer = night_mixer(day_moment);
   float light_mix = light_mix();
+  #if AA_TYPE > 0
+    int frame_mod = frame_mod();
+    vec2 taa_offset = taa_offset(frame_mod);
+  #endif
 
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
   

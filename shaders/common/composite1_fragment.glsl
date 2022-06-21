@@ -5,7 +5,10 @@
 uniform float viewWidth;
 uniform float viewHeight;
 uniform float aspectRatio;
+uniform int frameCounter;
 
+#include "/iris_uniforms/frame_mod.glsl"
+#include "/iris_uniforms/dither_shift.glsl"
 #include "/iris_uniforms/pixel_size_x.glsl"
 #include "/iris_uniforms/pixel_size_y.glsl"
 #include "/iris_uniforms/inv_aspect_ratio.glsl"
@@ -51,12 +54,16 @@ void main() {
     float pixel_size_y = pixel_size_y();
   #endif
   float inv_aspect_ratio = inv_aspect_ratio();
+  #if defined BLOOM || defined DOF
+    int frame_mod = frame_mod();
+    float dither_shift = dither_shift(frame_mod);
+  #endif
 
   vec4 block_color = texture2D(colortex1, texcoord);
 
   #if defined BLOOM || defined DOF
     #if AA_TYPE > 0
-      float dither = shifted_r_dither(gl_FragCoord.xy);
+      float dither = shifted_r_dither(gl_FragCoord.xy, dither_shift);
     #else
       float dither = dither_grad_noise(gl_FragCoord.xy);
     #endif

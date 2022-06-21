@@ -4,6 +4,10 @@
 uniform float viewWidth;
 uniform float viewHeight;
 uniform int worldTime;
+uniform int frameCounter;
+
+#include "/iris_uniforms/frame_mod.glsl"
+#include "/iris_uniforms/dither_shift.glsl"
 
 #include "/iris_uniforms/pixel_size_x.glsl"
 #include "/iris_uniforms/pixel_size_y.glsl"
@@ -38,6 +42,8 @@ void main() {
   float night_mixer = night_mixer(day_moment);
   float pixel_size_x = pixel_size_x();
   float pixel_size_y = pixel_size_y();
+  int frame_mod = frame_mod();
+  float dither_shift = dither_shift(frame_mod);
   
   #if defined THE_END || defined NETHER
     vec4 block_color = vec4(0.0, 0.0, 0.0, 1.0);
@@ -47,7 +53,7 @@ void main() {
     vec4 block_color = vec4(star_data.rgb, 1.0);
 
     #if AA_TYPE > 0
-      float dither = shifted_dither13(gl_FragCoord.xy);
+      float dither = shifted_dither13(gl_FragCoord.xy, dither_shift);
     #else
       float dither = dither13(gl_FragCoord.xy);
     #endif

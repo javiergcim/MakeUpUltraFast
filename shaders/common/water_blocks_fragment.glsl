@@ -4,7 +4,10 @@
 uniform int worldTime;
 uniform float viewWidth;
 uniform float viewHeight;
+uniform int frameCounter;
 
+#include "/iris_uniforms/frame_mod.glsl"
+#include "/iris_uniforms/dither_shift.glsl"
 #include "/iris_uniforms/pixel_size_x.glsl"
 #include "/iris_uniforms/pixel_size_y.glsl"
 #include "/iris_uniforms/light_mix.glsl"
@@ -113,6 +116,8 @@ void main() {
   float pixel_size_x = pixel_size_x();
   float pixel_size_y = pixel_size_y();
   float light_mix = light_mix();
+  int frame_mod = frame_mod();
+  float dither_shift = dither_shift(frame_mod);
   
   vec4 block_color = texture2D(tex, texcoord);
 
@@ -179,7 +184,7 @@ void main() {
 
   #if (defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER) || SSR_TYPE > 0
     #if AA_TYPE > 0
-      float dither = shifted_dither17(gl_FragCoord.xy);
+      float dither = shifted_dither17(gl_FragCoord.xy, dither_shift);
     #else
       float dither = dither13(gl_FragCoord.xy);
     #endif
