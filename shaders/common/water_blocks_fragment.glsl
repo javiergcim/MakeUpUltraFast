@@ -210,10 +210,10 @@ void main() {
     #ifdef VANILLA_WATER
       #if defined SHADOW_CASTING && !defined NETHER
         #if defined COLORED_SHADOW
-          vec3 shadow_c = get_colored_shadow(shadow_pos);
+          vec3 shadow_c = get_colored_shadow(shadow_pos, dither_shift);
           shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
         #else
-          float shadow_c = get_shadow(shadow_pos);
+          float shadow_c = get_shadow(shadow_pos, dither_shift);
           shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
         #endif
       #else

@@ -4,7 +4,7 @@ Fragment shadow function.
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-float get_shadow(vec3 the_shadow_pos) {
+float get_shadow(vec3 the_shadow_pos, float dither_shift) {
   float shadow_sample = 1.0;
 
   #if SHADOW_TYPE == 0  // Pixelated
@@ -44,7 +44,7 @@ float get_shadow(vec3 the_shadow_pos) {
 
 #if defined COLORED_SHADOW
 
-  vec3 get_colored_shadow(vec3 the_shadow_pos) {
+  vec3 get_colored_shadow(vec3 the_shadow_pos, float dither_shift) {
 
     #if SHADOW_TYPE == 0  // Pixelated
       float shadow_detector = 1.0;

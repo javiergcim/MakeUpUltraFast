@@ -25,7 +25,7 @@ varying vec3 basic_light;
 #include "/lib/basic_utils.glsl"
 
 #if AA_TYPE > 0
-  #include "/src/taa_offset.glsl"
+  // #include "/src/taa_offset.glsl"
 #endif
 
 void main() {
