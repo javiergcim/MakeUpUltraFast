@@ -3,7 +3,11 @@
 // Pseudo-uniforms uniforms
 uniform int worldTime;
 uniform int frameCounter;
+uniform float viewWidth;
+uniform float viewHeight;
 
+#include "/iris_uniforms/pixel_size_x.glsl"
+#include "/iris_uniforms/pixel_size_y.glsl"
 #include "/iris_uniforms/frame_mod.glsl"
 #include "/iris_uniforms/taa_offset.glsl"
 #include "/iris_uniforms/light_mix.glsl"
@@ -89,7 +93,8 @@ void main() {
   float light_mix = light_mix();
   #if AA_TYPE > 0
     int frame_mod = frame_mod();
-    vec2 taa_offset = taa_offset(frame_mod);
+    vec2 pixel_size = vec2(pixel_size_x(), pixel_size_y());
+    vec2 taa_offset = taa_offset(frame_mod, pixel_size);
   #endif
 
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
