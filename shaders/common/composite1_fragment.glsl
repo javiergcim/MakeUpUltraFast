@@ -81,7 +81,8 @@ void main() {
       dither,
       pixel_size_x,
       pixel_size_y,
-      fov_y_inv
+      fov_y_inv,
+      inv_aspect_ratio
     );
   #endif
 

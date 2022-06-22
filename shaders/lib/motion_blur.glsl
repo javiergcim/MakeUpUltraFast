@@ -26,12 +26,9 @@ vec3 motion_blur(vec3 color, float the_depth, vec2 blur_velocity, sampler2D imag
     vec3 b_sample;
     for(int i = 0; i < MOTION_BLUR_SAMPLES; i++, coord += blur_velocity) {
       sample_coord = clamp(coord, double_pixels, 1.0 - double_pixels);
-      // b_sample = texture2D(image, sample_coord).rgb;
-      b_sample = texture2DLod(image, sample_coord, 0.0).rgb;
-      // mask = float(b_sample.a > 0.7);  // Mano
-      // m_blur += b_sample.rgb * mask;
+      b_sample = texture2D(image, sample_coord, -3.0).rgb;
+      // b_sample = texture2DLod(image, sample_coord).rgb;
       m_blur += b_sample;
-      // weight += mask;
       weight++;
     }
     m_blur /= max(weight, 1.0);

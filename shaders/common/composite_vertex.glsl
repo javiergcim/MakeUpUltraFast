@@ -118,7 +118,8 @@ void main() {
       // Map from 1.0 - 0.0 to 1.0 - 3.4
       exposure = (exposure * -2.4) + 3.4;
     #else
-      exposure = luma(texture2DLod(colortex1, vec2(0.5), log2(viewWidth * 0.3)).rgb);
+      exposure = luma(texture2DLod(colortex1, vec2(0.5), 100.0 * log2(viewWidth * 0.3)).rgb);
+      // exposure = luma(texture2D(colortex1, vec2(0.5), -log2(viewWidth * 0.3)).rgb);
       float prev_exposure = texture2D(gaux3, vec2(0.5)).r;
 
       exposure = (exp(-exposure * 4.9) * 3.0) + 0.6;
