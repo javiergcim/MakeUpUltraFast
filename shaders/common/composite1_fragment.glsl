@@ -6,12 +6,14 @@ uniform float viewWidth;
 uniform float viewHeight;
 uniform float aspectRatio;
 uniform int frameCounter;
+uniform mat4 gbufferProjection;
 
 #include "/iris_uniforms/frame_mod.glsl"
 #include "/iris_uniforms/dither_shift.glsl"
 #include "/iris_uniforms/pixel_size_x.glsl"
 #include "/iris_uniforms/pixel_size_y.glsl"
 #include "/iris_uniforms/inv_aspect_ratio.glsl"
+#include "/iris_uniforms/fov_y_inv.glsl"
 
 uniform sampler2D colortex1;
 uniform sampler2D colortex2;
@@ -23,7 +25,7 @@ uniform sampler2D colortex2;
   // uniform float pixel_size_y;
   // uniform float viewWidth;
   // uniform float viewHeight;
-  uniform float fov_y_inv;
+  // uniform float fov_y_inv;
 #endif
 
 #ifdef DOF
@@ -58,6 +60,7 @@ void main() {
     int frame_mod = frame_mod();
     float dither_shift = dither_shift(frame_mod);
   #endif
+  float fov_y_inv = fov_y_inv();
 
   vec4 block_color = texture2D(colortex1, texcoord);
 
@@ -77,7 +80,8 @@ void main() {
       DOF_STRENGTH,
       dither,
       pixel_size_x,
-      pixel_size_y
+      pixel_size_y,
+      fov_y_inv
     );
   #endif
 

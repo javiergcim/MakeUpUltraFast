@@ -7,12 +7,14 @@ uniform float viewHeight;
 uniform int worldTime;
 uniform float aspectRatio;
 uniform int frameCounter;
+uniform mat4 gbufferProjection;
 
 #include "/iris_uniforms/frame_mod.glsl"
 #include "/iris_uniforms/dither_shift.glsl"
 #include "/iris_uniforms/pixel_size_x.glsl"
 #include "/iris_uniforms/pixel_size_y.glsl"
 #include "/iris_uniforms/inv_aspect_ratio.glsl"
+#include "/iris_uniforms/fov_y_inv.glsl"
 
 #ifdef THE_END
   #include "/lib/color_utils_end.glsl"
@@ -39,7 +41,7 @@ uniform sampler2D gaux3;
 
 #if AO == 1
   // uniform float inv_aspect_ratio;
-  uniform float fov_y_inv;
+  // uniform float fov_y_inv;
 #endif
 
 #if V_CLOUDS != 0 && !defined UNKNOWN_DIM
@@ -54,7 +56,7 @@ uniform mat4 gbufferProjectionInverse;
 // uniform float pixel_size_y;
 
 #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
-  uniform mat4 gbufferProjection;
+  // uniform mat4 gbufferProjection;
   uniform float frameTimeCounter;
 #endif
 
@@ -103,6 +105,7 @@ void main() {
     int frame_mod = frame_mod();
     float dither_shift = dither_shift(frame_mod);
   #endif
+  float fov_y_inv = fov_y_inv();
 
   vec4 block_color = texture2D(colortex0, texcoord);
   float d = texture2D(depthtex0, texcoord).r;
@@ -199,7 +202,7 @@ void main() {
       mix(fog_density_coeff, 1.0, rainStrength)
     );
 
-    float final_ao = mix(dbao(dither, inv_aspect_ratio), 1.0, ao_att);
+    float final_ao = mix(dbao(dither, inv_aspect_ratio, fov_y_inv), 1.0, ao_att);
     block_color.rgb *= final_ao;
     // block_color = vec4(vec3(final_ao), 1.0);
     // block_color = vec4(vec3(linear_d), 1.0);
