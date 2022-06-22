@@ -15,7 +15,7 @@ uniform int worldTime;
 
 uniform ivec2 eyeBrightnessSmooth;
 
-#if (!defined MC_GL_VENDOR_MESA || !defined MC_GL_RENDERER_MESA) && !defined MC_GL_RENDERER_INTEL && !defined SIMPLE_AUTOEXP
+#if (!defined MC_GL_VENDOR_MESA || !defined MC_GL_RENDERER_MESA) && !defined MC_GL_RENDERER_INTEL && !defined MC_GL_VENDOR_INTEL && !defined SIMPLE_AUTOEXP
   uniform sampler2D gaux3;
   uniform float viewWidth;
 #endif
@@ -39,7 +39,7 @@ void main() {
   // Tonemaping ---
   // x: Block, y: Sky ---
   #if !defined UNKNOWN_DIM
-    #if (defined MC_GL_VENDOR_MESA && defined MC_GL_RENDERER_MESA) || defined MC_GL_RENDERER_INTEL || defined SIMPLE_AUTOEXP
+    #if (defined MC_GL_VENDOR_MESA && defined MC_GL_RENDERER_MESA) || defined MC_GL_RENDERER_INTEL || defined MC_GL_VENDOR_INTEL || defined SIMPLE_AUTOEXP
 
       float exposure_coef = day_blend_float(
         EXPOSURE_MIDDLE,

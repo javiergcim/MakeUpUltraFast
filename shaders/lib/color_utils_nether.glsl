@@ -55,7 +55,7 @@ float day_blend_float(float middle, float day, float night, float day_mixer, flo
   return mix(day_value, night_value, step(0.5, day_moment));
 }
 
-#if (defined MC_GL_VENDOR_MESA && defined MC_GL_RENDERER_MESA) || defined MC_GL_RENDERER_INTEL || defined SIMPLE_AUTOEXP
+#if (defined MC_GL_VENDOR_MESA && defined MC_GL_RENDERER_MESA) || defined MC_GL_RENDERER_INTEL || defined MC_GL_VENDOR_INTEL || defined SIMPLE_AUTOEXP
   // Ambient color luma per hour in exposure calculation
   #define EXPOSURE_DAY 1.0
   #define EXPOSURE_MIDDLE 1.0
