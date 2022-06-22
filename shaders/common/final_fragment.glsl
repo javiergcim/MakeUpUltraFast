@@ -132,12 +132,6 @@ void main() {
     gl_FragColor = vec4(block_color, 1.0);
 
   #else
-    // #if defined MC_GL_RENDERER_MESA
-    //   gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
-    // #else
-    //   gl_FragColor = vec4(block_color, 1.0);
-    // #endif
-
     gl_FragColor = vec4(block_color, 1.0);
   #endif
 }
