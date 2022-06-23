@@ -90,7 +90,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #endif
 
 // Reflection parameters
-#define RAYMARCH_STEPS 9
+#define RAYMARCH_STEPS 10
 
 // Cloud parameters
 #if CLOUD_VOL_STYLE == 1

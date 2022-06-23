@@ -3,7 +3,8 @@ Water reflection and refraction related functions.
 */
 
 vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float dither, float pixel_size_x, float pixel_size_y) {
-  vec3 hit_pos = vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z);
+  // vec3 hit_pos = vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z);
+  vec3 hit_pos = camera_to_screen(hit_coord);
 
   vec3 dir_increment;
   vec3 current_march = hit_coord;
@@ -18,6 +19,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
   bool hidden_flag = false;
   bool first_hidden = true;
   bool out_flag = false;
+  bool to_far = false;
 
   // Ray marching
   for (int i = 0; i < RAYMARCH_STEPS; i++) {
@@ -43,6 +45,10 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
         out_flag = true;
       }
 
+    if (march_pos.z > 0.9999) {
+      to_far = true;
+    }
+
     screen_depth = texture2D(depthtex1, march_pos.xy).x;
     depth_diff = screen_depth - march_pos.z;
 
@@ -65,16 +71,125 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
 
   infinite = float(screen_depth > 0.9999);
 
-  if (out_flag) {
+  if (out_flag && !to_far) {
     infinite = 1.0;
     return march_pos;
+  } else if (to_far) {
+    if (hit_pos.z < screen_depth && screen_depth < last_march_pos.z) {
+      return last_hidden_pos;
+    } else if (screen_depth > 0.9999) {
+      return march_pos;
+    } else {
+      return vec3(-0.5);
+    }
+    // return vec3(-0.5);
   } else if (hidden_flag) {
-    // return last_hidden_pos;
-    return vec3(1.0);
+    return last_hidden_pos;
   } else {
     return camera_to_screen(current_march);
   }
 }
+
+// vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float dither, float pixel_size_x, float pixel_size_y) {
+//   vec3 hit_pos = vec3(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z);
+
+//   vec3 dir_increment;
+//   vec3 current_march = hit_coord;
+//   vec3 old_current_march;
+//   float screen_depth;
+//   float prev_screen_depth = 0.0;
+//   float depth_diff = 1.0;
+//   vec3 march_pos;
+//   vec3 last_march_pos;
+//   vec3 last_hidden_pos;
+//   bool search_flag = false;
+//   bool hidden_flag = false;
+//   bool first_hidden = true;
+//   bool out_flag = false;
+
+//   // int red_flag = 0;
+//   // bool search_validator = false;
+
+//   // Ray marching
+//   for (int i = 0; i < RAYMARCH_STEPS; i++) {
+//     if (search_flag) {
+//       dir_increment *= 0.5;
+//       current_march += dir_increment * sign(depth_diff);
+//     } else {
+//       old_current_march = current_march;
+//       current_march = hit_coord + ((direction * exp2(i + dither)) - direction);
+//       dir_increment = current_march - old_current_march;
+//     }
+
+//     last_march_pos = march_pos;
+//     march_pos = camera_to_screen(current_march);
+
+//     if ( // Is outside screen space
+//       march_pos.x < 0.0 ||
+//       march_pos.x > 1.0 ||
+//       march_pos.y < 0.0 ||
+//       march_pos.y > 1.0 ||
+//       march_pos.z < 0.0 ||
+//       march_pos.z > 0.9999
+//       ) {
+//         out_flag = true;
+//       }
+
+//     screen_depth = texture2D(depthtex0, march_pos.xy).x;
+//     depth_diff = screen_depth - march_pos.z;
+
+//     // if (depth_diff < 0.0 && abs(screen_depth - prev_screen_depth) > abs(march_pos.z - last_march_pos.z)) {
+//     // if (distance(march_pos, vec3(march_pos.xy, prev_screen_depth)) > distance(march_pos, last_march_pos)) {
+//     //   // if (search_flag) {
+//     //     red_flag++;
+//     //   // }
+//     //   hidden_flag = true;
+//     //   if (first_hidden) {
+//     //     last_hidden_pos = last_march_pos;
+//     //     first_hidden = false;
+//     //   }
+//     // } else if (hidden_flag && depth_diff > 0.0) {
+//     //   hidden_flag = false;
+//     // }
+
+//     // if (distance(march_pos, vec3(march_pos.xy, prev_screen_depth)) > distance(march_pos, last_march_pos) && search_flag) {
+//     //   red_flag++;
+//     //   search_validator = false;
+//     // } else {
+//     //   search_validator = true;
+//     // }
+
+//     if (depth_diff < 0.0 && abs(march_pos.z - screen_depth) > abs(march_pos.z - last_march_pos.z)) {
+//       hidden_flag = true;
+//       if (first_hidden) {
+//         last_hidden_pos = last_march_pos;
+//         first_hidden = false;
+//       }
+//     } else if (hidden_flag && depth_diff > 0.0) {
+//       hidden_flag = false;
+//     }
+
+//     if (depth_diff < 0.0 && !hidden_flag) {
+//       search_flag = true;
+//     }
+
+//     prev_screen_depth = screen_depth;
+//   }
+
+//   infinite = float(screen_depth > 0.9999);
+
+//   if (out_flag) {
+//     infinite = 1.0;
+//     return march_pos;
+//     // return vec3(-0.5);
+//   } else if (hidden_flag) {
+//   return last_hidden_pos;
+//   //   return vec3(-0.5);
+//   } else {
+//     return camera_to_screen(current_march);
+//   }
+// }
+
 
 #if SUN_REFLECTION == 1
   #if !defined NETHER && !defined THE_END

@@ -128,7 +128,8 @@ void main() {
   #ifdef VANILLA_WATER
     vec3 water_normal_base = vec3(0.0, 0.0, 1.0);
   #else
-    vec3 water_normal_base = normal_waves(worldposition.xzy);
+    // vec3 water_normal_base = normal_waves(worldposition.xzy);
+    vec3 water_normal_base = vec3(0.0, 0.0, 1.0);
   #endif
 
   vec3 surface_normal = get_normals(water_normal_base, fragposition);
