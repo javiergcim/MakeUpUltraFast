@@ -69,7 +69,8 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
     infinite = 1.0;
     return march_pos;
   } else if (hidden_flag) {
-    return last_hidden_pos;
+    // return last_hidden_pos;
+    return vec3(1.0);
   } else {
     return camera_to_screen(current_march);
   }

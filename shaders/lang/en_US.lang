@@ -193,7 +193,7 @@ option.USE_BASIC_SH=Custom dimensions basic shader
 
 option.MATERIAL_GLOSS=Material gloss
 
-option.SIMPLE_AUTOEXP=Use simple auto-exposure
+option.SIMPLE_AUTOEXP=Use simpler auto-exposure
 
 #Screens
 screen.ADVANCED_SCREEN=Advanced options
