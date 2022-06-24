@@ -3,18 +3,16 @@ Water reflection and refraction related functions.
 */
 
 vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float dither) {
-  vec3 hit_pos = camera_to_screen(hit_coord);
-
   vec3 dir_increment;
   vec3 current_march = hit_coord;
   vec3 old_current_march;
   float screen_depth;
-  float prev_screen_depth = 0.0;
   float depth_diff = 1.0;
-  vec3 march_pos;
+  vec3 march_pos = camera_to_screen(hit_coord);
+  float prev_screen_depth = march_pos.z;
   vec3 last_march_pos;
   bool search_flag = false;
-  bool hidden_flag = true;
+  bool hidden_flag = false;
   bool first_hidden = true;
   bool out_flag = false;
   bool to_far = false;
@@ -173,7 +171,7 @@ vec3 get_normals(vec3 bump, vec3 fragpos) {
   return normalize(bump * tbn_matrix);
 }
 
-vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected, inout float infinite, float dither, float pixel_size_x, float pixel_size_y) {
+vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected, inout float infinite, float dither) {
   #if SSR_TYPE == 0  // Flipped image
     vec3 pos = camera_to_screen(fragpos + reflected * 50.0);
   #else  // Raymarch
@@ -209,7 +207,7 @@ vec3 water_shader(
   float infinite = 1.0;
 
   #if REFLECTION == 1
-    reflection = reflection_calc(fragpos, normal, reflected, infinite, dither, pixel_size_x, pixel_size_y);
+    reflection = reflection_calc(fragpos, normal, reflected, infinite, dither);
   #endif
 
   reflection.rgb = mix(
@@ -240,7 +238,7 @@ vec3 water_shader(
 
 //  GLASS
 
-vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal, inout float infinite, float dither, float pixel_size_x, float pixel_size_y) {
+vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal, inout float infinite, float dither) {
   #if SSR_TYPE == 0
     vec3 reflected_vector = reflect(normalize(fragpos), normal) * 50.0;
     vec3 pos = camera_to_screen(fragpos + reflected_vector);
@@ -275,7 +273,7 @@ vec4 cristal_shader(
   float infinite = 0.0;
 
   #if REFLECTION == 1
-    reflection = cristal_reflection_calc(fragpos, normal, infinite, dither, pixel_size_x, pixel_size_y);
+    reflection = cristal_reflection_calc(fragpos, normal, infinite, dither);
   #endif
 
   reflection.rgb = mix(sky_reflection * lmcoord.y * lmcoord.y, reflection.rgb, reflection.a);

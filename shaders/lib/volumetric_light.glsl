@@ -47,8 +47,8 @@ Volumetric light - MakeUp implementation
     }
 
     light /= GODRAY_STEPS;
-
-    return light;
+    
+    return (light * light);
   }
 
   #if defined COLORED_SHADOW
