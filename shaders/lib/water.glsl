@@ -13,12 +13,14 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
   float depth_diff = 1.0;
   vec3 march_pos;
   vec3 last_march_pos;
-  vec3 last_hidden_pos;
+  // vec3 last_hidden_pos;
   bool search_flag = false;
-  bool hidden_flag = false;
+  bool hidden_flag = true;
   bool first_hidden = true;
   bool out_flag = false;
   bool to_far = false;
+  
+  int no_hidden_steps = 0;
 
   // Ray marching
   for (int i = 0; i < RAYMARCH_STEPS; i++) {
@@ -54,11 +56,12 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
     if (depth_diff < 0.0 && abs(screen_depth - prev_screen_depth) > abs(march_pos.z - last_march_pos.z)) {
       hidden_flag = true;
       if (first_hidden) {
-        last_hidden_pos = last_march_pos;
+        // last_hidden_pos = last_march_pos;
         first_hidden = false;
       }
-    } else if (hidden_flag && depth_diff > 0.0) {
+    } else if (depth_diff > 0.0) {
       hidden_flag = false;
+      no_hidden_steps++;
     }
 
     if (search_flag == false && depth_diff < 0.0 && hidden_flag == false) {
@@ -70,22 +73,23 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
 
   infinite = float(screen_depth > 0.9999);
 
-  if (out_flag && !to_far) {
+  if (out_flag) {
     infinite = 1.0;
     return march_pos;
   } else if (to_far) {
-    infinite = 1.0;
     if (hit_pos.z < screen_depth && screen_depth < last_march_pos.z && !out_flag) {
-      return last_hidden_pos;
+      return march_pos;
+    } else if (no_hidden_steps < 2) {
+      return march_pos;
     } else if (screen_depth > 0.9999) {
+      infinite = 1.0;
       return march_pos;
     } else {
+      infinite = 1.0;
       return vec3(1.0);
     }
-  } else if (hidden_flag) {
-    return last_hidden_pos;
   } else {
-    return camera_to_screen(current_march);
+     return march_pos;
   }
 }
 
