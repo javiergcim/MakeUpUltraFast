@@ -1,7 +1,5 @@
 #include "/lib/config.glsl"
 
-// uniform mat4 modelViewMatrix;
-// uniform mat4 projectionMatrix;
 uniform float viewHeight;
 uniform float viewWidth;
 
@@ -11,11 +9,11 @@ varying vec4 tint_color;
   #include "/src/taa_offset.glsl"
 #endif
 
-vec4 my_ftransform()
+vec4 mu_ftransform()
 {
   float lineWidth = 1.75;
   vec2 screenSize = vec2(viewWidth, viewHeight);
-  const mat4 VIEW_SCALE = mat4(mat3(1.0 - 0.00390625));
+  mat4 VIEW_SCALE = mat4(mat3(1.0 - 0.00390625));
   mat4 tempmat = gl_ProjectionMatrix * VIEW_SCALE * gl_ModelViewMatrix;
   vec4 linePosStart = tempmat * gl_Vertex;
   vec4 linePosEnd = tempmat * vec4(gl_Vertex.xyz + gl_Normal, 1.0);
@@ -33,7 +31,7 @@ vec4 my_ftransform()
 
 void main() {
   tint_color = gl_Color;
-  gl_Position = my_ftransform();
+  gl_Position = mu_ftransform();
   #if AA_TYPE == 1
     gl_Position.xy += taa_offset * gl_Position.w;
   #endif

@@ -112,7 +112,8 @@ void main() {
   vec3 surface_normal = get_normals(water_normal_base, fragposition);
   vec3 flat_normal = get_normals(vec3(0.0, 0.0, 1.0), fragposition);
   float normal_dot_eye = dot(flat_normal, normalize(fragposition));
-  float fresnel = square_pow(1.0 + normal_dot_eye);
+  // float fresnel = square_pow(1.0 + normal_dot_eye);
+  float fresnel = square_pow(1.0 + -abs(normal_dot_eye));  // IRIS compatible
 
   // Reflected sky color calculation
   vec3 hi_sky_color = day_blend(
@@ -192,12 +193,14 @@ void main() {
         float shadow_c = abs((light_mix * 2.0) - 1.0);
       #endif
 
+      float fresnel_tex = luma(block_color.rgb);
+
       real_light =
         omni_light +
         (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
         candle_color;
 
-      float fresnel_tex = luma(block_color.rgb);
+      real_light *= (fresnel_tex * 2.0) - 0.25;
 
       block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125) * tint_color.rgb;
 
@@ -207,11 +210,13 @@ void main() {
         block_color.rgb,
         sky_color_reflect,
         norm_reflect_water_vec,
-        fresnel * (clamp((fresnel_tex * 3.0 - 1.5), 0.0, 1.0) + 0.2),
+        fresnel,
         visible_sky,
         dither,
         direct_light_color
       );
+
+      block_color.a = sqrt(block_color.a);
 
     #else
 
@@ -291,7 +296,7 @@ void main() {
         fragposition,
         water_normal,
         block_color,
-        real_light,
+        sky_color_reflect,
         fresnel * fresnel,
         dither,
         direct_light_color

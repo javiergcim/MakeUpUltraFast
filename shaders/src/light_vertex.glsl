@@ -1,7 +1,8 @@
 tint_color = gl_Color;
 
 // Luz nativa (lmcoord.x: candela, lmcoord.y: cielo) ----
-vec2 illumination = (max(lmcoord, vec2(0.065)) - vec2(0.065)) * 1.06951871657754;
+vec2 illumination = lmcoord;
+illumination.y = (max(illumination.y, 0.065) - 0.065) * 1.06951871657754;
 
 // Visibilidad del cielo
 #ifdef WATER_F
