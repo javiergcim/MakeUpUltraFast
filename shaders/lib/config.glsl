@@ -36,11 +36,11 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #elif REFLECTION_SLIDER == 1
   #define REFLECTION 1
   #define SSR_TYPE 0
-  #define REFLEX_INDEX 0.6
+  #define REFLEX_INDEX 0.75
 #elif REFLECTION_SLIDER == 2
   #define REFLECTION 1
   #define SSR_TYPE 1
-  #define REFLEX_INDEX 0.6
+  #define REFLEX_INDEX 0.75
 #endif
 
 #define ACERCADE 0 // [0]
@@ -90,7 +90,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #endif
 
 // Reflection parameters
-#define RAYMARCH_STEPS 9
+#define RAYMARCH_STEPS 10
 
 // Cloud parameters
 #if CLOUD_VOL_STYLE == 1

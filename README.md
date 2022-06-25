@@ -15,6 +15,7 @@ High performance Minecraft shader (Java).
 * Optional chromatic aberration
 * Auto-exposure
 * Shader for all native dimensions
+* And more...
 * FAST!
 
 ## Tested on:
@@ -29,3 +30,4 @@ High performance Minecraft shader (Java).
 * If you modify or use the shader please add a credit, and the official URLs if possible: [https://www.planetminecraft.com/mod/makeup-ultra-fast-shader/](https://www.planetminecraft.com/mod/makeup-ultra-fast-shader/), [https://www.curseforge.com/minecraft/customization/makeup-ultra-fast-shader](https://www.curseforge.com/minecraft/customization/makeup-ultra-fast-shader) and/or [https://github.com/javiergcim/MakeUpUltraFast](https://github.com/javiergcim/MakeUpUltraFast)
 
 Notification is not required, but would be appreciated.
+

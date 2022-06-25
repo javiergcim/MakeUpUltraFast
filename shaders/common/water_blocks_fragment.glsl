@@ -112,7 +112,8 @@ void main() {
   vec3 surface_normal = get_normals(water_normal_base, fragposition);
   vec3 flat_normal = get_normals(vec3(0.0, 0.0, 1.0), fragposition);
   float normal_dot_eye = dot(flat_normal, normalize(fragposition));
-  float fresnel = square_pow(1.0 + normal_dot_eye);
+  // float fresnel = square_pow(1.0 + normal_dot_eye);
+  float fresnel = square_pow(1.0 + -abs(normal_dot_eye));  // IRIS compatible
 
   // Reflected sky color calculation
   vec3 hi_sky_color = day_blend(
