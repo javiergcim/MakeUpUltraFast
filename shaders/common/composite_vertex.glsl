@@ -2,9 +2,7 @@
 #include "/lib/config.glsl"
 
 // Pseudo-uniforms uniforms
-#if !defined NETHER
-  uniform int worldTime;
-#endif
+uniform int worldTime;
 
 #if VOL_LIGHT == 1 && !defined NETHER
   #include "/iris_uniforms/light_mix.glsl"
@@ -12,6 +10,8 @@
 
 #ifdef THE_END
   #include "/lib/color_utils_end.glsl"
+#elif defined NETHER
+  #include "/lib/color_utils_nether.glsl"
 #else
   #include "/lib/color_utils.glsl"
 #endif
@@ -68,11 +68,9 @@ varying float exposure;  // Flat
 
 void main() {
   // Pseudo-uniforms section
-  #if !defined NETHER
-    float day_moment = day_moment();
-    float day_mixer = day_mixer(day_moment);
-    float night_mixer = night_mixer(day_moment);
-  #endif
+  float day_moment = day_moment();
+  float day_mixer = day_mixer(day_moment);
+  float night_mixer = night_mixer(day_moment);
   #if VOL_LIGHT == 1 && !defined NETHER
     float light_mix = light_mix();
   #endif

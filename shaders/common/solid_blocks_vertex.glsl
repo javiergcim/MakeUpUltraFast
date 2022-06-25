@@ -41,7 +41,6 @@ uniform ivec2 eyeBrightnessSmooth;
 #endif
 
 #if defined MATERIAL_GLOSS && !defined NETHER
-  // uniform int worldTime;
   uniform vec3 moonPosition;
 #endif
 

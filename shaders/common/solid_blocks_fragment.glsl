@@ -51,7 +51,6 @@ uniform sampler2D gaux4;
 #endif
 
 #if defined MATERIAL_GLOSS && !defined NETHER
-  // uniform int worldTime;
   uniform vec3 moonPosition;
   uniform vec3 sunPosition;
   #if defined THE_END
@@ -169,29 +168,39 @@ void main() {
     block_color.rgb = clamp(vec3(luma(block_color.rgb)) * vec3(0.75, 0.75, 1.5), vec3(0.3), vec3(1.0));
   #else
     #if defined MATERIAL_GLOSS && !defined NETHER
-    float material_gloss_factor =
-      material_gloss(
-        reflect(normalize(sub_position3), flat_normal),
-        lmcoord_alt,
-        gloss_power,
-        flat_normal,
-        light_mix
-      ) * gloss_factor;
+      #if defined THE_END
+        float material_gloss_factor =
+        material_gloss(
+          reflect(normalize(sub_position3), flat_normal),
+          lmcoord_alt,
+          gloss_power,
+          flat_normal
+        ) * gloss_factor;
+      #else
+        float material_gloss_factor =
+        material_gloss(
+          reflect(normalize(sub_position3), flat_normal),
+          lmcoord_alt,
+          gloss_power,
+          flat_normal,
+          light_mix
+        ) * gloss_factor;
+      #endif
 
-    block_luma *= luma_factor;
-    block_luma = pow(block_luma, luma_power);
+      block_luma *= luma_factor;
+      block_luma = pow(block_luma, luma_power);
 
-    float material = material_gloss_factor * block_luma;
-    vec3 real_light =
-      omni_light +
-      (shadow_c * ((direct_light_color * direct_light_strenght) + (direct_light_color * material))) * (1.0 - (rainStrength * 0.75)) +
-      final_candle_color;
-  #else
-    vec3 real_light =
-      omni_light +
-      (shadow_c * direct_light_color * direct_light_strenght) * (1.0 - (rainStrength * 0.75)) +
-      final_candle_color;
-  #endif
+      float material = material_gloss_factor * block_luma;
+      vec3 real_light =
+        omni_light +
+        (shadow_c * ((direct_light_color * direct_light_strenght) + (direct_light_color * material))) * (1.0 - (rainStrength * 0.75)) +
+        final_candle_color;
+    #else
+      vec3 real_light =
+        omni_light +
+        (shadow_c * direct_light_color * direct_light_strenght) * (1.0 - (rainStrength * 0.75)) +
+        final_candle_color;
+    #endif
 
     block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
   #endif

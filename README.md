@@ -15,10 +15,11 @@ High performance Minecraft shader (Java).
 * Optional chromatic aberration
 * Auto-exposure
 * Shader for all native dimensions
+* And more...
 * FAST!
 
 ## Tested on:
-* Minecraft 1.12.+ - 1.18.x
+* Minecraft 1.12.+ - 1.19.x
 * Nvidia and Intel
 * Windows and Linux
 
