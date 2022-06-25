@@ -296,7 +296,7 @@ void main() {
         fragposition,
         water_normal,
         block_color,
-        real_light,
+        sky_color_reflect,
         fresnel * fresnel,
         dither,
         direct_light_color
