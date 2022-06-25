@@ -209,7 +209,7 @@ vec3 water_shader(
   #endif
 
   reflection.rgb = mix(
-    sky_reflect * pow(visible_sky, 10.0),
+    sky_reflect * visible_sky,
     reflection.rgb,
     reflection.a
   );
@@ -230,7 +230,7 @@ vec3 water_shader(
       return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
     #endif
   #else
-     return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
+    return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
   #endif
 }
 
