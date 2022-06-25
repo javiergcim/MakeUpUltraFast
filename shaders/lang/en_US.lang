@@ -124,7 +124,7 @@ option.WATER_ABSORPTION=Water absorption index
 option.WATER_TURBULENCE=Waves strenght
 value.WATER_TURBULENCE.8.0=Very low
 value.WATER_TURBULENCE.3.7=Low
-value.WATER_TURBULENCE.1.7=Medium
+value.WATER_TURBULENCE.2.25=Medium
 value.WATER_TURBULENCE.1.3=High
 
 option.COLOR_SCHEME=Color scheme
