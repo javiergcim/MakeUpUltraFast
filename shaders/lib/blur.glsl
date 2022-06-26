@@ -21,7 +21,7 @@ vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force, fl
     vec2 blur_radius_vec = vec2(blur_radius * inv_aspect_ratio, blur_radius);
 
     float dither_base = dither;
-    dither *= 6.283185307;
+    dither *= 6.283185307179586;
 
     float current_radius = (0.25 + dither_base);
     vec2 offset = vec2(cos(dither), sin(dither)) * blur_radius_vec * current_radius;

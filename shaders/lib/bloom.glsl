@@ -11,10 +11,10 @@ vec3 mipmap_bloom(sampler2D image, vec2 coords, float dither, float inv_aspect_r
   int sample_c = int(BLOOM_SAMPLES);
 
   float dither_base = dither;
-  dither *= 6.283185307;
+  dither *= 3.141592653589793;
 
   float inv_steps = 1.0 / BLOOM_SAMPLES;
-  float sample_angle_increment = 12.566370614359172 * inv_steps;
+  float sample_angle_increment = 40.840704496667314 * inv_steps;
   float current_radius;
   vec2 offset;
 

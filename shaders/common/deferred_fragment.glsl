@@ -119,7 +119,6 @@ void main() {
     #if AA_TYPE > 0
       float dither = shifted_eclectic_r_dither(gl_FragCoord.xy, dither_shift);
     #else
-      // float dither = texture_noise_64(gl_FragCoord.xy, gaux3);
       float dither = semiblue(gl_FragCoord.xy);
     #endif
   #endif
