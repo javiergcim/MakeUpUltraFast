@@ -234,6 +234,8 @@ const float sunPathRotation = -25.0; // [-40.0 -35.0 -30.0 -25.0 -20.0 -15.0 -10
 #else
   #define SHADOW_DIST 0.7
   #define SHADOW_RES 0
+  const int shadowMapResolution = 1;
+  const float shadowDistance = 1.0;
 #endif
 
 // Redefined constants
