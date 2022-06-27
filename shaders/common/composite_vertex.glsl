@@ -35,7 +35,7 @@ uniform ivec2 eyeBrightnessSmooth;
   uniform mat4 gbufferProjectionInverse;
 #endif
 
-#if (!defined MC_GL_VENDOR_MESA || !defined MC_GL_RENDERER_MESA) && !defined MC_GL_RENDERER_INTEL && !defined MC_GL_VENDOR_INTEL && !defined SIMPLE_AUTOEXP
+#if !defined SIMPLE_AUTOEXP
   uniform sampler2D colortex1;
   uniform sampler2D gaux3;
   uniform float viewWidth;
@@ -62,7 +62,7 @@ varying float exposure;  // Flat
 
 #include "/lib/luma.glsl"
 
-#if (!defined MC_GL_VENDOR_MESA || !defined MC_GL_RENDERER_MESA) && !defined MC_GL_RENDERER_INTEL && !defined MC_GL_VENDOR_INTEL && !defined SIMPLE_AUTOEXP
+#if !defined SIMPLE_AUTOEXP
   const bool colortex1MipmapEnabled = true;
 #endif
 
@@ -97,7 +97,7 @@ void main() {
 
   // Exposure
   #if !defined UNKNOWN_DIM
-    #if (defined MC_GL_VENDOR_MESA && defined MC_GL_RENDERER_MESA) || defined MC_GL_RENDERER_INTEL || defined MC_GL_VENDOR_INTEL || defined SIMPLE_AUTOEXP
+    #if defined SIMPLE_AUTOEXP
 
       float exposure_coef = day_blend_float(
         EXPOSURE_MIDDLE,
@@ -116,7 +116,16 @@ void main() {
       // Map from 1.0 - 0.0 to 1.0 - 3.4
       exposure = (exposure * -2.4) + 3.4;
     #else
-      exposure = luma(texture2DLod(colortex1, vec2(0.5), log2(viewWidth * 0.3)).rgb);
+      float mipmap_level = log2(min(viewWidth, viewHeight)) - 1.0;
+
+      vec3 exposure_col = texture2DLod(colortex1, vec2(0.5), mipmap_level).rgb;
+      exposure_col += texture2DLod(colortex1, vec2(0.2), mipmap_level).rgb;
+      exposure_col += texture2DLod(colortex1, vec2(0.8), mipmap_level).rgb;
+      exposure_col += texture2DLod(colortex1, vec2(0.2, 0.8), mipmap_level).rgb;
+      exposure_col += texture2DLod(colortex1, vec2(0.8, 0.2), mipmap_level).rgb;
+
+      exposure = luma(exposure_col * 0.2);
+
       float prev_exposure = texture2D(gaux3, vec2(0.5)).r;
 
       exposure = (exp(-exposure * 4.9) * 3.0) + 0.6;
