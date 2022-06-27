@@ -1,7 +1,7 @@
 # MakeUp - Ultra Fast
 High performance Minecraft shader (Java).
 
-**Version: 8.5: Unification**
+**Version: 8.5a (Optifine): Unification**
 
 ## Main features
 * Optional shadows
