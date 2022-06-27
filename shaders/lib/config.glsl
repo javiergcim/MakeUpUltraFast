@@ -231,6 +231,9 @@ const bool generateShadowColorMipmap = false;
     const bool shadowHardwareFiltering = true;
     const bool shadowtex1Nearest = false;
   #endif
+#else
+  #define SHADOW_DIST 0.7
+  #define SHADOW_RES 0
 #endif
 
 // Redefined constants
