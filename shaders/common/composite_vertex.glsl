@@ -39,6 +39,7 @@ uniform ivec2 eyeBrightnessSmooth;
   uniform sampler2D colortex1;
   uniform sampler2D gaux3;
   uniform float viewWidth;
+  uniform float viewHeight;
   uniform float frameTime;
 #endif
 
