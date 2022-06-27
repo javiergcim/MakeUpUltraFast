@@ -7,10 +7,10 @@ float dbao(float dither) {
   float ao = 0.0;
 
   float dither_base = dither;
-  dither *= 6.283185307;
+  dither *= 3.141592653589793;
 
   float inv_steps = 1.0 / AOSTEPS;
-  float sample_angle_increment = 6.283185307 * inv_steps;
+  float sample_angle_increment = 40.840704496667314 * inv_steps;
   float current_radius;
   vec2 offset;
 
