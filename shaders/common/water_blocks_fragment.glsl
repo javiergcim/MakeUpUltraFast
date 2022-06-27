@@ -226,7 +226,7 @@ void main() {
     #else
 
       #if WATER_TEXTURE == 1
-        float water_texture = block_color.r * 2.0;
+        float water_texture = luma(block_color.rgb);
       #else
         float water_texture = 1.0;
       #endif
@@ -258,6 +258,10 @@ void main() {
         ),
         1.0
       );
+
+      #if WATER_TEXTURE == 1
+        fresnel = clamp(fresnel * (water_texture * water_texture + 0.5), 0.0, 1.0);
+      #endif
 
       block_color.rgb = water_shader(
         fragposition,

@@ -1,3 +1,5 @@
+#include "/lib/config.glsl"
+
 /* Config, uniforms, ins, outs */
 varying vec2 texcoord;
 

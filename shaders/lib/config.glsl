@@ -57,8 +57,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define MOTION_BLUR_STRENGTH 1.0 // [0.5 1.0 1.5 2.0 2.5 3.0 3.5 4.0] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
 #define MOTION_BLUR_SAMPLES 4 // [3 4 5 6 7 8] Motion blur samples 
 #define SUN_REFLECTION 1 // [0 1] Enable sun (or moon) reflection on water and glass
-#define SHADOW_CASTING // Turn shadow casting on or off.
-#define SHADOW_RES 4 // [0 1 2 3 4 5 6 7 8 9 10 11] Set shadow quality. Read as: 'Visual quality (distance)'. Volumetric lighting works best with "normal" or "far" distance shadows.
+
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
 #define SHADOW_BLUR 2.5 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0 2.1 2.2 2.3 2.4 2.5]  Shadow blur intensity
 // #define COLORED_SHADOW // Attempts to tint the shadow of translucent objects, as well as the associated volumetric light (if active).
@@ -83,7 +82,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // #define DEBUG_MODE // Set debug mode.
 #define BLOCKLIGHT_TEMP 1 // [0 1 2 3 4] Set blocklight temperature
 #define MATERIAL_GLOSS // A very subtle effect that adds some ability to reflect direct light on some blocks. It is most noticeable on metals and luminous objects.
-// #define SIMPLE_AUTOEXP // Toggle between advanced and simple auto-exposure. Intel GPUs use always simple auto-exposure.
+// #define SIMPLE_AUTOEXP // Toggle between advanced and simple auto-exposure. The advanced version may work strangely on some GPUs. If the brightness of the scene changes very abruptly, use the simplest.
 
 #ifdef SIMPLE_AUTOEXP
   // Menu bug workaround. Don't remove
@@ -141,83 +140,100 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // Sun rotation angle
 const float sunPathRotation = -25.0; // [-40.0 -35.0 -30.0 -25.0 -20.0 -15.0 -10.0 -5.0 0.0 5.0 10.0 15.0 20.0 25.0 30.0 35.0 40.0]
 
-// Shadow parameters
-const float shadowIntervalSize = 3.0;
-const bool generateShadowMipmap = false;
-const bool generateShadowColorMipmap = false;
+#define SHADOW_DISTANCE_SLIDER 1 // [0 1 2]
+#define SHADOW_QTY_SLIDER 2 // [0 1 2 3]
+
+#if SHADOW_QTY_SLIDER > 0
+  #define SHADOW_CASTING
+#endif
 
 #ifdef SHADOW_CASTING
+  // Shadow parameters
+  const float shadowIntervalSize = 3.0;
+  const bool generateShadowMipmap = false;
+  const bool generateShadowColorMipmap = false;
+  
   #ifndef NO_SHADOWS
-    #if SHADOW_RES == 0
-      #define SHADOW_LIMIT 75.0
-      const int shadowMapResolution = 300;
-      const float shadowDistance = 75.0;
-      #define SHADOW_DIST 0.7
-    #elif SHADOW_RES == 1
-      #define SHADOW_LIMIT 105.0
-      const int shadowMapResolution = 420;
-      const float shadowDistance = 105.0;
-      #define SHADOW_DIST 0.77
-    #elif SHADOW_RES == 2
-      #define SHADOW_LIMIT 255.0
-      const int shadowMapResolution = 1020;
-      const float shadowDistance = 255.0;
-      #define SHADOW_DIST 0.8
+    #if SHADOW_DISTANCE_SLIDER == 0
+      #if SHADOW_QTY_SLIDER == 1
+        #define SHADOW_LIMIT 75.0
+        const int shadowMapResolution = 300;
+        const float shadowDistance = 75.0;
+        #define SHADOW_DIST 0.7
+        #define SHADOW_RES 0
 
-    #elif SHADOW_RES == 3
-      #define SHADOW_LIMIT 75.0
-      const int shadowMapResolution = 600;
-      const float shadowDistance = 75.0;
-      #define SHADOW_DIST 0.77
-    #elif SHADOW_RES == 4
-      #define SHADOW_LIMIT 105.0
-      const int shadowMapResolution = 840;
-      const float shadowDistance = 105.0;
-      #define SHADOW_DIST 0.8
-    #elif SHADOW_RES == 5
-      #define SHADOW_LIMIT 255.0
-      const int shadowMapResolution = 2040;
-      const float shadowDistance = 255.0;
-      #define SHADOW_DIST 0.85
+      #elif SHADOW_QTY_SLIDER == 2
+        #define SHADOW_LIMIT 75.0
+        const int shadowMapResolution = 600;
+        const float shadowDistance = 75.0;
+        #define SHADOW_DIST 0.77
+        #define SHADOW_RES 3
 
-    #elif SHADOW_RES == 6
-      #define SHADOW_LIMIT 75.0
-      const int shadowMapResolution = 1200;
-      const float shadowDistance = 75.0;
-      #define SHADOW_DIST 0.77
-    #elif SHADOW_RES == 7
-      #define SHADOW_LIMIT 105.0
-      const int shadowMapResolution = 1680;
-      const float shadowDistance = 105.0;
-      #define SHADOW_DIST 0.8
-    #elif SHADOW_RES == 8
-      #define SHADOW_LIMIT 255.0
-      const int shadowMapResolution = 4080;
-      const float shadowDistance = 255.0;
-      #define SHADOW_DIST 0.85
+      #elif SHADOW_QTY_SLIDER == 3
+        #define SHADOW_LIMIT 75.0
+        const int shadowMapResolution = 1200;
+        const float shadowDistance = 75.0;
+        #define SHADOW_DIST 0.77
+        #define SHADOW_RES 6
+      
+      #endif
 
-    #elif SHADOW_RES == 9
-      #define SHADOW_LIMIT 75.0
-      const int shadowMapResolution = 2400;
-      const float shadowDistance = 75.0;
-      #define SHADOW_DIST 0.77
-    #elif SHADOW_RES == 10
-      #define SHADOW_LIMIT 105.0
-      const int shadowMapResolution = 3360;
-      const float shadowDistance = 105.0;
-      #define SHADOW_DIST 0.8
-    #elif SHADOW_RES == 11
-      #define SHADOW_LIMIT 255.0
-      const int shadowMapResolution = 8160;
-      const float shadowDistance = 255.0;
-      #define SHADOW_DIST 0.85
+    #elif SHADOW_DISTANCE_SLIDER == 1
+      #if SHADOW_QTY_SLIDER == 1
+        #define SHADOW_LIMIT 105.0
+        const int shadowMapResolution = 420;
+        const float shadowDistance = 105.0;
+        #define SHADOW_DIST 0.77
+        #define SHADOW_RES 1
+
+      #elif SHADOW_QTY_SLIDER == 2
+        #define SHADOW_LIMIT 105.0
+        const int shadowMapResolution = 840;
+        const float shadowDistance = 105.0;
+        #define SHADOW_DIST 0.8
+        #define SHADOW_RES 4
+
+      #elif SHADOW_QTY_SLIDER == 3
+        #define SHADOW_LIMIT 105.0
+        const int shadowMapResolution = 1680;
+        const float shadowDistance = 105.0;
+        #define SHADOW_DIST 0.8
+        #define SHADOW_RES 7
+      
+      #endif
+
+    #elif SHADOW_DISTANCE_SLIDER == 2
+      #if SHADOW_QTY_SLIDER == 1
+        #define SHADOW_LIMIT 255.0
+        const int shadowMapResolution = 1020;
+        const float shadowDistance = 255.0;
+        #define SHADOW_DIST 0.8
+        #define SHADOW_RES 2
+
+      #elif SHADOW_QTY_SLIDER == 2
+        #define SHADOW_LIMIT 255.0
+        const int shadowMapResolution = 2040;
+        const float shadowDistance = 255.0;
+        #define SHADOW_DIST 0.85
+        #define SHADOW_RES 5
+
+      #elif SHADOW_QTY_SLIDER == 3
+        #define SHADOW_LIMIT 255.0
+        const int shadowMapResolution = 4080;
+        const float shadowDistance = 255.0;
+        #define SHADOW_DIST 0.85
+        #define SHADOW_RES 8
+
+      #endif
     #endif
 
     const float shadowDistanceRenderMul = 1.0;
     const bool shadowHardwareFiltering = true;
-
     const bool shadowtex1Nearest = false;
   #endif
+#else
+  #define SHADOW_DIST 0.7
+  #define SHADOW_RES 0
 #endif
 
 // Redefined constants
