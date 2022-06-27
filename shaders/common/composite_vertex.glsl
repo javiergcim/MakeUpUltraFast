@@ -119,10 +119,10 @@ void main() {
       float mipmap_level = log2(min(viewWidth, viewHeight)) - 1.0;
 
       vec3 exposure_col = texture2DLod(colortex1, vec2(0.5), mipmap_level).rgb;
-      exposure_col += texture2DLod(colortex1, vec2(0.2), mipmap_level).rgb;
-      exposure_col += texture2DLod(colortex1, vec2(0.8), mipmap_level).rgb;
-      exposure_col += texture2DLod(colortex1, vec2(0.2, 0.8), mipmap_level).rgb;
-      exposure_col += texture2DLod(colortex1, vec2(0.8, 0.2), mipmap_level).rgb;
+      exposure_col += texture2DLod(colortex1, vec2(0.25), mipmap_level).rgb;
+      exposure_col += texture2DLod(colortex1, vec2(0.75), mipmap_level).rgb;
+      exposure_col += texture2DLod(colortex1, vec2(0.25, 0.75), mipmap_level).rgb;
+      exposure_col += texture2DLod(colortex1, vec2(0.75, 0.25), mipmap_level).rgb;
 
       exposure = luma(exposure_col * 0.2);
 

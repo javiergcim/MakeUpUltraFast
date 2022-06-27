@@ -10,7 +10,7 @@ float dbao(float dither, float inv_aspect_ratio, float fov_y_inv) {
   dither *= 3.141592653589793;
 
   float inv_steps = 1.0 / AOSTEPS;
-  float sample_angle_increment = 40.840704496667314 * inv_steps;  // pi * 13 (prime)
+  float sample_angle_increment = 1636.7697725202822 * inv_steps;  // pi * 13 (prime)
   float current_radius;
   vec2 offset;
 
