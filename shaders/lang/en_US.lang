@@ -21,24 +21,16 @@ value.ACERCADE.0=v.8.5a Iris
 
 #Options
 #############################
-option.SHADOW_CASTING=Shadows
+option.SHADOW_DISTANCE_SLIDER=Shadow distance
+value.SHADOW_DISTANCE_SLIDER.0=Short
+value.SHADOW_DISTANCE_SLIDER.1=Medium
+value.SHADOW_DISTANCE_SLIDER.2=Far
 
-option.SHADOW_RES=Shadow qlty
-value.SHADOW_RES.0=Low (close)
-value.SHADOW_RES.1=Low (normal)
-value.SHADOW_RES.2=Low (far)
-
-value.SHADOW_RES.3=Medium (close)
-value.SHADOW_RES.4=Medium (normal)
-value.SHADOW_RES.5=Medium (far)
-
-value.SHADOW_RES.6=High (close)
-value.SHADOW_RES.7=High (normal)
-value.SHADOW_RES.8=High (far)
-
-value.SHADOW_RES.9=Ultra (close)
-value.SHADOW_RES.10=Ultra (normal)
-value.SHADOW_RES.11=Ultra (far)
+option.SHADOW_QTY_SLIDER=Shadow quality
+value.SHADOW_QTY_SLIDER.0=None
+value.SHADOW_QTY_SLIDER.1=Low
+value.SHADOW_QTY_SLIDER.2=Medium
+value.SHADOW_QTY_SLIDER.3=High
 
 option.REFLECTION_SLIDER=Reflection
 value.REFLECTION_SLIDER.0=Off
@@ -193,7 +185,7 @@ option.USE_BASIC_SH=Custom dimensions basic shader
 
 option.MATERIAL_GLOSS=Material gloss
 
-option.SIMPLE_AUTOEXP=Use simpler auto-exposure
+option.SIMPLE_AUTOEXP=Simpler exposure
 
 #Screens
 screen.ADVANCED_SCREEN=Advanced options

@@ -113,7 +113,7 @@ void main() {
 
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
 
-  vec3 view_vector;
+  vec3 view_vector = vec3(1.0);
 
   #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
     #if AA_TYPE > 0
