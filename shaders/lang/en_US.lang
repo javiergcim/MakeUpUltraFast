@@ -21,6 +21,8 @@ value.ACERCADE.0=v.8.5a Iris
 
 #Options
 #############################
+option.SHADOW_CASTING=Shadows
+
 option.SHADOW_DISTANCE_SLIDER=Shadow distance
 value.SHADOW_DISTANCE_SLIDER.0=Short
 value.SHADOW_DISTANCE_SLIDER.1=Medium

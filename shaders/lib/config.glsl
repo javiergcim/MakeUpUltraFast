@@ -140,19 +140,17 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // Sun rotation angle
 const float sunPathRotation = -25.0; // [-40.0 -35.0 -30.0 -25.0 -20.0 -15.0 -10.0 -5.0 0.0 5.0 10.0 15.0 20.0 25.0 30.0 35.0 40.0]
 
-// Shadow parameters
-const float shadowIntervalSize = 3.0;
-const bool generateShadowMipmap = false;
-const bool generateShadowColorMipmap = false;
-
 #define SHADOW_DISTANCE_SLIDER 1 // [0 1 2]
-#define SHADOW_QTY_SLIDER 2 // [0 1 2 3]
+#define SHADOW_QTY_SLIDER 2 // [1 2 3]
 
-#if SHADOW_QTY_SLIDER > 0
-  #define SHADOW_CASTING
-#endif
+#define SHADOW_CASTING // Enable or disable shadows. Configure quality in advanced options.
 
 #ifdef SHADOW_CASTING
+  // Shadow parameters
+  const float shadowIntervalSize = 3.0;
+  const bool generateShadowMipmap = false;
+  const bool generateShadowColorMipmap = false;
+  
   #ifndef NO_SHADOWS
     #if SHADOW_DISTANCE_SLIDER == 0
       #if SHADOW_QTY_SLIDER == 1
@@ -234,6 +232,8 @@ const bool generateShadowColorMipmap = false;
 #else
   #define SHADOW_DIST 0.7
   #define SHADOW_RES 0
+  const int shadowMapResolution = 300;
+  const float shadowDistance = 75.0;
 #endif
 
 // Redefined constants
