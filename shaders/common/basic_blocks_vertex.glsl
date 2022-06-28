@@ -42,7 +42,8 @@ void main() {
     rainStrength
   );
 
-  vec2 illumination = (max(lmcoord, vec2(0.065)) - vec2(0.065)) * 1.06951871657754;
+  vec2 illumination = clamp(abs(lmcoord), 0.0, 1.0);  // Fix lines without correct illumination data
+  illumination.y = (max(illumination.y, 0.065) - 0.065) * 1.06951871657754;
 
   #if defined UNKNOWN_DIM
     vec3 candle_color =
