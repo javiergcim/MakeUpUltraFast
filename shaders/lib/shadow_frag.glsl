@@ -27,7 +27,7 @@ float get_shadow(vec3 the_shadow_pos, float dither_shift) {
     #endif
 
     float current_radius = dither;
-    dither *= 3.141592653589793;
+    dither *= 6.283185307179586;
 
     shadow_sample = 0.0;
 
@@ -97,7 +97,7 @@ float get_shadow(vec3 the_shadow_pos, float dither_shift) {
       #endif
 
       float current_radius = dither;
-      dither *= 97.38937226128358;
+      dither *= 6.283185307179586;
 
       vec2 offset = (vec2(cos(dither), sin(dither)) * current_radius * SHADOW_BLUR) / shadowMapResolution;
 

@@ -190,9 +190,9 @@ void main() {
 
   #if (defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER) || SSR_TYPE > 0
     #if AA_TYPE > 0
-      float dither = shifted_dither17(gl_FragCoord.xy, dither_shift);
+      float dither = shifted_r_dither(gl_FragCoord.xy, dither_shift);
     #else
-      float dither = dither13(gl_FragCoord.xy);
+      float dither = r_dither(gl_FragCoord.xy);
     #endif
   #else
     float dither = 1.0;
