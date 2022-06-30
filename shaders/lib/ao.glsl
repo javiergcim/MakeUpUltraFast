@@ -44,5 +44,5 @@ float dbao(float dither) {
   }
   ao /= AOSTEPS;
 
-  return (ao * AO_STRENGHT) + (1.0 - AO_STRENGHT);
+ return sqrt((ao * AO_STRENGHT) + (1.0 - AO_STRENGHT));
 }
