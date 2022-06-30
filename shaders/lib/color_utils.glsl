@@ -14,8 +14,9 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #endif
 
 #if COLOR_SCHEME == 0  // Ethereal
-  #define OMNI_TINT 0.45
-  #define AMBIENT_MIDDLE_COLOR vec3(0.887528, 0.591192, 0.401392)
+  // #define OMNI_TINT 0.45
+  #define OMNI_TINT 0.3
+  #define AMBIENT_MIDDLE_COLOR vec3(0.887528, 0.443394, 0.301044)
   #define AMBIENT_DAY_COLOR vec3(0.90, 0.84, 0.79)
   #define AMBIENT_NIGHT_COLOR vec3(0.0317353, 0.0467353, 0.0637353) * NIGHT_BRIGHT
 
@@ -30,7 +31,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
   #define WATER_COLOR vec3(0.01647059, 0.13882353, 0.16470588)
 #elif COLOR_SCHEME == 1  // New shoka
   #define OMNI_TINT 0.4
-  #define AMBIENT_MIDDLE_COLOR vec3(0.97152, 0.50784, 0.31878)
+  #define AMBIENT_MIDDLE_COLOR vec3(0.8832 , 0.50784, 0.31878)
   #define AMBIENT_DAY_COLOR vec3(0.94252382, 0.85683984, 0.838695)
   #define AMBIENT_NIGHT_COLOR vec3(0.04786874, 0.05175001, 0.06112969) * NIGHT_BRIGHT
 
