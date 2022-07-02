@@ -73,7 +73,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
     infinite = 1.0;
     return march_pos;
   } else if (to_far) {
-    if (no_hidden_steps < 2) {
+    if (no_hidden_steps < 3) {
       return march_pos;
     } else if (screen_depth > 0.9999) {
       infinite = 1.0;
@@ -98,10 +98,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
       return clamp(
           smoothstep(0.995, 1.0, astro_vector) *
           clamp(lmcoord.y, 0.0, 1.0) *
-          (1.0 - rainStrength),
-          0.0,
-          1.0
-        ) * 5.0;
+          (1.0 - rainStrength) * 5.2 - 0.15, 0.0, 1000.0);
     }
 
   #endif
