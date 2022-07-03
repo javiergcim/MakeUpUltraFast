@@ -14,3 +14,20 @@ float dither_shift(int frame_mod) {
 
     return shifts[frame_mod];
 }
+
+vec2 dither_offset(int frame_mod) {
+  vec2[10] d_offset = vec2[10] (
+    vec2(0.0, 0.0),
+    vec2(13.0, 65.0),
+    vec2(147.0, 70.0),
+    vec2(165.0, 60.0),
+    vec2(178.0, 185.0),
+    vec2(55.0, 32.0),
+    vec2(134.0, 219.0),
+    vec2(99.0, 152.0),
+    vec2(254.0, 27.0),
+    vec2(158.0, 61.0),
+  );
+
+  return d_offset[frame_mod];
+}

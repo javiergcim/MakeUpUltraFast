@@ -192,7 +192,7 @@ void main() {
     #if AA_TYPE > 0
       float dither = shifted_r_dither(gl_FragCoord.xy, dither_shift);
     #else
-      float dither = r_dither(gl_FragCoord.xy);
+      float dither = dither13(gl_FragCoord.xy);
     #endif
   #else
     float dither = 1.0;

@@ -103,7 +103,7 @@ float shifted_r_dither(vec2 frag, float dither_shift) {
 float shifted_eclectic_r_dither(vec2 frag, float dither_shift) {
   vec2 v = 0.0002314814814814815 * frag + vec2(0.25, 0.0);
   float state = fract(dot(v * v, vec2(3571.0)));
-  float p4 = fract(state * state * 7142.0) * 0.175;
+  float p4 = fract(state * state * 7142.0) * 0.15;
 
   return fract(dither_shift + p4 + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
 }
