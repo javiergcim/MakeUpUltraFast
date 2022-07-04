@@ -17,7 +17,7 @@ float r_dither(vec2 frag) {
 float eclectic_r_dither(vec2 frag) {
   vec2 v = 0.0002314814814814815 * frag + vec2(0.25, 0.0);
   float state = fract(dot(v * v, vec2(3571.0)));
-  float p4 = fract(state * state * 7142.0) * 0.175;
+  float p4 = fract(state * state * 7142.0) * 0.15;
 
   return fract(p4 + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
 }
@@ -31,7 +31,7 @@ float eclectic_dither_plastic(vec2 frag)
 {
   vec2 v = 0.0002314814814814815 * frag + vec2(0.25, 0.0);
   float state = fract(dot(v * v, vec2(3571.0)));
-  float p4 = fract(state * state * 7142.0) * 0.175;
+  float p4 = fract(state * state * 7142.0) * 0.15;
 
   return fract(p4 + (2.0 * abs(fract(dot(frag, vec2(0.75487766624669276, 0.569840290998))) - 0.5)));
 }
@@ -48,7 +48,7 @@ float dither17(vec2 pos) {
 float eclectic_dither17(vec2 frag) {
   vec2 v = 0.0002314814814814815 * frag + vec2(0.25, 0.0);
   float state = fract(dot(v * v, vec2(3571.0)));
-  float p4 = fract(state * state * 7142.0) * 0.14;
+  float p4 = fract(state * state * 7142.0) * 0.15;
 
   return fract(p4 + dot(frag, vec2(0.11764705882352941, 0.4117647058823529)));
 }
@@ -60,7 +60,7 @@ float dither_grad_noise(vec2 frag) {
 float eclectic_dither(vec2 frag) {
   vec2 v = 0.0002314814814814815 * frag + vec2(0.25, 0.0);
   float state = fract(dot(v * v, vec2(3571.0)));
-  float p4 = fract(state * state * 7142.0) * 0.14;
+  float p4 = fract(state * state * 7142.0) * 0.15;
 
   return fract(p4 + (52.9829189 * fract(dot(vec2(0.06711056, 0.00583715), frag))));
 }
@@ -84,7 +84,7 @@ float makeup_dither(vec2 frag) {
 float eclectic_makeup_dither(vec2 frag) {
   vec2 v = 0.0002314814814814815 * frag + vec2(0.25, 0.0);
   float state = fract(dot(v * v, vec2(3571.0)));
-  float p4 = fract(state * state * 7142.0) * 0.175;
+  float p4 = fract(state * state * 7142.0) * 0.15;
 
   return fract(p4 + dot(frag, vec2(0.8085512046226566, 0.5562305898749054)));
 }
@@ -125,7 +125,7 @@ float shifted_dither17(vec2 frag, float dither_shift) {
 float shifted_eclectic_dither17(vec2 frag, float dither_shift) {
   vec2 v = 0.0002314814814814815 * frag + vec2(0.25, 0.0);
   float state = fract(dot(v * v, vec2(3571.0)));
-  float p4 = fract(state * state * 7142.0) * 0.14;
+  float p4 = fract(state * state * 7142.0) * 0.15;
 
   return fract(dither_shift + p4 + dot(frag, vec2(0.11764705882352941, 0.4117647058823529)));
 }
@@ -137,7 +137,7 @@ float shifted_dither_grad_noise(vec2 frag, float dither_shift) {
 float shifted_eclectic_dither(vec2 frag, float dither_shift) {
   vec2 v = 0.0002314814814814815 * frag + vec2(0.25, 0.0);
   float state = fract(dot(v * v, vec2(3571.0)));
-  float p4 = fract(state * state * 7142.0) * 0.14;
+  float p4 = fract(state * state * 7142.0) * 0.15;
 
   return fract(dither_shift + p4 + (52.9829189 * fract(dot(vec2(0.06711056, 0.00583715), frag))));
 }
@@ -162,7 +162,7 @@ float shifted_makeup_dither(vec2 frag, float dither_shift) {
 float shifted_eclectic_makeup_dither(vec2 frag, float dither_shift) {
   vec2 v = 0.0002314814814814815 * frag + vec2(0.25, 0.0);
   float state = fract(dot(v * v, vec2(3571.0)));
-  float p4 = fract(state * state * 7142.0) * 0.175;
+  float p4 = fract(state * state * 7142.0) * 0.15;
 
   return fract(dither_shift + p4 + dot(frag, vec2(0.8085512046226566, 0.5562305898749054)));
 }
