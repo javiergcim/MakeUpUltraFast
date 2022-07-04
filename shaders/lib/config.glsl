@@ -148,8 +148,10 @@ const float sunPathRotation = -25.0; // [-40.0 -35.0 -30.0 -25.0 -20.0 -15.0 -10
 #ifdef SHADOW_CASTING
   // Shadow parameters
   const float shadowIntervalSize = 3.0;
-  const bool generateShadowMipmap = false;
-  const bool generateShadowColorMipmap = false;
+  const bool shadowtex0Mipmap = false;
+  const bool shadowtex1Mipmap = false;
+  const bool shadowColor0Mipmap = false;
+  const bool shadowColor1Mipmap = true;
   
   #ifndef NO_SHADOWS
     #if SHADOW_DISTANCE_SLIDER == 0
