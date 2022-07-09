@@ -1,6 +1,17 @@
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
 
+#include "/lib/post.glsl"
+
+// Pseudo-uniforms uniforms
+#if AA_TYPE == 3
+  uniform float viewWidth;
+  uniform float viewHeight;
+
+  #include "/iris_uniforms/pixel_size_x.glsl"
+  #include "/iris_uniforms/pixel_size_y.glsl"
+#endif
+
 // Do not remove comments. It works!
 /*
 
@@ -72,7 +83,7 @@ uniform sampler2D colortex0;
 
 uniform sampler2D gaux3;
 uniform sampler2D colortex1;
-uniform float viewWidth;
+// uniform float viewWidth;
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
@@ -90,10 +101,20 @@ varying float exposure;
 #endif
 
 void main() {
+  // Pseudo-uniforms section
+  #if AA_TYPE == 3
+    float pixel_size_x = pixel_size_x();
+    float pixel_size_y = pixel_size_y();
+  #endif
+
   #if CHROMA_ABER == 1
     vec3 block_color = color_aberration();
   #else
     vec3 block_color = texture2D(colortex0, texcoord).rgb;
+    #if AA_TYPE == 3
+      block_color = sharpen(colortex0, block_color, texcoord, pixel_size_x, pixel_size_y);
+    #endif
+    // block_color = edge_detect(colortex0, block_color, texcoord, pixel_size_x, pixel_size_y);
   #endif
 
   block_color *= vec3(exposure);

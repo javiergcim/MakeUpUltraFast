@@ -28,7 +28,8 @@ if (isEyeInWater == 1) {
     CANDLE_BASELIGHT * ((illumination.x * illumination.x) + pow(illumination.x * 1.205, 6.0)) * 2.75;
 #else
   candle_color =
-    CANDLE_BASELIGHT * ((illumination.x * illumination.x) + pow(illumination.x * 1.165, 6.0));
+    // CANDLE_BASELIGHT * ((illumination.x * illumination.x) + pow(illumination.x * 1.165, 6.0));
+    CANDLE_BASELIGHT * (pow(illumination.x, 1.5) + pow(illumination.x * 1.17, 6.0));
 #endif
 
 candle_color = clamp(candle_color, vec3(0.0), vec3(4.0));
