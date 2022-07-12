@@ -11,6 +11,10 @@ uniform float viewHeight;
 uniform sampler2D tex;
 uniform float far;
 
+#if MC_VERSION >= 11900
+  uniform float darknessFactor;
+#endif
+
 #if V_CLOUDS == 0 || defined UNKNOWN_DIM
   // uniform float pixel_size_x;
   // uniform float pixel_size_y;

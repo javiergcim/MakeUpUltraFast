@@ -46,6 +46,10 @@ uniform sampler2D gaux4;
   #endif
 #endif
 
+#if MC_VERSION >= 11900
+  uniform float darknessFactor;
+#endif
+
 #ifdef MATERIAL_GLOSS
   // Optifine menu bug workaround. Don't remove
 #endif

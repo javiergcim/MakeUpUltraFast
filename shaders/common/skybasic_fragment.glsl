@@ -29,6 +29,10 @@ uniform mat4 gbufferProjectionInverse;
 // uniform float pixel_size_y;
 uniform float rainStrength;
 
+#if MC_VERSION >= 11900
+  uniform float darknessFactor;
+#endif
+
 varying vec3 up_vec;
 varying vec4 star_data;
 

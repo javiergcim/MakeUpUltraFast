@@ -27,18 +27,21 @@ uniform sampler2D depthtex0;
 uniform int isEyeInWater;
 uniform ivec2 eyeBrightnessSmooth;
 
+#if MC_VERSION >= 11900
+  uniform float darknessFactor;
+  uniform float darknessLightFactor; 
+#endif
+
 #if VOL_LIGHT == 1 && !defined NETHER
   uniform sampler2D depthtex1;
   uniform vec3 sunPosition;
   uniform vec3 moonPosition;
-  // uniform float light_mix;
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
   uniform mat4 gbufferModelView;
 #endif
 
 #if VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER
-  // uniform float light_mix;
   uniform mat4 gbufferProjectionInverse;
   uniform mat4 gbufferModelViewInverse;
   uniform mat4 gbufferModelView;
@@ -54,7 +57,6 @@ uniform ivec2 eyeBrightnessSmooth;
 #endif
 
 varying vec2 texcoord;
-// varying float exposure_coef;
 varying vec3 direct_light_color;
 
 // #ifdef BLOOM
@@ -125,7 +127,6 @@ void main() {
 
     block_color.rgb = mix(
       block_color.rgb,
-      // WATER_COLOR * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667) * (exposure_coef * 0.9 + 0.1),
       WATER_COLOR * direct_light_color * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667),
       water_absorption);
 
@@ -137,10 +138,20 @@ void main() {
       );
   }
 
-  if (blindness > .01) {
-    block_color.rgb =
-    mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
-  }
+  #if MC_VERSION >= 11900
+    if (blindness > .01 || darknessFactor > .01) {
+      block_color.rgb =
+        mix(block_color.rgb, vec3(0.0), max(blindness, darknessLightFactor) * linear_d * far * 0.15);
+      if (linear_d > 0.999) {
+        block_color.rgb = vec3(0.0);
+      }
+    }
+  #else
+    if (blindness > .01) {
+      block_color.rgb =
+      mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
+    }
+  #endif
 
   #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
     #if AA_TYPE > 0
@@ -269,8 +280,14 @@ void main() {
 
   #ifdef BLOOM
     // Bloom source
-    float bloom_luma =
-      smoothstep(0.825, 1.0, luma(block_color.rgb * exposure)) * 0.4;
+    #ifdef SIMPLE_AUTOEXP
+      float bloom_luma =
+        smoothstep(0.825, 1.0, luma(block_color.rgb * exposure)) * 0.4;
+    #else
+      float bloom_luma =
+        smoothstep(0.85, 1.0, luma(block_color.rgb * exposure)) * 0.5;
+    #endif
+
 
     #if defined SIMPLE_AUTOEXP
       /* DRAWBUFFERS:12 */
