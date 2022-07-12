@@ -61,7 +61,7 @@ varying vec3 up_vec;
 attribute vec4 mc_Entity;
 attribute vec4 at_tangent;
 
-#if AA_TYPE > 0
+#if AA_TYPE > 1
   #include "/src/taa_offset.glsl"
 #endif
 
@@ -86,7 +86,7 @@ void main() {
   worldposition = position + vec4(cameraPosition.xyz, 0.0);
   gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
 
-  #if AA_TYPE == 1
+  #if AA_TYPE > 1
     gl_Position.xy += taa_offset * gl_Position.w;
   #endif
 

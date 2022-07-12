@@ -74,9 +74,18 @@ uniform sampler2D gaux3;
 uniform sampler2D colortex1;
 uniform float viewWidth;
 
+#if AA_TYPE == 3
+  uniform float pixel_size_x;
+  uniform float pixel_size_y;
+#endif
+
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 varying float exposure;
+
+#if AA_TYPE == 3
+  #include "/lib/post.glsl"
+#endif
 
 #include "/lib/basic_utils.glsl"
 #include "/lib/tone_maps.glsl"
@@ -94,6 +103,9 @@ void main() {
     vec3 block_color = color_aberration();
   #else
     vec3 block_color = texture2D(colortex0, texcoord).rgb;
+    #if AA_TYPE == 3
+      block_color = sharpen(colortex0, block_color, texcoord);
+    #endif
   #endif
 
   block_color *= vec3(exposure);
