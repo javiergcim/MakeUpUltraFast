@@ -149,7 +149,7 @@ void main() {
   #else
     if (blindness > .01) {
       block_color.rgb =
-      mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * .12);
+      mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * 0.15);
     }
   #endif
 

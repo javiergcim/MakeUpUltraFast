@@ -73,7 +73,7 @@ varying vec3 up_vec;
 attribute vec4 mc_Entity;
 attribute vec4 at_tangent;
 
-#if AA_TYPE > 0
+#if AA_TYPE > 1
   // #include "/src/taa_offset.glsl"
 #endif
 
