@@ -21,6 +21,8 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
   int no_hidden_steps = 0;
   bool hiddens = false;
 
+  float hit_z = march_pos.z;
+
   // Ray marching
   for (int i = 0; i < RAYMARCH_STEPS; i++) {
     if (search_flag) {
@@ -79,14 +81,18 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
     infinite = 1.0;
     return march_pos;
   } else if (to_far) {
-    if (no_hidden_steps < 2) {
+    if (no_hidden_steps < 3) {
       return last_hidden_pos;
     } else if (screen_depth > 0.9999) {
       infinite = 1.0;
       return march_pos;
     } else {
-      infinite = 1.0;
-      return vec3(1.0);
+      if (hit_z + 0.0005 < screen_depth) {
+        return march_pos;
+      } else {
+        infinite = 1.0;
+        return vec3(1.0);
+      }
     }
   } else {
      return march_pos;
