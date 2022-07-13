@@ -16,7 +16,6 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
   bool out_flag = false;
   bool to_far = false;
   vec3 last_march_pos;
-  vec3 last_hidden_pos;
   
   int no_hidden_steps = 0;
   bool hiddens = false;
@@ -59,7 +58,6 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
       hiddens = true;
       if (first_hidden) {
         first_hidden = false;
-        last_hidden_pos = last_march_pos;
       }
     } else if (depth_diff > 0.0) {
       hidden_flag = false;
@@ -81,18 +79,16 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
     infinite = 1.0;
     return march_pos;
   } else if (to_far) {
-    if (no_hidden_steps < 3) {
-      return last_hidden_pos;
+    if (hit_z + 0.0005 < screen_depth) {
+      return march_pos;
     } else if (screen_depth > 0.9999) {
       infinite = 1.0;
       return march_pos;
+    } else if (no_hidden_steps < 3) {
+      return march_pos;
     } else {
-      if (hit_z + 0.0005 < screen_depth) {
-        return march_pos;
-      } else {
-        infinite = 1.0;
-        return vec3(1.0);
-      }
+      infinite = 1.0;
+      return vec3(1.0);
     }
   } else {
      return march_pos;
