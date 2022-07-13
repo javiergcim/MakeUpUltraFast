@@ -14,7 +14,7 @@ uniform float night_mixer;
 #endif
 
 #if COLOR_SCHEME == 0  // Ethereal
-  #define OMNI_TINT 0.3
+  #define OMNI_TINT 0.4
   #define AMBIENT_MIDDLE_COLOR vec3(0.887528, 0.443394, 0.301044)
   #define AMBIENT_DAY_COLOR vec3(0.90, 0.84, 0.79)
   #define AMBIENT_NIGHT_COLOR vec3(0.0317353, 0.0467353, 0.0637353) * NIGHT_BRIGHT
