@@ -36,11 +36,11 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #elif REFLECTION_SLIDER == 1
   #define REFLECTION 1
   #define SSR_TYPE 0
-  #define REFLEX_INDEX 0.75
+  #define REFLEX_INDEX 0.7
 #elif REFLECTION_SLIDER == 2
   #define REFLECTION 1
   #define SSR_TYPE 1
-  #define REFLEX_INDEX 0.75
+  #define REFLEX_INDEX 0.7
 #endif
 
 #define ACERCADE 0 // [0]
@@ -62,7 +62,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define SHADOW_BLUR 2.5 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0 2.1 2.2 2.3 2.4 2.5]  Shadow blur intensity
 // #define COLORED_SHADOW // Attempts to tint the shadow of translucent objects, as well as the associated volumetric light (if active).
 #define WATER_ABSORPTION 0.10 // [0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.20 0.21 0.22 0.230.24 0.25 0.26 0.27 0.28 0.29 0.30 0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38] Sets how much light the water absorbs. Low levels make the water more transparent. High levels make it more opaque.
-#define COLOR_SCHEME 0 // [0 1 2 3 4 5 6] Ethereal: Current default theme. New shoka: Reinterpretation of a classic. Shoka: The classic. Legacy: Very old default. Captain: A cold preset of stylish colors. Psycodelic: Remaster of old vivid scheme. Cocoa: Warm theme
+#define COLOR_SCHEME 1 // [0 1 2 3 4 5 6] Ethereal: Current default theme. New shoka: Reinterpretation of a classic. Shoka: The classic. Legacy: Very old default. Captain: A cold preset of stylish colors. Psycodelic: Remaster of old vivid scheme. Cocoa: Warm theme
 #define WATER_TEXTURE 0 // [0 1] Enable or disable resource pack water texture. It does not work properly in 1.12. In that case the default value is recommended.
 #define AVOID_DARK_LEVEL 0.09 // [0.00 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.18 0.19 0.20]  Minimal omni light intensity in caves (percentaje).
 #define NIGHT_BRIGHT 1.2 // [0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0 2.1 2.2 2.3 2.4 2.5 2.6 2.7 2.8 2.9 3.0] Adjusts the brightness of the night light in exteriors.
@@ -77,7 +77,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define VOL_LIGHT 1 // [0 1 2] Depth based: Turn on depth based godrays, they are a bit slow, but can work better than volumetric light for very short shadow distances. Volumetric: It activates the volumetric light, more accurate and faster, but it needs the shadows enabled to work.
 // #define VANILLA_WATER // Establishes the appearance of water as vanilla.
 #define WATER_COLOR_SOURCE 0 // [0 1] Select the water color source. It does not work properly in 1.12. In that case the default value is recommended.
-#define WATER_TURBULENCE 2.1 // [8.0 3.7 2.1 1.3] Set the water waves strenght.
+#define WATER_TURBULENCE 2.25 // [8.0 3.7 2.25 1.3] Set the water waves strenght.
 #define FOG_ADJUST 2.0 // [10.0 8.0 4.0 2.0 1.0]  Sets the fog strenght
 // #define DEBUG_MODE // Set debug mode.
 #define BLOCKLIGHT_TEMP 1 // [0 1 2 3 4] Set blocklight temperature
