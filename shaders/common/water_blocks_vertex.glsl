@@ -20,6 +20,11 @@ uniform mat4 gbufferModelViewInverse;
 uniform vec3 cameraPosition;
 uniform float rainStrength;
 
+#ifdef DYN_HAND_LIGHT
+  uniform int heldItemId;
+  uniform int heldItemId2;
+#endif
+
 #ifdef UNKNOWN_DIM
   uniform sampler2D lightmap;
 #endif
@@ -77,9 +82,7 @@ void main() {
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
   
   #include "/src/basiccoords_vertex.glsl"
-  #include "/src/light_vertex.glsl"
 
-  water_normal = normal;
   vec4 position2 = gl_ModelViewMatrix * gl_Vertex;
   fragposition = position2.xyz;
   vec4 position = gbufferModelViewInverse * position2;
@@ -89,6 +92,9 @@ void main() {
   #if AA_TYPE > 1
     gl_Position.xy += taa_offset * gl_Position.w;
   #endif
+
+  #include "/src/light_vertex.glsl"
+  water_normal = normal;
 
   tangent = normalize(gl_NormalMatrix * at_tangent.xyz);
   binormal = normalize(gl_NormalMatrix * -cross(gl_Normal, at_tangent.xyz));

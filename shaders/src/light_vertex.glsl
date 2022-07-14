@@ -30,6 +30,22 @@ if (isEyeInWater == 1) {
     CANDLE_BASELIGHT * (pow(illumination.x, 1.5) + pow(illumination.x * 1.17, 6.0));
 #endif
 
+#ifdef DYN_HAND_LIGHT
+  float dist_factor;
+  float hand_dist;
+  vec3 hand_light;
+
+  if (heldItemId == 11001 || heldItemId2 == 11001) {  // Normal light
+    hand_dist = (1.0 - clamp((length(gl_Position.xyz) * 0.06666666666666667), 0.0, 1.0));
+    hand_light = CANDLE_BASELIGHT * (pow(hand_dist, 1.5) + pow(hand_dist * 1.17, 6.0));
+    candle_color = max(candle_color, hand_light);
+  } else if (heldItemId == 11002 || heldItemId2 == 11002) {
+    hand_dist = (1.0 - clamp((length(gl_Position.xyz) * 0.06666666666666667) + 0.5, 0.0, 1.0));
+    hand_light = CANDLE_BASELIGHT * (pow(hand_dist, 1.5) + pow(hand_dist * 1.17, 6.0));
+    candle_color = max(candle_color, hand_light);
+  }
+#endif
+
 candle_color = clamp(candle_color, vec3(0.0), vec3(4.0));
 
 // Atenuación por dirección de luz directa ===================================

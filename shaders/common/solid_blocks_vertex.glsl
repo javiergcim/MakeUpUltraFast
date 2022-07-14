@@ -16,6 +16,11 @@ uniform float far;
 uniform float rainStrength;
 uniform ivec2 eyeBrightnessSmooth;
 
+#ifdef DYN_HAND_LIGHT
+  uniform int heldItemId;
+  uniform int heldItemId2;
+#endif
+
 #ifdef UNKNOWN_DIM
   uniform sampler2D lightmap;
 #endif

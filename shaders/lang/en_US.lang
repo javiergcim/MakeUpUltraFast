@@ -190,6 +190,8 @@ option.MATERIAL_GLOSS=Material gloss
 
 option.SIMPLE_AUTOEXP=Simpler exposure
 
+option.DYN_HAND_LIGHT=Fake dynamic light
+
 #Screens
 screen.ADVANCED_SCREEN=Advanced options
 screen.ADVANCED_SCREEN.comment=Set advanced options
