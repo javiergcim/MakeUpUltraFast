@@ -83,6 +83,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define BLOCKLIGHT_TEMP 1 // [0 1 2 3 4] Set blocklight temperature
 #define MATERIAL_GLOSS // A very subtle effect that adds some ability to reflect direct light on some blocks. It is most noticeable on metals and luminous objects.
 // #define SIMPLE_AUTOEXP // Toggle between advanced and simple auto-exposure. The advanced version may work strangely on some GPUs. If the brightness of the scene changes very abruptly, use the simplest.
+#define DYN_HAND_LIGHT // Toggle the fake dynamic light
 
 #ifdef SIMPLE_AUTOEXP
   // Menu bug workaround. Don't remove
