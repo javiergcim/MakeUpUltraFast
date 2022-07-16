@@ -124,11 +124,19 @@ float omni_strenght = (direct_light_strenght * .125) + 1.0;
 
   vec3 sky_rain_color = HI_SKY_RAIN_COLOR * luma(hi_sky_color);
 
-  direct_light_color = mix(
-    direct_light_color,
-    HI_SKY_RAIN_COLOR * luma(direct_light_color),
-    rainStrength
-  );
+  #ifdef SIMPLE_AUTOEXP
+    direct_light_color = mix(
+      direct_light_color,
+      HI_SKY_RAIN_COLOR * luma(direct_light_color),
+      rainStrength
+    );
+  #else
+    direct_light_color = mix(
+      direct_light_color,
+      HI_SKY_RAIN_COLOR * luma(direct_light_color) * 0.4,
+      rainStrength
+    );
+  #endif
 
   hi_sky_color = mix(
     hi_sky_color,
