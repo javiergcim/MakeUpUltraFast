@@ -82,9 +82,12 @@
 #endif
 
 #ifndef SHADER_BASIC
+    vec3 viewPos = gl_Position.xyz / gl_Position.w;
+    vec4 homopos = gbufferProjectionInverse * vec4(viewPos, 1.0);
+    viewPos = homopos.xyz / homopos.w;
   #if defined GBUFFER_CLOUDS
-    gl_FogFragCoord = length(gl_Position.xz);
+    gl_FogFragCoord = length(viewPos.xz);
   #else
-    gl_FogFragCoord = length(gl_Position.xyz);
+    gl_FogFragCoord = length(viewPos.xyz);
   #endif
 #endif

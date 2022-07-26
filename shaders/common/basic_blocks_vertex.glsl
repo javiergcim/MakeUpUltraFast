@@ -9,6 +9,7 @@
 #endif
 
 uniform float rainStrength;
+uniform mat4 gbufferProjectionInverse;
 
 varying vec4 tint_color;
 varying vec2 texcoord;

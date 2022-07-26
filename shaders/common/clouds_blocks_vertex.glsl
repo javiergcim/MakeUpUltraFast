@@ -2,6 +2,7 @@
 
 /* Config, uniforms, ins, outs */
 uniform float rainStrength;
+uniform mat4 gbufferProjectionInverse;
 
 varying vec2 texcoord;
 varying vec4 tint_color;

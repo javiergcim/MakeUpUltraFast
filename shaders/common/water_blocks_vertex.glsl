@@ -19,6 +19,7 @@ uniform mat4 gbufferModelView;
 uniform mat4 gbufferModelViewInverse;
 uniform vec3 cameraPosition;
 uniform float rainStrength;
+uniform mat4 gbufferProjectionInverse;
 
 #ifdef DYN_HAND_LIGHT
   uniform int heldItemId;
@@ -98,7 +99,10 @@ void main() {
 
   tangent = normalize(gl_NormalMatrix * at_tangent.xyz);
   binormal = normalize(gl_NormalMatrix * -cross(gl_Normal, at_tangent.xyz));
-  gl_FogFragCoord = length(gl_Position.xyz);
+  vec3 viewPos = gl_Position.xyz / gl_Position.w;
+  vec4 homopos = gbufferProjectionInverse * vec4(viewPos, 1.0);
+  viewPos = homopos.xyz / homopos.w;
+  gl_FogFragCoord = length(viewPos.xyz);
 
   // Special entities
   block_type = 0.0;  // 3 - Water, 2 - Glass, ? - Other
