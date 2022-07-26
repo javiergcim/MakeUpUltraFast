@@ -143,8 +143,8 @@ void main() {
   }
 
   float normal_dot_eye = dot(surface_normal, normalize(fragposition));
-  // float fresnel = square_pow(1.0 + normal_dot_eye);  // IRIS invert value inside water
-  float fresnel = square_pow(1.0 + -abs(normal_dot_eye));  // IRIS correct
+  float fresnel = square_pow(1.0 + normal_dot_eye);  // IRIS invert value inside water
+  // float fresnel = square_pow(1.0 + -abs(normal_dot_eye));  // IRIS correct
 
   // Reflected sky color calculation
   vec3 hi_sky_color = day_blend(
