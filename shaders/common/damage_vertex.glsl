@@ -14,6 +14,7 @@ uniform float viewHeight;
 // uniform vec3 chunkOffset;
 // uniform mat4 modelViewMatrix;
 // uniform mat4 projectionMatrix;
+uniform mat4 gbufferProjectionInverse;
 
 varying vec2 texcoord;
 varying float var_fog_frag_coord;
@@ -34,5 +35,9 @@ void main() {
 
   // #include "/src/position_vertex.glsl"
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
-  gl_FogFragCoord = length(gl_Position.xyz);
+
+  vec3 viewPos = gl_Position.xyz / gl_Position.w;
+  vec4 homopos = gbufferProjectionInverse * vec4(viewPos, 1.0);
+  viewPos = homopos.xyz / homopos.w;
+  gl_FogFragCoord = length(viewPos.xyz);
 }
