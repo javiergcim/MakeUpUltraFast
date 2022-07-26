@@ -11,6 +11,8 @@ uniform float viewHeight;
 #include "/iris_uniforms/taa_offset.glsl"
 
 /* Config, uniforms, ins, outs */
+uniform mat4 gbufferProjectionInverse;
+
 varying vec2 texcoord;
 
 #if AA_TYPE > 0

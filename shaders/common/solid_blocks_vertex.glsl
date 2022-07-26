@@ -27,6 +27,7 @@ uniform int isEyeInWater;
 uniform float far;
 uniform float rainStrength;
 uniform ivec2 eyeBrightnessSmooth;
+uniform mat4 gbufferProjectionInverse;
 
 #ifdef DYN_HAND_LIGHT
   uniform int heldItemId;
