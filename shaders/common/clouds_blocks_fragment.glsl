@@ -10,9 +10,11 @@ uniform float viewHeight;
 /* Config, uniforms, ins, outs */
 uniform sampler2D tex;
 uniform float far;
+uniform float blindness;
 
 #if MC_VERSION >= 11900
   uniform float darknessFactor;
+  uniform float darknessLightFactor;
 #endif
 
 #if V_CLOUDS == 0 || defined UNKNOWN_DIM

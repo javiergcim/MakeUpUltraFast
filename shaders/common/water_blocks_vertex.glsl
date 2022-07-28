@@ -117,16 +117,16 @@ void main() {
     gl_Position.xy += taa_offset * gl_Position.w;
   #endif
 
+  vec3 viewPos = gl_Position.xyz / gl_Position.w;
+  vec4 homopos = gbufferProjectionInverse * vec4(viewPos, 1.0);
+  viewPos = homopos.xyz / homopos.w;
+  gl_FogFragCoord = length(viewPos.xyz);
+
   #include "/src/light_vertex.glsl"
   water_normal = normal;
 
   tangent = normalize(gl_NormalMatrix * at_tangent.xyz);
   binormal = normalize(gl_NormalMatrix * -cross(gl_Normal, at_tangent.xyz));
-
-  vec3 viewPos = gl_Position.xyz / gl_Position.w;
-  vec4 homopos = gbufferProjectionInverse * vec4(viewPos, 1.0);
-  viewPos = homopos.xyz / homopos.w;
-  gl_FogFragCoord = length(viewPos.xyz);
 
   // Special entities
   block_type = 0.0;  // 3 - Water, 2 - Glass, ? - Other

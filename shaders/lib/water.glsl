@@ -16,7 +16,6 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
   bool out_flag = false;
   bool to_far = false;
   vec3 last_march_pos;
-  // vec3 last_hidden_pos;
   
   int no_hidden_steps = 0;
   bool hiddens = false;

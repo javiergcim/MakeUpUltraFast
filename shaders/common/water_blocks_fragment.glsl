@@ -65,8 +65,11 @@ uniform sampler2D gaux4;
   uniform mat4 gbufferModelViewInverse;
 #endif
 
+uniform float blindness;
+
 #if MC_VERSION >= 11900
   uniform float darknessFactor;
+  uniform float darknessLightFactor;
 #endif
 
 varying vec2 texcoord;
