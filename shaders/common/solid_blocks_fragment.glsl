@@ -142,7 +142,7 @@ void main() {
   vec3 final_candle_color = candle_color;
   #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
     if (emmisive_type > 0.5) {
-      final_candle_color *= block_luma * 1.5;
+      final_candle_color *= block_luma * 2.0;
     }
   #endif
   
