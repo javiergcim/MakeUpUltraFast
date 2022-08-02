@@ -33,8 +33,11 @@ uniform sampler2D gaux4;
   #endif
 #endif
 
+uniform float blindness;
+
 #if MC_VERSION >= 11900
   uniform float darknessFactor;
+  uniform float darknessLightFactor;
 #endif
 
 #ifdef MATERIAL_GLOSS

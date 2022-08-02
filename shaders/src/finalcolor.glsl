@@ -47,3 +47,15 @@
     }
   #endif
 #endif
+
+#if MC_VERSION >= 11900
+  if (blindness > .01 || darknessFactor > .01) {
+    block_color.rgb =
+      mix(block_color.rgb, vec3(0.0), max(blindness, darknessLightFactor) * gl_FogFragCoord * 0.24);
+  }
+#else
+  if (blindness > .01) {
+    block_color.rgb =
+    mix(block_color.rgb, vec3(0.0), blindness * gl_FogFragCoord * 0.24);
+  }
+#endif

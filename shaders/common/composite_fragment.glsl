@@ -20,7 +20,6 @@ uniform ivec2 eyeBrightnessSmooth;
 
 #if MC_VERSION >= 11900
   uniform float darknessFactor;
-  uniform float darknessLightFactor; 
 #endif
 
 #if VOL_LIGHT == 1 && !defined NETHER
@@ -121,17 +120,12 @@ void main() {
   }
 
   #if MC_VERSION >= 11900
-    if (blindness > .01 || darknessFactor > .01) {
-      block_color.rgb =
-        mix(block_color.rgb, vec3(0.0), max(blindness, darknessLightFactor) * linear_d * far * 0.15);
-      if (linear_d > 0.999) {
-        block_color.rgb = vec3(0.0);
-      }
+    if ((blindness > .01 || darknessFactor > .01) && linear_d > 0.999) {
+      block_color.rgb = vec3(0.0);
     }
   #else
-    if (blindness > .01) {
-      block_color.rgb =
-      mix(block_color.rgb, vec3(0.0), blindness * linear_d * far * 0.15);
+    if (blindness > .01 && linear_d > 0.999) {
+      block_color.rgb = vec3(0.0);
     }
   #endif
 
