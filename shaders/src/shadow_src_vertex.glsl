@@ -4,20 +4,14 @@
     #ifdef THE_END
       vec3 custom_light_pos = normalize(gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz;
       NdotL = clamp(
-        max(
-          dot(normal, custom_light_pos),
-          dot(-normal, custom_light_pos)
-        ),
+        abs(dot(normal, custom_light_pos)),
         0.0,
         1.0
         );
     #else
       vec3 normal_light_pos = normalize(shadowLightPosition);
       NdotL = clamp(
-        max(
-          dot(normal, normal_light_pos),
-          dot(-normal, normal_light_pos)
-        ),
+        abs(dot(normal, normal_light_pos)),
         0.0,
         1.0
         );

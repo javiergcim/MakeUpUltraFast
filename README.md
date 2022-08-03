@@ -1,7 +1,7 @@
 # MakeUp - Ultra Fast
 High performance Minecraft shader (Java).
 
-## Version: 8.6b (Optifine): Darkness
+## Version: 8.6c (Optifine): Darkness
 
 ### This branch (main/develop) only works in Optifine. For the version compatible with Iris, see the legacy branch
 
