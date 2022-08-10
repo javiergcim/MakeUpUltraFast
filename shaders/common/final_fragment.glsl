@@ -49,6 +49,8 @@ const int gaux1Format = R11F_G11F_B10F;
 const int gaux2Format = RG8;
 const int gaux3Format = R16F;
 const int gaux4Format = R11F_G11F_B10F;
+
+const int shadowcolor0Format = RGBA8;
 */
 
 // Buffers clear
