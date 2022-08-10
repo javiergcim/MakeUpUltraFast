@@ -63,10 +63,9 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past, vec2 velocity, float pixel
     edge_color -= neighbourhood[3];
     edge_color -= neighbourhood[4];
 
-    // float edge = (length(edge_color) * 0.5773502691896258) * 0.14;  // 1/sqrt(3) * 0.14
-    float edge = length(edge_color) * 0.08082903768654763;  // 1/sqrt(3) * 0.14
+    float edge = length(edge_color) * 0.11547005383792518;  // 1/sqrt(3) * 0.2
 
-    return mix(current_color, past_sample, clamp(0.8 + edge, 0.0, 1.0));
+    return mix(current_color, past_sample, clamp(0.75 + edge, 0.0, 1.0));
   }
 }
 
@@ -115,8 +114,8 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past, vec2 velocity, float
     edge_color -= neighbourhood[4].rgb;
 
     // float edge = (length(edge_color) * 0.5773502691896258) * 0.14;  // 1/sqrt(3) * 0.14
-    float edge = length(edge_color) * 0.08082903768654763;  // 1/sqrt(3) * 0.14
+    float edge = length(edge_color) * 0.11547005383792518;  // 1/sqrt(3) * 0.2
 
-    return mix(current_color, past_sample, clamp(0.8 + edge, 0.0, 1.0));
+    return mix(current_color, past_sample, clamp(0.75 + edge, 0.0, 1.0));
   }
 }
