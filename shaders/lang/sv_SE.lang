@@ -69,7 +69,7 @@ option.AA_TYPE=Tidsbestämd sampling
 value.AA_TYPE.0=AV
 value.AA_TYPE.1=Denoise
 value.AA_TYPE.2=TAA
-value.AA_TYPE.3=Skarp TAA
+value.AA_TYPE.3=Sharp TAA
 
 option.MOTION_BLUR=Rörelseoskärpa
 option.MOTION_BLUR_STRENGTH=Styrka för rörelseoskärpa
