@@ -166,3 +166,11 @@ float shifted_eclectic_makeup_dither(vec2 frag, float dither_shift) {
 
   return fract(dither_shift + p4 + dot(frag, vec2(0.8085512046226566, 0.5562305898749054)));
 }
+
+float bayer2(vec2 a){
+	a = floor(a);
+	return fract(dot(a, vec2(.5, a.y * .75)));
+}
+
+#define bayer4(a) (bayer2(.5 * (a)) * .25 + bayer2(a))
+#define bayer8(a) (bayer4(.5 * (a)) * .25 + bayer2(a))

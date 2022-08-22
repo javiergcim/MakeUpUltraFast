@@ -93,6 +93,7 @@ varying float exposure;
 
 #include "/lib/basic_utils.glsl"
 #include "/lib/tone_maps.glsl"
+#include "/lib/luma.glsl"
 
 #ifdef COLOR_BLINDNESS
   #include "/lib/color_blindness.glsl"
@@ -131,7 +132,7 @@ void main() {
 
   // Saturation
   // float actual_luma = luma(block_color);
-  // block_color = mix(vec3(actual_luma), block_color, 1.5);
+  // block_color = mix(vec3(actual_luma), block_color, 1.2);
 
   // Color-blindness correction
   #ifdef COLOR_BLINDNESS

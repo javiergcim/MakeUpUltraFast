@@ -105,10 +105,12 @@ void main() {
     );
     vec3 nfragpos = normalize(fragpos.xyz);
     float n_u = clamp(dot(nfragpos, up_vec) + dither, 0.0, 1.0);
+
     vec3 background_color = mix(
       low_sky_color,
       hi_sky_color,
       sqrt(n_u)
+      // pow(n_u, 0.5)
     );
 
     if (star_data.a < 0.9) {
