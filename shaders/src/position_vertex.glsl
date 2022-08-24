@@ -46,17 +46,14 @@
       is_foliage = .4;
     }
 
-    // vec4 full_position = gl_ModelViewMatrix * gl_Vertex;
     vec4 sub_position = gl_ModelViewMatrix * gl_Vertex;
     vec4 position =
       gbufferModelViewInverse * sub_position;
 
     gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
-
   #endif
 
 #else
-  // vec4 full_position = gl_ModelViewMatrix * gl_Vertex;
   vec4 sub_position = gl_ModelViewMatrix * gl_Vertex;
   #ifndef NO_SHADOWS
     #ifdef SHADOW_CASTING
@@ -66,7 +63,6 @@
   #endif
 
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
-
 #endif
 
 #ifdef EMMISIVE_V
@@ -91,3 +87,5 @@
     gl_FogFragCoord = length(viewPos);
   #endif
 #endif
+
+

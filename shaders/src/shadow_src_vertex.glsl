@@ -59,8 +59,12 @@
   #endif
 #endif
 
-shadow_pos = get_shadow_pos(position.xyz, NdotL);
+vec3 shadow_world_normal = normalize(mat3(gbufferModelViewInverse) * (normal * 1024.0) + gbufferModelViewInverse[3].xyz);
+vec3 bias = shadow_world_normal * min(SHADOW_FIX_FACTOR + length(position.xyz) * 0.005, 0.5) * (2.0 - max(NdotL, 0.0));
+vec3 shadow_world = position.xyz + bias;
 
-vec2 shadow_diffuse_aux = (shadow_pos.xy - 0.5) * 2.05;
+shadow_pos = get_shadow_pos(shadow_world);
+
+vec2 shadow_diffuse_aux = (shadow_pos.xy - 0.5) * 2.0;
 shadow_diffuse = sqrt(shadow_diffuse_aux.x * shadow_diffuse_aux.x + shadow_diffuse_aux.y * shadow_diffuse_aux.y);
 shadow_diffuse = clamp(pow(shadow_diffuse, 10.0), 0.0, 1.0);

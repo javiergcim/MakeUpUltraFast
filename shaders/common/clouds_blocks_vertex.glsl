@@ -14,6 +14,10 @@ uniform float viewHeight;
 uniform float rainStrength;
 uniform mat4 gbufferProjectionInverse;
 
+#if defined SHADOW_CASTING && !defined NETHER
+  uniform mat4 gbufferModelViewInverse;
+#endif
+
 varying vec2 texcoord;
 varying vec4 tint_color;
 varying float frog_adjust;
