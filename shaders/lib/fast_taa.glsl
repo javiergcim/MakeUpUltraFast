@@ -41,10 +41,6 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past, float pixel_size_x, float 
 
     vec3 past_sample = center + (color_vector * factor);
 
-    // past_sample = clamp(past_sample, nmin, nmax);
-
-    // vec3 past_sample = clamp(previous, nmin, nmax);
-
     // Edge detection
     vec3 edge_color = -neighbourhood[0];
     edge_color -= neighbourhood[1];
@@ -93,8 +89,6 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past, float pixel_size_x, 
     }
 
     vec4 past_sample = vec4(center + (color_vector * factor), previous.a);
-    
-    past_sample = clamp(previous, nmin, nmax);
 
     // Edge detection
     vec3 edge_color = -neighbourhood[0].rgb;

@@ -77,16 +77,15 @@ uniform sampler2D colortex0;
   uniform sampler2D colortex3;
 #endif
 
-uniform sampler2D gaux3;
+// uniform sampler2D gaux3;
 uniform sampler2D colortex1;
 // uniform float viewWidth;
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
-varying float exposure;
+// varying float exposure;
 
 #include "/lib/basic_utils.glsl"
-#include "/lib/tone_maps.glsl"
 #include "/lib/luma.glsl"
 
 #ifdef COLOR_BLINDNESS
@@ -111,17 +110,8 @@ void main() {
     #if AA_TYPE == 3
       block_color = sharpen(colortex0, block_color, texcoord, pixel_size_x, pixel_size_y);
     #endif
-    // block_color = edge_detect(colortex0, block_color, texcoord, pixel_size_x, pixel_size_y);
   #endif
-
-  block_color *= vec3(exposure);
-
-  #if defined UNKNOWN_DIM
-    block_color = custom_sigmoid_alt(block_color);
-  #else
-    block_color = custom_sigmoid(block_color);
-  #endif
-  
+ 
   // Color-grading ---
 
   // Saturation

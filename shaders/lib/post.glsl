@@ -1,7 +1,7 @@
 vec3 sharpen(sampler2D image, vec3 color, vec2 coords, float pixel_size_x, float pixel_size_y) {
   vec3 sum = -texture2D(image, coords + vec2(-pixel_size_x, 0.0)).rgb;
   sum -= texture2D(image, coords + vec2(0.0, -pixel_size_y)).rgb;
-  sum += 11.0 * color;
+  sum += 12.0 * color;
   sum -= texture2D(image, coords + vec2(0.0, pixel_size_y)).rgb;
   sum -= texture2D(image, coords + vec2(pixel_size_x, 0.0)).rgb;
 

@@ -48,6 +48,7 @@ uniform sampler2D colortex1;
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
+varying float exposure;
 
 #if AA_TYPE > 0 || defined MOTION_BLUR
   #include "/lib/projection_utils.glsl"
@@ -63,6 +64,8 @@ varying vec2 texcoord;
   #include "/lib/luma.glsl"
   #include "/lib/fast_taa.glsl"
 #endif
+
+#include "/lib/tone_maps.glsl"
 
 void main() {
   // Pseudo-uniforms section
@@ -112,11 +115,23 @@ void main() {
     #else
       block_color.rgb = fast_taa(block_color.rgb, texcoord_past, pixel_size_x, pixel_size_y);
     #endif
+  #endif
+
+  vec3 block_tonemaped = block_color.rgb;
+  block_tonemaped *= vec3(exposure);
+  
+  #if defined UNKNOWN_DIM
+    block_tonemaped = custom_sigmoid_alt(block_tonemaped);
+  #else
+    block_tonemaped = custom_sigmoid(block_tonemaped);
+  #endif
+
+  #if AA_TYPE > 0
     /* DRAWBUFFERS:03 */
-    gl_FragData[0] = block_color;  // colortex0
+    gl_FragData[0] = vec4(block_tonemaped, block_color.a);  // colortex0
     gl_FragData[1] = block_color;  // To TAA averages
   #else
     /* DRAWBUFFERS:0 */
-    gl_FragData[0] = block_color;  // colortex0
+    gl_FragData[0] = vec4(block_tonemaped, block_color.a);  // colortex0
   #endif
 }
