@@ -5,7 +5,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 #define diagonal3(m) vec3((m)[0].x, (m)[1].y, m[2].z)
-// #define projMAD(m, v) (diagonal3(m) * (v) + (m)[3].xyz)
 
 vec3 get_shadow_pos(vec3 shadow_pos) {
     shadow_pos = mat3(shadowModelView) * shadow_pos + shadowModelView[3].xyz;

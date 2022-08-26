@@ -59,7 +59,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define SUN_REFLECTION 1 // [0 1] Enable sun (or moon) reflection on water and glass
 
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
-#define SHADOW_BLUR 2.0 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0]  Shadow blur intensity
+#define SHADOW_BLUR 2.0 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0 2.1 2.2 2.3 2.4 2.5 2.6 2.7 2.8 2.9 3.0]  Shadow blur intensity
 // #define COLORED_SHADOW // Attempts to tint the shadow of translucent objects, as well as the associated volumetric light (if active).
 #define WATER_ABSORPTION 0.10 // [0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.20 0.21 0.22 0.230.24 0.25 0.26 0.27 0.28 0.29 0.30 0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38] Sets how much light the water absorbs. Low levels make the water more transparent. High levels make it more opaque.
 #define COLOR_SCHEME 1 // [0 1 2 3 4 5 6] Ethereal: Current default theme. New shoka: Reinterpretation of a classic. Shoka: The classic. Legacy: Very old default. Captain: A cold preset of stylish colors. Psycodelic: Remaster of old vivid scheme. Cocoa: Warm theme
@@ -167,14 +167,14 @@ const float sunPathRotation = -25.0; // [-40.0 -35.0 -30.0 -25.0 -20.0 -15.0 -10
         #define SHADOW_LIMIT 75.0
         const int shadowMapResolution = 600;
         const float shadowDistance = 75.0;
-        #define SHADOW_FIX_FACTOR 0.24
+        #define SHADOW_FIX_FACTOR 0.15
         #define SHADOW_DIST 0.81
 
       #elif SHADOW_QTY_SLIDER == 3
         #define SHADOW_LIMIT 75.0
         const int shadowMapResolution = 1200;
         const float shadowDistance = 75.0;
-        #define SHADOW_FIX_FACTOR 0.06
+        #define SHADOW_FIX_FACTOR 0.05
         #define SHADOW_DIST 0.81
       
       #endif
@@ -184,21 +184,21 @@ const float sunPathRotation = -25.0; // [-40.0 -35.0 -30.0 -25.0 -20.0 -15.0 -10
         #define SHADOW_LIMIT 105.0
         const int shadowMapResolution = 420;
         const float shadowDistance = 105.0;
-        #define SHADOW_FIX_FACTOR 0.3
+        #define SHADOW_FIX_FACTOR 0.28
         #define SHADOW_DIST 0.75
 
       #elif SHADOW_QTY_SLIDER == 2
         #define SHADOW_LIMIT 105.0
         const int shadowMapResolution = 840;
         const float shadowDistance = 105.0;
-        #define SHADOW_FIX_FACTOR 0.12
+        #define SHADOW_FIX_FACTOR 0.07
         #define SHADOW_DIST 0.83
 
       #elif SHADOW_QTY_SLIDER == 3
         #define SHADOW_LIMIT 105.0
         const int shadowMapResolution = 1680;
         const float shadowDistance = 105.0;
-        #define SHADOW_FIX_FACTOR 0.04
+        #define SHADOW_FIX_FACTOR 0.03
         #define SHADOW_DIST 0.83
       
       #endif
@@ -208,21 +208,21 @@ const float sunPathRotation = -25.0; // [-40.0 -35.0 -30.0 -25.0 -20.0 -15.0 -10
         #define SHADOW_LIMIT 255.0
         const int shadowMapResolution = 1020;
         const float shadowDistance = 255.0;
-        #define SHADOW_FIX_FACTOR 0.3
+        #define SHADOW_FIX_FACTOR 0.12
         #define SHADOW_DIST 0.8
 
       #elif SHADOW_QTY_SLIDER == 2
         #define SHADOW_LIMIT 255.0
         const int shadowMapResolution = 2040;
         const float shadowDistance = 255.0;
-        #define SHADOW_FIX_FACTOR 0.07
+        #define SHADOW_FIX_FACTOR 0.03
         #define SHADOW_DIST 0.85
 
       #elif SHADOW_QTY_SLIDER == 3
         #define SHADOW_LIMIT 255.0
         const int shadowMapResolution = 4080;
         const float shadowDistance = 255.0;
-        #define SHADOW_FIX_FACTOR 0.02
+        #define SHADOW_FIX_FACTOR 0.015
         #define SHADOW_DIST 0.87
 
       #endif
