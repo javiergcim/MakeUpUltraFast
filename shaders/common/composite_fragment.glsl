@@ -285,11 +285,11 @@ void main() {
 
 
     #if defined SIMPLE_AUTOEXP
-      /* DRAWBUFFERS:12 */
+      /* DRAWBUFFERS:14 */
       gl_FragData[0] = block_color;
       gl_FragData[1] = block_color * bloom_luma;
     #else
-      /* DRAWBUFFERS:126 */
+      /* DRAWBUFFERS:146 */
       gl_FragData[0] = block_color;
       gl_FragData[1] = block_color * bloom_luma;
       gl_FragData[2] = vec4(exposure, 0.0, 0.0, 0.0);

@@ -74,7 +74,8 @@ float semiblue(vec2 xy) {
   float flip = mod(tile.x + tile.y, 2.0);
   xy = mix(xy, xy.yx, flip);
 
-  return fract(dot(vec2(0.75487766624669276, 0.569840290998), xy) + hash12(tile));
+  // return fract(dot(vec2(0.75487766624669276, 0.569840290998), xy) + hash12(tile));
+  return fract(dot(vec2(0.3076923076923077, 0.5384615384615384), xy) + hash12(tile));
 }
 
 float makeup_dither(vec2 frag) {
@@ -152,7 +153,8 @@ float shifted_semiblue(vec2 xy, float dither_shift) {
   float flip = mod(tile.x + tile.y, 2.0);
   xy = mix(xy, xy.yx, flip);
 
-  return fract(dither_shift + dot(vec2(0.75487766624669276, 0.569840290998), xy) + hash12(tile));
+  // return fract(dither_shift + dot(vec2(0.75487766624669276, 0.569840290998), xy) + hash12(tile));
+  return fract(dither_shift + dot(vec2(0.3076923076923077, 0.5384615384615384), xy) + hash12(tile));
 }
 
 float shifted_makeup_dither(vec2 frag, float dither_shift) {

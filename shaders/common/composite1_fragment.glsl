@@ -16,7 +16,8 @@ uniform mat4 gbufferProjection;
 #include "/iris_uniforms/fov_y_inv.glsl"
 
 uniform sampler2D colortex1;
-uniform sampler2D colortex2;
+// uniform sampler2D colortex2;
+uniform sampler2D gaux1;
 // uniform float inv_aspect_ratio;
 
 #ifdef DOF
@@ -46,7 +47,7 @@ varying vec2 texcoord;
 #endif
 
 #ifdef BLOOM
-  const bool colortex2MipmapEnabled = true;
+  const bool gaux1MipmapEnabled = true;
 #endif
 
 void main() {
@@ -87,7 +88,7 @@ void main() {
   #endif
 
   #ifdef BLOOM
-    vec3 bloom = mipmap_bloom(colortex2, texcoord, dither, inv_aspect_ratio);
+    vec3 bloom = mipmap_bloom(gaux1, texcoord, dither, inv_aspect_ratio);
     block_color.rgb += bloom;
   #endif
 

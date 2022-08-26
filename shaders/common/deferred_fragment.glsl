@@ -25,6 +25,7 @@ uniform mat4 gbufferProjection;
 #endif
 
 uniform sampler2D colortex0;
+uniform sampler2D colortex2;
 uniform ivec2 eyeBrightnessSmooth;
 uniform int isEyeInWater;
 uniform sampler2D depthtex0;

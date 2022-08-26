@@ -26,6 +26,7 @@ uniform sampler2D tex;
 // uniform float pixel_size_y;
 uniform float near;
 uniform float far;
+uniform sampler2D colortex2;
 uniform sampler2D gaux1;
 uniform sampler2D gaux2;
 uniform mat4 gbufferProjectionInverse;
