@@ -19,6 +19,7 @@ Volumetric light - MakeUp implementation
   }
 
   float get_volumetric_light(float dither, float view_distance, mat4 modeli_times_projectioni) {
+    // float light = float(GODRAY_STEPS);
     float light = 0.0;
 
     float current_depth;
@@ -28,7 +29,7 @@ Volumetric light - MakeUp implementation
 
     for (int i = 0; i < GODRAY_STEPS; i++) {
       // Exponentialy spaced shadow samples
-      current_depth = exp2(i + dither) - 0.96;  // 0.96 avoids points behind near plane2
+      current_depth = exp2(i + dither) - 0.8;  // 0.8 avoids points behind near plane2
       if (current_depth > view_distance) {
         break;
       }
@@ -48,8 +49,11 @@ Volumetric light - MakeUp implementation
     }
 
     light /= GODRAY_STEPS;
+
+    // light = clamp(light -1.0 + light, 0.0, 1.0);
+    // light *= light;
     
-    return (light * light);
+    return light * light;
   }
 
   #if defined COLORED_SHADOW

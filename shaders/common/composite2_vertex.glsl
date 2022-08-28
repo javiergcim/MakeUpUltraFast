@@ -17,7 +17,6 @@ uniform ivec2 eyeBrightnessSmooth;
 
 #if !defined SIMPLE_AUTOEXP
   uniform sampler2D gaux3;
-  uniform float viewWidth;
 #endif
 
 varying vec2 texcoord;

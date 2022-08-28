@@ -228,10 +228,14 @@ const float sunPathRotation = -25.0; // [-40.0 -35.0 -30.0 -25.0 -20.0 -15.0 -10
       #endif
     #endif
 
-    const float shadowDistanceRenderMul = 1.0;
+    #if VOL_LIGHT == 2
+      const float shadowDistanceRenderMul = -1.0;
+    #else
+      const float shadowDistanceRenderMul = 1.0;
+    #endif
+    
     const bool shadowHardwareFiltering = true;
     const bool shadowtex1Nearest = false;
-    // const float SHADOW_DIST = 1.0 - 18.0 / shadowDistance;
   #endif
 
 #else
@@ -239,7 +243,6 @@ const float sunPathRotation = -25.0; // [-40.0 -35.0 -30.0 -25.0 -20.0 -15.0 -10
   #define SHADOW_RES 0
   const int shadowMapResolution = 100;
   const float shadowDistance = 60.0;
-  // const float SHADOW_DIST = 1.0 - 18.0 / shadowDistance;
 #endif
 
 // Redefined constants
