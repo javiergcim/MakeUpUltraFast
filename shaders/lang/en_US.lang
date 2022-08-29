@@ -159,7 +159,7 @@ value.COLOR_BLIND_MODE.0=Protanopia
 value.COLOR_BLIND_MODE.1=Deuteranopia
 value.COLOR_BLIND_MODE.2=Tritanopia
 
-option.DEBUG_MODE=Modo debug
+option.DEBUG_MODE=Debug mode
 
 option.BLOOM_SAMPLES=Bloom sample pairs
 
