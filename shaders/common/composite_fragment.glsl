@@ -77,6 +77,7 @@ varying float exposure;
   varying mat4 modeli_times_projectioni;
 #endif
 
+#include "/lib/basic_utils.glsl"
 #include "/lib/depth.glsl"
 
 #ifdef BLOOM
@@ -243,7 +244,7 @@ void main() {
 
     #if defined THE_END
       vol_intensity =
-        ((pow(clamp((vol_intensity + .666667) * 0.6, 0.0, 1.0), 2.0) * 0.5));
+        ((square_pow(clamp((vol_intensity + .666667) * 0.6, 0.0, 1.0)) * 0.5));
       block_color.rgb += (vol_light_color * vol_light * vol_intensity * 2.0);
     #else
       vol_intensity =

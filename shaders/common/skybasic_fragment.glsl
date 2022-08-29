@@ -110,7 +110,6 @@ void main() {
       low_sky_color,
       hi_sky_color,
       sqrt(n_u)
-      // pow(n_u, 0.5)
     );
 
     if (star_data.a < 0.9) {

@@ -67,9 +67,7 @@ vec2 taa_offset(int frame_mod, vec2 pixel_size) {
   //   vec2(0.35995728446892067, 0.46950053605694686),
   //   vec2(-0.3991571921844798, -0.7685528842749875),
   //   vec2(-0.2092996818683685, 0.7785843841034829)
-
   // );
 
-  // return offset[frame_mod] * pixel_size ;
-  return offset[frame_mod] * pixel_size * (sqrt(2.0) * 0.5);
+  return offset[frame_mod] * pixel_size;
 }
