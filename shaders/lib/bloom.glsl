@@ -10,18 +10,15 @@ vec3 mipmap_bloom(sampler2D image, vec2 coords, float dither, float inv_aspect_r
 
   int sample_c = int(BLOOM_SAMPLES);
 
-  float dither_base = dither;
-  dither *= 3.141592653589793;
-
   float inv_steps = 1.0 / BLOOM_SAMPLES;
-  float sample_angle_increment = 1636.7697725202822 * inv_steps;
-  float current_radius;
+  float n;
   vec2 offset;
+  float dither_x;
 
   for(int i = 0; i < sample_c; i++) {
-    dither += sample_angle_increment;
-    current_radius = (i + dither_base) * inv_steps;
-    offset = vec2(cos(dither), sin(dither)) * blur_radius_vec * current_radius;
+    dither_x = (i + dither);
+    n = fract(dither_x * 1.6180339887) * 3.141592653589793;
+    offset = vec2(cos(n), sin(n)) * dither_x * blur_radius_vec * inv_steps;
 
     blur_sample += texture2D(image, coords + offset, -1.0).rgb;
     blur_sample += texture2D(image, coords - offset, -1.0).rgb;

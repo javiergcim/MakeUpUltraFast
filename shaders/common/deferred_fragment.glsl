@@ -25,7 +25,6 @@ uniform mat4 gbufferProjection;
 #endif
 
 uniform sampler2D colortex0;
-uniform sampler2D colortex2;
 uniform ivec2 eyeBrightnessSmooth;
 uniform int isEyeInWater;
 uniform sampler2D depthtex0;
@@ -33,8 +32,13 @@ uniform float far;
 uniform float near;
 uniform float blindness;
 uniform float rainStrength;
-uniform sampler2D gaux2;
 uniform sampler2D gaux3;
+
+#if CLOUD_VOL_STYLE == 1 && V_CLOUDS != 0
+  uniform sampler2D colortex2;
+#elif V_CLOUDS != 0
+  uniform sampler2D gaux2;
+#endif
 
 #ifdef NETHER
   uniform vec3 fogColor;

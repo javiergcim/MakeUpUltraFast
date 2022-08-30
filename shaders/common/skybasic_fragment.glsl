@@ -112,6 +112,8 @@ void main() {
       sqrt(n_u)
     );
 
+    // background_color = vec3(n_u);
+
     if (star_data.a < 0.9) {
       block_color.rgb = background_color;
     }

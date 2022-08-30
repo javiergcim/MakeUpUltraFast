@@ -67,7 +67,7 @@ void main() {
 
   #if defined BLOOM || defined DOF
     #if AA_TYPE > 0
-      float dither = shifted_r_dither(gl_FragCoord.xy, dither_shift);
+      float dither = shifted_eclectic_r_dither(gl_FragCoord.xy, dither_shift);
     #else
       float dither = semiblue(gl_FragCoord.xy);
     #endif
@@ -94,5 +94,4 @@ void main() {
 
   /* DRAWBUFFERS:1 */
   gl_FragData[0] = block_color;
-  // gl_FragData[0] = vec4(bloom, block_color.a);
 }
