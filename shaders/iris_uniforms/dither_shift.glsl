@@ -12,5 +12,5 @@ float dither_shift(int frame_mod) {
     0.6919630956391005
   );
 
-    return shifts[frame_mod];
+  return shifts[frame_mod];
 }

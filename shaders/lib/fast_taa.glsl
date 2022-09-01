@@ -26,16 +26,21 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past, float pixel_size_x, float 
 
     // Muestra del pasado
     vec3 previous = texture2D(colortex3, texcoord_past).rgb;
+    // vec3 past_sample = clamp(previous, nmin, nmax);
 
     // Clip
-    vec3 p_clip = (nmin + nmax) * 0.5;
-    vec3 e_clip = (nmax - nmin) * 0.5;
+    vec3 center = (nmin + nmax) * 0.5;
+    float radio = length(nmax - center);
 
-    vec3 v_clip  = previous - p_clip;
-    vec3 a_unit  = abs(v_clip / e_clip);
-    float denom = max(a_unit.x, max(a_unit.y, a_unit.z));
+    vec3 color_vector = previous - center;
+    float color_dist = length(color_vector);
 
-    vec3 past_sample = denom > 1.0 ? p_clip + v_clip / denom : previous;
+    float factor = 1.0;
+    if (color_dist > radio) {
+      factor = radio / color_dist;
+    }
+
+    vec3 past_sample = center + (color_vector * factor);
 
     // Edge detection
     vec3 edge_color = -neighbourhood[0];
@@ -44,9 +49,9 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past, float pixel_size_x, float 
     edge_color -= neighbourhood[3];
     edge_color -= neighbourhood[4];
 
-    float edge = clamp(length(edge_color) * 0.23, 0.0, 0.23);
+    float edge = length(edge_color) * 0.11547005383792518;  // 1/sqrt(3) * 0.2
 
-    return mix(current_color, past_sample, 0.75 + edge);
+    return mix(current_color, past_sample, clamp(0.75 + edge, 0.0, 1.0));
   }
 }
 
@@ -74,14 +79,18 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past, float pixel_size_x, 
     vec4 previous = texture2D(colortex3, texcoord_past);
 
     // Clip
-    vec3 p_clip = (nmin.rgb + nmax.rgb) * 0.5;
-    vec3 e_clip = (nmax.rgb - nmin.rgb) * 0.5;
+    vec3 center = (nmin.rgb + nmax.rgb) * 0.5;
+    float radio = length(nmax.rgb - center);
 
-    vec3 v_clip  = previous.rgb - p_clip;
-    vec3 a_unit  = abs(v_clip / e_clip);
-    float denom = max(a_unit.x, max(a_unit.y, a_unit.z));
+    vec3 color_vector = previous.rgb - center;
+    float color_dist = length(color_vector);
 
-    vec4 past_sample = denom > 1.0 ? vec4((p_clip + v_clip / denom), previous.a) : previous;
+    float factor = 1.0;
+    if (color_dist > radio) {
+      factor = radio / color_dist;
+    }
+
+    vec4 past_sample = vec4(center + (color_vector * factor), previous.a);
 
     // Edge detection
     vec3 edge_color = -neighbourhood[0].rgb;

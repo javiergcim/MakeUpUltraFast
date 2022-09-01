@@ -281,9 +281,8 @@ void main() {
         smoothstep(0.825, 1.0, luma(block_color.rgb * exposure)) * 0.4;
     #else
       float bloom_luma =
-        smoothstep(0.825, 1.0, luma(block_color.rgb * exposure)) * 0.5;
+        smoothstep(0.85, 1.0, luma(block_color.rgb * exposure)) * 0.5;
     #endif
-
 
     #if defined SIMPLE_AUTOEXP
       /* DRAWBUFFERS:14 */

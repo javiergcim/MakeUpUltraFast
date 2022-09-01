@@ -67,10 +67,6 @@ const bool gaux1Clear = false;
 const bool gaux2Clear = false;
 const bool gaux3Clear = false;
 const bool gaux4Clear = false;
-const bool shadowtex0Clear = false;
-const bool shadowtex1Clear = false;
-const bool shadowcolor0Clear = false;
-const bool shadowcolor1Clear = false;
 
 // 'Global' constants from system
 uniform sampler2D colortex0;
@@ -81,13 +77,16 @@ uniform sampler2D colortex0;
   uniform sampler2D colortex3;
 #endif
 
+uniform sampler2D gaux3;
 uniform sampler2D colortex1;
+// uniform float viewWidth;
 
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
-// varying float exposure;
+varying float exposure;
 
 #include "/lib/basic_utils.glsl"
+#include "/lib/tone_maps.glsl"
 #include "/lib/luma.glsl"
 
 #ifdef COLOR_BLINDNESS
@@ -112,8 +111,17 @@ void main() {
     #if AA_TYPE == 3
       block_color = sharpen(colortex0, block_color, texcoord, pixel_size_x, pixel_size_y);
     #endif
+    // block_color = edge_detect(colortex0, block_color, texcoord, pixel_size_x, pixel_size_y);
   #endif
- 
+
+  block_color *= vec3(exposure);
+
+  #if defined UNKNOWN_DIM
+    block_color = custom_sigmoid_alt(block_color);
+  #else
+    block_color = custom_sigmoid(block_color);
+  #endif
+  
   // Color-grading ---
 
   // Saturation
@@ -130,7 +138,7 @@ void main() {
     if (texcoord.x < 0.5 && texcoord.y < 0.5) {
       block_color = texture2D(shadowtex1, texcoord * 2.0).rrr;
     } else if (texcoord.x >= 0.5 && texcoord.y >= 0.5) {
-      block_color = vec3(0.0);
+      block_color = vec3(texture2D(gaux3, vec2(0.5)).r * 0.25);
     } else if (texcoord.x < 0.5 && texcoord.y >= 0.5) {
       block_color = texture2D(colortex0, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb;
     } else if (texcoord.x >= 0.5 && texcoord.y < 0.5) {
