@@ -1,7 +1,6 @@
 // Waving plants calculation
 #ifdef FOLIAGE_V
   #if WAVING == 1
-    // vec4 full_position = gl_ModelViewMatrix * gl_Vertex;
     vec4 sub_position = gl_ModelViewMatrix * gl_Vertex;
     vec4 position =
       gbufferModelViewInverse * sub_position;
@@ -46,7 +45,6 @@
       is_foliage = .4;
     }
 
-    // vec4 full_position = gl_ModelViewMatrix * gl_Vertex;
     vec4 sub_position = gl_ModelViewMatrix * gl_Vertex;
     vec4 position =
       gbufferModelViewInverse * sub_position;
@@ -56,7 +54,6 @@
   #endif
 
 #else
-  // vec4 full_position = gl_ModelViewMatrix * gl_Vertex;
   vec4 sub_position = gl_ModelViewMatrix * gl_Vertex;
   #ifndef NO_SHADOWS
     #ifdef SHADOW_CASTING

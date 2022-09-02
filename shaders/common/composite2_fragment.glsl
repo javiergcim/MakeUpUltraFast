@@ -75,19 +75,19 @@ void main() {
       texcoord_past = previous_position.xy;  // Posición en el pasado
     }
 
-    // "Velocidad"
-    vec2 velocity = texcoord - texcoord_past;
   #endif
 
   #ifdef MOTION_BLUR
+    // "Velocidad"
+    vec2 velocity = texcoord - texcoord_past;
     block_color.rgb = motion_blur(block_color.rgb, z_depth, velocity, colortex1);
   #endif
 
   #if AA_TYPE > 0
     #ifdef DOF
-      block_color = fast_taa_depth(block_color, texcoord_past, velocity);
+      block_color = fast_taa_depth(block_color, texcoord_past);
     #else
-      block_color.rgb = fast_taa(block_color.rgb, texcoord_past, velocity);
+      block_color.rgb = fast_taa(block_color.rgb, texcoord_past);
     #endif
     /* DRAWBUFFERS:03 */
     gl_FragData[0] = block_color;  // colortex0

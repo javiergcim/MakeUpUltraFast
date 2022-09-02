@@ -6,15 +6,16 @@ Volumetric light - MakeUp implementation
 
   #define diagonal3(m) vec3((m)[0].x, (m)[1].y, m[2].z)
 
-  vec3 get_volumetric_pos(vec3 the_pos) {
-    vec3 shadow_pos = mat3(shadowModelView) * the_pos + shadowModelView[3].xyz;
+  vec3 get_volumetric_pos(vec3 shadow_pos) {
+    shadow_pos = mat3(shadowModelView) * shadow_pos + shadowModelView[3].xyz;
     shadow_pos = diagonal3(shadowProjection) * shadow_pos + shadowProjection[3].xyz;
+    float distb = length(shadow_pos.xy);
+    float distortion = distb * SHADOW_DIST + (1.0 - SHADOW_DIST);
 
-    float distortion = ((1.0 - SHADOW_DIST) + length(shadow_pos.xy * 1.25) * SHADOW_DIST) * 0.85;
     shadow_pos.xy /= distortion;
-    shadow_pos.xyz = shadow_pos.xyz * 0.5 + 0.5;
-
-    return shadow_pos;
+    shadow_pos.z *= 0.2;
+    
+    return shadow_pos * 0.5 + 0.5;
   }
 
   float get_volumetric_light(float dither, float view_distance, mat4 modeli_times_projectioni) {

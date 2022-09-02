@@ -11,6 +11,10 @@
 uniform float rainStrength;
 uniform mat4 gbufferProjectionInverse;
 
+#if defined SHADOW_CASTING && !defined NETHER
+  uniform mat4 gbufferModelViewInverse;
+#endif
+
 varying vec4 tint_color;
 varying vec2 texcoord;
 varying vec3 basic_light;

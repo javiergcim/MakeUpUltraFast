@@ -1,5 +1,10 @@
 #include "/lib/config.glsl"
 
+uniform mat4 shadowProjection;
+uniform mat4 shadowProjectionInverse;
+uniform mat4 shadowModelView;
+uniform mat4 shadowModelViewInverse;
+
 varying vec2 texcoord;
 
 #ifdef COLORED_SHADOW
@@ -8,40 +13,23 @@ varying vec2 texcoord;
 
 attribute vec4 mc_Entity;
 
-vec2 calc_shadow_dist(in vec2 shadow_pos) {
-  float distortion = ((1.0 - SHADOW_DIST) + length(shadow_pos.xy * 1.25) * SHADOW_DIST) * 0.85;
-  return shadow_pos.xy / distortion;
-}
-
 void main() {
-  gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+  texcoord = gl_MultiTexCoord0.xy;
+
+  vec4 position = shadowModelViewInverse * shadowProjectionInverse * gl_ModelViewProjectionMatrix * gl_Vertex;
+  gl_Position = shadowProjection * shadowModelView * position;
+
+  float dist = length(gl_Position.xy);
+	float distortFactor = dist * SHADOW_DIST + (1.0 - SHADOW_DIST);
+	
+	gl_Position.xy *= 1.0 / distortFactor;
+	gl_Position.z = gl_Position.z * 0.2;
 
   #ifdef COLORED_SHADOW
     is_water = 0.0;
-  #endif
 
-  if (mc_Entity.x == ENTITY_LOWERGRASS ||
-      mc_Entity.x == ENTITY_UPPERGRASS ||
-      mc_Entity.x == ENTITY_SMALLGRASS ||
-      mc_Entity.x == ENTITY_SMALLENTS ||
-      mc_Entity.x == ENTITY_SMALLENTS_NW)
-  {
-    // Corrección para sombra de follaje.
-    #if SHADOW_RES == 0 || SHADOW_RES == 1 || SHADOW_RES == 2
-      gl_Position.z -= 0.004;
-    #elif SHADOW_RES == 3 || SHADOW_RES == 4 || SHADOW_RES == 5
-      gl_Position.z -= 0.001;
-    #elif SHADOW_RES == 6 || SHADOW_RES == 7 || SHADOW_RES == 8
-      gl_Position.z -= 0.0004;
-    #endif
-  }
-  #ifdef COLORED_SHADOW
-    else if (mc_Entity.x == ENTITY_WATER) {
+    if (mc_Entity.x == ENTITY_WATER) {
       is_water = 1.0;
     }
   #endif
-
-  gl_Position.xy = calc_shadow_dist(gl_Position.xy);
-
-  texcoord = gl_MultiTexCoord0.xy;
 }
