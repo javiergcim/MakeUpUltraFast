@@ -111,7 +111,6 @@ void main() {
     #if AA_TYPE == 3
       block_color = sharpen(colortex0, block_color, texcoord, pixel_size_x, pixel_size_y);
     #endif
-    // block_color = edge_detect(colortex0, block_color, texcoord, pixel_size_x, pixel_size_y);
   #endif
 
   block_color *= vec3(exposure);

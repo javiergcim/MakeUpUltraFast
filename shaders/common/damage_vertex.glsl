@@ -33,7 +33,6 @@ void main() {
   
   texcoord = gl_MultiTexCoord0.xy;
 
-  // #include "/src/position_vertex.glsl"
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 
   vec3 viewPos = gl_Position.xyz / gl_Position.w;

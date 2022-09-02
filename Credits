@@ -24,6 +24,14 @@ Some of the code is inspired by the ideas presented below:
   Based on:
   http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/
 
+- R dither based on:
+  http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/
+
+- Dither 13 and Dther 17 by atyuwen:
+  https://www.shadertoy.com/view/wl3cWX
+  Based on:
+  https://developer.oculus.com/blog/tech-note-shader-snippets-for-efficient-2d-dithering/
+
 ------
 
 If any functions were listed here, and are no longer listed,

@@ -267,13 +267,10 @@ void main() {
     #else
 
       #if WATER_TEXTURE == 1
-        // float water_texture = block_color.r * 2.0;
         float water_texture = luma(block_color.rgb);
       #else
         float water_texture = 1.0;
       #endif
-
-      // water_texture *= water_texture;
 
       real_light =
         omni_light +

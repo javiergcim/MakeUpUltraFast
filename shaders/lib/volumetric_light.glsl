@@ -19,7 +19,6 @@ Volumetric light - MakeUp implementation
   }
 
   float get_volumetric_light(float dither, float view_distance, mat4 modeli_times_projectioni) {
-    // float light = float(GODRAY_STEPS);
     float light = 0.0;
 
     float current_depth;
@@ -49,9 +48,6 @@ Volumetric light - MakeUp implementation
     }
 
     light /= GODRAY_STEPS;
-
-    // light = clamp(light -1.0 + light, 0.0, 1.0);
-    // light *= light;
     
     return light * light;
   }

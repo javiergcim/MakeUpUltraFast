@@ -7,7 +7,6 @@ float light_mix() {
         light_mix = 1.0 - ((worldTime - 12485) * 0.0016666666666666668);
     } else if (worldTime >= 13085 && worldTime < 22915) {
         light_mix = 0.0;
-    // } else if (worldTime >= 22915 && worldTime < 23515) {
     } else {
         light_mix = (worldTime - 22915) * 0.0016666666666666668;
     }

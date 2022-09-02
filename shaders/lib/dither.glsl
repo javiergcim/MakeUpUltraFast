@@ -83,8 +83,7 @@ float semiblue(vec2 xy) {
   float flip = mod(tile.x + tile.y, 2.0);
   xy = mix(xy, xy.yx, flip);
 
-  // return fract(dot(vec2(0.75487766624669276, 0.569840290998), xy) + hash12(tile));
-  return fract(dot(vec2(0.3076923076923077, 0.5384615384615384), xy) + hash12(tile));
+  return fract(dot(vec2(0.75487766624669276, 0.569840290998), xy) + hash12(tile));
 }
 
 float makeup_dither(vec2 frag) {
@@ -171,8 +170,7 @@ float shifted_semiblue(vec2 xy, float dither_shift) {
   float flip = mod(tile.x + tile.y, 2.0);
   xy = mix(xy, xy.yx, flip);
 
-  // return fract(dither_shift + dot(vec2(0.75487766624669276, 0.569840290998), xy) + hash12(tile));
-  return fract(dither_shift + dot(vec2(0.3076923076923077, 0.5384615384615384), xy) + hash12(tile));
+  return fract(dither_shift + dot(vec2(0.75487766624669276, 0.569840290998), xy) + hash12(tile));
 }
 
 float shifted_makeup_dither(vec2 frag, float dither_shift) {
@@ -186,11 +184,3 @@ float shifted_eclectic_makeup_dither(vec2 frag, float dither_shift) {
 
   return fract(dither_shift + p4 + dot(frag, vec2(0.8085512046226566, 0.5562305898749054)));
 }
-
-float bayer2(vec2 a){
-	a = floor(a);
-	return fract(dot(a, vec2(.5, a.y * .75)));
-}
-
-#define bayer4(a) (bayer2(.5 * (a)) * .25 + bayer2(a))
-#define bayer8(a) (bayer4(.5 * (a)) * .25 + bayer2(a))
