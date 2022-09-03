@@ -65,9 +65,9 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright, float dithe
       #else
         current_value =
           texture2D(
-            gaux2,
+            colortex2,
             (intersection_pos.xz * .0008) + (frameTimeCounter * CLOUD_HI_FACTOR * 3.0)
-          ).g;
+          ).r;
       #endif
 
       #if V_CLOUDS == 2 && CLOUD_VOL_STYLE == 0
