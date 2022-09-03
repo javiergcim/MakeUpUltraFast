@@ -54,11 +54,11 @@ void main() {
 
     #if AA_TYPE > 0
       float dither = shifted_dither13(gl_FragCoord.xy, dither_shift);
-      dither = (dither - .5) * 0.0625;
     #else
       float dither = dither13(gl_FragCoord.xy);
-      dither = (dither - .5) * 0.0625;
     #endif
+
+    dither = (dither - .5) * 0.0625;
 
     #ifdef UNKNOWN_DIM
       vec3 hi_sky_color = skyColor;
