@@ -28,7 +28,7 @@ Volumetric light - MakeUp implementation
 
     for (int i = 0; i < GODRAY_STEPS; i++) {
       // Exponentialy spaced shadow samples
-      current_depth = exp2(i + dither) - 0.96;  // 0.96 avoids points behind near plane2
+      current_depth = exp2(i + dither) - 0.8;
       if (current_depth > view_distance) {
         break;
       }

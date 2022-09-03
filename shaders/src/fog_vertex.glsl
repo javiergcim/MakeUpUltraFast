@@ -19,8 +19,5 @@
   );
 
 #else
-  frog_adjust = pow(
-      clamp(gl_FogFragCoord / far, 0.0, 1.0),
-      .5
-    );
+  frog_adjust = sqrt(clamp(gl_FogFragCoord / far, 0.0, 1.0));
 #endif

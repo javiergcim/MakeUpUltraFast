@@ -24,10 +24,10 @@ if (isEyeInWater == 1) {
 // Intensidad y color de luz de candelas
 #if defined UNKNOWN_DIM
   candle_color =
-    CANDLE_BASELIGHT * ((illumination.x * illumination.x) + pow(illumination.x * 1.205, 6.0)) * 2.75;
+    CANDLE_BASELIGHT * ((illumination.x * illumination.x) + sixth_pow(illumination.x * 1.205)) * 2.75;
 #else
   candle_color =
-    CANDLE_BASELIGHT * (pow(illumination.x, 1.5) + pow(illumination.x * 1.17, 6.0));
+    CANDLE_BASELIGHT * (pow(illumination.x, 1.5) + sixth_pow(illumination.x * 1.17));
 #endif
 
 #ifdef DYN_HAND_LIGHT
@@ -37,11 +37,11 @@ if (isEyeInWater == 1) {
 
   if (heldItemId == 11001 || heldItemId2 == 11001) {  // Normal light
     hand_dist = (1.0 - clamp((gl_FogFragCoord * 0.06666666666666667), 0.0, 1.0));
-    hand_light = CANDLE_BASELIGHT * (pow(hand_dist, 1.5) + pow(hand_dist * 1.17, 6.0));
+    hand_light = CANDLE_BASELIGHT * (pow(hand_dist, 1.5) + sixth_pow(hand_dist * 1.17));
     candle_color = max(candle_color, hand_light);
   } else if (heldItemId == 11002 || heldItemId2 == 11002) {
     hand_dist = (1.0 - clamp((gl_FogFragCoord * 0.06666666666666667) + 0.5, 0.0, 1.0));
-    hand_light = CANDLE_BASELIGHT * (pow(hand_dist, 1.5) + pow(hand_dist * 1.17, 6.0));
+    hand_light = CANDLE_BASELIGHT * (pow(hand_dist, 1.5) + sixth_pow(hand_dist * 1.17));
     candle_color = max(candle_color, hand_light);
   }
 #endif

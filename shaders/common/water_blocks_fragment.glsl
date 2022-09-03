@@ -14,6 +14,7 @@ uniform float pixel_size_x;
 uniform float pixel_size_y;
 uniform float near;
 uniform float far;
+uniform sampler2D colortex2;
 uniform sampler2D gaux1;
 uniform sampler2D gaux2;
 uniform mat4 gbufferProjectionInverse;
@@ -124,8 +125,7 @@ void main() {
   }
 
   float normal_dot_eye = dot(surface_normal, normalize(fragposition));
-  float fresnel = square_pow(1.0 + normal_dot_eye);  // IRIS invert value inside water
-  // float fresnel = square_pow(1.0 + -abs(normal_dot_eye));  // IRIS correct
+  float fresnel = square_pow(1.0 + normal_dot_eye);
 
   // Reflected sky color calculation
   vec3 hi_sky_color = day_blend(

@@ -2,7 +2,7 @@
 #include "/lib/config.glsl"
 
 uniform sampler2D colortex1;
-uniform sampler2D colortex2;
+uniform sampler2D gaux1;
 uniform float inv_aspect_ratio;
 
 #ifdef DOF
@@ -32,7 +32,7 @@ varying vec2 texcoord;
 #endif
 
 #ifdef BLOOM
-  const bool colortex2MipmapEnabled = true;
+  const bool gaux1MipmapEnabled = true;
 #endif
 
 void main() {
@@ -57,7 +57,7 @@ void main() {
   #endif
 
   #ifdef BLOOM
-    vec3 bloom = mipmap_bloom(colortex2, texcoord, dither);
+    vec3 bloom = mipmap_bloom(gaux1, texcoord, dither);
     block_color.rgb += bloom;
   #endif
 

@@ -10,6 +10,7 @@
 #endif
 
 uniform sampler2D colortex0;
+uniform sampler2D colortex2;
 uniform ivec2 eyeBrightnessSmooth;
 uniform int isEyeInWater;
 uniform sampler2D depthtex0;
@@ -101,7 +102,7 @@ void main() {
 
       #ifdef THE_END
         float bright =
-          dot(view_vector, normalize(vec3(0.0, 0.89442719, 0.4472136)));
+          dot(view_vector, vec3(0.0, 0.89442719, 0.4472136));
         bright = clamp((bright * 2.0) - 1.0, 0.0, 1.0);
         bright *= bright * bright * bright;
       #else

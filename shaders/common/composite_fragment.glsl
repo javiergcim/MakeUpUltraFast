@@ -72,6 +72,7 @@ varying float exposure;
   varying mat4 modeli_times_projectioni;
 #endif
 
+#include "/lib/basic_utils.glsl"
 #include "/lib/depth.glsl"
 
 #ifdef BLOOM
@@ -224,7 +225,7 @@ void main() {
 
     #if defined THE_END
       vol_intensity =
-        ((pow(clamp((vol_intensity + .666667) * 0.6, 0.0, 1.0), 2.0) * 0.5));
+        ((square_pow(clamp((vol_intensity + .666667) * 0.6, 0.0, 1.0)) * 0.5));
       block_color.rgb += (vol_light_color * vol_light * vol_intensity * 2.0);
     #else
       vol_intensity =
@@ -265,11 +266,11 @@ void main() {
     #endif
 
     #if defined SIMPLE_AUTOEXP
-      /* DRAWBUFFERS:12 */
+      /* DRAWBUFFERS:14 */
       gl_FragData[0] = block_color;
       gl_FragData[1] = block_color * bloom_luma;
     #else
-      /* DRAWBUFFERS:126 */
+      /* DRAWBUFFERS:146 */
       gl_FragData[0] = block_color;
       gl_FragData[1] = block_color * bloom_luma;
       gl_FragData[2] = vec4(exposure, 0.0, 0.0, 0.0);
