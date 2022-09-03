@@ -6,13 +6,10 @@ Based on Capt Tatsu's ambient occlusion functions.
 float dbao(float dither) {
   float ao = 0.0;
 
-  float dither_base = dither;
-  dither *= 3.141592653589793;
-
   float inv_steps = 1.0 / AOSTEPS;
-  float sample_angle_increment = 1636.7697725202822 * inv_steps;
-  float current_radius;
   vec2 offset;
+  float n;
+  float dither_x;
 
   float d = texture2D(depthtex0, texcoord.xy).r;
   float hand_check = d < 0.56 ? 1024.0 : 1.0;
@@ -26,9 +23,9 @@ float dbao(float dither) {
   float sample_d;
 
   for (int i = 0; i < AOSTEPS; i++) {
-    dither += sample_angle_increment;
-    current_radius = (i + dither_base) * inv_steps;
-    offset = vec2(cos(dither), sin(dither)) * scale * current_radius;
+    dither_x = (i + dither);
+    n = fract(dither_x * 1.6180339887) * 3.141592653589793;
+    offset = vec2(cos(n), sin(n)) * dither_x * scale * inv_steps;
 
     sd = ld(texture2D(depthtex0, texcoord.xy + offset).r);
     sample_d = (d - sd) * far_double * hand_check;

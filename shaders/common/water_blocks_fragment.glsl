@@ -14,9 +14,7 @@ uniform float pixel_size_x;
 uniform float pixel_size_y;
 uniform float near;
 uniform float far;
-uniform sampler2D colortex2;
 uniform sampler2D gaux1;
-uniform sampler2D gaux2;
 uniform mat4 gbufferProjectionInverse;
 uniform mat4 gbufferProjection;
 uniform sampler2D noisetex;
@@ -32,6 +30,12 @@ uniform float rainStrength;
 uniform float light_mix;
 uniform ivec2 eyeBrightnessSmooth;
 uniform sampler2D gaux4;
+
+#if CLOUD_VOL_STYLE == 1 && V_CLOUDS != 0
+  uniform sampler2D colortex2;
+#elif V_CLOUDS != 0
+  uniform sampler2D gaux2;
+#endif
 
 #ifdef NETHER
   uniform vec3 fogColor;
