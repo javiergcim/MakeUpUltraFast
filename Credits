@@ -6,23 +6,31 @@ Some of the code is inspired by the ideas presented below:
   BSL Shaders:
   https://bitslablab.com/bslshaders/
 
+- Shadow bias technique from Emin implementation, based on a concept
+  reimagined by gri573:
+  https://www.complementary.dev/
+
 - Interleaved noise from:
   "NEXT GENERATION POST PROCESSING IN CALL OF DUTY: ADVANCED WARFARE"
   http://advances.realtimerendering.com/s2014/index.html
 
-- Integer Hash by iq:
-  https://www.shadertoy.com/user/iq
-
-- Hash without sine by Dave Hoskins:
-  https://www.shadertoy.com/user/Dave_Hoskins
-
 - TAA is based on Erkaman's TAA simple implementation:
   https://gist.github.com/Erkaman
 
-- Phi noise by TinyTexel
+- Phi noise by delu:
+  https://www.shadertoy.com/view/Nst3R7
+  Based on TinyTexel:
   https://www.shadertoy.com/view/wltSDn
   Based on:
   http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/
+
+- R dither based on:
+  http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/
+
+- Dither 13 and Dther 17 by atyuwen:
+  https://www.shadertoy.com/view/wl3cWX
+  Based on:
+  https://developer.oculus.com/blog/tech-note-shader-snippets-for-efficient-2d-dithering/
 
 ------
 
