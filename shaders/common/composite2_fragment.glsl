@@ -14,8 +14,6 @@
 
 // 'Global' constants from system
 uniform sampler2D colortex1;
-uniform float viewWidth;
-uniform float viewHeight;
 
 
 #if AA_TYPE > 0 || defined MOTION_BLUR
