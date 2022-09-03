@@ -83,12 +83,13 @@ float get_shadow(vec3 the_shadow_pos) {
       dither *= 6.283185307179586;
 
       vec2 offset = (vec2(cos(dither), sin(dither)) * current_radius * SHADOW_BLUR) / shadowMapResolution;
+      float z_bias = dither * 0.00002;
 
-      shadow_detector_a = shadow2D(shadowtex0, vec3(the_shadow_pos.xy + offset, the_shadow_pos.z)).r;
-      shadow_detector_b = shadow2D(shadowtex0, vec3(the_shadow_pos.xy - offset, the_shadow_pos.z)).r;
+      shadow_detector_a = shadow2D(shadowtex0, vec3(the_shadow_pos.xy + offset, the_shadow_pos.z - z_bias)).r;
+      shadow_detector_b = shadow2D(shadowtex0, vec3(the_shadow_pos.xy - offset, the_shadow_pos.z - z_bias)).r;
 
       if (shadow_detector_a < 1.0) {
-        shadow_black_a = shadow2D(shadowtex1, vec3(the_shadow_pos.xy + offset, the_shadow_pos.z)).r;
+        shadow_black_a = shadow2D(shadowtex1, vec3(the_shadow_pos.xy + offset, the_shadow_pos.z - z_bias)).r;
         if (shadow_black_a != shadow_detector_a) {
           shadow_color_a = texture2D(shadowcolor0, the_shadow_pos.xy + offset);
           alpha_complement = 1.0 - shadow_color_a.a;
@@ -100,7 +101,7 @@ float get_shadow(vec3 the_shadow_pos) {
       shadow_color_a *= shadow_black_a;
 
       if (shadow_detector_b < 1.0) {
-        shadow_black_b = shadow2D(shadowtex1, vec3(the_shadow_pos.xy - offset, the_shadow_pos.z)).r;
+        shadow_black_b = shadow2D(shadowtex1, vec3(the_shadow_pos.xy - offset, the_shadow_pos.z - z_bias)).r;
         if (shadow_black_b != shadow_detector_b) {
           shadow_color_b = texture2D(shadowcolor0, the_shadow_pos.xy - offset);
           alpha_complement = 1.0 - shadow_color_b.a;
