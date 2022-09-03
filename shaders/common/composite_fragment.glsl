@@ -159,7 +159,10 @@ void main() {
 
   #if VOL_LIGHT == 1 && !defined NETHER
     #if defined THE_END
-      float vol_light = 0.5;
+      float vol_light = 0.1;
+      if (d > 0.9999) {
+        vol_light = 0.5;
+      }
     #else
       float vol_light = ss_godrays(dither);
     #endif
