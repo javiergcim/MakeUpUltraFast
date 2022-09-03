@@ -15,6 +15,6 @@ vec3 get_shadow_pos(vec3 shadow_pos) {
 
   shadow_pos.xy /= distortion;
   shadow_pos.z *= 0.2;
-    
+  
   return shadow_pos * 0.5 + 0.5;
 }

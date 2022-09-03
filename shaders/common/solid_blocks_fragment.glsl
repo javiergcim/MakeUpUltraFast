@@ -1,5 +1,10 @@
 #include "/lib/config.glsl"
 
+uniform float viewWidth;
+uniform float viewHeight;
+// uniform int worldTime;
+uniform int frameCounter;
+
 #if defined THE_END
   #include "/lib/color_utils_end.glsl"
 #elif defined NETHER

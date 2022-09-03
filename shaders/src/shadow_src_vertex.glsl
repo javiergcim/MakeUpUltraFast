@@ -64,5 +64,7 @@ vec3 bias = shadow_world_normal * min(SHADOW_FIX_FACTOR + length(position.xyz) *
 vec3 shadow_world = position.xyz + bias;
 
 shadow_pos = get_shadow_pos(shadow_world);
+
+vec2 shadow_diffuse_aux = (shadow_pos.xy - 0.5) * 2.0;
 shadow_diffuse = sqrt(shadow_diffuse_aux.x * shadow_diffuse_aux.x + shadow_diffuse_aux.y * shadow_diffuse_aux.y);
 shadow_diffuse = clamp(pow(shadow_diffuse, 10.0), 0.0, 1.0);
