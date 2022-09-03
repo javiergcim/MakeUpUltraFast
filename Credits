@@ -6,8 +6,8 @@ Some of the code is inspired by the ideas presented below:
   BSL Shaders:
   https://bitslablab.com/bslshaders/
 
-- Shadow bias technique from Emin#7309 implementation, based on a concept
-  reimagined by gri573#7741:
+- Shadow bias technique from Emin implementation, based on a concept
+  reimagined by gri573:
   https://www.complementary.dev/
 
 - Interleaved noise from:
