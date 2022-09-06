@@ -31,7 +31,7 @@ void main() {
     vec2 taa_offset = taa_offset(frame_mod, pixel_size);
   #endif
   
-  texcoord = gl_MultiTexCoord0.xy;
+  texcoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
 
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 

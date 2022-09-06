@@ -16,7 +16,7 @@ profile.comment=The "shadowless" profiles are designed for low-performance machi
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=Thanks for using this shader! :). Set Optifine native quality controls on normal or default values for better quality.
-value.ACERCADE.0=v.8.6f Iris
+value.ACERCADE.0=v.8.6g Iris
 
 #Options
 #############################
