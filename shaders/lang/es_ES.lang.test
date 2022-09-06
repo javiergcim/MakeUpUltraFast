@@ -16,7 +16,7 @@ profile.comment=Los perfiles sin sombra están diseñados para equipos de bajo d
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=¡Gracias por usar el shader! :). Establece las opciones de Optifine predeterminadas para la calidad para una mejor calidad.
-value.ACERCADE.0=v.8.6e Iris
+value.ACERCADE.0=v.8.6f Iris
 
 #Options
 #############################
