@@ -14,7 +14,7 @@ varying vec2 texcoord;
 attribute vec4 mc_Entity;
 
 void main() {
-  texcoord = gl_MultiTexCoord0.xy;
+  texcoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
 
   vec4 position = shadowModelViewInverse * shadowProjectionInverse * gl_ModelViewProjectionMatrix * gl_Vertex;
   gl_Position = shadowProjection * shadowModelView * position;

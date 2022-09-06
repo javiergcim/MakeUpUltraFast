@@ -10,7 +10,7 @@ varying float var_fog_frag_coord;
 #endif
 
 void main() {
-  texcoord = gl_MultiTexCoord0.xy;
+  texcoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
 
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
   vec3 viewPos = gl_Position.xyz / gl_Position.w;
