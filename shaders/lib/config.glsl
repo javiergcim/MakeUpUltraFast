@@ -48,7 +48,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define TINTED_WATER 1  // [0 1] Use the resource pack color for water.
 #define REFRACTION 1  // [0 1] Activate refractions.
 // #define DOF // Enables depth of field (high performance cost).
-#define DOF_STRENGTH 0.09  // [0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.013]  Depth of field strenght.
+#define DOF_STRENGTH 0.09  // [0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.13]  Depth of field strenght.
 #define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance cost).
 #define AOSTEPS 4 // [4 5 6 7 8 9 10 11] How many samples are taken for AO (high performance cost).
 #define AO_STRENGHT 0.70 // [0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.66 0.70 0.75 0.80 0.85] Ambient occlusion strenght (strenght NOT affect performance).
@@ -61,7 +61,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
 #define SHADOW_BLUR 2.0 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0 2.1 2.2 2.3 2.4 2.5 2.6 2.7 2.8 2.9 3.0]  Shadow blur intensity
 // #define COLORED_SHADOW // Attempts to tint the shadow of translucent objects, as well as the associated volumetric light (if active).
-#define WATER_ABSORPTION 0.10 // [0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.20 0.21 0.22 0.230.24 0.25 0.26 0.27 0.28 0.29 0.30 0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38] Sets how much light the water absorbs. Low levels make the water more transparent. High levels make it more opaque.
+#define WATER_ABSORPTION 0.10 // [0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.20 0.21 0.22 0.23 0.24 0.25 0.26 0.27 0.28 0.29 0.30 0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38] Sets how much light the water absorbs. Low levels make the water more transparent. High levels make it more opaque.
 #define COLOR_SCHEME 1 // [0 1 2 3 4 5 6] Ethereal: Current default theme. New shoka: Reinterpretation of a classic. Shoka: The classic. Legacy: Very old default. Captain: A cold preset of stylish colors. Psycodelic: Remaster of old vivid scheme. Cocoa: Warm theme
 #define WATER_TEXTURE 0 // [0 1] Enable or disable resource pack water texture. It does not work properly in 1.12. In that case the default value is recommended.
 #define AVOID_DARK_LEVEL 0.09 // [0.00 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.18 0.19 0.20]  Minimal omni light intensity in caves (percentaje).
