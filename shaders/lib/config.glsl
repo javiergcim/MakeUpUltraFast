@@ -69,6 +69,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define V_CLOUDS 1 // [0 1 2] Volumetric static: The clouds move, but they keep their shape. Volumetric dynamic: Clouds change shape over time, a different cloud landscape every time (medium performance hit). Vanilla: Original vanilla clouds.
 #define CLOUD_VOL_STYLE 0 // [0 1] Set the volumetric cloud style.
 #define CLOUD_REFLECTION  // Set off-screen volumetric clouds reflection (volumetric clouds must be active).
+#define END_CLOUDS // Activates drawing of clouds in the end (only works if volumetric clouds are active)
 #define BLACK_ENTITY_FIX 0 // [0 1] Removes black entity bug in old video drivers (activate ONLY if you have problems with black entities)
 #define BLOOM // Enable or disable bloom effect
 #define BLOOM_SAMPLES 4.0 // [4.0 5.0 6.0 7.0 8.0 9.0 10.0] Bloom sample pairs.

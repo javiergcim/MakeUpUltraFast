@@ -16,7 +16,7 @@ profile.comment=De "skugglösa" profilerna är designade för datorer med låg p
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=Tack för att du använder denna shader! :). Ändra Optifines inbyggda kvalitetsalternativ till normala värden eller dess standardvärden för bättre kvalitet.
-value.ACERCADE.0=v.8.6g
+value.ACERCADE.0=v.8.7
 
 #Options
 #############################
@@ -147,6 +147,8 @@ option.CLOUD_SPEED=Molnhastighet
 value.CLOUD_SPEED.0=Normal
 value.CLOUD_SPEED.1=Time lapse 1
 value.CLOUD_SPEED.2=Time lapse 2
+
+option.END_CLOUDS=Moln i SLUTET
 
 option.CLOUD_STEPS_AVG=Samplingar för moln
 
