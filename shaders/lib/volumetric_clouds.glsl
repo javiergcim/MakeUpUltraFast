@@ -62,7 +62,7 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
       #else
         current_value =
           texture2D(
-            gaux2,
+            colortex2,
             (intersection_pos.xz * 0.0002777777777777778) + (frameTimeCounter * CLOUD_HI_FACTOR)
           ).g;
       #endif
