@@ -28,7 +28,7 @@ Volumetric light - MakeUp implementation
 
     for (int i = 0; i < GODRAY_STEPS; i++) {
       // Exponentialy spaced shadow samples
-      current_depth = exp2(i + dither) - 0.8;
+      current_depth = exp2(i + dither) - 0.7;
       if (current_depth > view_distance) {
         break;
       }
@@ -45,9 +45,11 @@ Volumetric light - MakeUp implementation
       shadow_pos = get_volumetric_pos(view_pos);
 
       light += shadow2D(shadowtex1, shadow_pos).r;
+      // light += ((i + 1.0) * shadow2D(shadowtex1, shadow_pos).r);
     }
 
     light /= GODRAY_STEPS;
+    // light /= 21.0;
 
     return light * light;
   }

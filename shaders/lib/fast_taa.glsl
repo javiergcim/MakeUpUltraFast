@@ -9,26 +9,33 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
   if (clamp(texcoord_past, 0.0, 1.0) != texcoord_past) {
     return current_color;
   } else {
-    vec3 neighbourhood[5];
-
-    neighbourhood[0] = texture2D(colortex1, texcoord + vec2(-pixel_size_x, 0.0)).rgb;
-    neighbourhood[1] = texture2D(colortex1, texcoord + vec2(pixel_size_x, 0.0)).rgb;
-    neighbourhood[2] = current_color;
-    neighbourhood[3] = texture2D(colortex1, texcoord + vec2(0.0, -pixel_size_y)).rgb;
-    neighbourhood[4] = texture2D(colortex1, texcoord + vec2(0.0, pixel_size_y)).rgb;
-
-    vec3 nmin = neighbourhood[0];
-    vec3 nmax = nmin;
-    for(int i = 1; i < 5; ++i) {
-      nmin = min(nmin, neighbourhood[i]);
-      nmax = max(nmax, neighbourhood[i]);
-    }
-
-    // Muestra del pasado
+    // Previous color
     vec3 previous = texture2D(colortex3, texcoord_past).rgb;
-    // vec3 past_sample = clamp(previous, nmin, nmax);
+
+    // Apply clamping on the history color.
+    vec3 near_color0 = texture2D(colortex1, texcoord + vec2(-pixel_size_x, 0.0)).rgb;
+    vec3 near_color1 = texture2D(colortex1, texcoord + vec2(pixel_size_x, 0.0)).rgb;
+    vec3 near_color2 = texture2D(colortex1, texcoord + vec2(0.0, -pixel_size_y)).rgb;
+    vec3 near_color3 = texture2D(colortex1, texcoord + vec2(0.0, pixel_size_y)).rgb;
+    
+    vec3 nmin = min(current_color, min(near_color0, min(near_color1, min(near_color2, near_color3))));
+    vec3 nmax = max(current_color, max(near_color0, max(near_color1, max(near_color2, near_color3))));
+    
+    // Edge detection
+    vec3 edge_color = -near_color0;
+    edge_color -= near_color1;
+    edge_color += current_color * 4.0;
+    edge_color -= near_color2;
+    edge_color -= near_color3;
+
+    float edge = clamp(length(edge_color) * 0.5773502691896258, 0.0, 1.0);  // 1/sqrt(3)
+
+    // nmax = current_color + (edge * 0.7 + 0.3) * (nmax - current_color);
+    // nmin = current_color + (edge * 0.7 + 0.3) * (nmin - current_color);
 
     // Clip
+    // previous = clamp(previous, nmin, nmax);
+
     vec3 center = (nmin + nmax) * 0.5;
     float radio = length(nmax - center);
 
@@ -40,18 +47,10 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
       factor = radio / color_dist;
     }
 
-    vec3 past_sample = center + (color_vector * factor);
+    previous = center + (color_vector * factor);
 
-    // Edge detection
-    vec3 edge_color = -neighbourhood[0];
-    edge_color -= neighbourhood[1];
-    edge_color += neighbourhood[2] * 4.0;
-    edge_color -= neighbourhood[3];
-    edge_color -= neighbourhood[4];
 
-    float edge = length(edge_color) * 0.11547005383792518;  // 1/sqrt(3) * 0.2
-
-    return mix(current_color, past_sample, clamp(0.75 + edge, 0.0, 1.0));
+    return mix(current_color, previous, 0.8 + (edge * 0.19));
   }
 }
 
@@ -60,23 +59,16 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past) {
   if (clamp(texcoord_past, 0.0, 1.0) != texcoord_past) {
     return current_color;
   } else {
-    vec4 neighbourhood[5];
-
-    neighbourhood[0] = texture2D(colortex1, texcoord + vec2(-pixel_size_x, 0.0));
-    neighbourhood[1] = texture2D(colortex1, texcoord + vec2(pixel_size_x, 0.0));
-    neighbourhood[2] = current_color;
-    neighbourhood[3] = texture2D(colortex1, texcoord + vec2(0.0, -pixel_size_y));
-    neighbourhood[4] = texture2D(colortex1, texcoord + vec2(0.0, pixel_size_y));
-
-    vec4 nmin = neighbourhood[0];
-    vec4 nmax = nmin;
-    for(int i = 1; i < 5; ++i) {
-      nmin = min(nmin, neighbourhood[i]);
-      nmax = max(nmax, neighbourhood[i]);
-    }
-
     // Muestra del pasado
     vec4 previous = texture2D(colortex3, texcoord_past);
+
+    vec4 near_color0 = texture2D(colortex1, texcoord + vec2(-pixel_size_x, 0.0));
+    vec4 near_color1 = texture2D(colortex1, texcoord + vec2(pixel_size_x, 0.0));
+    vec4 near_color2 = texture2D(colortex1, texcoord + vec2(0.0, -pixel_size_y));
+    vec4 near_color3 = texture2D(colortex1, texcoord + vec2(0.0, pixel_size_y));
+
+    vec4 nmin = min(current_color, min(near_color0, min(near_color1, min(near_color2, near_color3))));
+    vec4 nmax = max(current_color, max(near_color0, max(near_color1, max(near_color2, near_color3))));    
 
     // Clip
     vec3 center = (nmin.rgb + nmax.rgb) * 0.5;
@@ -90,17 +82,17 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past) {
       factor = radio / color_dist;
     }
 
-    vec4 past_sample = vec4(center + (color_vector * factor), previous.a);
+    previous = vec4(center + (color_vector * factor), previous.a);
 
     // Edge detection
-    vec3 edge_color = -neighbourhood[0].rgb;
-    edge_color -= neighbourhood[1].rgb;
-    edge_color += neighbourhood[2].rgb * 4.0;
-    edge_color -= neighbourhood[3].rgb;
-    edge_color -= neighbourhood[4].rgb;
+    vec3 edge_color = -near_color0.rgb;
+    edge_color -= near_color1.rgb;
+    edge_color += current_color.rgb * 4.0;
+    edge_color -= near_color2.rgb;
+    edge_color -= near_color3.rgb;
 
-    float edge = clamp(length(edge_color) * 0.23, 0.0, 0.23);
+    float edge = clamp(length(edge_color) * 0.5773502691896258, 0.0, 1.0);  // 1/sqrt(3)
 
-    return mix(current_color, past_sample, 0.75 + edge);
+    return mix(current_color, previous, 0.8 + (edge * 0.19));
   }
 }

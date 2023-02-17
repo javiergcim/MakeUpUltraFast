@@ -23,7 +23,7 @@ rainStrength
 );
 
 cloud_color = mix(
-  clamp(mix(vec3(luma(cloud_color_aux)),cloud_color_aux, 0.5) * vec3(2.0), 0.0, 1.4),
+  clamp(mix(vec3(luma(cloud_color_aux)), cloud_color_aux, 0.5) * vec3(2.0), 0.0, 1.4),
   day_blend(
     LOW_MIDDLE_COLOR,
     LOW_DAY_COLOR,
@@ -34,7 +34,8 @@ cloud_color = mix(
 
 cloud_color = mix(cloud_color, LOW_SKY_RAIN_COLOR * luma(cloud_color_aux) * 4.5, rainStrength);
 
-dark_cloud_color = mix(dark_cloud_color, cloud_color_aux, 0.20);
+// dark_cloud_color = mix(dark_cloud_color, cloud_color_aux, 0.0);
+dark_cloud_color = mix(dark_cloud_color, cloud_color, 0.2);
 
 dark_cloud_color = mix(
 dark_cloud_color,
