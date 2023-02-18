@@ -1,0 +1,57 @@
+# Bienvenido a la edición comentada de Makeup
+
+Es mi deseo que MakeUp puede ser utilizado como base para crear más y mejores shaders, es por eso que escribo esta versión comentada del código fuente.
+
+Los comentarios que encuentres en el mismo espero te sean de ayuda para modificar y/p extender MakeUp de acuerdo a tus necesiades.
+
+¡Feliz edición!
+
+## Organización de los archivos del shader
+
+### common
+
+Con el propósito de evitar el código duplicado, los diversos shaders que se emplean en las distintas dimensiones de Minecraft hacen referencia a los archivos que se encuentran en este directorio. Es aquí donde se encuentran las rutinas principales, para cada uno de los diferentes tipos de bloques, así como el resto de pasos en la tubería de trabajo de Optifine/Iris.
+
+Los shaders de vertice y fragmento de cada paso se encuentran separados en archivos separados, que podrás identificar claramente por el nombre del archivo en cuestión.
+
+No necesariamente existe aquí un archivo cada paso o tipo de bloque, pues algunos bloques o pasos comparten muchas cosas en común, y en MakeUp son tratados igual (o casi igual).
+
+Los mejores ejemplos de esto último son solid_blocks_fragment.glsl y solid_blocks_vertex.glsl, que controlan el dibujado de la gran mayoría de los bloques del juego, que no sean translúcidos o merezcan una atención muy especial.
+
+El nombre de los archivos intenta ser explícito sobre su contenido o propósito.
+
+### lang
+
+Los archivos de traducción. Le dan nombre a las opciones en las pantallas de configuración.
+
+### lib
+
+Aquí se encuentran archivos con rutinas o declaraciones específicas que son empleadas en diversos lugares de las rutinas principales. 
+
+Los archivos que se encuentran en este directorio son tomados como "bibliotecas", y son llamados FUERA de la función principal del shader que los solicita (es decir, que no se insertan dentro de la función main del shader en cuestión). Usualmente porque declaran funciones o valores empleados por el quien los solicita.
+
+El nombre de los archivos intenta ser explícito sobre su contenido o propósito.
+
+### src
+
+Los archivos aquí cumplen un papel similar a los que se encuentran en shaders/lib. La diferencia radica en la forma en que son insertados en el código del shader que los solicita.
+
+En este caso, el código está pensado para ser insertado DENTRO de la función main del shader en cuestión. Son simples retazos de código que, al ser empleados varias veces, sólo están escritos una vez aquí, y son incluidos de forma "sucia" en el código, sin ser funciones estrictamente hablando.
+
+### textures
+
+Como su nombre lo indica, aquí se almacenan las texturas de las que hace uso el shader.
+
+### worldX
+
+Las ya conocidas carpetas que alojan a los shaders que corresponden a cada dimensión:
+
+- world0: Overworld
+- world-1: Nether
+- world1: The End
+
+Los shaders que se emplean para cualquier otra dimensión no especificada se encuentran en el directorio padre "shaders".
+
+------
+
+Revisa el resto de dirctorios o el código fuente para encontar información alusiva a ese elemento.

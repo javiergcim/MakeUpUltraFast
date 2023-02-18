@@ -1,9 +1,9 @@
-# MakeUp - Ultra Fast
+# MakeUp - Code
 High performance Minecraft shader (Java).
 
-## Version: 8.7: Uniforms
+## Version: 8.8: Code
 
-### This branch (main/develop) works in Optifine and Iris 1.5.1 or higher.
+### This version works in Optifine and Iris 1.5.1 or higher.
 
 ## Main features
 * Optional shadows
@@ -21,7 +21,7 @@ High performance Minecraft shader (Java).
 * FAST!
 
 ## Tested on:
-* Minecraft 1.12.+ - 1.18.x
+* Minecraft 1.12.+ - 1.19.x
 * Nvidia and Intel
 * Windows and Linux
 
