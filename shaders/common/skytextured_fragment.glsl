@@ -18,8 +18,8 @@ varying float sky_luma_correction;  // Flat
 
 void main() {
   #if defined THE_END || defined NETHER
-    vec4 block_color = vec4(HI_DAY_COLOR, 1.0);
-    vec3 background_color = HI_DAY_COLOR;
+    vec4 block_color = vec4(ZENITH_DAY_COLOR, 1.0);
+    vec3 background_color = ZENITH_DAY_COLOR;
   #else
     // Toma el color puro del bloque
     vec4 block_color = texture2D(tex, texcoord) * tint_color;

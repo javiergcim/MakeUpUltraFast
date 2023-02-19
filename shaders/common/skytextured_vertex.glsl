@@ -23,9 +23,9 @@ void main() {
   tint_color = gl_Color;
 
   sky_luma_correction = luma(day_blend(
-    AMBIENT_MIDDLE_COLOR,
-    AMBIENT_DAY_COLOR,
-    AMBIENT_NIGHT_COLOR
+    LIGHT_SUNSET_COLOR,
+    LIGHT_DAY_COLOR,
+    LIGHT_NIGHT_COLOR
   ));
 
   #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)

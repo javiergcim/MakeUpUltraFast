@@ -5,7 +5,7 @@
     float fog_density_coeff = FOG_DENSITY * FOG_ADJUST;
   #else
     float fog_density_coeff = day_blend_float(
-      FOG_MIDDLE,
+      FOG_SUNSET,
       FOG_DAY,
       FOG_NIGHT
     ) * FOG_ADJUST;

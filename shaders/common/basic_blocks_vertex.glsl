@@ -36,14 +36,14 @@ void main() {
   // vec2 basic_light_2 = (max(lmcoord, vec2(0.065)) - vec2(0.065)) * 1.06951871657754;
 
   basic_light = day_blend(
-    AMBIENT_MIDDLE_COLOR,
-    AMBIENT_DAY_COLOR,
-    AMBIENT_NIGHT_COLOR
+    LIGHT_SUNSET_COLOR,
+    LIGHT_DAY_COLOR,
+    LIGHT_NIGHT_COLOR
   );
 
   basic_light = mix(
     basic_light,
-    HI_SKY_RAIN_COLOR * luma(basic_light),
+    ZENITH_SKY_RAIN_COLOR * luma(basic_light),
     rainStrength
   );
 

@@ -26,7 +26,7 @@ varying vec4 star_data;
 void main() {
   #if defined THE_END || defined NETHER
     vec4 block_color = vec4(0.0, 0.0, 0.0, 1.0);
-    vec3 background_color = HI_DAY_COLOR;
+    vec3 background_color = ZENITH_DAY_COLOR;
   #else
     // Toma el color puro del bloque
     vec4 block_color = vec4(star_data.rgb, 1.0);
@@ -44,26 +44,26 @@ void main() {
       vec3 low_sky_color = fogColor;
     #else
       vec3 hi_sky_color = day_blend(
-        HI_MIDDLE_COLOR,
-        HI_DAY_COLOR,
-        HI_NIGHT_COLOR
+        ZENITH_SUNSET_COLOR,
+        ZENITH_DAY_COLOR,
+        ZENITH_NIGHT_COLOR
         );
 
       hi_sky_color = mix(
         hi_sky_color,
-        HI_SKY_RAIN_COLOR * luma(hi_sky_color),
+        ZENITH_SKY_RAIN_COLOR * luma(hi_sky_color),
         rainStrength
       );
 
       vec3 low_sky_color = day_blend(
-        LOW_MIDDLE_COLOR,
-        LOW_DAY_COLOR,
-        LOW_NIGHT_COLOR
+        HORIZON_SUNSET_COLOR,
+        HORIZON_DAY_COLOR,
+        HORIZON_NIGHT_COLOR
         );
 
       low_sky_color = mix(
         low_sky_color,
-        LOW_SKY_RAIN_COLOR * luma(low_sky_color),
+        HORIZON_SKY_RAIN_COLOR * luma(low_sky_color),
         rainStrength
       );
     #endif

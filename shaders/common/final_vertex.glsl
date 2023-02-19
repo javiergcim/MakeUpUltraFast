@@ -34,7 +34,7 @@ void main() {
     #if defined SIMPLE_AUTOEXP
 
       float exposure_coef = day_blend_float(
-        EXPOSURE_MIDDLE,
+        EXPOSURE_SUNSET,
         EXPOSURE_DAY,
         EXPOSURE_NIGHT
       );

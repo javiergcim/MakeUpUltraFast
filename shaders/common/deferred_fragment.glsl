@@ -120,7 +120,7 @@ void main() {
 
       #ifdef THE_END
         #ifdef END_CLOUDS
-          block_color = vec4(HI_DAY_COLOR, 1.0);
+          block_color = vec4(ZENITH_DAY_COLOR, 1.0);
           block_color.rgb =
             get_end_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
         #endif
@@ -133,7 +133,7 @@ void main() {
   #else
     #if defined THE_END
       if (linear_d > 0.9999) {  // Only sky
-        block_color = vec4(HI_DAY_COLOR, 1.0);
+        block_color = vec4(ZENITH_DAY_COLOR, 1.0);
       }
     #elif defined NETHER
       if (linear_d > 0.9999) {  // Only sky
@@ -160,7 +160,7 @@ void main() {
       float fog_density_coeff = FOG_DENSITY * FOG_ADJUST;
     #else
       float fog_density_coeff = day_blend_float(
-        FOG_MIDDLE,
+        FOG_SUNSET,
         FOG_DAY,
         FOG_NIGHT
       ) * FOG_ADJUST;

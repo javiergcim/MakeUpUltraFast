@@ -81,9 +81,9 @@ float omni_strenght = (direct_light_strenght * .125) + 1.0;
   direct_light_color = texture2D(lightmap, vec2(0.0, lmcoord.y)).rgb;
 #else
   direct_light_color = day_blend(
-    AMBIENT_MIDDLE_COLOR,
-    AMBIENT_DAY_COLOR,
-    AMBIENT_NIGHT_COLOR
+    LIGHT_SUNSET_COLOR,
+    LIGHT_DAY_COLOR,
+    LIGHT_NIGHT_COLOR
     );
 #endif
 
@@ -105,28 +105,28 @@ float omni_strenght = (direct_light_strenght * .125) + 1.0;
 #endif
 
 #if defined THE_END || defined NETHER
-  omni_light = AMBIENT_DAY_COLOR;
+  omni_light = LIGHT_DAY_COLOR;
 #else
   // Calculamos color de luz ambiental
 
   vec3 hi_sky_color = day_blend(
-    HI_MIDDLE_COLOR,
-    HI_DAY_COLOR,
-    HI_NIGHT_COLOR
+    ZENITH_SUNSET_COLOR,
+    ZENITH_DAY_COLOR,
+    ZENITH_NIGHT_COLOR
     );
 
-  vec3 sky_rain_color = HI_SKY_RAIN_COLOR * luma(hi_sky_color);
+  vec3 sky_rain_color = ZENITH_SKY_RAIN_COLOR * luma(hi_sky_color);
 
   #ifdef SIMPLE_AUTOEXP
     direct_light_color = mix(
       direct_light_color,
-      HI_SKY_RAIN_COLOR * luma(direct_light_color),
+      ZENITH_SKY_RAIN_COLOR * luma(direct_light_color),
       rainStrength
     );
   #else
     direct_light_color = mix(
       direct_light_color,
-      HI_SKY_RAIN_COLOR * luma(direct_light_color) * 0.4,
+      ZENITH_SKY_RAIN_COLOR * luma(direct_light_color) * 0.4,
       rainStrength
     );
   #endif
@@ -137,7 +137,7 @@ float omni_strenght = (direct_light_strenght * .125) + 1.0;
     rainStrength
   );
 
-  float sky_day_pseudoluma = color_average(HI_DAY_COLOR);
+  float sky_day_pseudoluma = color_average(ZENITH_DAY_COLOR);
   float current_sky_pseudoluma = color_average(hi_sky_color);
 
   float luma_ratio = sky_day_pseudoluma / current_sky_pseudoluma;

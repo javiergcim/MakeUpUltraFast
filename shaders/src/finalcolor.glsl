@@ -3,7 +3,7 @@
     block_color.rgb =
       mix(
         block_color.rgb,
-        HI_DAY_COLOR,
+        ZENITH_DAY_COLOR,
         frog_adjust
       );
   }

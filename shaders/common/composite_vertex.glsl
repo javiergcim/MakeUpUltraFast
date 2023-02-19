@@ -66,14 +66,14 @@ void main() {
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
 
   direct_light_color = day_blend(
-    AMBIENT_MIDDLE_COLOR,
-    AMBIENT_DAY_COLOR,
-    AMBIENT_NIGHT_COLOR
+    LIGHT_SUNSET_COLOR,
+    LIGHT_DAY_COLOR,
+    LIGHT_NIGHT_COLOR
   );
 
   direct_light_color = mix(
     direct_light_color,
-    HI_SKY_RAIN_COLOR * luma(direct_light_color),
+    ZENITH_SKY_RAIN_COLOR * luma(direct_light_color),
     rainStrength
   );
 
@@ -82,7 +82,7 @@ void main() {
     #if defined SIMPLE_AUTOEXP
 
       float exposure_coef = day_blend_float(
-        EXPOSURE_MIDDLE,
+        EXPOSURE_SUNSET,
         EXPOSURE_DAY,
         EXPOSURE_NIGHT
       );
@@ -123,9 +123,9 @@ void main() {
     }
 
     vol_light_color = day_blend(
-      AMBIENT_MIDDLE_COLOR,
-      AMBIENT_DAY_COLOR,
-      AMBIENT_NIGHT_COLOR
+      LIGHT_SUNSET_COLOR,
+      LIGHT_DAY_COLOR,
+      LIGHT_NIGHT_COLOR
     ) * 1.2 * vol_attenuation;
   #endif
 

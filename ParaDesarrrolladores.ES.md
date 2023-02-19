@@ -72,10 +72,29 @@ Los buffers son utilizados y asignados de la siguiente manera:
 
 -----
 
-# Pasos de dibujado generales en una escena
+# Pasos generales de dibujado
 
-Esta es sólo una descripción general de los pasos que sigue el dibujado de una escena típica. No tiene todos los detalles, y puede varíar según la dimensión activa.
+Esta es sólo una descripción general de los pasos que sigue el dibujado de una escena típica. No tiene todos los detalles, y puede varíar según la dimensión y opciones activadas.
 
-1. 
+1. Se calcula el color del cielo y las nubes nativas de Minecraft (si estuvieran activadas). El color del cielo escribe en dos lugares:
+ - colortex0: Se empleará después para escribir ahí los bloques sólidos.
+ - gaux4: Este buffer se empleará para extraer de ella el color de la niebla.
 
-Revisa el resto de dirctorios o el código fuente para encontar información alusiva a ese elemento.
+2. Los bloques sólidos se crean en los correspondientes programas gbuffer. Aquí se calcula la iluminación de los bloques (sombras incluídas).
+El resultado se escribirá en:
+ - colortex1
+
+3. En deferred, se calcularán las nubes y la oclusión ambiental. Los resultados se escribirán en:
+ - colortex1: Se escribe la escena calculada, y el canal "a" almacenará la profundidad (por eso no se emplea colortex0, que tiene sólo tres canales)
+ - gaux1: Se empleará posteriormente como fuente de datos para el calculo de los reflejos y refracciones de espacio de pantalla en el paso siguiente.
+
+4. Se dibujan los bloques translúcidos. Se calculan de nuevo las nubes en baja calidad para ser empleadas en los reflejos. Se lee gaux1 como fuente para las refracciones y reflejos de pantalla. Se sigue empleando el cuarto canal para almacenar la profundidad. Los resultados se escriben en:
+  - colortex1
+
+5. En Composite se calcula el nivel de autoexposure del cuadro actual, y se pondera con el valor histórico guardado en gaux3. Se calcula también la luz volumétrica, y se prepara el bloom. El auto exposure no toma en cuenta ninguno de estos últimos efectos ni los posteriores.
+"Preparar el bloom", significa guardar una versión de la escena actual con el nivel de exposición aplicado, en: gaux1.
+Se guarda también el valor calculado de la exposición en: gaux3. 
+
+-----
+
+Revisa el resto de directorios o el código fuente para encontar información alusiva a ese elemento.
