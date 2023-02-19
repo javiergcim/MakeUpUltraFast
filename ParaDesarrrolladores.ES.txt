@@ -8,7 +8,7 @@ Los comentarios que encuentres en el mismo espero te sean de ayuda para modifica
 
 ## Organización de los archivos del shader
 
-### common
+### shaders/common
 
 Con el propósito de evitar el código duplicado, los diversos shaders que se emplean en las distintas dimensiones de Minecraft hacen referencia a los archivos que se encuentran en este directorio. Es aquí donde se encuentran las rutinas principales, para cada uno de los diferentes tipos de bloques, así como el resto de pasos en la tubería de trabajo de Optifine/Iris.
 
@@ -20,11 +20,11 @@ Los mejores ejemplos de esto último son solid_blocks_fragment.glsl y solid_bloc
 
 El nombre de los archivos intenta ser explícito sobre su contenido o propósito.
 
-### lang
+### shaders/lang
 
 Los archivos de traducción. Le dan nombre a las opciones en las pantallas de configuración.
 
-### lib
+### shaders/lib
 
 Aquí se encuentran archivos con rutinas o declaraciones específicas que son empleadas en diversos lugares de las rutinas principales. 
 
@@ -32,17 +32,17 @@ Los archivos que se encuentran en este directorio son tomados como "bibliotecas"
 
 El nombre de los archivos intenta ser explícito sobre su contenido o propósito.
 
-### src
+### shaders/src
 
 Los archivos aquí cumplen un papel similar a los que se encuentran en shaders/lib. La diferencia radica en la forma en que son insertados en el código del shader que los solicita.
 
 En este caso, el código está pensado para ser insertado DENTRO de la función main del shader en cuestión. Son simples retazos de código que, al ser empleados varias veces, sólo están escritos una vez aquí, y son incluidos de forma "sucia" en el código, sin ser funciones estrictamente hablando.
 
-### textures
+### shaders/textures
 
 Como su nombre lo indica, aquí se almacenan las texturas de las que hace uso el shader.
 
-### worldX
+### shaders/worldX
 
 Las ya conocidas carpetas que alojan a los shaders que corresponden a cada dimensión:
 
@@ -52,6 +52,30 @@ Las ya conocidas carpetas que alojan a los shaders que corresponden a cada dimen
 
 Los shaders que se emplean para cualquier otra dimensión no especificada se encuentran en el directorio padre "shaders".
 
-------
+-----
+
+# Flujo de dibujado principal
+
+## Buffers
+
+Los buffers son utilizados y asignados de la siguiente manera:
+
+- noisetex: Almacena las normales del agua en dos canales, el tercer componente es calculado al momento. (RG8)
+- colortex0: Aquí descargan los programas gbuffer el dibujado de los bloques sólidos. (R11F_G11F_B10F)
+- colortex1: Un buffer que se usa como auxiliar o almacén temporal de información de color, principalmente al momento de hacer el muestreo temporal. Cuando está actvo el DOF, es de cuatro canales, donde el cuarto canal almacena la profundidad de la escena para ser también suavizada por el antialias, y así evitar problemas en cambios de enfoque súbitos por la sacudida de la cámara. (Sin DOF: R11F_G11F_B10F, con DOF: RGBA16)
+- colortex2: Almacena el mapa para las nubes en formato "blocky". (R8)
+- colortex3: Aquí se almacena el historial empleado por el muestreo temporal. Cuando está actvo el DOF, es de cuatro canales, donde el cuarto canal almacena la profundidad de la escena para ser también suavizada por el antialias, y así evitar problemas en cambios de enfoque súbitos por la sacudida de la cámara. (Sin DOF: R11F_G11F_B10F, con DOF: RGBA16) 
+- gaux1: Aquí se almacena una versión de la escena que será empleada en los reflejos y refracciones de espacio de pantalla. Después de ser empleado para ello, se utiliza como auxiliar para almacenar el bloom de la escena. (R11F_G11F_B10F)
+- gaux2: Almacena el mapa para las nubes en formato "natural". (R8)
+- gaux3: Almacena el valor histórico de autoexposición de la escena. El valor de autoexposición se obtiene haciendo un promedio ponderado con el valor de este canal y el calculado en la escena actual, a fin de hacer una transición de autoexposición gradual en el tiempo. Sí, se usa un canal entero para almacenar un único valor flotante. Sólo es usado si se usa el método de autoexposición predeterminado. (R16F)
+- gaux4: Almacena el color del cielo (sin nubes ni otros objetos), para otorgar el color que deberá emplearse en la niebla (sí, la niebla siempre es del color del cielo en el Overworld). De esta forma, los objetos se difuminan y confunden con el cielo a la distancia.
+
+-----
+
+# Pasos de dibujado generales en una escena
+
+Esta es sólo una descripción general de los pasos que sigue el dibujado de una escena típica. No tiene todos los detalles, y puede varíar según la dimensión activa.
+
+1. 
 
 Revisa el resto de dirctorios o el código fuente para encontar información alusiva a ese elemento.
