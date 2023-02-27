@@ -275,3 +275,9 @@ screen.ACCESIBILITY_SCREEN.comment=Ändra tillgänglighetsalternativ
 
 screen.DEBUG_SCREEN=Felsökningsalternativ
 screen.DEBUG_SCREEN.comment=Ändra felsökningsalternativ
+
+screen.CUSTOM_COLORS_SCREEN=Anpassade färger
+screen.CUSTOM_COLORS_SCREEN.comment=Ställ in anpassade färger
+screen.CUSTOM_COLORS_LIGHT=Ljusa anpassade färger
+screen.CUSTOM_COLORS_SKY=Sky anpassade färger
+screen.CUSTOM_COLORS_WATER=Vatten anpassad färg
