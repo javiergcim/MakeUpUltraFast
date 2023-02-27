@@ -129,6 +129,49 @@ value.COLOR_SCHEME.3=Legacy
 value.COLOR_SCHEME.4=Captain
 value.COLOR_SCHEME.5=Psychedelic
 value.COLOR_SCHEME.6=Cocoa
+value.COLOR_SCHEME.99=Custom
+
+option.LIGHT_SUNSET_COLOR_R=Sunset light R
+option.LIGHT_SUNSET_COLOR_G=Sunset light G
+option.LIGHT_SUNSET_COLOR_B=Sunset light B
+
+option.LIGHT_DAY_COLOR_R=Day light R
+option.LIGHT_DAY_COLOR_G=Day light G
+option.LIGHT_DAY_COLOR_B=Day light B
+
+option.LIGHT_NIGHT_COLOR_R=Night light R
+option.LIGHT_NIGHT_COLOR_G=Night light G
+option.LIGHT_NIGHT_COLOR_B=Night light B
+
+option.ZENITH_SUNSET_COLOR_R=Zenith sunset R
+option.ZENITH_SUNSET_COLOR_G=Zenith sunset G
+option.ZENITH_SUNSET_COLOR_B=Zenith sunset B
+
+option.ZENITH_DAY_COLOR_R=Zenith day R
+option.ZENITH_DAY_COLOR_G=Zenith day G
+option.ZENITH_DAY_COLOR_B=Zenith day B
+
+option.ZENITH_NIGHT_COLOR_R=Zenith night R
+option.ZENITH_NIGHT_COLOR_G=Zenith night G
+option.ZENITH_NIGHT_COLOR_B=Zenith night B
+
+option.HORIZON_SUNSET_COLOR_R=Horizon sunset R
+option.HORIZON_SUNSET_COLOR_G=Horizon sunset G
+option.HORIZON_SUNSET_COLOR_B=Horizon sunset B
+
+option.HORIZON_DAY_COLOR_R=Horizon day R
+option.HORIZON_DAY_COLOR_G=Horizon day G
+option.HORIZON_DAY_COLOR_B=Horizon day B
+
+option.HORIZON_NIGHT_COLOR_R=Horizon night R
+option.HORIZON_NIGHT_COLOR_G=Horizon night G
+option.HORIZON_NIGHT_COLOR_B=Horizon night B
+
+option.WATER_COLOR_R=Water R
+option.WATER_COLOR_G=Water G
+option.WATER_COLOR_B=Water B
+
+option.OMNI_TINT_CUSTOM=Omni tint
 
 option.AVOID_DARK_LEVEL=Cave brightness
 
@@ -232,3 +275,9 @@ screen.ACCESIBILITY_SCREEN.comment=Set accesibility options
 
 screen.DEBUG_SCREEN=Debug options
 screen.DEBUG_SCREEN.comment=Set debug options
+
+screen.CUSTOM_COLORS_SCREEN=Custom colors
+screen.CUSTOM_COLORS_SCREEN.comment=Set custom colors
+screen.CUSTOM_COLORS_LIGHT=Light custom colors
+screen.CUSTOM_COLORS_SKY=Sky custom colors
+screen.CUSTOM_COLORS_WATER=Water custom color

@@ -129,6 +129,49 @@ value.COLOR_SCHEME.3=Legacy
 value.COLOR_SCHEME.4=Captain
 value.COLOR_SCHEME.5=Psychedelic
 value.COLOR_SCHEME.6=Cocoa
+value.COLOR_SCHEME.99=Beställnings
+
+option.LIGHT_SUNSET_COLOR_R=Solnedgångsljus R
+option.LIGHT_SUNSET_COLOR_G=Solnedgångsljus G
+option.LIGHT_SUNSET_COLOR_B=Solnedgångsljus B
+
+option.LIGHT_DAY_COLOR_R=Dagsljus R
+option.LIGHT_DAY_COLOR_G=Dagsljus G
+option.LIGHT_DAY_COLOR_B=Dagsljus B
+
+option.LIGHT_NIGHT_COLOR_R=Nattlampa R
+option.LIGHT_NIGHT_COLOR_G=Nattlampa G
+option.LIGHT_NIGHT_COLOR_B=Nattlampa B
+
+option.ZENITH_SUNSET_COLOR_R=Zenith solnedgång R
+option.ZENITH_SUNSET_COLOR_G=Zenith solnedgång G
+option.ZENITH_SUNSET_COLOR_B=Zenith solnedgång B
+
+option.ZENITH_DAY_COLOR_R=Zenith dag R
+option.ZENITH_DAY_COLOR_G=Zenith dag G
+option.ZENITH_DAY_COLOR_B=Zenith dag B
+
+option.ZENITH_NIGHT_COLOR_R=Zenith natt R
+option.ZENITH_NIGHT_COLOR_G=Zenith natt G
+option.ZENITH_NIGHT_COLOR_B=Zenith natt B
+
+option.HORIZON_SUNSET_COLOR_R=Horisont solnedgång R
+option.HORIZON_SUNSET_COLOR_G=Horisont solnedgång G
+option.HORIZON_SUNSET_COLOR_B=Horisont solnedgång B
+
+option.HORIZON_DAY_COLOR_R=Horisont dag R
+option.HORIZON_DAY_COLOR_G=Horisont dag G
+option.HORIZON_DAY_COLOR_B=Horisont dag B
+
+option.HORIZON_NIGHT_COLOR_R=Horisont natt R
+option.HORIZON_NIGHT_COLOR_G=Horisont natt G
+option.HORIZON_NIGHT_COLOR_B=Horisont natt B
+
+option.WATER_COLOR_R=Vatten R
+option.WATER_COLOR_G=Vatten G
+option.WATER_COLOR_B=Vatten B
+
+option.OMNI_TINT_CUSTOM=Omni nyans
 
 option.AVOID_DARK_LEVEL=Ljusstyrka i grottor
 
