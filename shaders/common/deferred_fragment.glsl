@@ -52,6 +52,8 @@ uniform float pixel_size_y;
 
 varying vec2 texcoord;
 varying vec3 up_vec;  // Flat
+varying vec3 hi_sky_color;  // Flat
+varying vec3 low_sky_color; // Flat
 
 #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
   varying float umbral;
@@ -90,16 +92,15 @@ void main() {
 
   vec3 view_vector = vec3(1.0);
 
-  #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
-    #if AA_TYPE > 0
-      float dither = shifted_eclectic_makeup_dither(gl_FragCoord.xy);
-    #else
-      float dither = semiblue(gl_FragCoord.xy);
-    #endif
+  #if AA_TYPE > 0
+    float dither = shifted_eclectic_makeup_dither(gl_FragCoord.xy);
+  #else
+    float dither = semiblue(gl_FragCoord.xy);
   #endif
 
-  #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
-    if (linear_d > 0.9999) {  // Only sky
+  if (linear_d > 0.9999) {  // Only sky
+    #include "/lib/sky_color_fragment.glsl"
+    #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
       vec4 world_pos =
         gbufferModelViewInverse * gbufferProjectionInverse * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
       view_vector = normalize(world_pos.xyz);
@@ -128,32 +129,27 @@ void main() {
         block_color.rgb =
           get_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG, umbral, cloud_color, dark_cloud_color);
       #endif
-    }
-
-  #else
-    #if defined THE_END
-      if (linear_d > 0.9999) {  // Only sky
-        block_color = vec4(ZENITH_DAY_COLOR, 1.0);
-      }
-    #elif defined NETHER
-      if (linear_d > 0.9999) {  // Only sky
-        block_color = vec4(mix(fogColor * 0.1, vec3(1.0), 0.04), 1.0);
-      }
     #else
-      if (linear_d > 0.9999 && isEyeInWater == 1) {  // Only sky and water
-        vec4 screen_pos =
-          vec4(
-            gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
-            gl_FragCoord.z,
-            1.0
-          );
-        vec4 fragposition = gbufferProjectionInverse * (screen_pos * 2.0 - 1.0);
+      #if defined THE_END
+        block_color = vec4(ZENITH_DAY_COLOR, 1.0);
+      #elif defined NETHER
+        block_color = vec4(mix(fogColor * 0.1, vec3(1.0), 0.04), 1.0);
+      #else
+        if (isEyeInWater == 1) {  // Only sky and water
+          vec4 screen_pos =
+            vec4(
+              gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
+              gl_FragCoord.z,
+              1.0
+            );
+          vec4 fragposition = gbufferProjectionInverse * (screen_pos * 2.0 - 1.0);
 
-        vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
-        view_vector = normalize(world_pos.xyz);
-      }
-    #endif    
-  #endif
+          vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
+          view_vector = normalize(world_pos.xyz);
+        }
+      #endif
+    #endif
+  } 
 
   #if AO == 1
     #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
