@@ -17,11 +17,7 @@ uniform float pixel_size_x;
 uniform float pixel_size_y;
 uniform float rainStrength;
 
-// varying vec3 up_vec;
 varying vec4 star_data;
-
-// #include "/lib/dither.glsl"
-// #include "/lib/luma.glsl"
 
 void main() {
   #if defined THE_END || defined NETHER
@@ -30,10 +26,10 @@ void main() {
   #else
     // Toma el color puro del bloque
     vec4 block_color = vec4(star_data.rgb, 1.0);
-    vec3 background_color = vec3(-1.0);
+    vec4 background_color = vec4(0.0, 0.0, 0.0, 0.0);
 
     if (star_data.a < 0.9) {
-      block_color.rgb = background_color;
+      block_color = background_color;
     }
 
   #endif

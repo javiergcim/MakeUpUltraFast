@@ -15,7 +15,6 @@ uniform int isEyeInWater;
 uniform sampler2D depthtex0;
 uniform float far;
 uniform float near;
-uniform float blindness;
 uniform float rainStrength;
 uniform sampler2D gaux3;
 
@@ -44,6 +43,12 @@ uniform mat4 gbufferModelViewInverse;
 uniform mat4 gbufferProjectionInverse;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
+
+#if MC_VERSION >= 11900
+  uniform float darknessFactor;
+  uniform float darknessLightFactor;
+  uniform float blindness;
+#endif
 
 #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
   uniform mat4 gbufferProjection;
@@ -98,8 +103,11 @@ void main() {
     float dither = semiblue(gl_FragCoord.xy);
   #endif
 
+  #include "/src/sky_color_fragment.glsl"
+
   if (linear_d > 0.9999) {  // Only sky
-    #include "/src/sky_color_fragment.glsl"
+    block_color = mix(vec4(sky_base, 1.0), block_color, block_color);
+
     #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
       vec4 world_pos =
         gbufferModelViewInverse * gbufferProjectionInverse * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
@@ -152,30 +160,35 @@ void main() {
   } 
 
   #if AO == 1
-    #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
-      float fog_density_coeff = FOG_DENSITY * FOG_ADJUST;
-    #else
-      float fog_density_coeff = day_blend_float(
-        FOG_SUNSET,
-        FOG_DAY,
-        FOG_NIGHT
-      ) * FOG_ADJUST;
-    #endif
+    // #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+    //   float fog_density_coeff = FOG_DENSITY * FOG_ADJUST;
+    // #else
+    //   float fog_density_coeff = day_blend_float(
+    //     FOG_SUNSET,
+    //     FOG_DAY,
+    //     FOG_NIGHT
+    //   ) * FOG_ADJUST;
+    // #endif
 
     // AO distance attenuation
-    #if defined NETHER
-      linear_d = sqrt(linear_d);
-    #endif
-    float ao_att = pow(
-      clamp(linear_d * 1.6, 0.0, 1.0),
-      mix(fog_density_coeff, 1.0, rainStrength)
-    );
+    // #if defined NETHER
+    //   linear_d = sqrt(linear_d);
+    // #endif
+    // float ao_att = pow(
+    //   clamp(linear_d * 1.6, 0.0, 1.0),
+    //   mix(fog_density_coeff, 1.0, rainStrength)
+    // );
 
-    float final_ao = mix(dbao(dither), 1.0, ao_att);
-    block_color.rgb *= final_ao;
-    // block_color = vec4(vec3(final_ao), 1.0);
-    // block_color = vec4(vec3(linear_d), 1.0);
+    // float final_ao = mix(dbao(dither), 1.0, ao_att);
+    // block_color.rgb *= final_ao;
+    // // block_color = vec4(vec3(final_ao), 1.0);
+    // // block_color = vec4(vec3(linear_d), 1.0);
+
+    // AO
+    block_color.rgb *= dbao(dither);
   #endif
+
+  // Fog calculation
 
   #if defined THE_END || defined NETHER
     #define NIGHT_CORRECTION 1.0
