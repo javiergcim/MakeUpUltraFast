@@ -99,7 +99,7 @@ void main() {
   #endif
 
   if (linear_d > 0.9999) {  // Only sky
-    #include "/lib/sky_color_fragment.glsl"
+    #include "/src/sky_color_fragment.glsl"
     #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
       vec4 world_pos =
         gbufferModelViewInverse * gbufferProjectionInverse * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);

@@ -12,9 +12,9 @@
 uniform mat4 gbufferModelView;
 uniform float rainStrength;
 
-#if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
-  uniform float rainStrength;
-#endif
+// #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
+//   uniform float rainStrength;
+// #endif
 
 varying vec2 texcoord;
 varying vec3 up_vec;
@@ -36,7 +36,7 @@ void main() {
   texcoord = gl_MultiTexCoord0.xy;
   up_vec = normalize(gbufferModelView[1].xyz);
 
-  #include "/lib/sky_color_vertex.glsl"
+  #include "/src/sky_color_vertex.glsl"
 
   #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
     #include "/lib/volumetric_clouds_vertex.glsl"
