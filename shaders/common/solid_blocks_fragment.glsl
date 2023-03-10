@@ -60,7 +60,7 @@ uniform float blindness;
 
 varying vec2 texcoord;
 varying vec4 tint_color;
-varying float frog_adjust;
+// varying float frog_adjust;
 varying vec3 direct_light_color;
 varying vec3 candle_color;
 varying float direct_light_strenght;
@@ -193,6 +193,6 @@ void main() {
     block_color.rgb *= 1.5;
   #endif
 
-  #include "/src/finalcolor.glsl"
+  // #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"
 }

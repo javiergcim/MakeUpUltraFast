@@ -19,12 +19,12 @@ uniform float blindness;
 // Varyings (per thread shared variables)
 varying vec2 texcoord;
 varying vec4 tint_color;
-varying float frog_adjust;
+// varying float frog_adjust;
 
 void main() {
   #if V_CLOUDS == 0 || defined UNKNOWN_DIM
     vec4 block_color = texture2D(tex, texcoord) * tint_color;
-    #include "/src/cloudfinalcolor.glsl"
+    // #include "/src/cloudfinalcolor.glsl"
   #else
     vec4 block_color = vec4(0.0);
   #endif

@@ -39,7 +39,7 @@ uniform mat4 gbufferProjectionInverse;
 varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
-varying float frog_adjust;
+// varying float frog_adjust;
 varying vec3 water_normal;
 varying float block_type;
 varying vec4 worldposition;
@@ -115,7 +115,7 @@ void main() {
 
   up_vec = normalize(gbufferModelView[1].xyz);
 
-  #include "/src/fog_vertex.glsl"
+  // #include "/src/fog_vertex.glsl"
 
   #if defined SHADOW_CASTING && !defined NETHER
     #include "/src/shadow_src_vertex.glsl"

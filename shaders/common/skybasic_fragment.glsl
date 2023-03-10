@@ -26,7 +26,7 @@ void main() {
   #else
     // Toma el color puro del bloque
     vec4 block_color = vec4(star_data.rgb, 1.0);
-    vec4 background_color = vec4(0.0, 0.0, 0.0, 0.0);
+    vec4 background_color = vec4(0.0, 0.0, 0.0, 1.0);
 
     if (star_data.a < 0.9) {
       block_color = background_color;

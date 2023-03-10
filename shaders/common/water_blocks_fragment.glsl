@@ -68,7 +68,7 @@ uniform float blindness;
 varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
-varying float frog_adjust;
+// varying float frog_adjust;
 varying vec3 water_normal;
 varying float block_type;
 varying vec4 worldposition;
@@ -324,6 +324,6 @@ void main() {
     }
   }
 
-  #include "/src/finalcolor.glsl"
+  // #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"
 }

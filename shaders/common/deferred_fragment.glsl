@@ -88,6 +88,18 @@ varying vec3 low_sky_color; // Flat
   
 #endif
 
+
+
+
+vec3 to_view(vec3 clippos) {
+    return vec3(
+      vec2(gbufferProjectionInverse[0].x, gbufferProjectionInverse[1].y) * clippos.xy + gbufferProjectionInverse[3].xy,
+      gbufferProjectionInverse[3].z) / (gbufferProjectionInverse[2].w * clippos.z + gbufferProjectionInverse[3].w);
+}
+
+
+
+
 void main() {
   vec4 block_color = texture2D(colortex0, texcoord);
   float d = texture2D(depthtex0, texcoord).r;
@@ -188,7 +200,59 @@ void main() {
     block_color.rgb *= dbao(dither);
   #endif
 
+  vec3 fview_pos = to_view(vec3(texcoord, d) * 2.0 - 1.0);
+  float fdist = dot(fview_pos, fview_pos);
+
+  float frog_adjust = clamp(fdist / (far * far), 0.0, 1.0);
+
+
+
+
+
+
+
+
+
+
+
+
   // Fog calculation
+  // #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+  //   float fog_density_coeff = FOG_DENSITY * FOG_ADJUST;
+  // #else
+  //   float fog_density_coeff = day_blend_float(
+  //     FOG_SUNSET,
+  //     FOG_DAY,
+  //     FOG_NIGHT
+  //   ) * FOG_ADJUST;
+  // #endif
+  // float fog_intensity_coeff = eye_bright_smooth.y * 0.004166666666666667;
+  // // float frog_adjust = pow(clamp(gl_FogFragCoord, 0.0, 1.0) * fog_intensity_coeff, mix(fog_density_coeff, 1.0, rainStrength));
+  // float frog_adjust = gl_FragCoord.z;
+
+
+
+
+
+
+
+
+
+  if (isEyeInWater == 0) {  // In the air
+    block_color.rgb =
+      mix(
+        block_color.rgb,
+        sky_base,
+        frog_adjust
+      );
+    // debug
+    // block_color.rgb = vec3(frog_adjust);
+  }
+
+
+
+
+
 
   #if defined THE_END || defined NETHER
     #define NIGHT_CORRECTION 1.0
