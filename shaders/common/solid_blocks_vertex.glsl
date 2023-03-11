@@ -57,7 +57,7 @@ uniform mat4 gbufferProjectionInverse;
 
 varying vec2 texcoord;
 varying vec4 tint_color;
-// varying float frog_adjust;
+varying float frog_adjust;
 varying vec3 direct_light_color;
 varying vec3 candle_color;
 varying float direct_light_strenght;
@@ -120,7 +120,7 @@ void main() {
   #include "/src/basiccoords_vertex.glsl"
   #include "/src/position_vertex.glsl"
   #include "/src/light_vertex.glsl"
-  // #include "/src/fog_vertex.glsl"
+  #include "/src/fog_vertex.glsl"
 
   #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
     emmisive_type = 0.0;
