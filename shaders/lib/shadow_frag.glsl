@@ -4,17 +4,17 @@ Fragment shadow function.
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-float get_shadow(vec3 the_shadow_pos) {
+float get_shadow(vec3 the_shadow_pos, float dither) {
   float shadow_sample = 1.0;
 
   #if SHADOW_TYPE == 0  // Pixelated
      shadow_sample = shadow2D(shadowtex1, the_shadow_pos).r;
   #elif SHADOW_TYPE == 1  // Soft
-    #if AA_TYPE > 0
-      float dither = shifted_r_dither(gl_FragCoord.xy);
-    #else
-      float dither = r_dither(gl_FragCoord.xy);
-    #endif
+    // #if AA_TYPE > 0
+    //   float dither = shifted_r_dither(gl_FragCoord.xy);
+    // #else
+    //   float dither = r_dither(gl_FragCoord.xy);
+    // #endif
 
     float current_radius = dither;
     dither *= 6.283185307179586;
@@ -37,7 +37,7 @@ float get_shadow(vec3 the_shadow_pos) {
 
 #if defined COLORED_SHADOW
 
-  vec3 get_colored_shadow(vec3 the_shadow_pos) {
+  vec3 get_colored_shadow(vec3 the_shadow_pos, float dither) {
 
     #if SHADOW_TYPE == 0  // Pixelated
       float shadow_detector = 1.0;
@@ -73,11 +73,11 @@ float get_shadow(vec3 the_shadow_pos) {
 
       float alpha_complement;
 
-      #if AA_TYPE > 0
-        float dither = shifted_r_dither(gl_FragCoord.xy);
-      #else
-        float dither = r_dither(gl_FragCoord.xy);
-      #endif
+      // #if AA_TYPE > 0
+      //   float dither = shifted_r_dither(gl_FragCoord.xy);
+      // #else
+      //   float dither = r_dither(gl_FragCoord.xy);
+      // #endif
 
       float current_radius = dither;
       dither *= 6.283185307179586;

@@ -91,8 +91,9 @@ varying vec3 low_sky_color;
   varying float luma_power;
 #endif
 
+#include "/lib/dither.glsl"
 #if defined SHADOW_CASTING && !defined NETHER
-  #include "/lib/dither.glsl"
+  // #include "/lib/dither.glsl"
   #include "/lib/shadow_frag.glsl"
 #endif
 
@@ -138,12 +139,18 @@ void main() {
     }
   #endif
 
+   #if AA_TYPE > 0
+    float dither = shifted_r_dither(gl_FragCoord.xy);
+  #else
+    float dither = r_dither(gl_FragCoord.xy);
+  #endif
+
   #if defined SHADOW_CASTING && !defined NETHER
     #if defined COLORED_SHADOW
-      vec3 shadow_c = get_colored_shadow(shadow_pos);
+      vec3 shadow_c = get_colored_shadow(shadow_pos, dither);
       shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
     #else
-      float shadow_c = get_shadow(shadow_pos);
+      float shadow_c = get_shadow(shadow_pos, dither);
       shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
     #endif
   #else

@@ -21,6 +21,7 @@ uniform float far;
 uniform float rainStrength;
 uniform ivec2 eyeBrightnessSmooth;
 uniform mat4 gbufferProjectionInverse;
+uniform mat4 gbufferModelView;
 
 #ifdef DYN_HAND_LIGHT
   uniform int heldItemId;
@@ -32,7 +33,7 @@ uniform mat4 gbufferProjectionInverse;
 #endif
 
 #if defined FOLIAGE_V || defined THE_END || defined NETHER
-  uniform mat4 gbufferModelView;
+  // uniform mat4 gbufferModelView;
 #endif
 
 #if defined FOLIAGE_V || defined SHADOW_CASTING || (defined MATERIAL_GLOSS && !defined NETHER)

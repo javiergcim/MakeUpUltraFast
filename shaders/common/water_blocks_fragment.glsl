@@ -170,15 +170,21 @@ void main() {
       hi_sky_color * .5 * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667);
   }
 
-  #if (defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER) || SSR_TYPE > 0
-    #if AA_TYPE > 0
-      float dither = shifted_r_dither(gl_FragCoord.xy);
-    #else
-      float dither = dither13(gl_FragCoord.xy);
-    #endif
+   #if AA_TYPE > 0
+    float dither = shifted_r_dither(gl_FragCoord.xy);
   #else
-    float dither = 1.0;
+    float dither = r_dither(gl_FragCoord.xy);
   #endif
+
+  // #if (defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER) || SSR_TYPE > 0
+  //   #if AA_TYPE > 0
+  //     float dither = shifted_r_dither(gl_FragCoord.xy);
+  //   #else
+  //     float dither = dither13(gl_FragCoord.xy);
+  //   #endif
+  // #else
+  //   float dither = 1.0;
+  // #endif
 
   #if defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER
     sky_color_reflect = get_cloud(
@@ -198,10 +204,10 @@ void main() {
     #ifdef VANILLA_WATER
       #if defined SHADOW_CASTING && !defined NETHER
         #if defined COLORED_SHADOW
-          vec3 shadow_c = get_colored_shadow(shadow_pos);
+          vec3 shadow_c = get_colored_shadow(shadow_pos, dither);
           shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
         #else
-          float shadow_c = get_shadow(shadow_pos);
+          float shadow_c = get_shadow(shadow_pos, dither);
           shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
         #endif
       #else
@@ -293,10 +299,10 @@ void main() {
 
     #if defined SHADOW_CASTING && !defined NETHER
       #if defined COLORED_SHADOW
-        vec3 shadow_c = get_colored_shadow(shadow_pos);
+        vec3 shadow_c = get_colored_shadow(shadow_pos, dither);
         shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
       #else
-        float shadow_c = get_shadow(shadow_pos);
+        float shadow_c = get_shadow(shadow_pos, dither);
         shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
       #endif
     #else
