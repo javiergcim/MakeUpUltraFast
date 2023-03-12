@@ -1,9 +1,6 @@
 #include "/lib/config.glsl"
 
 /* Config, uniforms, ins, outs */
-uniform mat4 gbufferModelView;
-
-varying vec3 up_vec;
 varying vec4 star_data;
 
 #if AA_TYPE > 0
@@ -16,7 +13,6 @@ void main() {
     gl_Position.xy += taa_offset * gl_Position.w;
   #endif
 
-  up_vec = normalize(gbufferModelView[1].xyz);
   star_data =
     vec4(
       gl_Color.rgb * .25,
