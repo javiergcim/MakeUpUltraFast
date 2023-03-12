@@ -29,7 +29,6 @@ uniform float nightVision;
 uniform float rainStrength;
 uniform float light_mix;
 uniform ivec2 eyeBrightnessSmooth;
-uniform sampler2D gaux4;
 
 #if CLOUD_VOL_STYLE == 1 && V_CLOUDS != 0
   uniform sampler2D colortex2;
@@ -324,6 +323,7 @@ void main() {
     }
   }
 
+  #include "/src/sky_color_fragment.glsl"
   #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"
 }

@@ -52,6 +52,8 @@ varying float direct_light_strenght;
 varying vec3 omni_light;
 varying float visible_sky;
 varying vec3 up_vec;
+varying vec3 hi_sky_color;
+varying vec3 low_sky_color;
 
 #if defined SHADOW_CASTING && !defined NETHER
   varying vec3 shadow_pos;
@@ -114,6 +116,7 @@ void main() {
   }
 
   up_vec = normalize(gbufferModelView[1].xyz);
+  #include "/src/sky_color_vertex.glsl"
 
   #include "/src/fog_vertex.glsl"
 

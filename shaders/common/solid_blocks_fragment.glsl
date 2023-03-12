@@ -2,7 +2,6 @@
 
 uniform float viewWidth;
 uniform float viewHeight;
-// uniform int worldTime;
 uniform int frameCounter;
 
 #if defined THE_END
@@ -19,7 +18,7 @@ uniform float rainStrength;
 uniform float light_mix;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
-uniform sampler2D gaux4;
+uniform mat4 gbufferProjectionInverse;
 
 #if defined GBUFFER_ENTITIES
   uniform int entityId;
@@ -65,6 +64,9 @@ varying vec3 direct_light_color;
 varying vec3 candle_color;
 varying float direct_light_strenght;
 varying vec3 omni_light;
+varying vec3 up_vec;
+varying vec3 hi_sky_color;
+varying vec3 low_sky_color;
 
 #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
   varying float emmisive_type;
@@ -193,6 +195,7 @@ void main() {
     block_color.rgb *= 1.5;
   #endif
 
+  #include "/src/sky_color_fragment.glsl"
   #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"
 }

@@ -62,6 +62,9 @@ varying vec3 direct_light_color;
 varying vec3 candle_color;
 varying float direct_light_strenght;
 varying vec3 omni_light;
+varying vec3 up_vec;
+varying vec3 hi_sky_color;
+varying vec3 low_sky_color;
 
 #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
   varying float emmisive_type;
@@ -168,4 +171,7 @@ void main() {
   #if defined GBUFFER_ENTITY_GLOW
     gl_Position.z *= 0.01;
   #endif
+
+  up_vec = normalize(gbufferModelView[1].xyz);
+  #include "/src/sky_color_vertex.glsl"
 }
