@@ -101,6 +101,7 @@ void main() {
   viewPos = homopos.xyz / homopos.w;
   gl_FogFragCoord = length(viewPos.xyz);
 
+  #include "/src/sky_color_vertex.glsl"
   #include "/src/light_vertex.glsl"
   water_normal = normal;
 
@@ -116,7 +117,6 @@ void main() {
   }
 
   up_vec = normalize(gbufferModelView[1].xyz);
-  #include "/src/sky_color_vertex.glsl"
 
   #include "/src/fog_vertex.glsl"
 

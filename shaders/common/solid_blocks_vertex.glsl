@@ -1,7 +1,5 @@
 #include "/lib/config.glsl"
 
-// uniform int worldTime;
-// uniform int frameCounter;
 uniform float viewWidth;
 uniform float viewHeight;
 
@@ -123,6 +121,7 @@ void main() {
   
   #include "/src/basiccoords_vertex.glsl"
   #include "/src/position_vertex.glsl"
+  #include "/src/sky_color_vertex.glsl"
   #include "/src/light_vertex.glsl"
   #include "/src/fog_vertex.glsl"
 
@@ -174,5 +173,4 @@ void main() {
   #endif
 
   up_vec = normalize(gbufferModelView[1].xyz);
-  #include "/src/sky_color_vertex.glsl"
 }

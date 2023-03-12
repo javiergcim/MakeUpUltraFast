@@ -92,8 +92,8 @@ varying vec3 low_sky_color;
 #endif
 
 #include "/lib/dither.glsl"
+
 #if defined SHADOW_CASTING && !defined NETHER
-  // #include "/lib/dither.glsl"
   #include "/lib/shadow_frag.glsl"
 #endif
 
@@ -139,7 +139,7 @@ void main() {
     }
   #endif
 
-   #if AA_TYPE > 0
+  #if AA_TYPE > 0
     float dither = shifted_r_dither(gl_FragCoord.xy);
   #else
     float dither = r_dither(gl_FragCoord.xy);
