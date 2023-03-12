@@ -12,7 +12,7 @@ colortex3 - TAA Averages history
 gaux1 - Screen-Space-Reflection / Bloom auxiliar
 gaux2 - Clouds texture 1
 gaux3 - Exposure auxiliar
-gaux4 - Fog auxiliar
+gaux4 - None
 
 const int noisetexFormat = RG8;
 const int colortex0Format = R11F_G11F_B10F;
@@ -42,7 +42,7 @@ const int colortex3Format = R11F_G11F_B10F;
 const int gaux1Format = R11F_G11F_B10F;
 const int gaux2Format = R8;
 const int gaux3Format = R16F;
-const int gaux4Format = R11F_G11F_B10F;
+const int gaux4Format = R8;
 
 const int shadowcolor0Format = RGBA8;
 */
