@@ -23,6 +23,10 @@ varying vec3 low_sky_color;
   varying vec3 dark_cloud_color;
 #endif
 
+#if AO == 1
+ varying float fog_density_coeff;
+#endif
+
 #include "/lib/luma.glsl"
 
 void main() {
@@ -34,5 +38,17 @@ void main() {
 
   #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
     #include "/lib/volumetric_clouds_vertex.glsl"
+  #endif
+
+  #if AO == 1
+    #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+      fog_density_coeff = FOG_DENSITY * FOG_ADJUST;
+    #else
+      fog_density_coeff = day_blend_float(
+        FOG_SUNSET,
+        FOG_DAY,
+        FOG_NIGHT
+      ) * FOG_ADJUST;
+    #endif
   #endif
 }
