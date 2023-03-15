@@ -10,10 +10,7 @@
 #endif
 
 /* Config, uniforms, ins, outs */
-// uniform int isEyeInWater;
 uniform mat4 gbufferProjectionInverse;
-// uniform float viewWidth;
-// uniform float viewHeight;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
 uniform float rainStrength;

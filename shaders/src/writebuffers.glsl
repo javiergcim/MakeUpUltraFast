@@ -8,11 +8,7 @@
   #ifdef SET_FOG_COLOR
     /* DRAWBUFFERS:07 */
     gl_FragData[0] = vec4(block_color, 1.0);
-    #if defined THE_END || defined NETHER
-      gl_FragData[1] = vec4(block_color, 1.0);
-    #else
-      gl_FragData[1] = vec4(block_color, 1.0);
-    #endif
+    gl_FragData[1] = vec4(block_color, 1.0);
   #else
     /* DRAWBUFFERS:0 */
     gl_FragData[0] = block_color;

@@ -1,9 +1,10 @@
 #include "/lib/config.glsl"
 
 /* Config, uniforms, ins, outs */
+uniform mat4 gbufferProjectionInverse;
+
 #if V_CLOUDS == 0 || defined UNKNOWN_DIM
   uniform float rainStrength;
-  uniform mat4 gbufferProjectionInverse;
 #endif
 
 #if defined SHADOW_CASTING && !defined NETHER
