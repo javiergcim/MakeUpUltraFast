@@ -143,6 +143,7 @@ void main() {
       hi_sky_color,
       sqrt(clamp(dot(norm_reflect_water_vec, up_vec), 0.0001, 1.0))
       );
+      // sky_color_reflect = vec3(1.0, 0.0, 0.0);  // DEBUG
   } else {
     sky_color_reflect =
       hi_sky_color * .5 * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667);
