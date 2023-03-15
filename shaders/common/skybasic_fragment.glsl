@@ -9,29 +9,23 @@
 #endif
 
 /* Config, uniforms, ins, outs */
-uniform int isEyeInWater;
-uniform mat4 gbufferProjectionInverse;
-uniform float viewWidth;
-uniform float viewHeight;
+uniform sampler2D gaux4;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
-uniform float rainStrength;
 
 varying vec4 star_data;
 
 void main() {
   #if defined THE_END || defined NETHER
+    // vec4 background_color = vec4(ZENITH_DAY_COLOR, 1.0);
     vec4 block_color = vec4(0.0, 0.0, 0.0, 1.0);
-    vec3 background_color = ZENITH_DAY_COLOR;
   #else
     // Toma el color puro del bloque
-    vec4 block_color = vec4(star_data.rgb, 1.0);
-    vec4 background_color = vec4(0.0, 0.0, 0.0, 1.0);
+    vec4 background_color = texture2D(gaux4, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y));
+    vec4 block_color = star_data;
 
-    if (star_data.a < 0.9) {
-      block_color = background_color;
-    }
-
+    block_color = mix(background_color, block_color, block_color);
+    block_color.a = star_data.a;
   #endif
 
   #include "/src/writebuffers.glsl"

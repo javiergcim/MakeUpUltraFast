@@ -1,5 +1,7 @@
 #include "/lib/config.glsl"
 
+// uniform int worldTime;
+// uniform int frameCounter;
 uniform float viewWidth;
 uniform float viewHeight;
 
@@ -19,7 +21,6 @@ uniform float far;
 uniform float rainStrength;
 uniform ivec2 eyeBrightnessSmooth;
 uniform mat4 gbufferProjectionInverse;
-uniform mat4 gbufferModelView;
 
 #ifdef DYN_HAND_LIGHT
   uniform int heldItemId;
@@ -31,7 +32,7 @@ uniform mat4 gbufferModelView;
 #endif
 
 #if defined FOLIAGE_V || defined THE_END || defined NETHER
-  // uniform mat4 gbufferModelView;
+  uniform mat4 gbufferModelView;
 #endif
 
 #if defined FOLIAGE_V || defined SHADOW_CASTING || (defined MATERIAL_GLOSS && !defined NETHER)
@@ -61,9 +62,6 @@ varying vec3 direct_light_color;
 varying vec3 candle_color;
 varying float direct_light_strenght;
 varying vec3 omni_light;
-varying vec3 up_vec;
-varying vec3 hi_sky_color;
-varying vec3 low_sky_color;
 
 #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
   varying float emmisive_type;
@@ -121,7 +119,6 @@ void main() {
   
   #include "/src/basiccoords_vertex.glsl"
   #include "/src/position_vertex.glsl"
-  #include "/src/sky_color_vertex.glsl"
   #include "/src/light_vertex.glsl"
   #include "/src/fog_vertex.glsl"
 
@@ -171,6 +168,4 @@ void main() {
   #if defined GBUFFER_ENTITY_GLOW
     gl_Position.z *= 0.01;
   #endif
-
-  up_vec = normalize(gbufferModelView[1].xyz);
 }

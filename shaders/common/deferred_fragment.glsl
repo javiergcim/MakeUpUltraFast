@@ -45,11 +45,6 @@ uniform mat4 gbufferProjectionInverse;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
 
-#if MC_VERSION >= 11900
-  uniform float darknessFactor;
-  uniform float darknessLightFactor;
-#endif
-
 #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
   uniform mat4 gbufferProjection;
   uniform float frameTimeCounter;
@@ -57,8 +52,6 @@ uniform float pixel_size_y;
 
 varying vec2 texcoord;
 varying vec3 up_vec;  // Flat
-varying vec3 hi_sky_color;  // Flat
-varying vec3 low_sky_color; // Flat
 
 #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
   varying float umbral;
@@ -67,7 +60,7 @@ varying vec3 low_sky_color; // Flat
 #endif
 
 #if AO == 1
- varying float fog_density_coeff;
+  varying float fog_density_coeff;
 #endif
 
 #include "/lib/depth.glsl"
@@ -100,21 +93,17 @@ void main() {
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
 
   vec3 view_vector = vec3(1.0);
-  
-  #if AA_TYPE > 0
-    float dither = shifted_eclectic_makeup_dither(gl_FragCoord.xy);
-  #else
-    float dither = semiblue(gl_FragCoord.xy);
+
+  #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
+    #if AA_TYPE > 0
+      float dither = shifted_eclectic_makeup_dither(gl_FragCoord.xy);
+    #else
+      float dither = semiblue(gl_FragCoord.xy);
+    #endif
   #endif
 
-  if (linear_d > 0.9999) {  // Only sky
-
-    // Sky and textured sky elements
-    #include "/src/sky_color_fragment.glsl"
-    block_color = mix(vec4(sky_base, 1.0), block_color, block_color);
-
-    #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
-
+  #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
+    if (linear_d > 0.9999) {  // Only sky
       vec4 world_pos =
         gbufferModelViewInverse * gbufferProjectionInverse * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
       view_vector = normalize(world_pos.xyz);
@@ -143,30 +132,32 @@ void main() {
         block_color.rgb =
           get_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG, umbral, cloud_color, dark_cloud_color);
       #endif
+    }
 
-    #else
-
-      #if defined THE_END
+  #else
+    #if defined THE_END
+      if (linear_d > 0.9999) {  // Only sky
         block_color = vec4(ZENITH_DAY_COLOR, 1.0);
-      #elif defined NETHER
+      }
+    #elif defined NETHER
+      if (linear_d > 0.9999) {  // Only sky
         block_color = vec4(mix(fogColor * 0.1, vec3(1.0), 0.04), 1.0);
-      #else
-        if (isEyeInWater == 1) {  // Only sky and water
-          vec4 screen_pos =
-            vec4(
-              gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
-              gl_FragCoord.z,
-              1.0
-            );
-          vec4 fragposition = gbufferProjectionInverse * (screen_pos * 2.0 - 1.0);
+      }
+    #else
+      if (linear_d > 0.9999 && isEyeInWater == 1) {  // Only sky and water
+        vec4 screen_pos =
+          vec4(
+            gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y),
+            gl_FragCoord.z,
+            1.0
+          );
+        vec4 fragposition = gbufferProjectionInverse * (screen_pos * 2.0 - 1.0);
 
-          vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
-          view_vector = normalize(world_pos.xyz);
-        }
-      #endif
-
-    #endif
-  }
+        vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
+        view_vector = normalize(world_pos.xyz);
+      }
+    #endif    
+  #endif
 
   #if AO == 1
     // AO distance attenuation
@@ -178,7 +169,6 @@ void main() {
       mix(fog_density_coeff, 1.0, rainStrength)
     );
 
-    // AO
     float final_ao = mix(dbao(dither), 1.0, ao_att);
     block_color.rgb *= final_ao;
     // block_color = vec4(vec3(final_ao), 1.0);

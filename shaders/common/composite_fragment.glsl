@@ -51,12 +51,8 @@ uniform ivec2 eyeBrightnessSmooth;
 #endif
 
 varying vec2 texcoord;
-// varying float exposure_coef;
 varying vec3 direct_light_color;
-
-// #ifdef BLOOM
 varying float exposure;
-// #endif
 
 #if VOL_LIGHT == 1 && !defined NETHER
   varying vec3 vol_light_color;
@@ -108,7 +104,6 @@ void main() {
 
     block_color.rgb = mix(
       block_color.rgb,
-      // WATER_COLOR * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667) * (exposure_coef * 0.9 + 0.1),
       WATER_COLOR * direct_light_color * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667),
       water_absorption);
 

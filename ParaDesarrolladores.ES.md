@@ -2,7 +2,7 @@
 
 Es mi deseo que MakeUp puede ser utilizado como base para crear más y mejores shaders, es por eso que escribo esta versión comentada del código fuente.
 
-Los comentarios que encuentres en el mismo espero te sean de ayuda para modificar y/p extender MakeUp de acuerdo a tus necesiades.
+Los comentarios que encuentres en el mismo espero te sean de ayuda para modificar y/o extender MakeUp de acuerdo a tus necesidades.
 
 ¡Feliz edición!
 
@@ -16,7 +16,7 @@ Los shaders de vertice y fragmento de cada paso se encuentran separados en archi
 
 No necesariamente existe aquí un archivo cada paso o tipo de bloque, pues algunos bloques o pasos comparten muchas cosas en común, y en MakeUp son tratados igual (o casi igual).
 
-Los mejores ejemplos de esto último son solid_blocks_fragment.glsl y solid_blocks_vertex.glsl, que controlan el dibujado de la gran mayoría de los bloques del juego, que no sean translúcidos o merezcan una atención muy especial.
+Los mejores ejemplos de esto último son solid_blocks_fragment.glsl y solid_blocks_vertex.glsl, que controlan el dibujado de la gran mayoría de los bloques del juego que no sean translúcidos o merezcan una atención muy especial.
 
 El nombre de los archivos intenta ser explícito sobre su contenido o propósito.
 
@@ -76,13 +76,15 @@ Los buffers son utilizados y asignados de la siguiente manera:
 
 Esta es sólo una descripción general de los pasos que sigue el dibujado de una escena típica. No tiene todos los detalles, y puede varíar según la dimensión y opciones activadas.
 
-1. Se calcula el color del cielo y las nubes nativas de Minecraft (si estuvieran activadas). El color del cielo escribe en dos lugares:
+1. Se calcula el color del cielo o distancia infinita en 'prepare'. Este color escribe en dos lugares:
  - colortex0: Se empleará después para escribir ahí los bloques sólidos.
  - gaux4: Este buffer se empleará para extraer de ella el color de la niebla.
 
+2. En gbuffers_skybasic se dibujan elementos como las estrellas sobre el cielo previamente dibujado. Posteriormente se dibujan los elementos del cielo texturizados (gbuffers_skytextured). Todo esto se escribe en colortex0.
+
 2. Los bloques sólidos se crean en los correspondientes programas gbuffer. Aquí se calcula la iluminación de los bloques (sombras incluídas).
 El resultado se escribirá en:
- - colortex1
+ - colortex0
 
 3. En deferred, se calcularán las nubes y la oclusión ambiental. Los resultados se escribirán en:
  - colortex1: Se escribe la escena calculada, y el canal "a" almacenará la profundidad (por eso no se emplea colortex0, que tiene sólo tres canales)

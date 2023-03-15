@@ -29,6 +29,7 @@ uniform float nightVision;
 uniform float rainStrength;
 uniform float light_mix;
 uniform ivec2 eyeBrightnessSmooth;
+uniform sampler2D gaux4;
 
 #if CLOUD_VOL_STYLE == 1 && V_CLOUDS != 0
   uniform sampler2D colortex2;
@@ -80,6 +81,8 @@ varying float direct_light_strenght;
 varying vec3 omni_light;
 varying float visible_sky;
 varying vec3 up_vec;
+varying vec3 hi_sky_color;
+varying vec3 low_sky_color;
 
 #if defined SHADOW_CASTING && !defined NETHER
   varying vec3 shadow_pos;
@@ -130,31 +133,6 @@ void main() {
   float normal_dot_eye = dot(surface_normal, normalize(fragposition));
   float fresnel = square_pow(1.0 + normal_dot_eye);
 
-  // Reflected sky color calculation
-  vec3 hi_sky_color = day_blend(
-    ZENITH_SUNSET_COLOR,
-    ZENITH_DAY_COLOR,
-    ZENITH_NIGHT_COLOR
-    );
-
-  hi_sky_color = mix(
-    hi_sky_color,
-    ZENITH_SKY_RAIN_COLOR * luma(hi_sky_color),
-    rainStrength
-  );
-
-  vec3 low_sky_color = day_blend(
-    HORIZON_SUNSET_COLOR,
-    HORIZON_DAY_COLOR,
-    HORIZON_NIGHT_COLOR
-    );
-
-  low_sky_color = mix(
-    low_sky_color,
-    HORIZON_SKY_RAIN_COLOR * luma(low_sky_color),
-    rainStrength
-  );
-
   vec3 reflect_water_vec = reflect(fragposition, surface_normal);
   vec3 norm_reflect_water_vec = normalize(reflect_water_vec);
 
@@ -170,21 +148,15 @@ void main() {
       hi_sky_color * .5 * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667);
   }
 
-   #if AA_TYPE > 0
-    float dither = shifted_r_dither(gl_FragCoord.xy);
+  #if (defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER) || SSR_TYPE > 0
+    #if AA_TYPE > 0
+      float dither = shifted_r_dither(gl_FragCoord.xy);
+    #else
+      float dither = dither13(gl_FragCoord.xy);
+    #endif
   #else
-    float dither = r_dither(gl_FragCoord.xy);
+    float dither = 1.0;
   #endif
-
-  // #if (defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER) || SSR_TYPE > 0
-  //   #if AA_TYPE > 0
-  //     float dither = shifted_r_dither(gl_FragCoord.xy);
-  //   #else
-  //     float dither = dither13(gl_FragCoord.xy);
-  //   #endif
-  // #else
-  //   float dither = 1.0;
-  // #endif
 
   #if defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER
     sky_color_reflect = get_cloud(
@@ -204,10 +176,10 @@ void main() {
     #ifdef VANILLA_WATER
       #if defined SHADOW_CASTING && !defined NETHER
         #if defined COLORED_SHADOW
-          vec3 shadow_c = get_colored_shadow(shadow_pos, dither);
+          vec3 shadow_c = get_colored_shadow(shadow_pos);
           shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
         #else
-          float shadow_c = get_shadow(shadow_pos, dither);
+          float shadow_c = get_shadow(shadow_pos);
           shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
         #endif
       #else
@@ -299,10 +271,10 @@ void main() {
 
     #if defined SHADOW_CASTING && !defined NETHER
       #if defined COLORED_SHADOW
-        vec3 shadow_c = get_colored_shadow(shadow_pos, dither);
+        vec3 shadow_c = get_colored_shadow(shadow_pos);
         shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
       #else
-        float shadow_c = get_shadow(shadow_pos, dither);
+        float shadow_c = get_shadow(shadow_pos);
         shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
       #endif
     #else
@@ -329,7 +301,6 @@ void main() {
     }
   }
 
-  #include "/src/sky_color_fragment.glsl"
   #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"
 }

@@ -22,10 +22,10 @@
     if (darknessFactor > .01) {
       fog_texture = vec3(0.0);
     } else {
-      fog_texture = sky_base;
+      fog_texture = texture2D(gaux4, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).rgb;
     }
   #else
-    vec3 fog_texture = sky_base;
+    vec3 fog_texture = texture2D(gaux4, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).rgb;
   #endif
   #if defined GBUFFER_ENTITIES
     if (isEyeInWater == 0 && entityId != 10101) {  // In the air

@@ -10,12 +10,13 @@
 #endif
 
 uniform mat4 gbufferModelView;
-uniform float rainStrength;
+
+#if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
+  uniform float rainStrength;
+#endif
 
 varying vec2 texcoord;
 varying vec3 up_vec;
-varying vec3 hi_sky_color;
-varying vec3 low_sky_color;
 
 #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
   varying float umbral;
@@ -24,21 +25,17 @@ varying vec3 low_sky_color;
 #endif
 
 #if AO == 1
- varying float fog_density_coeff;
+  varying float fog_density_coeff;
 #endif
 
-#include "/lib/luma.glsl"
+#if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
+  #include "/lib/luma.glsl"
+#endif
 
 void main() {
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
   texcoord = gl_MultiTexCoord0.xy;
   up_vec = normalize(gbufferModelView[1].xyz);
-
-  #include "/src/sky_color_vertex.glsl"
-
-  #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
-    #include "/lib/volumetric_clouds_vertex.glsl"
-  #endif
 
   #if AO == 1
     #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
@@ -50,5 +47,9 @@ void main() {
         FOG_NIGHT
       ) * FOG_ADJUST;
     #endif
+  #endif
+
+  #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
+    #include "/lib/volumetric_clouds_vertex.glsl"
   #endif
 }

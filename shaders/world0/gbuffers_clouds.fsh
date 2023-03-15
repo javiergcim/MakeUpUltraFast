@@ -7,6 +7,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #define GBUFFER_CLOUDS
 #define NO_SHADOWS
-#define PARTICLE_SHADER
+#define SPECIAL_TRANS
 
 #include "/common/clouds_blocks_fragment.glsl"

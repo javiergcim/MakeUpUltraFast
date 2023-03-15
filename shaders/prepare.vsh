@@ -1,6 +1,6 @@
 #version 120
-/* MakeUp - gbuffers_clouds.fsh
-Render: sky, clouds
+/* MakeUp - prepare.vsh
+Render: Sky
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
@@ -10,8 +10,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #ifdef USE_BASIC_SH
   #define UNKNOWN_DIM
 #endif
-#define GBUFFER_CLOUDS
-#define NO_SHADOWS
-#define SPECIAL_TRANS
 
-#include "/common/clouds_blocks_fragment.glsl"
+#define PREPARE_SHADER
+#define NO_SHADOWS
+
+#include "/common/prepare_vertex.glsl"
