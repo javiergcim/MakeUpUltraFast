@@ -101,6 +101,9 @@ void main() {
   viewPos = homopos.xyz / homopos.w;
   gl_FogFragCoord = length(viewPos.xyz);
 
+  // Reflected sky color calculation
+  #include "/src/sky_color_vertex.glsl"
+
   #include "/src/light_vertex.glsl"
   water_normal = normal;
 
@@ -126,7 +129,4 @@ void main() {
   #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
     #include "/lib/volumetric_clouds_vertex.glsl"
   #endif
-
-  // Reflected sky color calculation
-  #include "/src/sky_color_vertex.glsl"
 }
