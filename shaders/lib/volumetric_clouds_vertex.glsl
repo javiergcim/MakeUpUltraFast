@@ -1,4 +1,8 @@
-umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .25;
+#if MC_VERSION >= 11300
+  umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .25;
+#else
+  umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .55;
+#endif
 
 dark_cloud_color = day_blend(
   ZENITH_SUNSET_COLOR,

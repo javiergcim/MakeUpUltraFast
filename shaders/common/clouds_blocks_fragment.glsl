@@ -27,5 +27,10 @@ void main() {
     vec4 block_color = texture2D(tex, texcoord) * tint_color;
     #include "/src/cloudfinalcolor.glsl"
     #include "/src/writebuffers.glsl"
+  #elif MC_VERSION <= 11300
+    vec4 block_color = vec4(0.0);
+    #include "/src/writebuffers.glsl"
   #endif
+
+
 }
