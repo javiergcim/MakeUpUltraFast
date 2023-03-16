@@ -20,7 +20,6 @@ varying vec3 hi_sky_color;
 varying vec3 low_sky_color;
 
 #include "/lib/dither.glsl"
-#include "/lib/luma.glsl"
 
 void main() {
   #if defined THE_END || defined NETHER
