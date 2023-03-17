@@ -42,26 +42,6 @@ uniform float night_mixer;
   #define HORIZON_DAY_COLOR vec3(0.65, 0.91, 1.3)
   #define HORIZON_NIGHT_COLOR vec3(0.0213, 0.0306, 0.0387) * NIGHT_BRIGHT
 
-
-
-
-
-  // #define OMNI_TINT 0.2
-  // #define LIGHT_SUNSET_COLOR vec3(0.9, 0.8, 0.6)
-  // #define LIGHT_DAY_COLOR vec3(0.90, 0.84, 0.79)
-  // #define LIGHT_NIGHT_COLOR vec3(0.04786874, 0.05175001, 0.06112969) * NIGHT_BRIGHT
-
-  // #define ZENITH_SUNSET_COLOR vec3(0.143, 0.24394118, 0.36450981)
-  // #define ZENITH_DAY_COLOR vec3(0.143, 0.24394118, 0.36450981)
-  // #define ZENITH_NIGHT_COLOR vec3(0.014, 0.019, 0.025) * NIGHT_BRIGHT
-
-  // #define HORIZON_SUNSET_COLOR vec3(1.0, 0.648, 0.37824)
-  // #define HORIZON_DAY_COLOR vec3(0.65, 0.91, 1.3)
-  // #define HORIZON_NIGHT_COLOR vec3(0.0213, 0.0306, 0.0387) * NIGHT_BRIGHT
-
-
-
-
   #define WATER_COLOR vec3(0.05, 0.1, 0.11)
 #elif COLOR_SCHEME == 2  // Shoka
   #define OMNI_TINT 0.5

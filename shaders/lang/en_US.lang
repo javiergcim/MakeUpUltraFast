@@ -240,44 +240,42 @@ option.DYN_HAND_LIGHT=Fake dynamic light
 screen.ADVANCED_SCREEN=Advanced options
 screen.ADVANCED_SCREEN.comment=Set advanced options
 
-screen.SHADOWS_SCREEN=Shadows options
+screen.COMPATIBILITY_SCREEN=Compatibility
+screen.COMPATIBILITY_SCREEN.comment=Set compatibility options
+
+screen.SHADOWS_SCREEN=Shadows
 screen.SHADOWS_SCREEN.comment=Set shadows options
 
-screen.DOF_SCREEN=Depth of field options
+screen.DOF_SCREEN=Depth of field
 screen.DOF_SCREEN.comment=Set depth of field options
 
-screen.AO_SCREEN=Ambient occlusion options
+screen.AO_SCREEN=Ambient occlusion
 screen.AO_SCREEN.comment=Set ambient occlusion options
 
-screen.WATER_SCREEN=Water options
+screen.WATER_SCREEN=Water
 screen.WATER_SCREEN.comment=Set water options.
 
-screen.POST_SCREEN= Post effects options
+screen.POST_SCREEN= Post effects
 screen.POST_SCREEN.comment=Set post effects options.
 
-screen.DARKNESS_SCREEN=Darkness options
-screen.DARKNESS_SCREEN.comment=Set brightness/darkness options.
+screen.LIGHT_SCREEN=Light
+screen.LIGHT_SCREEN.comment=Set light options.
 
-screen.CLOUDS_SCREEN=Clouds options
-screen.CLOUDS_SCREEN.comment=Set clouds options.
+screen.CLOUDS_SCREEN=Sun & clouds
+screen.CLOUDS_SCREEN.comment=Set sun and clouds options.
 
-screen.SUN_SCREEN=Sun options
-screen.SUN_SCREEN.comment=Set sun options.
-
-screen.FOG_SCREEN=Fog options
+screen.FOG_SCREEN=Fog
 screen.FOG_SCREEN.comment=Set fog options
 
-screen.MOTION_BLUR_SCREEN=Motion blur options
+screen.MOTION_BLUR_SCREEN=Motion blur
 screen.MOTION_BLUR_SCREEN.comment=Set motion blur options
 
-screen.ACCESIBILITY_SCREEN=Accesibility options
+screen.ACCESIBILITY_SCREEN=Accesibility
 screen.ACCESIBILITY_SCREEN.comment=Set accesibility options
-
-screen.DEBUG_SCREEN=Debug options
-screen.DEBUG_SCREEN.comment=Set debug options
 
 screen.CUSTOM_COLORS_SCREEN=Custom colors
 screen.CUSTOM_COLORS_SCREEN.comment=Set custom colors
-screen.CUSTOM_COLORS_LIGHT=Light custom colors
-screen.CUSTOM_COLORS_SKY=Sky custom colors
+screen.CUSTOM_COLORS_DAY=Day custom colors
+screen.CUSTOM_COLORS_SUNSET=Sunset/dawn custom colors
+screen.CUSTOM_COLORS_NIGHT=Night custom colors
 screen.CUSTOM_COLORS_WATER=Water custom color

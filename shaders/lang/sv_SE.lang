@@ -240,44 +240,42 @@ option.DYN_HAND_LIGHT=Konstgjort dynamiskt ljus
 screen.ADVANCED_SCREEN=Avancerade alternativ
 screen.ADVANCED_SCREEN.comment=Ändra avancerade alternativ
 
-screen.SHADOWS_SCREEN=Skuggalternativ
+screen.COMPATIBILITY_SCREEN=Kompatibilitet
+screen.COMPATIBILITY_SCREEN.comment=Ställ in kompatibilitetsalternativ
+
+screen.SHADOWS_SCREEN=Skuggor
 screen.SHADOWS_SCREEN.comment=Ändra skuggalternativ
 
-screen.DOF_SCREEN=Skärpedjupsalternativ
+screen.DOF_SCREEN=Skärpedjup
 screen.DOF_SCREEN.comment=Ändra skärpedjupsalternativ
 
-screen.AO_SCREEN=Omgivande inneslutningsalternativ
-screen.AO_SCREEN.comment=Ändra omgivande inneslutningsalternativ
+screen.AO_SCREEN=Omgivande ocklusion
+screen.AO_SCREEN.comment=Ändra alternativ för omgivande ocklusion
 
-screen.WATER_SCREEN=Vattenalternativ
+screen.WATER_SCREEN=Vatten
 screen.WATER_SCREEN.comment=Ändra vattenalternativ.
 
-screen.POST_SCREEN=Efterbearbetningsalternativ
+screen.POST_SCREEN=Efterbehandling
 screen.POST_SCREEN.comment=Ändra efterbearbetningsalternativ.
 
-screen.DARKNESS_SCREEN=Mörkeralternativ
-screen.DARKNESS_SCREEN.comment=Ändra ljusstyrke-/mörkeralternativ.
+screen.LIGHT_SCREEN=Ljus
+screen.LIGHT_SCREEN.comment=Ändra ljusalternativ.
 
-screen.CLOUDS_SCREEN=Molnalternativ
-screen.CLOUDS_SCREEN.comment=Ändra molnalternativ.
+screen.CLOUDS_SCREEN=Sol och moln
+screen.CLOUDS_SCREEN.comment=Ändra alternativ för sol och moln.
 
-screen.SUN_SCREEN=Solalternativ
-screen.SUN_SCREEN.comment=Ändra solalternativ.
-
-screen.FOG_SCREEN=Dimalternativ
+screen.FOG_SCREEN=Dimma
 screen.FOG_SCREEN.comment=Ändra dimalternativ
 
-screen.MOTION_BLUR_SCREEN=Rörelseoskärpealternativ
+screen.MOTION_BLUR_SCREEN=Rörelseoskärpa
 screen.MOTION_BLUR_SCREEN.comment=Ändra rörelseskärpealternativ
 
-screen.ACCESIBILITY_SCREEN=Tillgänglighetsalternativ
+screen.ACCESIBILITY_SCREEN=Tillgänglighet
 screen.ACCESIBILITY_SCREEN.comment=Ändra tillgänglighetsalternativ
-
-screen.DEBUG_SCREEN=Felsökningsalternativ
-screen.DEBUG_SCREEN.comment=Ändra felsökningsalternativ
 
 screen.CUSTOM_COLORS_SCREEN=Anpassade färger
 screen.CUSTOM_COLORS_SCREEN.comment=Ställ in anpassade färger
-screen.CUSTOM_COLORS_LIGHT=Ljusa anpassade färger
-screen.CUSTOM_COLORS_SKY=Sky anpassade färger
+screen.CUSTOM_COLORS_DAY=Dag anpassade färger
+screen.CUSTOM_COLORS_SUNSET=Solnedgång/gryning anpassade färger
+screen.CUSTOM_COLORS_NIGHT=Natt anpassade färger
 screen.CUSTOM_COLORS_WATER=Vatten anpassad färg
