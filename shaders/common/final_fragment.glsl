@@ -113,6 +113,8 @@ void main() {
   #endif
   
   // Color-grading ---
+  // DEVELOPER: If your post processing effect only involves the current pixel,
+  // it can be placed here. For example, Saturation:
 
   // Saturation
   // float actual_luma = luma(block_color);
