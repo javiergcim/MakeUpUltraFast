@@ -85,8 +85,6 @@ varying float exposure;
   #include "/lib/volumetric_light.glsl"
 #endif
 
-const bool colortex1MipmapEnabled = true;
-
 void main() {
   vec4 block_color = texture2D(colortex1, texcoord);
   float d = texture2D(depthtex0, texcoord).r;
