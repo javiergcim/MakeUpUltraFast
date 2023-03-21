@@ -55,10 +55,6 @@ varying float exposure;  // Flat
 
 #include "/lib/luma.glsl"
 
-#if !defined SIMPLE_AUTOEXP
-  const bool colortex1MipmapEnabled = true;
-#endif
-
 void main() {
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
   texcoord = gl_MultiTexCoord0.xy;
