@@ -5,7 +5,7 @@
 /*
 
 noisetex - Water normals
-colortex0 - Main color canvas
+colortex0 - Blue noise
 colortex1 - Antialiasing auxiliar
 colortex2 - Clouds texture 2 
 colortex3 - TAA Averages history
@@ -15,7 +15,7 @@ gaux3 - Exposure auxiliar
 gaux4 - Fog auxiliar
 
 const int noisetexFormat = RG8;
-const int colortex0Format = R11F_G11F_B10F;
+const int colortex0Format = R8;
 */
 #ifdef DOF
 /*
@@ -58,7 +58,6 @@ const bool gaux3Clear = false;
 const bool gaux4Clear = false;
 
 // 'Global' constants from system
-uniform sampler2D colortex0;
 
 #ifdef DEBUG_MODE
   uniform sampler2D shadowtex1;
@@ -98,9 +97,9 @@ void main() {
   #if CHROMA_ABER == 1
     vec3 block_color = color_aberration();
   #else
-    vec3 block_color = texture2D(colortex0, texcoord).rgb;
+    vec3 block_color = texture2D(colortex1, texcoord).rgb;
     #if AA_TYPE == 3
-      block_color = sharpen(colortex0, block_color, texcoord);
+      block_color = sharpen(colortex1, block_color, texcoord);
     #endif
   #endif
 
@@ -132,7 +131,7 @@ void main() {
     } else if (texcoord.x >= 0.5 && texcoord.y >= 0.5) {
       block_color = vec3(texture2D(gaux3, vec2(0.5)).r * 0.25);
     } else if (texcoord.x < 0.5 && texcoord.y >= 0.5) {
-      block_color = texture2D(colortex0, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb;
+      block_color = texture2D(colortex1, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb;
     } else if (texcoord.x >= 0.5 && texcoord.y < 0.5) {
       block_color = texture2D(shadowcolor0, ((texcoord - vec2(0.5, 0.0)) * 2.0)).rgb;
     } else {

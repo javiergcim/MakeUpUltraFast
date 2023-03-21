@@ -76,17 +76,17 @@ Buffers are used and assigned in the following way:
 This is just a general description of the steps involved in drawing a typical scene. It does not have all the details and may vary depending on the dimension and options activated.
 
 1. The color of the sky or infinite distance is calculated in 'prepare'. This color is written in two places:
- - colortex0: It will be used later to write the solid blocks there.
+ - colortex1: It will be used later to write the solid blocks there.
  - gaux4: This buffer will be used to extract the color of the fog from it.
 
-2. In gbuffers_skybasic, elements such as stars are drawn over the previously drawn sky. Subsequently, textured sky elements are drawn (gbuffers_skytextured). All of this is written in colortex0.
+2. In gbuffers_skybasic, elements such as stars are drawn over the previously drawn sky. Subsequently, textured sky elements are drawn (gbuffers_skytextured). All of this is written in colortex1.
 
 3. Solid blocks are created in the corresponding gbuffer programs. Here, the lighting of the blocks is calculated (including shadows).
 The result will be written in:
- - colortex0
+ - colortex1
 
 4. In deferred, clouds and ambient occlusion will be calculated. The results will be written in:
- - colortex1: The calculated scene is written here, the "a" channel will store the depth (that's why colortex0, which has only three channels, is not used) (Why doesn't colortex0 have an alpha channel from the beginning? Because it's slower to write in RGBA16 than in R11F_G11F_B10F. But if you need an extra buffer, one of them could be freed up).
+ - colortex1: The calculated scene is written here, the "a" channel will store the depth (only if it makes sense).
  - gaux1: It will be used later as a data source for the calculation of screen-space reflections and refractions in the next step.
 
 5. Translucent blocks are drawn. The clouds are recalculated in low quality to be used in reflections. gaux1 is read as a source for screen-space refractions and reflections. The alpha channel continues to be used to store depth. The results are written to:

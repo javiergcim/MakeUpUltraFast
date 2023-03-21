@@ -10,6 +10,7 @@
 #endif
 
 uniform sampler2D colortex0;
+uniform sampler2D colortex1;
 uniform ivec2 eyeBrightnessSmooth;
 uniform int isEyeInWater;
 uniform sampler2D depthtex0;
@@ -86,7 +87,7 @@ varying vec3 up_vec;  // Flat
 #endif
 
 void main() {
-  vec4 block_color = texture2D(colortex0, texcoord);
+  vec4 block_color = texture2D(colortex1, texcoord);
   float d = texture2D(depthtex0, texcoord).r;
   float linear_d = ld(d);
 

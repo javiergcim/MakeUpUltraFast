@@ -90,11 +90,11 @@ void main() {
     #else
       block_color.rgb = fast_taa(block_color.rgb, texcoord_past);
     #endif
-    /* DRAWBUFFERS:03 */
-    gl_FragData[0] = block_color;  // colortex0
+    /* DRAWBUFFERS:13 */
+    gl_FragData[0] = block_color;  // colortex1
     gl_FragData[1] = block_color;  // To TAA averages
   #else
-    /* DRAWBUFFERS:0 */
-    gl_FragData[0] = block_color;  // colortex0
+    /* DRAWBUFFERS:1 */
+    gl_FragData[0] = block_color;  // colortex1
   #endif
 }

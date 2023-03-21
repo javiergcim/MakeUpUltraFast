@@ -77,17 +77,17 @@ Los buffers son utilizados y asignados de la siguiente manera:
 Esta es sólo una descripción general de los pasos que sigue el dibujado de una escena típica. No tiene todos los detalles, y puede varíar según la dimensión y opciones activadas.
 
 1. Se calcula el color del cielo o distancia infinita en 'prepare'. Este color escribe en dos lugares:
- - colortex0: Se empleará después para escribir ahí los bloques sólidos.
+ - colortex1: Se empleará después para escribir ahí los bloques sólidos.
  - gaux4: Este buffer se empleará para extraer de ella el color de la niebla.
 
-2. En gbuffers_skybasic se dibujan elementos como las estrellas sobre el cielo previamente dibujado. Posteriormente se dibujan los elementos del cielo texturizados (gbuffers_skytextured). Todo esto se escribe en colortex0.
+2. En gbuffers_skybasic se dibujan elementos como las estrellas sobre el cielo previamente dibujado. Posteriormente se dibujan los elementos del cielo texturizados (gbuffers_skytextured). Todo esto se escribe en colortex1.
 
 3. Los bloques sólidos se crean en los correspondientes programas gbuffer. Aquí se calcula la iluminación de los bloques (sombras incluídas).
 El resultado se escribirá en:
- - colortex0
+ - colortex1
 
 4. En deferred, se calcularán las nubes y la oclusión ambiental. Los resultados se escribirán en:
- - colortex1: Se escribe la escena calculada, el canal "a" almacenará la profundidad (por eso no se emplea colortex0, que tiene sólo tres canales) (¿Por qué colortex0 no tiene canal alpha desde el principio? Porque es más lento escribir en RGBA16 que en R11F_G11F_B10F. Pero si tu necesitas un buffer extra, se podría liberar alguno de ellos).
+ - colortex1: Se escribe la escena calculada, el canal "a" almacenará la profundidad (sólo si tiene sentido).
  - gaux1: Se empleará posteriormente como fuente de datos para el calculo de los reflejos y refracciones de espacio de pantalla en el paso siguiente.
 
 5. Se dibujan los bloques translúcidos. Se calculan de nuevo las nubes en baja calidad para ser empleadas en los reflejos. Se lee gaux1 como fuente para las refracciones y reflejos de pantalla. Se sigue empleando el canal alpha para almacenar la profundidad. Los resultados se escriben en:
