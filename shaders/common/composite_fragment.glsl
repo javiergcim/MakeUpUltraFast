@@ -9,6 +9,7 @@
   #include "/lib/color_utils.glsl"
 #endif
 
+uniform sampler2D colortex0;
 uniform sampler2D colortex1;
 uniform float far;
 uniform float near;
@@ -129,7 +130,8 @@ void main() {
 
   #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
     #if AA_TYPE > 0
-      float dither = shifted_eclectic_makeup_dither(gl_FragCoord.xy);
+      // float dither = shifted_eclectic_makeup_dither(gl_FragCoord.xy);
+      float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex0);
     #else
       float dither = semiblue(gl_FragCoord.xy);
     #endif

@@ -97,7 +97,8 @@ void main() {
 
   #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
     #if AA_TYPE > 0
-      float dither = shifted_eclectic_makeup_dither(gl_FragCoord.xy);
+      // float dither = shifted_eclectic_makeup_dither(gl_FragCoord.xy);
+      float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex0);
     #else
       float dither = semiblue(gl_FragCoord.xy);
     #endif

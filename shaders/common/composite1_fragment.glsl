@@ -1,6 +1,7 @@
 /* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
 
+uniform sampler2D colortex0;
 uniform sampler2D colortex1;
 uniform sampler2D gaux1;
 uniform float inv_aspect_ratio;
@@ -40,7 +41,8 @@ void main() {
 
   #if defined BLOOM || defined DOF
     #if AA_TYPE > 0
-      float dither = shifted_eclectic_r_dither(gl_FragCoord.xy);
+      // float dither = shifted_eclectic_r_dither(gl_FragCoord.xy);
+      float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex0);
     #else
       float dither = semiblue(gl_FragCoord.xy);
     #endif
