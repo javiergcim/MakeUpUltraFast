@@ -60,8 +60,8 @@ The shaders used for any other unspecified dimension are direct descendants of t
 Buffers are used and assigned in the following way:
 
     - noisetex: Stores the water normals in two channels, with the third component being calculated at runtime. (RG8)
-    - colortex0: This is where gbuffer programs draw solid blocks and the sky. (R11F_G11F_B10F)
-    - colortex1: A buffer used as an auxiliary or temporary storage for color information, primarily when doing temporal sampling. When DOF is active, it is four channels, with the fourth channel storing the scene depth for antialiasing and to avoid sudden focus changes due to camera shake. (Without DOF: R11F_G11F_B10F, with DOF: RGBA16)
+    - colortex0: Bluenoise (not loaded). (R8)
+    - colortex1: Main buffer. When DOF is active, it is four channels, with the fourth channel storing the scene depth for antialiasing and to avoid sudden focus changes due to camera shake. (Without DOF: R11F_G11F_B10F, with DOF: RGBA16)
     - colortex2: Stores the "blocky" cloud map. (R8)
     - colortex3: Stores the history used for temporal sampling. When DOF is active, it is four channels, with the fourth channel storing the scene depth for antialiasing and to avoid sudden focus changes due to camera shake. (Without DOF: R11F_G11F_B10F, with DOF: RGBA16)
     - gaux1: Stores a version of the scene that will be used for screen-space reflections and refractions. After it is used for that, it is used as an auxiliary to store the scene's bloom. (R11F_G11F_B10F)
