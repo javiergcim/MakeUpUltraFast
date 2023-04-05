@@ -44,7 +44,7 @@ value.SHADOW_TYPE.1=过滤
 
 option.SHADOW_BLUR=阴影模糊强度
 
-option.COLORED_SHADOW=彩色阴影
+option.COLORED_SHADOW=阴影上色
 
 option.VOL_LIGHT=云隙光
 value.VOL_LIGHT.0=禁用
