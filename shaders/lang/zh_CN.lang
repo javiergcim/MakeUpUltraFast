@@ -7,15 +7,15 @@ profile.shadowless_high=无阴影-高
 profile.low=低
 profile.medium=中
 profile.high=高
-profile.extreme=极端
-profile.extremeplus=极端+
+profile.extreme=极致
+profile.extremeplus=极致+
 
-profile.comment=“无阴影”配置文件是为低性能机器设计的，忽略了阴影。 常规的配置文件会逐渐添加更高质量的阴影和更高级的重量级效果。 请尝试可用的选项并找到最适合你的组合。
+profile.comment=“无阴影”配置文件是为低性能电脑设计的，不渲染阴影。 常规的配置文件会逐渐添加更高质量的阴影、更多高级的重量级效果。 请体验现有的选项，找到最适合你的配置组合。
 
 #About
 #############################
 option.ACERCADE=MakeUp
-option.ACERCADE.comment=感谢你使用这个着色器！ :). 将 OptiFine 的画面质量选项设为正常值/默认值，可获得更好的画面质量。
+option.ACERCADE.comment=感谢你使用这款着色器！ :). 将高清修复的原生画质选项设为正常值/默认值，可获得更好的画质。
 value.ACERCADE.0=v.8.8a Code
 
 #Options
@@ -44,7 +44,7 @@ value.SHADOW_TYPE.1=过滤
 
 option.SHADOW_BLUR=阴影模糊强度
 
-option.COLORED_SHADOW=阴影上色
+option.COLORED_SHADOW=着色阴影
 
 option.VOL_LIGHT=体积光
 value.VOL_LIGHT.0=禁用
@@ -61,7 +61,7 @@ option.AO=环境光遮蔽
 value.AO.0=关
 value.AO.1=开
 
-option.AOSTEPS=环境光遮蔽采样对
+option.AOSTEPS=环境光遮蔽采样配对
 
 option.AO_STRENGHT=环境光遮蔽强度
 
@@ -75,13 +75,13 @@ option.MOTION_BLUR=动态模糊
 option.MOTION_BLUR_STRENGTH=动态模糊强度
 option.MOTION_BLUR_SAMPLES=动态模糊采样
 
-option.VANILLA_WATER=原版水样式
+option.VANILLA_WATER=原版样式水体
 
-option.WATER_TEXTURE=水的纹理
-value.WATER_TEXTURE.0=否
-value.WATER_TEXTURE.1=是
+option.WATER_TEXTURE=水体纹理
+value.WATER_TEXTURE.0=关
+value.WATER_TEXTURE.1=开
 
-option.WATER_COLOR_SOURCE=水的颜色
+option.WATER_COLOR_SOURCE=水体颜色
 value.WATER_COLOR_SOURCE.0=着色器方案
 value.WATER_COLOR_SOURCE.1=资源包
 
@@ -113,7 +113,7 @@ value.CHROMA_ABER.1=是
 
 option.CHROMA_ABER_STRENGHT=色差强度
 
-option.WATER_ABSORPTION=水对光的吸收指数
+option.WATER_ABSORPTION=水体吸收系数
 
 option.WATER_TURBULENCE=波浪强度
 value.WATER_TURBULENCE.8.0=非常低
@@ -121,7 +121,7 @@ value.WATER_TURBULENCE.3.7=低
 value.WATER_TURBULENCE.2.25=中
 value.WATER_TURBULENCE.1.3=高
 
-option.COLOR_SCHEME=颜色方案
+option.COLOR_SCHEME=配色方案
 value.COLOR_SCHEME.0=Ethereal (空灵)
 value.COLOR_SCHEME.1=New shoka
 value.COLOR_SCHEME.2=Shoka
@@ -139,9 +139,9 @@ option.LIGHT_DAY_COLOR_R=光照-白天-红
 option.LIGHT_DAY_COLOR_G=光照-白天-绿
 option.LIGHT_DAY_COLOR_B=光照-白天-蓝
 
-option.LIGHT_NIGHT_COLOR_R=光照-夜间-红
-option.LIGHT_NIGHT_COLOR_G=光照-夜间-绿
-option.LIGHT_NIGHT_COLOR_B=光照-夜间-蓝
+option.LIGHT_NIGHT_COLOR_R=光照-夜晚-红
+option.LIGHT_NIGHT_COLOR_G=光照-夜晚-绿
+option.LIGHT_NIGHT_COLOR_B=光照-夜晚-蓝
 
 option.ZENITH_SUNSET_COLOR_R=天顶-日落-红
 option.ZENITH_SUNSET_COLOR_G=天顶-日落-绿
@@ -151,9 +151,9 @@ option.ZENITH_DAY_COLOR_R=天顶-白天-红
 option.ZENITH_DAY_COLOR_G=天顶-白天-绿
 option.ZENITH_DAY_COLOR_B=天顶-白天-蓝
 
-option.ZENITH_NIGHT_COLOR_R=天顶-夜间-红
-option.ZENITH_NIGHT_COLOR_G=天顶-夜间-绿
-option.ZENITH_NIGHT_COLOR_B=天顶-夜间-蓝
+option.ZENITH_NIGHT_COLOR_R=天顶-夜晚-红
+option.ZENITH_NIGHT_COLOR_G=天顶-夜晚-绿
+option.ZENITH_NIGHT_COLOR_B=天顶-夜晚-蓝
 
 option.HORIZON_SUNSET_COLOR_R=地平线-日落-红
 option.HORIZON_SUNSET_COLOR_G=地平线-日落-绿
@@ -163,41 +163,41 @@ option.HORIZON_DAY_COLOR_R=地平线-白天-红
 option.HORIZON_DAY_COLOR_G=地平线-白天-绿
 option.HORIZON_DAY_COLOR_B=地平线-白天-蓝
 
-option.HORIZON_NIGHT_COLOR_R=地平线-夜间-红
-option.HORIZON_NIGHT_COLOR_G=地平线-夜间-绿
-option.HORIZON_NIGHT_COLOR_B=地平线-夜间-蓝
+option.HORIZON_NIGHT_COLOR_R=地平线-夜晚-红
+option.HORIZON_NIGHT_COLOR_G=地平线-夜晚-绿
+option.HORIZON_NIGHT_COLOR_B=地平线-夜晚-蓝
 
-option.WATER_COLOR_R=水的颜色-红
-option.WATER_COLOR_G=水的颜色-绿
-option.WATER_COLOR_B=水的颜色-蓝
+option.WATER_COLOR_R=水体颜色-红
+option.WATER_COLOR_G=水体颜色-绿
+option.WATER_COLOR_B=水体颜色-蓝
 
 option.OMNI_TINT_CUSTOM=整体色调
 
 option.AVOID_DARK_LEVEL=洞穴亮度
 
-option.NIGHT_BRIGHT=夜间亮度
+option.NIGHT_BRIGHT=夜晚亮度
 
-option.V_CLOUDS=云
+option.V_CLOUDS=云层
 value.V_CLOUDS.0=原版
-value.V_CLOUDS.1=体积+静态
-value.V_CLOUDS.2=体积+动态
+value.V_CLOUDS.1=静态体积云
+value.V_CLOUDS.2=动态体积云
 
 option.CLOUD_VOL_STYLE=体积云风格
-value.CLOUD_VOL_STYLE.0=自然的
-value.CLOUD_VOL_STYLE.1=四四方方的
+value.CLOUD_VOL_STYLE.0=自然
+value.CLOUD_VOL_STYLE.1=方块
 
-option.CLOUD_SPEED=云速度
+option.CLOUD_SPEED=云层速度
 value.CLOUD_SPEED.0=正常
-value.CLOUD_SPEED.1=时间流逝 1
-value.CLOUD_SPEED.2=时间流逝 2
+value.CLOUD_SPEED.1=延时摄影 1
+value.CLOUD_SPEED.2=延时摄影 2
 
-option.END_CLOUDS=末地的云
+option.END_CLOUDS=末地云层
 
-option.CLOUD_STEPS_AVG=云采样
+option.CLOUD_STEPS_AVG=云层采样
 
 option.BLOOM=泛光
 
-option.COLOR_BLINDNESS=色盲
+option.COLOR_BLINDNESS=色盲模式
 
 option.COLOR_BLIND_MODE=色盲类型
 value.COLOR_BLIND_MODE.0=红色盲
@@ -206,13 +206,13 @@ value.COLOR_BLIND_MODE.2=蓝色盲
 
 option.DEBUG_MODE=调试模式
 
-option.BLOOM_SAMPLES=泛光采样对
+option.BLOOM_SAMPLES=泛光采样配对
 
-option.BLACK_ENTITY_FIX=修复黑色实体缺陷
+option.BLACK_ENTITY_FIX=修复黑色实体的缺陷
 value.BLACK_ENTITY_FIX.0=关
 value.BLACK_ENTITY_FIX.1=开
 
-option.FOG_ADJUST=雾强度
+option.FOG_ADJUST=雾浓度
 value.FOG_ADJUST.10.0=别调了，雾不会消失的
 value.FOG_ADJUST.8.0=非常低
 value.FOG_ADJUST.4.0=低
@@ -220,7 +220,7 @@ value.FOG_ADJUST.2.0=中
 value.FOG_ADJUST.1.0=高
 
 option.BLOCKLIGHT_TEMP=方块光照色温
-value.BLOCKLIGHT_TEMP.0=温暖
+value.BLOCKLIGHT_TEMP.0=很暖
 value.BLOCKLIGHT_TEMP.1=暖色
 value.BLOCKLIGHT_TEMP.2=黄色
 value.BLOCKLIGHT_TEMP.3=淡黄色
@@ -234,7 +234,7 @@ option.MATERIAL_GLOSS=材质光泽
 
 option.SIMPLE_AUTOEXP=简单曝光
 
-option.DYN_HAND_LIGHT=伪动态光
+option.DYN_HAND_LIGHT=伪动态光源
 
 #Screens
 screen.ADVANCED_SCREEN=高级选项
@@ -252,8 +252,8 @@ screen.DOF_SCREEN.comment=设置景深选项
 screen.AO_SCREEN=环境光遮蔽
 screen.AO_SCREEN.comment=设置环境光遮蔽选项
 
-screen.WATER_SCREEN=水
-screen.WATER_SCREEN.comment=设置水选项。
+screen.WATER_SCREEN=水体
+screen.WATER_SCREEN.comment=设置水体选项。
 
 screen.POST_SCREEN= 后期效果
 screen.POST_SCREEN.comment=设置后期效果选项。
@@ -270,12 +270,12 @@ screen.FOG_SCREEN.comment=设置雾选项
 screen.MOTION_BLUR_SCREEN=动态模糊
 screen.MOTION_BLUR_SCREEN.comment=设置动态模糊选项
 
-screen.ACCESIBILITY_SCREEN=辅助功能
-screen.ACCESIBILITY_SCREEN.comment=设置辅助功能选项
+screen.ACCESIBILITY_SCREEN=无障碍
+screen.ACCESIBILITY_SCREEN.comment=设置无障碍选项
 
 screen.CUSTOM_COLORS_SCREEN=自定义颜色
 screen.CUSTOM_COLORS_SCREEN.comment=设置自定义颜色
 screen.CUSTOM_COLORS_DAY=白天的自定义颜色
 screen.CUSTOM_COLORS_SUNSET=日落/黄昏的自定义颜色
-screen.CUSTOM_COLORS_NIGHT=夜间的自定义颜色
-screen.CUSTOM_COLORS_WATER=水的自定义颜色
+screen.CUSTOM_COLORS_NIGHT=夜晚的自定义颜色
+screen.CUSTOM_COLORS_WATER=水体的自定义颜色
