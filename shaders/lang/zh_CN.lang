@@ -46,7 +46,7 @@ option.SHADOW_BLUR=阴影模糊强度
 
 option.COLORED_SHADOW=阴影上色
 
-option.VOL_LIGHT=云隙光
+option.VOL_LIGHT=体积光
 value.VOL_LIGHT.0=禁用
 value.VOL_LIGHT.1=基于深度
 value.VOL_LIGHT.2=体积
