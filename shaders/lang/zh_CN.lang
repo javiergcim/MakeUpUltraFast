@@ -208,12 +208,12 @@ option.DEBUG_MODE=调试模式
 
 option.BLOOM_SAMPLES=泛光采样对
 
-option.BLACK_ENTITY_FIX=黑色实体错误修复
+option.BLACK_ENTITY_FIX=修复黑色实体缺陷
 value.BLACK_ENTITY_FIX.0=关
 value.BLACK_ENTITY_FIX.1=开
 
 option.FOG_ADJUST=雾强度
-value.FOG_ADJUST.10.0=雾不会消失
+value.FOG_ADJUST.10.0=别调了，雾不会消失的
 value.FOG_ADJUST.8.0=非常低
 value.FOG_ADJUST.4.0=低
 value.FOG_ADJUST.2.0=中
