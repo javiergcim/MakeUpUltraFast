@@ -104,12 +104,12 @@ value.SUN_REFLECTION.1=开
 option.CLOUD_REFLECTION=体积云反射
 
 option.WAVING=植物摇晃
-value.WAVING.0=否
-value.WAVING.1=是
+value.WAVING.0=关
+value.WAVING.1=开
 
 option.CHROMA_ABER=色差
-value.CHROMA_ABER.0=否
-value.CHROMA_ABER.1=是
+value.CHROMA_ABER.0=关
+value.CHROMA_ABER.1=开
 
 option.CHROMA_ABER_STRENGHT=色差强度
 
@@ -131,47 +131,47 @@ value.COLOR_SCHEME.5=Psychedelic (迷幻)
 value.COLOR_SCHEME.6=Cocoa (可可)
 value.COLOR_SCHEME.99=自定义
 
-option.LIGHT_SUNSET_COLOR_R=光照-日落-红
-option.LIGHT_SUNSET_COLOR_G=光照-日落-绿
-option.LIGHT_SUNSET_COLOR_B=光照-日落-蓝
+option.LIGHT_SUNSET_COLOR_R=光照 - 日落 - 红
+option.LIGHT_SUNSET_COLOR_G=光照 - 日落 - 绿
+option.LIGHT_SUNSET_COLOR_B=光照 - 日落 - 蓝
 
-option.LIGHT_DAY_COLOR_R=光照-白天-红
-option.LIGHT_DAY_COLOR_G=光照-白天-绿
-option.LIGHT_DAY_COLOR_B=光照-白天-蓝
+option.LIGHT_DAY_COLOR_R=光照 - 白天 - 红
+option.LIGHT_DAY_COLOR_G=光照 - 白天 - 绿
+option.LIGHT_DAY_COLOR_B=光照 - 白天 - 蓝
 
-option.LIGHT_NIGHT_COLOR_R=光照-夜晚-红
-option.LIGHT_NIGHT_COLOR_G=光照-夜晚-绿
-option.LIGHT_NIGHT_COLOR_B=光照-夜晚-蓝
+option.LIGHT_NIGHT_COLOR_R=光照 - 夜晚 - 红
+option.LIGHT_NIGHT_COLOR_G=光照 - 夜晚 - 绿
+option.LIGHT_NIGHT_COLOR_B=光照 - 夜晚 - 蓝
 
-option.ZENITH_SUNSET_COLOR_R=天顶-日落-红
-option.ZENITH_SUNSET_COLOR_G=天顶-日落-绿
-option.ZENITH_SUNSET_COLOR_B=天顶-日落-蓝
+option.ZENITH_SUNSET_COLOR_R=天顶 - 日落 - 红
+option.ZENITH_SUNSET_COLOR_G=天顶 - 日落 - 绿
+option.ZENITH_SUNSET_COLOR_B=天顶 - 日落 - 蓝
 
-option.ZENITH_DAY_COLOR_R=天顶-白天-红
-option.ZENITH_DAY_COLOR_G=天顶-白天-绿
-option.ZENITH_DAY_COLOR_B=天顶-白天-蓝
+option.ZENITH_DAY_COLOR_R=天顶 - 白天 - 红
+option.ZENITH_DAY_COLOR_G=天顶 - 白天 - 绿
+option.ZENITH_DAY_COLOR_B=天顶 - 白天 - 蓝
 
-option.ZENITH_NIGHT_COLOR_R=天顶-夜晚-红
-option.ZENITH_NIGHT_COLOR_G=天顶-夜晚-绿
-option.ZENITH_NIGHT_COLOR_B=天顶-夜晚-蓝
+option.ZENITH_NIGHT_COLOR_R=天顶 - 夜晚 - 红
+option.ZENITH_NIGHT_COLOR_G=天顶 - 夜晚 - 绿
+option.ZENITH_NIGHT_COLOR_B=天顶 - 夜晚 - 蓝
 
-option.HORIZON_SUNSET_COLOR_R=地平线-日落-红
-option.HORIZON_SUNSET_COLOR_G=地平线-日落-绿
-option.HORIZON_SUNSET_COLOR_B=地平线-日落-蓝
+option.HORIZON_SUNSET_COLOR_R=地平线 - 日落 - 红
+option.HORIZON_SUNSET_COLOR_G=地平线 - 日落 - 绿
+option.HORIZON_SUNSET_COLOR_B=地平线 - 日落 - 蓝
 
-option.HORIZON_DAY_COLOR_R=地平线-白天-红
-option.HORIZON_DAY_COLOR_G=地平线-白天-绿
-option.HORIZON_DAY_COLOR_B=地平线-白天-蓝
+option.HORIZON_DAY_COLOR_R=地平线 - 白天 - 红
+option.HORIZON_DAY_COLOR_G=地平线 - 白天 - 绿
+option.HORIZON_DAY_COLOR_B=地平线 - 白天 - 蓝
 
-option.HORIZON_NIGHT_COLOR_R=地平线-夜晚-红
-option.HORIZON_NIGHT_COLOR_G=地平线-夜晚-绿
-option.HORIZON_NIGHT_COLOR_B=地平线-夜晚-蓝
+option.HORIZON_NIGHT_COLOR_R=地平线 - 夜晚 - 红
+option.HORIZON_NIGHT_COLOR_G=地平线 - 夜晚 - 绿
+option.HORIZON_NIGHT_COLOR_B=地平线 - 夜晚 - 蓝
 
-option.WATER_COLOR_R=水体颜色-红
-option.WATER_COLOR_G=水体颜色-绿
-option.WATER_COLOR_B=水体颜色-蓝
+option.WATER_COLOR_R=水体颜色 - 红
+option.WATER_COLOR_G=水体颜色 - 绿
+option.WATER_COLOR_B=水体颜色 - 蓝
 
-option.OMNI_TINT_CUSTOM=整体色调
+option.OMNI_TINT_CUSTOM=全局色调
 
 option.AVOID_DARK_LEVEL=洞穴亮度
 
@@ -255,14 +255,14 @@ screen.AO_SCREEN.comment=设置环境光遮蔽选项
 screen.WATER_SCREEN=水体
 screen.WATER_SCREEN.comment=设置水体选项。
 
-screen.POST_SCREEN= 后期效果
+screen.POST_SCREEN=后期效果
 screen.POST_SCREEN.comment=设置后期效果选项。
 
 screen.LIGHT_SCREEN=光照
 screen.LIGHT_SCREEN.comment=设置光照选项。
 
-screen.CLOUDS_SCREEN=太阳 & 云
-screen.CLOUDS_SCREEN.comment=设置太阳和云的选项。
+screen.CLOUDS_SCREEN=太阳 & 云层
+screen.CLOUDS_SCREEN.comment=设置太阳和云层的选项。
 
 screen.FOG_SCREEN=雾
 screen.FOG_SCREEN.comment=设置雾选项
@@ -276,6 +276,6 @@ screen.ACCESIBILITY_SCREEN.comment=设置无障碍选项
 screen.CUSTOM_COLORS_SCREEN=自定义颜色
 screen.CUSTOM_COLORS_SCREEN.comment=设置自定义颜色
 screen.CUSTOM_COLORS_DAY=白天的自定义颜色
-screen.CUSTOM_COLORS_SUNSET=日落/黄昏的自定义颜色
+screen.CUSTOM_COLORS_SUNSET=日落/黎明的自定义颜色
 screen.CUSTOM_COLORS_NIGHT=夜晚的自定义颜色
 screen.CUSTOM_COLORS_WATER=水体的自定义颜色
