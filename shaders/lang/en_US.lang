@@ -213,7 +213,8 @@ value.BLACK_ENTITY_FIX.0=Off
 value.BLACK_ENTITY_FIX.1=On
 
 option.FOG_ADJUST=Fog intensity
-value.FOG_ADJUST.10.0=The fog won't go away
+value.FOG_ADJUST.20.0=No fog
+value.FOG_ADJUST.10.0=Ultra low
 value.FOG_ADJUST.8.0=Very low
 value.FOG_ADJUST.4.0=Low
 value.FOG_ADJUST.2.0=Medium

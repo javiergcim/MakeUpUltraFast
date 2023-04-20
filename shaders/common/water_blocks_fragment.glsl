@@ -295,6 +295,7 @@ void main() {
         block_color,
         sky_color_reflect,
         fresnel * fresnel,
+        visible_sky,
         dither,
         direct_light_color
         );

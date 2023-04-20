@@ -221,7 +221,7 @@ vec3 water_shader(
     #ifndef NETHER
       #ifndef THE_END
         return mix(color, reflection.rgb, fresnel * REFLEX_INDEX) +
-          vec3(sun_reflection(reflect(normalize(fragpos), normal))) * light_color * infinite;          
+          vec3(sun_reflection(reflect(normalize(fragpos), normal))) * light_color * infinite * visible_sky;          
       #else
         return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
       #endif
@@ -261,6 +261,7 @@ vec4 cristal_shader(
   vec4 color,
   vec3 sky_reflection,
   float fresnel,
+  float visible_sky,
   float dither,
   vec3 light_color)
 {
@@ -271,7 +272,13 @@ vec4 cristal_shader(
     reflection = cristal_reflection_calc(fragpos, normal, infinite, dither);
   #endif
 
-  reflection.rgb = mix(sky_reflection * lmcoord.y * lmcoord.y, reflection.rgb, reflection.a);
+  sky_reflection = mix(color.rgb, sky_reflection, visible_sky * visible_sky);
+
+  reflection.rgb = mix(
+    sky_reflection,
+    reflection.rgb,
+    reflection.a
+  );
 
   color.rgb = mix(color.rgb, sky_reflection, fresnel);
   color.rgb = mix(color.rgb, reflection.rgb, fresnel);
@@ -284,7 +291,7 @@ vec4 cristal_shader(
         return color +
           vec4(
             mix(
-              vec3(sun_reflection(reflect(normalize(fragpos), normal)) * light_color * infinite),
+              vec3(sun_reflection(reflect(normalize(fragpos), normal)) * light_color * infinite * visible_sky),
               vec3(0.0),
               reflection.a
             ),
