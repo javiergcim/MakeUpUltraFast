@@ -38,7 +38,7 @@ cloud_color = mix(
 
 cloud_color = mix(cloud_color, HORIZON_SKY_RAIN_COLOR * luma(cloud_color_aux) * 5.0, rainStrength);
 
-dark_cloud_color = mix(dark_cloud_color, cloud_color, 0.25);
+dark_cloud_color = mix(dark_cloud_color, cloud_color, 0.22);
 
 dark_cloud_color = mix(
 dark_cloud_color,
