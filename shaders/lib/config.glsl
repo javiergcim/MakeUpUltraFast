@@ -134,6 +134,10 @@ Javier Garduño - GNU Lesser General Public License v3.0
   // Don't remove
 #endif
 
+#ifdef FOG_ACTIVE
+  // Don't remove
+#endif
+
 // Reflection parameters
 #define RAYMARCH_STEPS 10
 
