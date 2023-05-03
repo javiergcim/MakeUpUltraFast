@@ -43,6 +43,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
   #define REFLEX_INDEX 0.7
 #endif
 
+#define FOG_ACTIVE // Toggle fog
 #define ACERCADE 0 // [0]
 #define WAVING 1 // [0 1] Makes objects like leaves or grass move in the wind
 #define TINTED_WATER 1  // [0 1] Use the resource pack color for water.
@@ -79,7 +80,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // #define VANILLA_WATER // Establishes the appearance of water as vanilla.
 #define WATER_COLOR_SOURCE 0 // [0 1] Select the water color source. It does not work properly in 1.12. In that case the default value is recommended.
 #define WATER_TURBULENCE 2.25 // [8.0 3.7 2.25 1.3] Set the water waves strenght.
-#define FOG_ADJUST 2.0 // [20.0 10.0 8.0 4.0 2.0 1.0]  Sets the fog strenght
+#define FOG_ADJUST 2.0 // [10.0 8.0 4.0 2.0 1.0]  Sets the fog strenght
 // #define DEBUG_MODE // Set debug mode.
 #define BLOCKLIGHT_TEMP 1 // [0 1 2 3 4] Set blocklight temperature
 #define MATERIAL_GLOSS // A very subtle effect that adds some ability to reflect direct light on some blocks. It is most noticeable on metals and luminous objects.

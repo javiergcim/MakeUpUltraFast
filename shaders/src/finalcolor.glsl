@@ -17,7 +17,7 @@
       );
   }
 #else
-  #if FOG_ADJUST < 15.0  // Fog active
+  #ifdef FOG_ACTIVE  // Fog active
     #if MC_VERSION >= 11900
       vec3 fog_texture;
       if (darknessFactor > .01) {

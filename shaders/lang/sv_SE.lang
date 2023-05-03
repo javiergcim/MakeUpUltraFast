@@ -16,7 +16,7 @@ profile.comment=De "skugglösa" profilerna är designade för datorer med låg p
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=Tack för att du använder denna shader! :). Ändra Optifines inbyggda kvalitetsalternativ till normala värden eller dess standardvärden för bättre kvalitet.
-value.ACERCADE.0=v.8.8c Code
+value.ACERCADE.0=v.8.8d Code
 
 #Options
 #############################
@@ -212,8 +212,9 @@ option.BLACK_ENTITY_FIX=BUGGFIX för svarta entiteter
 value.BLACK_ENTITY_FIX.0=AV
 value.BLACK_ENTITY_FIX.1=PÅ
 
+option.FOG_ACTIVE=Dimma aktiverad
+
 option.FOG_ADJUST=Dimintensitet
-value.FOG_ADJUST.20.0=Ingen dimma
 value.FOG_ADJUST.10.0=Ultra låg
 value.FOG_ADJUST.8.0=Mycket låg
 value.FOG_ADJUST.4.0=Låg

@@ -16,7 +16,7 @@ profile.comment=“无阴影”配置文件是为低性能电脑设计的，不�
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=感谢你使用这款着色器！ :). 将高清修复的原生画质选项设为正常值/默认值，可获得更好的画质。
-value.ACERCADE.0=v.8.8c Code
+value.ACERCADE.0=v.8.8d Code
 
 #Options
 #############################
@@ -212,8 +212,9 @@ option.BLACK_ENTITY_FIX=修复黑色实体的缺陷
 value.BLACK_ENTITY_FIX.0=关
 value.BLACK_ENTITY_FIX.1=开
 
+option.FOG_ACTIVE=启用雾
+
 option.FOG_ADJUST=雾浓度
-value.FOG_ADJUST.20.0=没有雾
 value.FOG_ADJUST.10.0=超低
 value.FOG_ADJUST.8.0=非常低
 value.FOG_ADJUST.4.0=低
