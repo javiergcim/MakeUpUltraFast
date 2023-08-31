@@ -156,6 +156,8 @@ uniform int moonPhase;
   #define WATER_COLOR vec3(WATER_COLOR_R, WATER_COLOR_G, WATER_COLOR_B)
 #endif
 
+#define NV_COLOR vec3(NV_COLOR_R, NV_COLOR_G, NV_COLOR_B)
+
 #if BLOCKLIGHT_TEMP == 0
   #define CANDLE_BASELIGHT vec3(0.29975, 0.15392353, 0.0799)
 #elif BLOCKLIGHT_TEMP == 1

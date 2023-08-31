@@ -171,6 +171,10 @@ option.WATER_COLOR_R=Water R
 option.WATER_COLOR_G=Water G
 option.WATER_COLOR_B=Water B
 
+option.NV_COLOR_R=Night vision R multiplier
+option.NV_COLOR_G=Night vision G multiplier
+option.NV_COLOR_B=Night vision B multiplier
+
 option.OMNI_TINT_CUSTOM=Omni tint
 
 option.AVOID_DARK_LEVEL=Cave brightness
@@ -282,3 +286,4 @@ screen.CUSTOM_COLORS_DAY=Day custom colors
 screen.CUSTOM_COLORS_SUNSET=Sunset/dawn custom colors
 screen.CUSTOM_COLORS_NIGHT=Night custom colors
 screen.CUSTOM_COLORS_WATER=Water custom color
+screen.CUSTOM_COLORS_NV=Night vision custom color
