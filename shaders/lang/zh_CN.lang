@@ -16,7 +16,7 @@ profile.comment=“无阴影”配置文件是为低性能电脑设计的，不�
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=感谢你使用这款着色器！ :). 将高清修复的原生画质选项设为正常值/默认值，可获得更好的画质。
-value.ACERCADE.0=v.8.8e Code
+value.ACERCADE.0=v.8.8f
 
 #Options
 #############################
@@ -170,6 +170,10 @@ option.HORIZON_NIGHT_COLOR_B=地平线 - 夜晚 - 蓝
 option.WATER_COLOR_R=水体颜色 - 红
 option.WATER_COLOR_G=水体颜色 - 绿
 option.WATER_COLOR_B=水体颜色 - 蓝
+
+option.NV_COLOR_R=夜视色调 - 红
+option.NV_COLOR_G=夜视色调 - 绿
+option.NV_COLOR_B=夜视色调 - 蓝
 
 option.OMNI_TINT_CUSTOM=全局色调
 

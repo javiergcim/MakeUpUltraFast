@@ -16,7 +16,7 @@ profile.comment=De "skugglösa" profilerna är designade för datorer med låg p
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=Tack för att du använder denna shader! :). Ändra Optifines inbyggda kvalitetsalternativ till normala värden eller dess standardvärden för bättre kvalitet.
-value.ACERCADE.0=v.8.8e Code
+value.ACERCADE.0=v.8.8f
 
 #Options
 #############################
@@ -170,6 +170,10 @@ option.HORIZON_NIGHT_COLOR_B=Horisont natt B
 option.WATER_COLOR_R=Vatten R
 option.WATER_COLOR_G=Vatten G
 option.WATER_COLOR_B=Vatten B
+
+option.NV_COLOR_R=Night Vision R Multiplikator
+option.NV_COLOR_G=Night Vision G Multiplikator
+option.NV_COLOR_B=Night Vision B Multiplikator
 
 option.OMNI_TINT_CUSTOM=Omni nyans
 
