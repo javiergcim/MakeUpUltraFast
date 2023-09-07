@@ -176,7 +176,8 @@ void main() {
       final_candle_color;
   #endif
 
-    block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
+    block_color.rgb *= mix(real_light, vec3(1.0), nightVision * 0.125);
+    block_color.rgb *= mix(vec3(1.0, 1.0, 1.0), vec3(NV_COLOR_R, NV_COLOR_G, NV_COLOR_B), nightVision);
   #endif
 
   #if defined GBUFFER_ENTITIES
