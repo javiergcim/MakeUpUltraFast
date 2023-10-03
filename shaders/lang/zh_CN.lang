@@ -285,3 +285,4 @@ screen.CUSTOM_COLORS_DAY=白天的自定义颜色
 screen.CUSTOM_COLORS_SUNSET=日落/黎明的自定义颜色
 screen.CUSTOM_COLORS_NIGHT=夜晚的自定义颜色
 screen.CUSTOM_COLORS_WATER=水体的自定义颜色
+screen.CUSTOM_COLORS_NV=夜视的自定义颜色
