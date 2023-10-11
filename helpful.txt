@@ -18,3 +18,13 @@ Remove effects:
 
 Lightning bolt:
 /summon lightning_bolt [pos]
+
+Moon phase:
+/time set 18000 - Full Moon
+/time set 44000 - Waning Gibbous
+/time set 68000 - Last Quarter
+/time set 92000 - Waning Crescent
+/time set 116000 - New Moon
+/time set 140000 - Waxing Crescent
+/time set 164000 - First Quarter
+/time set 188000 - Waxing Gibbous

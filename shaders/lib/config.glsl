@@ -66,7 +66,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define COLOR_SCHEME 1 // [0 1 2 3 4 5 6 99] Ethereal: Old default theme. New shoka: Reinterpretation of a classic. Shoka: The classic. Legacy: Very old default. Captain: A cold preset of stylish colors. Psycodelic: Remaster of old vivid scheme. Cocoa: Warm theme. Custom: Choose your colors in advanced options. 
 #define WATER_TEXTURE 0 // [0 1] Enable or disable resource pack water texture. It does not work properly in 1.12. In that case the default value is recommended.
 #define AVOID_DARK_LEVEL 0.09 // [0.00 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.18 0.19 0.20]  Minimal omni light intensity in caves (percentaje).
-#define NIGHT_BRIGHT 1.2 // [0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0 2.1 2.2 2.3 2.4 2.5 2.6 2.7 2.8 2.9 3.0] Adjusts the brightness of the night light in exteriors.
+#define NIGHT_BRIGHT 0.6 // [0.4 0.5 0.6 0.7 0.8 0.9 1.0] Adjusts the brightness of the night light in exteriors.
 #define V_CLOUDS 1 // [0 1 2] Volumetric static: The clouds move, but they keep their shape. Volumetric dynamic: Clouds change shape over time, a different cloud landscape every time (medium performance hit). Vanilla: Original vanilla clouds.
 #define CLOUD_VOL_STYLE 0 // [0 1] Set the volumetric cloud style.
 #define CLOUD_REFLECTION  // Set off-screen volumetric clouds reflection (volumetric clouds must be active).

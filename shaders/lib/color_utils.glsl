@@ -14,7 +14,7 @@ uniform int moonPhase;
   uniform vec3 skyColor;
 #endif
 
-#define NIGHT_BRIGHT_PHASE NIGHT_BRIGHT * (abs(4 - moonPhase) / 4.0)
+#define NIGHT_BRIGHT_PHASE (NIGHT_BRIGHT + (NIGHT_BRIGHT * (abs(4 - moonPhase) * 0.25)))
 
 #if COLOR_SCHEME == 0  // Ethereal
   #define OMNI_TINT 0.4
