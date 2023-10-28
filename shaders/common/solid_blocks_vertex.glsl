@@ -60,7 +60,7 @@ varying vec4 tint_color;
 varying float frog_adjust;
 varying vec3 direct_light_color;
 varying vec3 candle_color;
-varying float direct_light_strenght;
+varying float direct_light_strength;
 varying vec3 omni_light;
 
 #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
@@ -138,7 +138,7 @@ void main() {
   #if defined FOLIAGE_V && !defined NETHER
     #ifdef SHADOW_CASTING
       if (is_foliage > .2) {
-        direct_light_strenght = mix(direct_light_strenght, original_direct_light_strenght, clamp((gl_Position.z / SHADOW_LIMIT) * 2.0 - 0.5, 0.0, 1.0));
+        direct_light_strength = mix(direct_light_strength, original_direct_light_strength, clamp((gl_Position.z / SHADOW_LIMIT) * 2.0 - 0.5, 0.0, 1.0));
       }
     #endif
   #endif

@@ -62,7 +62,7 @@ varying vec4 tint_color;
 varying float frog_adjust;
 varying vec3 direct_light_color;
 varying vec3 candle_color;
-varying float direct_light_strenght;
+varying float direct_light_strength;
 varying vec3 omni_light;
 
 #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
@@ -170,12 +170,12 @@ void main() {
     float material = material_gloss_factor * block_luma;
     vec3 real_light =
       omni_light +
-      (shadow_c * ((direct_light_color * direct_light_strenght) + (direct_light_color * material))) * (1.0 - (rainStrength * 0.75)) +
+      (shadow_c * ((direct_light_color * direct_light_strength) + (direct_light_color * material))) * (1.0 - (rainStrength * 0.75)) +
       final_candle_color;
   #else
     vec3 real_light =
       omni_light +
-      (shadow_c * direct_light_color * direct_light_strenght) * (1.0 - (rainStrength * 0.75)) +
+      (shadow_c * direct_light_color * direct_light_strength) * (1.0 - (rainStrength * 0.75)) +
       final_candle_color;
   #endif
 

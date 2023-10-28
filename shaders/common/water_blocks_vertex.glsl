@@ -48,7 +48,7 @@ varying vec3 tangent;
 varying vec3 binormal;
 varying vec3 direct_light_color;
 varying vec3 candle_color;
-varying float direct_light_strenght;
+varying float direct_light_strength;
 varying vec3 omni_light;
 varying float visible_sky;
 varying vec3 up_vec;

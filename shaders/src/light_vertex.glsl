@@ -57,24 +57,24 @@ candle_color = clamp(candle_color, vec3(0.0), vec3(4.0));
 #endif
 
 vec3 normal = gl_NormalMatrix * gl_Normal;
-float sun_light_strenght;
+float sun_light_strength;
 if (length(normal) != 0.0) {  // Workaround for undefined normals
   normal = normalize(normal);
-  sun_light_strenght = dot(normal, sun_vec);
+  sun_light_strength = dot(normal, sun_vec);
 } else {
   normal = vec3(0.0, 1.0, 0.0);
-  sun_light_strenght = 1.0;
+  sun_light_strength = 1.0;
 }
 
 #if defined THE_END || defined NETHER
-  direct_light_strenght = sun_light_strenght;
+  direct_light_strength = sun_light_strength;
 #else
-  direct_light_strenght =
-    mix(-sun_light_strenght, sun_light_strenght, light_mix);
+  direct_light_strength =
+    mix(-sun_light_strength, sun_light_strength, light_mix);
 #endif
 
 // Intensidad por dirección
-float omni_strenght = (direct_light_strenght * .125) + 1.0;
+float omni_strength = (direct_light_strength * .125) + 1.0;
 
 // Calculamos color de luz directa
 #ifdef UNKNOWN_DIM
@@ -88,20 +88,20 @@ float omni_strenght = (direct_light_strenght * .125) + 1.0;
 #endif
 
 #ifdef FOLIAGE_V  // Puede haber plantas en este shader
-    float original_direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0) * 0.9 + 0.1;
+    float original_direct_light_strength = clamp(direct_light_strength, 0.0, 1.0) * 0.9 + 0.1;
   if (is_foliage > .2) {  // Es "planta" y se atenúa luz por dirección
     #ifdef SHADOW_CASTING
-      direct_light_strenght = sqrt(abs(direct_light_strenght));
+      direct_light_strength = sqrt(abs(direct_light_strength));
     #else
-      direct_light_strenght = (clamp(direct_light_strenght, 0.0, 1.0) * 0.5 + 0.5) * 0.75;
+      direct_light_strength = (clamp(direct_light_strength, 0.0, 1.0) * 0.5 + 0.5) * 0.75;
     #endif
 
-    omni_strenght = 1.0;
+    omni_strength = 1.0;
   } else {
-    direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
+    direct_light_strength = clamp(direct_light_strength, 0.0, 1.0);
   }
 #else
-  direct_light_strenght = clamp(direct_light_strenght, 0.0, 1.0);
+  direct_light_strength = clamp(direct_light_strength, 0.0, 1.0);
 #endif
 
 #if defined THE_END || defined NETHER
@@ -146,34 +146,34 @@ float omni_strenght = (direct_light_strenght * .125) + 1.0;
   float omni_minimal = AVOID_DARK_LEVEL * luma_ratio;
   float visible_avoid_dark = (pow(visible_sky, 1.5) * (1.0 - omni_minimal)) + omni_minimal;
 
-  omni_light = visible_avoid_dark * omni_strenght *
+  omni_light = visible_avoid_dark * omni_strength *
     mix(hi_sky_color, direct_light_color * 0.75, OMNI_TINT);
 
 #endif
 
 #ifdef CAVEENTITY_V
   // Avoid flat illumination in caves for entities
-  float candle_cave_strenght = (direct_light_strenght * .5) + .5;
-  candle_cave_strenght =
-    mix(candle_cave_strenght, 1.0, visible_sky);
-  candle_color *= candle_cave_strenght;
+  float candle_cave_strength = (direct_light_strength * .5) + .5;
+  candle_cave_strength =
+    mix(candle_cave_strength, 1.0, visible_sky);
+  candle_color *= candle_cave_strength;
 #endif
 
 #if !defined THE_END && !defined NETHER
   #ifndef SHADOW_CASTING
     // Fake shadows
     if (isEyeInWater == 0) {
-      direct_light_strenght = mix(0.0, direct_light_strenght, pow(visible_sky, 10.0));
+      direct_light_strength = mix(0.0, direct_light_strength, pow(visible_sky, 10.0));
     } else {
-      direct_light_strenght = mix(0.0, direct_light_strenght, visible_sky);
+      direct_light_strength = mix(0.0, direct_light_strength, visible_sky);
     }
   #else
-    direct_light_strenght = mix(0.0, direct_light_strenght, visible_sky);
+    direct_light_strength = mix(0.0, direct_light_strength, visible_sky);
   #endif
 #endif
 
 #ifdef EMMISIVE_V
   if (is_fake_emmisor > 0.5) {
-    direct_light_strenght = 10.0;
+    direct_light_strength = 10.0;
   }
 #endif

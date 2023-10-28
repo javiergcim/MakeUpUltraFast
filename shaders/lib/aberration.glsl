@@ -5,7 +5,7 @@ Color aberration effect.
 vec3 color_aberration() {
   vec2 offset = texcoord - 0.5;
 
-  offset *= vec2(0.125) * CHROMA_ABER_STRENGHT;
+  offset *= vec2(0.125) * CHROMA_ABER_STRENGTH;
 
   vec3 aberrated_color = vec3(0.0);
 
