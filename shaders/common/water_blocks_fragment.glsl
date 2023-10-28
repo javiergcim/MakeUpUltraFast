@@ -77,7 +77,7 @@ varying vec3 tangent;
 varying vec3 binormal;
 varying vec3 direct_light_color;
 varying vec3 candle_color;
-varying float direct_light_strenght;
+varying float direct_light_strength;
 varying vec3 omni_light;
 varying float visible_sky;
 varying vec3 up_vec;
@@ -190,7 +190,7 @@ void main() {
 
       real_light =
         omni_light +
-        (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
+        (direct_light_strength * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
         candle_color;
 
       real_light *= (fresnel_tex * 2.0) - 0.25;
@@ -221,7 +221,7 @@ void main() {
 
       real_light =
         omni_light +
-        (direct_light_strenght * direct_light_color) * (1.0 - rainStrength * 0.75) +
+        (direct_light_strength * direct_light_color) * (1.0 - rainStrength * 0.75) +
         candle_color;
 
       #if defined NETHER || defined THE_END
@@ -283,7 +283,7 @@ void main() {
 
     real_light =
       omni_light +
-      (direct_light_strenght * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
+      (direct_light_strength * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
       candle_color;
 
     block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);

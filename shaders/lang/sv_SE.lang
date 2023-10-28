@@ -63,7 +63,7 @@ value.AO.1=PÅ
 
 option.AOSTEPS=Samplingspar för omgivande inneslutning
 
-option.AO_STRENGHT=Styrka för omgivande inneslutning
+option.AO_STRENGTH=Styrka för omgivande inneslutning
 
 option.AA_TYPE=Tidsbestämd sampling
 value.AA_TYPE.0=AV
@@ -111,7 +111,7 @@ option.CHROMA_ABER=Färgavvikelse
 value.CHROMA_ABER.0=Nej
 value.CHROMA_ABER.1=Ja
 
-option.CHROMA_ABER_STRENGHT=Styrka för färgavvikelse
+option.CHROMA_ABER_STRENGTH=Styrka för färgavvikelse
 
 option.WATER_ABSORPTION=Absorberingsindex för vatten
 

@@ -133,7 +133,7 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
   vec2 pos = gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y);
 
   #if REFRACTION == 1
-    // 0.06 is the pseudorefraction strenght
+    // 0.06 is the pseudorefraction strength
     pos = pos + refraction.xy * (0.075 / (1.0 + length(fragpos) * 0.4));
   #endif
 
