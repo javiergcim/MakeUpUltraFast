@@ -1,3 +1,17 @@
+vec3 get_metal_normals(vec3 bump, vec3 fragpos) {
+  float NdotE = abs(dot(flat_normal, normalize(fragpos)));
+
+  bump *= vec3(NdotE) + vec3(0.0, 0.0, 1.0 - NdotE);
+
+  mat3 tbn_matrix = mat3(
+    tangent.x, binormal.x, water_normal.x,
+    tangent.y, binormal.y, water_normal.y,
+    tangent.z, binormal.z, water_normal.z
+    );
+
+  return normalize(bump * tbn_matrix);
+}
+
 #if defined THE_END
   float material_gloss(vec3 reflected_vector, vec2 lmcoord_alt, float gloss_power, vec3 flat_normal) {
     vec3 astro_pos = (gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz;

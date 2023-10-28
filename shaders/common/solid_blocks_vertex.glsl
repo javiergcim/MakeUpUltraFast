@@ -84,6 +84,8 @@ varying vec3 omni_light;
   varying float gloss_power;
   varying float luma_factor;
   varying float luma_power;
+  varying vec3 tangent;
+  varying vec3 binormal;
 #endif
 
 #if defined MATERIAL_GLOSS && !defined NETHER
@@ -162,6 +164,9 @@ void main() {
     sub_position3 = sub_position.xyz;
 
     lmcoord_alt = lmcoord;
+
+    tangent = normalize(gl_NormalMatrix * at_tangent.xyz);
+    binormal = normalize(gl_NormalMatrix * -cross(gl_Normal, at_tangent.xyz));
     
   #endif
 

@@ -86,6 +86,8 @@ varying vec3 omni_light;
   varying float gloss_power;
   varying float luma_factor;
   varying float luma_power;
+  varying vec3 tangent;
+  varying vec3 binormal;
 #endif
 
 #if defined SHADOW_CASTING && !defined NETHER
@@ -153,12 +155,13 @@ void main() {
     block_color.rgb = clamp(vec3(luma(block_color.rgb)) * vec3(0.75, 0.75, 1.5), vec3(0.3), vec3(1.0));
   #else
     #if defined MATERIAL_GLOSS && !defined NETHER
+    vec3 metal_normal = get_metal_normals(normalize(block_color.rgb), sub_position3);
     float material_gloss_factor =
       material_gloss(
         reflect(normalize(sub_position3), flat_normal),
         lmcoord_alt,
         gloss_power,
-        flat_normal
+        metal_normal
       ) * gloss_factor;
 
     block_luma *= luma_factor;
