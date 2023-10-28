@@ -53,7 +53,7 @@ value.VOL_LIGHT.2=Volumetric
 
 option.DOF=Depth of field
 
-option.DOF_STRENGTH=DoF strenght
+option.DOF_STRENGTH=DoF strength
 
 option.DOF_SAMPLES_FACTOR=DoF samples factor
 
@@ -63,7 +63,7 @@ value.AO.1=On
 
 option.AOSTEPS=AO sample pairs
 
-option.AO_STRENGHT=AO strenght
+option.AO_STRENGTH=AO strength
 
 option.AA_TYPE=Temporal sampling
 value.AA_TYPE.0=Off
@@ -72,7 +72,7 @@ value.AA_TYPE.2=TAA
 value.AA_TYPE.3=Sharp TAA
 
 option.MOTION_BLUR=Motion blur
-option.MOTION_BLUR_STRENGTH=Motion blur strenght
+option.MOTION_BLUR_STRENGTH=Motion blur strength
 option.MOTION_BLUR_SAMPLES=Motion blur samples
 
 option.VANILLA_WATER=Vanilla like water
@@ -111,11 +111,11 @@ option.CHROMA_ABER=Chroma aberration
 value.CHROMA_ABER.0=No
 value.CHROMA_ABER.1=Yes
 
-option.CHROMA_ABER_STRENGHT=Chroma aberration strenght
+option.CHROMA_ABER_STRENGTH=Chroma aberration strength
 
 option.WATER_ABSORPTION=Water absorption index
 
-option.WATER_TURBULENCE=Waves strenght
+option.WATER_TURBULENCE=Waves strength
 value.WATER_TURBULENCE.8.0=Very low
 value.WATER_TURBULENCE.3.7=Low
 value.WATER_TURBULENCE.2.25=Medium
