@@ -84,12 +84,6 @@ varying vec3 omni_light;
   varying float gloss_power;
   varying float luma_factor;
   varying float luma_power;
-  varying vec3 tangent;
-  varying vec3 binormal;
-#endif
-
-#if defined MATERIAL_GLOSS && !defined NETHER
-  attribute vec4 at_tangent;
 #endif
 
 #if defined FOLIAGE_V || defined GBUFFER_TERRAIN || defined GBUFFER_HAND || (defined MATERIAL_GLOSS && !defined NETHER)
@@ -153,8 +147,8 @@ void main() {
       luma_power = 4.0;
     } else if (mc_Entity.x == ENTITY_METAL) {  // Metal-like block
       luma_factor = 1.35;
-      luma_power = 3.0;
-      gloss_power = 10.0;
+      luma_power = -1.0;  // Metallic
+      gloss_power = 100.0;
     } else if (mc_Entity.x == ENTITY_FABRIC) {  // Fabric-like blocks
       gloss_power = 3.0;
       gloss_factor = 0.1;
@@ -163,11 +157,7 @@ void main() {
     flat_normal = normal;
     sub_position3 = sub_position.xyz;
 
-    lmcoord_alt = lmcoord;
-
-    tangent = normalize(gl_NormalMatrix * at_tangent.xyz);
-    binormal = normalize(gl_NormalMatrix * -cross(gl_Normal, at_tangent.xyz));
-    
+    lmcoord_alt = lmcoord;    
   #endif
 
   #if defined GBUFFER_ENTITY_GLOW

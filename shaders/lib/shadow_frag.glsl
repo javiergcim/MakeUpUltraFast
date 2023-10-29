@@ -13,7 +13,7 @@ float get_shadow(vec3 the_shadow_pos) {
     #if AA_TYPE > 0
       float dither = shifted_makeup_dither(gl_FragCoord.xy);
     #else
-      float dither = dither13(gl_FragCoord.xy);
+      float dither = r_dither(gl_FragCoord.xy);
     #endif
 
     float current_radius = dither;
@@ -76,7 +76,7 @@ float get_shadow(vec3 the_shadow_pos) {
       #if AA_TYPE > 0
         float dither = shifted_makeup_dither(gl_FragCoord.xy);
       #else
-        float dither = dither13(gl_FragCoord.xy);
+        float dither = r_dither(gl_FragCoord.xy);
       #endif
 
       float current_radius = dither;
