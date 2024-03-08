@@ -44,6 +44,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #endif
 
 #define FOG_ACTIVE // Toggle fog
+#define NETHER_FOG_DISTANCE 0 // [0 1] // Sets Nether fog distance to half of the render distance (maximum of 96 blocks)
 #define ACERCADE 0 // [0]
 #define WAVING 1 // [0 1] Makes objects like leaves or grass move in the wind
 #define TINTED_WATER 1  // [0 1] Use the resource pack color for water.
@@ -140,6 +141,12 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #ifdef FOG_ACTIVE
   // Don't remove
+#endif
+
+#if NETHER_FOG_DISTANCE == 1
+  #define NETHER_SIGHT min(far / 2, 96)
+#else
+  #define NETHER_SIGHT far
 #endif
 
 // Reflection parameters

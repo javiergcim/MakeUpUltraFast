@@ -19,5 +19,10 @@
   );
 
 #else
-  frog_adjust = sqrt(clamp(gl_FogFragCoord / far, 0.0, 1.0));
+  #if defined NETHER
+    float sight = NETHER_SIGHT;
+  #else
+    float sight = far;
+  #endif
+  frog_adjust = sqrt(clamp(gl_FogFragCoord / sight, 0.0, 1.0));
 #endif

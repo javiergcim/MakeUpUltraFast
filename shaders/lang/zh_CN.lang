@@ -225,6 +225,10 @@ value.FOG_ADJUST.4.0=低
 value.FOG_ADJUST.2.0=中
 value.FOG_ADJUST.1.0=高
 
+option.NETHER_FOG_DISTANCE=了下界迷雾距离
+value.NETHER_FOG_DISTANCE.0=渲染距离
+value.NETHER_FOG_DISTANCE.1=原版
+
 option.BLOCKLIGHT_TEMP=方块光照色温
 value.BLOCKLIGHT_TEMP.0=很暖
 value.BLOCKLIGHT_TEMP.1=暖色

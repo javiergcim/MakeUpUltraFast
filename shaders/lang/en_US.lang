@@ -226,6 +226,10 @@ value.FOG_ADJUST.4.0=Low
 value.FOG_ADJUST.2.0=Medium
 value.FOG_ADJUST.1.0=High
 
+option.NETHER_FOG_DISTANCE=Nether fog distance
+value.NETHER_FOG_DISTANCE.0=Render Distance
+value.NETHER_FOG_DISTANCE.1=Vanilla
+
 option.BLOCKLIGHT_TEMP=Blocklight temp
 value.BLOCKLIGHT_TEMP.0=Warmer
 value.BLOCKLIGHT_TEMP.1=Warm
