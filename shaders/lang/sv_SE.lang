@@ -225,6 +225,10 @@ value.FOG_ADJUST.4.0=Låg
 value.FOG_ADJUST.2.0=Medium
 value.FOG_ADJUST.1.0=Hög
 
+option.NETHER_FOG_DISTANCE=Nether dimma avstånd
+value.NETHER_FOG_DISTANCE.0=Rendera avstånd
+value.NETHER_FOG_DISTANCE.1=Original
+
 option.BLOCKLIGHT_TEMP=Blockljustemperatur
 value.BLOCKLIGHT_TEMP.0=Varmare
 value.BLOCKLIGHT_TEMP.1=Varm
