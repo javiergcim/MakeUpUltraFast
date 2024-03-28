@@ -181,6 +181,13 @@ option.AVOID_DARK_LEVEL=Cave brightness
 
 option.NIGHT_BRIGHT=Night brightness
 
+option.EXPOSURE_CAP=Exposure limit
+option.EXPOSURE_CAP.comment=Prevents the exposure from being too dark. At high values, bright areas become washed out. 
+value.EXPOSURE_CAP.20.0=Off
+value.EXPOSURE_CAP.0.4=Low
+value.EXPOSURE_CAP.0.25=Medium
+value.EXPOSURE_CAP.0.1=High
+
 option.V_CLOUDS=Clouds
 value.V_CLOUDS.0=Vanilla
 value.V_CLOUDS.1=Volumetric static
