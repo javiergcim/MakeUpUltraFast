@@ -199,6 +199,8 @@ void main() {
     block_color.rgb *= 1.5;
   #endif
 
+  block_color.rgba = clamp(block_color, vec4(0.0), vec4(100.0));
+
   #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"
 }
