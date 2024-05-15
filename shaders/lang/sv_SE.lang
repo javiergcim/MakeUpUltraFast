@@ -16,7 +16,7 @@ profile.comment=De "skugglösa" profilerna är designade för datorer med låg p
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=Tack för att du använder denna shader! :). Ändra Optifines inbyggda kvalitetsalternativ till normala värden eller dess standardvärden för bättre kvalitet.
-value.ACERCADE.0=v.8.9a
+value.ACERCADE.0=v.8.9e
 
 #Options
 #############################
@@ -224,6 +224,10 @@ value.FOG_ADJUST.8.0=Mycket låg
 value.FOG_ADJUST.4.0=Låg
 value.FOG_ADJUST.2.0=Medium
 value.FOG_ADJUST.1.0=Hög
+
+option.NETHER_FOG_DISTANCE=Nether dimma avstånd
+value.NETHER_FOG_DISTANCE.0=Rendera avstånd
+value.NETHER_FOG_DISTANCE.1=Original
 
 option.BLOCKLIGHT_TEMP=Blockljustemperatur
 value.BLOCKLIGHT_TEMP.0=Varmare

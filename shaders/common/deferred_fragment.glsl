@@ -162,7 +162,12 @@ void main() {
   #if AO == 1
     // AO distance attenuation
     #if defined NETHER
-      linear_d = sqrt(linear_d);
+      if (NETHER_FOG_DISTANCE == 0) {
+        linear_d = sqrt(linear_d);
+      } else {
+        float screen_distance = 2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
+        linear_d = screen_distance / NETHER_SIGHT;
+      }
     #endif
     float ao_att = pow(
       clamp(linear_d * 1.6, 0.0, 1.0),
