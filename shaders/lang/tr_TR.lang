@@ -1,0 +1,289 @@
+#Profiles
+############################
+profile.no_effects=Efekt yok
+profile.shadowless_low=Gölgesiz Düşük
+profile.shadowless_medium=Gölgesiz Orta
+profile.shadowless_high=Gölgesiz Yüksek
+profile.low=Düşük
+profile.medium=Orta
+profile.high=Yüksek
+profile.extreme=Olağanüstü
+profile.extremeplus=Olağanüstü+
+
+profile.comment="Gölgesiz" profiller, gölgeler göz ardı edilerek düşük performanslı makineler için tasarlanmıştır. Geleneksel profiller yavaş yavaş daha kaliteli gölgeler ve daha gelişmiş ağır efektler ekler. Lütfen mevcut seçenekleri deneyin ve sizin için en iyi kombinasyonu bulun.
+
+#About
+#############################
+option.ACERCADE=MakeUp
+option.ACERCADE.comment=Bu shaderı kullandığınız için teşekkür ederiz! :). Daha iyi kalite için Optifine yerel kalite kontrollerini normal veya varsayılan değerlere ayarlayın.
+value.ACERCADE.0=v.8.9a
+
+#Options
+#############################
+option.SHADOW_CASTING=Gölgeler
+
+option.SHADOW_DISTANCE_SLIDER=Gölge mesafesi
+value.SHADOW_DISTANCE_SLIDER.0=Kısa
+value.SHADOW_DISTANCE_SLIDER.1=Orta
+value.SHADOW_DISTANCE_SLIDER.2=Uzun
+
+option.SHADOW_QTY_SLIDER=Gölge kalitesi
+value.SHADOW_QTY_SLIDER.0=Yok
+value.SHADOW_QTY_SLIDER.1=Düşük
+value.SHADOW_QTY_SLIDER.2=Orta
+value.SHADOW_QTY_SLIDER.3=Yüksek
+
+option.REFLECTION_SLIDER=Yansıma
+value.REFLECTION_SLIDER.0=Kapalı
+value.REFLECTION_SLIDER.1=Ters çevrilmiş
+value.REFLECTION_SLIDER.2=Işın yürüyüşü
+
+option.SHADOW_TYPE=Gölge türü
+value.SHADOW_TYPE.0=Basit
+value.SHADOW_TYPE.1=Filtrelenmiş
+
+option.SHADOW_BLUR=Gölge bulanıklığı yoğunluğu
+
+option.COLORED_SHADOW=Renkli gölgeler
+
+option.VOL_LIGHT=Işık hüzmesi
+value.VOL_LIGHT.0=Devre dışı
+value.VOL_LIGHT.1=Derinlik tabanlı
+value.VOL_LIGHT.2=Volumetrik
+
+option.DOF=Alan derinliği
+
+option.DOF_STRENGTH=AD gücü
+
+option.DOF_SAMPLES_FACTOR=AD örnekleri faktörü
+
+option.AO=Ortam aydınlatması
+value.AO.0=Kapalı
+value.AO.1=Açık
+
+option.AOSTEPS=OA örnek çiftleri
+
+option.AO_STRENGTH=OA gücü
+
+option.AA_TYPE=Geçici örnekleme
+value.AA_TYPE.0=Kapalı
+value.AA_TYPE.1=Gürültü giderme
+value.AA_TYPE.2=TAA
+value.AA_TYPE.3=Keskin TAA
+
+option.MOTION_BLUR=Hareket bulanıklığı
+option.MOTION_BLUR_STRENGTH=Hareket bulanıklığı gücü
+option.MOTION_BLUR_SAMPLES=Hareket bulanıklığı örnekleri
+
+option.VANILLA_WATER=Vanilla tarzı su
+
+option.WATER_TEXTURE=Su dokusu
+value.WATER_TEXTURE.0=Hayır
+value.WATER_TEXTURE.1=Evet
+
+option.WATER_COLOR_SOURCE=Su rengi
+value.WATER_COLOR_SOURCE.0=Shader şeması
+value.WATER_COLOR_SOURCE.1=Kaynak paketi
+
+option.REFLECTION=Yansıma
+value.REFLECTION.0=Kapalı
+value.REFLECTION.1=Açık
+
+option.REFRACTION=Işık kırılması
+value.REFRACTION.0=Kapalı
+value.REFRACTION.1=Açık
+
+option.SSR_TYPE=Yansıma türü
+value.SSR_TYPE.0=Ters çevrilmiş
+value.SSR_TYPE.1=Işık yürüyüşü
+
+option.SUN_REFLECTION=Güneş yansıması
+value.SUN_REFLECTION.0=Kapalı
+value.SUN_REFLECTION.1=Açık
+
+option.CLOUD_REFLECTION=Bulut yansıması
+
+option.WAVING=Sallanan bitkiler
+value.WAVING.0=Hayır
+value.WAVING.1=Evet
+
+option.CHROMA_ABER=Renk sapması
+value.CHROMA_ABER.0=Hayır
+value.CHROMA_ABER.1=Evet
+
+option.CHROMA_ABER_STRENGTH=Renk sapması gücü
+
+option.WATER_ABSORPTION=Su absorbe indexi
+
+option.WATER_TURBULENCE=Dalga gücü
+value.WATER_TURBULENCE.8.0=Çok düşük
+value.WATER_TURBULENCE.3.7=Düşük
+value.WATER_TURBULENCE.2.25=Orta
+value.WATER_TURBULENCE.1.3=Yüksek
+
+option.COLOR_SCHEME=Renk şeması
+value.COLOR_SCHEME.0=Ethereal
+value.COLOR_SCHEME.1=Yeni shoka
+value.COLOR_SCHEME.2=Shoka
+value.COLOR_SCHEME.3=Legacy
+value.COLOR_SCHEME.4=Captain
+value.COLOR_SCHEME.5=Psychedelic
+value.COLOR_SCHEME.6=Cocoa
+value.COLOR_SCHEME.99=Özel
+
+option.LIGHT_SUNSET_COLOR_R=Gün batımı ışığı R
+option.LIGHT_SUNSET_COLOR_G=Gün batımı ışığı G
+option.LIGHT_SUNSET_COLOR_B=Gün batımı ışığı B
+
+option.LIGHT_DAY_COLOR_R=Gün ışığı R
+option.LIGHT_DAY_COLOR_G=Gün ışığı G
+option.LIGHT_DAY_COLOR_B=Gün ışığı B
+
+option.LIGHT_NIGHT_COLOR_R=Gece ışığı R
+option.LIGHT_NIGHT_COLOR_G=Gece ışığı G
+option.LIGHT_NIGHT_COLOR_B=Gece ışığı B
+
+option.ZENITH_SUNSET_COLOR_R=Zirve gün batımı R
+option.ZENITH_SUNSET_COLOR_G=Zirve gün batımı G
+option.ZENITH_SUNSET_COLOR_B=Zirve gün batımı B
+
+option.ZENITH_DAY_COLOR_R=Zirve gün R
+option.ZENITH_DAY_COLOR_G=Zirve gün G
+option.ZENITH_DAY_COLOR_B=Zirve gün B
+
+option.ZENITH_NIGHT_COLOR_R=Zirve gece R
+option.ZENITH_NIGHT_COLOR_G=Zirve gece G
+option.ZENITH_NIGHT_COLOR_B=Zirve gece B
+
+option.HORIZON_SUNSET_COLOR_R=Ufuk gün batımı R
+option.HORIZON_SUNSET_COLOR_G=Ufuk gün batımı G
+option.HORIZON_SUNSET_COLOR_B=Ufuk gün batımı B
+
+option.HORIZON_DAY_COLOR_R=Ufuk gün R
+option.HORIZON_DAY_COLOR_G=Ufuk gün G
+option.HORIZON_DAY_COLOR_B=Ufuk gün B
+
+option.HORIZON_NIGHT_COLOR_R=Ufuk gece R
+option.HORIZON_NIGHT_COLOR_G=Ufuk gece G
+option.HORIZON_NIGHT_COLOR_B=Ufuk gece B
+
+option.WATER_COLOR_R=Su R
+option.WATER_COLOR_G=Su G
+option.WATER_COLOR_B=Su B
+
+option.NV_COLOR_R=Gece görüşü R çarpanı
+option.NV_COLOR_G=Gece görüşü G çarpanı
+option.NV_COLOR_B=Gece görüşü B çarpanı
+
+option.OMNI_TINT_CUSTOM=Çok yönlü renk tonu
+
+option.AVOID_DARK_LEVEL=Mağara parlaklığı
+
+option.NIGHT_BRIGHT=Gece parlaklığı
+
+option.V_CLOUDS=Bulutlar
+value.V_CLOUDS.0=Vanilla
+value.V_CLOUDS.1=Volumetrik statik
+value.V_CLOUDS.2=Volumetrik dinamik
+
+option.CLOUD_VOL_STYLE=Volumetrik bulut stili
+value.CLOUD_VOL_STYLE.0=Doğal
+value.CLOUD_VOL_STYLE.1=Karesel
+
+option.CLOUD_SPEED=Bulut hızı
+value.CLOUD_SPEED.0=Normal
+value.CLOUD_SPEED.1=Hızlandırılmış 1
+value.CLOUD_SPEED.2=Hızlandırılmış 2
+
+option.END_CLOUDS=End bulutları
+
+option.CLOUD_STEPS_AVG=Bulut örnekleri
+
+option.BLOOM=Tazelik
+
+option.COLOR_BLINDNESS=Renk körlüğü
+
+option.COLOR_BLIND_MODE=Renk körü türü
+value.COLOR_BLIND_MODE.0=Protanopia
+value.COLOR_BLIND_MODE.1=Deuteranopia
+value.COLOR_BLIND_MODE.2=Tritanopia
+
+option.DEBUG_MODE=Hata ayıklama modu
+
+option.BLOOM_SAMPLES=Tazelik örnek çiftleri
+
+option.BLACK_ENTITY_FIX=Siyah canlı DÜZELTMESİ
+value.BLACK_ENTITY_FIX.0=Kapalı
+value.BLACK_ENTITY_FIX.1=Açık
+
+option.FOG_ACTIVE=Sis etkin
+
+option.FOG_ADJUST=Sis yoğunluğu
+value.FOG_ADJUST.20.0=Sis yok
+value.FOG_ADJUST.10.0=Ultra düşük
+value.FOG_ADJUST.8.0=Çok düşük
+value.FOG_ADJUST.4.0=Düşük
+value.FOG_ADJUST.2.0=Orta
+value.FOG_ADJUST.1.0=YÜksek
+
+option.BLOCKLIGHT_TEMP=Blok ışığı sıcaklığı
+value.BLOCKLIGHT_TEMP.0=Daha sıcak
+value.BLOCKLIGHT_TEMP.1=Sıcak
+value.BLOCKLIGHT_TEMP.2=Sarı
+value.BLOCKLIGHT_TEMP.3=Soluk sarı
+value.BLOCKLIGHT_TEMP.4=Beyaz ışık
+
+option.sunPathRotation=Güneş açısı
+
+option.USE_BASIC_SH=Özel boyutsal basit shader
+
+option.MATERIAL_GLOSS=Malzeme parlaklığı
+
+option.SIMPLE_AUTOEXP=Daha basit pozlama
+
+option.DYN_HAND_LIGHT=Sahte dinamik ışık
+
+#Screens
+screen.ADVANCED_SCREEN=Gelişmiş seçenekler
+screen.ADVANCED_SCREEN.comment=Gelişmiş seçenekleri ayarlayın.
+
+screen.COMPATIBILITY_SCREEN=Uyumluluk
+screen.COMPATIBILITY_SCREEN.comment=Uyumluluk seçeneklerini ayarlayın.
+
+screen.SHADOWS_SCREEN=Gölgeler
+screen.SHADOWS_SCREEN.comment=Gölge seçeneklerini ayarlayın.
+
+screen.DOF_SCREEN=Alan derinliği
+screen.DOF_SCREEN.comment=Alan derinliği (AD) seçeneklerini ayarlayın.
+
+screen.AO_SCREEN=Ortam aydınlatması
+screen.AO_SCREEN.comment=Ortam aydınlatması (OA) seçeneklerini ayarlayın.
+
+screen.WATER_SCREEN=Su
+screen.WATER_SCREEN.comment=Su seçeneklerini ayarlayın.
+
+screen.POST_SCREEN= İleri efektler
+screen.POST_SCREEN.comment=İleri efekt seçeneklerini ayarlayın.
+
+screen.LIGHT_SCREEN=Işık
+screen.LIGHT_SCREEN.comment=Işık seçeneklerini ayarlayın.
+
+screen.CLOUDS_SCREEN=Güneş ve bulutlar
+screen.CLOUDS_SCREEN.comment=Güneş ve bulut seçeneklerini ayarlayın.
+
+screen.FOG_SCREEN=Sis
+screen.FOG_SCREEN.comment=Sis seçeneklerini ayarlayın.
+
+screen.MOTION_BLUR_SCREEN=Hareket bulanıklığı
+screen.MOTION_BLUR_SCREEN.comment=Hareket bulanıklığı seçeneklerini ayarlayın.
+
+screen.ACCESIBILITY_SCREEN=Erişilebilirlik
+screen.ACCESIBILITY_SCREEN.comment=Erişilebilirlik seçeneklerini ayarlayın.
+
+screen.CUSTOM_COLORS_SCREEN=Özel renkler
+screen.CUSTOM_COLORS_SCREEN.comment=Özel renkleri ayarla
+screen.CUSTOM_COLORS_DAY=Gündüz özel renkleri
+screen.CUSTOM_COLORS_SUNSET=Gün batımı/şafak özel renkleri
+screen.CUSTOM_COLORS_NIGHT=Gece özel renkleri
+screen.CUSTOM_COLORS_WATER=Su özel rengi
+screen.CUSTOM_COLORS_NV=Gece görüşü özel rengi
