@@ -320,3 +320,9 @@ const float sunPathRotation = -25.0; // [-40.0 -35.0 -30.0 -25.0 -20.0 -15.0 -10
 
 const float eyeBrightnessHalflife = 6.0;
 const float centerDepthHalflife = 0.66;
+
+// DH exclusive
+#define TRANSITION_SUP 0.08
+#define TRANSITION_INF 0.77
+#define TRANSITION_DH_SUP 0.30
+#define TRANSITION_DH_INF 0.59

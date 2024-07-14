@@ -1,11 +1,13 @@
 #if defined THE_END
   if (isEyeInWater == 0 && FOG_ADJUST < 15.0) {  // In the air
-    block_color.rgb =
-      mix(
-        block_color.rgb,
-        ZENITH_DAY_COLOR,
-        frog_adjust
-      );
+    #ifndef DISTANT_HORIZONS
+      block_color.rgb =
+        mix(
+          block_color.rgb,
+          ZENITH_DAY_COLOR,
+          frog_adjust
+        );
+    #endif
   }
 #elif defined NETHER
   if (isEyeInWater == 0 && FOG_ADJUST < 15.0) {  // In the air
@@ -17,35 +19,37 @@
       );
   }
 #else
-  #ifdef FOG_ACTIVE  // Fog active
-    #if MC_VERSION >= 11900
-      vec3 fog_texture;
-      if (darknessFactor > .01) {
-        fog_texture = vec3(0.0);
-      } else {
-        fog_texture = texture2D(gaux4, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).rgb;
-      }
-    #else
-      vec3 fog_texture = texture2D(gaux4, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).rgb;
-    #endif
-    #if defined GBUFFER_ENTITIES
-      if (isEyeInWater == 0 && entityId != 10101 && FOG_ADJUST < 15.0) {  // In the air
-      block_color.rgb =
-        mix(
-          block_color.rgb,
-          fog_texture,
-          frog_adjust
-        );
-      }
-    #else
-      if (isEyeInWater == 0) {  // In the air
+  #ifndef DISTANT_HORIZONS
+    #ifdef FOG_ACTIVE  // Fog active
+      #if MC_VERSION >= 11900
+        vec3 fog_texture;
+        if (darknessFactor > .01) {
+          fog_texture = vec3(0.0);
+        } else {
+          fog_texture = texture2D(gaux4, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).rgb;
+        }
+      #else
+        vec3 fog_texture = texture2D(gaux4, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).rgb;
+      #endif
+      #if defined GBUFFER_ENTITIES
+        if (isEyeInWater == 0 && entityId != 10101 && FOG_ADJUST < 15.0) {  // In the air
         block_color.rgb =
           mix(
             block_color.rgb,
             fog_texture,
             frog_adjust
           );
-      }
+        }
+      #else
+        if (isEyeInWater == 0) {  // In the air
+          block_color.rgb =
+            mix(
+              block_color.rgb,
+              fog_texture,
+              frog_adjust
+            );
+        }
+      #endif
     #endif
   #endif
 #endif

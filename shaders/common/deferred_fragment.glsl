@@ -38,6 +38,14 @@ uniform sampler2D gaux3;
   uniform sampler2D noisetex;
   uniform vec3 cameraPosition;
   uniform vec3 sunPosition;
+
+  #ifdef DISTANT_HORIZONS
+    uniform sampler2D dhDepthTex0;
+    uniform float dhNearPlane;
+    uniform float dhFarPlane;
+    uniform float viewWidth;
+    uniform float viewHeight;
+  #endif
 #endif
 
 uniform mat4 gbufferModelViewInverse;
@@ -65,6 +73,10 @@ varying vec3 up_vec;  // Flat
 
 #include "/lib/depth.glsl"
 #include "/lib/luma.glsl"
+
+#ifdef DISTANT_HORIZONS
+  #include "/lib/depth_dh.glsl"
+#end
 
 #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
   #include "/lib/dither.glsl"

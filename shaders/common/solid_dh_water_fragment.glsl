@@ -15,11 +15,12 @@ uniform float pixel_size_y;
 uniform float near;
 uniform float far;
 uniform sampler2D gaux1;
+uniform sampler2D gaux4;
 uniform mat4 gbufferProjectionInverse;
 uniform mat4 gbufferProjection;
 uniform sampler2D noisetex;
-uniform sampler2D depthtex0;
 uniform sampler2D depthtex1;
+uniform sampler2D dhDepthTex1;
 uniform float frameTimeCounter;
 uniform int isEyeInWater;
 uniform vec3 sunPosition;
@@ -29,14 +30,10 @@ uniform float nightVision;
 uniform float rainStrength;
 uniform float light_mix;
 uniform ivec2 eyeBrightnessSmooth;
-
-#if !defined DISTANT_HORIZONS
-  uniform sampler2D gaux4;
-#endif
-
-#if defined DISTANT_HORIZONS
-  uniform float dhNearPlane;
-#endif
+uniform float viewWidth;
+uniform float viewHeight;
+uniform float dhNearPlane;
+uniform float dhFarPlane;
 
 #if CLOUD_VOL_STYLE == 1 && V_CLOUDS != 0
   uniform sampler2D colortex2;
@@ -54,10 +51,6 @@ uniform ivec2 eyeBrightnessSmooth;
     uniform sampler2DShadow shadowtex0;
     uniform sampler2D shadowcolor0;
   #endif
-#endif
-
-#ifdef CLOUD_REFLECTION
-  // Don't remove (Optifine bug?)
 #endif
 
 #if defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER
@@ -78,7 +71,6 @@ varying vec4 tint_color;
 varying float frog_adjust;
 varying vec3 water_normal;
 varying float block_type;
-varying vec4 worldposition;
 varying vec3 fragposition;
 varying vec3 tangent;
 varying vec3 binormal;
@@ -90,56 +82,38 @@ varying float visible_sky;
 varying vec3 up_vec;
 varying vec3 hi_sky_color;
 varying vec3 low_sky_color;
-
-#if defined SHADOW_CASTING && !defined NETHER
-  varying vec3 shadow_pos;
-  varying float shadow_diffuse;
-#endif
-
-#if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
-  varying float umbral;
-  varying vec3 cloud_color;
-  varying vec3 dark_cloud_color;
-#endif
+varying vec4 position;
 
 #include "/lib/projection_utils.glsl"
 #include "/lib/basic_utils.glsl"
 #include "/lib/dither.glsl"
-#include "/lib/water.glsl"
-
-#if defined SHADOW_CASTING && !defined NETHER
-  #include "/lib/shadow_frag.glsl"
-#endif
-
+#include "/lib/water_dh.glsl"
+#include "/lib/depth.glsl"
 #include "/lib/luma.glsl"
 
-#if defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER
-  #include "/lib/volumetric_clouds.glsl"
-#endif
-
 void main() {
-  #if SHADOW_TYPE == 1 || defined DISTANT_HORIZONS || (defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER) || SSR_TYPE > 0
-    #if AA_TYPE > 0 
-      float dither = shifted_makeup_dither(gl_FragCoord.xy);
-    #else
-      float dither = r_dither(gl_FragCoord.xy);
-    #endif
+  #if AA_TYPE > 0 
+    float dither = shifted_makeup_dither(gl_FragCoord.xy);
   #else
-    float dither = 1.0;
+    float dither = r_dither(gl_FragCoord.xy);
   #endif
   // Avoid render in DH transition
-  #ifdef DISTANT_HORIZONS
-    float t = far - dhNearPlane;
-    float sup = t * TRANSITION_SUP;
-    float inf = t * TRANSITION_INF;
-    float umbral = (gl_FogFragCoord - (dhNearPlane + inf)) / (far - sup - inf - dhNearPlane);
-    if (umbral > dither) {
-      discard;
-      return;
-    }
-  #endif
+  float t = far - dhNearPlane;
+  float sup = t * TRANSITION_DH_SUP;
+  float inf = t * TRANSITION_DH_INF;
+  float view_dist = length(position.xyz);
+  float umbral = (view_dist - (dhNearPlane + inf)) / (far - sup - inf - dhNearPlane);
 
-  vec4 block_color = texture2D(tex, texcoord);
+  float d = texture2D(depthtex1, vec2(gl_FragCoord.x / viewWidth, gl_FragCoord.y / viewHeight)).r;
+  float linear_d = ld(d);
+
+  // if (umbral < dither || linear_d < 0.9999) {
+  if (true) {
+    discard;
+    return;
+  }
+
+  vec4 block_color = tint_color;
 
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
 
@@ -148,11 +122,12 @@ void main() {
   #ifdef VANILLA_WATER
     vec3 water_normal_base = vec3(0.0, 0.0, 1.0);
   #else
-    vec3 water_normal_base = normal_waves(worldposition.xzy);
+    vec3 world_pos = position.xyz + cameraPosition;
+    vec3 water_normal_base = normal_waves_dh(world_pos.xzy);
   #endif
 
   vec3 surface_normal;
-  if (block_type > 2.5) {  // Water
+  if (block_type < DH_BLOCK_WATER + 0.5 && block_type > DH_BLOCK_WATER - 0.5) {  // Water
     surface_normal = get_normals(water_normal_base, fragposition);
   } else {
     surface_normal = get_normals(vec3(0.0, 0.0, 1.0), fragposition);
@@ -176,33 +151,9 @@ void main() {
       hi_sky_color * .5 * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667);
   }
 
-  #if defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER
-    sky_color_reflect = get_cloud(
-      normalize((gbufferModelViewInverse * vec4(reflect_water_vec * far, 1.0)).xyz),
-      sky_color_reflect,
-      0.0,
-      dither,
-      worldposition.xyz,
-      int(CLOUD_STEPS_AVG * 0.5),
-      umbral,
-      cloud_color,
-      dark_cloud_color
-    );
-  #endif
-
-  if (block_type > 2.5) {  // Water
+  if (block_type < DH_BLOCK_WATER + 0.5 && block_type > DH_BLOCK_WATER - 0.5) {  // Water
     #ifdef VANILLA_WATER
-      #if defined SHADOW_CASTING && !defined NETHER
-        #if defined COLORED_SHADOW
-          vec3 shadow_c = get_colored_shadow(shadow_pos, dither);
-          shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
-        #else
-          float shadow_c = get_shadow(shadow_pos, dither);
-          shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
-        #endif
-      #else
-        float shadow_c = abs((light_mix * 2.0) - 1.0);
-      #endif
+      float shadow_c = abs((light_mix * 2.0) - 1.0);
 
       float fresnel_tex = luma(block_color.rgb);
 
@@ -215,7 +166,7 @@ void main() {
 
       block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125) * tint_color.rgb;
 
-      block_color.rgb = water_shader(
+      block_color.rgb = water_shader_dh(
         fragposition,
         surface_normal,
         block_color.rgb,
@@ -269,7 +220,7 @@ void main() {
         fresnel = clamp(fresnel * (water_texture * water_texture + 0.5), 0.0, 1.0);
       #endif
 
-      block_color.rgb = water_shader(
+      block_color.rgb = water_shader_dh(
         fragposition,
         surface_normal,
         block_color.rgb,
@@ -287,17 +238,7 @@ void main() {
 
     block_color *= tint_color;
 
-    #if defined SHADOW_CASTING && !defined NETHER
-      #if defined COLORED_SHADOW
-        vec3 shadow_c = get_colored_shadow(shadow_pos);
-        shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
-      #else
-        float shadow_c = get_shadow(shadow_pos, dither);
-        shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
-      #endif
-    #else
-      float shadow_c = abs((light_mix * 2.0) - 1.0);
-    #endif
+    float shadow_c = abs((light_mix * 2.0) - 1.0);
 
     real_light =
       omni_light +
@@ -305,21 +246,8 @@ void main() {
       candle_color;
 
     block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
-
-    if (block_type > 1.5) {  // Glass
-      block_color = cristal_shader(
-        fragposition,
-        water_normal,
-        block_color,
-        sky_color_reflect,
-        fresnel * fresnel,
-        visible_sky,
-        dither,
-        direct_light_color
-        );
-    }
   }
 
-  #include "/src/finalcolor.glsl"
+  #include "/src/finalcolor_dh.glsl"
   #include "/src/writebuffers.glsl"
 }

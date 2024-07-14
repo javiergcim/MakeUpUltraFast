@@ -1,7 +1,7 @@
 # MakeUp - Code
 High performance Minecraft shader (Java).
 
-## Version: 8.9f
+## Version: 9.0
 
 ### This version works in Optifine and Iris 1.5.1 or higher.
 
@@ -21,7 +21,7 @@ High performance Minecraft shader (Java).
 * FAST!
 
 ## Tested on:
-* Minecraft 1.12.+ - 1.20.x
+* Minecraft 1.12.+ - 1.21.x
 * Nvidia and Intel
 * Windows and Linux
 

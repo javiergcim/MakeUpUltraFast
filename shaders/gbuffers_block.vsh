@@ -1,6 +1,6 @@
 #version 120
 /* MakeUp - gbuffers_block.vsh
-Render: Beacon beam
+Render: Generic block
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */

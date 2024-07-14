@@ -41,6 +41,20 @@ float hash12(vec2 v)
   return fract(state * state * 7142.0);
 }
 
+float hash13(vec3 v)
+{
+	v = fract(v * .1031);
+    v += dot(v, v.zyx + 31.32);
+    return fract((v.x + v.y) * v.z);
+}
+
+vec2 hash22(vec2 p)
+{
+	vec3 p3 = fract(vec3(p.xyx) * vec3(.1031, .1030, .0973));
+    p3 += dot(p3, p3.yzx+33.33);
+    return fract((p3.xx+p3.yz)*p3.zy);
+}
+
 float r_dither(vec2 frag) {
   return fract(dot(frag, vec2(0.75487766624669276, 0.569840290998)));
 }
@@ -138,6 +152,13 @@ float eclectic_makeup_dither(vec2 frag) {
     return fract(dither_shift + (state * state * 7142.0));
   }
 
+  float shifted_hash13(vec3 v)
+  {
+    v = fract(v * .1031);
+      v += dot(v, v.zyx + 31.32);
+      return fract(dither_shift + ((v.x + v.y) * v.z));
+  }
+
   float shifted_r_dither(vec2 frag) {
     return fract(dither_shift + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
   }
@@ -225,6 +246,13 @@ float eclectic_makeup_dither(vec2 frag) {
     v = 0.0002314814814814815 * v + vec2(0.25, 0.0);
     float state = fract(dot(v * v, vec2(3571.0)));
     return fract((frame_mod * 0.4) + (state * state * 7142.0));
+  }
+
+  float shifted_hash13(vec3 v)
+  {
+    v = fract(v * .1031);
+      v += dot(v, v.zyx + 31.32);
+      return fract((frame_mod * 0.4) + ((v.x + v.y) * v.z));
   }
 
   float shifted_r_dither(vec2 frag) {

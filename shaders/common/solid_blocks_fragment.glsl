@@ -18,7 +18,15 @@ uniform float rainStrength;
 uniform float light_mix;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
-uniform sampler2D gaux4;
+
+#if !defined DISTANT_HORIZONS
+  uniform sampler2D gaux4;
+#endif
+
+#if defined DISTANT_HORIZONS
+  uniform float dhNearPlane;
+  uniform float far;
+#endif
 
 #if defined GBUFFER_ENTITIES
   uniform int entityId;
@@ -88,8 +96,11 @@ varying vec3 omni_light;
   varying float luma_power;
 #endif
 
-#if defined SHADOW_CASTING && !defined NETHER
+#if (defined SHADOW_CASTING && !defined NETHER) || defined DISTANT_HORIZONS
   #include "/lib/dither.glsl"
+#endif
+
+#if defined SHADOW_CASTING && !defined NETHER
   #include "/lib/shadow_frag.glsl"
 #endif
 
@@ -100,6 +111,25 @@ varying vec3 omni_light;
 #endif
 
 void main() {
+  #if SHADOW_TYPE == 1 || defined DISTANT_HORIZONS
+    #if AA_TYPE > 0 
+      float dither = shifted_makeup_dither(gl_FragCoord.xy);
+    #else
+      float dither = r_dither(gl_FragCoord.xy);
+    #endif
+  #endif
+  // Avoid render in DH transition
+  #ifdef DISTANT_HORIZONS
+    float t = far - dhNearPlane;
+    float sup = t * TRANSITION_SUP;
+    float inf = t * TRANSITION_INF;
+    float umbral = (gl_FogFragCoord - (dhNearPlane + inf)) / (far - sup - inf - dhNearPlane);
+    if (umbral > dither) {
+      discard;
+      return;
+    }
+  #endif
+
   // Toma el color puro del bloque
   #if defined GBUFFER_ENTITIES
     #if BLACK_ENTITY_FIX == 1
@@ -137,10 +167,10 @@ void main() {
 
   #if defined SHADOW_CASTING && !defined NETHER
     #if defined COLORED_SHADOW
-      vec3 shadow_c = get_colored_shadow(shadow_pos);
+      vec3 shadow_c = get_colored_shadow(shadow_pos, dither);
       shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
     #else
-      float shadow_c = get_shadow(shadow_pos);
+      float shadow_c = get_shadow(shadow_pos, dither);
       shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
     #endif
   #else
@@ -153,34 +183,34 @@ void main() {
     block_color.rgb = clamp(vec3(luma(block_color.rgb)) * vec3(0.75, 0.75, 1.5), vec3(0.3), vec3(1.0));
   #else
     #if defined MATERIAL_GLOSS && !defined NETHER
-    float final_gloss_power = gloss_power;
-    block_luma *= luma_factor;
+      float final_gloss_power = gloss_power;
+      block_luma *= luma_factor;
 
-    if (luma_power < 0.0) {  // Metallic
-      final_gloss_power -= (block_luma * 73.334);
-    } else {
-      block_luma = pow(block_luma, luma_power);
-    }
+      if (luma_power < 0.0) {  // Metallic
+        final_gloss_power -= (block_luma * 73.334);
+      } else {
+        block_luma = pow(block_luma, luma_power);
+      }
 
-    float material_gloss_factor =
+      float material_gloss_factor =
       material_gloss(
-        reflect(normalize(sub_position3), flat_normal),
-        lmcoord_alt,
-        final_gloss_power,
-        flat_normal
+          reflect(normalize(sub_position3), flat_normal),
+          lmcoord_alt,
+          final_gloss_power,
+          flat_normal
       ) * gloss_factor;
 
-    float material = material_gloss_factor * block_luma;
-    vec3 real_light =
+      float material = material_gloss_factor * block_luma;
+      vec3 real_light =
       omni_light +
       (shadow_c * ((direct_light_color * direct_light_strength) + (direct_light_color * material))) * (1.0 - (rainStrength * 0.75)) +
       final_candle_color;
-  #else
-    vec3 real_light =
+    #else
+      vec3 real_light =
       omni_light +
       (shadow_c * direct_light_color * direct_light_strength) * (1.0 - (rainStrength * 0.75)) +
       final_candle_color;
-  #endif
+    #endif
 
     block_color.rgb *= mix(real_light, vec3(1.0), nightVision * 0.125);
     block_color.rgb *= mix(vec3(1.0, 1.0, 1.0), vec3(NV_COLOR_R, NV_COLOR_G, NV_COLOR_B), nightVision);

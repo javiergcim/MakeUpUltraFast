@@ -1,6 +1,6 @@
 #version 120
-/* MakeUp - gbuffers_beaconbeam.fsh
-Render: Beacon beam
+/* MakeUp - gbuffers_block.fsh
+Render: Generic blocks
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
