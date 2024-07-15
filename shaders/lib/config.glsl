@@ -322,7 +322,9 @@ const float eyeBrightnessHalflife = 6.0;
 const float centerDepthHalflife = 0.66;
 
 // DH exclusive
-#define TRANSITION_SUP 0.08
-#define TRANSITION_INF 0.77
-#define TRANSITION_DH_SUP 0.30
-#define TRANSITION_DH_INF 0.59
+#define TRANSITION_SUP 0.00
+#define TRANSITION_INF 0.95
+#define TRANSITION_WATER_SUP 0.00
+#define TRANSITION_WATER_INF 0.65
+#define TRANSITION_DH_SUP 0.35
+#define TRANSITION_DH_INF 0.50

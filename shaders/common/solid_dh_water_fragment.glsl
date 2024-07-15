@@ -19,7 +19,7 @@ uniform sampler2D gaux4;
 uniform mat4 gbufferProjectionInverse;
 uniform mat4 gbufferProjection;
 uniform sampler2D noisetex;
-uniform sampler2D depthtex1;
+uniform sampler2D depthtex0;
 uniform sampler2D dhDepthTex1;
 uniform float frameTimeCounter;
 uniform int isEyeInWater;
@@ -34,6 +34,8 @@ uniform float viewWidth;
 uniform float viewHeight;
 uniform float dhNearPlane;
 uniform float dhFarPlane;
+uniform vec3 cameraPosition;
+uniform int dhRenderDistance;
 
 #if CLOUD_VOL_STYLE == 1 && V_CLOUDS != 0
   uniform sampler2D colortex2;
@@ -51,11 +53,6 @@ uniform float dhFarPlane;
     uniform sampler2DShadow shadowtex0;
     uniform sampler2D shadowcolor0;
   #endif
-#endif
-
-#if defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER
-  uniform vec3 cameraPosition;
-  uniform mat4 gbufferModelViewInverse;
 #endif
 
 uniform float blindness;
@@ -104,16 +101,24 @@ void main() {
   float view_dist = length(position.xyz);
   float umbral = (view_dist - (dhNearPlane + inf)) / (far - sup - inf - dhNearPlane);
 
-  float d = texture2D(depthtex1, vec2(gl_FragCoord.x / viewWidth, gl_FragCoord.y / viewHeight)).r;
+  float d = texture2D(depthtex0, vec2(gl_FragCoord.x / viewWidth, gl_FragCoord.y / viewHeight)).r;
   float linear_d = ld(d);
 
-  // if (umbral < dither || linear_d < 0.9999) {
-  if (true) {
+  if (umbral < dither || linear_d < 0.9999 || view_dist > dhRenderDistance) {
     discard;
     return;
   }
 
-  vec4 block_color = tint_color;
+  #if defined VANILLA_WATER || WATER_TEXTURE == 1
+    vec4 block_color = vec4(0.1);
+    // Synthetic water texture
+    vec3 synth_pos = (position.xyz + cameraPosition) * 2.0;
+    synth_pos = floor(synth_pos + 0.01);
+    float synth_noise = (hash13(synth_pos) * 0.2) + 0.4;
+    block_color.rgb += vec3(synth_noise);
+  #else
+    vec4 block_color;
+  #endif
 
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
 

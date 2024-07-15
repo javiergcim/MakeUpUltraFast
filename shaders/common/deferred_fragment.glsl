@@ -39,7 +39,7 @@ uniform sampler2D gaux3;
   uniform vec3 cameraPosition;
   uniform vec3 sunPosition;
 
-  #ifdef DISTANT_HORIZONS
+  #if defined DISTANT_HORIZONS
     uniform sampler2D dhDepthTex0;
     uniform float dhNearPlane;
     uniform float dhFarPlane;
@@ -76,7 +76,7 @@ varying vec3 up_vec;  // Flat
 
 #ifdef DISTANT_HORIZONS
   #include "/lib/depth_dh.glsl"
-#end
+#endif
 
 #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
   #include "/lib/dither.glsl"

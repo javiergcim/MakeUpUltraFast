@@ -10,6 +10,7 @@ uniform float dhNearPlane;
 uniform float dhFarPlane;
 uniform float far;
 uniform vec3 cameraPosition;
+uniform int dhRenderDistance;
 
 varying vec2 texcoord;
 varying vec4 tint_color;
@@ -35,7 +36,7 @@ void main() {
   float inf = t * TRANSITION_DH_INF;
   float view_dist = length(position.xyz);
   float umbral = (view_dist - (dhNearPlane + inf)) / (far - sup - inf - dhNearPlane);
-  if (umbral < dither) {
+  if (umbral < dither || view_dist > dhRenderDistance) {
     discard;
     return;
   }
@@ -45,8 +46,9 @@ void main() {
   // Synthetic pseudo-texture
   vec3 synth_pos = (position.xyz + cameraPosition) * 6.0;
   synth_pos = floor(synth_pos + 0.01);
-  float synth_noise = (hash13(synth_pos) - 0.5) * 0.2;
-  block_color.rgb += clamp(vec3(synth_noise), vec3(0.0), vec3(1.0));
+  float synth_noise = (hash13(synth_pos) - 0.5) * 0.1;
+  block_color.rgb += vec3(synth_noise);
+  block_color.rgb = clamp(block_color.rgb, vec3(0.0), vec3(1.0));
 
   float block_luma = luma(tint_color.rgb);
 

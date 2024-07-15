@@ -29,13 +29,12 @@ uniform float nightVision;
 uniform float rainStrength;
 uniform float light_mix;
 uniform ivec2 eyeBrightnessSmooth;
-
-#if !defined DISTANT_HORIZONS
-  uniform sampler2D gaux4;
-#endif
+uniform sampler2D gaux4;
 
 #if defined DISTANT_HORIZONS
   uniform float dhNearPlane;
+  uniform float dhFarPlane;
+  uniform sampler2D dhDepthTex1;
 #endif
 
 #if CLOUD_VOL_STYLE == 1 && V_CLOUDS != 0
@@ -119,24 +118,13 @@ varying vec3 low_sky_color;
 
 void main() {
   #if SHADOW_TYPE == 1 || defined DISTANT_HORIZONS || (defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER) || SSR_TYPE > 0
-    #if AA_TYPE > 0 
-      float dither = shifted_makeup_dither(gl_FragCoord.xy);
+    #if AA_TYPE > 0
+      float dither = shifted_r_dither(gl_FragCoord.xy);
     #else
       float dither = r_dither(gl_FragCoord.xy);
     #endif
   #else
     float dither = 1.0;
-  #endif
-  // Avoid render in DH transition
-  #ifdef DISTANT_HORIZONS
-    float t = far - dhNearPlane;
-    float sup = t * TRANSITION_SUP;
-    float inf = t * TRANSITION_INF;
-    float umbral = (gl_FogFragCoord - (dhNearPlane + inf)) / (far - sup - inf - dhNearPlane);
-    if (umbral > dither) {
-      discard;
-      return;
-    }
   #endif
 
   vec4 block_color = texture2D(tex, texcoord);
@@ -289,7 +277,7 @@ void main() {
 
     #if defined SHADOW_CASTING && !defined NETHER
       #if defined COLORED_SHADOW
-        vec3 shadow_c = get_colored_shadow(shadow_pos);
+        vec3 shadow_c = get_colored_shadow(shadow_pos, dither);
         shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
       #else
         float shadow_c = get_shadow(shadow_pos, dither);
@@ -319,6 +307,18 @@ void main() {
         );
     }
   }
+
+  // Avoid render in DH transition
+  #ifdef DISTANT_HORIZONS
+    float t = far - dhNearPlane;
+    float sup = t * TRANSITION_WATER_SUP;
+    float inf = t * TRANSITION_WATER_INF;
+    float draw_umbral = (gl_FogFragCoord - (dhNearPlane + inf)) / (far - sup - inf - dhNearPlane);
+    if (draw_umbral > dither) {
+      discard;
+      return;
+    }
+  #endif
 
   #include "/src/finalcolor.glsl"
   #include "/src/writebuffers.glsl"

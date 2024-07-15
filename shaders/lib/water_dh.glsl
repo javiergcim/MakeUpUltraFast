@@ -54,7 +54,7 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
     earth_distance =
       2.0 * dhNearPlane * dhFarPlane / (dhFarPlane + dhNearPlane - (2.0 * earth_distance - 1.0) * (dhFarPlane - dhNearPlane));
 
-    water_absortion = earth_distance - water_distance;
+    water_absortion = (earth_distance - water_distance) * 0.5;
     water_absortion *= water_absortion;
     water_absortion = (1.0 / -((water_absortion * WATER_ABSORPTION) + 1.125)) + 1.0;
   } else {
@@ -79,7 +79,7 @@ vec3 get_normals(vec3 bump, vec3 fragpos) {
 }
 
 vec4 reflection_calc_dh(vec3 fragpos, vec3 normal, vec3 reflected, inout float infinite, float dither) {
-  vec3 pos = camera_to_screen(fragpos + reflected * 512.0);
+  vec3 pos = camera_to_screen(fragpos + reflected * 768.0);
 
   float border =
     clamp((1.0 - (max(0.0, abs(pos.y - 0.5)) * 2.0)) * 50.0, 0.0, 1.0);

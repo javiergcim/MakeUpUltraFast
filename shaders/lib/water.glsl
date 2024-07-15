@@ -129,25 +129,6 @@ vec3 normal_waves(vec3 pos) {
   return normalize(final_wave);
 }
 
-vec3 normal_waves_dh(vec3 pos) {
-  vec2 wave_1 =
-    texture2D(noisetex, ((pos.xy - pos.z * 0.2) * 0.25) + (frameTimeCounter * -.025)).rg;
-  wave_1 = wave_1 - .5;
-
-  vec2 partial_wave = wave_1;
-
-  vec3 final_wave =
-    vec3(partial_wave, 1.0 - (partial_wave.x * partial_wave.x + partial_wave.y * partial_wave.y));
-
-  #if REFLECTION_SLIDER == 0
-    final_wave.b *= WATER_TURBULENCE * 0.7;
-  #else
-    final_wave.b *= WATER_TURBULENCE;
-  #endif
-
-  return normalize(final_wave);
-}
-
 vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
   vec2 pos = gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y);
 
@@ -164,6 +145,13 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
     float earth_distance = texture2D(depthtex1, pos.xy).r;
     earth_distance =
       2.0 * near * far / (far + near - (2.0 * earth_distance - 1.0) * (far - near));
+
+    #if defined DISTANT_HORIZONS
+      float earth_distance_dh = texture2D(dhDepthTex1, pos.xy).r;
+      earth_distance_dh =
+        2.0 * dhNearPlane * dhFarPlane / (dhFarPlane + dhNearPlane - (2.0 * earth_distance_dh - 1.0) * (dhFarPlane - dhNearPlane));
+      earth_distance = min(earth_distance, earth_distance_dh);
+    #endif
 
     water_absortion = earth_distance - water_distance;
     water_absortion *= water_absortion;
@@ -192,29 +180,13 @@ vec3 get_normals(vec3 bump, vec3 fragpos) {
 vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected, inout float infinite, float dither) {
   #if SSR_TYPE == 0  // Flipped image
     #if defined DISTANT_HORIZONS
-      vec3 pos = camera_to_screen(fragpos + reflected * 512.0);
+      vec3 pos = camera_to_screen(fragpos + reflected * 768.0);
     #else
-      vec3 pos = camera_to_screen(fragpos + reflected * 50.0);
+      vec3 pos = camera_to_screen(fragpos + reflected * 76.0);
     #endif
   #else  // Raymarch
     vec3 pos = fast_raymarch(reflected, fragpos, infinite, dither);
   #endif
-
-  float border =
-    clamp((1.0 - (max(0.0, abs(pos.y - 0.5)) * 2.0)) * 50.0, 0.0, 1.0);
-
-  border = clamp(border - pow(pos.y, 10.0), 0.0, 1.0);
-
-  pos.x = abs(pos.x);
-  if (pos.x > 1.0) {
-    pos.x = 1.0 - (pos.x - 1.0);
-  }
-
-  return vec4(texture2D(gaux1, pos.xy).rgb, border);
-}
-
-vec4 reflection_calc_dh(vec3 fragpos, vec3 normal, vec3 reflected, inout float infinite, float dither) {
-  vec3 pos = camera_to_screen(fragpos + reflected * 512.0);
 
   float border =
     clamp((1.0 - (max(0.0, abs(pos.y - 0.5)) * 2.0)) * 50.0, 0.0, 1.0);
@@ -272,57 +244,14 @@ vec3 water_shader(
   #endif
 }
 
-vec3 water_shader_dh(
-  vec3 fragpos,
-  vec3 normal,
-  vec3 color,
-  vec3 sky_reflect,
-  vec3 reflected,
-  float fresnel,
-  float visible_sky,
-  float dither,
-  vec3 light_color) {
-  vec4 reflection = vec4(0.0);
-  float infinite = 1.0;
-
-  #if REFLECTION == 1
-    reflection = reflection_calc_dh(fragpos, normal, reflected, infinite, dither);
-  #endif
-
-  reflection.rgb = mix(
-    sky_reflect * visible_sky,
-    reflection.rgb,
-    reflection.a
-  );
-
-  #ifdef VANILLA_WATER
-    fresnel *= 0.8;
-  #endif
-
-  #if SUN_REFLECTION == 1
-    #ifndef NETHER
-      #ifndef THE_END
-        return mix(color, reflection.rgb, fresnel * REFLEX_INDEX) +
-          vec3(sun_reflection(reflect(normalize(fragpos), normal))) * light_color * infinite * visible_sky;          
-      #else
-        return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
-      #endif
-    #else
-      return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
-    #endif
-  #else
-    return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
-  #endif
-}
-
 //  GLASS
 
 vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal, inout float infinite, float dither) {
   #if SSR_TYPE == 0
     #if defined DISTANT_HORIZONS
-      vec3 reflected_vector = reflect(normalize(fragpos), normal) * 512.0;
+      vec3 reflected_vector = reflect(normalize(fragpos), normal) * 768.0;
     #else
-      vec3 reflected_vector = reflect(normalize(fragpos), normal) * 50.0;
+      vec3 reflected_vector = reflect(normalize(fragpos), normal) * 76.0;
     #endif
     vec3 pos = camera_to_screen(fragpos + reflected_vector);
   #else
@@ -331,9 +260,9 @@ vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal, inout float infinite, fl
 
     if (pos.x > 99.0) { // Fallback
       #if defined DISTANT_HORIZONS
-        pos = camera_to_screen(fragpos + reflected_vector * 512.0);
+        pos = camera_to_screen(fragpos + reflected_vector * 768.0);
       #else
-        pos = camera_to_screen(fragpos + reflected_vector * 50.0);
+        pos = camera_to_screen(fragpos + reflected_vector * 76.0);
     #endif
     }
   #endif

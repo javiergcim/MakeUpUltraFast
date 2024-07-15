@@ -1,12 +1,4 @@
-#ifdef DH_WATER
-  if (dhMaterialId == DH_BLOCK_WATER) {
-    tint_color = vec4(WATER_COLOR, 0.9);
-  } else {
-    tint_color = gl_Color;
-  }
-#else
-  tint_color = gl_Color;
-#endif
+tint_color = gl_Color;
 
 // Luz nativa (lmcoord.x: candela, lmcoord.y: cielo) ----
 vec2 illumination = lmcoord;
