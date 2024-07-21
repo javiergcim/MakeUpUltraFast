@@ -13,6 +13,10 @@ uniform sampler2D gaux4;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
 
+#ifdef NETHER
+  uniform vec3 fogColor;
+#endif
+
 #if MC_VERSION < 11604
   uniform mat4 gbufferProjectionInverse;
   uniform float viewWidth;
@@ -33,14 +37,17 @@ varying vec4 star_data;
 #endif
 
 void main() {
-  #if defined THE_END || defined NETHER
+  #if defined THE_END
     #if MC_VERSION < 11604
       vec4 background_color = vec4(ZENITH_DAY_COLOR, 1.0);
     #endif
-
     vec4 block_color = vec4(0.0, 0.0, 0.0, 1.0);
+  #elif defined NETHER  // Unused
+    #if MC_VERSION < 11604
+      vec4 background_color = vec4(mix(fogColor * 0.1, vec3(1.0), 0.04), 1.0);
+    #endif
+    vec4 block_color = vec4(mix(fogColor * 0.1, vec3(1.0), 0.04), 1.0);
   #else
-
     #if MC_VERSION < 11604
       #if AA_TYPE > 0
         float dither = shifted_dither13(gl_FragCoord.xy);

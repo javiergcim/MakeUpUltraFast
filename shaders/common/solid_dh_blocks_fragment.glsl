@@ -12,6 +12,10 @@ uniform float far;
 uniform vec3 cameraPosition;
 uniform int dhRenderDistance;
 
+#ifdef NETHER
+  uniform vec3 fogColor;
+#endif
+
 varying vec2 texcoord;
 varying vec4 tint_color;
 varying vec3 direct_light_color;
@@ -19,6 +23,7 @@ varying vec3 candle_color;
 varying float direct_light_strength;
 varying vec3 omni_light;
 varying vec4 position;
+varying float frog_adjust;
 
 #include "/lib/luma.glsl"
 #include "/lib/dither.glsl"

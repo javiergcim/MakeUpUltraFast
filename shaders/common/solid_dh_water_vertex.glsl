@@ -20,6 +20,10 @@ uniform float far;
 uniform float rainStrength;
 uniform mat4 gbufferProjectionInverse;
 
+#ifdef DISTANT_HORIZONS
+  uniform int dhRenderDistance;
+#endif
+
 #ifdef UNKNOWN_DIM
   uniform sampler2D lightmap;
 #endif
@@ -41,6 +45,7 @@ varying vec3 up_vec;
 varying float visible_sky;
 varying vec2 lmcoord;
 varying float block_type;
+varying float frog_adjust;
 
 #if AA_TYPE > 0
   #include "/src/taa_offset.glsl"
@@ -50,6 +55,7 @@ varying float block_type;
 #include "/lib/luma.glsl"
 
 void main() {
+  vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
   #include "/src/basiccoords_vertex_dh.glsl"
   #include "/src/position_vertex_dh.glsl"
   #include "/src/sky_color_vertex.glsl"

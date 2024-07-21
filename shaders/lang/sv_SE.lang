@@ -116,10 +116,10 @@ option.CHROMA_ABER_STRENGTH=Styrka för färgavvikelse
 option.WATER_ABSORPTION=Absorberingsindex för vatten
 
 option.WATER_TURBULENCE=Vågstyrka
-value.WATER_TURBULENCE.8.0=Mycket låg
-value.WATER_TURBULENCE.3.7=Låg
-value.WATER_TURBULENCE.2.25=Medium
-value.WATER_TURBULENCE.1.3=Hög
+value.WATER_TURBULENCE.7.0=Mycket låg
+value.WATER_TURBULENCE.1.75=Låg
+value.WATER_TURBULENCE.0.9=Medium
+value.WATER_TURBULENCE.0.5=Hög
 
 option.COLOR_SCHEME=Färgschema
 value.COLOR_SCHEME.0=Ethereal

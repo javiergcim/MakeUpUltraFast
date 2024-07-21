@@ -63,23 +63,23 @@ uniform float blindness;
 #endif
 
 varying vec2 texcoord;
-varying vec2 lmcoord;
 varying vec4 tint_color;
-varying float frog_adjust;
-varying vec3 water_normal;
-varying float block_type;
-varying vec3 fragposition;
-varying vec3 tangent;
-varying vec3 binormal;
 varying vec3 direct_light_color;
 varying vec3 candle_color;
 varying float direct_light_strength;
 varying vec3 omni_light;
-varying float visible_sky;
-varying vec3 up_vec;
+varying vec4 position;
+varying vec3 fragposition;
+varying vec3 tangent;
+varying vec3 binormal;
+varying vec3 water_normal;
 varying vec3 hi_sky_color;
 varying vec3 low_sky_color;
-varying vec4 position;
+varying vec3 up_vec;
+varying float visible_sky;
+varying vec2 lmcoord;
+varying float block_type;
+varying float frog_adjust;
 
 #include "/lib/projection_utils.glsl"
 #include "/lib/basic_utils.glsl"

@@ -107,24 +107,21 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
 #endif
 
 vec3 normal_waves(vec3 pos) {
+  float speed = frameTimeCounter * .025;
   vec2 wave_1 =
-    texture2D(noisetex, ((pos.xy - pos.z * 0.2) * 0.25) + (frameTimeCounter * -.025)).rg;
+    texture2D(noisetex, ((pos.xy - pos.z * 0.2) * 0.05) + vec2(speed, speed)).rg;
   wave_1 = wave_1 - .5;
   vec2 wave_2 =
-      texture2D(noisetex, ((pos.xy - pos.z * 0.2) * 0.0625) - (frameTimeCounter * .025)).rg;
+      texture2D(noisetex, ((pos.xy - pos.z * 0.2) * 0.03125) - speed).rg;
   wave_2 = wave_2 - .5;
-  wave_2 *= 3.0;
+  vec2 wave_3 =
+      texture2D(noisetex, ((pos.xy - pos.z * 0.2) * 0.125) + vec2(speed, -speed)).rg;
+  wave_3 = wave_3 - .5;
+  wave_3 *= 0.66;
 
-  vec2 partial_wave = wave_1 + wave_2;
+  vec2 partial_wave = wave_1 + wave_2 + wave_3;
 
-  vec3 final_wave =
-    vec3(partial_wave, 1.0 - (partial_wave.x * partial_wave.x + partial_wave.y * partial_wave.y));
-
-  #if REFLECTION_SLIDER == 0
-    final_wave.b *= WATER_TURBULENCE * 0.7;
-  #else
-    final_wave.b *= WATER_TURBULENCE;
-  #endif
+  vec3 final_wave = vec3(partial_wave, WATER_TURBULENCE - (rainStrength * 0.6 * WATER_TURBULENCE * visible_sky));
 
   return normalize(final_wave);
 }

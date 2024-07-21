@@ -19,20 +19,12 @@ Water reflection and refraction related functions.
 
 vec3 normal_waves_dh(vec3 pos) {
   vec2 wave_2 =
-      texture2D(noisetex, ((pos.xy - pos.z * 0.2) * 0.0625) - (frameTimeCounter * .025)).rg;
+      texture2D(noisetex, ((pos.xy - pos.z * 0.2) * 0.03125) - (frameTimeCounter * .025)).rg;
   wave_2 = wave_2 - .5;
-  wave_2 *= 3.0;
 
   vec2 partial_wave = wave_2;
 
-  vec3 final_wave =
-    vec3(partial_wave, 1.0 - (partial_wave.x * partial_wave.x + partial_wave.y * partial_wave.y));
-
-  #if REFLECTION_SLIDER == 0
-    final_wave.b *= WATER_TURBULENCE * 0.7;
-  #else
-    final_wave.b *= WATER_TURBULENCE;
-  #endif
+  vec3 final_wave = vec3(partial_wave, WATER_TURBULENCE);
 
   return normalize(final_wave);
 }
@@ -78,7 +70,7 @@ vec3 get_normals(vec3 bump, vec3 fragpos) {
   return normalize(bump * tbn_matrix);
 }
 
-vec4 reflection_calc_dh(vec3 fragpos, vec3 normal, vec3 reflected, inout float infinite, float dither) {
+vec4 reflection_calc_dh(vec3 fragpos, vec3 normal, vec3 reflected, vec3 infinite_color, float dither) {
   vec3 pos = camera_to_screen(fragpos + reflected * 768.0);
 
   float border =
@@ -91,7 +83,13 @@ vec4 reflection_calc_dh(vec3 fragpos, vec3 normal, vec3 reflected, inout float i
     pos.x = 1.0 - (pos.x - 1.0);
   }
 
-  return vec4(texture2D(gaux1, pos.xy).rgb, border);
+  vec4 final_reflex;
+  if (texture2D(depthtex0, pos.xy).r < 0.999) {
+    final_reflex = vec4(infinite_color, border);
+  } else {
+    final_reflex = vec4(texture2D(gaux1, pos.xy).rgb, border);
+  }
+  return final_reflex;
 }
 
 vec3 water_shader_dh(
@@ -108,7 +106,7 @@ vec3 water_shader_dh(
   float infinite = 1.0;
 
   #if REFLECTION == 1
-    reflection = reflection_calc_dh(fragpos, normal, reflected, infinite, dither);
+    reflection = reflection_calc_dh(fragpos, normal, reflected, sky_reflect, dither);
   #endif
 
   reflection.rgb = mix(

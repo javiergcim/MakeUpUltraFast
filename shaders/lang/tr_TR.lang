@@ -116,10 +116,10 @@ option.CHROMA_ABER_STRENGTH=Renk sapması gücü
 option.WATER_ABSORPTION=Su absorbe indexi
 
 option.WATER_TURBULENCE=Dalga gücü
-value.WATER_TURBULENCE.8.0=Çok düşük
-value.WATER_TURBULENCE.3.7=Düşük
-value.WATER_TURBULENCE.2.25=Orta
-value.WATER_TURBULENCE.1.3=Yüksek
+value.WATER_TURBULENCE.7.0=Çok düşük
+value.WATER_TURBULENCE.1.75=Düşük
+value.WATER_TURBULENCE.0.9=Orta
+value.WATER_TURBULENCE.0.5=Yüksek
 
 option.COLOR_SCHEME=Renk şeması
 value.COLOR_SCHEME.0=Ethereal

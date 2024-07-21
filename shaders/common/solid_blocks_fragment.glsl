@@ -18,10 +18,8 @@ uniform float rainStrength;
 uniform float light_mix;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
+uniform sampler2D gaux4;
 
-#if !defined DISTANT_HORIZONS
-  uniform sampler2D gaux4;
-#endif
 
 #if defined DISTANT_HORIZONS
   uniform float dhNearPlane;
@@ -111,7 +109,7 @@ varying vec3 omni_light;
 #endif
 
 void main() {
-  #if SHADOW_TYPE == 1 || defined DISTANT_HORIZONS
+  #if (defined SHADOW_CASTING && !defined NETHER) || defined DISTANT_HORIZONS
     #if AA_TYPE > 0 
       float dither = shifted_makeup_dither(gl_FragCoord.xy);
     #else

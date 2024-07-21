@@ -31,6 +31,4 @@ void main() {
     vec4 block_color = vec4(0.0);
     #include "/src/writebuffers.glsl"
   #endif
-
-
 }

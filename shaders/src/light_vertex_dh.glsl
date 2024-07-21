@@ -1,7 +1,11 @@
 tint_color = gl_Color;
 
 // Luz nativa (lmcoord.x: candela, lmcoord.y: cielo) ----
-vec2 illumination = lmcoord;
+#if defined THE_END || defined NETHER
+  vec2 illumination = vec2(lmcoord.x, 1.0);
+#else
+  vec2 illumination = lmcoord;
+#endif
 illumination.y = (max(illumination.y, 0.065) - 0.065) * 1.06951871657754;
 
 // Visibilidad del cielo
@@ -119,4 +123,10 @@ if (isEyeInWater == 0) {
   direct_light_strength = mix(0.0, direct_light_strength, pow(visible_sky, 10.0));
 } else {
   direct_light_strength = mix(0.0, direct_light_strength, visible_sky);
+}
+
+if (dhMaterialId == DH_BLOCK_ILLUMINATED) {
+  direct_light_strength = 10.0;
+} else if (dhMaterialId == DH_BLOCK_LAVA) {
+  direct_light_strength = 1.0;
 }

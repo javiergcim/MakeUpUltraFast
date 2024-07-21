@@ -20,6 +20,10 @@ uniform float far;
 uniform float rainStrength;
 uniform mat4 gbufferProjectionInverse;
 
+#ifdef DISTANT_HORIZONS
+  uniform int dhRenderDistance;
+#endif
+
 #ifdef UNKNOWN_DIM
   uniform sampler2D lightmap;
 #endif
@@ -31,6 +35,7 @@ varying vec3 candle_color;
 varying float direct_light_strength;
 varying vec3 omni_light;
 varying vec4 position;
+varying float frog_adjust;
 
 #if AA_TYPE > 0
   #include "/src/taa_offset.glsl"
@@ -40,6 +45,7 @@ varying vec4 position;
 #include "/lib/luma.glsl"
 
 void main() {
+  vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
   vec3 hi_sky_color;
   vec3 low_sky_color;
 

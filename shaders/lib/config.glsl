@@ -80,7 +80,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define VOL_LIGHT 1 // [0 1 2] Depth based: Turn on depth based godrays, they are a bit slow, but can work better than volumetric light for very short shadow distances. Volumetric: It activates the volumetric light, more accurate and faster, but it needs the shadows enabled to work.
 // #define VANILLA_WATER // Establishes the appearance of water as vanilla.
 #define WATER_COLOR_SOURCE 0 // [0 1] Select the water color source. It does not work properly in 1.12. In that case the default value is recommended.
-#define WATER_TURBULENCE 2.25 // [8.0 3.7 2.25 1.3] Set the water waves strength.
+#define WATER_TURBULENCE 0.9 // [7.0 1.75 0.9 0.5] Set the water waves strength.
 #define FOG_ADJUST 2.0 // [10.0 8.0 4.0 2.0 1.0]  Sets the fog strength
 // #define DEBUG_MODE // Set debug mode.
 #define BLOCKLIGHT_TEMP 1 // [0 1 2 3 4] Set blocklight temperature

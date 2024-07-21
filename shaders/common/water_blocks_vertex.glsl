@@ -21,6 +21,10 @@ uniform vec3 cameraPosition;
 uniform float rainStrength;
 uniform mat4 gbufferProjectionInverse;
 
+#ifdef DISTANT_HORIZONS
+  uniform int dhRenderDistance;
+#endif
+
 #ifdef DYN_HAND_LIGHT
   uniform int heldItemId;
   uniform int heldItemId2;

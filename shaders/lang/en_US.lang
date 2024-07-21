@@ -116,10 +116,10 @@ option.CHROMA_ABER_STRENGTH=Chroma aberration strength
 option.WATER_ABSORPTION=Water absorption index
 
 option.WATER_TURBULENCE=Waves strength
-value.WATER_TURBULENCE.8.0=Very low
-value.WATER_TURBULENCE.3.7=Low
-value.WATER_TURBULENCE.2.25=Medium
-value.WATER_TURBULENCE.1.3=High
+value.WATER_TURBULENCE.7.0=Very low
+value.WATER_TURBULENCE.1.75=Low
+value.WATER_TURBULENCE.0.9=Medium
+value.WATER_TURBULENCE.0.5=High
 
 option.COLOR_SCHEME=Color scheme
 value.COLOR_SCHEME.0=Ethereal

@@ -22,6 +22,10 @@ uniform float rainStrength;
 uniform ivec2 eyeBrightnessSmooth;
 uniform mat4 gbufferProjectionInverse;
 
+#ifdef DISTANT_HORIZONS
+  uniform int dhRenderDistance;
+#endif
+
 #ifdef DYN_HAND_LIGHT
   uniform int heldItemId;
   uniform int heldItemId2;

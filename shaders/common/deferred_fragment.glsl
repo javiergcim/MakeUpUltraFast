@@ -136,7 +136,7 @@ void main() {
 
       #ifdef THE_END
         #ifdef END_CLOUDS
-          block_color = vec4(ZENITH_DAY_COLOR, 1.0);
+          // block_color = vec4(ZENITH_DAY_COLOR, 1.0);
           block_color.rgb =
             get_end_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
         #endif
@@ -149,13 +149,15 @@ void main() {
   #else
     #if defined THE_END
       if (linear_d > 0.9999) {  // Only sky
-        block_color = vec4(ZENITH_DAY_COLOR, 1.0);
+        // block_color = vec4(ZENITH_DAY_COLOR, 1.0);
       }
     #elif defined NETHER
-      if (linear_d > 0.9999) {  // Only sky
-        block_color = vec4(mix(fogColor * 0.1, vec3(1.0), 0.04), 1.0);
-      }
-    #else
+      #if !defined DISTANT_HORIZONS
+        if (linear_d > 0.9999) {  // Only sky
+          block_color = vec4(mix(fogColor * 0.1, vec3(1.0), 0.04), 1.0);
+        }
+      #endif
+    #elif !defined NETHER
       if (linear_d > 0.9999 && isEyeInWater == 1) {  // Only sky and water
         vec4 screen_pos =
           vec4(

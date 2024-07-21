@@ -88,7 +88,7 @@ float omni_strength = (direct_light_strength * .125) + 1.0;
 #endif
 
 #ifdef FOLIAGE_V  // Puede haber plantas en este shader
-    float original_direct_light_strength = clamp(direct_light_strength, 0.0, 1.0) * 0.9 + 0.1;
+  float original_direct_light_strength = clamp(direct_light_strength, 0.0, 1.0) * 0.9 + 0.1;
   if (is_foliage > .2) {  // Es "planta" y se atenúa luz por dirección
     #ifdef SHADOW_CASTING
       direct_light_strength = sqrt(abs(direct_light_strength));
@@ -96,7 +96,7 @@ float omni_strength = (direct_light_strength * .125) + 1.0;
       direct_light_strength = (clamp(direct_light_strength, 0.0, 1.0) * 0.5 + 0.5) * 0.75;
     #endif
 
-    omni_strength = 1.0;
+     omni_strength = 1.0;
   } else {
     direct_light_strength = clamp(direct_light_strength, 0.0, 1.0);
   }
