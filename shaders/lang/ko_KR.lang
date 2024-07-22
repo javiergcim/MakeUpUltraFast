@@ -123,10 +123,10 @@ value.WATER_TURBULENCE.0.5=높음
 
 option.COLOR_SCHEME=색상 체계
 value.COLOR_SCHEME.0=에테르
-value.COLOR_SCHEME.1=새로운 쇼카 (New Shoka)
-value.COLOR_SCHEME.2=쇼카 (Shoka)
+value.COLOR_SCHEME.1=새로운 쇼카
+value.COLOR_SCHEME.2=쇼카
 value.COLOR_SCHEME.3=레거시
-value.COLOR_SCHEME.4=캡틴 (Captain)
+value.COLOR_SCHEME.4=캡틴
 value.COLOR_SCHEME.5=환각적
 value.COLOR_SCHEME.6=코코아
 value.COLOR_SCHEME.99=사용자 지정
@@ -204,9 +204,9 @@ option.BLOOM=블룸
 option.COLOR_BLINDNESS=색맹
 
 option.COLOR_BLIND_MODE=색맹 유형
-value.COLOR_BLIND_MODE.0=적색맥 (Protanopia)
-value.COLOR_BLIND_MODE.1=녹색맹 (Deuteranopia)
-value.COLOR_BLIND_MODE.2=청색맹 (Tritanopia)
+value.COLOR_BLIND_MODE.0=적색맥
+value.COLOR_BLIND_MODE.1=녹색맹
+value.COLOR_BLIND_MODE.2=청색맹
 
 option.DEBUG_MODE=디버그 모드
 
