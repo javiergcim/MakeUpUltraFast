@@ -133,6 +133,8 @@ void main() {
 
   vec3 real_light;
 
+  float water_brightness = visible_sky > MIN_WATER_BRIGHTNESS ? visible_sky : MIN_WATER_BRIGHTNESS;
+
   #ifdef VANILLA_WATER
     vec3 water_normal_base = vec3(0.0, 0.0, 1.0);
   #else
@@ -238,9 +240,9 @@ void main() {
         #endif
       #else
         #if WATER_COLOR_SOURCE == 0
-          block_color.rgb = water_texture * real_light * visible_sky * WATER_COLOR;
+          block_color.rgb = water_texture * real_light * water_brightness * WATER_COLOR;
         #elif WATER_COLOR_SOURCE == 1
-          block_color.rgb = 0.3 * water_texture * real_light * visible_sky * tint_color.rgb;
+          block_color.rgb = 0.3 * water_texture * real_light * water_brightness * tint_color.rgb;
         #endif
       #endif
 
