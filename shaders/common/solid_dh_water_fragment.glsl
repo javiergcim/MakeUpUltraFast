@@ -241,7 +241,7 @@ void main() {
 
   } else {  // Otros translúcidos
 
-    block_color *= tint_color;
+    block_color = tint_color;
 
     float shadow_c = abs((light_mix * 2.0) - 1.0);
 
