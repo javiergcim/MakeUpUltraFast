@@ -90,7 +90,7 @@ varying float frog_adjust;
 
 void main() {
   #if AA_TYPE > 0 
-    float dither = shifted_makeup_dither(gl_FragCoord.xy);
+    float dither = shifted_r_dither(gl_FragCoord.xy);
   #else
     float dither = r_dither(gl_FragCoord.xy);
   #endif
