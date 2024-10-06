@@ -156,6 +156,8 @@ void main() {
       hi_sky_color * .5 * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667);
   }
 
+  sky_color_reflect = xyz_to_rgb(sky_color_reflect);
+
   if (block_type < DH_BLOCK_WATER + 0.5 && block_type > DH_BLOCK_WATER - 0.5) {  // Water
     #ifdef VANILLA_WATER
       float shadow_c = abs((light_mix * 2.0) - 1.0);

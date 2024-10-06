@@ -25,4 +25,9 @@
     HORIZON_SKY_RAIN_COLOR * luma(low_sky_color),
     rainStrength
   );
+
+  #if !defined DH_BLOCK && !defined DH_WATER
+    hi_sky_color = rgb_to_xyz(hi_sky_color);
+    low_sky_color = rgb_to_xyz(low_sky_color);
+  #endif
 #endif

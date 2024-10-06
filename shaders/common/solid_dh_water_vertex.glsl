@@ -61,6 +61,9 @@ void main() {
   #include "/src/sky_color_vertex.glsl"
   #include "/src/light_vertex_dh.glsl"
 
+  hi_sky_color = rgb_to_xyz(hi_sky_color);
+  low_sky_color = rgb_to_xyz(low_sky_color);
+
   vec4 position2 = gl_ModelViewMatrix * gl_Vertex;
   fragposition = position2.xyz;
   

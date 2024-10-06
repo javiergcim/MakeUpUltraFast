@@ -47,8 +47,10 @@ void main() {
     vec3 block_color = mix(
       low_sky_color,
       hi_sky_color,
-      sqrt(n_u)
+      smoothstep(0.0, 1.0, pow(n_u, 0.333))
     );
+
+    block_color = xyz_to_rgb(block_color);
 
   #endif
 
