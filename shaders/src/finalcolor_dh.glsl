@@ -9,12 +9,16 @@
       );
   }
 #elif defined NETHER
-  block_color.rgb =
-    mix(
-      block_color.rgb,
-      mix(fogColor * 0.1, vec3(1.0), 0.04),
-      frog_adjust
-    );
+  #if NETHER_FOG_DISTANCE == 1
+    block_color.rgb = mix(fogColor * 0.1, vec3(1.0), 0.04);
+  #else
+    block_color.rgb =
+      mix(
+        block_color.rgb,
+        mix(fogColor * 0.1, vec3(1.0), 0.04),
+        frog_adjust
+      );
+  #endif
 #else
   vec3 fog_texture = texture2D(gaux4, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).rgb;
 
