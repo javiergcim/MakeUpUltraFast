@@ -67,18 +67,18 @@ float eclectic_r_dither(vec2 frag) {
   return fract(dot(frag, vec2(0.75487766624669276, 0.569840290998)) + p4);
 }
 
-float dither13(vec2 pos)
+float dither13(vec2 frag)
 {
-  return fract(dot(pos, vec2(0.3076923076923077, 0.5384615384615384)));
+  return fract(dot(frag, vec2(0.3076923076923077, 0.5384615384615384)));
 }
 
-float eclectic_dither13(vec2 pos)
+float eclectic_dither13(vec2 frag)
 {
-  vec2 v = 0.0002314814814814815 * pos + vec2(0.25, 0.0);
+  vec2 v = 0.0002314814814814815 * frag + vec2(0.25, 0.0);
   float state = fract(dot(v * v, vec2(3571.0)));
   float p4 = fract(state * state * 7142.0) * 0.075;
 
-  return fract(dot(pos, vec2(0.3076923076923077, 0.5384615384615384)) + p4);
+  return fract(dot(frag, vec2(0.3076923076923077, 0.5384615384615384)) + p4);
 }
 
 float dither_grad_noise(vec2 frag) {
@@ -144,14 +144,14 @@ float dither_makeup(vec2 xy) {
     return fract(dot(frag, vec2(0.75487766624669276, 0.569840290998)) + dither_shift + p4);
   }
 
-  float shifted_dither13(vec2 pos)
+  float shifted_dither13(vec2 frag)
   {
-    return fract(dither_shift + dot(pos, vec2(0.3076923076923077, 0.5384615384615384)));
+    return fract(dither_shift + dot(frag, vec2(0.3076923076923077, 0.5384615384615384)));
   }
 
-  float shifted_eclectic_dither13(vec2 pos)
+  float shifted_eclectic_dither13(vec2 frag)
   {
-    vec2 v = 0.0002314814814814815 * pos + vec2(0.25, 0.0);
+    vec2 v = 0.0002314814814814815 * frag + vec2(0.25, 0.0);
     float state = fract(dot(v * v, vec2(3571.0)));
     float p4 = fract(state * state * 7142.0) * 0.075;
 
@@ -222,9 +222,9 @@ float dither_makeup(vec2 xy) {
     return fract(dot(frag, vec2(0.75487766624669276, 0.569840290998)) + (frame_mod * 0.4) + p4);
   }
 
-  float shifted_dither13(vec2 pos)
+  float shifted_dither13(vec2 frag)
   {
-    return fract((frame_mod * 0.4) + dot(pos, vec2(0.3076923076923077, 0.5384615384615384)));
+    return fract((frame_mod * 0.4) + dot(frag, vec2(0.3076923076923077, 0.5384615384615384)));
   }
 
   float shifted_dither_grad_noise(vec2 frag) {

@@ -9,6 +9,10 @@
 
     is_foliage = 0.0;
 
+    if (mc_Entity.x == ENTITY_SMALLENTS_NW) {
+      is_foliage = .4;
+    }
+
     if (
         mc_Entity.x == ENTITY_LOWERGRASS ||
         mc_Entity.x == ENTITY_UPPERGRASS ||
