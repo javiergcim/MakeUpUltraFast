@@ -1,4 +1,3 @@
-/* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
 
 /* Color utils */
@@ -18,9 +17,11 @@ varying vec3 up_vec;
 varying vec3 hi_sky_color;
 varying vec3 low_sky_color;
 
-/* Functions includes */
+/* Utility functions */
 
 #include "/lib/luma.glsl"
+
+// MAIN FUNCTION ------------------
 
 void main() {
   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;

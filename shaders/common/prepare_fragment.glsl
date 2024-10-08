@@ -1,6 +1,6 @@
-/* Config, uniforms, ins, outs */
 #include "/lib/config.glsl"
 
+/* Color utils */
 #ifdef THE_END
   #include "/lib/color_utils_end.glsl"
 #elif defined NETHER
@@ -9,7 +9,7 @@
   #include "/lib/color_utils.glsl"
 #endif
 
-/* Config, uniforms, ins, outs */
+/* Uniforms, ins, outs */
 uniform mat4 gbufferProjectionInverse;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
@@ -19,7 +19,11 @@ varying vec3 up_vec;
 varying vec3 hi_sky_color;
 varying vec3 low_sky_color;
 
+/* Utility functions */
+
 #include "/lib/dither.glsl"
+
+// MAIN FUNCTION ------------------
 
 void main() {
   #if defined THE_END || defined NETHER

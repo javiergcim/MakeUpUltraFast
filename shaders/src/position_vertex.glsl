@@ -1,16 +1,13 @@
-// Waving plants calculation
-#ifdef FOLIAGE_V
+#ifdef FOLIAGE_V  // General block shader (it has foliage)
   #if WAVING == 1
     vec4 sub_position = gl_ModelViewMatrix * gl_Vertex;
     vec4 position =
       gbufferModelViewInverse * sub_position;
 
-    vec3 worldpos = position.xyz + cameraPosition;
-
     is_foliage = 0.0;
 
     if (mc_Entity.x == ENTITY_SMALLENTS_NW) {
-      is_foliage = .4;
+      is_foliage = 0.4;
     }
 
     if (
@@ -20,7 +17,9 @@
         mc_Entity.x == ENTITY_SMALLENTS ||
         mc_Entity.x == ENTITY_LEAVES)
     {
-      is_foliage = .4;
+      vec3 worldpos = position.xyz + cameraPosition;
+
+      is_foliage = 0.4;
 
       float weight = float(gl_MultiTexCoord0.t < mc_midTexCoord.t);
 
@@ -44,9 +43,10 @@
         mc_Entity.x == ENTITY_UPPERGRASS ||
         mc_Entity.x == ENTITY_SMALLGRASS ||
         mc_Entity.x == ENTITY_SMALLENTS ||
-        mc_Entity.x == ENTITY_LEAVES)
+        mc_Entity.x == ENTITY_LEAVES ||
+        mc_Entity.x == ENTITY_SMALLENTS_NW)
     {
-      is_foliage = .4;
+      is_foliage = 0.4;
     }
 
     vec4 sub_position = gl_ModelViewMatrix * gl_Vertex;
