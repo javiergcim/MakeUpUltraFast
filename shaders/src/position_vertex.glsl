@@ -6,10 +6,6 @@
 
     is_foliage = 0.0;
 
-    if (mc_Entity.x == ENTITY_SMALLENTS_NW) {
-      is_foliage = 0.4;
-    }
-
     if (
         mc_Entity.x == ENTITY_LOWERGRASS ||
         mc_Entity.x == ENTITY_UPPERGRASS ||
@@ -33,6 +29,8 @@
 
       weight *= lmcoord.y * lmcoord.y;  // Evitamos movimiento en cuevas
       position.xyz += wave_move(worldpos.xzy) * weight * (0.03 + (rainStrength * .05));
+    } else if (mc_Entity.x == ENTITY_SMALLENTS_NW) {
+      is_foliage = 0.4;
     }
 
     gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
@@ -83,9 +81,8 @@
 #endif
 
 #ifndef SHADER_BASIC
-    vec3 viewPos = gl_Position.xyz / gl_Position.w;
-    vec4 homopos = gbufferProjectionInverse * vec4(viewPos, 1.0);
-    viewPos = homopos.xyz / homopos.w;
+  vec4 homopos = gbufferProjectionInverse * vec4(gl_Position.xyz / gl_Position.w, 1.0);
+  vec3 viewPos = homopos.xyz / homopos.w;
   #if defined GBUFFER_CLOUDS
     gl_FogFragCoord = length(viewPos.xz);
   #else
