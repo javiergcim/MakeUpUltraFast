@@ -89,26 +89,14 @@ void main() {
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
   
   #include "/src/basiccoords_vertex.glsl"
+  #include "/src/position_vertex_water.glsl"
 
-  vec4 position2 = gl_ModelViewMatrix * gl_Vertex;
-  fragposition = position2.xyz;
-  vec4 position = gbufferModelViewInverse * position2;
-  worldposition = position + vec4(cameraPosition.xyz, 0.0);
-  gl_Position = gl_ProjectionMatrix * gbufferModelView * position;
-
-  #if AA_TYPE > 1
-    gl_Position.xy += taa_offset * gl_Position.w;
-  #endif
-
-  vec3 viewPos = gl_Position.xyz / gl_Position.w;
-  vec4 homopos = gbufferProjectionInverse * vec4(viewPos, 1.0);
-  viewPos = homopos.xyz / homopos.w;
-  gl_FogFragCoord = length(viewPos.xyz);
-
-  // Reflected sky color calculation
-  #include "/src/sky_color_vertex.glsl"
+  // Sky color calculation
+  #include "/src/hi_sky.glsl"
+  #include "/src/low_sky.glsl"
 
   #include "/src/light_vertex.glsl"
+  
   water_normal = normal;
 
   tangent = normalize(gl_NormalMatrix * at_tangent.xyz);

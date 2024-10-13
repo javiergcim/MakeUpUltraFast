@@ -1,7 +1,5 @@
 #include "/lib/config.glsl"
 
-// uniform int worldTime;
-// uniform int frameCounter;
 uniform float viewWidth;
 uniform float viewHeight;
 
@@ -116,9 +114,12 @@ varying vec3 omni_light;
 
 void main() {
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
+  vec3 hi_sky_color;
+  float visible_sky;
   
   #include "/src/basiccoords_vertex.glsl"
   #include "/src/position_vertex.glsl"
+  #include "/src/hi_sky.glsl"
   #include "/src/light_vertex.glsl"
   #include "/src/fog_vertex.glsl"
 

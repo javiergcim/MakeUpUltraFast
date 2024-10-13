@@ -1,18 +1,13 @@
 tint_color = gl_Color;
 
-// Luz nativa (lmcoord.x: candela, lmcoord.y: cielo) ----
+// Native light (lmcoord.x: candel, lmcoord.y: sky) ----
 vec2 illumination = lmcoord;
+
+// Sky visibility
 illumination.y = (max(illumination.y, 0.065) - 0.065) * 1.06951871657754;
+visible_sky = clamp(illumination.y, 0.0, 1.0);
 
-// Visibilidad del cielo
-#ifdef WATER_F
-  visible_sky = illumination.y;
-#else
-  float visible_sky = illumination.y;
-#endif
-visible_sky = clamp(visible_sky, 0.0, 1.0);
-
-// Ajuste de intensidad luminosa bajo el agua
+// Underwater light adjust
 if (isEyeInWater == 1) {
   visible_sky = (visible_sky * .95) + .05;
 }
@@ -21,7 +16,7 @@ if (isEyeInWater == 1) {
   visible_sky = (visible_sky * 0.6) + 0.4;
 #endif
 
-// Intensidad y color de luz de candelas
+// Candels color and intensity
 #if defined UNKNOWN_DIM
   candle_color =
     CANDLE_BASELIGHT * ((illumination.x * illumination.x) + sixth_pow(illumination.x * 1.205)) * 2.75;
@@ -35,12 +30,9 @@ if (isEyeInWater == 1) {
   float hand_dist;
   vec3 hand_light;
 
-  if (heldItemId == 11001 || heldItemId2 == 11001) {  // Normal light
-    hand_dist = (1.0 - clamp((gl_FogFragCoord * 0.06666666666666667), 0.0, 1.0));
-    hand_light = CANDLE_BASELIGHT * (pow(hand_dist, 1.5) + sixth_pow(hand_dist * 1.17));
-    candle_color = max(candle_color, hand_light);
-  } else if (heldItemId == 11002 || heldItemId2 == 11002) {
-    hand_dist = (1.0 - clamp((gl_FogFragCoord * 0.06666666666666667) + 0.5, 0.0, 1.0));
+  if (heldItemId == 11001 || heldItemId2 == 11001 || heldItemId == 11002 || heldItemId2 == 11002) {
+    float dist_offset = (heldItemId == 11001 || heldItemId2 == 11001) ? 0.0 : 0.5;
+    hand_dist = (1.0 - clamp((gl_FogFragCoord * 0.06666666666666667) + dist_offset, 0.0, 1.0));
     hand_light = CANDLE_BASELIGHT * (pow(hand_dist, 1.5) + sixth_pow(hand_dist * 1.17));
     candle_color = max(candle_color, hand_light);
   }
@@ -48,7 +40,7 @@ if (isEyeInWater == 1) {
 
 candle_color = clamp(candle_color, vec3(0.0), vec3(4.0));
 
-// Atenuación por dirección de luz directa ===================================
+// Atenuation by light angle ===================================
 #if defined THE_END || defined NETHER
   vec3 sun_vec =
     normalize(gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz;
@@ -73,10 +65,10 @@ if (length(normal) != 0.0) {  // Workaround for undefined normals
     mix(-sun_light_strength, sun_light_strength, light_mix);
 #endif
 
-// Intensidad por dirección
+// Omni light intensity changes by angle
 float omni_strength = (direct_light_strength * .125) + 1.0;
 
-// Calculamos color de luz directa
+// Direct light color
 #ifdef UNKNOWN_DIM
   direct_light_color = texture2D(lightmap, vec2(0.0, lmcoord.y)).rgb;
 #else
@@ -87,9 +79,10 @@ float omni_strength = (direct_light_strength * .125) + 1.0;
     );
 #endif
 
-#ifdef FOLIAGE_V  // Puede haber plantas en este shader
+// Direct light strenght --
+#ifdef FOLIAGE_V  // This shader has foliage
   float original_direct_light_strength = clamp(direct_light_strength, 0.0, 1.0) * 0.9 + 0.1;
-  if (is_foliage > .2) {  // Es "planta" y se atenúa luz por dirección
+  if (is_foliage > .2) {  // It's foliage, light is atenuated by angle
     #ifdef SHADOW_CASTING
       direct_light_strength = sqrt(abs(direct_light_strength));
     #else
@@ -104,19 +97,10 @@ float omni_strength = (direct_light_strength * .125) + 1.0;
   direct_light_strength = clamp(direct_light_strength, 0.0, 1.0);
 #endif
 
+// Omni light color
 #if defined THE_END || defined NETHER
   omni_light = LIGHT_DAY_COLOR;
 #else
-  // Calculamos color de luz ambiental
-
-  vec3 hi_sky_color = day_blend(
-    ZENITH_SUNSET_COLOR,
-    ZENITH_DAY_COLOR,
-    ZENITH_NIGHT_COLOR
-    );
-
-  vec3 sky_rain_color = ZENITH_SKY_RAIN_COLOR * luma(hi_sky_color);
-
   #ifdef SIMPLE_AUTOEXP
     direct_light_color = mix(
       direct_light_color,
@@ -131,28 +115,36 @@ float omni_strength = (direct_light_strength * .125) + 1.0;
     );
   #endif
 
-  hi_sky_color = mix(
-    hi_sky_color,
-    sky_rain_color,
-    rainStrength
-  );
+  // Minimal light
+  // float sky_day_pseudoluma = color_average(ZENITH_DAY_COLOR);
+  // float current_sky_pseudoluma = color_average(hi_sky_color_rgb);
 
-  float sky_day_pseudoluma = color_average(ZENITH_DAY_COLOR);
-  float current_sky_pseudoluma = color_average(hi_sky_color);
+  // float luma_ratio = sky_day_pseudoluma / current_sky_pseudoluma;
 
-  float luma_ratio = sky_day_pseudoluma / current_sky_pseudoluma;
+  // // float sky_day_luma = luma(ZENITH_DAY_COLOR);
+  // // float luma_ratio = sky_day_luma / hi_sky_color.y;
 
-  // Luz mínima
-  float omni_minimal = AVOID_DARK_LEVEL * luma_ratio;
-  float visible_avoid_dark = (pow(visible_sky, 1.5) * (1.0 - omni_minimal)) + omni_minimal;
+  // float omni_minimal = AVOID_DARK_LEVEL * luma_ratio;
+  // float visible_avoid_dark = (pow(visible_sky, 1.5) * (1.0 - omni_minimal)) + omni_minimal;
 
-  omni_light = visible_avoid_dark * omni_strength *
-    mix(hi_sky_color, direct_light_color * 0.75, OMNI_TINT);
+
+  // omni_light = visible_avoid_dark * omni_strength *
+  //   mix(hi_sky_color_rgb, direct_light_color * 0.75, OMNI_TINT);
+
+  // Minimal light
+  vec3 omni_color = mix(hi_sky_color_rgb, direct_light_color * 0.75, OMNI_TINT);
+  float omni_color_luma = color_average(omni_color);
+  float luma_ratio = AVOID_DARK_LEVEL / omni_color_luma;
+  vec3 omni_color_min = omni_color * luma_ratio;
+  omni_color = max(omni_color, omni_color_min);
+  
+  // omni_light = omni_color * mix(AVOID_DARK_LEVEL, 1.0, visible_sky);
+  omni_light = mix(omni_color_min, omni_color, visible_sky);
 
 #endif
 
+// Avoid flat illumination in caves for entities
 #ifdef CAVEENTITY_V
-  // Avoid flat illumination in caves for entities
   float candle_cave_strength = (direct_light_strength * .5) + .5;
   candle_cave_strength =
     mix(candle_cave_strength, 1.0, visible_sky);
