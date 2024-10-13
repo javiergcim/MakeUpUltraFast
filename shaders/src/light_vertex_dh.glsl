@@ -7,14 +7,7 @@ tint_color = gl_Color;
   vec2 illumination = lmcoord;
 #endif
 illumination.y = (max(illumination.y, 0.065) - 0.065) * 1.06951871657754;
-
-// Visibilidad del cielo
-#if defined WATER_F || defined DH_WATER
-  visible_sky = illumination.y;
-#else
-  float visible_sky = illumination.y;
-#endif
-visible_sky = clamp(visible_sky, 0.0, 1.0);
+visible_sky = clamp(illumination.y, 0.0, 1.0);
 
 #if defined UNKNOWN_DIM
   visible_sky = (visible_sky * 0.6) + 0.4;
@@ -75,47 +68,20 @@ direct_light_strength = clamp(direct_light_strength, 0.0, 1.0);
 #if defined THE_END || defined NETHER
   omni_light = LIGHT_DAY_COLOR;
 #else
-  // Calculamos color de luz ambiental
-
-  // vec3 hi_sky_color = day_blend(
-  //   ZENITH_SUNSET_COLOR,
-  //   ZENITH_DAY_COLOR,
-  //   ZENITH_NIGHT_COLOR
-  //   );
-
-  vec3 sky_rain_color = ZENITH_SKY_RAIN_COLOR * luma(hi_sky_color);
-
-  #ifdef SIMPLE_AUTOEXP
-    direct_light_color = mix(
-      direct_light_color,
-      ZENITH_SKY_RAIN_COLOR * luma(direct_light_color),
-      rainStrength
-    );
-  #else
-    direct_light_color = mix(
-      direct_light_color,
-      ZENITH_SKY_RAIN_COLOR * luma(direct_light_color) * 0.4,
-      rainStrength
-    );
-  #endif
-
-  hi_sky_color = mix(
-    hi_sky_color,
-    sky_rain_color,
+  direct_light_color = mix(
+    direct_light_color,
+    ZENITH_SKY_RAIN_COLOR * luma(direct_light_color) * 0.4,
     rainStrength
   );
 
-  float sky_day_pseudoluma = color_average(ZENITH_DAY_COLOR);
-  float current_sky_pseudoluma = color_average(hi_sky_color);
-
-  float luma_ratio = sky_day_pseudoluma / current_sky_pseudoluma;
-
-  // Luz mínima
-  float omni_minimal = AVOID_DARK_LEVEL * luma_ratio;
-  float visible_avoid_dark = (pow(visible_sky, 1.5) * (1.0 - omni_minimal)) + omni_minimal;
-
-  omni_light = visible_avoid_dark * omni_strength *
-    mix(hi_sky_color, direct_light_color * 0.75, OMNI_TINT);
+  // Minimal light
+  vec3 omni_color = mix(hi_sky_color_rgb, direct_light_color * 0.75, OMNI_TINT);
+  float omni_color_luma = color_average(omni_color);
+  float luma_ratio = AVOID_DARK_LEVEL / omni_color_luma;
+  vec3 omni_color_min = omni_color * luma_ratio;
+  omni_color = max(omni_color, omni_color_min);
+  
+  omni_light = mix(omni_color_min, omni_color, visible_sky);
 
 #endif
 

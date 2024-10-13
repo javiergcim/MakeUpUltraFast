@@ -27,13 +27,11 @@ uniform ivec2 eyeBrightnessSmooth;
   uniform mat4 gbufferProjectionInverse;
 #endif
 
-#if !defined SIMPLE_AUTOEXP
-  uniform sampler2D colortex1;
-  uniform sampler2D gaux3;
-  uniform float viewWidth;
-  uniform float viewHeight;
-  uniform float frameTime;
-#endif
+uniform sampler2D colortex1;
+uniform sampler2D gaux3;
+uniform float viewWidth;
+uniform float viewHeight;
+uniform float frameTime;
 
 varying vec2 texcoord;
 varying vec3 direct_light_color;
@@ -75,22 +73,6 @@ void main() {
 
   // Exposure
   #if !defined UNKNOWN_DIM
-    #if defined SIMPLE_AUTOEXP
-
-      float exposure_coef = day_blend_float(
-        EXPOSURE_SUNSET,
-        EXPOSURE_DAY,
-        EXPOSURE_NIGHT
-      );
-
-      float candle_bright = eye_bright_smooth.x * 0.0003125;  // (0.004166666666666667 * 0.075)
-
-      exposure =
-        ((eye_bright_smooth.y * 0.004166666666666667) * exposure_coef) + candle_bright;
-
-      // Map from 1.0 - 0.0 to 1.0 - 3.4
-      exposure = (exposure * -2.4) + 3.4;
-    #else
       float mipmap_level = log2(min(viewWidth, viewHeight)) - 1.0;
 
       vec3 exposure_col = texture2DLod(colortex1, vec2(0.5), mipmap_level).rgb;
@@ -105,7 +87,6 @@ void main() {
 
       exposure = (exp(-exposure) * 3.03) + 0.6;
       exposure = mix(exposure, prev_exposure, exp(-frameTime * 1.25));
-    #endif
   #else
     exposure = 1.0;
   #endif

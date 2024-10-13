@@ -101,35 +101,11 @@ float omni_strength = (direct_light_strength * .125) + 1.0;
 #if defined THE_END || defined NETHER
   omni_light = LIGHT_DAY_COLOR;
 #else
-  #ifdef SIMPLE_AUTOEXP
-    direct_light_color = mix(
-      direct_light_color,
-      ZENITH_SKY_RAIN_COLOR * luma(direct_light_color),
-      rainStrength
-    );
-  #else
-    direct_light_color = mix(
-      direct_light_color,
-      ZENITH_SKY_RAIN_COLOR * luma(direct_light_color) * 0.4,
-      rainStrength
-    );
-  #endif
-
-  // Minimal light
-  // float sky_day_pseudoluma = color_average(ZENITH_DAY_COLOR);
-  // float current_sky_pseudoluma = color_average(hi_sky_color_rgb);
-
-  // float luma_ratio = sky_day_pseudoluma / current_sky_pseudoluma;
-
-  // // float sky_day_luma = luma(ZENITH_DAY_COLOR);
-  // // float luma_ratio = sky_day_luma / hi_sky_color.y;
-
-  // float omni_minimal = AVOID_DARK_LEVEL * luma_ratio;
-  // float visible_avoid_dark = (pow(visible_sky, 1.5) * (1.0 - omni_minimal)) + omni_minimal;
-
-
-  // omni_light = visible_avoid_dark * omni_strength *
-  //   mix(hi_sky_color_rgb, direct_light_color * 0.75, OMNI_TINT);
+  direct_light_color = mix(
+    direct_light_color,
+    ZENITH_SKY_RAIN_COLOR * luma(direct_light_color) * 0.4,
+    rainStrength
+  );
 
   // Minimal light
   vec3 omni_color = mix(hi_sky_color_rgb, direct_light_color * 0.75, OMNI_TINT);
@@ -138,7 +114,6 @@ float omni_strength = (direct_light_strength * .125) + 1.0;
   vec3 omni_color_min = omni_color * luma_ratio;
   omni_color = max(omni_color, omni_color_min);
   
-  // omni_light = omni_color * mix(AVOID_DARK_LEVEL, 1.0, visible_sky);
   omni_light = mix(omni_color_min, omni_color, visible_sky);
 
 #endif

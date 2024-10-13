@@ -85,9 +85,7 @@ varying float exposure;
   #include "/lib/volumetric_light.glsl"
 #endif
 
-#if !defined SIMPLE_AUTOEXP
-  const bool colortex1MipmapEnabled = true;
-#endif
+const bool colortex1MipmapEnabled = true;
 
 void main() {
   vec4 block_color = texture2D(colortex1, texcoord);
@@ -256,33 +254,17 @@ void main() {
   #endif
 
   #ifdef BLOOM
-    // Bloom source
-    #ifdef SIMPLE_AUTOEXP
+      // Bloom source
       float bloom_luma =
-        smoothstep(0.825, 1.0, luma(block_color.rgb * exposure)) * 0.4;
-    #else
-      float bloom_luma =
-        smoothstep(0.85, 1.0, luma(block_color.rgb * exposure)) * 0.5;
-    #endif
+           smoothstep(0.85, 1.0, luma(block_color.rgb * exposure)) * 0.5;
 
-    #if defined SIMPLE_AUTOEXP
-      /* DRAWBUFFERS:14 */
-      gl_FragData[0] = block_color;
-      gl_FragData[1] = block_color * bloom_luma;
-    #else
       /* DRAWBUFFERS:146 */
       gl_FragData[0] = block_color;
       gl_FragData[1] = block_color * bloom_luma;
       gl_FragData[2] = vec4(exposure, 0.0, 0.0, 0.0);
-    #endif
   #else
-    #if defined SIMPLE_AUTOEXP
-      /* DRAWBUFFERS:1 */
-      gl_FragData[0] = block_color;
-    #else
       /* DRAWBUFFERS:16 */
       gl_FragData[0] = block_color;
       gl_FragData[1] = vec4(exposure, 0.0, 0.0, 0.0);
-    #endif
   #endif
 }

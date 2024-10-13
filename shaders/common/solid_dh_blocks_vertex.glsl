@@ -46,11 +46,11 @@ varying float frog_adjust;
 
 void main() {
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
+  float visible_sky;
   vec3 hi_sky_color;
-  vec3 low_sky_color;
 
   #include "/src/basiccoords_vertex_dh.glsl"
   #include "/src/position_vertex_dh.glsl"
-  #include "/src/sky_color_vertex.glsl"
+  #include "/src/hi_sky.glsl"
   #include "/src/light_vertex_dh.glsl"
 }

@@ -242,8 +242,6 @@ option.USE_BASIC_SH=Enkel shader för anpassade dimensioner
 
 option.MATERIAL_GLOSS=Materialglans
 
-option.SIMPLE_AUTOEXP=Enklare exponering
-
 option.DYN_HAND_LIGHT=Konstgjort dynamiskt ljus
 
 #Screens

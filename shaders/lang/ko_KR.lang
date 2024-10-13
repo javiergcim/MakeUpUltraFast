@@ -243,8 +243,6 @@ option.USE_BASIC_SH=커스텀 차원 기본 셰이더 사용
 
 option.MATERIAL_GLOSS=재료 광택
 
-option.SIMPLE_AUTOEXP=간단한 노출
-
 option.DYN_HAND_LIGHT=가짜 동적 빛
 
 #화면

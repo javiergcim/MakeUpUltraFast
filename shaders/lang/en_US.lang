@@ -243,8 +243,6 @@ option.USE_BASIC_SH=Custom dimensions basic shader
 
 option.MATERIAL_GLOSS=Material gloss
 
-option.SIMPLE_AUTOEXP=Simpler exposure
-
 option.DYN_HAND_LIGHT=Fake dynamic light
 
 #Screens

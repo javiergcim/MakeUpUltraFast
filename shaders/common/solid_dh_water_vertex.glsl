@@ -58,11 +58,9 @@ void main() {
   vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
   #include "/src/basiccoords_vertex_dh.glsl"
   #include "/src/position_vertex_dh.glsl"
-  #include "/src/sky_color_vertex.glsl"
+  #include "/src/hi_sky.glsl"
+  #include "/src/low_sky.glsl"
   #include "/src/light_vertex_dh.glsl"
-
-  hi_sky_color = rgb_to_xyz(hi_sky_color);
-  low_sky_color = rgb_to_xyz(low_sky_color);
 
   vec4 position2 = gl_ModelViewMatrix * gl_Vertex;
   fragposition = position2.xyz;

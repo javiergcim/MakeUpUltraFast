@@ -239,8 +239,6 @@ option.USE_BASIC_SH=Özel boyutsal basit shader
 
 option.MATERIAL_GLOSS=Malzeme parlaklığı
 
-option.SIMPLE_AUTOEXP=Daha basit pozlama
-
 option.DYN_HAND_LIGHT=Sahte dinamik ışık
 
 #Screens

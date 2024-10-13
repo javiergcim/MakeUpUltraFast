@@ -243,8 +243,6 @@ option.USE_BASIC_SH=自定义维度基础着色器
 
 option.MATERIAL_GLOSS=材质光泽
 
-option.SIMPLE_AUTOEXP=简单曝光
-
 option.DYN_HAND_LIGHT=伪动态光源
 
 #Screens

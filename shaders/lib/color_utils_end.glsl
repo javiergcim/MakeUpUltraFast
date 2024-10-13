@@ -37,13 +37,6 @@ uniform float night_mixer;
 
 #include "/lib/day_blend.glsl"
 
-#if defined SIMPLE_AUTOEXP
-  // Ambient color luma per hour in exposure calculation
-  #define EXPOSURE_DAY 1.0
-  #define EXPOSURE_SUNSET 1.0
-  #define EXPOSURE_NIGHT 1.0
-#endif
-
 // Fog parameter per hour
 #if VOL_LIGHT == 1 || (VOL_LIGHT == 2 && defined SHADOW_CASTING)
     #define FOG_DENSITY 1.0
