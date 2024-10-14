@@ -1,14 +1,17 @@
 #include "/lib/config.glsl"
 
+/* Color utils */
+
 #if defined THE_END
-  #include "/lib/color_utils_end.glsl"
+    #include "/lib/color_utils_end.glsl"
 #elif defined NETHER
-  #include "/lib/color_utils_nether.glsl"
+    #include "/lib/color_utils_nether.glsl"
 #else
-  #include "/lib/color_utils.glsl"
+    #include "/lib/color_utils.glsl"
 #endif
 
-/* Config, uniforms, ins, outs */
+/* Uniforms */
+
 uniform ivec2 eyeBrightnessSmooth;
 uniform mat4 dhProjection;
 uniform mat4 gbufferModelView;
@@ -21,12 +24,14 @@ uniform float rainStrength;
 uniform mat4 gbufferProjectionInverse;
 
 #ifdef DISTANT_HORIZONS
-  uniform int dhRenderDistance;
+    uniform int dhRenderDistance;
 #endif
 
 #ifdef UNKNOWN_DIM
-  uniform sampler2D lightmap;
+    uniform sampler2D lightmap;
 #endif
+
+/* Ins / Outs */
 
 varying vec2 texcoord;
 varying vec4 tint_color;
@@ -47,31 +52,36 @@ varying vec2 lmcoord;
 varying float block_type;
 varying float frog_adjust;
 
+/* Utility functions */
+
 #if AA_TYPE > 0
-  #include "/src/taa_offset.glsl"
+    #include "/src/taa_offset.glsl"
 #endif
 
 #include "/lib/basic_utils.glsl"
 #include "/lib/luma.glsl"
 
+// MAIN FUNCTION ------------------
+
 void main() {
-  vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
-  #include "/src/basiccoords_vertex_dh.glsl"
-  #include "/src/position_vertex_dh.glsl"
-  #include "/src/hi_sky.glsl"
-  #include "/src/low_sky.glsl"
-  #include "/src/light_vertex_dh.glsl"
+    vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
+    
+    #include "/src/basiccoords_vertex_dh.glsl"
+    #include "/src/position_vertex_dh.glsl"
+    #include "/src/hi_sky.glsl"
+    #include "/src/low_sky.glsl"
+    #include "/src/light_vertex_dh.glsl"
 
-  vec4 position2 = gl_ModelViewMatrix * gl_Vertex;
-  fragposition = position2.xyz;
-  
-  binormal = normalize(gbufferModelView[2].xyz);
-	tangent  = normalize(gbufferModelView[0].xyz);
-  water_normal = normal;
+    vec4 position2 = gl_ModelViewMatrix * gl_Vertex;
+    fragposition = position2.xyz;
 
-  up_vec = normalize(gbufferModelView[1].xyz);
+    binormal = normalize(gbufferModelView[2].xyz);
+    tangent = normalize(gbufferModelView[0].xyz);
+    water_normal = normal;
 
-  if (dhMaterialId == DH_BLOCK_WATER) {  // Water
-    block_type = float(DH_BLOCK_WATER);
-  }
+    up_vec = normalize(gbufferModelView[1].xyz);
+
+    if(dhMaterialId == DH_BLOCK_WATER) {  // Water
+        block_type = float(DH_BLOCK_WATER);
+    }
 }

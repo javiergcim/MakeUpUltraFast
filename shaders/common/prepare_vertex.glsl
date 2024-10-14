@@ -1,17 +1,21 @@
 #include "/lib/config.glsl"
 
 /* Color utils */
+
 #ifdef THE_END
-  #include "/lib/color_utils_end.glsl"
+    #include "/lib/color_utils_end.glsl"
 #elif defined NETHER
-  #include "/lib/color_utils_nether.glsl"
+    #include "/lib/color_utils_nether.glsl"
 #else
-  #include "/lib/color_utils.glsl"
+    #include "/lib/color_utils.glsl"
 #endif
 
-/* Uniforms, ins, outs */
+/* Uniforms */
+
 uniform mat4 gbufferModelView;
 uniform float rainStrength;
+
+/* Ins / Outs */
 
 varying vec3 up_vec;
 varying vec3 hi_sky_color;
@@ -24,9 +28,9 @@ varying vec3 low_sky_color;
 // MAIN FUNCTION ------------------
 
 void main() {
-  gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 
-  #include "/src/sky_color_vertex.glsl"
-  
-  up_vec = normalize(gbufferModelView[1].xyz);
+    #include "/src/sky_color_vertex.glsl"
+
+    up_vec = normalize(gbufferModelView[1].xyz);
 }

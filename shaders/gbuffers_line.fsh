@@ -11,5 +11,6 @@ Javier Garduño - GNU Lesser General Public License v3.0
   #define UNKNOWN_DIM
 #endif
 #define GBUFFER_LINE
+#define NO_SHADOWS
 
 #include "/common/line_blocks_fragment.glsl"
