@@ -30,7 +30,8 @@ varying vec3 low_sky_color;
 void main() {
     gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 
-    #include "/src/sky_color_vertex.glsl"
+    #include "/src/hi_sky.glsl"
+    #include "/src/low_sky.glsl"
 
     up_vec = normalize(gbufferModelView[1].xyz);
 }

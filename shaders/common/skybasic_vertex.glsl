@@ -58,6 +58,7 @@ void main() {
     #if MC_VERSION < 11604
         up_vec = normalize(gbufferModelView[1].xyz);
 
-        #include "/src/sky_color_vertex.glsl"
+        #include "/src/hi_sky.glsl"
+        #include "/src/low_sky.glsl"
     #endif
 }
