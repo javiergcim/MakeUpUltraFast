@@ -81,7 +81,10 @@ float omni_strength = (direct_light_strength * .125) + 1.0;
 
 // Direct light strenght --
 #ifdef FOLIAGE_V  // This shader has foliage
-    float original_direct_light_strength = clamp(direct_light_strength, 0.0, 1.0) * 0.9 + 0.1;
+    float far_direct_light_strength = clamp(direct_light_strength, 0.0, 1.0);
+    if (mc_Entity.x != ENTITY_LEAVES) {
+        far_direct_light_strength = far_direct_light_strength * 0.75 + 0.25;
+    }
     if (is_foliage > .2) {  // It's foliage, light is atenuated by angle
         #ifdef SHADOW_CASTING
             direct_light_strength = sqrt(abs(direct_light_strength));

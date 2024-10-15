@@ -144,9 +144,14 @@ void main() {
 
     #if defined FOLIAGE_V && !defined NETHER
         #ifdef SHADOW_CASTING
-        if(is_foliage > .2) {
-            direct_light_strength = mix(direct_light_strength, original_direct_light_strength, clamp((gl_Position.z / SHADOW_LIMIT) * 2.0 - 0.5, 0.0, 1.0));
-        }
+            if(is_foliage > .2) {
+                direct_light_strength =
+                    mix(
+                        direct_light_strength,
+                        far_direct_light_strength,
+                        clamp((gl_Position.z / SHADOW_LIMIT) * 2.0 - 0.5, 0.0, 1.0)
+                    );
+            }
         #endif
     #endif
 
