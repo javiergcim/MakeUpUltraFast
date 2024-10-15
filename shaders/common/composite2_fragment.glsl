@@ -38,7 +38,6 @@ varying vec2 texcoord;
 
 #if AA_TYPE > 0 || defined MOTION_BLUR
     #include "/lib/projection_utils.glsl"
-    #include "/lib/past_projection_utils.glsl"
 #endif
 
 #ifdef MOTION_BLUR

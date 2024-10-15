@@ -30,17 +30,17 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define REFLECTION_SLIDER 2 // [0 1 2] Reflection quality. - Flipped image: Inaccurate but quick reflection. - Raymarching: Raytraced Screen Space Reflection.
 
 #if REFLECTION_SLIDER == 0
-  #define REFLECTION 0
-  #define SSR_TYPE 0
-  #define REFLEX_INDEX 0.45
+    #define REFLECTION 0
+    #define SSR_TYPE 0
+    #define REFLEX_INDEX 0.45
 #elif REFLECTION_SLIDER == 1
-  #define REFLECTION 1
-  #define SSR_TYPE 0
-  #define REFLEX_INDEX 0.7
+    #define REFLECTION 1
+    #define SSR_TYPE 0
+    #define REFLEX_INDEX 0.7
 #elif REFLECTION_SLIDER == 2
-  #define REFLECTION 1
-  #define SSR_TYPE 1
-  #define REFLEX_INDEX 0.7
+    #define REFLECTION 1
+    #define SSR_TYPE 1
+    #define REFLEX_INDEX 0.7
 #endif
 
 #define FOG_ACTIVE // Toggle fog
@@ -135,13 +135,13 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define OMNI_TINT_CUSTOM 0.3 // [0.0 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1 0.11 0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2 0.21 0.22 0.23 0.24 0.25 0.26 0.27 0.28 0.29 0.3 0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39 0.4 0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49 0.5 0.51 0.52 0.53 0.54 0.55 0.56 0.57 0.58 0.59 0.6 0.61 0.62 0.63 0.64 0.65 0.66 0.67 0.68 0.69 0.7 0.71 0.72 0.73 0.74 0.75 0.76 0.77 0.78 0.79 0.8 0.81 0.82 0.83 0.84 0.85 0.86 0.87 0.88 0.89 0.9 0.91 0.92 0.93 0.94 0.95 0.96 0.97 0.98 0.99 1.0 1.01 1.02 1.03 1.04 1.05 1.06 1.07 1.08 1.09 1.1 1.11 1.12 1.13 1.14 1.15 1.16 1.17 1.18 1.19 1.2 1.21 1.22 1.23 1.24 1.25 1.26 1.27 1.28 1.29 1.3 1.31 1.32 1.33 1.34 1.35 1.36 1.37 1.38 1.39 1.4 1.41 1.42 1.43 1.44 1.45 1.46 1.47 1.48 1.49 1.5]
 
 #ifdef FOG_ACTIVE
-  // Don't remove
+    // Don't remove
 #endif
 
 #if NETHER_FOG_DISTANCE == 1
-  #define NETHER_SIGHT min(far / 2, 96)
+    #define NETHER_SIGHT min(far / 2, 96)
 #else
-  #define NETHER_SIGHT far
+    #define NETHER_SIGHT far
 #endif
 
 // Reflection parameters
@@ -149,40 +149,40 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 // Cloud parameters
 #if CLOUD_VOL_STYLE == 1
-  #define CLOUD_PLANE_SUP 380.0
-  #define CLOUD_PLANE_CENTER 335.0
-  #define CLOUD_PLANE 319.0
+    #define CLOUD_PLANE_SUP 380.0
+    #define CLOUD_PLANE_CENTER 335.0
+    #define CLOUD_PLANE 319.0
 #else
-  #define CLOUD_PLANE_SUP 590.0
-  #define CLOUD_PLANE_CENTER 375.0
-  #define CLOUD_PLANE 319.0
+    #define CLOUD_PLANE_SUP 590.0
+    #define CLOUD_PLANE_CENTER 375.0
+    #define CLOUD_PLANE 319.0
 #endif
 
 #define CLOUD_STEPS_AVG 7 // [7 8 9 10 11 12 13 14 15 16] Samples per pixel (high performance impact).
 #define CLOUD_SPEED 0 // [0 1 2] Change the speed of clouds for display purposes.
 
 #if CLOUD_VOL_STYLE == 1
-  #if CLOUD_SPEED == 0
-    #define CLOUD_HI_FACTOR 0.001388888888888889
-    #define CLOUD_LOW_FACTOR 0.0002777777777777778
-  #elif CLOUD_SPEED == 1
-    #define CLOUD_HI_FACTOR 0.01388888888888889
-    #define CLOUD_LOW_FACTOR 0.002777777777777778
-  #elif CLOUD_SPEED == 2
-    #define CLOUD_HI_FACTOR 0.1388888888888889
-    #define CLOUD_LOW_FACTOR 0.02777777777777778
-  #endif
+    #if CLOUD_SPEED == 0
+        #define CLOUD_HI_FACTOR 0.001388888888888889
+        #define CLOUD_LOW_FACTOR 0.0002777777777777778
+    #elif CLOUD_SPEED == 1
+        #define CLOUD_HI_FACTOR 0.01388888888888889
+        #define CLOUD_LOW_FACTOR 0.002777777777777778
+    #elif CLOUD_SPEED == 2
+        #define CLOUD_HI_FACTOR 0.1388888888888889
+        #define CLOUD_LOW_FACTOR 0.02777777777777778
+    #endif
 #else
-  #if CLOUD_SPEED == 0
-    #define CLOUD_HI_FACTOR 0.0016666666666666666
-    #define CLOUD_LOW_FACTOR 0.0002777777777777778
-  #elif CLOUD_SPEED == 1
-    #define CLOUD_HI_FACTOR 0.016666666666666666
-    #define CLOUD_LOW_FACTOR 0.002777777777777778
-  #elif CLOUD_SPEED == 2
-    #define CLOUD_HI_FACTOR 0.16666666666666666
-    #define CLOUD_LOW_FACTOR 0.02777777777777778
-  #endif
+    #if CLOUD_SPEED == 0
+        #define CLOUD_HI_FACTOR 0.0016666666666666666
+        #define CLOUD_LOW_FACTOR 0.0002777777777777778
+    #elif CLOUD_SPEED == 1
+        #define CLOUD_HI_FACTOR 0.016666666666666666
+        #define CLOUD_LOW_FACTOR 0.002777777777777778
+    #elif CLOUD_SPEED == 2
+        #define CLOUD_HI_FACTOR 0.16666666666666666
+        #define CLOUD_LOW_FACTOR 0.02777777777777778
+    #endif
 #endif
 
 // Godrays
@@ -202,124 +202,126 @@ const float sunPathRotation = -25.0; // [-40.0 -35.0 -30.0 -25.0 -20.0 -15.0 -10
 #define SHADOW_CASTING // Enable or disable shadows. Configure quality in advanced options.
 
 #ifdef SHADOW_CASTING
-  // Shadow parameters
-  const float shadowIntervalSize = 3.0;
+    // Shadow parameters
+    const float shadowIntervalSize = 3.0;
 
-  const bool shadowtex0Mipmap = false;
-  const bool shadowtex1Mipmap = false;
-  const bool shadowColor0Mipmap = false;
-  const bool shadowColor1Mipmap = false;
+    const bool shadowtex0Mipmap = false;
+    const bool shadowtex1Mipmap = false;
+    const bool shadowColor0Mipmap = false;
+    const bool shadowColor1Mipmap = false;
 
-  const bool shadowtex0Clear = false;
-  const bool shadowtex1Clear = false;
-  const bool shadowcolor0Clear = false;
-  const bool shadowcolor1Clear = false;
-  
-  #ifndef NO_SHADOWS
-    #if SHADOW_DISTANCE_SLIDER == 0
-      #if SHADOW_QTY_SLIDER == 1
-        #define SHADOW_LIMIT 75.0
-        const int shadowMapResolution = 300;
-        const float shadowDistance = 75.0;
-        #define SHADOW_FIX_FACTOR 0.3
-        #define SHADOW_DIST 0.75
-
-      #elif SHADOW_QTY_SLIDER == 2
-        #define SHADOW_LIMIT 75.0
-        const int shadowMapResolution = 600;
-        const float shadowDistance = 75.0;
-        #define SHADOW_FIX_FACTOR 0.15
-        #define SHADOW_DIST 0.81
-
-      #elif SHADOW_QTY_SLIDER == 3
-        #define SHADOW_LIMIT 75.0
-        const int shadowMapResolution = 1200;
-        const float shadowDistance = 75.0;
-        #define SHADOW_FIX_FACTOR 0.05
-        #define SHADOW_DIST 0.81
-      
-      #endif
-
-    #elif SHADOW_DISTANCE_SLIDER == 1
-      #if SHADOW_QTY_SLIDER == 1
-        #define SHADOW_LIMIT 105.0
-        const int shadowMapResolution = 420;
-        const float shadowDistance = 105.0;
-        #define SHADOW_FIX_FACTOR 0.28
-        #define SHADOW_DIST 0.75
-
-      #elif SHADOW_QTY_SLIDER == 2
-        #define SHADOW_LIMIT 105.0
-        const int shadowMapResolution = 840;
-        const float shadowDistance = 105.0;
-        #define SHADOW_FIX_FACTOR 0.07
-        #define SHADOW_DIST 0.83
-
-      #elif SHADOW_QTY_SLIDER == 3
-        #define SHADOW_LIMIT 105.0
-        const int shadowMapResolution = 1680;
-        const float shadowDistance = 105.0;
-        #define SHADOW_FIX_FACTOR 0.03
-        #define SHADOW_DIST 0.83
-      
-      #endif
-
-    #elif SHADOW_DISTANCE_SLIDER == 2
-      #if SHADOW_QTY_SLIDER == 1
-        #define SHADOW_LIMIT 255.0
-        const int shadowMapResolution = 1020;
-        const float shadowDistance = 255.0;
-        #define SHADOW_FIX_FACTOR 0.12
-        #define SHADOW_DIST 0.8
-
-      #elif SHADOW_QTY_SLIDER == 2
-        #define SHADOW_LIMIT 255.0
-        const int shadowMapResolution = 2040;
-        const float shadowDistance = 255.0;
-        #define SHADOW_FIX_FACTOR 0.03
-        #define SHADOW_DIST 0.85
-
-      #elif SHADOW_QTY_SLIDER == 3
-        #define SHADOW_LIMIT 255.0
-        const int shadowMapResolution = 4080;
-        const float shadowDistance = 255.0;
-        #define SHADOW_FIX_FACTOR 0.015
-        #define SHADOW_DIST 0.87
-
-      #endif
-    #endif
-
-    #if VOL_LIGHT == 2
-      const float shadowDistanceRenderMul = -1.0;
-    #else
-      const float shadowDistanceRenderMul = 1.0;
-    #endif
+    const bool shadowtex0Clear = false;
+    const bool shadowtex1Clear = false;
+    const bool shadowcolor0Clear = false;
+    const bool shadowcolor1Clear = false;
     
-    const bool shadowHardwareFiltering = true;
-    const bool shadowtex1Nearest = false;
-  #endif
+    #ifndef NO_SHADOWS
+        #if SHADOW_DISTANCE_SLIDER == 0
+        #if SHADOW_QTY_SLIDER == 1
+            #define SHADOW_LIMIT 75.0
+            const int shadowMapResolution = 300;
+            const float shadowDistance = 75.0;
+            #define SHADOW_FIX_FACTOR 0.3
+            #define SHADOW_DIST 0.75
+
+        #elif SHADOW_QTY_SLIDER == 2
+            #define SHADOW_LIMIT 75.0
+            const int shadowMapResolution = 600;
+            const float shadowDistance = 75.0;
+            #define SHADOW_FIX_FACTOR 0.15
+            #define SHADOW_DIST 0.81
+
+        #elif SHADOW_QTY_SLIDER == 3
+            #define SHADOW_LIMIT 75.0
+            const int shadowMapResolution = 1200;
+            const float shadowDistance = 75.0;
+            #define SHADOW_FIX_FACTOR 0.05
+            #define SHADOW_DIST 0.81
+        
+        #endif
+
+        #elif SHADOW_DISTANCE_SLIDER == 1
+        #if SHADOW_QTY_SLIDER == 1
+            #define SHADOW_LIMIT 105.0
+            const int shadowMapResolution = 420;
+            const float shadowDistance = 105.0;
+            #define SHADOW_FIX_FACTOR 0.28
+            #define SHADOW_DIST 0.75
+
+        #elif SHADOW_QTY_SLIDER == 2
+            #define SHADOW_LIMIT 105.0
+            const int shadowMapResolution = 840;
+            const float shadowDistance = 105.0;
+            #define SHADOW_FIX_FACTOR 0.07
+            #define SHADOW_DIST 0.83
+
+        #elif SHADOW_QTY_SLIDER == 3
+            #define SHADOW_LIMIT 105.0
+            const int shadowMapResolution = 1680;
+            const float shadowDistance = 105.0;
+            #define SHADOW_FIX_FACTOR 0.03
+            #define SHADOW_DIST 0.83
+        
+        #endif
+
+        #elif SHADOW_DISTANCE_SLIDER == 2
+        #if SHADOW_QTY_SLIDER == 1
+            #define SHADOW_LIMIT 255.0
+            const int shadowMapResolution = 1020;
+            const float shadowDistance = 255.0;
+            #define SHADOW_FIX_FACTOR 0.12
+            #define SHADOW_DIST 0.8
+
+        #elif SHADOW_QTY_SLIDER == 2
+            #define SHADOW_LIMIT 255.0
+            const int shadowMapResolution = 2040;
+            const float shadowDistance = 255.0;
+            #define SHADOW_FIX_FACTOR 0.03
+            #define SHADOW_DIST 0.85
+
+        #elif SHADOW_QTY_SLIDER == 3
+            #define SHADOW_LIMIT 255.0
+            const int shadowMapResolution = 4080;
+            const float shadowDistance = 255.0;
+            #define SHADOW_FIX_FACTOR 0.015
+            #define SHADOW_DIST 0.87
+
+        #endif
+        #endif
+
+        #if VOL_LIGHT == 2
+            const float shadowDistanceRenderMul = -1.0;
+        #else
+            const float shadowDistanceRenderMul = 1.0;
+        #endif
+        
+        const bool shadowHardwareFiltering = true;
+        const bool shadowtex1Nearest = false;
+    #endif
 
 #else
-  #define SHADOW_DIST 0.0
-  #define SHADOW_RES 0
-  const int shadowMapResolution = 100;
-  const float shadowDistance = 60.0;
+    #define SHADOW_DIST 0.0
+    #define SHADOW_RES 0
+    const int shadowMapResolution = 100;
+    const float shadowDistance = 60.0;
 #endif
 
 // Redefined constants
 #if AO == 0
-  const float ambientOcclusionLevel = 0.7;
+    const float ambientOcclusionLevel = 0.7;
 #else
-  const float ambientOcclusionLevel = 0.0;
+    const float ambientOcclusionLevel = 0.0;
 #endif
 
 const float eyeBrightnessHalflife = 6.0;
 const float centerDepthHalflife = 0.66;
 
 // DH exclusive
-#define TRANSITION_SUP 0.00
-#define TRANSITION_INF 0.95
-#define TRANSITION_WATER_SUP 0.00
-#define TRANSITION_WATER_INF 0.65
-#define TRANSITION_DH_SUP 0.35
-#define TRANSITION_DH_INF 0.50
+#if defined DISTANT_HORIZONS
+    #define TRANSITION_SUP 0.00
+    #define TRANSITION_INF 0.95
+    #define TRANSITION_WATER_SUP 0.00
+    #define TRANSITION_WATER_INF 0.65
+    #define TRANSITION_DH_SUP 0.35
+    #define TRANSITION_DH_INF 0.50
+#endif

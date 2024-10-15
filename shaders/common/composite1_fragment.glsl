@@ -32,11 +32,11 @@ varying vec2 texcoord;
 /* Utility functions */
 
 #if defined BLOOM || defined DOF
-  #include "/lib/dither.glsl"
+    #include "/lib/dither.glsl"
 #endif
 
 #ifdef DOF
-  #include "/lib/blur.glsl"
+    #include "/lib/blur.glsl"
 #endif
 
 // MAIN FUNCTION ------------------

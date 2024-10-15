@@ -1,10 +1,10 @@
 #if defined THE_END
     if(isEyeInWater == 0 && FOG_ADJUST < 15.0) {  // In the air
-    block_color.rgb = mix(block_color.rgb, ZENITH_DAY_COLOR, frog_adjust);
+        block_color.rgb = mix(block_color.rgb, ZENITH_DAY_COLOR, frog_adjust);
     }
 #elif defined NETHER
     if(isEyeInWater == 0 && FOG_ADJUST < 15.0) {  // In the air
-    block_color.rgb = mix(block_color.rgb, mix(fogColor * 0.1, vec3(1.0), 0.04), frog_adjust);
+        block_color.rgb = mix(block_color.rgb, mix(fogColor * 0.1, vec3(1.0), 0.04), frog_adjust);
     }
 #else
     #ifdef FOG_ACTIVE  // Fog active
