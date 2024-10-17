@@ -124,8 +124,8 @@ void main() {
     // Avoid render in DH transition
     #ifdef DISTANT_HORIZONS
         float t = far - dhNearPlane;
-        float sup = t * TRANSITION_SUP;
-        float inf = t * TRANSITION_INF;
+        float sup = t * TRANSITION_DH_SUP;
+        float inf = t * TRANSITION_DH_INF;
         float umbral = (gl_FogFragCoord - (dhNearPlane + inf)) / (far - sup - inf - dhNearPlane);
         if(umbral > dither) {
             discard;

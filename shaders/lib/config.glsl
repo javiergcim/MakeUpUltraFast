@@ -318,10 +318,6 @@ const float centerDepthHalflife = 0.66;
 
 // DH exclusive
 #if defined DISTANT_HORIZONS
-    #define TRANSITION_SUP 0.00
-    #define TRANSITION_INF 0.95
-    #define TRANSITION_WATER_SUP 0.00
-    #define TRANSITION_WATER_INF 0.65
-    #define TRANSITION_DH_SUP 0.35
-    #define TRANSITION_DH_INF 0.50
+    #define TRANSITION_DH_SUP 0.05
+    #define TRANSITION_DH_INF 0.90
 #endif

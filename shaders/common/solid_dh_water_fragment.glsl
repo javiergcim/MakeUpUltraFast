@@ -103,11 +103,13 @@ void main() {
         float dither = shifted_r_dither(gl_FragCoord.xy);
     #else
         float dither = r_dither(gl_FragCoord.xy);
+        // dither = 1.0;
     #endif
     // Avoid render in DH transition
     float t = far - dhNearPlane;
     float sup = t * TRANSITION_DH_SUP;
     float inf = t * TRANSITION_DH_INF;
+    // float view_dist = length(position.xyz);
     float view_dist = length(position.xyz);
     float umbral = (view_dist - (dhNearPlane + inf)) / (far - sup - inf - dhNearPlane);
 
@@ -148,44 +150,12 @@ void main() {
 
     sky_color_reflect = xyz_to_rgb(sky_color_reflect);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     #if !defined VANILLA_WATER && WATER_TEXTURE == 1
         vec4 block_color = vec4(0.1);
         // Synthetic water texture
         vec3 synth_pos = (position.xyz + cameraPosition) * 2.0;
         synth_pos = floor(synth_pos + 0.01);
-        float synth_noise = (hash13(synth_pos) * 0.1) + 0.0;
+        float synth_noise = (noise * noise * noise * noise * 0.227) + 0.773;
         block_color.rgb += vec3(synth_noise);
     #elif defined VANILLA_WATER
         // Synthetic water texture
@@ -197,18 +167,6 @@ void main() {
     #else
         vec4 block_color;
     #endif
-
-
-
-
-
-
-
-
-
-
-
-    
 
     if(block_type < DH_BLOCK_WATER + 0.5 && block_type > DH_BLOCK_WATER - 0.5) {  // Water
     #ifdef VANILLA_WATER

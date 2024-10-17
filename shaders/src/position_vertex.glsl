@@ -1,8 +1,7 @@
 #ifdef FOLIAGE_V  // General block shader (it has foliage)
     #if WAVING == 1
         vec4 sub_position = gl_ModelViewMatrix * gl_Vertex;
-        vec4 position =
-        gbufferModelViewInverse * sub_position;
+        vec4 position = gbufferModelViewInverse * sub_position;
 
         is_foliage = 0.0;
 
@@ -79,9 +78,12 @@
 #ifndef SHADER_BASIC
     vec4 homopos = gbufferProjectionInverse * vec4(gl_Position.xyz / gl_Position.w, 1.0);
     vec3 viewPos = homopos.xyz / homopos.w;
+
     #if defined GBUFFER_CLOUDS
         gl_FogFragCoord = length(viewPos.xz);
+        // gl_FogFragCoord = length(gl_Position.xy);
     #else
-        gl_FogFragCoord = length(viewPos.xyz);
+        // gl_FogFragCoord = length(viewPos.xyz);
+        gl_FogFragCoord = length((gbufferModelViewInverse * sub_position).xyz);
     #endif
 #endif

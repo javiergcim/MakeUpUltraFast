@@ -133,6 +133,7 @@ void main() {
             float dither = shifted_r_dither(gl_FragCoord.xy);
         #else
             float dither = r_dither(gl_FragCoord.xy);
+            // dither = 0.0;
         #endif
     #else
         float dither = 1.0;
@@ -264,8 +265,8 @@ void main() {
     // Avoid render in DH transition
     #ifdef DISTANT_HORIZONS
         float t = far - dhNearPlane;
-        float sup = t * TRANSITION_WATER_SUP;
-        float inf = t * TRANSITION_WATER_INF;
+        float sup = t * TRANSITION_DH_SUP;
+        float inf = t * TRANSITION_DH_INF;
         float draw_umbral = (gl_FogFragCoord - (dhNearPlane + inf)) / (far - sup - inf - dhNearPlane);
         if(draw_umbral > dither) {
             discard;
