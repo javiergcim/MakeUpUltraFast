@@ -126,6 +126,8 @@ varying vec3 low_sky_color;
 // MAIN FUNCTION ------------------
 
 void main() {
+    vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
+
     #if SHADOW_TYPE == 1 || defined DISTANT_HORIZONS || (defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER) || SSR_TYPE > 0
         #if AA_TYPE > 0
             float dither = shifted_r_dither(gl_FragCoord.xy);
@@ -136,36 +138,36 @@ void main() {
         float dither = 1.0;
     #endif
 
-        vec4 block_color = texture2D(tex, texcoord);
-        vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
-        vec3 real_light;
+    vec4 block_color = texture2D(tex, texcoord);
+    vec3 real_light;
 
     #ifdef VANILLA_WATER
         vec3 water_normal_base = vec3(0.0, 0.0, 1.0);
     #else
         vec3 water_normal_base = normal_waves(worldposition.xzy);
     #endif
-        vec3 surface_normal;
-        if(block_type > 2.5) {  // Water
-            surface_normal = get_normals(water_normal_base, fragposition);
-        } else {
-            surface_normal = get_normals(vec3(0.0, 0.0, 1.0), fragposition);
-        }
+    
+    vec3 surface_normal;
+    if(block_type > 2.5) {  // Water
+        surface_normal = get_normals(water_normal_base, fragposition);
+    } else {
+        surface_normal = get_normals(vec3(0.0, 0.0, 1.0), fragposition);
+    }
 
-        float normal_dot_eye = dot(surface_normal, normalize(fragposition));
-        float fresnel = square_pow(1.0 + normal_dot_eye);
+    float normal_dot_eye = dot(surface_normal, normalize(fragposition));
+    float fresnel = square_pow(1.0 + normal_dot_eye);
 
-        vec3 reflect_water_vec = reflect(fragposition, surface_normal);
-        vec3 norm_reflect_water_vec = normalize(reflect_water_vec);
+    vec3 reflect_water_vec = reflect(fragposition, surface_normal);
+    vec3 norm_reflect_water_vec = normalize(reflect_water_vec);
 
-        vec3 sky_color_reflect;
-        if(isEyeInWater == 0 || isEyeInWater == 2) {
-            sky_color_reflect = mix(low_sky_color, hi_sky_color, sqrt(clamp(dot(norm_reflect_water_vec, up_vec), 0.0001, 1.0)));
-        } else {
-            sky_color_reflect = hi_sky_color * .5 * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667);
-        }
+    vec3 sky_color_reflect;
+    if(isEyeInWater == 0 || isEyeInWater == 2) {
+        sky_color_reflect = mix(low_sky_color, hi_sky_color, sqrt(clamp(dot(norm_reflect_water_vec, up_vec), 0.0001, 1.0)));
+    } else {
+        sky_color_reflect = hi_sky_color * .5 * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667);
+    }
 
-        sky_color_reflect = xyz_to_rgb(sky_color_reflect);
+    sky_color_reflect = xyz_to_rgb(sky_color_reflect);
 
     #if defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER
         sky_color_reflect = get_cloud(normalize((gbufferModelViewInverse * vec4(reflect_water_vec * far, 1.0)).xyz), sky_color_reflect, 0.0, dither, worldposition.xyz, int(CLOUD_STEPS_AVG * 0.5), umbral, cloud_color, dark_cloud_color);
@@ -197,40 +199,39 @@ void main() {
             block_color.rgb = water_shader(fragposition, surface_normal, block_color.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visible_sky, dither, direct_light_color);
 
             block_color.a = sqrt(block_color.a);
-
         #else
-
-        #if WATER_TEXTURE == 1
-            float water_texture = luma(block_color.rgb);
-        #else
-            float water_texture = 1.0;
-        #endif
+            #if WATER_TEXTURE == 1
+                float water_texture = luma(block_color.rgb);
+            #else
+                float water_texture = 1.0;
+            #endif
 
             real_light = omni_light +
                 (direct_light_strength * direct_light_color) * (1.0 - rainStrength * 0.75) +
                 candle_color;
 
-        #if defined NETHER || defined THE_END
-            #if WATER_COLOR_SOURCE == 0
-                block_color.rgb = water_texture * real_light * WATER_COLOR;
-            #elif WATER_COLOR_SOURCE == 1
-                block_color.rgb = 0.3 * water_texture * real_light * tint_color.rgb;
+            #if defined NETHER || defined THE_END
+                #if WATER_COLOR_SOURCE == 0
+                    block_color.rgb = water_texture * real_light * WATER_COLOR;
+                #elif WATER_COLOR_SOURCE == 1
+                    block_color.rgb = 0.3 * water_texture * real_light * tint_color.rgb;
+                #endif
+            #else
+                #if WATER_COLOR_SOURCE == 0
+                    block_color.rgb = water_texture * real_light * visible_sky * WATER_COLOR;
+                #elif WATER_COLOR_SOURCE == 1
+                    block_color.rgb = 0.3 * water_texture * real_light * visible_sky * tint_color.rgb;
+                #endif
             #endif
-        #else
-            #if WATER_COLOR_SOURCE == 0
-                block_color.rgb = water_texture * real_light * visible_sky * WATER_COLOR;
-            #elif WATER_COLOR_SOURCE == 1
-                block_color.rgb = 0.3 * water_texture * real_light * visible_sky * tint_color.rgb;
-            #endif
-        #endif
 
             block_color = vec4(refraction(fragposition, block_color.rgb, water_normal_base), 1.0);
 
-        #if WATER_TEXTURE == 1
-            fresnel = clamp(fresnel * (water_texture * water_texture + 0.5), 0.0, 1.0);
-        #endif
+            #if WATER_TEXTURE == 1
+                fresnel = clamp(fresnel * (water_texture * water_texture + 0.5), 0.0, 1.0);
+            #endif
 
             block_color.rgb = water_shader(fragposition, surface_normal, block_color.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visible_sky, dither, direct_light_color);
+            
         #endif
 
     } else {  // Otros translúcidos

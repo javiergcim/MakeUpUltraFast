@@ -1,5 +1,5 @@
-/* MakeUp - water.glsl
-Water reflection and refraction related functions.
+/* MakeUp - water_dh.glsl
+Water reflection and refraction related functions (dh).
 */
 
 #if SUN_REFLECTION == 1

@@ -10,14 +10,13 @@ vec3 mipmap_bloom(sampler2D image, vec2 coords, float dither) {
 
     int sample_c = int(BLOOM_SAMPLES);
 
-    // float inv_steps = 1.0 / BLOOM_SAMPLES;
     vec2 blur_radios_factor = blur_radius_vec * (1.0 / BLOOM_SAMPLES);
     float n;
     vec2 offset;
     float dither_x;
 
     for(int i = 0; i < sample_c; i++) {
-        dither_x = (i + dither);
+        dither_x = i + dither;
         n = fract(dither_x * 1.6180339887) * 3.141592653589793;
         offset = vec2(cos(n), sin(n)) * dither_x * blur_radios_factor;
 

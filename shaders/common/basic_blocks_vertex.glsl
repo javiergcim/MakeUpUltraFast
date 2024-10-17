@@ -42,7 +42,6 @@ void main() {
     tint_color = gl_Color;
 
     basic_light = day_blend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR);
-
     basic_light = mix(basic_light, ZENITH_SKY_RAIN_COLOR * luma(basic_light), rainStrength);
 
     vec2 illumination = clamp(abs(lmcoord), 0.0, 1.0);  // Fix lines without correct illumination data

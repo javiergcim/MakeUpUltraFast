@@ -18,8 +18,10 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
         vec3 near_color2 = texture2D(colortex1, texcoord + vec2(0.0, -pixel_size_y)).rgb;
         vec3 near_color3 = texture2D(colortex1, texcoord + vec2(0.0, pixel_size_y)).rgb;
         
-        vec3 nmin = min(current_color, min(near_color0, min(near_color1, min(near_color2, near_color3))));
-        vec3 nmax = max(current_color, max(near_color0, max(near_color1, max(near_color2, near_color3))));
+        vec3 nmin =
+            min(current_color, min(near_color0, min(near_color1, min(near_color2, near_color3))));
+        vec3 nmax =
+            max(current_color, max(near_color0, max(near_color1, max(near_color2, near_color3))));
         
         // Edge detection
         vec3 edge_color = -near_color0;
@@ -65,8 +67,10 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past) {
         vec4 near_color2 = texture2D(colortex1, texcoord + vec2(0.0, -pixel_size_y));
         vec4 near_color3 = texture2D(colortex1, texcoord + vec2(0.0, pixel_size_y));
 
-        vec4 nmin = min(current_color, min(near_color0, min(near_color1, min(near_color2, near_color3))));
-        vec4 nmax = max(current_color, max(near_color0, max(near_color1, max(near_color2, near_color3))));    
+        vec4 nmin =
+            min(current_color, min(near_color0, min(near_color1, min(near_color2, near_color3))));
+        vec4 nmax =
+            max(current_color, max(near_color0, max(near_color1, max(near_color2, near_color3))));    
 
         // Clip
         vec3 center = (nmin.rgb + nmax.rgb) * 0.5;

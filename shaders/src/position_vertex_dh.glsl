@@ -22,7 +22,7 @@ gl_FogFragCoord = length(position.xyz);
     float fog_intensity_coeff = eye_bright_smooth.y * 0.004166666666666667;
     frog_adjust = pow(
         clamp(gl_FogFragCoord / dhRenderDistance, 0.0, 1.0) * fog_intensity_coeff,
-        mix(fog_density_coeff * 0.2, 0.5, rainStrength)
+        mix(fog_density_coeff * 0.15, 0.25, rainStrength)
     );
 #else
     frog_adjust = sqrt(clamp(gl_FogFragCoord / dhRenderDistance, 0.0, 1.0));

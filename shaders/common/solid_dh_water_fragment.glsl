@@ -96,6 +96,9 @@ varying float frog_adjust;
 #include "/lib/luma.glsl"
 
 void main() {
+    vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
+    vec3 real_light;
+
     #if AA_TYPE > 0 
         float dither = shifted_r_dither(gl_FragCoord.xy);
     #else
@@ -115,21 +118,6 @@ void main() {
         discard;
         return;
     }
-
-    #if defined VANILLA_WATER || WATER_TEXTURE == 1
-        vec4 block_color = vec4(0.1);
-        // Synthetic water texture
-        vec3 synth_pos = (position.xyz + cameraPosition) * 2.0;
-        synth_pos = floor(synth_pos + 0.01);
-        float synth_noise = (hash13(synth_pos) * 0.2) + 0.4;
-        block_color.rgb += vec3(synth_noise);
-    #else
-        vec4 block_color;
-    #endif
-
-        vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
-
-        vec3 real_light;
 
     #ifdef VANILLA_WATER
         vec3 water_normal_base = vec3(0.0, 0.0, 1.0);
@@ -159,6 +147,68 @@ void main() {
     }
 
     sky_color_reflect = xyz_to_rgb(sky_color_reflect);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #if !defined VANILLA_WATER && WATER_TEXTURE == 1
+        vec4 block_color = vec4(0.1);
+        // Synthetic water texture
+        vec3 synth_pos = (position.xyz + cameraPosition) * 2.0;
+        synth_pos = floor(synth_pos + 0.01);
+        float synth_noise = (hash13(synth_pos) * 0.1) + 0.0;
+        block_color.rgb += vec3(synth_noise);
+    #elif defined VANILLA_WATER
+        // Synthetic water texture
+        vec3 synth_pos = (position.xyz + cameraPosition) * 8.0;
+        synth_pos = floor(synth_pos + 0.01);
+        float noise = hash13(synth_pos);
+        float synth_noise = (noise * noise * noise * noise * 0.227) + 0.773;
+        vec4 block_color = vec4(vec3(synth_noise), tint_color.a);
+    #else
+        vec4 block_color;
+    #endif
+
+
+
+
+
+
+
+
+
+
+
+    
 
     if(block_type < DH_BLOCK_WATER + 0.5 && block_type > DH_BLOCK_WATER - 0.5) {  // Water
     #ifdef VANILLA_WATER
@@ -190,15 +240,15 @@ void main() {
 
         #if defined NETHER || defined THE_END
             #if WATER_COLOR_SOURCE == 0
-            block_color.rgb = water_texture * real_light * WATER_COLOR;
+                block_color.rgb = water_texture * real_light * WATER_COLOR;
             #elif WATER_COLOR_SOURCE == 1
-            block_color.rgb = 0.3 * water_texture * real_light * tint_color.rgb;
+                block_color.rgb = 0.3 * water_texture * real_light * tint_color.rgb;
             #endif
         #else
             #if WATER_COLOR_SOURCE == 0
-            block_color.rgb = water_texture * real_light * visible_sky * WATER_COLOR;
+                block_color.rgb = water_texture * real_light * visible_sky * WATER_COLOR;
             #elif WATER_COLOR_SOURCE == 1
-            block_color.rgb = 0.3 * water_texture * real_light * visible_sky * tint_color.rgb;
+                block_color.rgb = 0.3 * water_texture * real_light * visible_sky * tint_color.rgb;
             #endif
         #endif
 
@@ -208,7 +258,7 @@ void main() {
             fresnel = clamp(fresnel * (water_texture * water_texture + 0.5), 0.0, 1.0);
         #endif
 
-    block_color.rgb = water_shader_dh(fragposition, surface_normal, block_color.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visible_sky, dither, direct_light_color);
+        block_color.rgb = water_shader_dh(fragposition, surface_normal, block_color.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visible_sky, dither, direct_light_color);
 
     #endif
 
