@@ -158,8 +158,8 @@ Javier Garduño - GNU Lesser General Public License v3.0
     #define CLOUD_PLANE 319.0
 #endif
 
-#define CLOUD_STEPS_AVG 7 // [7 8 9 10 11 12 13 14 15 16] Samples per pixel (high performance impact).
-#define CLOUD_SPEED 0 // [0 1 2] Change the speed of clouds for display purposes.
+#define CLOUD_STEPS_AVG 10 // [7 8 9 10 11 12 13 14 15 16] Samples per pixel (high performance impact).
+#define CLOUD_SPEED 0 // [0 1 2] Change the speed of clouds for demo purposes.
 
 #if CLOUD_VOL_STYLE == 1
     #if CLOUD_SPEED == 0

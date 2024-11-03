@@ -119,7 +119,7 @@ void main() {
             float dither = shifted_dither13(gl_FragCoord.xy);
             // float dither = shifted_eclectic_dither13(gl_FragCoord.xy);
         #else
-            float dither = dither13(gl_FragCoord.xy);
+            float dither = r_dither(gl_FragCoord.xy);
         #endif
     #endif
     // Avoid render in DH transition
