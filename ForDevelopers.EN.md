@@ -62,10 +62,10 @@ Buffers are used and assigned in the following way:
     - noisetex: Stores the water normals in two channels, with the third component being calculated at runtime. (RG8)
     - colortex0: Bluenoise (not loaded). (R8)
     - colortex1: Main buffer. When DOF is active, it is four channels, with the fourth channel storing the scene depth for antialiasing and to avoid sudden focus changes due to camera shake. (Without DOF: R11F_G11F_B10F, with DOF: RGBA16)
-    - colortex2: Stores the "blocky" cloud map. (R8)
+    - colortex2: Unused. (R8)
     - colortex3: Stores the history used for temporal sampling. When DOF is active, it is four channels, with the fourth channel storing the scene depth for antialiasing and to avoid sudden focus changes due to camera shake. (Without DOF: R11F_G11F_B10F, with DOF: RGBA16)
     - gaux1: Stores a version of the scene that will be used for screen-space reflections and refractions. After it is used for that, it is used as an auxiliary to store the scene's bloom. (R11F_G11F_B10F)
-    - gaux2: Stores the cloud map in "natural" format. (R8)
+    - gaux2: Stores the cloud map. (R8)
     - gaux3: Stores the historical value of the scene's auto-exposure. The auto-exposure value is obtained by doing a weighted average with the value of this channel and the calculated one in the current scene to create a gradual transition of auto-exposure over time. Yes, it is excessive to use an entire buffer to store a single floating-point value, but it is what it is. It is only used if the default auto-exposure method is used. (R16F)
     - gaux4: Stores the color of the sky (without clouds or other objects) to give the color that should be used in the fog (yes, the fog is always the color of the "sky"). This way, objects are blurred and blended with the sky in the distance.
 
