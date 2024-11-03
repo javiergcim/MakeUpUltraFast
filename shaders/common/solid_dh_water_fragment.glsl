@@ -109,7 +109,6 @@ void main() {
     float t = far - dhNearPlane;
     float sup = t * TRANSITION_DH_SUP;
     float inf = t * TRANSITION_DH_INF;
-    // float view_dist = length(position.xyz);
     float view_dist = length(position.xyz);
     float umbral = (view_dist - (dhNearPlane + inf)) / (far - sup - inf - dhNearPlane);
 
@@ -153,16 +152,22 @@ void main() {
     #if !defined VANILLA_WATER && WATER_TEXTURE == 1
         vec4 block_color = vec4(0.1);
         // Synthetic water texture
-        vec3 synth_pos = (position.xyz + cameraPosition) * 2.0;
+        vec3 synth_pos = (position.xyz + cameraPosition) * 8.0;
         synth_pos = floor(synth_pos + 0.01);
-        float synth_noise = (noise * noise * noise * noise * 0.227) + 0.773;
+        float noise = hash13(synth_pos);
+        noise *= noise;
+        noise *= noise;
+        noise *= noise;
+        float synth_noise = (noise * 0.3) + 0.5;
         block_color.rgb += vec3(synth_noise);
     #elif defined VANILLA_WATER
         // Synthetic water texture
         vec3 synth_pos = (position.xyz + cameraPosition) * 8.0;
         synth_pos = floor(synth_pos + 0.01);
         float noise = hash13(synth_pos);
-        float synth_noise = (noise * noise * noise * noise * 0.227) + 0.773;
+        noise *= noise;
+        noise *= noise;
+        float synth_noise = (noise * 0.227) + 0.773;
         vec4 block_color = vec4(vec3(synth_noise), tint_color.a);
     #else
         vec4 block_color;

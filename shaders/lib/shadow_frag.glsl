@@ -11,18 +11,26 @@ float get_shadow(vec3 the_shadow_pos, float dither) {
         shadow_sample = shadow2D(shadowtex1, the_shadow_pos).r;
     #elif SHADOW_TYPE == 1  // Soft
         float current_radius = dither;
+        // float current_radius = 0.5;
         dither *= 6.283185307179586;
+        float dither_2 = dither + 1.5707963267948966;
 
         shadow_sample = 0.0;
 
         vec2 offset = (vec2(cos(dither), sin(dither)) * current_radius * SHADOW_BLUR) / shadowMapResolution;
+
+        vec2 offset_2 = (vec2(cos(dither_2), sin(dither_2)) * (1.0 - current_radius) * SHADOW_BLUR) / shadowMapResolution;
 
         float z_bias = dither * 0.00002;
 
         shadow_sample += shadow2D(shadowtex1, vec3(the_shadow_pos.xy + offset, the_shadow_pos.z - z_bias)).r;
         shadow_sample += shadow2D(shadowtex1, vec3(the_shadow_pos.xy - offset, the_shadow_pos.z - z_bias)).r;
 
-        shadow_sample *= 0.5;
+        shadow_sample += shadow2D(shadowtex1, vec3(the_shadow_pos.xy + offset_2, the_shadow_pos.z - z_bias)).r;
+        shadow_sample += shadow2D(shadowtex1, vec3(the_shadow_pos.xy - offset_2, the_shadow_pos.z - z_bias)).r;
+
+        // shadow_sample *= 0.5;
+        shadow_sample *= 0.25;
     #endif
 
     return shadow_sample;

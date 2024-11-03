@@ -57,75 +57,75 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
         intersection_pos += (increment * dither);
 
         for (int i = 0; i < samples; i++) {
-        #if CLOUD_VOL_STYLE == 0
-            current_value =
-                texture2D(
-                    gaux2,
-                    (intersection_pos.xz * 0.0002777777777777778) + (frameTimeCounter * CLOUD_HI_FACTOR)
-                ).r;
+            #if CLOUD_VOL_STYLE == 0
+                current_value =
+                    texture2D(
+                        gaux2,
+                        (intersection_pos.xz * 0.0002777777777777778) + (frameTimeCounter * CLOUD_HI_FACTOR)
+                    ).r;
 
-        #else
-            current_value =
-                texture2D(
-                    colortex2,
-                    (intersection_pos.xz * 0.0002777777777777778) + (frameTimeCounter * CLOUD_HI_FACTOR)
-                ).g;
-        #endif
+            #else
+                current_value =
+                    texture2D(
+                        colortex2,
+                        (intersection_pos.xz * 0.0002777777777777778) + (frameTimeCounter * CLOUD_HI_FACTOR)
+                    ).r;
+            #endif
 
-        #if V_CLOUDS == 2 && CLOUD_VOL_STYLE == 0
-            current_value +=
-                texture2D(
-                    gaux2,
-                    (intersection_pos.zx * 0.0002777777777777778) + (frameTimeCounter * CLOUD_LOW_FACTOR)
-                ).r;
+            #if V_CLOUDS == 2 && CLOUD_VOL_STYLE == 0
+                current_value +=
+                    texture2D(
+                        gaux2,
+                        (intersection_pos.zx * 0.0002777777777777778) + (frameTimeCounter * CLOUD_LOW_FACTOR)
+                    ).r;
 
-            current_value *= 0.5;
-            current_value = smoothstep(0.05, 0.95, current_value);
+                current_value *= 0.5;
+                current_value = smoothstep(0.05, 0.95, current_value);
 
-        #endif
+            #endif
 
-        // Ajuste por umbral
-        current_value = (current_value - umbral) / (1.0 - umbral);
+            // Ajuste por umbral
+            current_value = (current_value - umbral) / (1.0 - umbral);
 
-        // Superficies inferior y superior de nubes
-        surface_inf = CLOUD_PLANE_CENTER - (current_value * dif_inf);
-        surface_sup = CLOUD_PLANE_CENTER + (current_value * dif_sup);
+            // Superficies inferior y superior de nubes
+            surface_inf = CLOUD_PLANE_CENTER - (current_value * dif_inf);
+            surface_sup = CLOUD_PLANE_CENTER + (current_value * dif_sup);
 
-        if (  // Dentro de la nube
-            intersection_pos.y > surface_inf &&
-            intersection_pos.y < surface_sup
-            ) {
-                cloud_value += min(increment_dist, surface_sup - surface_inf);
+            if (  // Dentro de la nube
+                intersection_pos.y > surface_inf &&
+                intersection_pos.y < surface_sup
+                ) {
+                    cloud_value += min(increment_dist, surface_sup - surface_inf);
 
-                if (first_contact) {
-                    first_contact = false;
-                    density =
-                    (surface_sup - intersection_pos.y) /
-                    (CLOUD_PLANE_SUP - CLOUD_PLANE);
-                }
-        }
-        else if (surface_inf < surface_sup && i > 0) {  // Fuera de la nube
-            distance_aux = min(
-                abs(intersection_pos.y - surface_inf),
-                abs(intersection_pos.y - surface_sup)
-            );
-
-            if (distance_aux < dist_aux_coeff_blur) {
-                cloud_value += min(
-                    (clamp(dist_aux_coeff_blur - distance_aux, 0.0, dist_aux_coeff_blur) / dist_aux_coeff_blur) * increment_dist,
-                    surface_sup - surface_inf
+                    if (first_contact) {
+                        first_contact = false;
+                        density =
+                        (surface_sup - intersection_pos.y) /
+                        (CLOUD_PLANE_SUP - CLOUD_PLANE);
+                    }
+            }
+            else if (surface_inf < surface_sup && i > 0) {  // Fuera de la nube
+                distance_aux = min(
+                    abs(intersection_pos.y - surface_inf),
+                    abs(intersection_pos.y - surface_sup)
                 );
 
-                if (first_contact) {
-                    first_contact = false;
-                    density =
-                    (surface_sup - intersection_pos.y) /
-                    (CLOUD_PLANE_SUP - CLOUD_PLANE);
+                if (distance_aux < dist_aux_coeff_blur) {
+                    cloud_value += min(
+                        (clamp(dist_aux_coeff_blur - distance_aux, 0.0, dist_aux_coeff_blur) / dist_aux_coeff_blur) * increment_dist,
+                        surface_sup - surface_inf
+                    );
+
+                    if (first_contact) {
+                        first_contact = false;
+                        density =
+                        (surface_sup - intersection_pos.y) /
+                        (CLOUD_PLANE_SUP - CLOUD_PLANE);
+                    }
                 }
             }
-        }
 
-        intersection_pos += increment;
+            intersection_pos += increment;
         }
 
         cloud_value = clamp(cloud_value / opacity_dist, 0.0, 1.0);
