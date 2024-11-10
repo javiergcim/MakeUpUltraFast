@@ -111,7 +111,7 @@ float omni_strength = (direct_light_strength * .125) + 1.0;
     );
 
     // Minimal light
-    vec3 omni_color = mix(hi_sky_color_rgb, direct_light_color * 0.75, OMNI_TINT);
+    vec3 omni_color = mix(hi_sky_color_rgb, direct_light_color * 0.45, OMNI_TINT);
     float omni_color_luma = color_average(omni_color);
     float luma_ratio = AVOID_DARK_LEVEL / omni_color_luma;
     vec3 omni_color_min = omni_color * luma_ratio;

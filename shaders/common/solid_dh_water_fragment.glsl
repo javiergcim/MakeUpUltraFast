@@ -196,21 +196,13 @@ void main() {
         #endif
 
             real_light = omni_light +
-                (direct_light_strength * direct_light_color) * (1.0 - rainStrength * 0.75) +
+                (direct_light_strength * visible_sky * direct_light_color) * (1.0 - rainStrength * 0.75) +
                 candle_color;
 
-        #if defined NETHER || defined THE_END
-            #if WATER_COLOR_SOURCE == 0
+        #if WATER_COLOR_SOURCE == 0
                 block_color.rgb = water_texture * real_light * WATER_COLOR;
-            #elif WATER_COLOR_SOURCE == 1
-                block_color.rgb = 0.3 * water_texture * real_light * tint_color.rgb;
-            #endif
-        #else
-            #if WATER_COLOR_SOURCE == 0
-                block_color.rgb = water_texture * real_light * visible_sky * WATER_COLOR;
-            #elif WATER_COLOR_SOURCE == 1
-                block_color.rgb = 0.3 * water_texture * real_light * visible_sky * tint_color.rgb;
-            #endif
+        #elif WATER_COLOR_SOURCE == 1
+            block_color.rgb = 0.3 * water_texture * real_light * tint_color.rgb;
         #endif
 
             block_color = vec4(refraction(fragposition, block_color.rgb, water_normal_base), 1.0);

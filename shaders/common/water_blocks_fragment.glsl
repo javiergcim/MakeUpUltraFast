@@ -137,7 +137,8 @@ void main() {
         float dither = 1.0;
     #endif
 
-    vec4 block_color = texture2D(tex, texcoord);
+    // vec4 block_color = texture2D(tex, texcoord);
+    vec4 block_color;
     vec3 real_light;
 
     #ifdef VANILLA_WATER
@@ -173,6 +174,7 @@ void main() {
     #endif
     if(block_type > 2.5) {  // Water
         #ifdef VANILLA_WATER
+            block_color = texture2D(tex, texcoord);
             #if defined SHADOW_CASTING && !defined NETHER
                 #if defined COLORED_SHADOW
                     vec3 shadow_c = get_colored_shadow(shadow_pos, dither);
@@ -200,33 +202,29 @@ void main() {
             block_color.a = sqrt(block_color.a);
         #else
             #if WATER_TEXTURE == 1
+                block_color = texture2D(tex, texcoord);
                 float water_texture = luma(block_color.rgb);
             #else
                 float water_texture = 1.0;
             #endif
 
             real_light = omni_light +
-                (direct_light_strength * direct_light_color) * (1.0 - rainStrength * 0.75) +
+                (direct_light_strength * visible_sky * direct_light_color) * (1.0 - rainStrength * 0.75) +
                 candle_color;
 
-            #if defined NETHER || defined THE_END
-                #if WATER_COLOR_SOURCE == 0
-                    block_color.rgb = water_texture * real_light * WATER_COLOR;
-                #elif WATER_COLOR_SOURCE == 1
-                    block_color.rgb = 0.3 * water_texture * real_light * tint_color.rgb;
-                #endif
-            #else
-                #if WATER_COLOR_SOURCE == 0
-                    block_color.rgb = water_texture * real_light * visible_sky * WATER_COLOR;
-                #elif WATER_COLOR_SOURCE == 1
-                    block_color.rgb = 0.3 * water_texture * real_light * visible_sky * tint_color.rgb;
-                #endif
+            #if WATER_COLOR_SOURCE == 0
+                block_color.rgb = water_texture * real_light * WATER_COLOR;
+            #elif WATER_COLOR_SOURCE == 1
+                block_color.rgb = 0.3 * water_texture * real_light * tint_color.rgb;
             #endif
 
             block_color = vec4(refraction(fragposition, block_color.rgb, water_normal_base), 1.0);
 
             #if WATER_TEXTURE == 1
-                fresnel = clamp(fresnel * (water_texture * water_texture + 0.5), 0.0, 1.0);
+                water_texture += 0.25;
+                water_texture *= water_texture;
+                water_texture *= water_texture;
+                fresnel = clamp(fresnel * (water_texture), 0.0, 1.0);
             #endif
 
             block_color.rgb = water_shader(fragposition, surface_normal, block_color.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visible_sky, dither, direct_light_color);
@@ -234,6 +232,7 @@ void main() {
         #endif
 
     } else {  // Otros translúcidos
+        block_color = texture2D(tex, texcoord);
 
         block_color *= tint_color;
 
