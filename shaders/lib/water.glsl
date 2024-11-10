@@ -10,6 +10,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
     float depth_diff = 1.0;
     vec3 march_pos = camera_to_screen(hit_coord);
     float prev_screen_depth = march_pos.z;
+    float hit_z = texture2D(depthtex1, march_pos.xy).x;
     bool search_flag = false;
     bool hidden_flag = false;
     bool first_hidden = true;
@@ -80,7 +81,7 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
         if (screen_depth > 0.9999) {
             infinite = 1.0;
             return march_pos;
-        } else if (no_hidden_steps < 3) {
+        } else if (no_hidden_steps < 3 || screen_depth > hit_z) {
             return march_pos;
         } else {
             infinite = 1.0;
