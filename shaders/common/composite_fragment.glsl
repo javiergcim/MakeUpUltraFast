@@ -103,12 +103,12 @@ void main() {
     vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
 
     // Depth to distance
-    float screen_distance = 2.0 * near * far / (far + near - (2.0 * d - 1.0) * (far - near));
+    float screen_distance = linear_d * far;
 
     // Underwater fog
     if(isEyeInWater == 1) {
-        float water_absorption = (1.0 / -((screen_distance * WATER_ABSORPTION) + 1.0)) + 1.0;
-
+        float water_absorption = -pow((-linear_d + 1.0), (2.0 + (WATER_ABSORPTION * 4.0))) + 1.0;
+        
         block_color.rgb =
             mix(block_color.rgb, WATER_COLOR * direct_light_color * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667), water_absorption);
 
