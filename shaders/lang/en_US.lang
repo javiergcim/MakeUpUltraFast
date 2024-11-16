@@ -129,6 +129,7 @@ value.COLOR_SCHEME.3=Legacy
 value.COLOR_SCHEME.4=Captain
 value.COLOR_SCHEME.5=Psychedelic
 value.COLOR_SCHEME.6=Cocoa
+value.COLOR_SCHEME.7=Testigo
 value.COLOR_SCHEME.99=Custom
 
 option.LIGHT_SUNSET_COLOR_R=Sunset light R

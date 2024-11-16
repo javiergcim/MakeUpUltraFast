@@ -81,9 +81,7 @@
 
     #if defined GBUFFER_CLOUDS
         gl_FogFragCoord = length(viewPos.xz);
-        // gl_FogFragCoord = length(gl_Position.xy);
     #else
-        // gl_FogFragCoord = length(viewPos.xyz);
-        gl_FogFragCoord = length((gbufferModelViewInverse * sub_position).xyz);
+        gl_FogFragCoord = length(viewPos.xyz);
     #endif
 #endif

@@ -129,6 +129,7 @@ value.COLOR_SCHEME.3=Legacy (遗产)
 value.COLOR_SCHEME.4=Captain
 value.COLOR_SCHEME.5=Psychedelic (迷幻)
 value.COLOR_SCHEME.6=Cocoa (可可)
+value.COLOR_SCHEME.7=Testigo
 value.COLOR_SCHEME.99=自定义
 
 option.LIGHT_SUNSET_COLOR_R=光照 - 日落 - 红
