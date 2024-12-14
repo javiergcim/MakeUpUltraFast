@@ -142,9 +142,9 @@ void main() {
             block_color = vec3(0.5);
         }
 
-        gl_FragColor = vec4(block_color, 1.0);
+        gl_FragData[0] = vec4(block_color, 1.0);
 
     #else
-        gl_FragColor = vec4(block_color, 1.0);
+        gl_FragData[0] = vec4(block_color, 1.0);
     #endif
 }

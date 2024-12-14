@@ -71,7 +71,8 @@ void main() {
                 (vec4(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z, 1.0) * 2.0 - 1.0);
             vec3 nfragpos = normalize(fragpos.xyz);
             float n_u = clamp(dot(nfragpos, up_vec) + dither, 0.0, 1.0);
-            vec4 background_color = vec4(mix(low_sky_color, hi_sky_color, sqrt(n_u)), 1.0);
+            vec4 background_color = vec4(mix(low_sky_color, hi_sky_color, smoothstep(0.0, 1.0, pow(n_u, 0.333))), 1.0);
+            background_color.rgb = xyz_to_rgb(background_color.rgb);
         #else
 
             // Toma el color puro del bloque
