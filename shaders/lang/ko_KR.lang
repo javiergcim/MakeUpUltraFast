@@ -1,0 +1,291 @@
+#프로필
+############################
+profile.no_effects=효과 없음
+profile.shadowless_low=그림자 없음 낮음
+profile.shadowless_medium=그림자 없음 중간
+profile.shadowless_high=그림자 없음 높음
+profile.low=낮음
+profile.medium=중간
+profile.high=높음
+profile.extreme=극한
+profile.extremeplus=극한+
+
+profile.comment="그림자 없음" 프로필은 저성능 기계를 위해 설계되었으며, 그림자를 무시합니다. 전통적인 프로필은 천천히 더 높은 품질의 그림자와 더 고급스러운 무거운 효과를 추가합니다. 사용 가능한 옵션을 실험해보고 가장 적합한 조합을 찾으십시오.
+
+#정보
+#############################
+option.ACERCADE=MakeUp
+option.ACERCADE.comment=이 셰이더를 사용해주셔서 감사합니다! :) 더 나은 품질을 위해 Optifine 기본 품질 컨트롤을 보통 또는 기본 값으로 설정하세요.
+value.ACERCADE.0=v.9.1c
+
+#옵션
+#############################
+option.SHADOW_CASTING=그림자 생성
+
+option.SHADOW_DISTANCE_SLIDER=그림자 거리
+value.SHADOW_DISTANCE_SLIDER.0=짧음
+value.SHADOW_DISTANCE_SLIDER.1=중간
+value.SHADOW_DISTANCE_SLIDER.2=김
+
+option.SHADOW_QTY_SLIDER=그림자 품질
+value.SHADOW_QTY_SLIDER.0=없음
+value.SHADOW_QTY_SLIDER.1=낮음
+value.SHADOW_QTY_SLIDER.2=중간
+value.SHADOW_QTY_SLIDER.3=높음
+
+option.REFLECTION_SLIDER=반사
+value.REFLECTION_SLIDER.0=끔
+value.REFLECTION_SLIDER.1=반전 이미지
+value.REFLECTION_SLIDER.2=Raymarching
+
+option.SHADOW_TYPE=그림자 유형
+value.SHADOW_TYPE.0=단순
+value.SHADOW_TYPE.1=필터 적용
+
+option.SHADOW_BLUR=그림자 블러 강도
+
+option.COLORED_SHADOW=컬러 그림자
+
+option.VOL_LIGHT=빛 기둥
+value.VOL_LIGHT.0=비활성화
+value.VOL_LIGHT.1=깊이 기반
+value.VOL_LIGHT.2=부피 효과
+
+option.DOF=깊이 감지
+
+option.DOF_STRENGTH=깊이 감지 강도
+
+option.DOF_SAMPLES_FACTOR=깊이 감지 샘플 수
+
+option.AO=환경 폐색
+value.AO.0=끔
+value.AO.1=켬
+
+option.AOSTEPS=환경 폐색 샘플 쌍
+
+option.AO_STRENGTH=환경 폐색 강도
+
+option.AA_TYPE=시간적 샘플링
+value.AA_TYPE.0=끔
+value.AA_TYPE.1=노이즈 제거
+value.AA_TYPE.2=TAA
+value.AA_TYPE.3=날카로운 TAA
+
+option.MOTION_BLUR=모션 블러
+option.MOTION_BLUR_STRENGTH=모션 블러 강도
+option.MOTION_BLUR_SAMPLES=모션 블러 샘플 수
+
+option.VANILLA_WATER=바닐라 같은 물
+
+option.WATER_TEXTURE=물 텍스처
+value.WATER_TEXTURE.0=아니요
+value.WATER_TEXTURE.1=예
+
+option.WATER_COLOR_SOURCE=물 색상
+value.WATER_COLOR_SOURCE.0=셰이더 방식
+value.WATER_COLOR_SOURCE.1=리소스 팩
+
+option.REFLECTION=반사
+value.REFLECTION.0=끔
+value.REFLECTION.1=켬
+
+option.REFRACTION=굴절
+value.REFRACTION.0=끔
+value.REFRACTION.1=켬
+
+option.SSR_TYPE=반사 유형
+value.SSR_TYPE.0=반전 이미지
+value.SSR_TYPE.1=Raymarching
+
+option.SUN_REFLECTION=태양 반사
+value.SUN_REFLECTION.0=끔
+value.SUN_REFLECTION.1=켬
+
+option.CLOUD_REFLECTION=부피 구름 반사
+
+option.WAVING=흔들리는 식물
+value.WAVING.0=아니요
+value.WAVING.1=예
+
+option.CHROMA_ABER=색수차
+value.CHROMA_ABER.0=아니요
+value.CHROMA_ABER.1=예
+
+option.CHROMA_ABER_STRENGTH=색수차 강도
+
+option.WATER_ABSORPTION=물 흡수 지수
+
+option.WATER_TURBULENCE=파도 강도
+value.WATER_TURBULENCE.7.0=매우 낮음
+value.WATER_TURBULENCE.1.75=낮음
+value.WATER_TURBULENCE.0.9=중간
+value.WATER_TURBULENCE.0.5=높음
+
+option.COLOR_SCHEME=색상 체계
+value.COLOR_SCHEME.0=에테르
+value.COLOR_SCHEME.1=새로운 쇼카
+value.COLOR_SCHEME.2=쇼카
+value.COLOR_SCHEME.3=레거시
+value.COLOR_SCHEME.4=캡틴
+value.COLOR_SCHEME.5=환각적
+value.COLOR_SCHEME.6=코코아
+value.COLOR_SCHEME.99=사용자 지정
+
+option.LIGHT_SUNSET_COLOR_R=일몰 빛 R
+option.LIGHT_SUNSET_COLOR_G=일몰 빛 G
+option.LIGHT_SUNSET_COLOR_B=일몰 빛 B
+
+option.LIGHT_DAY_COLOR_R=낮 빛 R
+option.LIGHT_DAY_COLOR_G=낮 빛 G
+option.LIGHT_DAY_COLOR_B=낮 빛 B
+
+option.LIGHT_NIGHT_COLOR_R=밤 빛 R
+option.LIGHT_NIGHT_COLOR_G=밤 빛 G
+option.LIGHT_NIGHT_COLOR_B=밤 빛 B
+
+option.ZENITH_SUNSET_COLOR_R=정점 일몰 R
+option.ZENITH_SUNSET_COLOR_G=정점 일몰 G
+option.ZENITH_SUNSET_COLOR_B=정점 일몰 B
+
+option.ZENITH_DAY_COLOR_R=정점 낮 R
+option.ZENITH_DAY_COLOR_G=정점 낮 G
+option.ZENITH_DAY_COLOR_B=정점 낮 B
+
+option.ZENITH_NIGHT_COLOR_R=정점 밤 R
+option.ZENITH_NIGHT_COLOR_G=정점 밤 G
+option.ZENITH_NIGHT_COLOR_B=정점 밤 B
+
+option.HORIZON_SUNSET_COLOR_R=지평선 일몰 R
+option.HORIZON_SUNSET_COLOR_G=지평선 일몰 G
+option.HORIZON_SUNSET_COLOR_B=지평선 일몰 B
+
+option.HORIZON_DAY_COLOR_R=지평선 낮 R
+option.HORIZON_DAY_COLOR_G=지평선 낮 G
+option.HORIZON_DAY_COLOR_B=지평선 낮 B
+
+option.HORIZON_NIGHT_COLOR_R=지평선 밤 R
+option.HORIZON_NIGHT_COLOR_G=지평선 밤 G
+option.HORIZON_NIGHT_COLOR_B=지평선 밤 B
+
+option.WATER_COLOR_R=물 R
+option.WATER_COLOR_G=물 G
+option.WATER_COLOR_B=물 B
+
+option.NV_COLOR_R=야간 투시 R 배수
+option.NV_COLOR_G=야간 투시 G 배수
+option.NV_COLOR_B=야간 투시 B 배수
+
+option.OMNI_TINT_CUSTOM=Omni 색조
+
+option.AVOID_DARK_LEVEL=동굴 밝기
+
+option.NIGHT_BRIGHT=밤 밝기
+
+option.V_CLOUDS=구름
+value.V_CLOUDS.0=바닐라
+value.V_CLOUDS.1=부피 정적
+value.V_CLOUDS.2=부피 동적
+
+option.CLOUD_VOL_STYLE=부피 구름 스타일
+value.CLOUD_VOL_STYLE.0=자연스러운
+value.CLOUD_VOL_STYLE.1=박스형
+
+option.CLOUD_SPEED=구름 속도
+value.CLOUD_SPEED.0=보통
+value.CLOUD_SPEED.1=타임랩스 1
+value.CLOUD_SPEED.2=타임랩스 2
+
+option.END_CLOUDS=엔드의 구름
+
+option.CLOUD_STEPS_AVG=구름 샘플 수
+
+option.BLOOM=블룸
+
+option.COLOR_BLINDNESS=색맹
+
+option.COLOR_BLIND_MODE=색맹 유형
+value.COLOR_BLIND_MODE.0=적색맥
+value.COLOR_BLIND_MODE.1=녹색맹
+value.COLOR_BLIND_MODE.2=청색맹
+
+option.DEBUG_MODE=디버그 모드
+
+option.BLOOM_SAMPLES=블룸 샘플 쌍
+
+option.BLACK_ENTITY_FIX=검은 개체 버그 수정
+value.BLACK_ENTITY_FIX.0=끔
+value.BLACK_ENTITY_FIX.1=켬
+
+option.FOG_ACTIVE=안개 활성화
+
+option.FOG_ADJUST=안개 강도
+value.FOG_ADJUST.20.0=안개 없음
+value.FOG_ADJUST.10.0=극저
+value.FOG_ADJUST.8.0=매우 낮음
+value.FOG_ADJUST.4.0=낮음
+value.FOG_ADJUST.2.0=중간
+value.FOG_ADJUST.1.0=높음
+
+option.NETHER_FOG_DISTANCE=네더 안개 거리
+value.NETHER_FOG_DISTANCE.0=렌더 거리
+value.NETHER_FOG_DISTANCE.1=바닐라
+
+option.BLOCKLIGHT_TEMP=블록 조명 온도
+value.BLOCKLIGHT_TEMP.0=더 따뜻함
+value.BLOCKLIGHT_TEMP.1=따뜻함
+value.BLOCKLIGHT_TEMP.2=노란색
+value.BLOCKLIGHT_TEMP.3=옅은 노란색
+value.BLOCKLIGHT_TEMP.4=흰색 빛
+
+option.sunPathRotation=태양 각도
+
+option.USE_BASIC_SH=커스텀 차원 기본 셰이더 사용
+
+option.MATERIAL_GLOSS=재료 광택
+
+option.DYN_HAND_LIGHT=가짜 동적 빛
+
+#화면
+screen.ADVANCED_SCREEN=고급 옵션
+screen.ADVANCED_SCREEN.comment=고급 옵션 설정
+
+screen.COMPATIBILITY_SCREEN=호환성
+screen.COMPATIBILITY_SCREEN.comment=호환성 옵션 설정
+
+screen.SHADOWS_SCREEN=그림자
+screen.SHADOWS_SCREEN.comment=그림자 옵션 설정
+
+screen.DOF_SCREEN=깊이 감지
+screen.DOF_SCREEN.comment=깊이 감지 옵션 설정
+
+screen.AO_SCREEN=환경 폐색
+screen.AO_SCREEN.comment=환경 폐색 옵션 설정
+
+screen.WATER_SCREEN=물
+screen.WATER_SCREEN.comment=물 옵션 설정
+
+screen.POST_SCREEN=후처리 효과
+screen.POST_SCREEN.comment=후처리 효과 옵션 설정
+
+screen.LIGHT_SCREEN=빛
+screen.LIGHT_SCREEN.comment=빛 옵션 설정
+
+screen.CLOUDS_SCREEN=태양 & 구름
+screen.CLOUDS_SCREEN.comment=태양과 구름 옵션 설정
+
+screen.FOG_SCREEN=안개
+screen.FOG_SCREEN.comment=안개 옵션 설정
+
+screen.MOTION_BLUR_SCREEN=모션 블러
+screen.MOTION_BLUR_SCREEN.comment=모션 블러 옵션 설정
+
+screen.ACCESIBILITY_SCREEN=접근성
+screen.ACCESIBILITY_SCREEN.comment=접근성 옵션 설정
+
+screen.CUSTOM_COLORS_SCREEN=커스텀 색상
+screen.CUSTOM_COLORS_SCREEN.comment=커스텀 색상 설정
+screen.CUSTOM_COLORS_DAY=낮 커스텀 색상
+screen.CUSTOM_COLORS_SUNSET=일몰/새벽 커스텀 색상
+screen.CUSTOM_COLORS_NIGHT=밤 커스텀 색상
+screen.CUSTOM_COLORS_WATER=물 커스텀 색상
+screen.CUSTOM_COLORS_NV=야간 투시 커스텀 색상

@@ -16,7 +16,7 @@ profile.comment=“无阴影”配置文件是为低性能电脑设计的，不�
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=感谢你使用这款着色器！ :). 将高清修复的原生画质选项设为正常值/默认值，可获得更好的画质。
-value.ACERCADE.0=v.9.0
+value.ACERCADE.0=v.9.1c
 
 #Options
 #############################
@@ -129,6 +129,7 @@ value.COLOR_SCHEME.3=Legacy (遗产)
 value.COLOR_SCHEME.4=Captain
 value.COLOR_SCHEME.5=Psychedelic (迷幻)
 value.COLOR_SCHEME.6=Cocoa (可可)
+value.COLOR_SCHEME.7=Testigo
 value.COLOR_SCHEME.99=自定义
 
 option.LIGHT_SUNSET_COLOR_R=光照 - 日落 - 红
@@ -242,8 +243,6 @@ option.sunPathRotation=太阳角度
 option.USE_BASIC_SH=自定义维度基础着色器
 
 option.MATERIAL_GLOSS=材质光泽
-
-option.SIMPLE_AUTOEXP=简单曝光
 
 option.DYN_HAND_LIGHT=伪动态光源
 

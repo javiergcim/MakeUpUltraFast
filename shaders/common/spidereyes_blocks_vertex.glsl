@@ -1,20 +1,27 @@
 #include "/lib/config.glsl"
 
-/* Config, uniforms, ins, outs */
+/* Uniforms */
+
 uniform mat4 gbufferProjectionInverse;
 
 #if defined SHADOW_CASTING && !defined NETHER
-  uniform mat4 gbufferModelViewInverse;
+    uniform mat4 gbufferModelViewInverse;
 #endif
+
+/* Ins / Outs */
 
 varying vec2 texcoord;
 
+/* Utility functions */
+
 #if AA_TYPE > 0
-  #include "/src/taa_offset.glsl"
+    #include "/src/taa_offset.glsl"
 #endif
 
-void main() {
-  texcoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
+// MAIN FUNCTION ------------------
 
-  #include "/src/position_vertex.glsl"
+void main() {
+    texcoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
+
+    #include "/src/position_vertex.glsl"
 }

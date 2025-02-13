@@ -1,14 +1,17 @@
 #include "/lib/config.glsl"
 
+/* Color utils */
+
 #if defined THE_END
-  #include "/lib/color_utils_end.glsl"
+    #include "/lib/color_utils_end.glsl"
 #elif defined NETHER
-  #include "/lib/color_utils_nether.glsl"
+    #include "/lib/color_utils_nether.glsl"
 #else
-  #include "/lib/color_utils.glsl"
+    #include "/lib/color_utils.glsl"
 #endif
 
-/* Config, uniforms, ins, outs */
+/* Uniforms */
+
 uniform ivec2 eyeBrightnessSmooth;
 uniform mat4 dhProjection;
 uniform mat4 gbufferModelView;
@@ -21,12 +24,14 @@ uniform float rainStrength;
 uniform mat4 gbufferProjectionInverse;
 
 #ifdef DISTANT_HORIZONS
-  uniform int dhRenderDistance;
+    uniform int dhRenderDistance;
 #endif
 
 #ifdef UNKNOWN_DIM
-  uniform sampler2D lightmap;
+    uniform sampler2D lightmap;
 #endif
+
+/* Ins / Outs */
 
 varying vec2 texcoord;
 varying vec4 tint_color;
@@ -37,20 +42,24 @@ varying vec3 omni_light;
 varying vec4 position;
 varying float frog_adjust;
 
+/* Utility functions */
+
 #if AA_TYPE > 0
-  #include "/src/taa_offset.glsl"
+    #include "/src/taa_offset.glsl"
 #endif
 
 #include "/lib/basic_utils.glsl"
 #include "/lib/luma.glsl"
 
-void main() {
-  vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
-  vec3 hi_sky_color;
-  vec3 low_sky_color;
+// MAIN FUNCTION ------------------
 
-  #include "/src/basiccoords_vertex_dh.glsl"
-  #include "/src/position_vertex_dh.glsl"
-  #include "/src/sky_color_vertex.glsl"
-  #include "/src/light_vertex_dh.glsl"
+void main() {
+    vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
+    float visible_sky;
+    vec3 hi_sky_color;
+
+    #include "/src/basiccoords_vertex_dh.glsl"
+    #include "/src/position_vertex_dh.glsl"
+    #include "/src/hi_sky.glsl"
+    #include "/src/light_vertex_dh.glsl"
 }

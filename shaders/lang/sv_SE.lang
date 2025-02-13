@@ -16,7 +16,7 @@ profile.comment=De "skugglösa" profilerna är designade för datorer med låg p
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=Tack för att du använder denna shader! :). Ändra Optifines inbyggda kvalitetsalternativ till normala värden eller dess standardvärden för bättre kvalitet.
-value.ACERCADE.0=v.9.0
+value.ACERCADE.0=v.9.1c
 
 #Options
 #############################
@@ -129,6 +129,7 @@ value.COLOR_SCHEME.3=Legacy
 value.COLOR_SCHEME.4=Captain
 value.COLOR_SCHEME.5=Psychedelic
 value.COLOR_SCHEME.6=Cocoa
+value.COLOR_SCHEME.7=Testigo
 value.COLOR_SCHEME.99=Beställnings
 
 option.LIGHT_SUNSET_COLOR_R=Solnedgångsljus R
@@ -241,8 +242,6 @@ option.sunPathRotation=Solvinkel
 option.USE_BASIC_SH=Enkel shader för anpassade dimensioner
 
 option.MATERIAL_GLOSS=Materialglans
-
-option.SIMPLE_AUTOEXP=Enklare exponering
 
 option.DYN_HAND_LIGHT=Konstgjort dynamiskt ljus
 

@@ -16,7 +16,7 @@ profile.comment="Gölgesiz" profiller, gölgeler göz ardı edilerek düşük pe
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=Bu shaderı kullandığınız için teşekkür ederiz! :). Daha iyi kalite için Optifine yerel kalite kontrollerini normal veya varsayılan değerlere ayarlayın.
-value.ACERCADE.0=v.9.0
+value.ACERCADE.0=v.9.1c
 
 #Options
 #############################
@@ -238,8 +238,6 @@ option.sunPathRotation=Güneş açısı
 option.USE_BASIC_SH=Özel boyutsal basit shader
 
 option.MATERIAL_GLOSS=Malzeme parlaklığı
-
-option.SIMPLE_AUTOEXP=Daha basit pozlama
 
 option.DYN_HAND_LIGHT=Sahte dinamik ışık
 

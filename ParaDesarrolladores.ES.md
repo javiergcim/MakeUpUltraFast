@@ -63,10 +63,10 @@ Los buffers son utilizados y asignados de la siguiente manera:
 - noisetex: Almacena las normales del agua en dos canales, el tercer componente es calculado al momento. (RG8)
 - colortex0: Ruido azul (no cargado). (R8)
 - colortex1: Buffer principal. Cuando está actvo el DOF, es de cuatro canales, donde el cuarto canal almacena la profundidad de la escena para ser también suavizada por el antialias, y así evitar problemas en cambios de enfoque súbitos por la sacudida de la cámara. (Sin DOF: R11F_G11F_B10F, con DOF: RGBA16)
-- colortex2: Almacena el mapa para las nubes en formato "blocky". (R8)
+- colortex2: Sin usar. (R8)
 - colortex3: Aquí se almacena el historial empleado por el muestreo temporal. Cuando está actvo el DOF, es de cuatro canales, donde el cuarto canal almacena la profundidad de la escena para ser también suavizada por el antialias, y así evitar problemas en cambios de enfoque súbitos por la sacudida de la cámara. (Sin DOF: R11F_G11F_B10F, con DOF: RGBA16) 
 - gaux1: Aquí se almacena una versión de la escena que será empleada en los reflejos y refracciones de espacio de pantalla. Después de ser empleado para ello, se utiliza como auxiliar para almacenar el bloom de la escena. (R11F_G11F_B10F)
-- gaux2: Almacena el mapa para las nubes en formato "natural". (R8)
+- gaux2: Almacena el mapa para las nubes. (R8)
 - gaux3: Almacena el valor histórico de autoexposición de la escena. El valor de autoexposición se obtiene haciendo un promedio ponderado con el valor de este canal y el calculado en la escena actual, a fin de hacer una transición de autoexposición gradual en el tiempo. Sí, es un exceso usar un buffer entero para guardar un único valor flotante, pero es lo que hay. Sólo es usado si se usa el método de autoexposición predeterminado. (R16F)
 - gaux4: Almacena el color del cielo (sin nubes ni otros objetos), para otorgar el color que deberá emplearse en la niebla (sí, la niebla siempre es del color del "cielo"). De esta forma, los objetos se difuminan y confunden con el cielo a la distancia.
 

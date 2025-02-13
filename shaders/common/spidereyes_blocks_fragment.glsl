@@ -1,13 +1,18 @@
 #include "/lib/config.glsl"
 
-/* Config, uniforms, ins, outs */
+/* Uniforms */
+
 uniform sampler2D tex;
+
+/* Ins / Outs */
 
 varying vec2 texcoord;
 
-void main() {
-  // Toma el color puro del bloque
-  vec4 block_color = texture2D(tex, texcoord);
+// MAIN FUNCTION ------------------
 
-  #include "/src/writebuffers.glsl"
+void main() {
+    // Toma el color puro del bloque
+    vec4 block_color = texture2D(tex, texcoord);
+
+    #include "/src/writebuffers.glsl"
 }
