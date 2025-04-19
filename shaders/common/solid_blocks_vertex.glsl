@@ -133,7 +133,7 @@ void main() {
 
     #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
         emmisive_type = 0.0;
-        if(mc_Entity.x == ENTITY_EMMISIVE || mc_Entity.x == ENTITY_S_EMMISIVE) {
+        if(mc_Entity.x == ENTITY_NO_SHADOW_FIRE || mc_Entity.x == ENTITY_EMMISIVE || mc_Entity.x == ENTITY_S_EMMISIVE) {
             emmisive_type = 1.0;
         }
     #endif

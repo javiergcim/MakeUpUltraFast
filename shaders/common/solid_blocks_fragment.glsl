@@ -117,7 +117,6 @@ void main() {
     #if (defined SHADOW_CASTING && !defined NETHER) || defined DISTANT_HORIZONS
         #if AA_TYPE > 0 
             float dither = shifted_dither13(gl_FragCoord.xy);
-            // float dither = shifted_eclectic_dither13(gl_FragCoord.xy);
         #else
             float dither = r_dither(gl_FragCoord.xy);
         #endif
@@ -215,10 +214,11 @@ void main() {
 
     #if defined GBUFFER_ENTITIES
         if(entityId == 10101) {
-        // Thunderbolt render
+            // Thunderbolt render
             block_color = vec4(1.0, 1.0, 1.0, 0.5);
         } else {
-            block_color.rgb = mix(block_color.rgb, entityColor.rgb, entityColor.a * .75);
+            float entity_poderation = luma(real_light);  // Red damage bright ponderation
+            block_color.rgb = mix(block_color.rgb, entityColor.rgb, entityColor.a * entity_poderation * 3.0);
         }
     #endif
 

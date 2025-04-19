@@ -10,6 +10,7 @@ uniform mat4 shadowModelViewInverse;
 /* Ins / Outs */
 
 varying vec2 texcoord;
+varying float is_noshadow;
 
 #ifdef COLORED_SHADOW
     varying float is_water;
@@ -30,6 +31,11 @@ void main() {
 
     gl_Position.xy *= 1.0 / distortFactor;
     gl_Position.z = gl_Position.z * 0.2;
+
+    is_noshadow = 0.0;
+    if (mc_Entity.x == ENTITY_NO_SHADOW_FIRE || mc_Entity.x == ENTITY_F_EMMISIVE) {
+        is_noshadow = 1.0;
+    }
 
     #ifdef COLORED_SHADOW
         is_water = 0.0;

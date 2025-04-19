@@ -143,6 +143,6 @@ float omni_strength = (direct_light_strength * .125) + 1.0;
 
 #ifdef EMMISIVE_V
     if (is_fake_emmisor > 0.5) {
-        direct_light_strength = 10.0;
+        omni_light = vec3(0.45);
     }
 #endif
