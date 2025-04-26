@@ -97,8 +97,7 @@ void main() {
             block_color.rgb = fast_taa(block_color.rgb, texcoord_past);
         #endif
 
-        // Black splat fix test
-        block_color = clamp(block_color, vec4(0.0), vec4(100.0));
+        block_color = clamp(block_color, vec4(0.0), vec4(50.0));
 
         /* DRAWBUFFERS:13 */
         gl_FragData[0] = block_color;  // colortex1
