@@ -107,7 +107,7 @@ void main() {
 
     // Underwater fog
     if(isEyeInWater == 1) {
-        float water_absorption = clamp(-pow((-linear_d + 1.0), (2.0 + (WATER_ABSORPTION * 4.0))) + 1.0, 0.0, 1.0);
+        float water_absorption = clamp(-pow((-linear_d + 1.0), (4.0 + (WATER_ABSORPTION * 4.0))) + 1.0, 0.0, 1.0);
         
         block_color.rgb =
             mix(block_color.rgb, WATER_COLOR * direct_light_color * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667), water_absorption);

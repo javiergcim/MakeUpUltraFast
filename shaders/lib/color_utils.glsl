@@ -120,7 +120,7 @@ uniform int moonPhase;
     #define HORIZON_DAY_COLOR vec3(0.52, 0.975, 1.3)
     #define HORIZON_NIGHT_COLOR vec3(0.022, 0.029, 0.049) * NIGHT_BRIGHT_PHASE
 
-    #define WATER_COLOR vec3(0.018, 0.12 , 0.18)
+    #define WATER_COLOR vec3(0.0196, 0.1804, 0.3216)
 #elif COLOR_SCHEME == 7  // Testigo
     #define OMNI_TINT 0.65
     #define LIGHT_SUNSET_COLOR vec3(0.70656, 0.44436, 0.2898)
@@ -135,7 +135,7 @@ uniform int moonPhase;
     #define HORIZON_DAY_COLOR vec3(0.65, 0.91, 1.3)
     #define HORIZON_NIGHT_COLOR vec3(0.025, 0.035, 0.05) * NIGHT_BRIGHT_PHASE
 
-    #define WATER_COLOR vec3(0.0 , 0.2, 0.44313725)
+    #define WATER_COLOR vec3(0.0196, 0.1804, 0.3216)
 #elif COLOR_SCHEME == 99 // Custom
     #define OMNI_TINT OMNI_TINT_CUSTOM
     #define LIGHT_SUNSET_COLOR vec3(LIGHT_SUNSET_COLOR_R, LIGHT_SUNSET_COLOR_G, LIGHT_SUNSET_COLOR_B)
