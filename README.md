@@ -1,4 +1,4 @@
-# MakeUp - Code
+# MakeUp Ultra Fast
 High performance Minecraft shader (Java).
 
 ## Version: 9.1g

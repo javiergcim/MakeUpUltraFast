@@ -134,16 +134,12 @@ void main() {
     #endif
 
     // Toma el color puro del bloque
-    #if defined GBUFFER_ENTITIES
-        #if BLACK_ENTITY_FIX == 1
-            vec4 block_color = texture2D(tex, texcoord);
-            if(block_color.a < 0.1 && entityId != 10101) {   // Black entities bug workaround
-                discard;
-            }
-            block_color *= tint_color;
-        #else
-            vec4 block_color = texture2D(tex, texcoord) * tint_color;
-        #endif
+    #if defined GBUFFER_ENTITIES && BLACK_ENTITY_FIX == 1
+        vec4 block_color = texture2D(tex, texcoord);
+        if(block_color.a < 0.1 && entityId != 10101) {   // Black entities bug workaround
+            discard;
+        }
+        block_color *= tint_color;
     #else
         vec4 block_color = texture2D(tex, texcoord) * tint_color;
     #endif
@@ -226,7 +222,7 @@ void main() {
         block_color.rgb *= 1.5;
     #endif
 
-        block_color.rgba = clamp(block_color, vec4(0.0), vec4(50.0));
+    block_color = clamp(block_color, vec4(0.0), vec4(vec3(50.0), 1.0));
 
     #include "/src/finalcolor.glsl"
     #include "/src/writebuffers.glsl"
