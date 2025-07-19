@@ -16,7 +16,7 @@ profile.comment=Los perfiles "sin sombras" están pensados para máquinas de baj
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=¡Gracias por usar este shader! :). Configurá los controles de calidad nativos de Optifine en valores normales o predeterminados para mejor calidad.
-value.ACERCADE.0=v.9.1g
+value.ACERCADE.0=v.9.2
 
 # Opciones
 #############################
@@ -67,7 +67,7 @@ option.AO_STRENGTH=Intensidad de AO
 
 option.AA_TYPE=Muestreo temporal
 value.AA_TYPE.0=Desactivado
-value.AA_TYPE.1=Desenfoque
+value.AA_TYPE.1=Quitar ruido
 value.AA_TYPE.2=TAA
 value.AA_TYPE.3=TAA Afilado
 
