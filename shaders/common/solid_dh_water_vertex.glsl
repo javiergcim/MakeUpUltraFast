@@ -71,6 +71,7 @@ void main() {
     #include "/src/hi_sky.glsl"
     #include "/src/low_sky.glsl"
     #include "/src/light_vertex_dh.glsl"
+    #include "/src/fog_vertex_dh.glsl"
 
     vec4 position2 = gl_ModelViewMatrix * gl_Vertex;
     fragposition = position2.xyz;

@@ -314,7 +314,7 @@ const float sunPathRotation = -25.0; // [-40.0 -35.0 -30.0 -25.0 -20.0 -15.0 -10
     const float ambientOcclusionLevel = 0.0;
 #endif
 
-const float eyeBrightnessHalflife = 6.0;
+const float eyeBrightnessHalflife = 3.0;
 const float centerDepthHalflife = 0.66;
 
 // DH exclusive

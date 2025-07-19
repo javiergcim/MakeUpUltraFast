@@ -62,4 +62,5 @@ void main() {
     #include "/src/position_vertex_dh.glsl"
     #include "/src/hi_sky.glsl"
     #include "/src/light_vertex_dh.glsl"
+    #include "/src/fog_vertex_dh.glsl"
 }
