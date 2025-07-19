@@ -162,7 +162,7 @@ void main() {
 
     vec3 sky_color_reflect;
     if(isEyeInWater == 0 || isEyeInWater == 2) {
-        sky_color_reflect = mix(low_sky_color, hi_sky_color, sqrt(clamp(dot(norm_reflect_water_vec, up_vec), 0.0001, 1.0)));
+        sky_color_reflect = mix(low_sky_color, hi_sky_color, smoothstep(0.0, 1.0, pow(clamp(dot(norm_reflect_water_vec, up_vec), 0.0001, 1.0), 0.333)));
     } else {
         sky_color_reflect = hi_sky_color * .5 * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667);
     }
