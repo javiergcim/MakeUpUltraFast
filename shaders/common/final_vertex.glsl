@@ -25,8 +25,6 @@ void main() {
     gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
     texcoord = gl_MultiTexCoord0.xy;
 
-    // Tonemaping ---
-    // x: Block, y: Sky ---
     #if !defined UNKNOWN_DIM
         exposure = texture2D(gaux3, vec2(0.5)).r;
     #else

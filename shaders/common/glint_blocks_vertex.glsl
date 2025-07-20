@@ -2,6 +2,7 @@
 
 /* Uniforms */
 
+uniform sampler2D gaux3;
 uniform mat4 gbufferModelViewInverse;
 uniform mat4 gbufferProjectionInverse;
 
@@ -9,6 +10,7 @@ uniform mat4 gbufferProjectionInverse;
 
 varying vec2 texcoord;
 varying vec4 tint_color;
+varying float exposure;
 
 #if AA_TYPE > 0
     #include "/src/taa_offset.glsl"
@@ -19,6 +21,12 @@ varying vec4 tint_color;
 void main() {
     #include "/src/basiccoords_vertex.glsl"
     #include "/src/position_vertex.glsl"
+
+    #if !defined UNKNOWN_DIM
+        exposure = texture2D(gaux3, vec2(0.5)).r;
+    #else
+        exposure = 1.0;
+    #endif
 
     tint_color = gl_Color;
 }
