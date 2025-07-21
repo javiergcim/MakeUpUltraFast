@@ -14,13 +14,8 @@ visible_sky = clamp(illumination.y, 0.0, 1.0);
 #endif
 
 // Intensidad y color de luz de candelas
-#if defined UNKNOWN_DIM
-    candle_color =
-        CANDLE_BASELIGHT * ((illumination.x * illumination.x) + sixth_pow(illumination.x * 1.205)) * 2.75;
-#else
-    candle_color =
-        CANDLE_BASELIGHT * (pow(illumination.x, 1.5) + sixth_pow(illumination.x * 1.17));
-#endif
+candle_color =
+    CANDLE_BASELIGHT * (pow(illumination.x, 1.5) + sixth_pow(illumination.x * 1.17));
 
 candle_color = clamp(candle_color, vec3(0.0), vec3(4.0));
 

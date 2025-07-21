@@ -181,6 +181,9 @@ void main() {
     #elif defined GBUFFER_ENTITY_GLOW
         block_color.rgb =
             clamp(vec3(luma(block_color.rgb)) * vec3(0.75, 0.75, 1.5), vec3(0.3), vec3(1.0));
+        vec3 real_light = omni_light +
+                (shadow_c * direct_light_color * direct_light_strength) * (1.0 - (rainStrength * 0.75)) +
+                final_candle_color;
     #else
         #if defined MATERIAL_GLOSS && !defined NETHER
             float final_gloss_power = gloss_power;

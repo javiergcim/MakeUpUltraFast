@@ -13,17 +13,12 @@ if (isEyeInWater == 1) {
 }
 
 #if defined UNKNOWN_DIM
-    visible_sky = (visible_sky * 0.6) + 0.4;
+    visible_sky = (visible_sky * 0.99) + 0.01;
 #endif
 
 // Candels color and intensity
-#if defined UNKNOWN_DIM
-    candle_color =
-        CANDLE_BASELIGHT * ((illumination.x * illumination.x) + sixth_pow(illumination.x * 1.205)) * 2.75;
-#else
-    candle_color =
-        CANDLE_BASELIGHT * (pow(illumination.x, 1.5) + sixth_pow(illumination.x * 1.17));
-#endif
+candle_color =
+    CANDLE_BASELIGHT * (pow(illumination.x, 1.5) + sixth_pow(illumination.x * 1.17));
 
 #ifdef DYN_HAND_LIGHT
     float dist_factor;

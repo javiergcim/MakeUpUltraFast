@@ -25,9 +25,5 @@ void main() {
     gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
     texcoord = gl_MultiTexCoord0.xy;
 
-    #if !defined UNKNOWN_DIM
-        exposure = texture2D(gaux3, vec2(0.5)).r;
-    #else
-        exposure = 1.0;
-    #endif
+    exposure = texture2D(gaux3, vec2(0.5)).r;
 }
