@@ -84,9 +84,13 @@ void main() {
         block_color = mix(background_color, block_color, block_color);
 
         #if MC_VERSION >= 11604
-            block_color.a = star_data.a;
+            // block_color.a = star_data.a;
         #endif
     #endif
+
+    // DEBUG
+    // block_color.rgba = vec4(0.7, 0.0, 0.5, star_data.a);
+    block_color.rgba = vec4(texture2D(gaux4, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).rgb, clamp(star_data.a * 2.0, 0.0, 1.0));
 
     #include "/src/writebuffers.glsl"
 }

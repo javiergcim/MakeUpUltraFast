@@ -32,13 +32,17 @@ void main() {
 
     sky_luma_correction = luma(day_blend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR));
 
-    #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
-        sky_luma_correction = 3.5 / ((sky_luma_correction * -2.5) + 3.5);
+    #if defined UNKNOWN_DIM
+        sky_luma_correction = 1.0;
     #else
-        sky_luma_correction = 1.5 / ((sky_luma_correction * -2.5) + 3.5);
+        #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
+            sky_luma_correction = 3.5 / ((sky_luma_correction * -2.5) + 3.5);
+        #else
+            sky_luma_correction = 1.5 / ((sky_luma_correction * -2.5) + 3.5);
+        #endif
     #endif
 
-        gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 
     #if AA_TYPE > 0
         gl_Position.xy += taa_offset * gl_Position.w;
