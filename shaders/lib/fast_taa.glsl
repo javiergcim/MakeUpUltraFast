@@ -50,7 +50,9 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
         }
         previous = center + (color_vector * factor);
 
-        return mix(current_color, previous, 0.8 + (edge * 0.19));
+        // return mix(current_color, previous, 0.7 + (edge * 0.1));
+
+        return mix(current_color, previous, 0.75);
     }
 }
 
