@@ -103,17 +103,15 @@ void main() {
         float dither = r_dither(gl_FragCoord.xy);
         // dither = 1.0;
     #endif
-    // Avoid render in DH transition
+    
+    // Avoid render unnecessary DH
     float t = far - dhNearPlane;
-    float sup = t * TRANSITION_DH_SUP;
     float inf = t * TRANSITION_DH_INF;
     float view_dist = length(position.xyz);
-    float umbral = (view_dist - (dhNearPlane + inf)) / (far - sup - inf - dhNearPlane);
-
     float d = texture2D(depthtex0, vec2(gl_FragCoord.x / viewWidth, gl_FragCoord.y / viewHeight)).r;
     float linear_d = ld(d);
 
-    if(umbral < dither || linear_d < 0.9999 || view_dist > dhRenderDistance) {
+    if(linear_d < 0.9999 || view_dist < dhNearPlane + inf) {
         discard;
         return;
     }

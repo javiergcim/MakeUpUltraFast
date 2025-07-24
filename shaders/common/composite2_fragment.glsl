@@ -26,8 +26,11 @@ uniform sampler2D colortex1;
     uniform vec3 previousCameraPosition;
     uniform mat4 gbufferPreviousProjection;
     uniform mat4 gbufferPreviousModelView;
-    uniform sampler2D depthtex0;
+    uniform sampler2D depthtex1;
     uniform float frameTime;
+
+    uniform float viewWidth;
+    uniform float viewHeight;
 #endif
 
 /* Ins / Outs */
@@ -47,6 +50,7 @@ varying vec2 texcoord;
 
 #if AA_TYPE > 0
     #include "/lib/luma.glsl"
+    #include "/lib/color_conversion.glsl"
     #include "/lib/fast_taa.glsl"
 #endif
 
@@ -58,7 +62,7 @@ void main() {
     // Precalc past position and velocity
     #if AA_TYPE > 0 || defined MOTION_BLUR
         // Retrojection of previous frame
-        float z_depth = texture2D(depthtex0, texcoord).r;
+        float z_depth = texture2D(depthtex1, texcoord).r;
         vec2 texcoord_past;
         vec3 curr_view_pos;
         vec3 curr_feet_player_pos;

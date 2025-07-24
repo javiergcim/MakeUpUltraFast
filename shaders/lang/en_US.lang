@@ -16,7 +16,7 @@ profile.comment=The "shadowless" profiles are designed for low-performance machi
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=Thanks for using this shader! :). Set Optifine native quality controls on normal or default values for better quality.
-value.ACERCADE.0=v.9.3
+value.ACERCADE.0=v.9.3a
 
 #Options
 #############################
@@ -69,7 +69,7 @@ option.AA_TYPE=Temporal sampling
 value.AA_TYPE.0=Off
 value.AA_TYPE.1=Denoise
 value.AA_TYPE.2=TAA
-value.AA_TYPE.3=Sharp TAA
+value.AA_TYPE.3=TAA+FXAA
 
 option.MOTION_BLUR=Motion blur
 option.MOTION_BLUR_STRENGTH=Motion blur strength

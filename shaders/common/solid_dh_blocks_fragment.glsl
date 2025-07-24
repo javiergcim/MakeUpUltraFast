@@ -43,13 +43,11 @@ void main() {
         float dither = r_dither(gl_FragCoord.xy);
     #endif
 
-    // Avoid render in DH transition
+    // Avoid render unnecessary DH
     float t = far - dhNearPlane;
-    float sup = t * TRANSITION_DH_SUP;
     float inf = t * TRANSITION_DH_INF;
     float view_dist = length(position.xyz);
-    float umbral = (view_dist - (dhNearPlane + inf)) / (far - sup - inf - dhNearPlane);
-    if (umbral < dither || view_dist > dhRenderDistance) {
+    if(view_dist < dhNearPlane + inf) {
         discard;
         return;
     }

@@ -16,7 +16,7 @@ profile.comment="그림자 없음" 프로필은 저성능 기계를 위해 설�
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=이 셰이더를 사용해주셔서 감사합니다! :) 더 나은 품질을 위해 Optifine 기본 품질 컨트롤을 보통 또는 기본 값으로 설정하세요.
-value.ACERCADE.0=v.9.3
+value.ACERCADE.0=v.9.3a
 
 #옵션
 #############################
@@ -69,7 +69,7 @@ option.AA_TYPE=시간적 샘플링
 value.AA_TYPE.0=끔
 value.AA_TYPE.1=노이즈 제거
 value.AA_TYPE.2=TAA
-value.AA_TYPE.3=날카로운 TAA
+value.AA_TYPE.3=TAA+FXAA
 
 option.MOTION_BLUR=모션 블러
 option.MOTION_BLUR_STRENGTH=모션 블러 강도

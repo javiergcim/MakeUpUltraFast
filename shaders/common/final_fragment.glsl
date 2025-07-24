@@ -81,7 +81,9 @@ varying float exposure;
 /* Utility functions */
 
 #if AA_TYPE == 3
-    #include "/lib/post.glsl"
+    // #include "/lib/post.glsl"
+    #include "/lib/luma.glsl"
+    #include "/lib/fxaa.glsl"
 #endif
 
 #include "/lib/basic_utils.glsl"
@@ -95,6 +97,8 @@ varying float exposure;
     #include "/lib/aberration.glsl"
 #endif
 
+
+
 // MAIN FUNCTION ------------------
 
 void main() {
@@ -102,12 +106,12 @@ void main() {
         vec3 block_color = color_aberration();
     #else
         vec3 block_color = texture2D(colortex1, texcoord).rgb;
-        #if AA_TYPE == 3
-            block_color = sharpen(colortex1, block_color, texcoord);
+        #if AA_TYPE == 3 && !defined DOF
+            block_color = fxaa311(block_color, 6);
         #endif
     #endif
-
-        block_color *= vec3(exposure);
+    
+    block_color *= vec3(exposure);
 
     #if defined UNKNOWN_DIM
         block_color = custom_sigmoid_alt(block_color);
