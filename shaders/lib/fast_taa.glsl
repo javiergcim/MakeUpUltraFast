@@ -72,7 +72,15 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past) {
         vec4 nmin =
             min(current_color, min(near_color0, min(near_color1, min(near_color2, near_color3))));
         vec4 nmax =
-            max(current_color, max(near_color0, max(near_color1, max(near_color2, near_color3))));    
+            max(current_color, max(near_color0, max(near_color1, max(near_color2, near_color3))));  
+
+        // Edge detection
+        vec3 edge_color = -near_color0.rgb;
+        edge_color -= near_color1.rgb;
+        edge_color += current_color.rgb * 4.0;
+        edge_color -= near_color2.rgb;
+        edge_color -= near_color3.rgb;
+        float edge = clamp(length(edge_color) * 0.5773502691896258, 0.0, 1.0);  // 1/sqrt(3)
 
         // Clip
         vec3 center = (nmin.rgb + nmax.rgb) * 0.5;
@@ -86,14 +94,6 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past) {
             factor = radio / color_dist;
         }
         previous = vec4(center + (color_vector * factor), previous.a);
-
-        // Edge detection
-        vec3 edge_color = -near_color0.rgb;
-        edge_color -= near_color1.rgb;
-        edge_color += current_color.rgb * 4.0;
-        edge_color -= near_color2.rgb;
-        edge_color -= near_color3.rgb;
-        float edge = clamp(length(edge_color) * 0.5773502691896258, 0.0, 1.0);  // 1/sqrt(3)
 
         return mix(current_color, previous, 0.65 + (edge * 0.25));
     }
