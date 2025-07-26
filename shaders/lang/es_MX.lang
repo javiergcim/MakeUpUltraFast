@@ -69,7 +69,7 @@ option.AA_TYPE=Muestreo temporal
 value.AA_TYPE.0=Desactivado
 value.AA_TYPE.1=Quitar ruido
 value.AA_TYPE.2=TAA
-value.AA_TYPE.3=TAA+FXAA
+value.AA_TYPE.3=TAA+
 
 option.MOTION_BLUR=Desenfoque de movimiento
 option.MOTION_BLUR_STRENGTH=Intensidad del desenfoque

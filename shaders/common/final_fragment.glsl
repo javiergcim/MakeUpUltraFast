@@ -6,10 +6,10 @@
 noisetex - Water normals
 colortex0 - Blue noise
 colortex1 - Antialiasing auxiliar
-colortex2 - Clouds texture 2 
+colortex2 - Unused 
 colortex3 - TAA Averages history
 gaux1 - Screen-Space-Reflection / Bloom auxiliar
-gaux2 - Clouds texture 1
+gaux2 - Clouds texture
 gaux3 - Exposure auxiliar
 gaux4 - Fog auxiliar
 
@@ -112,12 +112,7 @@ void main() {
     #endif
     
     block_color *= vec3(exposure);
-
-    #if defined UNKNOWN_DIM
-        block_color = custom_sigmoid_alt(block_color);
-    #else
-        block_color = custom_sigmoid(block_color);
-    #endif
+    block_color = custom_sigmoid(block_color);
 
     // Color-grading -----
     // DEVELOPER: If your post processing effect only involves the current pixel,

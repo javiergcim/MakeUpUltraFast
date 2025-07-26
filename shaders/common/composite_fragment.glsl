@@ -103,7 +103,7 @@ void main() {
     vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
 
     // Depth to distance
-    float screen_distance = linear_d * far;
+    float screen_distance = linear_d * far * 0.5;
 
     // Underwater fog
     if(isEyeInWater == 1) {
@@ -214,12 +214,12 @@ void main() {
     #ifdef BLOOM
         if(isEyeInWater == 3) {
             block_color.rgb =
-                mix(block_color.rgb, vec3(0.7, 0.8, 1.0) / exposure, clamp(screen_distance * .5, 0.0, 1.0));
+                mix(block_color.rgb, vec3(0.7, 0.8, 1.0) / exposure, clamp(screen_distance, 0.0, 1.0));
         }
     #else
         if(isEyeInWater == 3) {
             block_color.rgb =
-                mix(block_color.rgb, vec3(0.85, 0.9, 0.6), clamp(screen_distance * .5, 0.0, 1.0));
+                mix(block_color.rgb, vec3(0.85, 0.9, 0.6), clamp(screen_distance, 0.0, 1.0));
         }
     #endif
 

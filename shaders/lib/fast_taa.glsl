@@ -32,7 +32,9 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
         edge_color -= near_color2;
         edge_color -= near_color3;
 
+        edge_color = edge_color / (current_color * 2.0);
         float edge = clamp(length(edge_color) * 0.5773502691896258, 0.0, 1.0);  // 1/sqrt(3)
+        edge = smoothstep(0.25, 0.75, edge);
 
         // nmax = current_color + (edge * 0.7 + 0.3) * (nmax - current_color);
         // nmin = current_color + (edge * 0.7 + 0.3) * (nmin - current_color);
@@ -53,6 +55,8 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
         previous = center + (color_vector * factor);
 
         return mix(current_color, previous, 0.65 + (edge * 0.25));
+
+        // return vec3(edge);
     }
 }
 
@@ -80,7 +84,10 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past) {
         edge_color += current_color.rgb * 4.0;
         edge_color -= near_color2.rgb;
         edge_color -= near_color3.rgb;
+
+        edge_color = edge_color / (current_color * 2.0);
         float edge = clamp(length(edge_color) * 0.5773502691896258, 0.0, 1.0);  // 1/sqrt(3)
+        edge = smoothstep(0.25, 0.75, edge);
 
         // Clip
         vec3 center = (nmin.rgb + nmax.rgb) * 0.5;

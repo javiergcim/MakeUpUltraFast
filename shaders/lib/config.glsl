@@ -55,7 +55,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance cost).
 #define AOSTEPS 4 // [4 5 6 7 8 9 10 11] How many samples are taken for AO (high performance cost).
 #define AO_STRENGTH 0.70 // [0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.66 0.70 0.75 0.80 0.85] Ambient occlusion strength (strength NOT affect performance).
-#define AA_TYPE 2 // [0 1 2 3]  No: Disable antialiasing (not recommended). Denoise only: Supersampling is only used to eliminate noise. TAA: Enable antialiasing. TAA + FXAA: Use FXAA to improve the result of TAA. It does not apply if chromatic aberration or DoF is being used.
+#define AA_TYPE 3 // [0 1 2 3]  No: Disable antialiasing (not recommended). Denoise only: Supersampling is only used to eliminate noise. TAA: Enable antialiasing. TAA+: Use FXAA to improve the result of TAA. It does not apply if chromatic aberration or DoF is being used.
 //#define MOTION_BLUR // Turn on motion blur
 #define MOTION_BLUR_STRENGTH 1.0 // [0.5 1.0 1.5 2.0 2.5 3.0 3.5 4.0] Set Motion blur strength. Lower framerate -> Lower strength and vice versa is recommended.
 #define MOTION_BLUR_SAMPLES 4 // [3 4 5 6 7 8] Motion blur samples 
@@ -63,7 +63,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 
 #define SHADOW_TYPE 1 // [0 1] Sets the shadow type
 #define SHADOW_BLUR 2.0 // [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2.0 2.1 2.2 2.3 2.4 2.5 2.6 2.7 2.8 2.9 3.0]  Shadow blur intensity
-// #define COLORED_SHADOW // Attempts to tint the shadow of translucent objects, as well as the associated volumetric light (if active).
+#define COLORED_SHADOW // Attempts to tint the shadow of translucent objects, as well as the associated volumetric light (if active).
 #define WATER_ABSORPTION 0.10 // [0.02 0.04 0.06 0.08 0.10 0.12 0.14 0.16 0.18 0.20 0.22 0.24 0.26 0.28 0.30 0.32 0.34 0.36 0.38 0.40 0.42 0.44 0.46 0.48 0.50 0.52 0.54 0.56 0.58 0.60 0.62 0.64 0.66 0.68 0.70 0.72 0.74 0.76 0.78 0.80] Sets how much light the water absorbs. Low levels make the water more transparent. High levels make it more opaque.
 #define COLOR_SCHEME 1 // [0 1 2 3 4 5 6 7 99] Ethereal: Old default theme. New shoka: Reinterpretation of a classic. Shoka: The classic. Legacy: Very old default. Captain: A cold preset of stylish colors. Psycodelic: Remaster of old vivid scheme. Cocoa: Warm theme. Testigo: Fantasy and cute scheme. Custom: Choose your colors in advanced options. 
 #define WATER_TEXTURE 0 // [0 1] Enable or disable resource pack water texture. It does not work properly in 1.12. In that case the default value is recommended.
@@ -78,7 +78,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define BLOOM_SAMPLES 4.0 // [4.0 5.0 6.0 7.0 8.0 9.0 10.0] Bloom sample pairs.
 #define CHROMA_ABER 0 // [0 1] Enable chroma aberration.
 #define CHROMA_ABER_STRENGTH 0.04 // [0.04 0.05 0.06] Chroma aberration strength.
-#define VOL_LIGHT 1 // [0 1 2] Depth based: Turn on depth based godrays, they are a bit slow, but can work better than volumetric light for very short shadow distances. Volumetric: It activates the volumetric light, more accurate and faster, but it needs the shadows enabled to work.
+#define VOL_LIGHT 1 // [0 1 2] Depth based: Turn on depth based godrays, faster and can work better than volumetric light for very short shadow distances. Volumetric: It activates the volumetric light, more accurate and faster, but it needs the shadows enabled to work.
 // #define VANILLA_WATER // Establishes the appearance of water as vanilla.
 #define WATER_COLOR_SOURCE 0 // [0 1] Select the water color source. It does not work properly in 1.12. In that case the default value is recommended.
 #define WATER_TURBULENCE 0.9 // [7.0 1.75 0.9 0.5] Set the water waves strength.
@@ -218,76 +218,76 @@ const float sunPathRotation = -25.0; // [-40.0 -35.0 -30.0 -25.0 -20.0 -15.0 -10
     
     #ifndef NO_SHADOWS
         #if SHADOW_DISTANCE_SLIDER == 0
-        #if SHADOW_QTY_SLIDER == 1
-            #define SHADOW_LIMIT 75.0
-            const int shadowMapResolution = 300;
-            const float shadowDistance = 75.0;
-            #define SHADOW_FIX_FACTOR 0.3
-            #define SHADOW_DIST 0.75
+            #if SHADOW_QTY_SLIDER == 1
+                #define SHADOW_LIMIT 75.0
+                const int shadowMapResolution = 300;
+                const float shadowDistance = 75.0;
+                #define SHADOW_FIX_FACTOR 0.3
+                #define SHADOW_DIST 0.75
 
-        #elif SHADOW_QTY_SLIDER == 2
-            #define SHADOW_LIMIT 75.0
-            const int shadowMapResolution = 600;
-            const float shadowDistance = 75.0;
-            #define SHADOW_FIX_FACTOR 0.15
-            #define SHADOW_DIST 0.81
+            #elif SHADOW_QTY_SLIDER == 2
+                #define SHADOW_LIMIT 75.0
+                const int shadowMapResolution = 600;
+                const float shadowDistance = 75.0;
+                #define SHADOW_FIX_FACTOR 0.15
+                #define SHADOW_DIST 0.81
 
-        #elif SHADOW_QTY_SLIDER == 3
-            #define SHADOW_LIMIT 75.0
-            const int shadowMapResolution = 1200;
-            const float shadowDistance = 75.0;
-            #define SHADOW_FIX_FACTOR 0.05
-            #define SHADOW_DIST 0.81
-        
-        #endif
+            #elif SHADOW_QTY_SLIDER == 3
+                #define SHADOW_LIMIT 75.0
+                const int shadowMapResolution = 1200;
+                const float shadowDistance = 75.0;
+                #define SHADOW_FIX_FACTOR 0.05
+                #define SHADOW_DIST 0.81
+            
+            #endif
 
         #elif SHADOW_DISTANCE_SLIDER == 1
-        #if SHADOW_QTY_SLIDER == 1
-            #define SHADOW_LIMIT 105.0
-            const int shadowMapResolution = 420;
-            const float shadowDistance = 105.0;
-            #define SHADOW_FIX_FACTOR 0.28
-            #define SHADOW_DIST 0.75
+            #if SHADOW_QTY_SLIDER == 1
+                #define SHADOW_LIMIT 105.0
+                const int shadowMapResolution = 420;
+                const float shadowDistance = 105.0;
+                #define SHADOW_FIX_FACTOR 0.28
+                #define SHADOW_DIST 0.75
 
-        #elif SHADOW_QTY_SLIDER == 2
-            #define SHADOW_LIMIT 105.0
-            const int shadowMapResolution = 840;
-            const float shadowDistance = 105.0;
-            #define SHADOW_FIX_FACTOR 0.07
-            #define SHADOW_DIST 0.83
+            #elif SHADOW_QTY_SLIDER == 2
+                #define SHADOW_LIMIT 105.0
+                const int shadowMapResolution = 840;
+                const float shadowDistance = 105.0;
+                #define SHADOW_FIX_FACTOR 0.07
+                #define SHADOW_DIST 0.83
 
-        #elif SHADOW_QTY_SLIDER == 3
-            #define SHADOW_LIMIT 105.0
-            const int shadowMapResolution = 1680;
-            const float shadowDistance = 105.0;
-            #define SHADOW_FIX_FACTOR 0.03
-            #define SHADOW_DIST 0.83
-        
-        #endif
+            #elif SHADOW_QTY_SLIDER == 3
+                #define SHADOW_LIMIT 105.0
+                const int shadowMapResolution = 1680;
+                const float shadowDistance = 105.0;
+                #define SHADOW_FIX_FACTOR 0.03
+                #define SHADOW_DIST 0.83
+            
+            #endif
 
         #elif SHADOW_DISTANCE_SLIDER == 2
-        #if SHADOW_QTY_SLIDER == 1
-            #define SHADOW_LIMIT 255.0
-            const int shadowMapResolution = 1020;
-            const float shadowDistance = 255.0;
-            #define SHADOW_FIX_FACTOR 0.12
-            #define SHADOW_DIST 0.8
+            #if SHADOW_QTY_SLIDER == 1
+                #define SHADOW_LIMIT 255.0
+                const int shadowMapResolution = 1020;
+                const float shadowDistance = 255.0;
+                #define SHADOW_FIX_FACTOR 0.12
+                #define SHADOW_DIST 0.8
 
-        #elif SHADOW_QTY_SLIDER == 2
-            #define SHADOW_LIMIT 255.0
-            const int shadowMapResolution = 2040;
-            const float shadowDistance = 255.0;
-            #define SHADOW_FIX_FACTOR 0.03
-            #define SHADOW_DIST 0.85
+            #elif SHADOW_QTY_SLIDER == 2
+                #define SHADOW_LIMIT 255.0
+                const int shadowMapResolution = 2040;
+                const float shadowDistance = 255.0;
+                #define SHADOW_FIX_FACTOR 0.03
+                #define SHADOW_DIST 0.85
 
-        #elif SHADOW_QTY_SLIDER == 3
-            #define SHADOW_LIMIT 255.0
-            const int shadowMapResolution = 4080;
-            const float shadowDistance = 255.0;
-            #define SHADOW_FIX_FACTOR 0.015
-            #define SHADOW_DIST 0.87
+            #elif SHADOW_QTY_SLIDER == 3
+                #define SHADOW_LIMIT 255.0
+                const int shadowMapResolution = 4080;
+                const float shadowDistance = 255.0;
+                #define SHADOW_FIX_FACTOR 0.015
+                #define SHADOW_DIST 0.87
 
-        #endif
+            #endif
         #endif
 
         #if VOL_LIGHT == 2
