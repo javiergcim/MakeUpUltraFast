@@ -85,7 +85,7 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past) {
         edge_color -= near_color2.rgb;
         edge_color -= near_color3.rgb;
 
-        edge_color = edge_color / (current_color * 2.0);
+        edge_color = edge_color / (current_color.rgb * 2.0);
         float edge = clamp(length(edge_color) * 0.5773502691896258, 0.0, 1.0);  // 1/sqrt(3)
         edge = smoothstep(0.25, 0.75, edge);
 
