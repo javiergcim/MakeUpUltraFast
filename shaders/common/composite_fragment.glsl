@@ -130,7 +130,7 @@ void main() {
         #if AA_TYPE > 0
            float dither = shifted_dither_makeup(gl_FragCoord.xy);
         #else
-            float dither = valve_red(gl_FragCoord.xy);
+            float dither = r_dither(gl_FragCoord.xy);
         #endif
     #endif
 

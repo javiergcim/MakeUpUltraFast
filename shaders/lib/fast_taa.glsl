@@ -63,6 +63,18 @@ float edge_detector(
     return smoothstep(relative_threshold, relative_threshold + smoothness, maxLineness);
 }
 
+float fast_edge_detector(vec3 current_color, vec3 left, vec3 right, vec3 up, vec3 down) {
+    vec3 edge_color = -left;
+    edge_color -= right;
+    edge_color += current_color * 4.0;
+    edge_color -= down;
+    edge_color -= up;
+    edge_color = edge_color / (current_color * 2.0);
+    
+    float edge = clamp(length(edge_color) * 0.5773502691896258, 0.0, 1.0);  // 1/sqrt(3)
+    return smoothstep(0.25, 0.75, edge);
+}
+
 float line_detector(vec3 center, vec3 up, vec3 down, vec3 left, vec3 right, vec3 ul, vec3 ur, vec3 dl, vec3 dr) {
     const float epsilon = 0.0001;
 
@@ -148,7 +160,7 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
         vec3 nmax =
             max(current_color, max(left, max(right, max(up, down))));
 
-        float edge = edge_detector(
+        float edge = line_detector(
             current_color,
             up,
             down,
@@ -159,6 +171,14 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
             dl,
             dr
         );
+
+        // float edge = fast_edge_detector(
+        //     current_color,
+        //     left,
+        //     right,
+        //     up,
+        //     down
+        // );
 
         // Clip
         vec3 center = (nmin + nmax) * 0.5;
@@ -173,7 +193,7 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
         }
         previous = center + (color_vector * factor);
 
-        return mix(current_color, previous, 0.65 + (edge * 0.30));
+        return mix(current_color, previous, 0.70 + (edge * 0.25));
         // return mix(current_color, previous, 0.95);
 
         // return vec3(edge);

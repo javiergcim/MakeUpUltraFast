@@ -12,7 +12,6 @@
 
 /* Uniforms */
 
-uniform sampler2D colortex0;
 uniform sampler2D colortex1;
 uniform ivec2 eyeBrightnessSmooth;
 uniform int isEyeInWater;
@@ -115,12 +114,9 @@ void main() {
 
     #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
         #if AA_TYPE > 0
-            // float dither = shifted_texture_noise_64(gl_FragCoord.xy, colortex0);
-            float dither = shifted_eclectic_r_dither(gl_FragCoord.xy);
-            // float dither = shifted_dither_makeup(gl_FragCoord.xy);
+            float dither = shifted_eclectic_dither13(gl_FragCoord.xy);
         #else
-            // float dither = semiblue(gl_FragCoord.xy);
-            float dither = dither_makeup(gl_FragCoord.xy);
+            float dither = semiblue(gl_FragCoord.xy);
         #endif
     #endif
 

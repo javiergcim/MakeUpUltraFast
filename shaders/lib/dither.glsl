@@ -119,9 +119,7 @@ float dither_makeup(vec2 xy) {
 
 float valve_red(vec2 xy) {
     float vDither = dot(vec2( 171.0, 231.0 ), xy );
-    vDither = fract(vDither / 103.0);  // (103.0, 71. 97.0 )
-
-    return vDither;
+    return fract(vDither / 103.0);  // (103.0, 71. 97.0 )
 }
 
 #if MC_VERSION >= 11300
@@ -201,6 +199,13 @@ float valve_red(vec2 xy) {
 
         return fract(dither_shift + dot(xy, vec2(0.75487766624669276, 0.569840290998)));
     }
+
+    float shifted_valve_red(vec2 xy) {
+        float vDither = dot(vec2( 171.0, 231.0 ), xy );
+        vDither = fract(vDither / 103.0);  // (103.0, 71. 97.0 )
+
+    return fract(dither_shift + vDither);
+}
 
 #else
 
