@@ -110,10 +110,18 @@ float dither_makeup(vec2 xy) {
     float flip = mod(tile.x + tile.y, 2.0);
     xy = mix(xy, xy.yx, flip);
 
-    float r_dither = fract(dot(xy, vec2(0.75487766624669276, 0.569840290998)));
-    float plastic = 2.0 * abs(fract(dot(tile, vec2(0.8085512046226566, 0.5562305898749054))) - 0.5);
+    float vDither = dot(vec2( 171.0, 231.0 ), xy);
+    return fract(vDither / 103.0);  // (103.0, 71. 97.0 )
 
-    return fract(r_dither + plastic);
+    // return fract(dot(xy, vec2(0.75487766624669276, 0.569840290998)));
+    // return fract(dot(xy, vec2(0.3076923076923077, 0.5384615384615384)));
+}
+
+float valve_red(vec2 xy) {
+    float vDither = dot(vec2( 171.0, 231.0 ), xy );
+    vDither = fract(vDither / 103.0);  // (103.0, 71. 97.0 )
+
+    return vDither;
 }
 
 #if MC_VERSION >= 11300
@@ -188,10 +196,10 @@ float dither_makeup(vec2 xy) {
         float flip = mod(tile.x + tile.y, 2.0);
         xy = mix(xy, xy.yx, flip);
 
-        float r_dither = fract(dot(xy, vec2(0.75487766624669276, 0.569840290998)));
-        float plastic = 2.0 * abs(fract(dot(tile, vec2(0.8085512046226566, 0.5562305898749054))) - 0.5);
+        // float vDither = dot(vec2( 171.0, 231.0 ), xy);
+        // return fract(dither_shift + (vDither / 103.0));  // (103.0, 71. 97.0 )
 
-        return fract(dither_shift + r_dither + plastic);
+        return fract(dither_shift + dot(xy, vec2(0.75487766624669276, 0.569840290998)));
     }
 
 #else
@@ -257,10 +265,7 @@ float dither_makeup(vec2 xy) {
         float flip = mod(tile.x + tile.y, 2.0);
         xy = mix(xy, xy.yx, flip);
 
-        float r_dither = fract(dot(xy, vec2(0.75487766624669276, 0.569840290998)));
-        float plastic = 2.0 * abs(fract(dot(tile, vec2(0.8085512046226566, 0.5562305898749054))) - 0.5);
-
-        return fract((frame_mod * 0.4) + r_dither + plastic);
+        return fract(dot(xy, vec2(0.75487766624669276, 0.569840290998)));
     }
 
 #endif

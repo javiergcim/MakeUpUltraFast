@@ -128,9 +128,9 @@ void main() {
 
     #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
         #if AA_TYPE > 0
-            float dither = shifted_eclectic_r_dither(gl_FragCoord.xy);
+           float dither = shifted_dither_makeup(gl_FragCoord.xy);
         #else
-            float dither = semiblue(gl_FragCoord.xy);
+            float dither = valve_red(gl_FragCoord.xy);
         #endif
     #endif
 
