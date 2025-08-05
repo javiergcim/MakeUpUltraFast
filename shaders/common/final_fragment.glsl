@@ -111,8 +111,9 @@ void main() {
         #endif
     #endif
     
-    block_color *= vec3(exposure);
-    block_color = custom_sigmoid(block_color);
+    // Exposure correction
+    // block_color *= vec3(exposure);
+    // block_color = custom_sigmoid(block_color);
 
     // Color-grading -----
     // DEVELOPER: If your post processing effect only involves the current pixel,
