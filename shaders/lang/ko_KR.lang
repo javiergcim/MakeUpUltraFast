@@ -7,8 +7,7 @@ profile.shadowless_high=그림자 없음 높음
 profile.low=낮음
 profile.medium=중간
 profile.high=높음
-profile.extreme=극한
-profile.extremeplus=극한+
+profile.extremeplus=높음 (깊이 감지)
 
 profile.comment="그림자 없음" 프로필은 저성능 기계를 위해 설계되었으며, 그림자를 무시합니다. 전통적인 프로필은 천천히 더 높은 품질의 그림자와 더 고급스러운 무거운 효과를 추가합니다. 사용 가능한 옵션을 실험해보고 가장 적합한 조합을 찾으십시오.
 
@@ -16,7 +15,7 @@ profile.comment="그림자 없음" 프로필은 저성능 기계를 위해 설�
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=이 셰이더를 사용해주셔서 감사합니다! :) 더 나은 품질을 위해 Optifine 기본 품질 컨트롤을 보통 또는 기본 값으로 설정하세요.
-value.ACERCADE.0=v.9.3b
+value.ACERCADE.0=v.9.3c
 
 #옵션
 #############################

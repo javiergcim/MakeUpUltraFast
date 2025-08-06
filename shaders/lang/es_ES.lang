@@ -7,8 +7,7 @@ profile.shadowless_high=Sin sombras - Alto
 profile.low=Bajo
 profile.medium=Medio
 profile.high=Alto
-profile.extreme=Extremo
-profile.extremeplus=Extremo+
+profile.extremeplus=Alto (DoF)
 
 profile.comment=Los perfiles "sin sombras" están pensados para máquinas de bajo rendimiento, sin considerar las sombras. Los perfiles tradicionales van agregando sombras de mejor calidad y efectos más avanzados y pesados. Probá las opciones disponibles y encontrá la combinación que mejor te funcione.
 
@@ -16,7 +15,7 @@ profile.comment=Los perfiles "sin sombras" están pensados para máquinas de baj
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=¡Gracias por usar este shader! :). Configurá los controles de calidad nativos de Optifine en valores normales o predeterminados para mejor calidad.
-value.ACERCADE.0=v.9.3b
+value.ACERCADE.0=v.9.3c
 
 # Opciones
 #############################

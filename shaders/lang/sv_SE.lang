@@ -7,8 +7,7 @@ profile.shadowless_high=Hög (skugglös)
 profile.low=Låg
 profile.medium=Medium
 profile.high=Hög
-profile.extreme=Extrem
-profile.extremeplus=Extrem+
+profile.extremeplus=Hög (Skärpedjup)
 
 profile.comment=De "skugglösa" profilerna är designade för datorer med låg prestanda, vilket inaktiverar skuggor. Traditionella profiler lägger långsamt till skuggor med högre kvalitet och mer avancerade tunga effekter. Var god experimentera med de tillgängliga alternativen och hitta den bästa kombinationen för dig.
 
@@ -16,7 +15,7 @@ profile.comment=De "skugglösa" profilerna är designade för datorer med låg p
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=Tack för att du använder denna shader! :). Ändra Optifines inbyggda kvalitetsalternativ till normala värden eller dess standardvärden för bättre kvalitet.
-value.ACERCADE.0=v.9.3b
+value.ACERCADE.0=v.9.3c
 
 #Options
 #############################

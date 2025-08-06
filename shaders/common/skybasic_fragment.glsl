@@ -64,7 +64,7 @@ void main() {
                 float dither = dither13(gl_FragCoord.xy);
             #endif
 
-            dither = (dither - .5) * 0.0625;
+            dither = (dither - .5) * 0.03125;
 
             vec4 fragpos =
                 gbufferProjectionInverse *

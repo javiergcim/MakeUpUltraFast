@@ -107,7 +107,7 @@ void main() {
     #else
         vec3 block_color = texture2D(colortex1, texcoord).rgb;
         #if AA_TYPE == 3 && !defined DOF
-            block_color = fxaa311(block_color, 6);
+            block_color = fxaa311(block_color, 4);
         #endif
     #endif
     

@@ -4,21 +4,41 @@ Temporal antialiasing functions.
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-/* ---------------*/
+vec3 convex_hull(
+    vec3 c, vec3 previous, vec3 up, vec3 down, vec3 left, vec3 right, 
+    vec3 ul, vec3 ur, vec3 dl, vec3 dr) {
+
+    // Cálculo de varianza
+    vec3 sum = c + up + down + left + right + ul + ur + dl + dr;
+    vec3 sum_sq =
+        c*c +
+        up*up +
+        down*down +
+        left*left +
+        right*right +
+        ul*ul +
+        ur*ur +
+        dl*dl +
+        dr*dr;
+
+    vec3 mean = sum * 0.1111111111111111; // 1 / 9
+    vec3 variance = abs(sum_sq * 0.1111111111111111 - mean * mean); // Varianza = E[x^2] - E[x]^2
+
+    // 2. Definir el rango de clamping
+    vec3 std_dev = sqrt(variance);
+    vec3 min_valid = mean - 0.8 * std_dev;
+    vec3 max_valid = mean + 0.8 * std_dev;
+
+    // 3. Aplicar el clamping
+    return clamp(previous, min_valid, max_valid);
+}
 
 float edge_detector(
     vec3 c, vec3 up, vec3 down, vec3 left, vec3 right, 
-    vec3 ul, vec3 ur, vec3 dl, vec3 dr) 
-{
+    vec3 ul, vec3 ur, vec3 dl, vec3 dr) {
     // --- Parámetros de Control Relativos ---
-    const float epsilon = 0.0001; // Para evitar la división por cero
-    
-    // Umbral relativo: ¿Qué tan fuerte debe ser la diferencia relativa para ser detectada?
-    // Un valor de 0.4 significa que la diferencia perpendicular debe ser un 40%
-    // mayor que la diferencia paralela.
+    const float epsilon = 0.0001;
     const float relative_threshold = 0.4;
-    
-    // Suavidad: Rango de la transición para el antialiasing del resultado.
     const float smoothness = 0.5;
 
     // --- Conversión a Luminancia ---
@@ -32,35 +52,47 @@ float edge_detector(
     float l_dl = luma(dl);
     float l_dr = luma(dr);
 
-    // --- Cálculo de "Linealidad" Relativa ---
+    // --- Optimización: Calcular diferencias de luminancia una sola vez ---
+    float d_up = abs(l_c - l_up);
+    float d_down = abs(l_c - l_down);
+    float d_left = abs(l_c - l_left);
+    float d_right = abs(l_c - l_right);
+    float d_ul = abs(l_c - l_ul);
+    float d_ur = abs(l_c - l_ur);
+    float d_dl = abs(l_c - l_dl);
+    float d_dr = abs(l_c - l_dr);
+    
+    // --- Optimización: Pre-calcular el inverso para los cálculos de consistencia ---
+    // Esto reemplaza 4 divisiones por 1 división y 4 multiplicaciones.
+    float inv_l_c = 1.0 / (l_c + epsilon);
+
+    // --- Cálculo de "Linealidad" Relativa de forma eficiente ---
 
     // 1. Línea Horizontal
-    float ridgeH = abs(l_c - l_up) / (l_up + epsilon) + abs(l_c - l_down) / (l_down + epsilon);
-    float consistencyH = (abs(l_c - l_left) + abs(l_c - l_right)) / (l_c + epsilon);
-    float linenessH = ridgeH - consistencyH;
+    // ridge_h utiliza las diferencias perpendiculares (arriba, abajo).
+    // La consistencia se mide con las diferencias paralelas (izquierda, derecha).
+    float ridge_h = d_up / (l_up + epsilon) + d_down / (l_down + epsilon);
+    float lineness_h = ridge_h - (d_left + d_right) * inv_l_c;
 
     // 2. Línea Vertical
-    float ridgeV = abs(l_c - l_left) / (l_left + epsilon) + abs(l_c - l_right) / (l_right + epsilon);
-    float consistencyV = (abs(l_c - l_up) + abs(l_c - l_down)) / (l_c + epsilon);
-    float linenessV = ridgeV - consistencyV;
+    float ridge_v = d_left / (l_left + epsilon) + d_right / (l_right + epsilon);
+    float lineness_v = ridge_v - (d_up + d_down) * inv_l_c;
 
     // 3. Línea Diagonal (Top-Left a Bottom-Right)
-    float ridgeD1 = abs(l_c - l_ur) / (l_ur + epsilon) + abs(l_c - l_dl) / (l_dl + epsilon);
-    float consistencyD1 = (abs(l_c - l_ul) + abs(l_c - l_dr)) / (l_c + epsilon);
-    float linenessD1 = ridgeD1 - consistencyD1;
+    float ridge_d1 = d_ur / (l_ur + epsilon) + d_dl / (l_dl + epsilon);
+    float lineness_d1 = ridge_d1 - (d_ul + d_dr) * inv_l_c;
 
     // 4. Línea Diagonal (Top-Right a Bottom-Left)
-    float ridgeD2 = abs(l_c - l_ul) / (l_ul + epsilon) + abs(l_c - l_dr) / (l_dr + epsilon);
-    float consistencyD2 = (abs(l_c - l_ur) + abs(l_c - l_dl)) / (l_c + epsilon);
-    float linenessD2 = ridgeD2 - consistencyD2;
+    float ridge_d2 = d_ul / (l_ul + epsilon) + d_dr / (l_dr + epsilon);
+    float lineness_d2 = ridge_d2 - (d_ur + d_dl) * inv_l_c;
     
-    // --- Puntuación final y color de salida ---
+    // --- Puntuación final y color de salida (sin cambios) ---
     
     // Se toma la máxima puntuación de las 4 direcciones (asegurando que no sea negativa).
-    float maxLineness = max(0.0, max(linenessH, max(linenessV, max(linenessD1, linenessD2))));
+    float max_lineness = max(0.0, max(lineness_h, max(lineness_v, max(lineness_d1, lineness_d2))));
 
     // `smoothstep` ahora usa los umbrales relativos.
-    return smoothstep(relative_threshold, relative_threshold + smoothness, maxLineness);
+    return smoothstep(relative_threshold, relative_threshold + smoothness, max_lineness);
 }
 
 float fast_edge_detector(vec3 current_color, vec3 left, vec3 right, vec3 up, vec3 down) {
@@ -75,18 +107,74 @@ float fast_edge_detector(vec3 current_color, vec3 left, vec3 right, vec3 up, vec
     return smoothstep(0.25, 0.75, edge);
 }
 
+// float line_detector(vec3 center, vec3 up, vec3 down, vec3 left, vec3 right, vec3 ul, vec3 ur, vec3 dl, vec3 dr) {
+//     const float epsilon = 0.0001;
+
+//     // Umbral de la fuerza relativa. Por ejemplo, 0.2 significa que una línea
+//     // debe ser al menos un 20% más brillante u oscura que su entorno para ser considerada.
+//     // Este valor es ahora mucho más intuitivo y funciona en distintas iluminaciones.
+//     const float relative_threshold = 0.01;
+
+//     // Suavidad de la transición. Controla qué tan rápido el resaltado
+//     // pasa de 0 a 1 una vez que se supera el umbral.
+//     const float smoothness = 0.15;
+
+//     float c = luma(center);
+//     float t = luma(up);
+//     float b = luma(down);
+//     float l = luma(left);
+//     float r = luma(right);
+//     float tl = luma(ul);
+//     float tr = luma(ur);
+//     float bl = luma(dl);
+//     float br = luma(dr);
+
+//     // --- Cálculo de "linealidad" relativa para cada dirección ---
+//     float lineness_h = 0.0, lineness_v = 0.0, lineness_d1 = 0.0, lineness_d2 = 0.0;
+
+//     // 1. Línea Horizontal
+//     if ((c > t && c > b) || (c < t && c < b)) {
+//         float strength = min(abs(c - t) / (t + epsilon), abs(c - b) / (b + epsilon));
+//         float penalty = (abs(c - l) + abs(c - r)) / (c + epsilon);
+//         lineness_h = strength - penalty;
+//     }
+
+//     // 2. Línea Vertical
+//     if ((c > l && c > r) || (c < l && c < r)) {
+//         float strength = min(abs(c - l) / (l + epsilon), abs(c - r) / (r + epsilon));
+//         float penalty = (abs(c - t) + abs(c - b)) / (c + epsilon);
+//         lineness_v = strength - penalty;
+//     }
+
+//     // 3. Línea Diagonal (\)
+//     if ((c > tr && c > bl) || (c < tr && c < bl)) {
+//         float strength = min(abs(c - tr) / (tr + epsilon), abs(c - bl) / (bl + epsilon));
+//         float penalty = (abs(c - tl) + abs(c - br)) / (c + epsilon);
+//         lineness_d1 = strength - penalty;
+//     }
+
+//     // 4. Línea Diagonal (/)
+//     if ((c > tl && c > br) || (c < tl && c < br)) {
+//         float strength = min(abs(c - tl) / (tl + epsilon), abs(c - br) / (br + epsilon));
+//         float penalty = (abs(c - tr) + abs(c - bl)) / (c + epsilon);
+//         lineness_d2 = strength - penalty;
+//     }
+
+//     // --- Puntuación final y color de salida ---
+    
+//     // Tomamos la máxima puntuación y nos aseguramos de que no sea negativa.
+//     float max_lineness = max(0.0, max(lineness_h, max(lineness_v, max(lineness_d1, lineness_d2))));
+
+//     // `smoothstep` usa nuestro umbral relativo para crear una transición suave.
+//     return smoothstep(relative_threshold, relative_threshold + smoothness, max_lineness);
+// }
+
 float line_detector(vec3 center, vec3 up, vec3 down, vec3 left, vec3 right, vec3 ul, vec3 ur, vec3 dl, vec3 dr) {
     const float epsilon = 0.0001;
-
-    // Umbral de la fuerza relativa. Por ejemplo, 0.2 significa que una línea
-    // debe ser al menos un 20% más brillante u oscura que su entorno para ser considerada.
-    // Este valor es ahora mucho más intuitivo y funciona en distintas iluminaciones.
     const float relative_threshold = 0.01;
-
-    // Suavidad de la transición. Controla qué tan rápido el resaltado
-    // pasa de 0 a 1 una vez que se supera el umbral.
     const float smoothness = 0.15;
 
+    // --- Conversión a Luminancia ---
     float c = luma(center);
     float t = luma(up);
     float b = luma(down);
@@ -97,45 +185,56 @@ float line_detector(vec3 center, vec3 up, vec3 down, vec3 left, vec3 right, vec3
     float bl = luma(dl);
     float br = luma(dr);
 
-    // --- Cálculo de "linealidad" relativa para cada dirección ---
-    float linenessH = 0.0, linenessV = 0.0, linenessD1 = 0.0, linenessD2 = 0.0;
+    // --- Optimización: Calcular diferencias una sola vez ---
+    // Cada una de estas se usaba dos veces en el código original.
+    float d_t = abs(c - t);
+    float d_b = abs(c - b);
+    float d_l = abs(c - l);
+    float d_r = abs(c - r);
+    float d_tl = abs(c - tl);
+    float d_tr = abs(c - tr);
+    float d_bl = abs(c - bl);
+    float d_br = abs(c - br);
+    
+    // --- Optimización: Pre-calcular inverso para reemplazar divisiones ---
+    float inv_c = 1.0 / (c + epsilon);
+
+    // --- Cálculo de "linealidad" relativa de forma eficiente ---
+    float lineness_h = 0.0, lineness_v = 0.0, lineness_d1 = 0.0, lineness_d2 = 0.0;
 
     // 1. Línea Horizontal
-    if ((c > t && c > b) || (c < t && c < b)) {
-        float strength = min(abs(c - t) / (t + epsilon), abs(c - b) / (b + epsilon));
-        float penalty = (abs(c - l) + abs(c - r)) / (c + epsilon);
-        linenessH = strength - penalty;
+    // Condición optimizada: comprueba si (c-t) y (c-b) tienen el mismo signo.
+    if ((c - t) * (c - b) > 0.0) {
+        float strength = min(d_t / (t + epsilon), d_b / (b + epsilon));
+        float penalty = (d_l + d_r) * inv_c;
+        lineness_h = strength - penalty;
     }
 
     // 2. Línea Vertical
-    if ((c > l && c > r) || (c < l && c < r)) {
-        float strength = min(abs(c - l) / (l + epsilon), abs(c - r) / (r + epsilon));
-        float penalty = (abs(c - t) + abs(c - b)) / (c + epsilon);
-        linenessV = strength - penalty;
+    if ((c - l) * (c - r) > 0.0) {
+        float strength = min(d_l / (l + epsilon), d_r / (r + epsilon));
+        float penalty = (d_t + d_b) * inv_c;
+        lineness_v = strength - penalty;
     }
 
     // 3. Línea Diagonal (\)
-    if ((c > tr && c > bl) || (c < tr && c < bl)) {
-        float strength = min(abs(c - tr) / (tr + epsilon), abs(c - bl) / (bl + epsilon));
-        float penalty = (abs(c - tl) + abs(c - br)) / (c + epsilon);
-        linenessD1 = strength - penalty;
+    if ((c - tr) * (c - bl) > 0.0) {
+        float strength = min(d_tr / (tr + epsilon), d_bl / (bl + epsilon));
+        float penalty = (d_tl + d_br) * inv_c;
+        lineness_d1 = strength - penalty;
     }
 
     // 4. Línea Diagonal (/)
-    if ((c > tl && c > br) || (c < tl && c < br)) {
-        float strength = min(abs(c - tl) / (tl + epsilon), abs(c - br) / (br + epsilon));
-        float penalty = (abs(c - tr) + abs(c - bl)) / (c + epsilon);
-        linenessD2 = strength - penalty;
+    if ((c - tl) * (c - br) > 0.0) {
+        float strength = min(d_tl / (tl + epsilon), d_br / (br + epsilon));
+        float penalty = (d_tr + d_bl) * inv_c;
+        lineness_d2 = strength - penalty;
     }
 
-    // --- Puntuación final y color de salida ---
+    // --- Puntuación final y color de salida (sin cambios) ---
+    float max_lineness = max(0.0, max(lineness_h, max(lineness_v, max(lineness_d1, lineness_d2))));
     
-    // Tomamos la máxima puntuación y nos aseguramos de que no sea negativa.
-    float maxLineness = max(0.0, max(linenessH, max(linenessV, max(linenessD1, linenessD2))));
-
-    // `smoothstep` usa nuestro umbral relativo para crear una transición suave.
-    return smoothstep(relative_threshold, relative_threshold + smoothness, maxLineness);
-    // return maxLineness;
+    return smoothstep(relative_threshold, relative_threshold + smoothness, max_lineness);
 }
 
 vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
@@ -154,11 +253,6 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
         vec3 ur = texture2DLod(colortex1, texcoord + vec2(pixel_size_x, pixel_size_y), 0.0).rgb;
         vec3 dl = texture2DLod(colortex1, texcoord + vec2(-pixel_size_x, -pixel_size_y), 0.0).rgb;
         vec3 dr = texture2DLod(colortex1, texcoord + vec2(pixel_size_x, -pixel_size_y), 0.0).rgb;
-
-        vec3 nmin =
-            min(current_color, min(left, min(right, min(up, down))));
-        vec3 nmax =
-            max(current_color, max(left, max(right, max(up, down))));
 
         float edge = edge_detector(
             current_color,
@@ -180,22 +274,38 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
         //     down
         // );
 
+        // Clip 1
+        // previous = clamp(previous, nmin, nmax);
+
         // Clip 2
-        vec3 center = (nmin + nmax) * 0.5;
-        float radio = length(nmax - center);
+        // vec3 center = (nmin + nmax) * 0.5;
+        // float radio = length(nmax - center);
 
-        vec3 color_vector = previous - center;
-        float color_dist = length(color_vector);
+        // vec3 color_vector = previous - center;
+        // float color_dist = length(color_vector);
 
-        float factor = 1.0;
-        if (color_dist > radio) {
-            factor = radio / color_dist;
-        }
-        previous = center + (color_vector * factor);
+        // float factor = 1.0;
+        // if (color_dist > radio) {
+        //     factor = (radio / color_dist);
+        // }
+        // previous = center + (color_vector * factor);
 
-        return mix(current_color, previous, 0.65 + (edge * 0.30));
-        // return mix(current_color, previous, 0.95);
+        // Clip 3
+        previous = convex_hull(
+            current_color,
+            previous,
+            up,
+            down,
+            left,
+            right,
+            ul,
+            ur,
+            dl,
+            dr
+        );
 
+        return mix(current_color, previous, 0.70 + (edge * 0.25));
+        // return mix(current_color, previous, 0.70);
         // return vec3(edge);
     }
 }
@@ -217,10 +327,10 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past) {
         vec4 dl = texture2DLod(colortex1, texcoord + vec2(-pixel_size_x, -pixel_size_y), 0.0);
         vec4 dr = texture2DLod(colortex1, texcoord + vec2(pixel_size_x, -pixel_size_y), 0.0);
 
-        vec4 nmin =
-            min(current_color, min(left, min(right, min(up, down))));
-        vec4 nmax =
-            max(current_color, max(left, max(right, max(up, down))));
+        // vec4 nmin =
+        //     min(current_color, min(left, min(right, min(up, down))));
+        // vec4 nmax =
+        //     max(current_color, max(left, max(right, max(up, down))));
 
         float edge = edge_detector(
             current_color.rgb,
@@ -234,19 +344,20 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past) {
             dr.rgb
         );
 
-        // Clip
-        vec3 center = (nmin.rgb + nmax.rgb) * 0.5;
-        float radio = length(nmax.rgb - center);
+        // Clip 3
+        previous.rgb = convex_hull(
+            current_color.rgb,
+            previous.rgb,
+            up.rgb,
+            down.rgb,
+            left.rgb,
+            right.rgb,
+            ul.rgb,
+            ur.rgb,
+            dl.rgb,
+            dr.rgb
+        );
 
-        vec3 color_vector = previous.rgb - center;
-        float color_dist = length(color_vector);
-
-        float factor = 1.0;
-        if (color_dist > radio) {
-            factor = radio / color_dist;
-        }
-        previous = vec4(center + (color_vector * factor), previous.a);
-
-        return mix(current_color, previous, 0.75 + (edge * 0.14));
+        return mix(current_color, previous, 0.75 + (edge * 0.20));
     }
 }

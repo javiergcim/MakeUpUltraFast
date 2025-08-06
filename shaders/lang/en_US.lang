@@ -7,8 +7,7 @@ profile.shadowless_high=Shadowless High
 profile.low=Low
 profile.medium=Medium
 profile.high=High
-profile.extreme=Extreme
-profile.extremeplus=Extreme+
+profile.extremeplus=High (DoF)
 
 profile.comment=The "shadowless" profiles are designed for low-performance machines, disregarding the shadows. Traditional profiles slowly add higher quality shadows and more advanced heavy effects. Please experiment with the available options and find the best combination for you.
 
@@ -16,7 +15,7 @@ profile.comment=The "shadowless" profiles are designed for low-performance machi
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=Thanks for using this shader! :). Set Optifine native quality controls on normal or default values for better quality.
-value.ACERCADE.0=v.9.3b
+value.ACERCADE.0=v.9.3c
 
 #Options
 #############################

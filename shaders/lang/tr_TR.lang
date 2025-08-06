@@ -7,8 +7,7 @@ profile.shadowless_high=Gölgesiz Yüksek
 profile.low=Düşük
 profile.medium=Orta
 profile.high=Yüksek
-profile.extreme=Olağanüstü
-profile.extremeplus=Olağanüstü+
+profile.extremeplus=Yüksek (AD)
 
 profile.comment="Gölgesiz" profiller, gölgeler göz ardı edilerek düşük performanslı makineler için tasarlanmıştır. Geleneksel profiller yavaş yavaş daha kaliteli gölgeler ve daha gelişmiş ağır efektler ekler. Lütfen mevcut seçenekleri deneyin ve sizin için en iyi kombinasyonu bulun.
 
@@ -16,7 +15,7 @@ profile.comment="Gölgesiz" profiller, gölgeler göz ardı edilerek düşük pe
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=Bu shaderı kullandığınız için teşekkür ederiz! :). Daha iyi kalite için Optifine yerel kalite kontrollerini normal veya varsayılan değerlere ayarlayın.
-value.ACERCADE.0=v.9.3b
+value.ACERCADE.0=v.9.3c
 
 #Options
 #############################
