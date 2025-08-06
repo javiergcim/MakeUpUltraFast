@@ -108,7 +108,7 @@ void main() {
     float t = far - dhNearPlane;
     float inf = t * TRANSITION_DH_INF;
     float view_dist = length(position.xyz);
-    float d = texture2D(depthtex0, vec2(gl_FragCoord.x / viewWidth, gl_FragCoord.y / viewHeight)).r;
+    float d = texture2DLod(depthtex0, vec2(gl_FragCoord.x / viewWidth, gl_FragCoord.y / viewHeight), 0.0).r;
     float linear_d = ld(d);
 
     if(linear_d < 0.9999 || view_dist < dhNearPlane + inf) {

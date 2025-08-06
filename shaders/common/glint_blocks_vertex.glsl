@@ -22,11 +22,7 @@ void main() {
     #include "/src/basiccoords_vertex.glsl"
     #include "/src/position_vertex.glsl"
 
-    #if !defined UNKNOWN_DIM
-        exposure = texture2D(gaux3, vec2(0.5)).r;
-    #else
-        exposure = 1.0;
-    #endif
+    exposure = texture2D(gaux3, vec2(0.5)).r;
 
     tint_color = gl_Color;
 }

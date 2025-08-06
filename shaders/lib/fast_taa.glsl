@@ -144,23 +144,23 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
         return current_color;
     } else {
         // Previous color
-        vec3 previous = texture2D(colortex3, texcoord_past).rgb;
+        vec3 previous = texture2DLod(colortex3, texcoord_past, 0.0).rgb;
 
-        vec3 left = texture2D(colortex1, texcoord + vec2(-pixel_size_x, 0.0)).rgb;
-        vec3 right = texture2D(colortex1, texcoord + vec2(pixel_size_x, 0.0)).rgb;
-        vec3 down = texture2D(colortex1, texcoord + vec2(0.0, -pixel_size_y)).rgb;
-        vec3 up = texture2D(colortex1, texcoord + vec2(0.0, pixel_size_y)).rgb;
-        vec3 ul = texture2D(colortex1, texcoord + vec2(-pixel_size_x, pixel_size_y)).rgb;
-        vec3 ur = texture2D(colortex1, texcoord + vec2(pixel_size_x, pixel_size_y)).rgb;
-        vec3 dl = texture2D(colortex1, texcoord + vec2(-pixel_size_x, -pixel_size_y)).rgb;
-        vec3 dr = texture2D(colortex1, texcoord + vec2(pixel_size_x, -pixel_size_y)).rgb;
+        vec3 left = texture2DLod(colortex1, texcoord + vec2(-pixel_size_x, 0.0), 0.0).rgb;
+        vec3 right = texture2DLod(colortex1, texcoord + vec2(pixel_size_x, 0.0), 0.0).rgb;
+        vec3 down = texture2DLod(colortex1, texcoord + vec2(0.0, -pixel_size_y), 0.0).rgb;
+        vec3 up = texture2DLod(colortex1, texcoord + vec2(0.0, pixel_size_y), 0.0).rgb;
+        vec3 ul = texture2DLod(colortex1, texcoord + vec2(-pixel_size_x, pixel_size_y), 0.0).rgb;
+        vec3 ur = texture2DLod(colortex1, texcoord + vec2(pixel_size_x, pixel_size_y), 0.0).rgb;
+        vec3 dl = texture2DLod(colortex1, texcoord + vec2(-pixel_size_x, -pixel_size_y), 0.0).rgb;
+        vec3 dr = texture2DLod(colortex1, texcoord + vec2(pixel_size_x, -pixel_size_y), 0.0).rgb;
 
         vec3 nmin =
             min(current_color, min(left, min(right, min(up, down))));
         vec3 nmax =
             max(current_color, max(left, max(right, max(up, down))));
 
-        float edge = line_detector(
+        float edge = edge_detector(
             current_color,
             up,
             down,
@@ -180,7 +180,7 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
         //     down
         // );
 
-        // Clip
+        // Clip 2
         vec3 center = (nmin + nmax) * 0.5;
         float radio = length(nmax - center);
 
@@ -193,7 +193,7 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
         }
         previous = center + (color_vector * factor);
 
-        return mix(current_color, previous, 0.70 + (edge * 0.25));
+        return mix(current_color, previous, 0.65 + (edge * 0.30));
         // return mix(current_color, previous, 0.95);
 
         // return vec3(edge);
@@ -206,23 +206,23 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past) {
         return current_color;
     } else {
         // Muestra del pasado
-        vec4 previous = texture2D(colortex3, texcoord_past);
+        vec4 previous = texture2DLod(colortex3, texcoord_past, 0.0);
 
-        vec4 left = texture2D(colortex1, texcoord + vec2(-pixel_size_x, 0.0));
-        vec4 right = texture2D(colortex1, texcoord + vec2(pixel_size_x, 0.0));
-        vec4 down = texture2D(colortex1, texcoord + vec2(0.0, -pixel_size_y));
-        vec4 up = texture2D(colortex1, texcoord + vec2(0.0, pixel_size_y));
-        vec4 ul = texture2D(colortex1, texcoord + vec2(-pixel_size_x, pixel_size_y));
-        vec4 ur = texture2D(colortex1, texcoord + vec2(pixel_size_x, pixel_size_y));
-        vec4 dl = texture2D(colortex1, texcoord + vec2(-pixel_size_x, -pixel_size_y));
-        vec4 dr = texture2D(colortex1, texcoord + vec2(pixel_size_x, -pixel_size_y));
+        vec4 left = texture2DLod(colortex1, texcoord + vec2(-pixel_size_x, 0.0), 0.0);
+        vec4 right = texture2DLod(colortex1, texcoord + vec2(pixel_size_x, 0.0), 0.0);
+        vec4 down = texture2DLod(colortex1, texcoord + vec2(0.0, -pixel_size_y), 0.0);
+        vec4 up = texture2DLod(colortex1, texcoord + vec2(0.0, pixel_size_y), 0.0);
+        vec4 ul = texture2DLod(colortex1, texcoord + vec2(-pixel_size_x, pixel_size_y), 0.0);
+        vec4 ur = texture2DLod(colortex1, texcoord + vec2(pixel_size_x, pixel_size_y), 0.0);
+        vec4 dl = texture2DLod(colortex1, texcoord + vec2(-pixel_size_x, -pixel_size_y), 0.0);
+        vec4 dr = texture2DLod(colortex1, texcoord + vec2(pixel_size_x, -pixel_size_y), 0.0);
 
         vec4 nmin =
             min(current_color, min(left, min(right, min(up, down))));
         vec4 nmax =
             max(current_color, max(left, max(right, max(up, down))));
 
-        float edge = line_detector(
+        float edge = edge_detector(
             current_color.rgb,
             up.rgb,
             down.rgb,

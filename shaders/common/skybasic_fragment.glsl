@@ -76,7 +76,7 @@ void main() {
         #else
 
             // Toma el color puro del bloque
-            vec4 background_color = texture2D(gaux4, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y));
+            vec4 background_color = texture2DLod(gaux4, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), 0);
         #endif
 
         vec4 block_color = star_data;

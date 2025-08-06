@@ -96,8 +96,8 @@ varying float exposure;
 // MAIN FUNCTION ------------------
 
 void main() {
-    vec4 block_color = texture2D(colortex1, texcoord);
-    float d = texture2D(depthtex0, texcoord).r;
+    vec4 block_color = texture2DLod(colortex1, texcoord, 0);
+    float d = texture2DLod(depthtex0, texcoord, 0).r;
     float linear_d = ld(d);
 
     vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);

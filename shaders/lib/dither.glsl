@@ -81,6 +81,18 @@ float eclectic_dither13(vec2 frag)
     return fract(dot(frag, vec2(0.3076923076923077, 0.5384615384615384)) + p4);
 }
 
+float dither17(vec2 pos) {
+  return fract(dot(pos, vec2(0.11764705882352941, 0.4117647058823529)));
+}
+
+float eclectic_dither17(vec2 frag) {
+  vec2 v = 0.0002314814814814815 * frag + vec2(0.25, 0.0);
+  float state = fract(dot(v * v, vec2(3571.0)));
+  float p4 = fract(state * state * 7142.0) * 0.15;
+
+  return fract(p4 + dot(frag, vec2(0.11764705882352941, 0.4117647058823529)));
+}
+
 float dither_grad_noise(vec2 frag) {
     return fract(52.9829189 * fract(dot(vec2(0.06711056, 0.00583715), frag)));
 }
@@ -94,7 +106,7 @@ float eclectic_dither_grad_noise(vec2 frag) {
 }
 
 float texture_noise_64(vec2 p, sampler2D noise) {
-    return texture2D(noise, p * 0.015625).r;
+    return texture2DLod(noise, p * 0.015625, 0).r;
 }
 
 float semiblue(vec2 xy) {
@@ -112,9 +124,6 @@ float dither_makeup(vec2 xy) {
 
     float vDither = dot(vec2( 171.0, 231.0 ), xy);
     return fract(vDither / 103.0);  // (103.0, 71. 97.0 )
-
-    // return fract(dot(xy, vec2(0.75487766624669276, 0.569840290998)));
-    // return fract(dot(xy, vec2(0.3076923076923077, 0.5384615384615384)));
 }
 
 float valve_red(vec2 xy) {
@@ -164,6 +173,18 @@ float valve_red(vec2 xy) {
         return fract(dot(frag, vec2(0.3076923076923077, 0.5384615384615384)) + dither_shift + p4);
     }
 
+    float shifted_dither17(vec2 pos) {
+        return fract(dither_shift + dot(pos, vec2(0.11764705882352941, 0.4117647058823529)));
+    }
+
+    float shifted_eclectic_dither17(vec2 frag) {
+        vec2 v = 0.0002314814814814815 * frag + vec2(0.25, 0.0);
+        float state = fract(dot(v * v, vec2(3571.0)));
+        float p4 = fract(state * state * 7142.0) * 0.15;
+
+        return fract(dither_shift + p4 + dot(frag, vec2(0.11764705882352941, 0.4117647058823529)));
+    }
+
     float shifted_dither_grad_noise(vec2 frag) {
         return fract(dither_shift + (52.9829189 * fract(dot(vec2(0.06711056, 0.00583715), frag))));
     }
@@ -177,7 +198,7 @@ float valve_red(vec2 xy) {
     }
 
     float shifted_texture_noise_64(vec2 p, sampler2D noise) {
-        float dither = texture2D(noise, p * 0.015625).r;
+        float dither = texture2DLod(noise, p * 0.015625, 0).r;
         return fract(dither_shift + dither);
     }
 
@@ -194,18 +215,16 @@ float valve_red(vec2 xy) {
         float flip = mod(tile.x + tile.y, 2.0);
         xy = mix(xy, xy.yx, flip);
 
-        // float vDither = dot(vec2( 171.0, 231.0 ), xy);
-        // return fract(dither_shift + (vDither / 103.0));  // (103.0, 71. 97.0 )
-
-        return fract(dither_shift + dot(xy, vec2(0.75487766624669276, 0.569840290998)));
+        float vDither = dot(vec2( 171.0, 231.0 ), xy);
+        return fract(dither_shift + (vDither / 103.0));  // (103.0, 71. 97.0 )
     }
 
     float shifted_valve_red(vec2 xy) {
         float vDither = dot(vec2( 171.0, 231.0 ), xy );
         vDither = fract(vDither / 103.0);  // (103.0, 71. 97.0 )
 
-    return fract(dither_shift + vDither);
-}
+        return fract(dither_shift + vDither);
+    }
 
 #else
 
@@ -253,7 +272,7 @@ float valve_red(vec2 xy) {
     }
 
     float shifted_texture_noise_64(vec2 p, sampler2D noise) {
-        float dither = texture2D(noise, p * 0.015625).r;
+        float dither = texture2DLod(noise, p * 0.015625, 0).r;
         return fract((frame_mod * 0.4) + dither);
     }
 

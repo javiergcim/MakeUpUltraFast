@@ -42,7 +42,7 @@ varying vec2 texcoord;
 // MAIN FUNCTION ------------------
 
 void main() {
-    vec4 block_color = texture2D(colortex1, texcoord);
+    vec4 block_color = texture2DLod(colortex1, texcoord, 0);
 
     #if defined BLOOM || defined DOF
         #if AA_TYPE > 0

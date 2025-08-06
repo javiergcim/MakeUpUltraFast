@@ -57,12 +57,12 @@ varying vec2 texcoord;
 // MAIN FUNCTION ------------------
 
 void main() {
-    vec4 block_color = texture2D(colortex1, texcoord);
+    vec4 block_color = texture2DLod(colortex1, texcoord, 0);
 
     // Precalc past position and velocity
     #if AA_TYPE > 0 || defined MOTION_BLUR
         // Retrojection of previous frame
-        float z_depth = texture2D(depthtex1, texcoord).r;
+        float z_depth = texture2DLod(depthtex1, texcoord, 0).r;
         vec2 texcoord_past;
         vec3 curr_view_pos;
         vec3 curr_feet_player_pos;

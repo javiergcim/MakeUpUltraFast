@@ -27,7 +27,7 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright, float dithe
         clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
 
     #if defined DISTANT_HORIZONS && defined DEFERRED_SHADER
-        float d_dh = texture2D(dhDepthTex0, vec2(gl_FragCoord.x / viewWidth, gl_FragCoord.y / viewHeight)).r;
+        float d_dh = texture2DLod(dhDepthTex0, vec2(gl_FragCoord.x / viewWidth, gl_FragCoord.y / viewHeight), 0.0).r;
         float linear_d_dh = ld_dh(d_dh);
         if (linear_d_dh < 0.9999) {
             return block_color;

@@ -83,27 +83,9 @@ Volumetric light - MakeUp implementation
                 // Clip to world
                 pos = modeli_times_projectioni * (vec4(view_pos, 1.0) * 2.0 - 1.0);
                 view_pos = (pos.xyz /= pos.w).xyz;
-
                 shadow_pos = get_volumetric_pos(view_pos);
-
-                // DEBUG
-                light += shadow2D(shadowtex0, shadow_pos).r;
-
-                // // shadow_detector = shadow2D(shadowtex0, vec3(shadow_pos.xy, shadow_pos.z + 0.000)).r;
-                // shadow_detector = shadow2D(shadowtex0, shadow_pos).r;
-                // if (shadow_detector < 1.0) {
-                //     // shadow_black = shadow2D(shadowtex1, vec3(shadow_pos.xy, shadow_pos.z + 0.000)).r;
-                //     shadow_black = shadow2D(shadowtex1, shadow_pos).r;
-                //     if (shadow_black != shadow_detector) {
-                //         shadow_color = texture2D(shadowcolor0, shadow_pos.xy);
-                //         alpha_complement = 1.0 - shadow_color.a;
-                //         shadow_color.rgb *= alpha_complement;
-                //         shadow_color.rgb = mix(shadow_color.rgb, vec3(1.0), alpha_complement);
-                //     }
-                // }
                 
-                // shadow_color *= shadow_black;
-                // light_color += clamp(shadow_color.rgb * (1.0 - shadow_detector) + shadow_detector, vec3(0.0), vec3(1.0));
+                light += shadow2D(shadowtex0, shadow_pos).r;
             }
 
             // light_color /= GODRAY_STEPS;

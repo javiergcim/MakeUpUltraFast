@@ -11,7 +11,7 @@ float dbao(float dither) {
     float n;
     float dither_x;
 
-    float d = texture2D(depthtex0, texcoord.xy).r;
+    float d = texture2DLod(depthtex0, texcoord.xy, 0.0).r;
     float hand_check = d < 0.56 ? 1024.0 : 1.0;
     d = ld(d);
 
@@ -28,12 +28,12 @@ float dbao(float dither) {
         n = fract(dither_x * 1.6180339887) * 3.141592653589793;
         offset = vec2(cos(n), sin(n)) * dither_x * scale_factor;
 
-        sd = ld(texture2D(depthtex0, texcoord.xy + offset).r);
+        sd = ld(texture2DLod(depthtex0, texcoord.xy + offset, 0.0).r);
         sample_d = (d - sd) * far_and_check;
         angle = clamp(0.5 - sample_d, 0.0, 1.0);
         dist = clamp(0.25 * sample_d - 1.0, 0.0, 1.0);
 
-        sd = ld(texture2D(depthtex0, texcoord.xy - offset).r);
+        sd = ld(texture2DLod(depthtex0, texcoord.xy - offset, 0.0).r);
         sample_d = (d - sd) * far_and_check;
         angle += clamp(0.5 - sample_d, 0.0, 1.0);
         dist += clamp(0.25 * sample_d - 1.0, 0.0, 1.0);
