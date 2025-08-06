@@ -107,68 +107,6 @@ float fast_edge_detector(vec3 current_color, vec3 left, vec3 right, vec3 up, vec
     return smoothstep(0.25, 0.75, edge);
 }
 
-// float line_detector(vec3 center, vec3 up, vec3 down, vec3 left, vec3 right, vec3 ul, vec3 ur, vec3 dl, vec3 dr) {
-//     const float epsilon = 0.0001;
-
-//     // Umbral de la fuerza relativa. Por ejemplo, 0.2 significa que una línea
-//     // debe ser al menos un 20% más brillante u oscura que su entorno para ser considerada.
-//     // Este valor es ahora mucho más intuitivo y funciona en distintas iluminaciones.
-//     const float relative_threshold = 0.01;
-
-//     // Suavidad de la transición. Controla qué tan rápido el resaltado
-//     // pasa de 0 a 1 una vez que se supera el umbral.
-//     const float smoothness = 0.15;
-
-//     float c = luma(center);
-//     float t = luma(up);
-//     float b = luma(down);
-//     float l = luma(left);
-//     float r = luma(right);
-//     float tl = luma(ul);
-//     float tr = luma(ur);
-//     float bl = luma(dl);
-//     float br = luma(dr);
-
-//     // --- Cálculo de "linealidad" relativa para cada dirección ---
-//     float lineness_h = 0.0, lineness_v = 0.0, lineness_d1 = 0.0, lineness_d2 = 0.0;
-
-//     // 1. Línea Horizontal
-//     if ((c > t && c > b) || (c < t && c < b)) {
-//         float strength = min(abs(c - t) / (t + epsilon), abs(c - b) / (b + epsilon));
-//         float penalty = (abs(c - l) + abs(c - r)) / (c + epsilon);
-//         lineness_h = strength - penalty;
-//     }
-
-//     // 2. Línea Vertical
-//     if ((c > l && c > r) || (c < l && c < r)) {
-//         float strength = min(abs(c - l) / (l + epsilon), abs(c - r) / (r + epsilon));
-//         float penalty = (abs(c - t) + abs(c - b)) / (c + epsilon);
-//         lineness_v = strength - penalty;
-//     }
-
-//     // 3. Línea Diagonal (\)
-//     if ((c > tr && c > bl) || (c < tr && c < bl)) {
-//         float strength = min(abs(c - tr) / (tr + epsilon), abs(c - bl) / (bl + epsilon));
-//         float penalty = (abs(c - tl) + abs(c - br)) / (c + epsilon);
-//         lineness_d1 = strength - penalty;
-//     }
-
-//     // 4. Línea Diagonal (/)
-//     if ((c > tl && c > br) || (c < tl && c < br)) {
-//         float strength = min(abs(c - tl) / (tl + epsilon), abs(c - br) / (br + epsilon));
-//         float penalty = (abs(c - tr) + abs(c - bl)) / (c + epsilon);
-//         lineness_d2 = strength - penalty;
-//     }
-
-//     // --- Puntuación final y color de salida ---
-    
-//     // Tomamos la máxima puntuación y nos aseguramos de que no sea negativa.
-//     float max_lineness = max(0.0, max(lineness_h, max(lineness_v, max(lineness_d1, lineness_d2))));
-
-//     // `smoothstep` usa nuestro umbral relativo para crear una transición suave.
-//     return smoothstep(relative_threshold, relative_threshold + smoothness, max_lineness);
-// }
-
 float line_detector(vec3 center, vec3 up, vec3 down, vec3 left, vec3 right, vec3 ul, vec3 ur, vec3 dl, vec3 dr) {
     const float epsilon = 0.0001;
     const float relative_threshold = 0.01;
