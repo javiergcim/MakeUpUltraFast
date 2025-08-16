@@ -227,11 +227,13 @@ void main() {
         // Bloom source
         float bloom_luma = smoothstep(0.85, 1.0, luma(block_color.rgb * exposure)) * 0.5;
 
+        block_color = clamp(block_color, vec4(0.0), vec4(vec3(50.0), 1.0));        
         /* DRAWBUFFERS:146 */
         gl_FragData[0] = block_color;
         gl_FragData[1] = block_color * bloom_luma;
         gl_FragData[2] = vec4(exposure, 0.0, 0.0, 0.0);
     #else
+        block_color = clamp(block_color, vec4(0.0), vec4(vec3(50.0), 1.0));
         /* DRAWBUFFERS:16 */
         gl_FragData[0] = block_color;
         gl_FragData[1] = vec4(exposure, 0.0, 0.0, 0.0);

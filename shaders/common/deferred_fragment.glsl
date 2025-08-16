@@ -193,6 +193,7 @@ void main() {
         }
     }
 
+    block_color = clamp(block_color, vec4(0.0), vec4(vec3(50.0), 1.0));
     /* DRAWBUFFERS:14 */
     gl_FragData[0] = vec4(block_color.rgb, d);
     gl_FragData[1] = block_color;

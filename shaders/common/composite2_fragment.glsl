@@ -102,11 +102,11 @@ void main() {
         #endif
 
         block_color = clamp(block_color, vec4(0.0), vec4(vec3(50.0), 1.0));
-
         /* DRAWBUFFERS:13 */
         gl_FragData[0] = block_color;  // colortex1
         gl_FragData[1] = block_color;  // To TAA averages
     #else
+        block_color = clamp(block_color, vec4(0.0), vec4(vec3(50.0), 1.0));
         /* DRAWBUFFERS:1 */
         gl_FragData[0] = block_color;  // colortex1
     #endif
