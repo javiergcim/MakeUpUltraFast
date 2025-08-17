@@ -109,6 +109,10 @@ float texture_noise_64(vec2 p, sampler2D noise) {
     return texture2DLod(noise, p * 0.015625, 0).r;
 }
 
+vec2 texture_noise2d_64(vec2 p, sampler2D noise) {
+    return texture2DLod(noise, p * 0.015625, 0).rg;
+}
+
 float semiblue(vec2 xy) {
     vec2 tile = floor(xy * 0.25);
     float flip = mod(tile.x + tile.y, 2.0);
@@ -199,6 +203,11 @@ float valve_red(vec2 xy) {
 
     float shifted_texture_noise_64(vec2 p, sampler2D noise) {
         float dither = texture2DLod(noise, p * 0.015625, 0).r;
+        return fract(dither_shift + dither);
+    }
+
+    vec2 shifted_texture_noise2d_64(vec2 p, sampler2D noise) {
+        vec2 dither = texture2DLod(noise, p * 0.015625, 0).rg;
         return fract(dither_shift + dither);
     }
 

@@ -84,7 +84,7 @@ varying vec3 omni_light;
 
 #if defined MATERIAL_GLOSS && !defined NETHER
     varying vec3 flat_normal;
-    varying vec3 sub_position3;
+    varying vec3 sub_position3_normalized;
     varying vec2 lmcoord_alt;
     varying float gloss_factor;
     varying float gloss_power;
@@ -173,7 +173,7 @@ void main() {
         }
 
         flat_normal = normal;
-        sub_position3 = sub_position.xyz;
+        sub_position3_normalized = normalize(sub_position.xyz);
 
         lmcoord_alt = lmcoord;    
     #endif

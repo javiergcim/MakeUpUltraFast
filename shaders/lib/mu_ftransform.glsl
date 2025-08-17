@@ -1,5 +1,5 @@
 vec4 mu_ftransform() {
-    float lineWidth = 1.75;
+    float lineWidth = 2.0;
     vec2 screenSize = vec2(viewWidth, viewHeight);
     mat4 VIEW_SCALE = mat4(mat3(1.0 - 0.00390625));
     mat4 tempmat = gl_ProjectionMatrix * VIEW_SCALE * gl_ModelViewMatrix;

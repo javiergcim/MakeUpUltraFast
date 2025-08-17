@@ -89,7 +89,7 @@ varying vec3 omni_light;
 
 #if defined MATERIAL_GLOSS && !defined NETHER
     varying vec3 flat_normal;
-    varying vec3 sub_position3;
+    varying vec3 sub_position3_normalized;
     varying vec2 lmcoord_alt;
     varying float gloss_factor;
     varying float gloss_power;
@@ -195,7 +195,7 @@ void main() {
                 block_luma = pow(block_luma, luma_power);
             }
 
-            float material_gloss_factor = material_gloss(reflect(normalize(sub_position3), flat_normal), lmcoord_alt, final_gloss_power, flat_normal) * gloss_factor;
+            float material_gloss_factor = material_gloss(reflect(sub_position3_normalized, flat_normal), lmcoord_alt, final_gloss_power, flat_normal) * gloss_factor;
 
             float material = material_gloss_factor * block_luma;
             vec3 real_light = omni_light +
