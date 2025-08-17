@@ -60,13 +60,9 @@ float r_dither(vec2 frag) {
 }
 
 vec2 r_dither2d(vec2 frag) {
-    vec2 tile = floor(frag * 0.25);
-    float flip = mod(tile.x + tile.y, 2.0);
-    tile = mix(frag, frag.yx, flip);
-
     return vec2(
         fract(dot(frag, vec2(0.75487766624669276, 0.569840290998))),
-        fract(dot(tile, vec2(0.75487766624669276, 0.569840290998)))
+        fract(52.9829189 * fract(dot(vec2(0.06711056, 0.00583715), frag)))
     );
 }
 
@@ -169,7 +165,7 @@ float valve_red(vec2 xy) {
     vec2 shifted_r_dither2d(vec2 frag) {
         return vec2(
             fract(dither_shift + dot(frag, vec2(0.75487766624669276, 0.569840290998))),
-            fract(dither_shift + dot(frag, vec2(0.569840290998, 0.75487766624669276)))
+            fract(dither_shift + (52.9829189 * fract(dot(vec2(0.06711056, 0.00583715), frag))))
         );
     }
 
@@ -271,6 +267,18 @@ float valve_red(vec2 xy) {
 
     float shifted_r_dither(vec2 frag) {
         return fract((frame_mod * 0.4) + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
+    }
+
+    float shifted_r_dither(vec2 frag) {
+        return fract((frame_mod * 0.4) + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
+    }
+
+    vec2 shifted_r_dither2d(vec2 frag) {
+        return vec2(
+            // fract((frame_mod * 0.4) + dot(frag, vec2(0.75487766624669276, 0.569840290998))),
+            fract((frame_mod * 0.4) + dot(frag, vec2(0.3076923076923077, 0.5384615384615384))),
+            fract((frame_mod * 0.4) + (52.9829189 * fract(dot(vec2(0.06711056, 0.00583715), frag))))
+        );
     }
 
     float shifted_eclectic_r_dither(vec2 frag) {
