@@ -33,7 +33,6 @@ uniform float rainStrength;
 uniform float light_mix;
 uniform ivec2 eyeBrightnessSmooth;
 uniform sampler2D gaux4;
-uniform sampler2D colortex2;
 
 #if defined DISTANT_HORIZONS
     uniform float dhNearPlane;
@@ -129,13 +128,12 @@ void main() {
 
     #if SHADOW_TYPE == 1 || defined DISTANT_HORIZONS || (defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER) || SSR_TYPE > 0
         #if AA_TYPE > 0
-            vec2 dither2d = shifted_texture_noise2d_64(gl_FragCoord.xy, colortex2);
+            float dither = shifted_r_dither(gl_FragCoord.xy);
         #else
-            vec2 dither2d = texture_noise2d_64(gl_FragCoord.xy, colortex2);
-            // dither = 0.0;
+            float dither = r_dither(gl_FragCoord.xy);
         #endif
     #else
-        vec2 dither2d = vec2(1.0);
+        float dither = 1.0;
     #endif
 
     // vec4 block_color = texture2D(tex, texcoord);
@@ -171,17 +169,17 @@ void main() {
     sky_color_reflect = xyz_to_rgb(sky_color_reflect);
 
     #if defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER
-        sky_color_reflect = get_cloud(normalize((gbufferModelViewInverse * vec4(reflect_water_vec * far, 1.0)).xyz), sky_color_reflect, 0.0, dither2d.r, worldposition.xyz, int(CLOUD_STEPS_AVG * 0.5), umbral, cloud_color, dark_cloud_color);
+        sky_color_reflect = get_cloud(normalize((gbufferModelViewInverse * vec4(reflect_water_vec * far, 1.0)).xyz), sky_color_reflect, 0.0, dither, worldposition.xyz, int(CLOUD_STEPS_AVG * 0.5), umbral, cloud_color, dark_cloud_color);
     #endif
     if(block_type > 2.5) {  // Water
         #ifdef VANILLA_WATER
             block_color = texture2D(tex, texcoord);
             #if defined SHADOW_CASTING && !defined NETHER
                 #if defined COLORED_SHADOW
-                    vec3 shadow_c = get_colored_shadow(shadow_pos, dither2d);
+                    vec3 shadow_c = get_colored_shadow(shadow_pos, dither);
                     shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
                 #else
-                    float shadow_c = get_shadow(shadow_pos, dither2d);
+                    float shadow_c = get_shadow(shadow_pos, dither);
                     shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
                 #endif
             #else
@@ -198,7 +196,7 @@ void main() {
 
             block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125) * tint_color.rgb;
 
-            block_color.rgb = water_shader(fragposition, surface_normal, block_color.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visible_sky, dither2d.r, direct_light_color);
+            block_color.rgb = water_shader(fragposition, surface_normal, block_color.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visible_sky, dither, direct_light_color);
 
             block_color.a = sqrt(block_color.a);
         #else
@@ -228,7 +226,7 @@ void main() {
                 fresnel = clamp(fresnel * (water_texture), 0.0, 1.0);
             #endif
 
-            block_color.rgb = water_shader(fragposition, surface_normal, block_color.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visible_sky, dither2d.r, direct_light_color);
+            block_color.rgb = water_shader(fragposition, surface_normal, block_color.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visible_sky, dither, direct_light_color);
             
         #endif
 
@@ -239,10 +237,10 @@ void main() {
 
         #if defined SHADOW_CASTING && !defined NETHER
         #if defined COLORED_SHADOW
-            vec3 shadow_c = get_colored_shadow(shadow_pos, dither2d);
+            vec3 shadow_c = get_colored_shadow(shadow_pos, dither);
             shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
         #else
-            float shadow_c = get_shadow(shadow_pos, dither2d);
+            float shadow_c = get_shadow(shadow_pos, dither);
             shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
         #endif
         #else
@@ -256,7 +254,7 @@ void main() {
         block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
 
         if(block_type > 1.5) {  // Glass
-            block_color = cristal_shader(fragposition, water_normal, block_color, sky_color_reflect, fresnel * fresnel, visible_sky, dither2d.r, direct_light_color);
+            block_color = cristal_shader(fragposition, water_normal, block_color, sky_color_reflect, fresnel * fresnel, visible_sky, dither, direct_light_color);
         }
     }
 
@@ -266,7 +264,7 @@ void main() {
         float sup = t * TRANSITION_DH_SUP;
         float inf = t * TRANSITION_DH_INF;
         float draw_umbral = (gl_FogFragCoord - (dhNearPlane + inf)) / (far - sup - inf - dhNearPlane);
-        if(draw_umbral > dither2d.r) {
+        if(draw_umbral > dither) {
             discard;
             return;
         }

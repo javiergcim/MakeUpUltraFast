@@ -4,9 +4,9 @@
 /*
 
 noisetex - Water normals
-colortex0 - Blue noise
+colortex0 - Unused
 colortex1 - Antialiasing auxiliar
-colortex2 - Unused 
+colortex2 - Bluenoise 
 colortex3 - TAA Averages history
 gaux1 - Screen-Space-Reflection / Bloom auxiliar
 gaux2 - Clouds texture
@@ -26,7 +26,7 @@ const int colortex1Format = R11F_G11F_B10F;
 */
 #endif
 /*
-const int colortex2Format = RG8;
+const int colortex2Format = R8;
 */
 #ifdef DOF
 /*

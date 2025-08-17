@@ -59,6 +59,17 @@ float r_dither(vec2 frag) {
     return fract(dot(frag, vec2(0.75487766624669276, 0.569840290998)));
 }
 
+vec2 r_dither2d(vec2 frag) {
+    vec2 tile = floor(frag * 0.25);
+    float flip = mod(tile.x + tile.y, 2.0);
+    tile = mix(frag, frag.yx, flip);
+
+    return vec2(
+        fract(dot(frag, vec2(0.75487766624669276, 0.569840290998))),
+        fract(dot(tile, vec2(0.75487766624669276, 0.569840290998)))
+    );
+}
+
 float eclectic_r_dither(vec2 frag) {
     vec2 v = 0.0002314814814814815 * frag + vec2(0.25, 0.0);
     float state = fract(dot(v * v, vec2(3571.0)));
@@ -153,6 +164,13 @@ float valve_red(vec2 xy) {
 
     float shifted_r_dither(vec2 frag) {
         return fract(dither_shift + dot(frag, vec2(0.75487766624669276, 0.569840290998)));
+    }
+
+    vec2 shifted_r_dither2d(vec2 frag) {
+        return vec2(
+            fract(dither_shift + dot(frag, vec2(0.75487766624669276, 0.569840290998))),
+            fract(dither_shift + dot(frag, vec2(0.569840290998, 0.75487766624669276)))
+        );
     }
 
     float shifted_eclectic_r_dither(vec2 frag) {
