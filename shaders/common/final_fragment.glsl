@@ -14,7 +14,7 @@ gaux3 - Exposure auxiliar
 gaux4 - Fog auxiliar
 
 const int noisetexFormat = RG8;
-const int colortex0Format = RG8;
+const int colortex0Format = R8;
 */
 #ifdef DOF
 /*
@@ -26,7 +26,7 @@ const int colortex1Format = R11F_G11F_B10F;
 */
 #endif
 /*
-const int colortex2Format = R8;
+const int colortex2Format = RG8;
 */
 #ifdef DOF
 /*

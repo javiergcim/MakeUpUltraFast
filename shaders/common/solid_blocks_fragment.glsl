@@ -21,6 +21,7 @@ uniform float light_mix;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
 uniform sampler2D gaux4;
+uniform sampler2D colortex2;
 
 #if defined DISTANT_HORIZONS
     uniform float dhNearPlane;
@@ -116,9 +117,9 @@ varying vec3 omni_light;
 void main() {
     #if (defined SHADOW_CASTING && !defined NETHER) || defined DISTANT_HORIZONS
         #if AA_TYPE > 0 
-            float dither = shifted_dither13(gl_FragCoord.xy);
+            vec2 dither2d = shifted_texture_noise2d_64(gl_FragCoord.xy, colortex2);
         #else
-            float dither = r_dither(gl_FragCoord.xy);
+            vec2 dither2d = texture_noise2d_64(gl_FragCoord.xy, colortex2);
         #endif
     #endif
     // Avoid render in DH transition
@@ -127,7 +128,7 @@ void main() {
         float sup = t * TRANSITION_DH_SUP;
         float inf = t * TRANSITION_DH_INF;
         float umbral = (gl_FogFragCoord - (dhNearPlane + inf)) / (far - sup - inf - dhNearPlane);
-        if(umbral > dither) {
+        if(umbral > dither2d.r) {
             discard;
             return;
         }
@@ -166,10 +167,10 @@ void main() {
 
     #if defined SHADOW_CASTING && !defined NETHER
         #if defined COLORED_SHADOW
-            vec3 shadow_c = get_colored_shadow(shadow_pos, dither);
+            vec3 shadow_c = get_colored_shadow(shadow_pos, dither2d);
             shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
         #else
-            float shadow_c = get_shadow(shadow_pos, dither);
+            float shadow_c = get_shadow(shadow_pos, dither2d);
             shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
         #endif
     #else

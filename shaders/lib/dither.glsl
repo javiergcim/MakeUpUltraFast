@@ -110,7 +110,7 @@ float texture_noise_64(vec2 p, sampler2D noise) {
 }
 
 vec2 texture_noise2d_64(vec2 p, sampler2D noise) {
-    return texture2DLod(noise, p * 0.015625, 0).rg;
+    return texture2D(noise, p * 0.015625).rg;
 }
 
 float semiblue(vec2 xy) {
@@ -208,7 +208,7 @@ float valve_red(vec2 xy) {
 
     vec2 shifted_texture_noise2d_64(vec2 p, sampler2D noise) {
         vec2 dither = texture2DLod(noise, p * 0.015625, 0).rg;
-        return fract(dither_shift + dither);
+        return fract(vec2(dither_shift) + dither);
     }
 
     float shifted_semiblue(vec2 xy) {
@@ -283,6 +283,11 @@ float valve_red(vec2 xy) {
     float shifted_texture_noise_64(vec2 p, sampler2D noise) {
         float dither = texture2DLod(noise, p * 0.015625, 0).r;
         return fract((frame_mod * 0.4) + dither);
+    }
+
+    vec2 shifted_texture_noise2d_64(vec2 p, sampler2D noise) {
+        vec2 dither = texture2DLod(noise, p * 0.015625, 0).rg;
+        return fract(vec2(frame_mod * 0.4) + dither);
     }
 
     float shifted_semiblue(vec2 xy) {
