@@ -116,11 +116,9 @@ varying vec3 omni_light;
 void main() {
     #if (defined SHADOW_CASTING && !defined NETHER) || defined DISTANT_HORIZONS
         #if AA_TYPE > 0 
-            vec2 dither2d = shifted_r_dither2d(gl_FragCoord.xy);
-            // float dither = shifted_r_dither(gl_FragCoord.xy);
+            float dither = shifted_dither17(gl_FragCoord.xy);
         #else
-            vec2 dither2d = r_dither2d(gl_FragCoord.xy);
-            // float dither = r_dither(gl_FragCoord.xy);
+            float dither = r_dither(gl_FragCoord.xy);
         #endif
     #endif
     // Avoid render in DH transition
@@ -129,7 +127,7 @@ void main() {
         float sup = t * TRANSITION_DH_SUP;
         float inf = t * TRANSITION_DH_INF;
         float umbral = (gl_FogFragCoord - (dhNearPlane + inf)) / (far - sup - inf - dhNearPlane);
-        if(umbral > dither2d.r) {
+        if(umbral > dither) {
             discard;
             return;
         }
@@ -168,10 +166,10 @@ void main() {
 
     #if defined SHADOW_CASTING && !defined NETHER
         #if defined COLORED_SHADOW
-            vec3 shadow_c = get_colored_shadow(shadow_pos, dither2d);
+            vec3 shadow_c = get_colored_shadow(shadow_pos, dither);
             shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
         #else
-            float shadow_c = get_shadow(shadow_pos, dither2d);
+            float shadow_c = get_shadow(shadow_pos, dither);
             shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
         #endif
     #else
