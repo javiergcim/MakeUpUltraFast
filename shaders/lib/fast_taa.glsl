@@ -175,7 +175,7 @@ float line_detector(vec3 center, vec3 up, vec3 down, vec3 left, vec3 right, vec3
     return smoothstep(relative_threshold, relative_threshold + smoothness, max_lineness);
 }
 
-vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
+vec3 fast_taa_old(vec3 current_color, vec2 texcoord_past) {
     // Verificamos si proyección queda fuera de la pantalla actual
     if (clamp(texcoord_past, 0.0, 1.0) != texcoord_past) {
         return current_color;
@@ -243,6 +243,49 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
         );
 
         return mix(current_color, previous, 0.70 + (edge * 0.25));
+        // return mix(current_color, previous, 0.70);
+        // return vec3(edge);
+    }
+}
+
+vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
+    // Verificamos si proyección queda fuera de la pantalla actual
+    if (clamp(texcoord_past, 0.0, 1.0) != texcoord_past) {
+        return current_color;
+    } else {
+        // Previous color
+        vec3 previous = texture2DLod(colortex3, texcoord_past, 0.0).rgb;
+
+        vec3 left = texture2DLod(colortex1, texcoord + vec2(-pixel_size_x, 0.0), 0.0).rgb;
+        vec3 right = texture2DLod(colortex1, texcoord + vec2(pixel_size_x, 0.0), 0.0).rgb;
+        vec3 down = texture2DLod(colortex1, texcoord + vec2(0.0, -pixel_size_y), 0.0).rgb;
+        vec3 up = texture2DLod(colortex1, texcoord + vec2(0.0, pixel_size_y), 0.0).rgb;
+        vec3 ul = texture2DLod(colortex1, texcoord + vec2(-pixel_size_x, pixel_size_y), 0.0).rgb;
+        vec3 ur = texture2DLod(colortex1, texcoord + vec2(pixel_size_x, pixel_size_y), 0.0).rgb;
+        vec3 dl = texture2DLod(colortex1, texcoord + vec2(-pixel_size_x, -pixel_size_y), 0.0).rgb;
+        vec3 dr = texture2DLod(colortex1, texcoord + vec2(pixel_size_x, -pixel_size_y), 0.0).rgb;
+
+        vec3 c_max = max(max(max(left, right), down),max(up, max(ul, max(ur, max(dl, max(dr, current_color))))));
+	    vec3 c_min = min(min(min(left, right), down),min(up, min(ul, min(ur, min(dl, min(dr, current_color))))));
+
+        // Clip 3
+        vec3 cliped_previous = convex_hull(
+            current_color,
+            previous,
+            up,
+            down,
+            left,
+            right,
+            ul,
+            ur,
+            dl,
+            dr
+        );
+
+        float color_distance = clamp((distance(previous, cliped_previous) / luma(cliped_previous)) * 1.0, 0.0, 1.0);
+        color_distance = color_distance * 0.25;
+
+        return mix(current_color, cliped_previous, 0.90 - color_distance);
         // return mix(current_color, previous, 0.70);
         // return vec3(edge);
     }

@@ -4,7 +4,6 @@ if(dhMaterialId == DH_BLOCK_WATER) {  // Water
     position.y -= 0.125;
 }
 
-
 gl_Position = dhProjection * gbufferModelView * position;
 
 #if AA_TYPE > 1
