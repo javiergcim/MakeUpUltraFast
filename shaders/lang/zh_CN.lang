@@ -15,7 +15,7 @@ profile.comment=“无阴影”配置文件是为低性能电脑设计的，不�
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=感谢你使用这款着色器！ :). 将高清修复的原生画质选项设为正常值/默认值，可获得更好的画质。
-value.ACERCADE.0=v.9.3c
+value.ACERCADE.0=v.9.3d
 
 #Options
 #############################

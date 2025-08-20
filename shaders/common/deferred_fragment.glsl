@@ -21,6 +21,7 @@ uniform float near;
 uniform float blindness;
 uniform float rainStrength;
 uniform sampler2D gaux3;
+uniform int frameCounter;
 
 #if V_CLOUDS != 0
     uniform sampler2D gaux2;
@@ -57,6 +58,7 @@ uniform float pixel_size_y;
 #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
     uniform mat4 gbufferProjection;
     uniform float frameTimeCounter;
+    uniform sampler2D colortex2;
 #endif
 
 /* Ins / Outs */
@@ -114,7 +116,7 @@ void main() {
 
     #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
         #if AA_TYPE > 0
-            float dither = shifted_eclectic_r_dither(gl_FragCoord.xy);
+            float dither = shifted_semiblue(gl_FragCoord.xy + (frameCounter%5000));
         #else
             float dither = semiblue(gl_FragCoord.xy);
         #endif
@@ -176,8 +178,6 @@ void main() {
 
         float final_ao = mix(dbao(dither), 1.0, ao_att);
         block_color.rgb *= final_ao;
-        // block_color = vec4(vec3(final_ao), 1.0);
-        // block_color = vec4(vec3(linear_d), 1.0);
     #endif
 
     #if defined THE_END || defined NETHER

@@ -28,9 +28,6 @@ uniform sampler2D colortex1;
     uniform mat4 gbufferPreviousModelView;
     uniform sampler2D depthtex1;
     uniform float frameTime;
-
-    uniform float viewWidth;
-    uniform float viewHeight;
 #endif
 
 /* Ins / Outs */
