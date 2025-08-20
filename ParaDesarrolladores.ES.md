@@ -61,9 +61,9 @@ Los shaders que se emplean para cualquier otra dimensión no especificada son de
 Los buffers son utilizados y asignados de la siguiente manera:
 
 - noisetex: Almacena las normales del agua en dos canales, el tercer componente es calculado al momento. (RG8)
-- colortex0: Ruido azul (no cargado). (R8)
+- colortex0: Sin usar. (R8)
 - colortex1: Buffer principal. Cuando está actvo el DOF, es de cuatro canales, donde el cuarto canal almacena la profundidad de la escena para ser también suavizada por el antialias, y así evitar problemas en cambios de enfoque súbitos por la sacudida de la cámara. (Sin DOF: R11F_G11F_B10F, con DOF: RGBA16)
-- colortex2: Sin usar. (R8)
+- colortex2: Ruido azul (no cargado). (R8)
 - colortex3: Aquí se almacena el historial empleado por el muestreo temporal. Cuando está actvo el DOF, es de cuatro canales, donde el cuarto canal almacena la profundidad de la escena para ser también suavizada por el antialias, y así evitar problemas en cambios de enfoque súbitos por la sacudida de la cámara. (Sin DOF: R11F_G11F_B10F, con DOF: RGBA16) 
 - gaux1: Aquí se almacena una versión de la escena que será empleada en los reflejos y refracciones de espacio de pantalla. Después de ser empleado para ello, se utiliza como auxiliar para almacenar el bloom de la escena. (R11F_G11F_B10F)
 - gaux2: Almacena el mapa para las nubes. (R8)
