@@ -30,9 +30,8 @@ but there is no such texture currently.
 
 #if MC_VERSION >= 11300
     uniform float dither_shift;
-#else
-    uniform int frame_mod;
 #endif
+uniform int frame_mod;
 
 float hash12(vec2 v)
 {
@@ -115,6 +114,17 @@ float semiblue(vec2 xy) {
     xy = mix(xy, xy.yx, flip);
 
     return fract(dot(vec2(0.75487766624669276, 0.569840290998), xy) + hash12(tile));
+}
+
+float dither_makeup(vec2 xy) {
+    vec2 tile = floor(xy * 0.125);
+    float flip = mod(tile.x + tile.y, 2.0);
+    vec2 zw = mix(xy, xy.yx, flip);
+
+    return fract(
+        dot(vec2(0.24512233375330728, 0.4301597090019468), zw) +
+        dot(vec2(0.735151469707489, 0.737424373626709), tile)
+    );
 }
 
 // float valve_red(vec2 xy) {
@@ -201,6 +211,19 @@ float semiblue(vec2 xy) {
         return fract(dither_shift + dot(vec2(0.75487766624669276, 0.569840290998), xy) + hash12(tile));
     }
 
+    float shifted_dither_makeup(vec2 xy) {
+        vec2 tile = floor(xy * 0.125);
+        float flip = mod(tile.x + tile.y, 2.0);
+        vec2 zw = mix(xy, xy.yx, flip);
+
+        return fract(
+            dither_shift +
+            dot(vec2(0.24512233375330728, 0.4301597090019468), zw) +
+            dot(vec2(0.735151469707489, 0.737424373626709), tile)
+        );
+    }
+
+
     // float shifted_valve_red(vec2 xy) {
     //     float vDither = dot(vec2( 171.0, 231.0 ), xy );
     //     vDither = fract(vDither / 103.0);  // (103.0, 71. 97.0 )
@@ -268,6 +291,18 @@ float semiblue(vec2 xy) {
         xy = mix(xy, xy.yx, flip);
 
         return fract((frame_mod * 0.4) + dot(vec2(0.75487766624669276, 0.569840290998), xy) + hash12(tile));
+    }
+
+    float shifted_dither_makeup(vec2 xy) {
+        vec2 tile = floor(xy * 0.125);
+        float flip = mod(tile.x + tile.y, 2.0);
+        vec2 zw = mix(xy, xy.yx, flip);
+
+        return fract(
+            (frame_mod * 0.4) +
+            dot(vec2(0.24512233375330728, 0.4301597090019468), zw) +
+            dot(vec2(0.735151469707489, 0.737424373626709), tile)
+        );
     }
 
     // float shifted_valve_red(vec2 xy) {

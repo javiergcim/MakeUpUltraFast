@@ -46,9 +46,9 @@ void main() {
 
     #if defined BLOOM || defined DOF
         #if AA_TYPE > 0
-            float dither = shifted_eclectic_r_dither(gl_FragCoord.xy);
+            float dither = shifted_dither_makeup(gl_FragCoord.xy);
         #else
-            float dither = semiblue(gl_FragCoord.xy);
+            float dither = dither_makeup(gl_FragCoord.xy);
         #endif
     #endif
 
