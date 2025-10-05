@@ -212,6 +212,7 @@ float dither_makeup(vec2 xy) {
     }
 
     float shifted_dither_makeup(vec2 xy) {
+        xy = xy + vec2(frame_mod * 3, frame_mod);
         vec2 tile = floor(xy * 0.125);
         float flip = mod(tile.x + tile.y, 2.0);
         vec2 zw = mix(xy, xy.yx, flip);
