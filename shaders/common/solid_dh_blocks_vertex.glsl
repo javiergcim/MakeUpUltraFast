@@ -31,6 +31,10 @@ uniform mat4 gbufferProjectionInverse;
     uniform sampler2D lightmap;
 #endif
 
+#if defined IS_IRIS && defined THE_END && MC_VERSION >= 12109
+    uniform float endFlashIntensity;
+#endif
+
 /* Ins / Outs */
 
 varying vec2 texcoord;

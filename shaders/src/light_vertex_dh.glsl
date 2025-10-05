@@ -56,6 +56,9 @@ float omni_strength = (direct_light_strength * .125) + 1.0;
     direct_light_color = texture2D(lightmap, vec2(0.0, lmcoord.y)).rgb;
 #else
     direct_light_color = day_blend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR);
+    #if defined IS_IRIS && defined THE_END && MC_VERSION >= 12109
+        direct_light_color += (endFlashIntensity * endFlashIntensity * 0.1);
+    #endif
 #endif
 
 direct_light_strength = clamp(direct_light_strength, 0.0, 1.0);
