@@ -136,7 +136,6 @@ void main() {
         float dither = 1.0;
     #endif
 
-    // vec4 block_color = texture2D(tex, texcoord);
     vec4 block_color;
     vec3 real_light;
 

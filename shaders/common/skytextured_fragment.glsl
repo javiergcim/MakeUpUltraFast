@@ -28,8 +28,8 @@ varying float sky_luma_correction;  // Flat
 
 void main() {
     #if defined THE_END
-        vec4 block_color = vec4(ZENITH_DAY_COLOR, 1.0);
-        vec3 background_color = ZENITH_DAY_COLOR;
+        vec4 block_color = vec4(ZENITH_DAY_COLOR, 0.0);
+        // vec3 background_color = ZENITH_DAY_COLOR;
     #elif defined NETHER  // Unused
         vec4 background_color_full = vec4(mix(fogColor * 0.1, vec3(1.0), 0.04), 1.0);
         vec3 background_color = background_color_full.rgb;

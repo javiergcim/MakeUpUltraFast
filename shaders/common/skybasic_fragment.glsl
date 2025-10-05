@@ -88,8 +88,6 @@ void main() {
         #endif
     #endif
 
-    // DEBUG
-    // block_color.rgba = vec4(0.7, 0.0, 0.5, star_data.a);
     block_color.rgba = vec4(texture2D(gaux4, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).rgb, clamp(star_data.a * 2.0, 0.0, 1.0));
 
     #include "/src/writebuffers.glsl"
