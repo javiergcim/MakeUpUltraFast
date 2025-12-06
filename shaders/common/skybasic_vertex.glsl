@@ -49,13 +49,15 @@ void main() {
         gl_Position.xy += taa_offset * gl_Position.w;
     #endif
 
-    // star_data = vec4(
-    //     float(gl_Color.r == gl_Color.g &&
-    //     gl_Color.g == gl_Color.b &&
-    //     gl_Color.r > 0.0) * gl_Color.r
-    // );
-
-    star_data = vec4(0.0);
+    #if !defined THE_END
+        star_data = vec4(
+            float(gl_Color.r == gl_Color.g &&
+            gl_Color.g == gl_Color.b &&
+            gl_Color.r > 0.0) * gl_Color.r
+        );
+    #else
+        star_data = vec4(0.0);
+    #endif
 
     #if MC_VERSION < 11604
         up_vec = normalize(gbufferModelView[1].xyz);
