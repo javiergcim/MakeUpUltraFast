@@ -7,7 +7,6 @@ tint_color = gl_Color;
     vec2 illumination = lmcoord;
 #endif
 
-// OPTIMIZACIÓN: Reemplazar (max(x, c) - c) con max(x - c, 0), que puede ser marginalmente más rápido.
 illumination.y = max(illumination.y - 0.065, 0.0) * 1.06951871657754;
 visible_sky = clamp(illumination.y, 0.0, 1.0);
 
@@ -16,8 +15,6 @@ visible_sky = clamp(illumination.y, 0.0, 1.0);
 #endif
 
 // Intensidad y color de luz de candelas
-// --- OPTIMIZACIÓN #1: Reemplazar pow(x, 1.5) por x * sqrt(x) ---
-// Es mucho más rápido y matemáticamente idéntico.
 float candle_luma = illumination.x * sqrt(illumination.x);
 candle_color = CANDLE_BASELIGHT * (candle_luma + sixth_pow(illumination.x * 1.17));
 candle_color = clamp(candle_color, vec3(0.0), vec3(4.0));
@@ -32,7 +29,6 @@ candle_color = clamp(candle_color, vec3(0.0), vec3(4.0));
 vec3 normal = gl_NormalMatrix * gl_Normal;
 float sun_light_strength;
 
-// --- OPTIMIZACIÓN #2: Evitar length() en el condicional ---
 // Comprobar la longitud al cuadrado (dot product) es mucho más rápido que la longitud (sqrt).
 if (dot(normal, normal) > 0.0001) {  // Workaround for undefined normals
     normal = normalize(normal);
@@ -82,7 +78,7 @@ direct_light_strength = clamp(direct_light_strength, 0.0, 1.0);
 #endif
 
 if (isEyeInWater == 0) {
-    // --- OPTIMIZACIÓN #1: Reemplazar pow(x, 10.0) con multiplicaciones ---
+    // Reemplazar pow(x, 10.0) con multiplicaciones ---
     // Esto es órdenes de magnitud más rápido. x^10 = (x^2)^2 * x^2
     float vis_sky_2 = visible_sky * visible_sky;     // x^2
     float vis_sky_4 = vis_sky_2 * vis_sky_2;       // x^4

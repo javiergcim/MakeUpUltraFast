@@ -122,7 +122,7 @@ void main() {
         #endif
     #endif
     // Avoid render in DH transition
-    #ifdef DISTANT_HORIZONS
+    #if defined DISTANT_HORIZONS && !defined GBUFFER_BEACONBEAM
         float t = far - dhNearPlane;
         float sup = t * TRANSITION_DH_SUP;
         float inf = t * TRANSITION_DH_INF;

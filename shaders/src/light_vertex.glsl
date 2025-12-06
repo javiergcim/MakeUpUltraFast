@@ -15,7 +15,7 @@ if (isEyeInWater == 1) {
 #endif
 
 // Candels color and intensity
-// --- OPTIMIZACIÓN #1: Reemplazar pow(x, 1.5) por x * sqrt(x) ---
+// Reemplazar pow(x, 1.5) por x * sqrt(x) ---
 candle_color = CANDLE_BASELIGHT * (illumination.x * sqrt(illumination.x) + sixth_pow(illumination.x * 1.17));
 
 #ifdef DYN_HAND_LIGHT
@@ -39,7 +39,7 @@ candle_color = clamp(candle_color, vec3(0.0), vec3(4.0));
 
 vec3 normal = gl_NormalMatrix * gl_Normal;
 float sun_light_strength;
-// --- OPTIMIZACIÓN #2: Evitar length() en el condicional ---
+// Evitar length() en el condicional ---
 if (dot(normal, normal) > 0.0001) { // Workaround for undefined normals
     normal = normalize(normal);
     sun_light_strength = dot(normal, sun_vec);
@@ -119,7 +119,7 @@ float omni_strength = (direct_light_strength * .125) + 1.0;
     #ifndef SHADOW_CASTING
         // Fake shadows
         if (isEyeInWater == 0) {
-            // --- OPTIMIZACIÓN #4: Reemplazar pow(x, 10.0) con multiplicaciones ---
+            // Reemplazar pow(x, 10.0) con multiplicaciones ---
             float vis_sky_2 = visible_sky * visible_sky;
             float vis_sky_4 = vis_sky_2 * vis_sky_2;
             float vis_sky_8 = vis_sky_4 * vis_sky_4;

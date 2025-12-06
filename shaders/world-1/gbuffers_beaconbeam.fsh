@@ -1,6 +1,6 @@
 #version 120
 /* MakeUp - gbuffers_beaconbeam.fsh
-Render: BEacon beam
+Render: Beacon beam
 
 Javier Garduño - GNU Lesser General Public License v3.0
 */
