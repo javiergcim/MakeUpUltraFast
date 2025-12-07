@@ -1,6 +1,6 @@
 #include "/lib/config.glsl"
 
-#if MC_VERSION < 11300
+#if MC_VERSION < 11604
     const bool colortex0Clear = false;
     const bool colortex1Clear = false;
     const bool colortex2Clear = false;
