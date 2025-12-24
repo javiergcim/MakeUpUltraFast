@@ -23,6 +23,10 @@ uniform float inv_aspect_ratio;
     uniform float fov_y_inv;
 #endif
 
+#ifdef BLOOM
+    uniform float soft_lod;
+#endif
+
 /* Ins / Outs */
 
 varying vec2 texcoord;
@@ -59,6 +63,8 @@ void main() {
     #ifdef BLOOM
         vec3 bloom = mipmap_bloom(gaux1, texcoord, dither);
         block_color.rgb += bloom;
+
+        // block_color.rgb = texture2DLod(gaux1, texcoord, soft_lod).rgb;
     #endif
 
     block_color = clamp(block_color, vec4(0.0), vec4(vec3(50.0), 1.0));

@@ -219,7 +219,8 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
         );
 
         float ponderation = clamp((distance(c_max, c_min) - previous_cliped.a) / previous_cliped.a, 0.0, 1.0);
-        return mix(current_color, previous_cliped.rgb, 0.99 - (smoothstep(0.0, 1.0, ponderation) * 0.44));
+        return mix(current_color, previous_cliped.rgb, 0.99 - (smoothstep(0.0, 1.0, ponderation) * 0.33));
+        // return mix(current_color, previous_cliped.rgb, 0.01);
     }
 }
 
@@ -258,6 +259,6 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past) {
         );
 
         float ponderation = clamp((distance(c_max, c_min) - previous_cliped.a) / previous_cliped.a, 0.0, 1.0);
-        return mix(current_color, vec4(previous_cliped.rgb, previous.a), 0.99 - (smoothstep(0.0, 1.0, ponderation) * 0.39));
+        return mix(current_color, vec4(previous_cliped.rgb, previous.a), 0.99 - (smoothstep(0.0, 1.0, ponderation) * 0.33));
     }
 }
