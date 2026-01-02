@@ -54,7 +54,7 @@ uniform mat4 gbufferProjectionInverse;
     uniform vec3 shadowLightPosition;
 #endif
 
-#if WAVING == 1
+#if WAVING == 1 || defined SHADOW_CASTING
     uniform vec3 cameraPosition;
     uniform float frameTimeCounter;
 #endif

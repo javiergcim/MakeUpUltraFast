@@ -22,7 +22,7 @@ High performance Minecraft shader (Java).
 
 ## Tested on:
 * Minecraft 1.12.+ - 1.21.x
-* Nvidia and Intel
+* Nvidia, AMD, Intel
 * Windows and Linux
 
 ## You can:

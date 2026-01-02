@@ -204,6 +204,7 @@ float dither_makeup(vec2 xy) {
     }
 
     float shifted_semiblue(vec2 xy) {
+        xy = xy + vec2(frame_mod * 5.0, frame_mod * 15.0);
         vec2 tile = floor(xy * 0.25);
         float flip = mod(tile.x + tile.y, 2.0);
         xy = mix(xy, xy.yx, flip);
@@ -212,7 +213,7 @@ float dither_makeup(vec2 xy) {
     }
 
     float shifted_dither_makeup(vec2 xy) {
-        xy = xy + vec2(frame_mod * 7.0, frame_mod * 15.0);
+        xy = xy + vec2(frame_mod * 9.0, frame_mod * 15.0);
         vec2 tile = floor(xy * 0.125);
         float flip = mod(tile.x + tile.y, 2.0);
         vec2 zw = mix(xy, xy.yx, flip);
@@ -220,7 +221,7 @@ float dither_makeup(vec2 xy) {
         return fract(
             dither_shift +
             dot(vec2(0.24512233375330728, 0.4301597090019468), zw) +
-            dot(vec2(0.735151469707489, 0.737424373626709), tile)
+            dot(vec2(0.9996657054871321, 0.9998746076598763), tile)
         );
     }
 
@@ -311,7 +312,7 @@ float dither_makeup(vec2 xy) {
         return fract(
             (frame_mod * 0.4) +
             dot(vec2(0.24512233375330728, 0.4301597090019468), zw) +
-            dot(vec2(0.735151469707489, 0.737424373626709), tile)
+            dot(vec2(0.9996657054871321, 0.9998746076598763), tile)
         );
     }
 

@@ -44,8 +44,8 @@ if (dot(normal, normal) > 0.0001) {  // Workaround for undefined normals
     direct_light_strength = mix(-sun_light_strength, sun_light_strength, light_mix);
 #endif
 
-// Intensidad por dirección
-float omni_strength = (direct_light_strength * .125) + 1.0;     
+// Omni light intensity changes by angle
+float omni_strength = ((direct_light_strength + 1.0) * 0.25) + 1.0;     
 
 // Calculamos color de luz directa
 #ifdef UNKNOWN_DIM
@@ -74,7 +74,7 @@ direct_light_strength = clamp(direct_light_strength, 0.0, 1.0);
     vec3 omni_color_min = omni_color * luma_ratio;
     omni_color = max(omni_color, omni_color_min);
     
-    omni_light = mix(omni_color_min, omni_color, visible_sky);
+    omni_light = mix(omni_color_min, omni_color, visible_sky) * omni_strength;
 #endif
 
 if (isEyeInWater == 0) {

@@ -18,7 +18,6 @@ float get_shadow(vec3 the_shadow_pos, float dither) {
 
         vec2 offset = (vec2(cos(dither), sin(dither)) * current_radius * SHADOW_BLUR) / shadowMapResolution;
         vec2 offset_2 = (vec2(cos(dither_2), sin(dither_2)) * (1.0 - current_radius) * SHADOW_BLUR) / shadowMapResolution;
-        // vec2 offset_2 = vec2(-offset.y, offset.x);
 
         float z_bias = dither * 0.00002;
 

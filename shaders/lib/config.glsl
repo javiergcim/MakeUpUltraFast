@@ -53,7 +53,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 // #define DOF // Enables depth of field (high performance cost).
 #define DOF_STRENGTH 0.09  // [0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.13]  Depth of field strength.
 #define AO 1  // [0 1] Turn on for enhanced ambient occlusion (medium performance cost).
-#define AOSTEPS 4 // [2 3 4 5 6 7 8 9 10 11] How many samples are taken for AO (high performance cost).
+#define AOSTEPS 5 // [2 3 4 5 6 7 8 9 10 11] How many samples are taken for AO (high performance cost).
 #define AO_STRENGTH 0.70 // [0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.66 0.70 0.75 0.80 0.85] Ambient occlusion strength (strength NOT affect performance).
 #define AA_TYPE 2 // [0 1 2 3]  No: Disable antialiasing (not recommended). Denoise only: Supersampling is only used to eliminate noise. TAA: Enable antialiasing. TAA+: Use FXAA to improve the result of TAA. It does not apply if chromatic aberration or DoF is being used.
 //#define MOTION_BLUR // Turn on motion blur

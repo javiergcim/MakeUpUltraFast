@@ -55,7 +55,8 @@ if (dot(normal, normal) > 0.0001) { // Workaround for undefined normals
 #endif
 
 // Omni light intensity changes by angle
-float omni_strength = (direct_light_strength * .125) + 1.0;
+// float omni_strength = (direct_light_strength * .125) + 1.0;
+// float omni_strength = (direct_light_strength) + 1.0;
 
 // Direct light color
 #ifdef UNKNOWN_DIM
@@ -66,6 +67,9 @@ float omni_strength = (direct_light_strength * .125) + 1.0;
         direct_light_color += (endFlashIntensity * endFlashIntensity * 0.1);
     #endif
 #endif
+
+// Omni light intensity changes by angle
+float omni_strength = ((direct_light_strength + 1.0) * 0.25) + 1.0;
 
 // Direct light strenght --
 #ifdef FOLIAGE_V  // This shader has foliage
@@ -105,7 +109,7 @@ float omni_strength = (direct_light_strength * .125) + 1.0;
     vec3 omni_color_min = omni_color * luma_ratio;
     omni_color = max(omni_color, omni_color_min);
     
-    omni_light = mix(omni_color_min, omni_color, visible_sky);
+    omni_light = mix(omni_color_min, omni_color, visible_sky) * omni_strength;
 #endif
 
 // Avoid flat illumination in caves for entities

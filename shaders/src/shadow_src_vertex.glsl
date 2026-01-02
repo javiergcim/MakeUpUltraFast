@@ -22,6 +22,7 @@ vec3 shadow_world_normal = normalize(mat3(gbufferModelViewInverse) * normal);
 vec3 bias = shadow_world_normal * min(SHADOW_FIX_FACTOR + length(position.xyz) * 0.005, 0.5) * (2.0 - max(NdotL, 0.0));
 vec3 shadow_world = position.xyz + bias;
 
+
 shadow_pos = get_shadow_pos(shadow_world);
 
 // --- OPTIMIZACIÓN: Reemplazar sqrt() y el costoso pow() ---

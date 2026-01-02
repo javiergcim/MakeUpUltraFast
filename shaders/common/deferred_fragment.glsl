@@ -116,9 +116,9 @@ void main() {
 
     #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
         #if AA_TYPE > 0
-            float dither = shifted_dither_makeup(gl_FragCoord.xy);
+            float dither = shifted_semiblue(gl_FragCoord.xy);
         #else
-            float dither = dither_makeup(gl_FragCoord.xy);
+            float dither = semiblue(gl_FragCoord.xy);
         #endif
     #endif
 
