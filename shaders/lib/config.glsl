@@ -199,6 +199,7 @@ const float sunPathRotation = -25.0; // [-40.0 -35.0 -30.0 -25.0 -20.0 -15.0 -10
 
 #define SHADOW_DISTANCE_SLIDER 1 // [0 1 2]
 #define SHADOW_QTY_SLIDER 2 // [1 2 3]
+#define SHADOW_LOCK 16 // [0 16 32 64 128 256]
 
 #define SHADOW_CASTING // Enable or disable shadows. Configure quality in advanced options.
 

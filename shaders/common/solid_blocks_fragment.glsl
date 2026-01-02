@@ -59,9 +59,17 @@ uniform float blindness;
     uniform int worldTime;
     uniform vec3 moonPosition;
     uniform vec3 sunPosition;
-    #if defined THE_END
-        uniform mat4 gbufferModelView;
-    #endif
+#endif
+
+#if SHADOW_LOCK > 0 && defined SHADOW_CASTING
+    uniform vec3 cameraPosition;
+    uniform mat4 shadowModelView;
+    uniform mat4 shadowProjection;
+    uniform vec3 shadowLightPosition;
+#endif
+
+#if defined THE_END || (SHADOW_LOCK > 0 && defined SHADOW_CASTING && !defined NETHER)
+    uniform mat4 gbufferModelView;
 #endif
 
 /* Ins / Outs */
@@ -73,6 +81,12 @@ varying vec3 direct_light_color;
 varying vec3 candle_color;
 varying float direct_light_strength;
 varying vec3 omni_light;
+
+#if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER
+    varying vec3 vWorldPos;
+    varying vec3 vNormal;
+    varying vec3 vBias;
+#endif
 
 #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
     varying float emmisive_type;
@@ -113,12 +127,16 @@ varying vec3 omni_light;
     #include "/lib/material_gloss_fragment.glsl"
 #endif
 
+#if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER
+    #include "/lib/shadow_vertex.glsl"
+#endif
+
 void main() {
     #if (defined SHADOW_CASTING && !defined NETHER) || defined DISTANT_HORIZONS
         #if AA_TYPE > 0 
             float dither = shifted_dither13(gl_FragCoord.xy);
         #else
-            float dither = dither13(gl_FragCoord.xy);
+            float dither = dither17(gl_FragCoord.xy);
         #endif
     #endif
     // Avoid render in DH transition
@@ -165,11 +183,30 @@ void main() {
     #endif
 
     #if defined SHADOW_CASTING && !defined NETHER
+        #if SHADOW_LOCK > 0
+            // 1. PRE-SNAP OFFSET (Estabilizador)
+            // Usamos la normal que nos llegó del vertex para el empujoncito.
+            // vec3 offsetVector = normalize(vNormal) * 0.002;
+            vec3 offsetVector = vNormal * 0.002;
+            vec3 preSnapPos = vWorldPos + offsetVector;
+
+            // 2. SNAPPING (VOXELIZACIÓN)
+            float texelSize = SHADOW_LOCK;
+            vec3 absPos = preSnapPos + cameraPosition;
+            // Redondeo al bloque
+            vec3 snappedAbsolute = floor(absPos * texelSize) / texelSize;
+            snappedAbsolute += 0.5 / texelSize; // Centrar en el texel
+            vec3 final_world_pos = (snappedAbsolute - cameraPosition) + vBias;
+            vec3 shadow_real_pos = get_shadow_pos(final_world_pos);
+        #else
+            vec3 shadow_real_pos = shadow_pos;
+        #endif
+
         #if defined COLORED_SHADOW
-            vec3 shadow_c = get_colored_shadow(shadow_pos, dither);
+            vec3 shadow_c = get_colored_shadow(shadow_real_pos, dither);
             shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
         #else
-            float shadow_c = get_shadow(shadow_pos, dither);
+            float shadow_c = get_shadow(shadow_real_pos, dither);
             shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
         #endif
     #else

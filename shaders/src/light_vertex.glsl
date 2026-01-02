@@ -39,7 +39,6 @@ candle_color = clamp(candle_color, vec3(0.0), vec3(4.0));
 
 vec3 normal = gl_NormalMatrix * gl_Normal;
 float sun_light_strength;
-// Evitar length() en el condicional ---
 if (dot(normal, normal) > 0.0001) { // Workaround for undefined normals
     normal = normalize(normal);
     sun_light_strength = dot(normal, sun_vec);

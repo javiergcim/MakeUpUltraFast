@@ -75,3 +75,7 @@ gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
         gl_FogFragCoord = length(viewPos.xyz);
     #endif
 #endif
+
+#if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER && !defined GBUFFER_BASIC && !defined GBUFFER_CLOUDS && !defined GBUFFER_ARMOR_GLINT && !defined GBUFFER_SPIDEREYES
+    vWorldPos = position.xyz;
+#endif

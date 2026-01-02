@@ -255,6 +255,14 @@ screen.COMPATIBILITY_SCREEN.comment=Set compatibility options
 screen.SHADOWS_SCREEN=Shadows
 screen.SHADOWS_SCREEN.comment=Set shadows options
 
+option.SHADOW_LOCK=Pixel locked shadows
+value.SHADOW_LOCK.0=Disabled
+value.SHADOW_LOCK.16=16x16
+value.SHADOW_LOCK.32=32x32
+value.SHADOW_LOCK.64=64x64
+value.SHADOW_LOCK.128=128x128
+value.SHADOW_LOCK.256=256x256
+
 screen.DOF_SCREEN=Depth of field
 screen.DOF_SCREEN.comment=Set depth of field options
 

@@ -54,7 +54,7 @@ uniform mat4 gbufferProjectionInverse;
     uniform vec3 shadowLightPosition;
 #endif
 
-#if WAVING == 1 || defined SHADOW_CASTING
+#if WAVING == 1
     uniform vec3 cameraPosition;
     uniform float frameTimeCounter;
 #endif
@@ -72,6 +72,12 @@ varying vec3 direct_light_color;
 varying vec3 candle_color;
 varying float direct_light_strength;
 varying vec3 omni_light;
+
+#if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER
+    varying vec3 vWorldPos;
+    varying vec3 vNormal;
+    varying vec3 vBias;
+#endif
 
 #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
     varying float emmisive_type;
@@ -184,5 +190,10 @@ void main() {
 
     #if defined GBUFFER_ENTITY_GLOW
         gl_Position.z *= 0.01;
+    #endif
+
+    #if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER
+        vNormal = shadow_world_normal;
+        vBias = bias;
     #endif
 }
