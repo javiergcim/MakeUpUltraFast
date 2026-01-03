@@ -250,6 +250,14 @@ screen.COMPATIBILITY_SCREEN.comment=Uyumluluk seçeneklerini ayarlayın.
 screen.SHADOWS_SCREEN=Gölgeler
 screen.SHADOWS_SCREEN.comment=Gölge seçeneklerini ayarlayın.
 
+option.SHADOW_LOCK=Pixel locked shadows
+value.SHADOW_LOCK.0=Disabled
+value.SHADOW_LOCK.16=16x16
+value.SHADOW_LOCK.32=32x32
+value.SHADOW_LOCK.64=64x64
+value.SHADOW_LOCK.128=128x128
+value.SHADOW_LOCK.256=256x256
+
 screen.DOF_SCREEN=Alan derinliği
 screen.DOF_SCREEN.comment=Alan derinliği (AD) seçeneklerini ayarlayın.
 

@@ -254,6 +254,14 @@ screen.COMPATIBILITY_SCREEN.comment=호환성 옵션 설정
 screen.SHADOWS_SCREEN=그림자
 screen.SHADOWS_SCREEN.comment=그림자 옵션 설정
 
+option.SHADOW_LOCK=Pixel locked shadows
+value.SHADOW_LOCK.0=Disabled
+value.SHADOW_LOCK.16=16x16
+value.SHADOW_LOCK.32=32x32
+value.SHADOW_LOCK.64=64x64
+value.SHADOW_LOCK.128=128x128
+value.SHADOW_LOCK.256=256x256
+
 screen.DOF_SCREEN=깊이 감지
 screen.DOF_SCREEN.comment=깊이 감지 옵션 설정
 

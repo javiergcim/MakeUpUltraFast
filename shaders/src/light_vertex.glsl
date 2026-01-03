@@ -68,7 +68,7 @@ if (dot(normal, normal) > 0.0001) { // Workaround for undefined normals
 #endif
 
 // Omni light intensity changes by angle
-float omni_strength = ((direct_light_strength + 1.0) * 0.25) + 1.0;
+float omni_strength = ((direct_light_strength + 1.0) * 0.25) + 0.75;
 
 // Direct light strenght --
 #ifdef FOLIAGE_V  // This shader has foliage
@@ -96,7 +96,7 @@ float omni_strength = ((direct_light_strength + 1.0) * 0.25) + 1.0;
 
 // Omni light color
 #if defined THE_END || defined NETHER
-    omni_light = LIGHT_DAY_COLOR;
+    omni_light = LIGHT_DAY_COLOR * omni_strength;
 #else
     direct_light_color = mix(direct_light_color, ZENITH_SKY_RAIN_COLOR * luma(direct_light_color) * 0.4, rainStrength);
 

@@ -254,6 +254,14 @@ screen.COMPATIBILITY_SCREEN.comment=Ställ in kompatibilitetsalternativ
 screen.SHADOWS_SCREEN=Skuggor
 screen.SHADOWS_SCREEN.comment=Ändra skuggalternativ
 
+option.SHADOW_LOCK=Pixel locked shadows
+value.SHADOW_LOCK.0=Disabled
+value.SHADOW_LOCK.16=16x16
+value.SHADOW_LOCK.32=32x32
+value.SHADOW_LOCK.64=64x64
+value.SHADOW_LOCK.128=128x128
+value.SHADOW_LOCK.256=256x256
+
 screen.DOF_SCREEN=Skärpedjup
 screen.DOF_SCREEN.comment=Ändra skärpedjupsalternativ
 
