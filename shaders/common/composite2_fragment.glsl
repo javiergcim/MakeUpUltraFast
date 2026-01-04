@@ -1,15 +1,13 @@
 #include "/lib/config.glsl"
 
-// #if MC_VERSION < 11604
-    const bool colortex0Clear = false;
-    const bool colortex1Clear = false;
-    const bool colortex2Clear = false;
-    const bool colortex3Clear = false;
-    const bool gaux1Clear = false;
-    const bool gaux2Clear = false;
-    const bool gaux3Clear = false;
-    const bool gaux4Clear = false;
-// #endif
+const bool colortex0Clear = false;
+const bool colortex1Clear = false;
+const bool colortex2Clear = false;
+const bool colortex3Clear = false;
+const bool gaux1Clear = false;
+const bool gaux2Clear = false;
+const bool gaux3Clear = false;
+const bool gaux4Clear = false;
 
 /* Uniforms */
 
