@@ -33,6 +33,7 @@ uniform float rainStrength;
 uniform float light_mix;
 uniform ivec2 eyeBrightnessSmooth;
 uniform sampler2D gaux4;
+uniform vec3 cameraPosition;
 
 #if defined DISTANT_HORIZONS
     uniform float dhNearPlane;
@@ -61,7 +62,6 @@ uniform sampler2D gaux4;
 #endif
 
 #if defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER
-    uniform vec3 cameraPosition;
     uniform mat4 gbufferModelViewInverse;
 #endif
 
@@ -70,6 +70,16 @@ uniform float blindness;
 #if MC_VERSION >= 11900
     uniform float darknessFactor;
     uniform float darknessLightFactor;
+#endif
+
+#if SHADOW_LOCK > 0 && defined SHADOW_CASTING
+    uniform mat4 shadowModelView;
+    uniform mat4 shadowProjection;
+    uniform vec3 shadowLightPosition;
+#endif
+
+#if defined THE_END || (SHADOW_LOCK > 0 && defined SHADOW_CASTING && !defined NETHER)
+    uniform mat4 gbufferModelView;
 #endif
 
 /* Ins / Outs */
@@ -98,6 +108,12 @@ varying vec3 low_sky_color;
     varying float shadow_diffuse;
 #endif
 
+#if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER
+    varying vec3 vWorldPos;
+    varying vec3 vNormal;
+    varying vec3 vBias;
+#endif
+
 #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
     varying float umbral;
     varying vec3 cloud_color;
@@ -119,6 +135,10 @@ varying vec3 low_sky_color;
 
 #if defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER
     #include "/lib/volumetric_clouds.glsl"
+#endif
+
+#if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER
+    #include "/lib/shadow_vertex.glsl"
 #endif
 
 // MAIN FUNCTION ------------------
@@ -174,11 +194,24 @@ void main() {
         #ifdef VANILLA_WATER
             block_color = texture2D(tex, texcoord);
             #if defined SHADOW_CASTING && !defined NETHER
+                #if SHADOW_LOCK > 0
+                    vec3 offsetVector = vNormal * 0.002;
+                    vec3 preSnapPos = vWorldPos + offsetVector;
+                    float texelSize = SHADOW_LOCK;
+                    vec3 absPos = preSnapPos + cameraPosition;
+                    // Redondeo al bloque
+                    vec3 snappedAbsolute = floor(absPos * texelSize) / texelSize;
+                    snappedAbsolute += 0.5 / texelSize; // Centrar en el texel
+                    vec3 final_world_pos = (snappedAbsolute - cameraPosition) + vBias;
+                    vec3 shadow_real_pos = get_shadow_pos(final_world_pos);
+                #else
+                    vec3 shadow_real_pos = shadow_pos;
+                #endif
                 #if defined COLORED_SHADOW
-                    vec3 shadow_c = get_colored_shadow(shadow_pos, dither);
+                    vec3 shadow_c = get_colored_shadow(shadow_real_pos, dither);
                     shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
                 #else
-                    float shadow_c = get_shadow(shadow_pos, dither);
+                    float shadow_c = get_shadow(shadow_real_pos, dither);
                     shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
                 #endif
             #else

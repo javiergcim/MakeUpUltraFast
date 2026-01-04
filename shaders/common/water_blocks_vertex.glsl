@@ -68,6 +68,12 @@ varying vec3 up_vec;
 varying vec3 hi_sky_color;
 varying vec3 low_sky_color;
 
+#if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER
+    varying vec3 vWorldPos;
+    varying vec3 vNormal;
+    varying vec3 vBias;
+#endif
+
 #if defined SHADOW_CASTING && !defined NETHER
     varying vec3 shadow_pos;
     varying float shadow_diffuse;
@@ -135,5 +141,10 @@ void main() {
 
     #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
         #include "/lib/volumetric_clouds_vertex.glsl"
+    #endif
+
+    #if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER
+        vNormal = shadow_world_normal;
+        vBias = bias;
     #endif
 }

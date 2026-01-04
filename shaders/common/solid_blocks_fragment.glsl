@@ -184,13 +184,8 @@ void main() {
 
     #if defined SHADOW_CASTING && !defined NETHER
         #if SHADOW_LOCK > 0
-            // 1. PRE-SNAP OFFSET (Estabilizador)
-            // Usamos la normal que nos llegó del vertex para el empujoncito.
-            // vec3 offsetVector = normalize(vNormal) * 0.002;
             vec3 offsetVector = vNormal * 0.002;
             vec3 preSnapPos = vWorldPos + offsetVector;
-
-            // 2. SNAPPING (VOXELIZACIÓN)
             float texelSize = SHADOW_LOCK;
             vec3 absPos = preSnapPos + cameraPosition;
             // Redondeo al bloque

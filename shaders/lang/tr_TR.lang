@@ -15,7 +15,7 @@ profile.comment="Gölgesiz" profiller, gölgeler göz ardı edilerek düşük pe
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=Bu shaderı kullandığınız için teşekkür ederiz! :). Daha iyi kalite için Optifine yerel kalite kontrollerini normal veya varsayılan değerlere ayarlayın.
-value.ACERCADE.0=v.9.3i
+value.ACERCADE.0=v.9.4
 
 #Options
 #############################
