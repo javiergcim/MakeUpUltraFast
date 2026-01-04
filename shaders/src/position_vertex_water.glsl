@@ -10,6 +10,6 @@ gl_FogFragCoord = length(position2.xyz);
     gl_Position.xy += taa_offset * gl_Position.w;
 #endif
 
-#if defined SHADOW_CASTING && SHADOW_LOCK > 0
+#if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER
     vWorldPos = position.xyz;
 #endif
