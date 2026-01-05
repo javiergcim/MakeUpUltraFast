@@ -88,7 +88,7 @@ varying vec3 omni_light;
 #endif
 
 #if defined SHADOW_CASTING && !defined NETHER
-    varying vec3 shadow_pos;
+    varying vec3 shadowPos;
     varying float shadow_diffuse;
 #endif
 

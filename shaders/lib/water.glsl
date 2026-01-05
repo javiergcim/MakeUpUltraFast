@@ -2,93 +2,93 @@
 Water reflection and refraction related functions.
 */
 
-vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float dither) {
-    vec3 dir_increment;
-    vec3 current_march = hit_coord;
-    vec3 old_current_march;
-    float screen_depth;
-    float depth_diff = 1.0;
-    vec3 march_pos = camera_to_screen(hit_coord);
-    float prev_screen_depth = march_pos.z;
-    float hit_z = march_pos.z;
-    bool search_flag = false;
-    bool hidden_flag = false;
-    bool first_hidden = true;
-    bool out_flag = false;
-    bool to_far = false;
-    vec3 last_march_pos;
+vec3 fastRaymarch(vec3 direction, vec3 hitPoint, inout float infinite, float dither) {
+    vec3 pathIncrement;
+    vec3 currentMarchPoint = hitPoint;
+    vec3 oldMarchPoint;
+    float screenDepth;
+    float depthDifference = 1.0;
+    vec3 screenMarchPos = camera_to_screen(hitPoint);
+    float prevScreenDepth = screenMarchPos.z;
+    float hitPointDepth = screenMarchPos.z;
+    bool searchFlag = false;
+    bool hiddenFlag = false;
+    bool firstHidden = true;
+    bool outOfEyeFlag = false;
+    bool toFar = false;
+    vec3 lastScreenMarchPos;
     
     int no_hidden_steps = 0;
     bool hiddens = false;
 
     // Ray marching
     for (int i = 0; i < RAYMARCH_STEPS; i++) {
-        if (search_flag) {
-            dir_increment *= 0.5;
-            current_march += dir_increment * sign(depth_diff);
+        if (searchFlag) {
+            pathIncrement *= 0.5;
+            currentMarchPoint += pathIncrement * sign(depthDifference);
         } else {
-            old_current_march = current_march;
-            current_march = hit_coord + ((direction * exp2(i + dither)) - direction);
-            dir_increment = current_march - old_current_march;
+            oldMarchPoint = currentMarchPoint;
+            currentMarchPoint = hitPoint + ((direction * exp2(i + dither)) - direction);
+            pathIncrement = currentMarchPoint - oldMarchPoint;
         }
 
-        last_march_pos = march_pos;
-        march_pos = camera_to_screen(current_march);
+        lastScreenMarchPos = screenMarchPos;
+        screenMarchPos = camera_to_screen(currentMarchPoint);
 
         if ( // Is outside screen space
-            march_pos.x < 0.0 ||
-            march_pos.x > 1.0 ||
-            march_pos.y < 0.0 ||
-            march_pos.y > 1.0 ||
-            march_pos.z < 0.0
+            screenMarchPos.x < 0.0 ||
+            screenMarchPos.x > 1.0 ||
+            screenMarchPos.y < 0.0 ||
+            screenMarchPos.y > 1.0 ||
+            screenMarchPos.z < 0.0
         ) {
-            out_flag = true;
+            outOfEyeFlag = true;
         }
 
-        if (march_pos.z > 0.9999) {
-            to_far = true;
+        if (screenMarchPos.z > 0.9999) {
+            toFar = true;
         }
 
-        screen_depth = texture2D(depthtex1, march_pos.xy).x;
-        depth_diff = screen_depth - march_pos.z;
+        screenDepth = texture2D(depthtex1, screenMarchPos.xy).x;
+        depthDifference = screenDepth - screenMarchPos.z;
 
-        if (depth_diff < 0.0 && abs(screen_depth - prev_screen_depth) > abs(march_pos.z - last_march_pos.z)) {
-            hidden_flag = true;
+        if (depthDifference < 0.0 && abs(screenDepth - prevScreenDepth) > abs(screenMarchPos.z - lastScreenMarchPos.z)) {
+            hiddenFlag = true;
             hiddens = true;
-            if (first_hidden) {
-                first_hidden = false;
+            if (firstHidden) {
+                firstHidden = false;
             }
-        } else if (depth_diff > 0.0) {
-            hidden_flag = false;
+        } else if (depthDifference > 0.0) {
+            hiddenFlag = false;
             if (!hiddens) {
                 no_hidden_steps++;
             }
         }
 
-        if (search_flag == false && depth_diff < 0.0 && hidden_flag == false) {
-            search_flag = true;
+        if (searchFlag == false && depthDifference < 0.0 && hiddenFlag == false) {
+            searchFlag = true;
         }
 
-        prev_screen_depth = screen_depth;
+        prevScreenDepth = screenDepth;
     }
 
-    infinite = float(screen_depth > 0.9999);
+    infinite = float(screenDepth > 0.9999);
 
-    if (out_flag) {
+    if (outOfEyeFlag) {
         infinite = 1.0;
-        return march_pos;
-    } else if (to_far) {
-        if (screen_depth > 0.9999) {
+        return screenMarchPos;
+    } else if (toFar) {
+        if (screenDepth > 0.9999) {
             infinite = 1.0;
-            return march_pos;
-        } else if (no_hidden_steps < 3 || screen_depth > hit_z) {
-            return march_pos;
+            return screenMarchPos;
+        } else if (no_hidden_steps < 3 || screenDepth > hitPointDepth) {
+            return screenMarchPos;
         } else {
             infinite = 1.0;
             return vec3(1.0);
         }
     } else {
-        return march_pos;
+        return screenMarchPos;
     }
 }
 
@@ -96,10 +96,10 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
     #if !defined NETHER && !defined THE_END
         float sun_reflection(vec3 fragpos) {
             vec3 astroLightPos = worldTime > 12900 ? moonPosition : sunPosition;
-            float astro_vector =
+            float astroAlignment =
                 max(dot(normalize(fragpos), normalize(astroLightPos)), 0.0);
 
-            return smoothstep(0.995, 1.0, astro_vector) *
+            return smoothstep(0.995, 1.0, astroAlignment) *
                 clamp(lmcoord.y, 0.0, 1.0) *
                 (1.0 - rainStrength) * 3.0;
         }
@@ -119,10 +119,10 @@ vec3 normal_waves(vec3 pos) {
     wave_3 = wave_3 - .5;
     wave_3 *= 0.66;
 
-    vec2 partial_wave = wave_1 + wave_2 + wave_3;
-    vec3 final_wave = vec3(partial_wave, WATER_TURBULENCE - (rainStrength * 0.6 * WATER_TURBULENCE * visible_sky));
+    vec2 partialWave = wave_1 + wave_2 + wave_3;
+    vec3 finalWave = vec3(partialWave, WATER_TURBULENCE - (rainStrength * 0.6 * WATER_TURBULENCE * visible_sky));
 
-    return normalize(final_wave);
+    return normalize(finalWave);
 }
 
 vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
@@ -180,7 +180,7 @@ vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected, inout float infi
             vec3 pos = camera_to_screen(fragpos + reflected * 76.0);
         #endif
     #else  // Raymarch
-        vec3 pos = fast_raymarch(reflected, fragpos, infinite, dither);
+        vec3 pos = fastRaymarch(reflected, fragpos, infinite, dither);
     #endif
 
     float border =
@@ -205,7 +205,7 @@ vec3 water_shader(
     float fresnel,
     float visible_sky,
     float dither,
-    vec3 light_color
+    vec3 lightColor
 ) {
     vec4 reflection = vec4(0.0);
     float infinite = 1.0;
@@ -229,7 +229,7 @@ vec3 water_shader(
         #ifndef NETHER
             #ifndef THE_END
                 return mix(color, reflection.rgb, fresnel * REFLEX_INDEX) +
-                    vec3(sun_reflection(reflect(normalize(fragpos), normal))) * light_color * infinite * visible_sky;          
+                    vec3(sun_reflection(reflect(normalize(fragpos), normal))) * lightColor * infinite * visible_sky;          
             #else
                 return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
             #endif
@@ -246,20 +246,20 @@ vec3 water_shader(
 vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal, inout float infinite, float dither) {
     #if SSR_TYPE == 0
         #if defined DISTANT_HORIZONS
-            vec3 reflected_vector = reflect(normalize(fragpos), normal) * 768.0;
+            vec3 reflectedVector = reflect(normalize(fragpos), normal) * 768.0;
         #else
-            vec3 reflected_vector = reflect(normalize(fragpos), normal) * 76.0;
+            vec3 reflectedVector = reflect(normalize(fragpos), normal) * 76.0;
         #endif
-            vec3 pos = camera_to_screen(fragpos + reflected_vector);
+            vec3 pos = camera_to_screen(fragpos + reflectedVector);
     #else
-        vec3 reflected_vector = reflect(normalize(fragpos), normal);
-        vec3 pos = fast_raymarch(reflected_vector, fragpos, infinite, dither);
+        vec3 reflectedVector = reflect(normalize(fragpos), normal);
+        vec3 pos = fastRaymarch(reflectedVector, fragpos, infinite, dither);
 
         if (pos.x > 99.0) { // Fallback
             #if defined DISTANT_HORIZONS
-                pos = camera_to_screen(fragpos + reflected_vector * 768.0);
+                pos = camera_to_screen(fragpos + reflectedVector * 768.0);
             #else
-                pos = camera_to_screen(fragpos + reflected_vector * 76.0);
+                pos = camera_to_screen(fragpos + reflectedVector * 76.0);
             #endif
         }
     #endif
@@ -275,11 +275,11 @@ vec4 cristal_shader(
     vec3 fragpos,
     vec3 normal,
     vec4 color,
-    vec3 sky_reflection,
+    vec3 skyReflectionColor,
     float fresnel,
     float visible_sky,
     float dither,
-    vec3 light_color
+    vec3 lightColor
 ) {
     vec4 reflection = vec4(0.0);
     float infinite = 0.0;
@@ -288,15 +288,15 @@ vec4 cristal_shader(
         reflection = cristal_reflection_calc(fragpos, normal, infinite, dither);
     #endif
 
-    sky_reflection = mix(color.rgb, sky_reflection, visible_sky * visible_sky);
+    skyReflectionColor = mix(color.rgb, skyReflectionColor, visible_sky * visible_sky);
 
     reflection.rgb = mix(
-        sky_reflection,
+        skyReflectionColor,
         reflection.rgb,
         reflection.a
     );
 
-    color.rgb = mix(color.rgb, sky_reflection, fresnel);
+    color.rgb = mix(color.rgb, skyReflectionColor, fresnel);
     color.rgb = mix(color.rgb, reflection.rgb, fresnel);
 
     color.a = mix(color.a, 1.0, fresnel * .9);
@@ -306,7 +306,7 @@ vec4 cristal_shader(
         #ifndef THE_END
             return color + vec4(
                 mix(
-                    vec3(sun_reflection(reflect(normalize(fragpos), normal)) * light_color * infinite * visible_sky),
+                    vec3(sun_reflection(reflect(normalize(fragpos), normal)) * lightColor * infinite * visible_sky),
                     vec3(0.0),
                     reflection.a
                 ),

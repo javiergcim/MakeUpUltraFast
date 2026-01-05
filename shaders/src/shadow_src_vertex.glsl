@@ -23,10 +23,10 @@ vec3 bias = shadow_world_normal * min(SHADOW_FIX_FACTOR + length(position.xyz) *
 vec3 shadow_world = position.xyz + bias;
 
 
-shadow_pos = get_shadow_pos(shadow_world);
+shadowPos = get_shadow_pos(shadow_world);
 
 // --- OPTIMIZACIÓN: Reemplazar sqrt() y el costoso pow() ---
-vec2 shadow_diffuse_aux = shadow_pos.xy * 2.0 - 1.0;
+vec2 shadow_diffuse_aux = shadowPos.xy * 2.0 - 1.0;
 float diffuse = length(shadow_diffuse_aux);
 
 // Reemplazo ultra-rápido de pow(diffuse, 10.0)

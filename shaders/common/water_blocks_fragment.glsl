@@ -104,7 +104,7 @@ varying vec3 hi_sky_color;
 varying vec3 low_sky_color;
 
 #if defined SHADOW_CASTING && !defined NETHER
-    varying vec3 shadow_pos;
+    varying vec3 shadowPos;
     varying float shadow_diffuse;
 #endif
 
@@ -205,7 +205,7 @@ void main() {
                     vec3 final_world_pos = (snappedAbsolute - cameraPosition) + vBias;
                     vec3 shadow_real_pos = get_shadow_pos(final_world_pos);
                 #else
-                    vec3 shadow_real_pos = shadow_pos;
+                    vec3 shadow_real_pos = shadowPos;
                 #endif
                 #if defined COLORED_SHADOW
                     vec3 shadow_c = get_colored_shadow(shadow_real_pos, dither);
@@ -269,10 +269,10 @@ void main() {
 
         #if defined SHADOW_CASTING && !defined NETHER
         #if defined COLORED_SHADOW
-            vec3 shadow_c = get_colored_shadow(shadow_pos, dither);
+            vec3 shadow_c = get_colored_shadow(shadowPos, dither);
             shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
         #else
-            float shadow_c = get_shadow(shadow_pos, dither);
+            float shadow_c = get_shadow(shadowPos, dither);
             shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
         #endif
         #else

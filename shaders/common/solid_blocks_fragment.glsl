@@ -97,7 +97,7 @@ varying vec3 omni_light;
 #endif
 
 #if defined SHADOW_CASTING && !defined NETHER
-    varying vec3 shadow_pos;
+    varying vec3 shadowPos;
     varying float shadow_diffuse;
 #endif
 
@@ -194,7 +194,7 @@ void main() {
             vec3 final_world_pos = (snappedAbsolute - cameraPosition) + vBias;
             vec3 shadow_real_pos = get_shadow_pos(final_world_pos);
         #else
-            vec3 shadow_real_pos = shadow_pos;
+            vec3 shadow_real_pos = shadowPos;
         #endif
 
         #if defined COLORED_SHADOW

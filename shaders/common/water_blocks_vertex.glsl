@@ -75,7 +75,7 @@ varying vec3 low_sky_color;
 #endif
 
 #if defined SHADOW_CASTING && !defined NETHER
-    varying vec3 shadow_pos;
+    varying vec3 shadowPos;
     varying float shadow_diffuse;
 #endif
 

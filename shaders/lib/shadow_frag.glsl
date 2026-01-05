@@ -39,7 +39,7 @@ float get_shadow(vec3 the_shadow_pos, float dither) {
         #if SHADOW_TYPE == 0  // Pixelated
             float shadow_detector = 1.0;
             float shadow_black = 1.0;
-            vec4 shadow_color = vec4(1.0);
+            vec4 shadowColor = vec4(1.0);
 
             float alpha_complement;
 
@@ -47,17 +47,17 @@ float get_shadow(vec3 the_shadow_pos, float dither) {
             if (shadow_detector < 1.0) {
                 shadow_black = shadow2D(shadowtex1, vec3(the_shadow_pos.xy, the_shadow_pos.z)).r;
                 if (shadow_black != shadow_detector) {
-                shadow_color = texture2D(shadowcolor0, the_shadow_pos.xy);
-                alpha_complement = 1.0 - shadow_color.a;
-                shadow_color.rgb = mix(shadow_color.rgb, vec3(1.0), alpha_complement);
-                shadow_color.rgb *= alpha_complement;
+                shadowColor = texture2D(shadowcolor0, the_shadow_pos.xy);
+                alpha_complement = 1.0 - shadowColor.a;
+                shadowColor.rgb = mix(shadowColor.rgb, vec3(1.0), alpha_complement);
+                shadowColor.rgb *= alpha_complement;
                 }
             }
             
-            shadow_color *= shadow_black;
-            shadow_color.rgb = clamp(shadow_color.rgb * (1.0 - shadow_detector) + shadow_detector, vec3(0.0), vec3(1.0));
+            shadowColor *= shadow_black;
+            shadowColor.rgb = clamp(shadowColor.rgb * (1.0 - shadow_detector) + shadow_detector, vec3(0.0), vec3(1.0));
 
-            return shadow_color.rgb;
+            return shadowColor.rgb;
 
         #elif SHADOW_TYPE == 1  // Soft
             float shadow_detector_a = 1.0;

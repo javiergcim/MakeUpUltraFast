@@ -6,10 +6,10 @@ Water reflection and refraction related functions (dh).
     #if !defined NETHER && !defined THE_END
         float sun_reflection(vec3 fragpos) {
         vec3 astroLightPos = worldTime > 12900 ? moonPosition : sunPosition;
-        float astro_vector =
+        float astroAlignment =
             max(dot(normalize(fragpos), normalize(astroLightPos)), 0.0);
 
-        return smoothstep(0.995, 1.0, astro_vector) *
+        return smoothstep(0.995, 1.0, astroAlignment) *
             clamp(lmcoord.y, 0.0, 1.0) *
             (1.0 - rainStrength) * 3.0;
         }
@@ -21,10 +21,10 @@ vec3 normal_waves_dh(vec3 pos) {
     vec2 wave_2 =
         texture2D(noisetex, ((pos.xy - pos.z * 0.2) * 0.03125) - (frameTimeCounter * .025)).rg;
     wave_2 = wave_2 - .5;
-    vec2 partial_wave = wave_2;
-    vec3 final_wave = vec3(partial_wave, WATER_TURBULENCE);
+    vec2 partialWave = wave_2;
+    vec3 finalWave = vec3(partialWave, WATER_TURBULENCE);
 
-    return normalize(final_wave);
+    return normalize(finalWave);
 }
 
 vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
@@ -98,7 +98,7 @@ vec3 water_shader_dh(
     float fresnel,
     float visible_sky,
     float dither,
-    vec3 light_color
+    vec3 lightColor
 ) {
     vec4 reflection = vec4(0.0);
     float infinite = 1.0;
@@ -122,7 +122,7 @@ vec3 water_shader_dh(
         #ifndef NETHER
             #ifndef THE_END
                 return mix(color, reflection.rgb, fresnel * REFLEX_INDEX) +
-                    vec3(sun_reflection(reflect(normalize(fragpos), normal))) * light_color * infinite * visible_sky;          
+                    vec3(sun_reflection(reflect(normalize(fragpos), normal))) * lightColor * infinite * visible_sky;          
             #else
                 return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
             #endif

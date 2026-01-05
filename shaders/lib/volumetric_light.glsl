@@ -6,44 +6,44 @@ Volumetric light - MakeUp implementation
 
     #define diagonal3(m) vec3((m)[0].x, (m)[1].y, m[2].z)
 
-    vec3 get_volumetric_pos(vec3 shadow_pos) {
-        shadow_pos = mat3(shadowModelView) * shadow_pos + shadowModelView[3].xyz;
-        shadow_pos = diagonal3(shadowProjection) * shadow_pos + shadowProjection[3].xyz;
-        float distb = length(shadow_pos.xy);
+    vec3 get_volumetric_pos(vec3 shadowPos) {
+        shadowPos = mat3(shadowModelView) * shadowPos + shadowModelView[3].xyz;
+        shadowPos = diagonal3(shadowProjection) * shadowPos + shadowProjection[3].xyz;
+        float distb = length(shadowPos.xy);
         float distortion = distb * SHADOW_DIST + (1.0 - SHADOW_DIST);
 
-        shadow_pos.xy /= distortion;
-        shadow_pos.z *= 0.2;
+        shadowPos.xy /= distortion;
+        shadowPos.z *= 0.2;
         
-        return shadow_pos * 0.5 + 0.5;
+        return shadowPos * 0.5 + 0.5;
     }
 
-    float get_volumetric_light(float dither, float view_distance, mat4 modeli_times_projectioni) {
+    float get_volumetric_light(float dither, float visibleDistance, mat4 modeli_times_projectioni) {
         float light = 0.0;
 
-        float current_depth;
-        vec3 view_pos;
+        float currentDistance;
+        vec3 viewPos;
         vec4 pos;
-        vec3 shadow_pos;
+        vec3 shadowPos;
 
         for (int i = 0; i < GODRAY_STEPS; i++) {
             // Exponentialy spaced shadow samples
-            current_depth = exp2(i + dither) - 0.6;
-            if (current_depth > view_distance) {
+            currentDistance = exp2(i + dither) - 0.6;
+            if (currentDistance > visibleDistance) {
                 break;
             }
 
             // Distance to depth
-            current_depth = (far * (current_depth - near)) / (current_depth * (far - near));
+            currentDistance = (far * (currentDistance - near)) / (currentDistance * (far - near));
 
-            view_pos = vec3(texcoord, current_depth);
+            viewPos = vec3(texcoord, currentDistance);
 
             // Clip to world
-            pos = modeli_times_projectioni * (vec4(view_pos, 1.0) * 2.0 - 1.0);
-            view_pos = (pos.xyz /= pos.w).xyz;
+            pos = modeli_times_projectioni * (vec4(viewPos, 1.0) * 2.0 - 1.0);
+            viewPos = (pos.xyz /= pos.w).xyz;
 
-            shadow_pos = get_volumetric_pos(view_pos);
-            light += shadow2D(shadowtex1, shadow_pos).r;
+            shadowPos = get_volumetric_pos(viewPos);
+            light += shadow2D(shadowtex1, shadowPos).r;
         }
 
         light /= GODRAY_STEPS;
@@ -53,45 +53,42 @@ Volumetric light - MakeUp implementation
 
     #if defined COLORED_SHADOW
 
-        vec3 get_volumetric_color_light(float dither, float view_distance, mat4 modeli_times_projectioni) {
+        vec3 get_volumetric_color_light(float dither, float visibleDistance, mat4 modeli_times_projectioni) {
             float light = 0.0;
 
-            float current_depth;
-            vec3 view_pos;
+            float currentDistance;
+            vec3 viewPos;
             vec4 pos;
-            vec3 shadow_pos;
+            vec3 shadowPos;
 
             float shadow_detector = 1.0;
             float shadow_black = 1.0;
-            vec4 shadow_color = vec4(1.0);
-            vec3 light_color = vec3(0.0);
+            vec4 shadowColor = vec4(1.0);
 
             float alpha_complement;
 
             for (int i = 0; i < GODRAY_STEPS; i++) {
                 // Exponentialy spaced shadow samples
-                current_depth = exp2(i + dither) - 0.6;
-                if (current_depth > view_distance) {
+                currentDistance = exp2(i + dither) - 0.6;
+                if (currentDistance > visibleDistance) {
                     break;
                 }
 
                 // Distance to depth
-                current_depth = (far * (current_depth - near)) / (current_depth * (far - near));
+                currentDistance = (far * (currentDistance - near)) / (currentDistance * (far - near));
 
-                view_pos = vec3(texcoord, current_depth);
+                viewPos = vec3(texcoord, currentDistance);
 
                 // Clip to world
-                pos = modeli_times_projectioni * (vec4(view_pos, 1.0) * 2.0 - 1.0);
-                view_pos = (pos.xyz /= pos.w).xyz;
-                shadow_pos = get_volumetric_pos(view_pos);
+                pos = modeli_times_projectioni * (vec4(viewPos, 1.0) * 2.0 - 1.0);
+                viewPos = (pos.xyz /= pos.w).xyz;
+                shadowPos = get_volumetric_pos(viewPos);
                 
-                light += shadow2D(shadowtex0, shadow_pos).r;
+                light += shadow2D(shadowtex0, shadowPos).r;
             }
 
-            // light_color /= GODRAY_STEPS;
             light /= GODRAY_STEPS;
 
-            // return light_color;
             return vec3(light);
         }
         
