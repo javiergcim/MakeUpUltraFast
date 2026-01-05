@@ -12,7 +12,7 @@
 
 uniform sampler2D colortex1;
 uniform sampler2D gaux1;
-uniform float inv_aspect_ratio;
+uniform float aspectRatioInverse;
 
 #ifdef DOF
     uniform float centerDepthSmooth;

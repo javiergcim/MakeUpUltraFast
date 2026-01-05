@@ -98,30 +98,30 @@ varying float exposure;
 void main() {
     vec4 block_color = texture2DLod(colortex1, texcoord, 0);
     float d = texture2DLod(depthtex0, texcoord, 0).r;
-    float linear_d = ld(d);
+    float linearDepth = ld(d);
 
     vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
 
     // Depth to distance
-    float screen_distance = linear_d * far * 0.5;
+    float screen_distance = linearDepth * far * 0.5;
 
     // Underwater fog
     if(isEyeInWater == 1) {
-        float water_absorption = clamp(-pow((-linear_d + 1.0), (4.0 + (WATER_ABSORPTION * 4.0))) + 1.0, 0.0, 1.0);
+        float water_absorption = clamp(-pow((-linearDepth + 1.0), (4.0 + (WATER_ABSORPTION * 4.0))) + 1.0, 0.0, 1.0);
         
         block_color.rgb =
             mix(block_color.rgb, WATER_COLOR * direct_light_color * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667), water_absorption);
 
     } else if(isEyeInWater == 2) {
-        block_color = mix(block_color, vec4(1.0, .1, 0.0, 1.0), clamp(sqrt(linear_d * far * 0.125), 0.0, 1.0));
+        block_color = mix(block_color, vec4(1.0, .1, 0.0, 1.0), clamp(sqrt(linearDepth * far * 0.125), 0.0, 1.0));
     }
 
     #if MC_VERSION >= 11900
-        if((blindness > .01 || darknessFactor > .01) && linear_d > 0.999) {
+        if((blindness > .01 || darknessFactor > .01) && linearDepth > 0.999) {
             block_color.rgb = vec3(0.0);
         }
     #else
-        if(blindness > .01 && linear_d > 0.999) {
+        if(blindness > .01 && linearDepth > 0.999) {
             block_color.rgb = vec3(0.0);
         }
     #endif

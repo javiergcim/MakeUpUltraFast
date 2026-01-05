@@ -24,6 +24,6 @@ void main() {
     gl_Position = mu_ftransform();
 
     #if AA_TYPE > 1
-        gl_Position.xy += taa_offset * gl_Position.w;
+        gl_Position.xy += taaOffset * gl_Position.w;
     #endif
 }

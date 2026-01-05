@@ -159,14 +159,14 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
 }
 
 vec3 get_normals(vec3 bump, vec3 fragpos) {
-    float NdotE = abs(dot(water_normal, normalize(fragpos)));
+    float NdotE = abs(dot(waterNormal, normalize(fragpos)));
 
     bump *= vec3(NdotE) + vec3(0.0, 0.0, 1.0 - NdotE);
 
     mat3 tbn_matrix = mat3(
-        tangent.x, binormal.x, water_normal.x,
-        tangent.y, binormal.y, water_normal.y,
-        tangent.z, binormal.z, water_normal.z
+        tangent.x, binormal.x, waterNormal.x,
+        tangent.y, binormal.y, waterNormal.y,
+        tangent.z, binormal.z, waterNormal.z
     );
 
     return normalize(bump * tbn_matrix);

@@ -53,7 +53,7 @@ varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
 varying float frog_adjust;
-varying vec3 water_normal;
+varying vec3 waterNormal;
 varying float block_type;
 varying vec4 worldposition;
 varying vec3 fragposition;
@@ -118,7 +118,7 @@ void main() {
 
     #include "/src/light_vertex.glsl"
 
-    water_normal = normal;
+    waterNormal = normal;
 
     tangent = normalize(gl_NormalMatrix * at_tangent.xyz);
     binormal = normalize(gl_NormalMatrix * -cross(gl_Normal, at_tangent.xyz));

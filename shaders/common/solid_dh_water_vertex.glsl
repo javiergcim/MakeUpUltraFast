@@ -47,7 +47,7 @@ varying vec4 position;
 varying vec3 fragposition;
 varying vec3 tangent;
 varying vec3 binormal;
-varying vec3 water_normal;
+varying vec3 waterNormal;
 varying vec3 hi_sky_color;
 varying vec3 low_sky_color;
 varying vec3 up_vec;
@@ -77,12 +77,12 @@ void main() {
     #include "/src/light_vertex_dh.glsl"
     #include "/src/fog_vertex_dh.glsl"
 
-    vec4 position2 = gl_ModelViewMatrix * gl_Vertex;
-    fragposition = position2.xyz;
+    vec4 viewSpacePos4D = gl_ModelViewMatrix * gl_Vertex;
+    fragposition = viewSpacePos4D.xyz;
 
     binormal = normalize(gbufferModelView[2].xyz);
     tangent = normalize(gbufferModelView[0].xyz);
-    water_normal = normal;
+    waterNormal = normal;
 
     up_vec = normalize(gbufferModelView[1].xyz);
 

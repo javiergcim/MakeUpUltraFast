@@ -88,7 +88,7 @@ varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tint_color;
 varying float frog_adjust;
-varying vec3 water_normal;
+varying vec3 waterNormal;
 varying float block_type;
 varying vec4 worldposition;
 varying vec3 fragposition;
@@ -286,7 +286,7 @@ void main() {
         block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
 
         if(block_type > 1.5) {  // Glass
-            block_color = cristal_shader(fragposition, water_normal, block_color, sky_color_reflect, fresnel * fresnel, visible_sky, dither, direct_light_color);
+            block_color = cristal_shader(fragposition, waterNormal, block_color, sky_color_reflect, fresnel * fresnel, visible_sky, dither, direct_light_color);
         }
     }
 

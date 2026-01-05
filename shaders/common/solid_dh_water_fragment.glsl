@@ -75,7 +75,7 @@ varying vec4 position;
 varying vec3 fragposition;
 varying vec3 tangent;
 varying vec3 binormal;
-varying vec3 water_normal;
+varying vec3 waterNormal;
 varying vec3 hi_sky_color;
 varying vec3 low_sky_color;
 varying vec3 up_vec;
@@ -109,9 +109,9 @@ void main() {
     float inf = t * TRANSITION_DH_INF;
     float view_dist = length(position.xyz);
     float d = texture2DLod(depthtex0, vec2(gl_FragCoord.x / viewWidth, gl_FragCoord.y / viewHeight), 0.0).r;
-    float linear_d = ld(d);
+    float linearDepth = ld(d);
 
-    if(linear_d < 0.9999 || view_dist < dhNearPlane + inf) {
+    if(linearDepth < 0.9999 || view_dist < dhNearPlane + inf) {
         discard;
         return;
     }

@@ -18,7 +18,7 @@ vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force, fl
 
     if (blur_radius > min(pixel_size_x, pixel_size_y)) {
         vec3 blur_sample = vec3(0.0);
-        vec2 blur_radius_vec = vec2(blur_radius * inv_aspect_ratio, blur_radius);
+        vec2 blur_radius_vec = vec2(blur_radius * aspectRatioInverse, blur_radius);
 
         float dither_base = dither;
         dither *= 6.283185307179586;

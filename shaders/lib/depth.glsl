@@ -1,4 +1,4 @@
-/* MakeUp - depth_dh.glsl
+/* MakeUp - depth.glsl
 Depth utilities.
 
 Javier Garduño - GNU Lesser General Public License v3.0

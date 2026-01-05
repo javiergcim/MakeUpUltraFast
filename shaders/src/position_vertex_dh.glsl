@@ -7,7 +7,7 @@ if(dhMaterialId == DH_BLOCK_WATER) {  // Water
 gl_Position = dhProjection * gbufferModelView * position;
 
 #if AA_TYPE > 1
-    gl_Position.xy += taa_offset * gl_Position.w;
+    gl_Position.xy += taaOffset * gl_Position.w;
 #endif
 
 // Fog intensity calculation

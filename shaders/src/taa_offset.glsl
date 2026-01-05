@@ -1,5 +1,5 @@
 #if MC_VERSION >= 11300
-    uniform vec2 taa_offset;
+    uniform vec2 taaOffset;
 #else
     uniform int frame_mod;
     uniform float pixel_size_x;
@@ -18,5 +18,5 @@
         vec2(-0.5720614028176845, -0.4156269377774534)
     );
 
-    vec2 taa_offset = offset_array[frame_mod] * vec2(pixel_size_x, pixel_size_y);
+    vec2 taaOffset = offset_array[frame_mod] * vec2(pixel_size_x, pixel_size_y);
 #endif
