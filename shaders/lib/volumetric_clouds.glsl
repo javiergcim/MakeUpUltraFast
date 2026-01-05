@@ -2,7 +2,7 @@
 Fast volumetric clouds - MakeUp implementation
 */
 
-vec3 get_cloud_old(vec3 view_vector, vec3 block_color, float bright, float dither, vec3 base_pos, int samples, float umbral, vec3 cloud_color, vec3 dark_cloud_color) {
+vec3 get_cloud_old(vec3 view_vector, vec3 blockColor, float bright, float dither, vec3 base_pos, int samples, float umbral, vec3 cloud_color, vec3 dark_cloud_color) {
     float plane_distance;
     float cloud_value;
     float density;
@@ -23,7 +23,7 @@ vec3 get_cloud_old(vec3 view_vector, vec3 block_color, float bright, float dithe
     float dist_aux_coeff_blur;
 
     #if VOL_LIGHT == 0
-        block_color.rgb *=
+        blockColor.rgb *=
             clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
     #endif
 
@@ -31,7 +31,7 @@ vec3 get_cloud_old(vec3 view_vector, vec3 block_color, float bright, float dithe
         float d_dh = texture2D(dhDepthTex0, vec2(gl_FragCoord.x / viewWidth, gl_FragCoord.y / viewHeight)).r;
         float linear_d_dh = ld_dh(d_dh);
         if (linear_d_dh < 0.9999) {
-            return block_color;
+            return blockColor;
         }
     #endif
 
@@ -135,26 +135,26 @@ vec3 get_cloud_old(vec3 view_vector, vec3 block_color, float bright, float dithe
         cloud_color =
             mix(cloud_color, cloud_color * 13.0, (1.0 - pow(cloud_value, 0.2)) * bright * bright * (1.0 - rainStrength));
 
-        block_color = mix(
-            block_color,
+        blockColor = mix(
+            blockColor,
             cloud_color,
             cloud_value * clamp((view_vector.y - 0.06) * 5.0, 0.0, 1.0)
         );
     }
 
-    return block_color;
+    return blockColor;
 }
 
-vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, vec3 base_pos, int samples, float umbral, vec3 cloud_color, vec3 dark_cloud_color) {
+vec3 get_cloud(vec3 view_vector, vec3 blockColor, float bright, float dither, vec3 base_pos, int samples, float umbral, vec3 cloud_color, vec3 dark_cloud_color) {
     #if VOL_LIGHT == 0
-        block_color.rgb *= clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
+        blockColor.rgb *= clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
     #endif
 
     #if defined DISTANT_HORIZONS && defined DEFERRED_SHADER
         float d_dh = texture2D(dhDepthTex0, gl_FragCoord.xy / vec2(viewWidth, viewHeight)).r;
         float linear_d_dh = ld_dh(d_dh);
         if (linear_d_dh < 0.9999) {
-            return block_color;
+            return blockColor;
         }
     #endif
 
@@ -242,8 +242,8 @@ vec3 get_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, v
         float cloud_value_approx = sqrt(sqrt(cloud_value));
         cloud_color = mix(cloud_color, cloud_color * 13.0, (1.0 - cloud_value_approx) * bright * bright * (1.0 - rainStrength));
 
-        block_color = mix(block_color, cloud_color, cloud_value * clamp((view_vector.y - 0.06) * 5.0, 0.0, 1.0));
+        blockColor = mix(blockColor, cloud_color, cloud_value * clamp((view_vector.y - 0.06) * 5.0, 0.0, 1.0));
     }
 
-    return block_color;
+    return blockColor;
 }

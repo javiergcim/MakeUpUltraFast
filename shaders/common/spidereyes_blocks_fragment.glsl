@@ -12,7 +12,7 @@ varying vec2 texcoord;
 
 void main() {
     // Toma el color puro del bloque
-    vec4 block_color = texture2D(tex, texcoord);
+    vec4 blockColor = texture2D(tex, texcoord);
 
     #include "/src/writebuffers.glsl"
 }

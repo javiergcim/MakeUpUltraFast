@@ -2,21 +2,21 @@
 Fast volumetric clouds (for The End) - MakeUp implementation
 */
 
-vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright, float dither, vec3 base_pos, int samples) {
-    block_color.rgb *= clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
+vec3 get_end_cloud(vec3 view_vector, vec3 blockColor, float bright, float dither, vec3 base_pos, int samples) {
+    blockColor.rgb *= clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
 
     #if defined DISTANT_HORIZONS && defined DEFERRED_SHADER
         float d_dh = texture2DLod(dhDepthTex0, gl_FragCoord.xy / vec2(viewWidth, viewHeight), 0.0).r;
         float linear_d_dh = ld_dh(d_dh);
         if (linear_d_dh < 0.9999) {
-            return block_color;
+            return blockColor;
         }
     #endif
 
     if (view_vector.y > 0.0) {  // Vista sobre el horizonte
         float umbral = 0.25;
-        vec3 cloud_color = block_color * 1.75;
-        vec3 dark_cloud_color = block_color * 0.9;
+        vec3 cloud_color = blockColor * 1.75;
+        vec3 dark_cloud_color = blockColor * 0.9;
 
         float view_y_inv = 1.0 / view_vector.y;
 
@@ -90,9 +90,9 @@ vec3 get_end_cloud(vec3 view_vector, vec3 block_color, float bright, float dithe
         cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density));
         cloud_color = mix(cloud_color, cloud_color * 2.0, (1.0 - cloud_value) * bright);
 
-        block_color = mix(block_color, cloud_color, cloud_value * clamp((view_vector.y - 0.06) * 5.0, 0.0, 1.0));
-        block_color = mix(block_color, vec3(1.0), clamp(bright * .04, 0.0, 1.0));
+        blockColor = mix(blockColor, cloud_color, cloud_value * clamp((view_vector.y - 0.06) * 5.0, 0.0, 1.0));
+        blockColor = mix(blockColor, vec3(1.0), clamp(bright * .04, 0.0, 1.0));
     }
 
-    return block_color;
+    return blockColor;
 }

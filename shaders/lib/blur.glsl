@@ -5,13 +5,13 @@ Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force, float dither) {
-    vec3 block_color = color_depth.rgb;
+    vec3 blockColor = color_depth.rgb;
     float the_depth = color_depth.a;
     float blur_radius = 0.0;
 
     if (the_depth > 0.56) {  // Manos no
         blur_radius =
-            max(abs(the_depth - centerDepthSmooth) - 0.000075, 0.0) * fov_y_inv;
+            max(abs(the_depth - centerDepthSmooth) - 0.000075, 0.0) * fovYInverse;
         blur_radius = blur_radius * inversesqrt(0.1 + blur_radius * blur_radius) * force;
         blur_radius = min(blur_radius, 0.1);
     }
@@ -29,8 +29,8 @@ vec3 noised_blur(vec4 color_depth, sampler2D image, vec2 coords, float force, fl
         blur_sample += texture2D(image, coords + offset, -2.0).rgb;
         blur_sample += texture2D(image, coords - offset, -2.0).rgb;
 
-        block_color = blur_sample * 0.5;
+        blockColor = blur_sample * 0.5;
     }
 
-    return block_color;
+    return blockColor;
 }

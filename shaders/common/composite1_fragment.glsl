@@ -20,7 +20,7 @@ uniform float aspectRatioInverse;
     uniform float pixel_size_y;
     uniform float viewWidth;
     uniform float viewHeight;
-    uniform float fov_y_inv;
+    uniform float fovYInverse;
 #endif
 
 #ifdef BLOOM
@@ -46,7 +46,7 @@ varying vec2 texcoord;
 // MAIN FUNCTION ------------------
 
 void main() {
-    vec4 block_color = texture2DLod(colortex1, texcoord, 0);
+    vec4 blockColor = texture2DLod(colortex1, texcoord, 0);
 
     #if defined BLOOM || defined DOF
         #if AA_TYPE > 0
@@ -57,17 +57,17 @@ void main() {
     #endif
 
     #ifdef DOF
-        block_color.rgb = noised_blur(block_color, colortex1, texcoord, DOF_STRENGTH, dither);
+        blockColor.rgb = noised_blur(blockColor, colortex1, texcoord, DOF_STRENGTH, dither);
     #endif
 
     #ifdef BLOOM
         vec3 bloom = mipmap_bloom(gaux1, texcoord, dither);
-        block_color.rgb += bloom;
+        blockColor.rgb += bloom;
 
-        // block_color.rgb = texture2DLod(gaux1, texcoord, soft_lod).rgb;
+        // blockColor.rgb = texture2DLod(gaux1, texcoord, soft_lod).rgb;
     #endif
 
-    block_color = clamp(block_color, vec4(0.0), vec4(vec3(50.0), 1.0));
+    blockColor = clamp(blockColor, vec4(0.0), vec4(vec3(50.0), 1.0));
     /* DRAWBUFFERS:1 */
-    gl_FragData[0] = block_color;
+    gl_FragData[0] = blockColor;
 }

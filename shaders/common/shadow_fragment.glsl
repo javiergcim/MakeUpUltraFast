@@ -25,8 +25,8 @@ void main() {
         discard;
     }
 
-    vec4 block_color = texture2D(tex, texcoord);
+    vec4 blockColor = texture2D(tex, texcoord);
 
     /* DRAWBUFFERS:0 */
-    gl_FragData[0] = block_color;
+    gl_FragData[0] = blockColor;
 }

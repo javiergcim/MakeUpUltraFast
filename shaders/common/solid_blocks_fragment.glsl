@@ -153,16 +153,16 @@ void main() {
 
     // Toma el color puro del bloque
     #if defined GBUFFER_ENTITIES && BLACK_ENTITY_FIX == 1
-        vec4 block_color = texture2D(tex, texcoord);
-        if(block_color.a < 0.1 && entityId != 10101) {   // Black entities bug workaround
+        vec4 blockColor = texture2D(tex, texcoord);
+        if(blockColor.a < 0.1 && entityId != 10101) {   // Black entities bug workaround
             discard;
         }
-        block_color *= tint_color;
+        blockColor *= tint_color;
     #else
-        vec4 block_color = texture2D(tex, texcoord) * tint_color;
+        vec4 blockColor = texture2D(tex, texcoord) * tint_color;
     #endif
 
-        float block_luma = luma(block_color.rgb);
+        float block_luma = luma(blockColor.rgb);
 
         vec3 final_candle_color = candle_color;
     #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
@@ -172,13 +172,13 @@ void main() {
     #endif
 
     #ifdef GBUFFER_WEATHER
-        block_color.a *= .5;
+        blockColor.a *= .5;
     #endif
 
     #if defined GBUFFER_ENTITIES
         // Thunderbolt render
         if(entityId == 10101) {
-            block_color.a = 1.0;
+            blockColor.a = 1.0;
         }
     #endif
 
@@ -209,10 +209,10 @@ void main() {
     #endif
 
     #if defined GBUFFER_BEACONBEAM
-        block_color.rgb *= 1.5;
+        blockColor.rgb *= 1.5;
     #elif defined GBUFFER_ENTITY_GLOW
-        block_color.rgb =
-            clamp(vec3(luma(block_color.rgb)) * vec3(0.75, 0.75, 1.5), vec3(0.3), vec3(1.0));
+        blockColor.rgb =
+            clamp(vec3(luma(blockColor.rgb)) * vec3(0.75, 0.75, 1.5), vec3(0.3), vec3(1.0));
         vec3 real_light = omni_light +
                 (shadow_c * direct_light_color * direct_light_strength) * (1.0 - (rainStrength * 0.75)) +
                 final_candle_color;
@@ -239,22 +239,22 @@ void main() {
                 final_candle_color;
         #endif
 
-        block_color.rgb *= mix(real_light, vec3(1.0), nightVision * 0.125);
-        block_color.rgb *= mix(vec3(1.0, 1.0, 1.0), vec3(NV_COLOR_R, NV_COLOR_G, NV_COLOR_B), nightVision);
+        blockColor.rgb *= mix(real_light, vec3(1.0), nightVision * 0.125);
+        blockColor.rgb *= mix(vec3(1.0, 1.0, 1.0), vec3(NV_COLOR_R, NV_COLOR_G, NV_COLOR_B), nightVision);
     #endif
 
     #if defined GBUFFER_ENTITIES
         if(entityId == 10101) {
             // Thunderbolt render
-            block_color = vec4(1.0, 1.0, 1.0, 0.5);
+            blockColor = vec4(1.0, 1.0, 1.0, 0.5);
         } else {
             float entity_poderation = luma(real_light);  // Red damage bright ponderation
-            block_color.rgb = mix(block_color.rgb, entityColor.rgb, entityColor.a * entity_poderation * 3.0);
+            blockColor.rgb = mix(blockColor.rgb, entityColor.rgb, entityColor.a * entity_poderation * 3.0);
         }
     #endif
 
     #if MC_VERSION < 11300 && defined GBUFFER_TEXTURED
-        block_color.rgb *= 1.5;
+        blockColor.rgb *= 1.5;
     #endif
 
     #include "/src/finalcolor.glsl"

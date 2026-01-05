@@ -146,7 +146,7 @@ void main() {
     sky_color_reflect = xyz_to_rgb(sky_color_reflect);
 
     #if !defined VANILLA_WATER && WATER_TEXTURE == 1
-        vec4 block_color = vec4(0.1);
+        vec4 blockColor = vec4(0.1);
         // Synthetic water texture
         vec3 synth_pos = (position.xyz + cameraPosition) * 8.0;
         synth_pos = floor(synth_pos + 0.01);
@@ -155,7 +155,7 @@ void main() {
         noise *= noise;
         noise *= noise;
         float synth_noise = (noise * 0.3) + 0.5;
-        block_color.rgb += vec3(synth_noise);
+        blockColor.rgb += vec3(synth_noise);
     #elif defined VANILLA_WATER
         // Synthetic water texture
         vec3 synth_pos = (position.xyz + cameraPosition) * 8.0;
@@ -164,16 +164,16 @@ void main() {
         noise *= noise;
         noise *= noise;
         float synth_noise = (noise * 0.227) + 0.773;
-        vec4 block_color = vec4(vec3(synth_noise), tint_color.a);
+        vec4 blockColor = vec4(vec3(synth_noise), tint_color.a);
     #else
-        vec4 block_color;
+        vec4 blockColor;
     #endif
 
     if(block_type < DH_BLOCK_WATER + 0.5 && block_type > DH_BLOCK_WATER - 0.5) {  // Water
     #ifdef VANILLA_WATER
         float shadow_c = abs((light_mix * 2.0) - 1.0);
 
-        float fresnel_tex = luma(block_color.rgb);
+        float fresnel_tex = luma(blockColor.rgb);
 
         real_light = omni_light +
             (direct_light_strength * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
@@ -181,14 +181,14 @@ void main() {
 
         real_light *= (fresnel_tex * 2.0) - 0.25;
 
-        block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125) * tint_color.rgb;
+        blockColor.rgb *= mix(real_light, vec3(1.0), nightVision * .125) * tint_color.rgb;
 
-        block_color.rgb = water_shader_dh(fragposition, surface_normal, block_color.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visible_sky, dither, direct_light_color);
+        blockColor.rgb = water_shader_dh(fragposition, surface_normal, blockColor.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visible_sky, dither, direct_light_color);
 
-        block_color.a = sqrt(block_color.a);
+        blockColor.a = sqrt(blockColor.a);
     #else
         #if WATER_TEXTURE == 1
-            float water_texture = luma(block_color.rgb);
+            float water_texture = luma(blockColor.rgb);
         #else
             float water_texture = 1.0;
         #endif
@@ -198,24 +198,24 @@ void main() {
                 candle_color;
 
         #if WATER_COLOR_SOURCE == 0
-                block_color.rgb = water_texture * real_light * WATER_COLOR;
+                blockColor.rgb = water_texture * real_light * WATER_COLOR;
         #elif WATER_COLOR_SOURCE == 1
-            block_color.rgb = 0.3 * water_texture * real_light * tint_color.rgb;
+            blockColor.rgb = 0.3 * water_texture * real_light * tint_color.rgb;
         #endif
 
-            block_color = vec4(refraction(fragposition, block_color.rgb, water_normal_base), 1.0);
+            blockColor = vec4(refraction(fragposition, blockColor.rgb, water_normal_base), 1.0);
 
         #if WATER_TEXTURE == 1
             fresnel = clamp(fresnel * (water_texture * water_texture + 0.5), 0.0, 1.0);
         #endif
 
-        block_color.rgb = water_shader_dh(fragposition, surface_normal, block_color.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visible_sky, dither, direct_light_color);
+        blockColor.rgb = water_shader_dh(fragposition, surface_normal, blockColor.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visible_sky, dither, direct_light_color);
 
     #endif
 
     } else {  // Otros translúcidos
 
-        block_color = tint_color;
+        blockColor = tint_color;
 
         float shadow_c = abs((light_mix * 2.0) - 1.0);
 
@@ -223,7 +223,7 @@ void main() {
             (direct_light_strength * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
             candle_color;
 
-        block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
+        blockColor.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
     }
 
     #include "/src/finalcolor_dh.glsl"

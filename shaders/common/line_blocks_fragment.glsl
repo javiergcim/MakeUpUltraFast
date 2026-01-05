@@ -7,7 +7,7 @@
 varying vec4 tint_color;
 
 void main() {
-    vec4 block_color = tint_color;
+    vec4 blockColor = tint_color;
 
     #include "/src/writebuffers.glsl"
 }

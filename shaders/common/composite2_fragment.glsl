@@ -52,7 +52,7 @@ varying vec2 texcoord;
 // MAIN FUNCTION ------------------
 
 void main() {
-    vec4 block_color = texture2DLod(colortex1, texcoord, 0);
+    vec4 blockColor = texture2DLod(colortex1, texcoord, 0);
 
     // Precalc past position and velocity
     #if AA_TYPE > 0 || defined MOTION_BLUR
@@ -86,23 +86,23 @@ void main() {
     #ifdef MOTION_BLUR
         // "Speed"
         vec2 velocity = texcoord - texcoord_past;
-        block_color.rgb = motion_blur(block_color.rgb, z_depth, velocity, colortex1);
+        blockColor.rgb = motion_blur(blockColor.rgb, z_depth, velocity, colortex1);
     #endif
 
     #if AA_TYPE > 0
         #ifdef DOF
-            block_color = fast_taa_depth(block_color, texcoord_past);
+            blockColor = fast_taa_depth(blockColor, texcoord_past);
         #else
-            block_color.rgb = fast_taa(block_color.rgb, texcoord_past);
+            blockColor.rgb = fast_taa(blockColor.rgb, texcoord_past);
         #endif
 
-        block_color = clamp(block_color, vec4(0.0), vec4(vec3(50.0), 1.0));
+        blockColor = clamp(blockColor, vec4(0.0), vec4(vec3(50.0), 1.0));
         /* DRAWBUFFERS:13 */
-        gl_FragData[0] = block_color;  // colortex1
-        gl_FragData[1] = block_color;  // To TAA averages
+        gl_FragData[0] = blockColor;  // colortex1
+        gl_FragData[1] = blockColor;  // To TAA averages
     #else
-        block_color = clamp(block_color, vec4(0.0), vec4(vec3(50.0), 1.0));
+        blockColor = clamp(blockColor, vec4(0.0), vec4(vec3(50.0), 1.0));
         /* DRAWBUFFERS:1 */
-        gl_FragData[0] = block_color;  // colortex1
+        gl_FragData[0] = blockColor;  // colortex1
     #endif
 }

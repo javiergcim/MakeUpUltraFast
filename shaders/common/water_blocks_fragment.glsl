@@ -156,7 +156,7 @@ void main() {
         float dither = 1.0;
     #endif
 
-    vec4 block_color;
+    vec4 blockColor;
     vec3 real_light;
 
     #ifdef VANILLA_WATER
@@ -192,7 +192,7 @@ void main() {
     #endif
     if(block_type > 2.5) {  // Water
         #ifdef VANILLA_WATER
-            block_color = texture2D(tex, texcoord);
+            blockColor = texture2D(tex, texcoord);
             #if defined SHADOW_CASTING && !defined NETHER
                 #if SHADOW_LOCK > 0
                     vec3 offsetVector = vNormal * 0.002;
@@ -218,7 +218,7 @@ void main() {
                 float shadow_c = abs((light_mix * 2.0) - 1.0);
             #endif
 
-            float fresnel_tex = luma(block_color.rgb);
+            float fresnel_tex = luma(blockColor.rgb);
 
             real_light = omni_light +
                 (direct_light_strength * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
@@ -226,15 +226,15 @@ void main() {
 
             real_light *= (fresnel_tex * 2.0) - 0.25;
 
-            block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125) * tint_color.rgb;
+            blockColor.rgb *= mix(real_light, vec3(1.0), nightVision * .125) * tint_color.rgb;
 
-            block_color.rgb = water_shader(fragposition, surface_normal, block_color.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visible_sky, dither, direct_light_color);
+            blockColor.rgb = water_shader(fragposition, surface_normal, blockColor.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visible_sky, dither, direct_light_color);
 
-            block_color.a = sqrt(block_color.a);
+            blockColor.a = sqrt(blockColor.a);
         #else
             #if WATER_TEXTURE == 1
-                block_color = texture2D(tex, texcoord);
-                float water_texture = luma(block_color.rgb);
+                blockColor = texture2D(tex, texcoord);
+                float water_texture = luma(blockColor.rgb);
             #else
                 float water_texture = 1.0;
             #endif
@@ -244,12 +244,12 @@ void main() {
                 candle_color;
 
             #if WATER_COLOR_SOURCE == 0
-                block_color.rgb = water_texture * real_light * WATER_COLOR;
+                blockColor.rgb = water_texture * real_light * WATER_COLOR;
             #elif WATER_COLOR_SOURCE == 1
-                block_color.rgb = 0.3 * water_texture * real_light * tint_color.rgb;
+                blockColor.rgb = 0.3 * water_texture * real_light * tint_color.rgb;
             #endif
 
-            block_color = vec4(refraction(fragposition, block_color.rgb, water_normal_base), 1.0);
+            blockColor = vec4(refraction(fragposition, blockColor.rgb, water_normal_base), 1.0);
 
             #if WATER_TEXTURE == 1
                 water_texture += 0.25;
@@ -258,14 +258,14 @@ void main() {
                 fresnel = clamp(fresnel * (water_texture), 0.0, 1.0);
             #endif
 
-            block_color.rgb = water_shader(fragposition, surface_normal, block_color.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visible_sky, dither, direct_light_color);
+            blockColor.rgb = water_shader(fragposition, surface_normal, blockColor.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visible_sky, dither, direct_light_color);
             
         #endif
 
     } else {  // Otros translúcidos
-        block_color = texture2D(tex, texcoord);
+        blockColor = texture2D(tex, texcoord);
 
-        block_color *= tint_color;
+        blockColor *= tint_color;
 
         #if defined SHADOW_CASTING && !defined NETHER
         #if defined COLORED_SHADOW
@@ -283,10 +283,10 @@ void main() {
             (direct_light_strength * shadow_c * direct_light_color) * (1.0 - rainStrength * 0.75) +
             candle_color;
 
-        block_color.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
+        blockColor.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
 
         if(block_type > 1.5) {  // Glass
-            block_color = cristal_shader(fragposition, waterNormal, block_color, sky_color_reflect, fresnel * fresnel, visible_sky, dither, direct_light_color);
+            blockColor = cristal_shader(fragposition, waterNormal, blockColor, sky_color_reflect, fresnel * fresnel, visible_sky, dither, direct_light_color);
         }
     }
 

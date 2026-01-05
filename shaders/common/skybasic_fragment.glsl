@@ -50,12 +50,12 @@ void main() {
         #if MC_VERSION < 11604
             vec4 background_color = vec4(ZENITH_DAY_COLOR, 1.0);
         #endif
-        vec4 block_color = vec4(0.0, 0.0, 0.0, 1.0);
+        vec4 blockColor = vec4(0.0, 0.0, 0.0, 1.0);
     #elif defined NETHER  // Unused
         #if MC_VERSION < 11604
             vec4 background_color = vec4(mix(fogColor * 0.1, vec3(1.0), 0.04), 1.0);
         #endif
-        vec4 block_color = vec4(mix(fogColor * 0.1, vec3(1.0), 0.04), 1.0);
+        vec4 blockColor = vec4(mix(fogColor * 0.1, vec3(1.0), 0.04), 1.0);
     #else
         #if MC_VERSION < 11604
             #if AA_TYPE > 0
@@ -79,18 +79,18 @@ void main() {
             vec4 background_color = texture2DLod(gaux4, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), 0);
         #endif
 
-        vec4 block_color = star_data;
+        vec4 blockColor = star_data;
 
-        block_color = mix(background_color, block_color, block_color);
+        blockColor = mix(background_color, blockColor, blockColor);
 
         #if MC_VERSION >= 11604
-            // block_color.a = star_data.a;
+            // blockColor.a = star_data.a;
         #endif
     #endif
 
     
     #if MC_VERSION >= 11604
-        block_color.rgba = vec4(texture2D(gaux4, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).rgb, clamp(star_data.a * 2.0, 0.0, 1.0));
+        blockColor.rgba = vec4(texture2D(gaux4, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).rgb, clamp(star_data.a * 2.0, 0.0, 1.0));
     #endif
 
     #include "/src/writebuffers.glsl"

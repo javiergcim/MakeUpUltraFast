@@ -96,7 +96,7 @@ varying float exposure;
 // MAIN FUNCTION ------------------
 
 void main() {
-    vec4 block_color = texture2DLod(colortex1, texcoord, 0);
+    vec4 blockColor = texture2DLod(colortex1, texcoord, 0);
     float d = texture2DLod(depthtex0, texcoord, 0).r;
     float linearDepth = ld(d);
 
@@ -109,20 +109,20 @@ void main() {
     if(isEyeInWater == 1) {
         float water_absorption = clamp(-pow((-linearDepth + 1.0), (4.0 + (WATER_ABSORPTION * 4.0))) + 1.0, 0.0, 1.0);
         
-        block_color.rgb =
-            mix(block_color.rgb, WATER_COLOR * direct_light_color * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667), water_absorption);
+        blockColor.rgb =
+            mix(blockColor.rgb, WATER_COLOR * direct_light_color * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667), water_absorption);
 
     } else if(isEyeInWater == 2) {
-        block_color = mix(block_color, vec4(1.0, .1, 0.0, 1.0), clamp(sqrt(linearDepth * far * 0.125), 0.0, 1.0));
+        blockColor = mix(blockColor, vec4(1.0, .1, 0.0, 1.0), clamp(sqrt(linearDepth * far * 0.125), 0.0, 1.0));
     }
 
     #if MC_VERSION >= 11900
         if((blindness > .01 || darknessFactor > .01) && linearDepth > 0.999) {
-            block_color.rgb = vec3(0.0);
+            blockColor.rgb = vec3(0.0);
         }
     #else
         if(blindness > .01 && linearDepth > 0.999) {
-            block_color.rgb = vec3(0.0);
+            blockColor.rgb = vec3(0.0);
         }
     #endif
 
@@ -161,7 +161,7 @@ void main() {
 
             vol_intensity *= 0.666;
 
-            block_color.rgb += (vol_light_color * vol_light * vol_intensity * 2.0);
+            blockColor.rgb += (vol_light_color * vol_light * vol_intensity * 2.0);
         #else
             // Light source position for depth based godrays intensity calculation
             vec3 intermediate_vector =
@@ -172,8 +172,8 @@ void main() {
             vol_intensity =
                 pow(clamp(vol_intensity, 0.0, 1.0), vol_mixer) * 0.5 * abs(light_mix * 2.0 - 1.0);
 
-            block_color.rgb =
-                mix(block_color.rgb, vol_light_color * vol_light, vol_intensity * (vol_light * 0.5 + 0.5) * (1.0 - rainStrength));
+            blockColor.rgb =
+                mix(blockColor.rgb, vol_light_color * vol_light, vol_intensity * (vol_light * 0.5 + 0.5) * (1.0 - rainStrength));
         #endif
     #endif
 
@@ -200,42 +200,42 @@ void main() {
         #if defined THE_END
             vol_intensity =
                 ((square_pow(clamp((vol_intensity + .666667) * 0.6, 0.0, 1.0)) * 0.5));
-            block_color.rgb += (vol_light_color * vol_light * vol_intensity * 2.0);
+            blockColor.rgb += (vol_light_color * vol_light * vol_intensity * 2.0);
         #else
             vol_intensity =
                 pow(clamp((vol_intensity + 0.5) * 0.666666666666666, 0.0, 1.0), vol_mixer) * 0.6 * abs(light_mix * 2.0 - 1.0);
 
-            block_color.rgb =
-                mix(block_color.rgb, vol_light_color * vol_light, vol_intensity * (vol_light * 0.5 + 0.5) * (1.0 - rainStrength));
+            blockColor.rgb =
+                mix(blockColor.rgb, vol_light_color * vol_light, vol_intensity * (vol_light * 0.5 + 0.5) * (1.0 - rainStrength));
         #endif
     #endif
 
     // Dentro de la nieve
     #ifdef BLOOM
         if(isEyeInWater == 3) {
-            block_color.rgb =
-                mix(block_color.rgb, vec3(0.7, 0.8, 1.0) / exposure, clamp(screen_distance, 0.0, 1.0));
+            blockColor.rgb =
+                mix(blockColor.rgb, vec3(0.7, 0.8, 1.0) / exposure, clamp(screen_distance, 0.0, 1.0));
         }
     #else
         if(isEyeInWater == 3) {
-            block_color.rgb =
-                mix(block_color.rgb, vec3(0.85, 0.9, 0.6), clamp(screen_distance, 0.0, 1.0));
+            blockColor.rgb =
+                mix(blockColor.rgb, vec3(0.85, 0.9, 0.6), clamp(screen_distance, 0.0, 1.0));
         }
     #endif
 
     #ifdef BLOOM
         // Bloom source
-        float bloom_luma = smoothstep(0.85, 1.0, luma(block_color.rgb * exposure)) * 0.5;
+        float bloom_luma = smoothstep(0.85, 1.0, luma(blockColor.rgb * exposure)) * 0.5;
 
-        block_color = clamp(block_color, vec4(0.0), vec4(vec3(50.0), 1.0));     
+        blockColor = clamp(blockColor, vec4(0.0), vec4(vec3(50.0), 1.0));     
         /* DRAWBUFFERS:146 */
-        gl_FragData[0] = block_color;
-        gl_FragData[1] = block_color * bloom_luma;
+        gl_FragData[0] = blockColor;
+        gl_FragData[1] = blockColor * bloom_luma;
         gl_FragData[2] = vec4(exposure, 0.0, 0.0, 0.0);
     #else
-        block_color = clamp(block_color, vec4(0.0), vec4(vec3(50.0), 1.0));
+        blockColor = clamp(blockColor, vec4(0.0), vec4(vec3(50.0), 1.0));
         /* DRAWBUFFERS:16 */
-        gl_FragData[0] = block_color;
+        gl_FragData[0] = blockColor;
         gl_FragData[1] = vec4(exposure, 0.0, 0.0, 0.0);
     #endif
 }

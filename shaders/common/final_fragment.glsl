@@ -103,47 +103,47 @@ varying float exposure;
 
 void main() {
     #if CHROMA_ABER == 1
-        vec3 block_color = color_aberration();
+        vec3 blockColor = color_aberration();
     #else
-        vec3 block_color = texture2D(colortex1, texcoord).rgb;
+        vec3 blockColor = texture2D(colortex1, texcoord).rgb;
         #if AA_TYPE == 3 && !defined DOF
-            block_color = fxaa311(block_color, 5);
+            blockColor = fxaa311(blockColor, 5);
         #endif
     #endif
     
     // Exposure correction
-    block_color *= vec3(exposure);
-    block_color = custom_sigmoid(block_color);
+    blockColor *= vec3(exposure);
+    blockColor = custom_sigmoid(blockColor);
 
     // Color-grading -----
     // DEVELOPER: If your post processing effect only involves the current pixel,
     // it can be placed here. For example:
 
     // Saturation:
-    // float actual_luma = luma(block_color);
-    // block_color = mix(vec3(actual_luma), block_color, 1.5);
+    // float actual_luma = luma(blockColor);
+    // blockColor = mix(vec3(actual_luma), blockColor, 1.5);
 
     // Color-blindness correction
     #ifdef COLOR_BLINDNESS
-        block_color = color_blindness(block_color);
+        blockColor = color_blindness(blockColor);
     #endif
 
     #ifdef DEBUG_MODE
         if(texcoord.x < 0.5 && texcoord.y < 0.5) {
-            block_color = texture2D(shadowtex1, texcoord * 2.0).rrr;
+            blockColor = texture2D(shadowtex1, texcoord * 2.0).rrr;
         } else if(texcoord.x >= 0.5 && texcoord.y >= 0.5) {
-            block_color = vec3(texture2D(gaux3, vec2(0.5)).r * 0.25);
+            blockColor = vec3(texture2D(gaux3, vec2(0.5)).r * 0.25);
         } else if(texcoord.x < 0.5 && texcoord.y >= 0.5) {
-            block_color = texture2D(colortex1, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb;
+            blockColor = texture2D(colortex1, ((texcoord - vec2(0.0, 0.5)) * 2.0)).rgb;
         } else if(texcoord.x >= 0.5 && texcoord.y < 0.5) {
-            block_color = texture2D(shadowcolor0, ((texcoord - vec2(0.5, 0.0)) * 2.0)).rgb;
+            blockColor = texture2D(shadowcolor0, ((texcoord - vec2(0.5, 0.0)) * 2.0)).rgb;
         } else {
-            block_color = vec3(0.5);
+            blockColor = vec3(0.5);
         }
 
-        gl_FragData[0] = vec4(block_color, 1.0);
+        gl_FragData[0] = vec4(blockColor, 1.0);
 
     #else
-        gl_FragData[0] = vec4(block_color, 1.0);
+        gl_FragData[0] = vec4(blockColor, 1.0);
     #endif
 }

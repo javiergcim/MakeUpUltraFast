@@ -18,7 +18,7 @@ float dbao(float dither) {
     float angle = 0.0;
     float dist = 0.0;
     float farAndCheck = handCheck * 2.0 * far;
-    vec2 scale = vec2(aspectRatioInverse, 1.0) * (fov_y_inv / (linearDepth * far));
+    vec2 scale = vec2(aspectRatioInverse, 1.0) * (fovYInverse / (linearDepth * far));
     vec2 scaleFactor = scale * stepsInverse;
     float checkDepth;
 

@@ -31,7 +31,7 @@ varying vec3 low_sky_color;
 
 void main() {
     #if defined THE_END || defined NETHER
-        vec3 block_color = ZENITH_DAY_COLOR;
+        vec3 blockColor = ZENITH_DAY_COLOR;
     #else
 
         #if AA_TYPE > 0
@@ -47,10 +47,10 @@ void main() {
             (vec4(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z, 1.0) * 2.0 - 1.0);
         vec3 nfragpos = normalize(fragpos.xyz);
         float n_u = clamp(dot(nfragpos, up_vec) + dither, 0.0, 1.0);
-        vec3 block_color =
+        vec3 blockColor =
             mix(low_sky_color, hi_sky_color, smoothstep(0.0, 1.0, pow(n_u, 0.333)));
 
-        block_color = xyz_to_rgb(block_color);
+        blockColor = xyz_to_rgb(blockColor);
     #endif
     
     #include "/src/writebuffers.glsl"

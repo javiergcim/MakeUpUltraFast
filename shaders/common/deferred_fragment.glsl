@@ -33,7 +33,7 @@ uniform int frameCounter;
 
 #if AO == 1
     uniform float aspectRatioInverse;
-    uniform float fov_y_inv;
+    uniform float fovYInverse;
 #endif
 
 #if V_CLOUDS != 0 && !defined UNKNOWN_DIM
@@ -106,7 +106,7 @@ varying vec3 up_vec;  // Flat
 // MAIN FUNCTION ------------------
 
 void main() {
-    vec4 block_color = texture2DLod(colortex1, texcoord, 0);
+    vec4 blockColor = texture2DLod(colortex1, texcoord, 0);
     float depth = texture2DLod(depthtex0, texcoord, 0).r;
     float linearDepth = ld(depth);
 
@@ -138,10 +138,10 @@ void main() {
 
             #ifdef THE_END
                 #ifdef END_CLOUDS
-                    block_color.rgb = get_end_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
+                    blockColor.rgb = get_end_cloud(view_vector, blockColor.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
                 #endif
             #else
-                block_color.rgb = get_cloud(view_vector, block_color.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG, umbral, cloud_color, dark_cloud_color);
+                blockColor.rgb = get_cloud(view_vector, blockColor.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG, umbral, cloud_color, dark_cloud_color);
             #endif
         }
 
@@ -149,7 +149,7 @@ void main() {
         #if defined NETHER
             #if !defined DISTANT_HORIZONS
                 if(linearDepth > 0.9999) {  // Only sky
-                    block_color = vec4(mix(fogColor * 0.1, vec3(1.0), 0.04), 1.0);
+                    blockColor = vec4(mix(fogColor * 0.1, vec3(1.0), 0.04), 1.0);
                 }
             #endif
         #elif !defined NETHER && !defined THE_END
@@ -177,7 +177,7 @@ void main() {
             pow(clamp(linearDepth * 1.6, 0.0, 1.0), mix(fog_density_coeff, 1.0, rainStrength));
 
         float final_ao = mix(dbao(dither), 1.0, ao_att);
-        block_color.rgb *= final_ao;
+        blockColor.rgb *= final_ao;
     #endif
 
     #if defined THE_END || defined NETHER
@@ -189,12 +189,12 @@ void main() {
     // Underwater sky
     if(isEyeInWater == 1) {
         if(linearDepth > 0.9999) {
-            block_color.rgb = mix(NIGHT_CORRECTION * WATER_COLOR * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667), block_color.rgb, max(clamp(view_vector.y - 0.1, 0.0, 1.0), rainStrength));
+            blockColor.rgb = mix(NIGHT_CORRECTION * WATER_COLOR * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667), blockColor.rgb, max(clamp(view_vector.y - 0.1, 0.0, 1.0), rainStrength));
         }
     }
 
-    block_color = clamp(block_color, vec4(0.0), vec4(vec3(50.0), 1.0));
+    blockColor = clamp(blockColor, vec4(0.0), vec4(vec3(50.0), 1.0));
     /* DRAWBUFFERS:14 */
-    gl_FragData[0] = vec4(block_color.rgb, depth);
-    gl_FragData[1] = block_color;
+    gl_FragData[0] = vec4(blockColor.rgb, depth);
+    gl_FragData[1] = blockColor;
 }
