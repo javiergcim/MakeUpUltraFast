@@ -2,7 +2,7 @@
 Fast volumetric clouds - MakeUp implementation
 */
 
-vec3 get_cloud_old(vec3 view_vector, vec3 blockColor, float bright, float dither, vec3 base_pos, int samples, float umbral, vec3 cloud_color, vec3 dark_cloud_color) {
+vec3 get_cloud_old(vec3 eyeDirection, vec3 blockColor, float bright, float dither, vec3 base_pos, int samples, float umbral, vec3 cloud_color, vec3 dark_cloud_color) {
     float plane_distance;
     float cloud_value;
     float density;
@@ -18,7 +18,7 @@ vec3 get_cloud_old(vec3 view_vector, vec3 blockColor, float bright, float dither
     float opacity_dist;
     vec3 increment;
     float increment_dist;
-    float view_y_inv = 1.0 / view_vector.y;
+    float view_y_inv = 1.0 / eyeDirection.y;
     float distance_aux;
     float dist_aux_coeff_blur;
 
@@ -35,12 +35,12 @@ vec3 get_cloud_old(vec3 view_vector, vec3 blockColor, float bright, float dither
         }
     #endif
 
-    if (view_vector.y > 0.0) {  // Over horizon
+    if (eyeDirection.y > 0.0) {  // Over horizon
         plane_distance = (CLOUD_PLANE - base_pos.y) * view_y_inv;
-        intersection_pos = (view_vector * plane_distance) + base_pos;
+        intersection_pos = (eyeDirection * plane_distance) + base_pos;
 
         plane_distance = (CLOUD_PLANE_SUP - base_pos.y) * view_y_inv;
-        intersection_pos_sup = (view_vector * plane_distance) + base_pos;
+        intersection_pos_sup = (eyeDirection * plane_distance) + base_pos;
 
         dif_sup = CLOUD_PLANE_SUP - CLOUD_PLANE_CENTER;
         dif_inf = CLOUD_PLANE_CENTER - CLOUD_PLANE;
@@ -138,14 +138,14 @@ vec3 get_cloud_old(vec3 view_vector, vec3 blockColor, float bright, float dither
         blockColor = mix(
             blockColor,
             cloud_color,
-            cloud_value * clamp((view_vector.y - 0.06) * 5.0, 0.0, 1.0)
+            cloud_value * clamp((eyeDirection.y - 0.06) * 5.0, 0.0, 1.0)
         );
     }
 
     return blockColor;
 }
 
-vec3 get_cloud(vec3 view_vector, vec3 blockColor, float bright, float dither, vec3 base_pos, int samples, float umbral, vec3 cloud_color, vec3 dark_cloud_color) {
+vec3 get_cloud(vec3 eyeDirection, vec3 blockColor, float bright, float dither, vec3 base_pos, int samples, float umbral, vec3 cloud_color, vec3 dark_cloud_color) {
     #if VOL_LIGHT == 0
         blockColor.rgb *= clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
     #endif
@@ -158,14 +158,14 @@ vec3 get_cloud(vec3 view_vector, vec3 blockColor, float bright, float dither, ve
         }
     #endif
 
-    if (view_vector.y > 0.0) {  // Over horizon
-        float view_y_inv = 1.0 / view_vector.y;
+    if (eyeDirection.y > 0.0) {  // Over horizon
+        float view_y_inv = 1.0 / eyeDirection.y;
 
         float plane_distance_inf = (CLOUD_PLANE - base_pos.y) * view_y_inv;
-        vec3 intersection_pos = (view_vector * plane_distance_inf) + base_pos;
+        vec3 intersection_pos = (eyeDirection * plane_distance_inf) + base_pos;
 
         float plane_distance_sup = (CLOUD_PLANE_SUP - base_pos.y) * view_y_inv;
-        vec3 intersection_pos_sup = (view_vector * plane_distance_sup) + base_pos;
+        vec3 intersection_pos_sup = (eyeDirection * plane_distance_sup) + base_pos;
 
         float dif_sup = CLOUD_PLANE_SUP - CLOUD_PLANE_CENTER;
         float dif_inf = CLOUD_PLANE_CENTER - CLOUD_PLANE;
@@ -242,7 +242,7 @@ vec3 get_cloud(vec3 view_vector, vec3 blockColor, float bright, float dither, ve
         float cloud_value_approx = sqrt(sqrt(cloud_value));
         cloud_color = mix(cloud_color, cloud_color * 13.0, (1.0 - cloud_value_approx) * bright * bright * (1.0 - rainStrength));
 
-        blockColor = mix(blockColor, cloud_color, cloud_value * clamp((view_vector.y - 0.06) * 5.0, 0.0, 1.0));
+        blockColor = mix(blockColor, cloud_color, cloud_value * clamp((eyeDirection.y - 0.06) * 5.0, 0.0, 1.0));
     }
 
     return blockColor;

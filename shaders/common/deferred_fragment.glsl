@@ -112,7 +112,7 @@ void main() {
 
     vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
 
-    vec3 view_vector = vec3(1.0);
+    vec3 eyeDirection = vec3(1.0);
 
     #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
         #if AA_TYPE > 0
@@ -124,24 +124,24 @@ void main() {
 
     #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
         if(linearDepth > 0.9999) {  // Only sky
-            vec4 world_pos = gbufferModelViewInverse * gbufferProjectionInverse * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
-            view_vector = normalize(world_pos.xyz);
+            vec4 farPlaneClipPos = gbufferModelViewInverse * gbufferProjectionInverse * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
+            eyeDirection = normalize(farPlaneClipPos.xyz);
 
             #ifdef THE_END
-                float bright = dot(view_vector, vec3(0.0, 0.89442719, 0.4472136));
+                float bright = dot(eyeDirection, vec3(0.0, 0.89442719, 0.4472136));
                 bright = clamp((bright * 2.0) - 1.0, 0.0, 1.0);
                 bright *= bright * bright * bright;
             #else
-                float bright = dot(view_vector, normalize((gbufferModelViewInverse * vec4(sunPosition, 0.0)).xyz));
+                float bright = dot(eyeDirection, normalize((gbufferModelViewInverse * vec4(sunPosition, 0.0)).xyz));
                 bright = clamp(bright * bright * bright, 0.0, 1.0);
             #endif
 
             #ifdef THE_END
                 #ifdef END_CLOUDS
-                    blockColor.rgb = get_end_cloud(view_vector, blockColor.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
+                    blockColor.rgb = get_end_cloud(eyeDirection, blockColor.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
                 #endif
             #else
-                blockColor.rgb = get_cloud(view_vector, blockColor.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG, umbral, cloud_color, dark_cloud_color);
+                blockColor.rgb = get_cloud(eyeDirection, blockColor.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG, umbral, cloud_color, dark_cloud_color);
             #endif
         }
 
@@ -157,8 +157,8 @@ void main() {
                 vec4 screen_pos = vec4(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z, 1.0);
                 vec4 fragposition = gbufferProjectionInverse * (screen_pos * 2.0 - 1.0);
 
-                vec4 world_pos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
-                view_vector = normalize(world_pos.xyz);
+                vec4 farPlaneClipPos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
+                eyeDirection = normalize(farPlaneClipPos.xyz);
             }
         #endif
     #endif
@@ -189,7 +189,7 @@ void main() {
     // Underwater sky
     if(isEyeInWater == 1) {
         if(linearDepth > 0.9999) {
-            blockColor.rgb = mix(NIGHT_CORRECTION * WATER_COLOR * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667), blockColor.rgb, max(clamp(view_vector.y - 0.1, 0.0, 1.0), rainStrength));
+            blockColor.rgb = mix(NIGHT_CORRECTION * WATER_COLOR * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667), blockColor.rgb, max(clamp(eyeDirection.y - 0.1, 0.0, 1.0), rainStrength));
         }
     }
 

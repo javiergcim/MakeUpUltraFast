@@ -1,4 +1,5 @@
 #version 120
+#extension GL_ARB_shader_texture_lod : enable
 /* MakeUp - dh_terrain.fsh
 Render: DH Terrain
 

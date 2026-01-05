@@ -63,7 +63,7 @@ varying float exposure;
 #if VOL_LIGHT == 1 && !defined NETHER
     varying vec3 vol_light_color;
     varying vec2 lightpos;
-    varying vec3 astro_pos;
+    varying vec3 astroLightPos;
 #endif
 
 #if VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER
@@ -141,39 +141,39 @@ void main() {
                 vol_light = 0.5;
             }
         #else
-            float vol_light = ss_godrays(dither);
+            float vol_light = ssGodrays(dither);
         #endif
 
-        vec4 center_world_pos = modeli_times_projectioni * (vec4(0.5, 0.5, 1.0, 1.0) * 2.0 - 1.0);
-        vec3 center_view_vector = normalize(center_world_pos.xyz);
+        vec4 centerFarPlanePos = modeli_times_projectioni * (vec4(0.5, 0.5, 1.0, 1.0) * 2.0 - 1.0);
+        vec3 centerEyeDirection = normalize(centerFarPlanePos.xyz);
 
-        vec4 world_pos = modeli_times_projectioni * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
-        vec3 view_vector = normalize(world_pos.xyz);
+        vec4 farPlaneClipPos = modeli_times_projectioni * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
+        vec3 eyeDirection = normalize(farPlaneClipPos.xyz);
 
         #if defined THE_END
             // Fixed light source position in sky for intensity calculation
-            vec3 intermediate_vector =
+            vec3 auxVector =
                 normalize((gbufferModelViewInverse * gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz);
-            float vol_intensity =
-                clamp(dot(center_view_vector, intermediate_vector), 0.0, 1.0);
+            float volumetricIntensity =
+                clamp(dot(centerEyeDirection, auxVector), 0.0, 1.0);
 
-            vol_intensity *= clamp(dot(view_vector, intermediate_vector), 0.0, 1.0);
+            volumetricIntensity *= clamp(dot(eyeDirection, auxVector), 0.0, 1.0);
 
-            vol_intensity *= 0.666;
+            volumetricIntensity *= 0.666;
 
-            blockColor.rgb += (vol_light_color * vol_light * vol_intensity * 2.0);
+            blockColor.rgb += (vol_light_color * vol_light * volumetricIntensity * 2.0);
         #else
             // Light source position for depth based godrays intensity calculation
-            vec3 intermediate_vector =
-                normalize((gbufferModelViewInverse * vec4(astro_pos, 0.0)).xyz);
-            float vol_intensity =
-                clamp(dot(center_view_vector, intermediate_vector), 0.0, 1.0);
-            vol_intensity *= dot(view_vector, intermediate_vector);
-            vol_intensity =
-                pow(clamp(vol_intensity, 0.0, 1.0), vol_mixer) * 0.5 * abs(light_mix * 2.0 - 1.0);
+            vec3 auxVector =
+                normalize((gbufferModelViewInverse * vec4(astroLightPos, 0.0)).xyz);
+            float volumetricIntensity =
+                clamp(dot(centerEyeDirection, auxVector), 0.0, 1.0);
+            volumetricIntensity *= dot(eyeDirection, auxVector);
+            volumetricIntensity =
+                pow(clamp(volumetricIntensity, 0.0, 1.0), vol_mixer) * 0.5 * abs(light_mix * 2.0 - 1.0);
 
             blockColor.rgb =
-                mix(blockColor.rgb, vol_light_color * vol_light, vol_intensity * (vol_light * 0.5 + 0.5) * (1.0 - rainStrength));
+                mix(blockColor.rgb, vol_light_color * vol_light, volumetricIntensity * (vol_light * 0.5 + 0.5) * (1.0 - rainStrength));
         #endif
     #endif
 
@@ -186,27 +186,27 @@ void main() {
 
         // Volumetric intensity adjustments
 
-        vec4 world_pos = modeli_times_projectioni * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
-        vec3 view_vector = normalize(world_pos.xyz);
+        vec4 farPlaneClipPos = modeli_times_projectioni * (vec4(texcoord, 1.0, 1.0) * 2.0 - 1.0);
+        vec3 eyeDirection = normalize(farPlaneClipPos.xyz);
 
         #if defined THE_END
             // Fixed light source position in sky for volumetrics intensity calculation (The End)
-            float vol_intensity = dot(view_vector, normalize((gbufferModelViewInverse * gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz));
+            float volumetricIntensity = dot(eyeDirection, normalize((gbufferModelViewInverse * gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz));
         #else
             // Light source position for volumetrics intensity calculation
-            float vol_intensity = dot(view_vector, normalize((gbufferModelViewInverse * vec4(shadowLightPosition, 0.0)).xyz));
+            float volumetricIntensity = dot(eyeDirection, normalize((gbufferModelViewInverse * vec4(shadowLightPosition, 0.0)).xyz));
         #endif
 
         #if defined THE_END
-            vol_intensity =
-                ((square_pow(clamp((vol_intensity + .666667) * 0.6, 0.0, 1.0)) * 0.5));
-            blockColor.rgb += (vol_light_color * vol_light * vol_intensity * 2.0);
+            volumetricIntensity =
+                ((square_pow(clamp((volumetricIntensity + .666667) * 0.6, 0.0, 1.0)) * 0.5));
+            blockColor.rgb += (vol_light_color * vol_light * volumetricIntensity * 2.0);
         #else
-            vol_intensity =
-                pow(clamp((vol_intensity + 0.5) * 0.666666666666666, 0.0, 1.0), vol_mixer) * 0.6 * abs(light_mix * 2.0 - 1.0);
+            volumetricIntensity =
+                pow(clamp((volumetricIntensity + 0.5) * 0.666666666666666, 0.0, 1.0), vol_mixer) * 0.6 * abs(light_mix * 2.0 - 1.0);
 
             blockColor.rgb =
-                mix(blockColor.rgb, vol_light_color * vol_light, vol_intensity * (vol_light * 0.5 + 0.5) * (1.0 - rainStrength));
+                mix(blockColor.rgb, vol_light_color * vol_light, volumetricIntensity * (vol_light * 0.5 + 0.5) * (1.0 - rainStrength));
         #endif
     #endif
 

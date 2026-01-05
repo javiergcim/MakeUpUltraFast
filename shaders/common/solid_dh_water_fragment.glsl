@@ -119,8 +119,8 @@ void main() {
     #ifdef VANILLA_WATER
         vec3 water_normal_base = vec3(0.0, 0.0, 1.0);
     #else
-        vec3 world_pos = position.xyz + cameraPosition;
-        vec3 water_normal_base = normal_waves_dh(world_pos.xzy);
+        vec3 mapPos = position.xyz + cameraPosition;
+        vec3 water_normal_base = normal_waves_dh(mapPos.xzy);
     #endif
 
     vec3 surface_normal;

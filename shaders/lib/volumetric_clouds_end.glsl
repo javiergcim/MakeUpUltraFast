@@ -2,7 +2,7 @@
 Fast volumetric clouds (for The End) - MakeUp implementation
 */
 
-vec3 get_end_cloud(vec3 view_vector, vec3 blockColor, float bright, float dither, vec3 base_pos, int samples) {
+vec3 get_end_cloud(vec3 eyeDirection, vec3 blockColor, float bright, float dither, vec3 base_pos, int samples) {
     blockColor.rgb *= clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
 
     #if defined DISTANT_HORIZONS && defined DEFERRED_SHADER
@@ -13,18 +13,18 @@ vec3 get_end_cloud(vec3 view_vector, vec3 blockColor, float bright, float dither
         }
     #endif
 
-    if (view_vector.y > 0.0) {  // Vista sobre el horizonte
+    if (eyeDirection.y > 0.0) {  // Vista sobre el horizonte
         float umbral = 0.25;
         vec3 cloud_color = blockColor * 1.75;
         vec3 dark_cloud_color = blockColor * 0.9;
 
-        float view_y_inv = 1.0 / view_vector.y;
+        float view_y_inv = 1.0 / eyeDirection.y;
 
         float plane_distance_inf = (CLOUD_PLANE - base_pos.y) * view_y_inv;
-        vec3 intersection_pos = (view_vector * plane_distance_inf) + base_pos;
+        vec3 intersection_pos = (eyeDirection * plane_distance_inf) + base_pos;
 
         float plane_distance_sup = (CLOUD_PLANE_SUP - base_pos.y) * view_y_inv;
-        vec3 intersection_pos_sup = (view_vector * plane_distance_sup) + base_pos;
+        vec3 intersection_pos_sup = (eyeDirection * plane_distance_sup) + base_pos;
 
         vec3 increment = (intersection_pos_sup - intersection_pos) / samples;
         float increment_dist = length(increment);
@@ -90,7 +90,7 @@ vec3 get_end_cloud(vec3 view_vector, vec3 blockColor, float bright, float dither
         cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density));
         cloud_color = mix(cloud_color, cloud_color * 2.0, (1.0 - cloud_value) * bright);
 
-        blockColor = mix(blockColor, cloud_color, cloud_value * clamp((view_vector.y - 0.06) * 5.0, 0.0, 1.0));
+        blockColor = mix(blockColor, cloud_color, cloud_value * clamp((eyeDirection.y - 0.06) * 5.0, 0.0, 1.0));
         blockColor = mix(blockColor, vec3(1.0), clamp(bright * .04, 0.0, 1.0));
     }
 

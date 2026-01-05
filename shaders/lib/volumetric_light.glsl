@@ -99,7 +99,7 @@ Volumetric light - MakeUp implementation
 
 #elif VOL_LIGHT == 1
 
-    float ss_godrays(float dither) {
+    float ssGodrays(float dither) {
         float light = 0.0;
         float comp = 1.0 - (near / (far * far));
 

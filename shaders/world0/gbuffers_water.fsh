@@ -1,4 +1,5 @@
 #version 120
+#extension GL_ARB_shader_texture_lod : enable
 /* MakeUp - gbuffers_water.fsh
 Render: Water and translucent blocks
 

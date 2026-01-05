@@ -48,7 +48,7 @@ varying float exposure;  // Flat
 
 #if VOL_LIGHT == 1 && !defined NETHER
     varying vec2 lightpos;  // Flat
-    varying vec3 astro_pos;  // Flat
+    varying vec3 astroLightPos;  // Flat
 #endif
 
 #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
@@ -98,8 +98,8 @@ void main() {
     #endif
 
     #if VOL_LIGHT == 1 && !defined NETHER
-        astro_pos = sunPosition * step(0.5, light_mix) * 2.0 + moonPosition;
-        vec4 tpos = vec4(astro_pos, 1.0) * gbufferProjection;
+        astroLightPos = sunPosition * step(0.5, light_mix) * 2.0 + moonPosition;
+        vec4 tpos = vec4(astroLightPos, 1.0) * gbufferProjection;
         tpos = vec4(tpos.xyz / tpos.w, 1.0);
         vec2 pos1 = tpos.xy / tpos.z;
         lightpos = pos1 * 0.5 + 0.5;

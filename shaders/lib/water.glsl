@@ -95,9 +95,9 @@ vec3 fast_raymarch(vec3 direction, vec3 hit_coord, inout float infinite, float d
 #if SUN_REFLECTION == 1
     #if !defined NETHER && !defined THE_END
         float sun_reflection(vec3 fragpos) {
-            vec3 astro_pos = worldTime > 12900 ? moonPosition : sunPosition;
+            vec3 astroLightPos = worldTime > 12900 ? moonPosition : sunPosition;
             float astro_vector =
-                max(dot(normalize(fragpos), normalize(astro_pos)), 0.0);
+                max(dot(normalize(fragpos), normalize(astroLightPos)), 0.0);
 
             return smoothstep(0.995, 1.0, astro_vector) *
                 clamp(lmcoord.y, 0.0, 1.0) *
