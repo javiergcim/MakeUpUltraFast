@@ -14,7 +14,7 @@
 
 uniform vec3 sunPosition;
 uniform int isEyeInWater;
-uniform float light_mix;
+uniform float dayNightMix;
 uniform float far;
 uniform float nightVision;
 uniform ivec2 eyeBrightnessSmooth;
@@ -59,7 +59,7 @@ varying vec4 worldposition;
 varying vec3 fragposition;
 varying vec3 tangent;
 varying vec3 binormal;
-varying vec3 direct_light_color;
+varying vec3 directLightColor;
 varying vec3 candle_color;
 varying float direct_light_strength;
 varying vec3 omni_light;

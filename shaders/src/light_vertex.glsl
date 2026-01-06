@@ -50,7 +50,7 @@ if (dot(normal, normal) > 0.0001) { // Workaround for undefined normals
 #if defined THE_END || defined NETHER
     direct_light_strength = sun_light_strength;
 #else
-    direct_light_strength = mix(-sun_light_strength, sun_light_strength, light_mix);
+    direct_light_strength = mix(-sun_light_strength, sun_light_strength, dayNightMix);
 #endif
 
 // Omni light intensity changes by angle
@@ -59,11 +59,11 @@ if (dot(normal, normal) > 0.0001) { // Workaround for undefined normals
 
 // Direct light color
 #ifdef UNKNOWN_DIM
-    direct_light_color = texture2D(lightmap, vec2(0.0, lmcoord.y)).rgb;
+    directLightColor = texture2D(lightmap, vec2(0.0, lmcoord.y)).rgb;
 #else
-    direct_light_color = day_blend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR);
+    directLightColor = day_blend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR);
     #if defined IS_IRIS && defined THE_END && MC_VERSION >= 12109
-        direct_light_color += (endFlashIntensity * endFlashIntensity * 0.1);
+        directLightColor += (endFlashIntensity * endFlashIntensity * 0.1);
     #endif
 #endif
 
@@ -98,10 +98,10 @@ float omni_strength = ((direct_light_strength + 1.0) * 0.25) + 0.75;
 #if defined THE_END || defined NETHER
     omni_light = LIGHT_DAY_COLOR * omni_strength;
 #else
-    direct_light_color = mix(direct_light_color, ZENITH_SKY_RAIN_COLOR * luma(direct_light_color) * 0.4, rainStrength);
+    directLightColor = mix(directLightColor, ZENITH_SKY_RAIN_COLOR * luma(directLightColor) * 0.4, rainStrength);
 
     // Minimal light
-    vec3 omni_color = mix(hi_sky_color_rgb, direct_light_color * 0.45, OMNI_TINT);
+    vec3 omni_color = mix(hi_sky_color_rgb, directLightColor * 0.45, OMNI_TINT);
     float omni_color_luma = colorAverage(omni_color);
     // --- OPTIMIZACIÓN #3: Prevenir división por cero ---
     float luma_ratio = AVOID_DARK_LEVEL / max(omni_color_luma, 0.0001);

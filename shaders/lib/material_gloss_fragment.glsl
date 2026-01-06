@@ -12,7 +12,7 @@
     }
 #else
     float material_gloss(vec3 reflectedVector, vec2 lmcoord_alt, float gloss_power, vec3 flat_normal) {
-        vec3 astroLightPos = mix(-sunPosition, sunPosition, light_mix);
+        vec3 astroLightPos = mix(-sunPosition, sunPosition, dayNightMix);
         float astroAlignment =
             max(dot(normalize(reflectedVector), normalize(astroLightPos)), 0.0) *
         step(0.0001, dot(astroLightPos, flat_normal));
@@ -23,6 +23,6 @@
             (1.0 - rainStrength),
             0.0,
             1.0
-        ) * abs(mix(1.0, -1.0, light_mix));
+        ) * abs(mix(1.0, -1.0, dayNightMix));
     }
 #endif

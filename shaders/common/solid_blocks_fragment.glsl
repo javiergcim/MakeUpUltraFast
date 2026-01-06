@@ -17,7 +17,7 @@ uniform sampler2D tex;
 uniform int isEyeInWater;
 uniform float nightVision;
 uniform float rainStrength;
-uniform float light_mix;
+uniform float dayNightMix;
 uniform float pixel_size_x;
 uniform float pixel_size_y;
 uniform sampler2D gaux4;
@@ -77,7 +77,7 @@ uniform float blindness;
 varying vec2 texcoord;
 varying vec4 tint_color;
 varying float frog_adjust;
-varying vec3 direct_light_color;
+varying vec3 directLightColor;
 varying vec3 candle_color;
 varying float direct_light_strength;
 varying vec3 omni_light;
@@ -205,7 +205,7 @@ void main() {
             shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
         #endif
     #else
-        float shadow_c = abs((light_mix * 2.0) - 1.0);
+        float shadow_c = abs((dayNightMix * 2.0) - 1.0);
     #endif
 
     #if defined GBUFFER_BEACONBEAM
@@ -214,7 +214,7 @@ void main() {
         blockColor.rgb =
             clamp(vec3(luma(blockColor.rgb)) * vec3(0.75, 0.75, 1.5), vec3(0.3), vec3(1.0));
         vec3 real_light = omni_light +
-                (shadow_c * direct_light_color * direct_light_strength) * (1.0 - (rainStrength * 0.75)) +
+                (shadow_c * directLightColor * direct_light_strength) * (1.0 - (rainStrength * 0.75)) +
                 final_candle_color;
     #else
         #if defined MATERIAL_GLOSS && !defined NETHER
@@ -231,11 +231,11 @@ void main() {
 
             float material = material_gloss_factor * block_luma;
             vec3 real_light = omni_light +
-                (shadow_c * ((direct_light_color * direct_light_strength) + (direct_light_color * material))) * (1.0 - (rainStrength * 0.75)) +
+                (shadow_c * ((directLightColor * direct_light_strength) + (directLightColor * material))) * (1.0 - (rainStrength * 0.75)) +
                 final_candle_color;
         #else
             vec3 real_light = omni_light +
-                (shadow_c * direct_light_color * direct_light_strength) * (1.0 - (rainStrength * 0.75)) +
+                (shadow_c * directLightColor * direct_light_strength) * (1.0 - (rainStrength * 0.75)) +
                 final_candle_color;
         #endif
 

@@ -2,7 +2,7 @@
 
 /* Uniforms */
 
-uniform float light_mix;
+uniform float dayNightMix;
 uniform float nightVision;
 uniform float rainStrength;
 uniform float pixel_size_x;
@@ -22,7 +22,7 @@ uniform int dhRenderDistance;
 
 varying vec2 texcoord;
 varying vec4 tint_color;
-varying vec3 direct_light_color;
+varying vec3 directLightColor;
 varying vec3 candle_color;
 varying float direct_light_strength;
 varying vec3 omni_light;
@@ -65,11 +65,11 @@ void main() {
 
     vec3 final_candle_color = candle_color;
 
-    float shadow_c = abs((light_mix * 2.0) - 1.0);
+    float shadow_c = abs((dayNightMix * 2.0) - 1.0);
 
     vec3 real_light =
         omni_light +
-        (shadow_c * direct_light_color * direct_light_strength) * (1.0 - (rainStrength * 0.75)) +
+        (shadow_c * directLightColor * direct_light_strength) * (1.0 - (rainStrength * 0.75)) +
         final_candle_color;
 
     blockColor.rgb *= mix(real_light, vec3(1.0), nightVision * 0.125);

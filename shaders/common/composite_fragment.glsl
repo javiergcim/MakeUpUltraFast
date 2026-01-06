@@ -30,19 +30,19 @@ uniform ivec2 eyeBrightnessSmooth;
     uniform sampler2D depthtex1;
     uniform vec3 sunPosition;
     uniform vec3 moonPosition;
-    uniform float light_mix;
+    uniform float dayNightMix;
     uniform mat4 gbufferProjectionInverse;
     uniform mat4 gbufferModelViewInverse;
     uniform mat4 gbufferModelView;
-    uniform float vol_mixer;
+    uniform float volumetricDayMixer;
 #endif
 
 #if VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER
-    uniform float light_mix;
+    uniform float dayNightMix;
     uniform mat4 gbufferProjectionInverse;
     uniform mat4 gbufferModelViewInverse;
     uniform mat4 gbufferModelView;
-    uniform float vol_mixer;
+    uniform float volumetricDayMixer;
     uniform vec3 shadowLightPosition;
     uniform mat4 shadowModelView;
     uniform mat4 shadowProjection;
@@ -57,17 +57,17 @@ uniform ivec2 eyeBrightnessSmooth;
 /* Ins / Outs */
 
 varying vec2 texcoord;
-varying vec3 direct_light_color;
+varying vec3 directLightColor;
 varying float exposure;
 
 #if VOL_LIGHT == 1 && !defined NETHER
-    varying vec3 vol_light_color;
+    varying vec3 volumetricLightColor;
     varying vec2 lightpos;
     varying vec3 astroLightPos;
 #endif
 
 #if VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER
-    varying vec3 vol_light_color;
+    varying vec3 volumetricLightColor;
 #endif
 
 #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
@@ -107,10 +107,10 @@ void main() {
 
     // Underwater fog
     if(isEyeInWater == 1) {
-        float water_absorption = clamp(-pow((-linearDepth + 1.0), (4.0 + (WATER_ABSORPTION * 4.0))) + 1.0, 0.0, 1.0);
+        float waterAbsorption = clamp(-pow((-linearDepth + 1.0), (4.0 + (WATER_ABSORPTION * 4.0))) + 1.0, 0.0, 1.0);
         
         blockColor.rgb =
-            mix(blockColor.rgb, WATER_COLOR * direct_light_color * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667), water_absorption);
+            mix(blockColor.rgb, WATER_COLOR * directLightColor * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667), waterAbsorption);
 
     } else if(isEyeInWater == 2) {
         blockColor = mix(blockColor, vec4(1.0, .1, 0.0, 1.0), clamp(sqrt(linearDepth * far * 0.125), 0.0, 1.0));
@@ -136,12 +136,12 @@ void main() {
 
     #if VOL_LIGHT == 1 && !defined NETHER
         #if defined THE_END
-            float vol_light = 0.1;
+            float volumetricLight = 0.1;
             if(d > 0.9999) {
-                vol_light = 0.5;
+                volumetricLight = 0.5;
             }
         #else
-            float vol_light = ssGodrays(dither);
+            float volumetricLight = ssGodrays(dither);
         #endif
 
         vec4 centerFarPlanePos = modeli_times_projectioni * (vec4(0.5, 0.5, 1.0, 1.0) * 2.0 - 1.0);
@@ -161,7 +161,7 @@ void main() {
 
             volumetricIntensity *= 0.666;
 
-            blockColor.rgb += (vol_light_color * vol_light * volumetricIntensity * 2.0);
+            blockColor.rgb += (volumetricLightColor * volumetricLight * volumetricIntensity * 2.0);
         #else
             // Light source position for depth based godrays intensity calculation
             vec3 auxVector =
@@ -170,18 +170,18 @@ void main() {
                 clamp(dot(centerEyeDirection, auxVector), 0.0, 1.0);
             volumetricIntensity *= dot(eyeDirection, auxVector);
             volumetricIntensity =
-                pow(clamp(volumetricIntensity, 0.0, 1.0), vol_mixer) * 0.5 * abs(light_mix * 2.0 - 1.0);
+                pow(clamp(volumetricIntensity, 0.0, 1.0), volumetricDayMixer) * 0.5 * abs(dayNightMix * 2.0 - 1.0);
 
             blockColor.rgb =
-                mix(blockColor.rgb, vol_light_color * vol_light, volumetricIntensity * (vol_light * 0.5 + 0.5) * (1.0 - rainStrength));
+                mix(blockColor.rgb, volumetricLightColor * volumetricLight, volumetricIntensity * (volumetricLight * 0.5 + 0.5) * (1.0 - rainStrength));
         #endif
     #endif
 
     #if VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER
         #if defined COLORED_SHADOW
-            vec3 vol_light = get_volumetric_color_light(dither, screen_distance, modeli_times_projectioni);
+            vec3 volumetricLight = get_volumetric_color_light(dither, screen_distance, modeli_times_projectioni);
         #else
-            float vol_light = get_volumetric_light(dither, screen_distance, modeli_times_projectioni);
+            float volumetricLight = get_volumetric_light(dither, screen_distance, modeli_times_projectioni);
         #endif
 
         // Volumetric intensity adjustments
@@ -200,13 +200,13 @@ void main() {
         #if defined THE_END
             volumetricIntensity =
                 ((square_pow(clamp((volumetricIntensity + .666667) * 0.6, 0.0, 1.0)) * 0.5));
-            blockColor.rgb += (vol_light_color * vol_light * volumetricIntensity * 2.0);
+            blockColor.rgb += (volumetricLightColor * volumetricLight * volumetricIntensity * 2.0);
         #else
             volumetricIntensity =
-                pow(clamp((volumetricIntensity + 0.5) * 0.666666666666666, 0.0, 1.0), vol_mixer) * 0.6 * abs(light_mix * 2.0 - 1.0);
+                pow(clamp((volumetricIntensity + 0.5) * 0.666666666666666, 0.0, 1.0), volumetricDayMixer) * 0.6 * abs(dayNightMix * 2.0 - 1.0);
 
             blockColor.rgb =
-                mix(blockColor.rgb, vol_light_color * vol_light, volumetricIntensity * (vol_light * 0.5 + 0.5) * (1.0 - rainStrength));
+                mix(blockColor.rgb, volumetricLightColor * volumetricLight, volumetricIntensity * (volumetricLight * 0.5 + 0.5) * (1.0 - rainStrength));
         #endif
     #endif
 

@@ -18,7 +18,7 @@ uniform ivec2 eyeBrightnessSmooth;
 #endif
 
 #if VOL_LIGHT == 1 && !defined NETHER
-    uniform float light_mix;
+    uniform float dayNightMix;
     uniform vec3 sunPosition;
     uniform vec3 moonPosition;
     uniform mat4 gbufferProjection;
@@ -38,10 +38,10 @@ uniform float frameTime;
 /* Ins / Outs */
 
 varying vec2 texcoord;
-varying vec3 direct_light_color;
+varying vec3 directLightColor;
 
 #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
-    varying vec3 vol_light_color;  // Flat
+    varying vec3 volumetricLightColor;  // Flat
 #endif
 
 varying float exposure;  // Flat
@@ -67,8 +67,8 @@ void main() {
 
     vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
 
-    direct_light_color = day_blend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR);
-    direct_light_color = mix(direct_light_color, ZENITH_SKY_RAIN_COLOR * luma(direct_light_color), rainStrength);
+    directLightColor = day_blend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR);
+    directLightColor = mix(directLightColor, ZENITH_SKY_RAIN_COLOR * luma(directLightColor), rainStrength);
 
     // Exposure
     float mipmap_level = log2(min(viewWidth, viewHeight)) - 1.0;
@@ -94,11 +94,11 @@ void main() {
             vol_attenuation = 0.1 + (eye_bright_smooth.y * 0.002);
         }
 
-        vol_light_color = day_blend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR) * 1.2 * vol_attenuation;
+        volumetricLightColor = day_blend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR) * 1.2 * vol_attenuation;
     #endif
 
     #if VOL_LIGHT == 1 && !defined NETHER
-        astroLightPos = sunPosition * step(0.5, light_mix) * 2.0 + moonPosition;
+        astroLightPos = sunPosition * step(0.5, dayNightMix) * 2.0 + moonPosition;
         vec4 tpos = vec4(astroLightPos, 1.0) * gbufferProjection;
         tpos = vec4(tpos.xyz / tpos.w, 1.0);
         vec2 pos1 = tpos.xy / tpos.z;
