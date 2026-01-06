@@ -13,7 +13,7 @@
 /* Ins / Outs */
 
 varying vec2 texcoord;
-varying vec4 tint_color;
+varying vec4 tintColor;
 varying float sky_luma_correction;
 
 #if AA_TYPE > 0
@@ -28,9 +28,9 @@ varying float sky_luma_correction;
 
 void main() {
     texcoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
-    tint_color = gl_Color;
+    tintColor = gl_Color;
 
-    sky_luma_correction = luma(day_blend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR));
+    sky_luma_correction = luma(dayBlend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR));
 
     #if defined UNKNOWN_DIM
         sky_luma_correction = 1.0;

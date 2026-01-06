@@ -2,7 +2,7 @@
     vec3 low_sky_color_rgb = fogColor;
     low_sky_color = rgb_to_xyz(low_sky_color_rgb);
 #else
-    vec3 low_sky_color_rgb = day_blend(
+    vec3 low_sky_color_rgb = dayBlend(
         HORIZON_SUNSET_COLOR,
         HORIZON_DAY_COLOR,
         HORIZON_NIGHT_COLOR

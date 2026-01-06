@@ -9,7 +9,7 @@ uniform mat4 gbufferProjectionInverse;
 /* Ins / Outs */
 
 varying vec2 texcoord;
-varying vec4 tint_color;
+varying vec4 tintColor;
 varying float exposure;
 
 #if AA_TYPE > 0
@@ -24,5 +24,5 @@ void main() {
 
     exposure = texture2D(gaux3, vec2(0.5)).r;
 
-    tint_color = gl_Color;
+    tintColor = gl_Color;
 }

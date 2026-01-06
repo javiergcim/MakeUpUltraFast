@@ -199,7 +199,7 @@ void main() {
 
         #if defined THE_END
             volumetricIntensity =
-                ((square_pow(clamp((volumetricIntensity + .666667) * 0.6, 0.0, 1.0)) * 0.5));
+                ((squarePow(clamp((volumetricIntensity + .666667) * 0.6, 0.0, 1.0)) * 0.5));
             blockColor.rgb += (volumetricLightColor * volumetricLight * volumetricIntensity * 2.0);
         #else
             volumetricIntensity =

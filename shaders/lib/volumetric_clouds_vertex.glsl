@@ -4,7 +4,7 @@
     umbral = (smoothstep(1.0, 0.0, rainStrength) * .3) + .55;
 #endif
 
-dark_cloud_color = day_blend(
+dark_cloud_color = dayBlend(
     ZENITH_SUNSET_COLOR,
     ZENITH_DAY_COLOR,
     ZENITH_NIGHT_COLOR
@@ -17,7 +17,7 @@ dark_cloud_color = mix(
 );
 
 vec3 cloud_color_aux = mix(
-    day_blend(
+    dayBlend(
         LIGHT_SUNSET_COLOR,
         LIGHT_DAY_COLOR,
         LIGHT_NIGHT_COLOR * vec3(0.5, 0.6, 0.75)
@@ -28,7 +28,7 @@ vec3 cloud_color_aux = mix(
 
 cloud_color = mix(
     clamp(mix(vec3(luma(cloud_color_aux)), cloud_color_aux, 0.5) * vec3(1.5), 0.0, 1.4),
-    day_blend(
+    dayBlend(
         HORIZON_SUNSET_COLOR,
         HORIZON_DAY_COLOR,
         HORIZON_NIGHT_COLOR
@@ -42,7 +42,7 @@ dark_cloud_color = mix(dark_cloud_color, cloud_color, 0.22);
 
 dark_cloud_color = mix(
     dark_cloud_color,
-    day_blend(
+    dayBlend(
         cloud_color_aux,
         dark_cloud_color,
         dark_cloud_color

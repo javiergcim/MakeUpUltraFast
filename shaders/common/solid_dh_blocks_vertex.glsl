@@ -38,7 +38,7 @@ uniform mat4 gbufferProjectionInverse;
 /* Ins / Outs */
 
 varying vec2 texcoord;
-varying vec4 tint_color;
+varying vec4 tintColor;
 varying vec3 directLightColor;
 varying vec3 candle_color;
 varying float direct_light_strength;
@@ -59,7 +59,7 @@ varying float frog_adjust;
 
 void main() {
     vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
-    float visible_sky;
+    float visibleSky;
     vec3 hi_sky_color;
 
     #include "/src/basiccoords_vertex_dh.glsl"

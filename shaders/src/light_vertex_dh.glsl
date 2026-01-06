@@ -1,4 +1,4 @@
-tint_color = gl_Color;
+tintColor = gl_Color;
 
 // Luz nativa (lmcoord.x: candela, lmcoord.y: cielo) ----
 #if defined THE_END || defined NETHER
@@ -8,15 +8,15 @@ tint_color = gl_Color;
 #endif
 
 illumination.y = max(illumination.y - 0.065, 0.0) * 1.06951871657754;
-visible_sky = clamp(illumination.y, 0.0, 1.0);
+visibleSky = clamp(illumination.y, 0.0, 1.0);
 
 #if defined UNKNOWN_DIM
-    visible_sky = (visible_sky * 0.6) + 0.4;
+    visibleSky = (visibleSky * 0.6) + 0.4;
 #endif
 
 // Intensidad y color de luz de candelas
 float candle_luma = illumination.x * sqrt(illumination.x);
-candle_color = CANDLE_BASELIGHT * (candle_luma + sixth_pow(illumination.x * 1.17));
+candle_color = CANDLE_BASELIGHT * (candle_luma + sixthPow(illumination.x * 1.17));
 candle_color = clamp(candle_color, vec3(0.0), vec3(4.0));
 
 // Atenuación por dirección de luz directa ===================================
@@ -51,7 +51,7 @@ float omni_strength = ((direct_light_strength + 1.0) * 0.25) + 0.75;
 #ifdef UNKNOWN_DIM
     directLightColor = texture2D(lightmap, vec2(0.0, lmcoord.y)).rgb;
 #else
-    directLightColor = day_blend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR);
+    directLightColor = dayBlend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR);
     #if defined IS_IRIS && defined THE_END && MC_VERSION >= 12109
         directLightColor += (endFlashIntensity * endFlashIntensity * 0.1);
     #endif
@@ -74,19 +74,19 @@ direct_light_strength = clamp(direct_light_strength, 0.0, 1.0);
     vec3 omni_color_min = omni_color * luma_ratio;
     omni_color = max(omni_color, omni_color_min);
     
-    omni_light = mix(omni_color_min, omni_color, visible_sky) * omni_strength;
+    omni_light = mix(omni_color_min, omni_color, visibleSky) * omni_strength;
 #endif
 
 if (isEyeInWater == 0) {
     // Reemplazar pow(x, 10.0) con multiplicaciones ---
     // Esto es órdenes de magnitud más rápido. x^10 = (x^2)^2 * x^2
-    float vis_sky_2 = visible_sky * visible_sky;     // x^2
+    float vis_sky_2 = visibleSky * visibleSky;     // x^2
     float vis_sky_4 = vis_sky_2 * vis_sky_2;       // x^4
     float vis_sky_8 = vis_sky_4 * vis_sky_4;       // x^8
     float vis_sky_10 = vis_sky_8 * vis_sky_2;      // x^10
     direct_light_strength = mix(0.0, direct_light_strength, vis_sky_10);
 } else {
-    direct_light_strength = mix(0.0, direct_light_strength, visible_sky);
+    direct_light_strength = mix(0.0, direct_light_strength, visibleSky);
 }
 
 if (dhMaterialId == DH_BLOCK_ILLUMINATED) {

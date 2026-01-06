@@ -96,7 +96,7 @@ vec3 water_shader_dh(
     vec3 sky_reflect,
     vec3 reflected,
     float fresnel,
-    float visible_sky,
+    float visibleSky,
     float dither,
     vec3 lightColor
 ) {
@@ -109,7 +109,7 @@ vec3 water_shader_dh(
     #endif
 
     reflection.rgb = mix(
-        sky_reflect * visible_sky,
+        sky_reflect * visibleSky,
         reflection.rgb,
         reflection.a
     );
@@ -122,7 +122,7 @@ vec3 water_shader_dh(
         #ifndef NETHER
             #ifndef THE_END
                 return mix(color, reflection.rgb, fresnel * REFLEX_INDEX) +
-                    vec3(sun_reflection(reflect(normalize(fragpos), normal))) * lightColor * infinite * visible_sky;          
+                    vec3(sun_reflection(reflect(normalize(fragpos), normal))) * lightColor * infinite * visibleSky;          
             #else
                 return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
             #endif

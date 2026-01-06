@@ -1,15 +1,15 @@
 #include "/lib/config.glsl"
 
 /* Uniforms, ins, outs */
-varying vec4 tint_color;
+varying vec4 tintColor;
 varying vec2 texcoord;
-varying vec3 basic_light;
+varying vec3 basicLight;
 
 // MAIN FUNCTION ------------------
 
 void main() {
-    vec4 blockColor = tint_color;
-    blockColor.rgb *= basic_light;
+    vec4 blockColor = tintColor;
+    blockColor.rgb *= basicLight;
 
     #include "/src/writebuffers.glsl"
 }

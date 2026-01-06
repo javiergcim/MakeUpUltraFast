@@ -49,7 +49,7 @@ void main() {
         #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
             fog_density_coeff = FOG_DENSITY * FOG_ADJUST;
         #else
-            fog_density_coeff = day_blend_float(FOG_SUNSET, FOG_DAY, FOG_NIGHT) * FOG_ADJUST;
+            fog_density_coeff = dayBlendFloat(FOG_SUNSET, FOG_DAY, FOG_NIGHT) * FOG_ADJUST;
         #endif
     #endif
 

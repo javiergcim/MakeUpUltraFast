@@ -75,7 +75,7 @@ uniform float blindness;
 /* Ins / Outs */
 
 varying vec2 texcoord;
-varying vec4 tint_color;
+varying vec4 tintColor;
 varying float frog_adjust;
 varying vec3 directLightColor;
 varying vec3 candle_color;
@@ -157,9 +157,9 @@ void main() {
         if(blockColor.a < 0.1 && entityId != 10101) {   // Black entities bug workaround
             discard;
         }
-        blockColor *= tint_color;
+        blockColor *= tintColor;
     #else
-        vec4 blockColor = texture2D(tex, texcoord) * tint_color;
+        vec4 blockColor = texture2D(tex, texcoord) * tintColor;
     #endif
 
         float block_luma = luma(blockColor.rgb);

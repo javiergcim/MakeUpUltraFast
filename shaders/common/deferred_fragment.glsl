@@ -183,7 +183,7 @@ void main() {
     #if defined THE_END || defined NETHER
         #define NIGHT_CORRECTION 1.0
     #else
-        #define NIGHT_CORRECTION day_blend_float(1.0, 1.0, 0.1)
+        #define NIGHT_CORRECTION dayBlendFloat(1.0, 1.0, 0.1)
     #endif
 
     // Underwater sky

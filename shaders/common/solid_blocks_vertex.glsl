@@ -66,7 +66,7 @@ uniform mat4 gbufferProjectionInverse;
 /* Ins / Outs */
 
 varying vec2 texcoord;
-varying vec4 tint_color;
+varying vec4 tintColor;
 varying float frog_adjust;
 varying vec3 directLightColor;
 varying vec3 candle_color;
@@ -133,7 +133,7 @@ varying vec3 omni_light;
 void main() {
     vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
     vec3 hi_sky_color;
-    float visible_sky;
+    float visibleSky;
 
     #include "/src/basiccoords_vertex.glsl"
     #include "/src/position_vertex.glsl"

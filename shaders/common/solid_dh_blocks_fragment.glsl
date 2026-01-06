@@ -21,7 +21,7 @@ uniform int dhRenderDistance;
 /* Ins / Outs */
 
 varying vec2 texcoord;
-varying vec4 tint_color;
+varying vec4 tintColor;
 varying vec3 directLightColor;
 varying vec3 candle_color;
 varying float direct_light_strength;
@@ -52,7 +52,7 @@ void main() {
         return;
     }
 
-    vec4 blockColor = tint_color;
+    vec4 blockColor = tintColor;
     
     // Synthetic pseudo-texture
     vec3 synth_pos = (position.xyz + cameraPosition) * 6.0;
@@ -61,7 +61,7 @@ void main() {
     blockColor.rgb += vec3(synth_noise);
     blockColor.rgb = clamp(blockColor.rgb, vec3(0.0), vec3(1.0));
 
-    float block_luma = luma(tint_color.rgb);
+    float block_luma = luma(tintColor.rgb);
 
     vec3 final_candle_color = candle_color;
 

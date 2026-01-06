@@ -86,7 +86,7 @@ uniform float blindness;
 
 varying vec2 texcoord;
 varying vec2 lmcoord;
-varying vec4 tint_color;
+varying vec4 tintColor;
 varying float frog_adjust;
 varying vec3 waterNormal;
 varying float block_type;
@@ -98,7 +98,7 @@ varying vec3 directLightColor;
 varying vec3 candle_color;
 varying float direct_light_strength;
 varying vec3 omni_light;
-varying float visible_sky;
+varying float visibleSky;
 varying vec3 up_vec;
 varying vec3 hi_sky_color;
 varying vec3 low_sky_color;
@@ -173,7 +173,7 @@ void main() {
     }
 
     float normal_dot_eye = dot(surface_normal, normalize(fragposition));
-    float fresnel = square_pow(1.0 + normal_dot_eye);
+    float fresnel = squarePow(1.0 + normal_dot_eye);
 
     vec3 reflect_water_vec = reflect(fragposition, surface_normal);
     vec3 norm_reflect_water_vec = normalize(reflect_water_vec);
@@ -226,9 +226,9 @@ void main() {
 
             real_light *= (fresnel_tex * 2.0) - 0.25;
 
-            blockColor.rgb *= mix(real_light, vec3(1.0), nightVision * .125) * tint_color.rgb;
+            blockColor.rgb *= mix(real_light, vec3(1.0), nightVision * .125) * tintColor.rgb;
 
-            blockColor.rgb = water_shader(fragposition, surface_normal, blockColor.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visible_sky, dither, directLightColor);
+            blockColor.rgb = water_shader(fragposition, surface_normal, blockColor.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visibleSky, dither, directLightColor);
 
             blockColor.a = sqrt(blockColor.a);
         #else
@@ -240,13 +240,13 @@ void main() {
             #endif
 
             real_light = omni_light +
-                (direct_light_strength * visible_sky * directLightColor) * (1.0 - rainStrength * 0.75) +
+                (direct_light_strength * visibleSky * directLightColor) * (1.0 - rainStrength * 0.75) +
                 candle_color;
 
             #if WATER_COLOR_SOURCE == 0
                 blockColor.rgb = water_texture * real_light * WATER_COLOR;
             #elif WATER_COLOR_SOURCE == 1
-                blockColor.rgb = 0.3 * water_texture * real_light * tint_color.rgb;
+                blockColor.rgb = 0.3 * water_texture * real_light * tintColor.rgb;
             #endif
 
             blockColor = vec4(refraction(fragposition, blockColor.rgb, water_normal_base), 1.0);
@@ -258,14 +258,14 @@ void main() {
                 fresnel = clamp(fresnel * (water_texture), 0.0, 1.0);
             #endif
 
-            blockColor.rgb = water_shader(fragposition, surface_normal, blockColor.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visible_sky, dither, directLightColor);
+            blockColor.rgb = water_shader(fragposition, surface_normal, blockColor.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visibleSky, dither, directLightColor);
             
         #endif
 
     } else {  // Otros translúcidos
         blockColor = texture2D(tex, texcoord);
 
-        blockColor *= tint_color;
+        blockColor *= tintColor;
 
         #if defined SHADOW_CASTING && !defined NETHER
         #if defined COLORED_SHADOW
@@ -286,7 +286,7 @@ void main() {
         blockColor.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
 
         if(block_type > 1.5) {  // Glass
-            blockColor = cristal_shader(fragposition, waterNormal, blockColor, sky_color_reflect, fresnel * fresnel, visible_sky, dither, directLightColor);
+            blockColor = cristal_shader(fragposition, waterNormal, blockColor, sky_color_reflect, fresnel * fresnel, visibleSky, dither, directLightColor);
         }
     }
 

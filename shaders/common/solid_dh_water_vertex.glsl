@@ -38,7 +38,7 @@ uniform mat4 gbufferProjectionInverse;
 /* Ins / Outs */
 
 varying vec2 texcoord;
-varying vec4 tint_color;
+varying vec4 tintColor;
 varying vec3 directLightColor;
 varying vec3 candle_color;
 varying float direct_light_strength;
@@ -51,7 +51,7 @@ varying vec3 waterNormal;
 varying vec3 hi_sky_color;
 varying vec3 low_sky_color;
 varying vec3 up_vec;
-varying float visible_sky;
+varying float visibleSky;
 varying vec2 lmcoord;
 varying float block_type;
 varying float frog_adjust;

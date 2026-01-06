@@ -1,29 +1,29 @@
-tint_color = gl_Color;
+tintColor = gl_Color;
 
 // Native light (lmcoord.x: candel, lmcoord.y: sky) ----
 vec2 illumination = lmcoord;
 illumination.y = max(illumination.y - 0.065, 0.0) * 1.06951871657754;
-visible_sky = clamp(illumination.y, 0.0, 1.0);
+visibleSky = clamp(illumination.y, 0.0, 1.0);
 
 // Underwater light adjust
 if (isEyeInWater == 1) {
-    visible_sky = (visible_sky * .95) + .05;
+    visibleSky = (visibleSky * .95) + .05;
 }
 
 #if defined UNKNOWN_DIM
-    visible_sky = (visible_sky * 0.99) + 0.01;
+    visibleSky = (visibleSky * 0.99) + 0.01;
 #endif
 
 // Candels color and intensity
 // Reemplazar pow(x, 1.5) por x * sqrt(x) ---
-candle_color = CANDLE_BASELIGHT * (illumination.x * sqrt(illumination.x) + sixth_pow(illumination.x * 1.17));
+candle_color = CANDLE_BASELIGHT * (illumination.x * sqrt(illumination.x) + sixthPow(illumination.x * 1.17));
 
 #ifdef DYN_HAND_LIGHT
     if (heldItemId == 11001 || heldItemId2 == 11001 || heldItemId == 11002 || heldItemId2 == 11002) {
         float dist_offset = (heldItemId == 11001 || heldItemId2 == 11001) ? 0.0 : 0.5;
         float hand_dist = (1.0 - clamp((gl_FogFragCoord * 0.06666666666666667) + dist_offset, 0.0, 1.0));
         // --- OPTIMIZACIÓN #1 (de nuevo): Reemplazar pow(x, 1.5) ---
-        vec3 hand_light = CANDLE_BASELIGHT * (hand_dist * sqrt(hand_dist) + sixth_pow(hand_dist * 1.17));
+        vec3 hand_light = CANDLE_BASELIGHT * (hand_dist * sqrt(hand_dist) + sixthPow(hand_dist * 1.17));
         candle_color = max(candle_color, hand_light);
     }
 #endif
@@ -61,7 +61,7 @@ if (dot(normal, normal) > 0.0001) { // Workaround for undefined normals
 #ifdef UNKNOWN_DIM
     directLightColor = texture2D(lightmap, vec2(0.0, lmcoord.y)).rgb;
 #else
-    directLightColor = day_blend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR);
+    directLightColor = dayBlend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR);
     #if defined IS_IRIS && defined THE_END && MC_VERSION >= 12109
         directLightColor += (endFlashIntensity * endFlashIntensity * 0.1);
     #endif
@@ -108,13 +108,13 @@ float omni_strength = ((direct_light_strength + 1.0) * 0.25) + 0.75;
     vec3 omni_color_min = omni_color * luma_ratio;
     omni_color = max(omni_color, omni_color_min);
     
-    omni_light = mix(omni_color_min, omni_color, visible_sky) * omni_strength;
+    omni_light = mix(omni_color_min, omni_color, visibleSky) * omni_strength;
 #endif
 
 // Avoid flat illumination in caves for entities
 #ifdef CAVEENTITY_V
     float candle_cave_strength = (direct_light_strength * .5) + .5;
-    candle_cave_strength = mix(candle_cave_strength, 1.0, visible_sky);
+    candle_cave_strength = mix(candle_cave_strength, 1.0, visibleSky);
     candle_color *= candle_cave_strength;
 #endif
 
@@ -123,15 +123,15 @@ float omni_strength = ((direct_light_strength + 1.0) * 0.25) + 0.75;
         // Fake shadows
         if (isEyeInWater == 0) {
             // Reemplazar pow(x, 10.0) con multiplicaciones ---
-            float vis_sky_2 = visible_sky * visible_sky;
+            float vis_sky_2 = visibleSky * visibleSky;
             float vis_sky_4 = vis_sky_2 * vis_sky_2;
             float vis_sky_8 = vis_sky_4 * vis_sky_4;
             direct_light_strength = mix(0.0, direct_light_strength, vis_sky_8 * vis_sky_2);
         } else {
-            direct_light_strength = mix(0.0, direct_light_strength, visible_sky);
+            direct_light_strength = mix(0.0, direct_light_strength, visibleSky);
         }
     #else
-        direct_light_strength = mix(0.0, direct_light_strength, visible_sky);
+        direct_light_strength = mix(0.0, direct_light_strength, visibleSky);
     #endif
 #endif
 
