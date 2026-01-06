@@ -128,9 +128,9 @@ void main() {
 
     #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
         #if AA_TYPE > 0
-           float dither = shifted_dither17(gl_FragCoord.xy);
+           float dither = shiftedDither17(gl_FragCoord.xy);
         #else
-            float dither = r_dither(gl_FragCoord.xy);
+            float dither = rDither(gl_FragCoord.xy);
         #endif
     #endif
 

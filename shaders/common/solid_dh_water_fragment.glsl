@@ -98,9 +98,9 @@ void main() {
     vec3 real_light;
 
     #if AA_TYPE > 0 
-        float dither = shifted_r_dither(gl_FragCoord.xy);
+        float dither = shiftedRDither(gl_FragCoord.xy);
     #else
-        float dither = r_dither(gl_FragCoord.xy);
+        float dither = rDither(gl_FragCoord.xy);
         // dither = 1.0;
     #endif
     

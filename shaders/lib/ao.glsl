@@ -11,8 +11,9 @@ float dbao(float dither) {
     float n;
     float ditherSample;
 
-    float linearDepth = ld(texture2DLod(depthtex0, texcoord.xy, 0.0).r);
+    float linearDepth = texture2DLod(depthtex0, texcoord.xy, 0.0).r;
     float handCheck = linearDepth < 0.56 ? 1024.0 : 1.0;
+    linearDepth = ld(linearDepth);
 
     float sampleLinearDepth = 0.0;
     float angle = 0.0;

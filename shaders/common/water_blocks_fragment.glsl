@@ -148,9 +148,9 @@ void main() {
 
     #if SHADOW_TYPE == 1 || defined DISTANT_HORIZONS || (defined CLOUD_REFLECTION && (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NETHER) || SSR_TYPE > 0
         #if AA_TYPE > 0
-            float dither = shifted_r_dither(gl_FragCoord.xy);
+            float dither = shiftedRDither(gl_FragCoord.xy);
         #else
-            float dither = r_dither(gl_FragCoord.xy);
+            float dither = rDither(gl_FragCoord.xy);
         #endif
     #else
         float dither = 1.0;

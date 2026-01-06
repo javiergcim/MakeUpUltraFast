@@ -84,9 +84,14 @@ void main() {
     #endif
 
     #ifdef MOTION_BLUR
+        #if AA_TYPE > 0
+           float dither = shiftedDitherMakeup(gl_FragCoord.xy);
+        #else
+            float dither = ditherMakeup(gl_FragCoord.xy);
+        #endif
         // "Speed"
         vec2 velocity = texcoord - texcoord_past;
-        blockColor.rgb = motion_blur(blockColor.rgb, z_depth, velocity, colortex1);
+        blockColor.rgb = motion_blur(blockColor.rgb, z_depth, velocity, dither, colortex1);
     #endif
 
     #if AA_TYPE > 0

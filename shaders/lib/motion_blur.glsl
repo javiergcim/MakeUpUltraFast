@@ -4,7 +4,7 @@ Motion blur functions.
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-vec3 motion_blur(vec3 color, float the_depth, vec2 blur_velocity, sampler2D image) {
+vec3 motion_blur(vec3 color, float the_depth, vec2 blur_velocity, float dither, sampler2D image) {
     if (the_depth > 0.7) {  // No hand
         vec2 double_pixels = 2.0 * vec2(pixel_size_x, pixel_size_y);
         vec3 m_blur = vec3(0.0);
@@ -12,13 +12,8 @@ vec3 motion_blur(vec3 color, float the_depth, vec2 blur_velocity, sampler2D imag
         blur_velocity =
             (MOTION_BLUR_STRENGTH * blur_velocity) / ((1.0 + length(blur_velocity)) * (frameTime * 500.0)) ;
 
-        #if AA_TYPE > 0
         vec2 coord =
-            texcoord - blur_velocity * (1.5 + shifted_r_dither(gl_FragCoord.xy));
-        #else
-        vec2 coord =
-            texcoord - blur_velocity * (1.5 + eclectic_r_dither(gl_FragCoord.xy));
-        #endif
+            texcoord - blur_velocity * (1.5 + dither);
 
         float weight = 0.0;
         float mask;

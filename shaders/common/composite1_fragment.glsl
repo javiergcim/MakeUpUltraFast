@@ -50,7 +50,7 @@ void main() {
 
     #if defined BLOOM || defined DOF
         #if AA_TYPE > 0
-            float dither = shifted_semiblue(gl_FragCoord.xy);
+            float dither = shiftedSemiblue(gl_FragCoord.xy);
         #else
             float dither = semiblue(gl_FragCoord.xy);
         #endif

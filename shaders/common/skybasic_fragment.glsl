@@ -59,7 +59,7 @@ void main() {
     #else
         #if MC_VERSION < 11604
             #if AA_TYPE > 0
-                float dither = shifted_r_dither(gl_FragCoord.xy);
+                float dither = shiftedRDither(gl_FragCoord.xy);
             #else
                 float dither = dither13(gl_FragCoord.xy);
             #endif
