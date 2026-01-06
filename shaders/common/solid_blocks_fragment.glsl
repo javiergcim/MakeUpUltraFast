@@ -78,9 +78,9 @@ varying vec2 texcoord;
 varying vec4 tintColor;
 varying float frog_adjust;
 varying vec3 directLightColor;
-varying vec3 candle_color;
-varying float direct_light_strength;
-varying vec3 omni_light;
+varying vec3 candleColor;
+varying float directLightStrength;
+varying vec3 omniLight;
 
 #if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER
     varying vec3 vWorldPos;
@@ -164,7 +164,7 @@ void main() {
 
         float block_luma = luma(blockColor.rgb);
 
-        vec3 final_candle_color = candle_color;
+        vec3 final_candle_color = candleColor;
     #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
         if(emmisive_type > 0.5) {
             final_candle_color *= block_luma * 1.5;
@@ -213,8 +213,8 @@ void main() {
     #elif defined GBUFFER_ENTITY_GLOW
         blockColor.rgb =
             clamp(vec3(luma(blockColor.rgb)) * vec3(0.75, 0.75, 1.5), vec3(0.3), vec3(1.0));
-        vec3 real_light = omni_light +
-                (shadow_c * directLightColor * direct_light_strength) * (1.0 - (rainStrength * 0.75)) +
+        vec3 real_light = omniLight +
+                (shadow_c * directLightColor * directLightStrength) * (1.0 - (rainStrength * 0.75)) +
                 final_candle_color;
     #else
         #if defined MATERIAL_GLOSS && !defined NETHER
@@ -230,12 +230,12 @@ void main() {
             float material_gloss_factor = material_gloss(reflect(sub_position3_normalized, flat_normal), lmcoord_alt, final_gloss_power, flat_normal) * gloss_factor;
 
             float material = material_gloss_factor * block_luma;
-            vec3 real_light = omni_light +
-                (shadow_c * ((directLightColor * direct_light_strength) + (directLightColor * material))) * (1.0 - (rainStrength * 0.75)) +
+            vec3 real_light = omniLight +
+                (shadow_c * ((directLightColor * directLightStrength) + (directLightColor * material))) * (1.0 - (rainStrength * 0.75)) +
                 final_candle_color;
         #else
-            vec3 real_light = omni_light +
-                (shadow_c * directLightColor * direct_light_strength) * (1.0 - (rainStrength * 0.75)) +
+            vec3 real_light = omniLight +
+                (shadow_c * directLightColor * directLightStrength) * (1.0 - (rainStrength * 0.75)) +
                 final_candle_color;
         #endif
 

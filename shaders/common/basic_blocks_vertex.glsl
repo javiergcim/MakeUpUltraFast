@@ -47,8 +47,8 @@ void main() {
     vec2 illumination = clamp(abs(lmcoord), 0.0, 1.0);  // Fix lines without correct illumination data
     illumination.y = (max(illumination.y, 0.065) - 0.065) * 1.06951871657754;
 
-    vec3 candle_color =
+    vec3 candleColor =
         CANDLE_BASELIGHT * ((illumination.x * illumination.x) + pow(illumination.x * 1.165, 6.0));
 
-    basicLight += candle_color;
+    basicLight += candleColor;
 }

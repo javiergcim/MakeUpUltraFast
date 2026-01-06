@@ -68,9 +68,9 @@ uniform float blindness;
 varying vec2 texcoord;
 varying vec4 tintColor;
 varying vec3 directLightColor;
-varying vec3 candle_color;
-varying float direct_light_strength;
-varying vec3 omni_light;
+varying vec3 candleColor;
+varying float directLightStrength;
+varying vec3 omniLight;
 varying vec4 position;
 varying vec3 fragposition;
 varying vec3 tangent;
@@ -175,9 +175,9 @@ void main() {
 
         float fresnel_tex = luma(blockColor.rgb);
 
-        real_light = omni_light +
-            (direct_light_strength * shadow_c * directLightColor) * (1.0 - rainStrength * 0.75) +
-            candle_color;
+        real_light = omniLight +
+            (directLightStrength * shadow_c * directLightColor) * (1.0 - rainStrength * 0.75) +
+            candleColor;
 
         real_light *= (fresnel_tex * 2.0) - 0.25;
 
@@ -193,9 +193,9 @@ void main() {
             float water_texture = 1.0;
         #endif
 
-            real_light = omni_light +
-                (direct_light_strength * visibleSky * directLightColor) * (1.0 - rainStrength * 0.75) +
-                candle_color;
+            real_light = omniLight +
+                (directLightStrength * visibleSky * directLightColor) * (1.0 - rainStrength * 0.75) +
+                candleColor;
 
         #if WATER_COLOR_SOURCE == 0
                 blockColor.rgb = water_texture * real_light * WATER_COLOR;
@@ -219,9 +219,9 @@ void main() {
 
         float shadow_c = abs((dayNightMix * 2.0) - 1.0);
 
-        real_light = omni_light +
-            (direct_light_strength * shadow_c * directLightColor) * (1.0 - rainStrength * 0.75) +
-            candle_color;
+        real_light = omniLight +
+            (directLightStrength * shadow_c * directLightColor) * (1.0 - rainStrength * 0.75) +
+            candleColor;
 
         blockColor.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
     }

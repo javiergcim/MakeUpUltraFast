@@ -69,9 +69,9 @@ varying vec2 texcoord;
 varying vec4 tintColor;
 varying float frog_adjust;
 varying vec3 directLightColor;
-varying vec3 candle_color;
-varying float direct_light_strength;
-varying vec3 omni_light;
+varying vec3 candleColor;
+varying float directLightStrength;
+varying vec3 omniLight;
 
 #if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER
     varying vec3 vWorldPos;
@@ -155,10 +155,10 @@ void main() {
     #if defined FOLIAGE_V && !defined NETHER
         #ifdef SHADOW_CASTING
             if(is_foliage > .2) {
-                direct_light_strength =
+                directLightStrength =
                     mix(
-                        direct_light_strength,
-                        far_direct_light_strength,
+                        directLightStrength,
+                        farDirectLightStrength,
                         clamp((gl_Position.z / SHADOW_LIMIT) * 2.0 - 0.5, 0.0, 1.0)
                     );
             }

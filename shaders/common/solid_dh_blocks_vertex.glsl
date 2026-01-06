@@ -40,9 +40,9 @@ uniform mat4 gbufferProjectionInverse;
 varying vec2 texcoord;
 varying vec4 tintColor;
 varying vec3 directLightColor;
-varying vec3 candle_color;
-varying float direct_light_strength;
-varying vec3 omni_light;
+varying vec3 candleColor;
+varying float directLightStrength;
+varying vec3 omniLight;
 varying vec4 position;
 varying float frog_adjust;
 

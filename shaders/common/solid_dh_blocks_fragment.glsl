@@ -23,9 +23,9 @@ uniform int dhRenderDistance;
 varying vec2 texcoord;
 varying vec4 tintColor;
 varying vec3 directLightColor;
-varying vec3 candle_color;
-varying float direct_light_strength;
-varying vec3 omni_light;
+varying vec3 candleColor;
+varying float directLightStrength;
+varying vec3 omniLight;
 varying vec4 position;
 varying float frog_adjust;
 
@@ -63,13 +63,13 @@ void main() {
 
     float block_luma = luma(tintColor.rgb);
 
-    vec3 final_candle_color = candle_color;
+    vec3 final_candle_color = candleColor;
 
     float shadow_c = abs((dayNightMix * 2.0) - 1.0);
 
     vec3 real_light =
-        omni_light +
-        (shadow_c * directLightColor * direct_light_strength) * (1.0 - (rainStrength * 0.75)) +
+        omniLight +
+        (shadow_c * directLightColor * directLightStrength) * (1.0 - (rainStrength * 0.75)) +
         final_candle_color;
 
     blockColor.rgb *= mix(real_light, vec3(1.0), nightVision * 0.125);

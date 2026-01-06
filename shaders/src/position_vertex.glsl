@@ -58,7 +58,7 @@ gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 #endif
 
 #ifdef EMMISIVE_V
-    float is_fake_emmisor = float(mc_Entity.x == ENTITY_F_EMMISIVE);
+    float isFakeEmmisor = float(mc_Entity.x == ENTITY_F_EMMISIVE);
 #endif
 
 #if AA_TYPE > 1

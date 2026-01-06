@@ -16,36 +16,36 @@ visibleSky = clamp(illumination.y, 0.0, 1.0);
 
 // Intensidad y color de luz de candelas
 float candle_luma = illumination.x * sqrt(illumination.x);
-candle_color = CANDLE_BASELIGHT * (candle_luma + sixthPow(illumination.x * 1.17));
-candle_color = clamp(candle_color, vec3(0.0), vec3(4.0));
+candleColor = CANDLE_BASELIGHT * (candle_luma + sixthPow(illumination.x * 1.17));
+candleColor = clamp(candleColor, vec3(0.0), vec3(4.0));
 
 // Atenuación por dirección de luz directa ===================================
 #if defined THE_END || defined NETHER
-    vec3 sun_vec = normalize(gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz;
+    vec3 astroVector = normalize(gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz;
 #else
-    vec3 sun_vec = normalize(sunPosition);
+    vec3 astroVector = normalize(sunPosition);
 #endif
 
 vec3 normal = gl_NormalMatrix * gl_Normal;
-float sun_light_strength;
+float astroLightStrength;
 
 // Comprobar la longitud al cuadrado (dot product) es mucho más rápido que la longitud (sqrt).
 if (dot(normal, normal) > 0.0001) {  // Workaround for undefined normals
     normal = normalize(normal);
-    sun_light_strength = dot(normal, sun_vec);
+    astroLightStrength = dot(normal, astroVector);
 } else {
     normal = vec3(0.0, 1.0, 0.0);
-    sun_light_strength = 1.0;
+    astroLightStrength = 1.0;
 }
 
 #if defined THE_END || defined NETHER
-    direct_light_strength = sun_light_strength;
+    directLightStrength = astroLightStrength;
 #else
-    direct_light_strength = mix(-sun_light_strength, sun_light_strength, dayNightMix);
+    directLightStrength = mix(-astroLightStrength, astroLightStrength, dayNightMix);
 #endif
 
 // Omni light intensity changes by angle
-float omni_strength = ((direct_light_strength + 1.0) * 0.25) + 0.75;     
+float omniStrength = ((directLightStrength + 1.0) * 0.25) + 0.75;     
 
 // Calculamos color de luz directa
 #ifdef UNKNOWN_DIM
@@ -57,40 +57,40 @@ float omni_strength = ((direct_light_strength + 1.0) * 0.25) + 0.75;
     #endif
 #endif
 
-direct_light_strength = clamp(direct_light_strength, 0.0, 1.0);
+directLightStrength = clamp(directLightStrength, 0.0, 1.0);
 
 #if defined THE_END || defined NETHER
-    omni_light = LIGHT_DAY_COLOR;
+    omniLight = LIGHT_DAY_COLOR;
 #else
     directLightColor = mix(directLightColor, ZENITH_SKY_RAIN_COLOR * luma(directLightColor) * 0.4, rainStrength);
 
     // Minimal light
-    vec3 omni_color = mix(hi_sky_color_rgb, directLightColor * 0.45, OMNI_TINT);
-    float omni_color_luma = colorAverage(omni_color);
+    vec3 omniColor = mix(hi_sky_color_rgb, directLightColor * 0.45, OMNI_TINT);
+    float omniColorLuma = colorAverage(omniColor);
     
     // --- OPTIMIZACIÓN #3: Prevenir división por cero ---
-    float luma_ratio = AVOID_DARK_LEVEL / max(omni_color_luma, 0.0001);
+    float lumaRatio = AVOID_DARK_LEVEL / max(omniColorLuma, 0.0001);
     
-    vec3 omni_color_min = omni_color * luma_ratio;
-    omni_color = max(omni_color, omni_color_min);
+    vec3 omniColorMin = omniColor * lumaRatio;
+    omniColor = max(omniColor, omniColorMin);
     
-    omni_light = mix(omni_color_min, omni_color, visibleSky) * omni_strength;
+    omniLight = mix(omniColorMin, omniColor, visibleSky) * omniStrength;
 #endif
 
 if (isEyeInWater == 0) {
     // Reemplazar pow(x, 10.0) con multiplicaciones ---
     // Esto es órdenes de magnitud más rápido. x^10 = (x^2)^2 * x^2
-    float vis_sky_2 = visibleSky * visibleSky;     // x^2
-    float vis_sky_4 = vis_sky_2 * vis_sky_2;       // x^4
-    float vis_sky_8 = vis_sky_4 * vis_sky_4;       // x^8
-    float vis_sky_10 = vis_sky_8 * vis_sky_2;      // x^10
-    direct_light_strength = mix(0.0, direct_light_strength, vis_sky_10);
+    float visSky2 = visibleSky * visibleSky;     // x^2
+    float visSky4 = visSky2 * visSky2;       // x^4
+    float visSky8 = visSky4 * visSky4;       // x^8
+    float vis_sky_10 = visSky8 * visSky2;      // x^10
+    directLightStrength = mix(0.0, directLightStrength, vis_sky_10);
 } else {
-    direct_light_strength = mix(0.0, direct_light_strength, visibleSky);
+    directLightStrength = mix(0.0, directLightStrength, visibleSky);
 }
 
 if (dhMaterialId == DH_BLOCK_ILLUMINATED) {
-    direct_light_strength = 10.0;
+    directLightStrength = 10.0;
 } else if (dhMaterialId == DH_BLOCK_LAVA) {
-    direct_light_strength = 1.0;
+    directLightStrength = 1.0;
 }
