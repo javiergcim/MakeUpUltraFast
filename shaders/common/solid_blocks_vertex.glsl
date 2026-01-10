@@ -63,6 +63,10 @@ uniform mat4 gbufferProjectionInverse;
     uniform float endFlashIntensity;
 #endif
 
+#if defined GBUFFER_ENTITIES
+    uniform int entityId;
+#endif
+
 /* Ins / Outs */
 
 varying vec2 texcoord;
@@ -79,12 +83,12 @@ varying vec3 omniLight;
     varying vec3 vBias;
 #endif
 
-#if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
-    varying float emmisive_type;
+#if defined GBUFFER_TERRAIN || defined GBUFFER_HAND || defined GBUFFER_ENTITIES
+    varying float isEmissiveEntity;
 #endif
 
 #ifdef FOLIAGE_V
-    varying float is_foliage;
+    varying float isFoliage;
 #endif
 
 #if defined SHADOW_CASTING && !defined NETHER
@@ -142,9 +146,16 @@ void main() {
     #include "/src/fog_vertex.glsl"
 
     #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
-        emmisive_type = 0.0;
+        isEmissiveEntity = 0.0;
         if(mc_Entity.x == ENTITY_NO_SHADOW_FIRE || mc_Entity.x == ENTITY_EMMISIVE || mc_Entity.x == ENTITY_S_EMMISIVE) {
-            emmisive_type = 1.0;
+            isEmissiveEntity = 1.0;
+        }
+    #endif
+
+    #if defined GBUFFER_ENTITIES
+        if (entityId == 10102) {
+            isEmissiveEntity = 1.0;
+            directLightStrength = 1.0;
         }
     #endif
 
@@ -154,7 +165,7 @@ void main() {
 
     #if defined FOLIAGE_V && !defined NETHER
         #ifdef SHADOW_CASTING
-            if(is_foliage > .2) {
+            if (isFoliage > .2) {
                 directLightStrength =
                     mix(
                         directLightStrength,

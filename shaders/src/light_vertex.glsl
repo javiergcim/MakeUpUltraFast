@@ -78,7 +78,7 @@ float omniStrength = ((directLightStrength + 1.0) * 0.25) + 0.75;
     }
     
     // Ahora, la lógica del if/else solo modifica 'directLightStrength' y 'omniStrength'.
-    if (is_foliage > .2) {  // It's foliage, light is atenuated by angle
+    if (isFoliage > .2) {  // It's foliage, light is atenuated by angle
         #ifdef SHADOW_CASTING
             directLightStrength = sqrt(abs(directLightStrength));
         #else

@@ -2,7 +2,7 @@ gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 
 #ifdef FOLIAGE_V  // Lógica optimizada para follaje y bloques generales
     
-    is_foliage = 0.0;
+    isFoliage = 0.0;
 
     // Comprobamos si la entidad actual es un tipo de follaje.
     bool isFoliageEntity = (
@@ -18,7 +18,7 @@ gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
     vec4 position = gbufferModelViewInverse * sub_position;
     
     if (isFoliageEntity) {
-        is_foliage = 0.4;
+        isFoliage = 0.4;
 
         #if WAVING == 1
             if (mc_Entity.x != ENTITY_SMALLENTS_NW) {

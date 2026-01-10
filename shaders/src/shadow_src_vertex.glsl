@@ -9,7 +9,7 @@ float dot_product = dot(normal, light_direction);
 float NdotL;
 
 #ifdef FOLIAGE_V
-    float foliage_factor = step(0.2, is_foliage);
+    float foliage_factor = step(0.2, isFoliage);
     NdotL = mix(dot_product, abs(dot_product), foliage_factor);
 #else
     NdotL = dot_product;

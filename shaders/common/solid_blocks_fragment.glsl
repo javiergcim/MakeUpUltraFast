@@ -88,12 +88,12 @@ varying vec3 omniLight;
     varying vec3 vBias;
 #endif
 
-#if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
-    varying float emmisive_type;
+#if defined GBUFFER_TERRAIN || defined GBUFFER_HAND || defined GBUFFER_ENTITIES
+    varying float isEmissiveEntity;
 #endif
 
 #ifdef FOLIAGE_V
-    varying float is_foliage;
+    varying float isFoliage;
 #endif
 
 #if defined SHADOW_CASTING && !defined NETHER
@@ -165,8 +165,8 @@ void main() {
         float block_luma = luma(blockColor.rgb);
 
         vec3 final_candle_color = candleColor;
-    #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
-        if(emmisive_type > 0.5) {
+    #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND || defined GBUFFER_ENTITIES
+        if(isEmissiveEntity > 0.5) {
             final_candle_color *= block_luma * 1.5;
         }
     #endif
