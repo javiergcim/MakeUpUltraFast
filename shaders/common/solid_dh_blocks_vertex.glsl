@@ -44,7 +44,7 @@ varying vec3 candleColor;
 varying float directLightStrength;
 varying vec3 omniLight;
 varying vec4 position;
-varying float frog_adjust;
+varying float frogAdjust;
 
 /* Utility functions */
 
@@ -60,7 +60,7 @@ varying float frog_adjust;
 void main() {
     vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
     float visibleSky;
-    vec3 hi_sky_color;
+    vec3 ZenithSkyColor;
 
     #include "/src/basiccoords_vertex_dh.glsl"
     #include "/src/position_vertex_dh.glsl"

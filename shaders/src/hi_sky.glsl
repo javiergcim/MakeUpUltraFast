@@ -1,18 +1,18 @@
 #ifdef UNKNOWN_DIM
-    vec3 hi_sky_color_rgb = skyColor;
-    hi_sky_color = rgb_to_xyz(hi_sky_color_rgb);
+    vec3 ZenithSkyColorRGB = skyColor;
+    ZenithSkyColor = rgb_to_xyz(ZenithSkyColorRGB);
 #else
-    vec3 hi_sky_color_rgb = dayBlend(
+    vec3 ZenithSkyColorRGB = dayBlend(
         ZENITH_SUNSET_COLOR,
         ZENITH_DAY_COLOR,
         ZENITH_NIGHT_COLOR
     );
 
-    hi_sky_color_rgb = mix(
-        hi_sky_color_rgb,
-        ZENITH_SKY_RAIN_COLOR * luma(hi_sky_color_rgb),
+    ZenithSkyColorRGB = mix(
+        ZenithSkyColorRGB,
+        ZENITH_SKY_RAIN_COLOR * luma(ZenithSkyColorRGB),
         rainStrength
     );
 
-    hi_sky_color = rgb_to_xyz(hi_sky_color_rgb);
+    ZenithSkyColor = rgb_to_xyz(ZenithSkyColorRGB);
 #endif

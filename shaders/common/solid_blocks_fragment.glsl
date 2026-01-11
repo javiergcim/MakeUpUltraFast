@@ -18,8 +18,8 @@ uniform int isEyeInWater;
 uniform float nightVision;
 uniform float rainStrength;
 uniform float dayNightMix;
-uniform float pixel_size_x;
-uniform float pixel_size_y;
+uniform float pixelSizeX;
+uniform float pixelSizeY;
 uniform sampler2D gaux4;
 
 #if defined DISTANT_HORIZONS
@@ -76,7 +76,7 @@ uniform float blindness;
 
 varying vec2 texcoord;
 varying vec4 tintColor;
-varying float frog_adjust;
+varying float frogAdjust;
 varying vec3 directLightColor;
 varying vec3 candleColor;
 varying float directLightStrength;
@@ -98,17 +98,17 @@ varying vec3 omniLight;
 
 #if defined SHADOW_CASTING && !defined NETHER
     varying vec3 shadowPos;
-    varying float shadow_diffuse;
+    varying float shadowDiffuse;
 #endif
 
 #if defined MATERIAL_GLOSS && !defined NETHER
-    varying vec3 flat_normal;
+    varying vec3 flatNormal;
     varying vec3 sub_position3_normalized;
-    varying vec2 lmcoord_alt;
-    varying float gloss_factor;
-    varying float gloss_power;
-    varying float luma_factor;
-    varying float luma_power;
+    varying vec2 lmcoordAlt;
+    varying float glossFactor;
+    varying float glossPower;
+    varying float lumaFactor;
+    varying float lumaPower;
 #endif
 
 /* Utility functions */
@@ -199,10 +199,10 @@ void main() {
 
         #if defined COLORED_SHADOW
             vec3 shadow_c = get_colored_shadow(shadow_real_pos, dither);
-            shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
+            shadow_c = mix(shadow_c, vec3(1.0), shadowDiffuse);
         #else
             float shadow_c = get_shadow(shadow_real_pos, dither);
-            shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
+            shadow_c = mix(shadow_c, 1.0, shadowDiffuse);
         #endif
     #else
         float shadow_c = abs((dayNightMix * 2.0) - 1.0);
@@ -218,16 +218,16 @@ void main() {
                 final_candle_color;
     #else
         #if defined MATERIAL_GLOSS && !defined NETHER
-            float final_gloss_power = gloss_power;
-            block_luma *= luma_factor;
+            float final_gloss_power = glossPower;
+            block_luma *= lumaFactor;
 
-            if(luma_power < 0.0) {  // Metallic
+            if(lumaPower < 0.0) {  // Metallic
                 final_gloss_power -= (block_luma * 73.334);
             } else {
-                block_luma = pow(block_luma, luma_power);
+                block_luma = pow(block_luma, lumaPower);
             }
 
-            float material_gloss_factor = material_gloss(reflect(sub_position3_normalized, flat_normal), lmcoord_alt, final_gloss_power, flat_normal) * gloss_factor;
+            float material_gloss_factor = material_gloss(reflect(sub_position3_normalized, flatNormal), lmcoordAlt, final_gloss_power, flatNormal) * glossFactor;
 
             float material = material_gloss_factor * block_luma;
             vec3 real_light = omniLight +

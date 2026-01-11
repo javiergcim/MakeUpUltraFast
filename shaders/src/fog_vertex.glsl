@@ -11,16 +11,16 @@
         ) * FOG_ADJUST;
     #endif
 
-    float fog_intensity_coeff = max(eye_bright_smooth.y * 0.004166666666666667, visibleSky);
+    float fogIntensityCoeff = max(eye_bright_smooth.y * 0.004166666666666667, visibleSky);
 
     #ifdef DISTANT_HORIZONS
-        frog_adjust = pow(
-            clamp(gl_FogFragCoord / dhRenderDistance, 0.0, 1.0) * fog_intensity_coeff,
+        frogAdjust = pow(
+            clamp(gl_FogFragCoord / dhRenderDistance, 0.0, 1.0) * fogIntensityCoeff,
             mix(fog_density_coeff * 0.15, 0.5, rainStrength)
         );
     #else
-        frog_adjust = pow(
-            clamp(gl_FogFragCoord / far, 0.0, 1.0) * fog_intensity_coeff,
+        frogAdjust = pow(
+            clamp(gl_FogFragCoord / far, 0.0, 1.0) * fogIntensityCoeff,
             mix(fog_density_coeff, 1.0, rainStrength)
         );
     #endif
@@ -43,5 +43,5 @@
             float sight = far;
         #endif
     #endif
-    frog_adjust = sqrt(clamp(gl_FogFragCoord / sight, 0.0, 1.0));
+    frogAdjust = sqrt(clamp(gl_FogFragCoord / sight, 0.0, 1.0));
 #endif

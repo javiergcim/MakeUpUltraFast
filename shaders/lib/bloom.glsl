@@ -5,30 +5,30 @@ Javier Garduño - GNU Lesser General Public License v3.0
 */
 
 vec3 mipmap_bloom(sampler2D image, vec2 coords, float dither) {
-    vec3 blur_sample = vec3(0.0);
-    vec2 blur_radius_vec = vec2(0.1 * aspectRatioInverse, 0.1);
+    vec3 blurSample = vec3(0.0);
+    vec2 blurRadiusVec = vec2(0.1 * aspectRatioInverse, 0.1);
 
-    int sample_c = int(BLOOM_SAMPLES);
+    int samplesQuantity = int(BLOOM_SAMPLES);
 
-    vec2 blur_radios_factor = blur_radius_vec * (1.0 / BLOOM_SAMPLES);
+    vec2 blurRadiusFactor = blurRadiusVec * (1.0 / BLOOM_SAMPLES);
     float n;
     vec2 offset;
-    vec2 offset_2;
-    float dither_x;
+    vec2 offset2;
+    float ditherShifted;
 
-    for(int i = 0; i < sample_c; i++) {
-        dither_x = i + dither;
-        n = fract(dither_x * 1.6180339887) * 6.283185307179586;
-        offset = vec2(cos(n), sin(n)) * dither_x * blur_radios_factor;
-        offset_2 = vec2(-offset.y * 1.25, offset.x * 1.25);
+    for(int i = 0; i < samplesQuantity; i++) {
+        ditherShifted = i + dither;
+        n = fract(ditherShifted * 1.6180339887) * 6.283185307179586;
+        offset = vec2(cos(n), sin(n)) * ditherShifted * blurRadiusFactor;
+        offset2 = vec2(-offset.y * 1.25, offset.x * 1.25);
 
-        blur_sample += texture2DLod(image, coords + offset, soft_lod).rgb;
-        blur_sample += texture2DLod(image, coords - offset, soft_lod).rgb;
-        blur_sample += texture2DLod(image, coords + offset_2, soft_lod).rgb;
-        blur_sample += texture2DLod(image, coords - offset_2, soft_lod).rgb;
+        blurSample += texture2DLod(image, coords + offset, softLod).rgb;
+        blurSample += texture2DLod(image, coords - offset, softLod).rgb;
+        blurSample += texture2DLod(image, coords + offset2, softLod).rgb;
+        blurSample += texture2DLod(image, coords - offset2, softLod).rgb;
     }
 
-    blur_sample /= (BLOOM_SAMPLES * 4.0);
+    blurSample /= (BLOOM_SAMPLES * 4.0);
 
-    return blur_sample;
+    return blurSample;
 }

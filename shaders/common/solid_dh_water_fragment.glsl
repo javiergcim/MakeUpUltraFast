@@ -13,8 +13,8 @@
 /* Uniforms */
 
 uniform sampler2D tex;
-uniform float pixel_size_x;
-uniform float pixel_size_y;
+uniform float pixelSizeX;
+uniform float pixelSizeY;
 uniform float near;
 uniform float far;
 uniform sampler2D gaux1;
@@ -76,13 +76,13 @@ varying vec3 fragposition;
 varying vec3 tangent;
 varying vec3 binormal;
 varying vec3 waterNormal;
-varying vec3 hi_sky_color;
-varying vec3 low_sky_color;
+varying vec3 ZenithSkyColor;
+varying vec3 horizonSkyColor;
 varying vec3 up_vec;
 varying float visibleSky;
 varying vec2 lmcoord;
 varying float block_type;
-varying float frog_adjust;
+varying float frogAdjust;
 
 /* Utility functions */
 
@@ -138,9 +138,9 @@ void main() {
 
     vec3 sky_color_reflect;
     if(isEyeInWater == 0 || isEyeInWater == 2) {
-        sky_color_reflect = mix(low_sky_color, hi_sky_color, smoothstep(0.0, 1.0, pow(clamp(dot(norm_reflect_water_vec, up_vec), 0.0001, 1.0), 0.333)));
+        sky_color_reflect = mix(horizonSkyColor, ZenithSkyColor, smoothstep(0.0, 1.0, pow(clamp(dot(norm_reflect_water_vec, up_vec), 0.0001, 1.0), 0.333)));
     } else {
-        sky_color_reflect = hi_sky_color * .5 * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667);
+        sky_color_reflect = ZenithSkyColor * .5 * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667);
     }
 
     sky_color_reflect = xyz_to_rgb(sky_color_reflect);

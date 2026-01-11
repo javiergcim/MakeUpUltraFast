@@ -52,7 +52,7 @@ uniform mat4 gbufferProjectionInverse;
 varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tintColor;
-varying float frog_adjust;
+varying float frogAdjust;
 varying vec3 waterNormal;
 varying float block_type;
 varying vec4 worldposition;
@@ -65,8 +65,8 @@ varying float directLightStrength;
 varying vec3 omniLight;
 varying float visibleSky;
 varying vec3 up_vec;
-varying vec3 hi_sky_color;
-varying vec3 low_sky_color;
+varying vec3 ZenithSkyColor;
+varying vec3 horizonSkyColor;
 
 #if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER
     varying vec3 vWorldPos;
@@ -76,7 +76,7 @@ varying vec3 low_sky_color;
 
 #if defined SHADOW_CASTING && !defined NETHER
     varying vec3 shadowPos;
-    varying float shadow_diffuse;
+    varying float shadowDiffuse;
 #endif
 
 #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
@@ -144,7 +144,7 @@ void main() {
     #endif
 
     #if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER
-        vNormal = shadow_world_normal;
+        vNormal = shadowWorldNormal;
         vBias = bias;
     #endif
 }

@@ -24,8 +24,8 @@ uniform mat4 gbufferModelView;
 
 #if MC_VERSION < 11604
     varying vec3 up_vec;
-    varying vec3 hi_sky_color;
-    varying vec3 low_sky_color;
+    varying vec3 ZenithSkyColor;
+    varying vec3 horizonSkyColor;
 #endif
 
 varying vec4 star_data;

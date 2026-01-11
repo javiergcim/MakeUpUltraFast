@@ -48,13 +48,13 @@ varying vec3 fragposition;
 varying vec3 tangent;
 varying vec3 binormal;
 varying vec3 waterNormal;
-varying vec3 hi_sky_color;
-varying vec3 low_sky_color;
+varying vec3 ZenithSkyColor;
+varying vec3 horizonSkyColor;
 varying vec3 up_vec;
 varying float visibleSky;
 varying vec2 lmcoord;
 varying float block_type;
-varying float frog_adjust;
+varying float frogAdjust;
 
 /* Utility functions */
 

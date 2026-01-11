@@ -5,8 +5,8 @@
 uniform float dayNightMix;
 uniform float nightVision;
 uniform float rainStrength;
-uniform float pixel_size_x;
-uniform float pixel_size_y;
+uniform float pixelSizeX;
+uniform float pixelSizeY;
 uniform sampler2D gaux4;
 uniform float dhNearPlane;
 uniform float dhFarPlane;
@@ -27,7 +27,7 @@ varying vec3 candleColor;
 varying float directLightStrength;
 varying vec3 omniLight;
 varying vec4 position;
-varying float frog_adjust;
+varying float frogAdjust;
 
 /* Utility functions */
 

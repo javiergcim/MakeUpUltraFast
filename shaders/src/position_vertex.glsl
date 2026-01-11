@@ -38,10 +38,10 @@ gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
                 weight *= lmcoord.y * lmcoord.y;
                 
                 // Calculamos el DESPLAZAMIENTO y lo añadimos a la posición base ya calculada.
-                vec3 wave_offset_world = wave_move(worldpos.xzy) * weight * (0.03 + (rainStrength * .05));
-                vec4 wave_offset_clip = gl_ModelViewProjectionMatrix * vec4(wave_offset_world, 0.0);
+                vec3 waveOffsetWorld = wave_move(worldpos.xzy) * weight * (0.03 + (rainStrength * .05));
+                vec4 waveOffsetClip = gl_ModelViewProjectionMatrix * vec4(waveOffsetWorld, 0.0);
                 
-                gl_Position += wave_offset_clip;
+                gl_Position += waveOffsetClip;
             }
         #endif
     }

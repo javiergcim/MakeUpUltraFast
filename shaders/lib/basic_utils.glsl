@@ -13,18 +13,18 @@ float cubePow(float x) {
 }
 
 float fourthPow(float x) {
-    float temp_2 = x * x;
-    return temp_2 * temp_2;
+    float temp2 = x * x;
+    return temp2 * temp2;
 }
 
 float fifthPow(float x) {
-    float temp_2 = x * x;
-    return temp_2 * temp_2 * x;
+    float temp2 = x * x;
+    return temp2 * temp2 * x;
 }
 
 float sixthPow(float x) {
-    float temp_2 = x * x;
-    return temp_2 * temp_2 * temp_2;
+    float temp2 = x * x;
+    return temp2 * temp2 * temp2;
 }
 
 vec3 SquarePowVec3(vec3 x) {
@@ -36,18 +36,18 @@ vec3 cubePowVec3(vec3 x) {
 }
 
 vec3 fourthPowVec3(vec3 x) {
-    vec3 temp_2 = x * x;
-    return temp_2 * temp_2;
+    vec3 temp2 = x * x;
+    return temp2 * temp2;
 }
 
 vec3 fifthPowVec3(vec3 x) {
-    vec3 temp_2 = x * x;
-    return temp_2 * temp_2 * x;
+    vec3 temp2 = x * x;
+    return temp2 * temp2 * x;
 }
 
 vec3 sixthPowVec3(vec3 x) {
-    vec3 temp_2 = x * x;
-    return temp_2 * temp_2 * temp_2;
+    vec3 temp2 = x * x;
+    return temp2 * temp2 * temp2;
 }
 
 vec4 squarePowVec4(vec4 x) {
@@ -63,11 +63,11 @@ vec4 fourthPowVec4(vec4 x) {
 }
 
 vec4 fifthPowVec4(vec4 x) {
-    vec4 temp_2 = x * x;
-    return temp_2 * temp_2 * x;
+    vec4 temp2 = x * x;
+    return temp2 * temp2 * x;
 }
 
 vec4 sixthPowVec4(vec4 x) {
-    vec4 temp_2 = x * x;
-    return temp_2 * temp_2 * temp_2;
+    vec4 temp2 = x * x;
+    return temp2 * temp2 * temp2;
 }

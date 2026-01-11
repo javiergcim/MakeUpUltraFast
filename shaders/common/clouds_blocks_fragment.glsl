@@ -12,8 +12,8 @@ uniform float blindness;
 #endif
 
 #if V_CLOUDS == 0 || defined UNKNOWN_DIM
-    uniform float pixel_size_x;
-    uniform float pixel_size_y;
+    uniform float pixelSizeX;
+    uniform float pixelSizeY;
     uniform sampler2D gaux4;
 #endif
 

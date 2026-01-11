@@ -65,7 +65,7 @@ directLightStrength = clamp(directLightStrength, 0.0, 1.0);
     directLightColor = mix(directLightColor, ZENITH_SKY_RAIN_COLOR * luma(directLightColor) * 0.4, rainStrength);
 
     // Minimal light
-    vec3 omniColor = mix(hi_sky_color_rgb, directLightColor * 0.45, OMNI_TINT);
+    vec3 omniColor = mix(ZenithSkyColorRGB, directLightColor * 0.45, OMNI_TINT);
     float omniColorLuma = colorAverage(omniColor);
     
     // --- OPTIMIZACIÓN #3: Prevenir división por cero ---

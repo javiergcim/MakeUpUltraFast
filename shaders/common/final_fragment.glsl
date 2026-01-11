@@ -69,8 +69,8 @@ uniform sampler2D colortex1;
 uniform float viewWidth;
 
 #if AA_TYPE == 3
-    uniform float pixel_size_x;
-    uniform float pixel_size_y;
+    uniform float pixelSizeX;
+    uniform float pixelSizeY;
 #endif
 
 /* Ins / Outs */

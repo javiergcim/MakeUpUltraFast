@@ -13,8 +13,8 @@
 /* Uniforms */
 
 uniform sampler2D tex;
-uniform float pixel_size_x;
-uniform float pixel_size_y;
+uniform float pixelSizeX;
+uniform float pixelSizeY;
 uniform float near;
 uniform float far;
 uniform sampler2D gaux1;
@@ -87,7 +87,7 @@ uniform float blindness;
 varying vec2 texcoord;
 varying vec2 lmcoord;
 varying vec4 tintColor;
-varying float frog_adjust;
+varying float frogAdjust;
 varying vec3 waterNormal;
 varying float block_type;
 varying vec4 worldposition;
@@ -100,12 +100,12 @@ varying float directLightStrength;
 varying vec3 omniLight;
 varying float visibleSky;
 varying vec3 up_vec;
-varying vec3 hi_sky_color;
-varying vec3 low_sky_color;
+varying vec3 ZenithSkyColor;
+varying vec3 horizonSkyColor;
 
 #if defined SHADOW_CASTING && !defined NETHER
     varying vec3 shadowPos;
-    varying float shadow_diffuse;
+    varying float shadowDiffuse;
 #endif
 
 #if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER
@@ -180,9 +180,9 @@ void main() {
 
     vec3 sky_color_reflect;
     if(isEyeInWater == 0 || isEyeInWater == 2) {
-        sky_color_reflect = mix(low_sky_color, hi_sky_color, smoothstep(0.0, 1.0, pow(clamp(dot(norm_reflect_water_vec, up_vec), 0.0001, 1.0), 0.333)));
+        sky_color_reflect = mix(horizonSkyColor, ZenithSkyColor, smoothstep(0.0, 1.0, pow(clamp(dot(norm_reflect_water_vec, up_vec), 0.0001, 1.0), 0.333)));
     } else {
-        sky_color_reflect = hi_sky_color * .5 * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667);
+        sky_color_reflect = ZenithSkyColor * .5 * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667);
     }
 
     sky_color_reflect = xyz_to_rgb(sky_color_reflect);
@@ -209,10 +209,10 @@ void main() {
                 #endif
                 #if defined COLORED_SHADOW
                     vec3 shadow_c = get_colored_shadow(shadow_real_pos, dither);
-                    shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
+                    shadow_c = mix(shadow_c, vec3(1.0), shadowDiffuse);
                 #else
                     float shadow_c = get_shadow(shadow_real_pos, dither);
-                    shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
+                    shadow_c = mix(shadow_c, 1.0, shadowDiffuse);
                 #endif
             #else
                 float shadow_c = abs((dayNightMix * 2.0) - 1.0);
@@ -270,10 +270,10 @@ void main() {
         #if defined SHADOW_CASTING && !defined NETHER
         #if defined COLORED_SHADOW
             vec3 shadow_c = get_colored_shadow(shadowPos, dither);
-            shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
+            shadow_c = mix(shadow_c, vec3(1.0), shadowDiffuse);
         #else
             float shadow_c = get_shadow(shadowPos, dither);
-            shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
+            shadow_c = mix(shadow_c, 1.0, shadowDiffuse);
         #endif
         #else
             float shadow_c = abs((dayNightMix * 2.0) - 1.0);

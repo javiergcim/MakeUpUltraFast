@@ -18,8 +18,8 @@ uniform float rainStrength;
 /* Ins / Outs */
 
 varying vec3 up_vec;
-varying vec3 hi_sky_color;
-varying vec3 low_sky_color;
+varying vec3 ZenithSkyColor;
+varying vec3 horizonSkyColor;
 
 /* Utility functions */
 

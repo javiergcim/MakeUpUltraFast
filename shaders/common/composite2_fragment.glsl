@@ -15,8 +15,8 @@ uniform sampler2D colortex1;
 
 #if AA_TYPE > 0 || defined MOTION_BLUR
     uniform sampler2D colortex3;  // TAA past averages
-    uniform float pixel_size_x;
-    uniform float pixel_size_y;
+    uniform float pixelSizeX;
+    uniform float pixelSizeY;
     uniform mat4 gbufferProjectionInverse;
     uniform mat4 gbufferProjection;
     uniform mat4 gbufferModelViewInverse;

@@ -71,7 +71,7 @@ uniform mat4 gbufferProjectionInverse;
 
 varying vec2 texcoord;
 varying vec4 tintColor;
-varying float frog_adjust;
+varying float frogAdjust;
 varying vec3 directLightColor;
 varying vec3 candleColor;
 varying float directLightStrength;
@@ -93,17 +93,17 @@ varying vec3 omniLight;
 
 #if defined SHADOW_CASTING && !defined NETHER
     varying vec3 shadowPos;
-    varying float shadow_diffuse;
+    varying float shadowDiffuse;
 #endif
 
 #if defined MATERIAL_GLOSS && !defined NETHER
-    varying vec3 flat_normal;
+    varying vec3 flatNormal;
     varying vec3 sub_position3_normalized;
-    varying vec2 lmcoord_alt;
-    varying float gloss_factor;
-    varying float gloss_power;
-    varying float luma_factor;
-    varying float luma_power;
+    varying vec2 lmcoordAlt;
+    varying float glossFactor;
+    varying float glossPower;
+    varying float lumaFactor;
+    varying float lumaPower;
 #endif
 
 #if defined FOLIAGE_V || defined GBUFFER_TERRAIN || defined GBUFFER_HAND || (defined MATERIAL_GLOSS && !defined NETHER)
@@ -136,7 +136,7 @@ varying vec3 omniLight;
 
 void main() {
     vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
-    vec3 hi_sky_color;
+    vec3 ZenithSkyColor;
     float visibleSky;
 
     #include "/src/basiccoords_vertex.glsl"
@@ -177,26 +177,26 @@ void main() {
     #endif
 
     #if defined MATERIAL_GLOSS && !defined NETHER
-        luma_factor = 1.0;
-        luma_power = 2.0;
-        gloss_power = 6.0;
-        gloss_factor = 1.05;
+        lumaFactor = 1.0;
+        lumaPower = 2.0;
+        glossPower = 6.0;
+        glossFactor = 1.05;
 
         if(mc_Entity.x == ENTITY_SAND) {  // Sand-like block
-            luma_power = 4.0;
+            lumaPower = 4.0;
         } else if(mc_Entity.x == ENTITY_METAL) {  // Metal-like block
-            luma_factor = 1.35;
-            luma_power = -1.0;  // Metallic
-            gloss_power = 100.0;
+            lumaFactor = 1.35;
+            lumaPower = -1.0;  // Metallic
+            glossPower = 100.0;
         } else if(mc_Entity.x == ENTITY_FABRIC) {  // Fabric-like blocks
-            gloss_power = 3.0;
-            gloss_factor = 0.1;
+            glossPower = 3.0;
+            glossFactor = 0.1;
         }
 
-        flat_normal = normal;
+        flatNormal = normal;
         sub_position3_normalized = normalize(sub_position.xyz);
 
-        lmcoord_alt = lmcoord;    
+        lmcoordAlt = lmcoord;    
     #endif
 
     #if defined GBUFFER_ENTITY_GLOW
@@ -204,7 +204,7 @@ void main() {
     #endif
 
     #if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER
-        vNormal = shadow_world_normal;
+        vNormal = shadowWorldNormal;
         vBias = bias;
     #endif
 }

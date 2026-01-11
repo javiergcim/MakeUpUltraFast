@@ -52,8 +52,8 @@ uniform int frameCounter;
 
 uniform mat4 gbufferModelViewInverse;
 uniform mat4 gbufferProjectionInverse;
-uniform float pixel_size_x;
-uniform float pixel_size_y;
+uniform float pixelSizeX;
+uniform float pixelSizeY;
 
 #if AO == 1 || (V_CLOUDS != 0 && !defined UNKNOWN_DIM)
     uniform mat4 gbufferProjection;
@@ -154,7 +154,7 @@ void main() {
             #endif
         #elif !defined NETHER && !defined THE_END
             if(linearDepth > 0.9999 && isEyeInWater == 1) {  // Only sky and water
-                vec4 screen_pos = vec4(gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y), gl_FragCoord.z, 1.0);
+                vec4 screen_pos = vec4(gl_FragCoord.xy * vec2(pixelSizeX, pixelSizeY), gl_FragCoord.z, 1.0);
                 vec4 fragposition = gbufferProjectionInverse * (screen_pos * 2.0 - 1.0);
 
                 vec4 farPlaneClipPos = gbufferModelViewInverse * vec4(fragposition.xyz, 0.0);
