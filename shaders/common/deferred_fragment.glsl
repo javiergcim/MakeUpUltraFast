@@ -64,16 +64,16 @@ uniform float pixelSizeY;
 /* Ins / Outs */
 
 varying vec2 texcoord;
-varying vec3 up_vec;  // Flat
+varying vec3 upVector;  // Flat
 
 #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
     varying float umbral;
-    varying vec3 cloud_color;
-    varying vec3 dark_cloud_color;
+    varying vec3 cloudColor;
+    varying vec3 darkCloudColor;
 #endif
 
 #if AO == 1
-    varying float fog_density_coeff;
+    varying float fogDensityCoeff;
 #endif
 
 /* Utility functions */ 
@@ -110,7 +110,7 @@ void main() {
     float depth = texture2DLod(depthtex0, texcoord, 0).r;
     float linearDepth = ld(depth);
 
-    vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
+    vec2 eyeBrightSmoothFloat = vec2(eyeBrightnessSmooth);
 
     vec3 eyeDirection = vec3(1.0);
 
@@ -141,7 +141,7 @@ void main() {
                     blockColor.rgb = get_end_cloud(eyeDirection, blockColor.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG);
                 #endif
             #else
-                blockColor.rgb = get_cloud(eyeDirection, blockColor.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG, umbral, cloud_color, dark_cloud_color);
+                blockColor.rgb = get_cloud(eyeDirection, blockColor.rgb, bright, dither, cameraPosition, CLOUD_STEPS_AVG, umbral, cloudColor, darkCloudColor);
             #endif
         }
 
@@ -174,7 +174,7 @@ void main() {
             }
         #endif
         float ao_att =
-            pow(clamp(linearDepth * 1.6, 0.0, 1.0), mix(fog_density_coeff, 1.0, rainStrength));
+            pow(clamp(linearDepth * 1.6, 0.0, 1.0), mix(fogDensityCoeff, 1.0, rainStrength));
 
         float final_ao = mix(dbao(dither), 1.0, ao_att);
         blockColor.rgb *= final_ao;
@@ -189,7 +189,7 @@ void main() {
     // Underwater sky
     if(isEyeInWater == 1) {
         if(linearDepth > 0.9999) {
-            blockColor.rgb = mix(NIGHT_CORRECTION * WATER_COLOR * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667), blockColor.rgb, max(clamp(eyeDirection.y - 0.1, 0.0, 1.0), rainStrength));
+            blockColor.rgb = mix(NIGHT_CORRECTION * WATER_COLOR * ((eyeBrightSmoothFloat.y * .8 + 48) * 0.004166666666666667), blockColor.rgb, max(clamp(eyeDirection.y - 0.1, 0.0, 1.0), rainStrength));
         }
     }
 

@@ -30,8 +30,8 @@ uniform float pixelSizeY;
 /* Ins / Outs */
 
 #if MC_VERSION < 11604
-    varying vec3 up_vec;
-    varying vec3 ZenithSkyColor;
+    varying vec3 upVector;
+    varying vec3 zenithSkyColor;
     varying vec3 horizonSkyColor;
 #endif
 
@@ -70,9 +70,9 @@ void main() {
                 gbufferProjectionInverse *
                 (vec4(gl_FragCoord.xy * vec2(pixelSizeX, pixelSizeY), gl_FragCoord.z, 1.0) * 2.0 - 1.0);
             vec3 nfragpos = normalize(fragpos.xyz);
-            float n_u = clamp(dot(nfragpos, up_vec) + dither, 0.0, 1.0);
-            vec4 background_color = vec4(mix(horizonSkyColor, ZenithSkyColor, smoothstep(0.0, 1.0, pow(n_u, 0.333))), 1.0);
-            background_color.rgb = xyz_to_rgb(background_color.rgb);
+            float n_u = clamp(dot(nfragpos, upVector) + dither, 0.0, 1.0);
+            vec4 background_color = vec4(mix(horizonSkyColor, zenithSkyColor, smoothstep(0.0, 1.0, pow(n_u, 0.333))), 1.0);
+            background_color.rgb = xyzToRgb(background_color.rgb);
         #else
 
             // Toma el color puro del bloque

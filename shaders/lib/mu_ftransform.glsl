@@ -1,4 +1,4 @@
-vec4 mu_ftransform() {
+vec4 muFtransform() {
     float lineWidth = 2.0;
     vec2 screenSize = vec2(viewWidth, viewHeight);
     mat4 VIEW_SCALE = mat4(mat3(1.0 - 0.00390625));

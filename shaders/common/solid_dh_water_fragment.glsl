@@ -76,12 +76,12 @@ varying vec3 fragposition;
 varying vec3 tangent;
 varying vec3 binormal;
 varying vec3 waterNormal;
-varying vec3 ZenithSkyColor;
+varying vec3 zenithSkyColor;
 varying vec3 horizonSkyColor;
-varying vec3 up_vec;
+varying vec3 upVector;
 varying float visibleSky;
 varying vec2 lmcoord;
-varying float block_type;
+varying float blockType;
 varying float frogAdjust;
 
 /* Utility functions */
@@ -94,8 +94,8 @@ varying float frogAdjust;
 #include "/lib/luma.glsl"
 
 void main() {
-    vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
-    vec3 real_light;
+    vec2 eyeBrightSmoothFloat = vec2(eyeBrightnessSmooth);
+    vec3 realLight;
 
     #if AA_TYPE > 0 
         float dither = shiftedRDither(gl_FragCoord.xy);
@@ -107,109 +107,109 @@ void main() {
     // Avoid render unnecessary DH
     float t = far - dhNearPlane;
     float inf = t * TRANSITION_DH_INF;
-    float view_dist = length(position.xyz);
+    float visibleDistance = length(position.xyz);
     float d = texture2DLod(depthtex0, vec2(gl_FragCoord.x / viewWidth, gl_FragCoord.y / viewHeight), 0.0).r;
     float linearDepth = ld(d);
 
-    if(linearDepth < 0.9999 || view_dist < dhNearPlane + inf) {
+    if(linearDepth < 0.9999 || visibleDistance < dhNearPlane + inf) {
         discard;
         return;
     }
 
     #ifdef VANILLA_WATER
-        vec3 water_normal_base = vec3(0.0, 0.0, 1.0);
+        vec3 waterNormalBase = vec3(0.0, 0.0, 1.0);
     #else
         vec3 mapPos = position.xyz + cameraPosition;
-        vec3 water_normal_base = normal_waves_dh(mapPos.xzy);
+        vec3 waterNormalBase = normal_waves_dh(mapPos.xzy);
     #endif
 
-    vec3 surface_normal;
-    if(block_type < DH_BLOCK_WATER + 0.5 && block_type > DH_BLOCK_WATER - 0.5) {  // Water
-        surface_normal = get_normals(water_normal_base, fragposition);
+    vec3 surfaceNormal;
+    if(blockType < DH_BLOCK_WATER + 0.5 && blockType > DH_BLOCK_WATER - 0.5) {  // Water
+        surfaceNormal = get_normals(waterNormalBase, fragposition);
     } else {
-        surface_normal = get_normals(vec3(0.0, 0.0, 1.0), fragposition);
+        surfaceNormal = get_normals(vec3(0.0, 0.0, 1.0), fragposition);
     }
 
-    float normal_dot_eye = dot(surface_normal, normalize(fragposition));
-    float fresnel = squarePow(1.0 + normal_dot_eye);
+    float normalDotEye = dot(surfaceNormal, normalize(fragposition));
+    float fresnel = squarePow(1.0 + normalDotEye);
 
-    vec3 reflect_water_vec = reflect(fragposition, surface_normal);
-    vec3 norm_reflect_water_vec = normalize(reflect_water_vec);
+    vec3 reflectWaterVector = reflect(fragposition, surfaceNormal);
+    vec3 normalizedReflectWaterVector = normalize(reflectWaterVector);
 
-    vec3 sky_color_reflect;
+    vec3 skyColorReflect;
     if(isEyeInWater == 0 || isEyeInWater == 2) {
-        sky_color_reflect = mix(horizonSkyColor, ZenithSkyColor, smoothstep(0.0, 1.0, pow(clamp(dot(norm_reflect_water_vec, up_vec), 0.0001, 1.0), 0.333)));
+        skyColorReflect = mix(horizonSkyColor, zenithSkyColor, smoothstep(0.0, 1.0, pow(clamp(dot(normalizedReflectWaterVector, upVector), 0.0001, 1.0), 0.333)));
     } else {
-        sky_color_reflect = ZenithSkyColor * .5 * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667);
+        skyColorReflect = zenithSkyColor * .5 * ((eyeBrightSmoothFloat.y * .8 + 48) * 0.004166666666666667);
     }
 
-    sky_color_reflect = xyz_to_rgb(sky_color_reflect);
+    skyColorReflect = xyzToRgb(skyColorReflect);
 
     #if !defined VANILLA_WATER && WATER_TEXTURE == 1
         vec4 blockColor = vec4(0.1);
         // Synthetic water texture
-        vec3 synth_pos = (position.xyz + cameraPosition) * 8.0;
-        synth_pos = floor(synth_pos + 0.01);
-        float noise = hash13(synth_pos);
+        vec3 synthesisPosition = (position.xyz + cameraPosition) * 8.0;
+        synthesisPosition = floor(synthesisPosition + 0.01);
+        float noise = hash13(synthesisPosition);
         noise *= noise;
         noise *= noise;
         noise *= noise;
-        float synth_noise = (noise * 0.3) + 0.5;
-        blockColor.rgb += vec3(synth_noise);
+        float syntheticNoise = (noise * 0.3) + 0.5;
+        blockColor.rgb += vec3(syntheticNoise);
     #elif defined VANILLA_WATER
         // Synthetic water texture
-        vec3 synth_pos = (position.xyz + cameraPosition) * 8.0;
-        synth_pos = floor(synth_pos + 0.01);
-        float noise = hash13(synth_pos);
+        vec3 synthesisPosition = (position.xyz + cameraPosition) * 8.0;
+        synthesisPosition = floor(synthesisPosition + 0.01);
+        float noise = hash13(synthesisPosition);
         noise *= noise;
         noise *= noise;
-        float synth_noise = (noise * 0.227) + 0.773;
-        vec4 blockColor = vec4(vec3(synth_noise), tintColor.a);
+        float syntheticNoise = (noise * 0.227) + 0.773;
+        vec4 blockColor = vec4(vec3(syntheticNoise), tintColor.a);
     #else
         vec4 blockColor;
     #endif
 
-    if(block_type < DH_BLOCK_WATER + 0.5 && block_type > DH_BLOCK_WATER - 0.5) {  // Water
+    if(blockType < DH_BLOCK_WATER + 0.5 && blockType > DH_BLOCK_WATER - 0.5) {  // Water
     #ifdef VANILLA_WATER
-        float shadow_c = abs((dayNightMix * 2.0) - 1.0);
+        float shadowValue = abs((dayNightMix * 2.0) - 1.0);
 
-        float fresnel_tex = luma(blockColor.rgb);
+        float fresnelTex = luma(blockColor.rgb);
 
-        real_light = omniLight +
-            (directLightStrength * shadow_c * directLightColor) * (1.0 - rainStrength * 0.75) +
+        realLight = omniLight +
+            (directLightStrength * shadowValue * directLightColor) * (1.0 - rainStrength * 0.75) +
             candleColor;
 
-        real_light *= (fresnel_tex * 2.0) - 0.25;
+        realLight *= (fresnelTex * 2.0) - 0.25;
 
-        blockColor.rgb *= mix(real_light, vec3(1.0), nightVision * .125) * tintColor.rgb;
+        blockColor.rgb *= mix(realLight, vec3(1.0), nightVision * .125) * tintColor.rgb;
 
-        blockColor.rgb = water_shader_dh(fragposition, surface_normal, blockColor.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visibleSky, dither, directLightColor);
+        blockColor.rgb = water_shader_dh(fragposition, surfaceNormal, blockColor.rgb, skyColorReflect, normalizedReflectWaterVector, fresnel, visibleSky, dither, directLightColor);
 
         blockColor.a = sqrt(blockColor.a);
     #else
         #if WATER_TEXTURE == 1
-            float water_texture = luma(blockColor.rgb);
+            float waterTexture = luma(blockColor.rgb);
         #else
-            float water_texture = 1.0;
+            float waterTexture = 1.0;
         #endif
 
-            real_light = omniLight +
+            realLight = omniLight +
                 (directLightStrength * visibleSky * directLightColor) * (1.0 - rainStrength * 0.75) +
                 candleColor;
 
         #if WATER_COLOR_SOURCE == 0
-                blockColor.rgb = water_texture * real_light * WATER_COLOR;
+                blockColor.rgb = waterTexture * realLight * WATER_COLOR;
         #elif WATER_COLOR_SOURCE == 1
-            blockColor.rgb = 0.3 * water_texture * real_light * tintColor.rgb;
+            blockColor.rgb = 0.3 * waterTexture * realLight * tintColor.rgb;
         #endif
 
-            blockColor = vec4(refraction(fragposition, blockColor.rgb, water_normal_base), 1.0);
+            blockColor = vec4(refraction(fragposition, blockColor.rgb, waterNormalBase), 1.0);
 
         #if WATER_TEXTURE == 1
-            fresnel = clamp(fresnel * (water_texture * water_texture + 0.5), 0.0, 1.0);
+            fresnel = clamp(fresnel * (waterTexture * waterTexture + 0.5), 0.0, 1.0);
         #endif
 
-        blockColor.rgb = water_shader_dh(fragposition, surface_normal, blockColor.rgb, sky_color_reflect, norm_reflect_water_vec, fresnel, visibleSky, dither, directLightColor);
+        blockColor.rgb = water_shader_dh(fragposition, surfaceNormal, blockColor.rgb, skyColorReflect, normalizedReflectWaterVector, fresnel, visibleSky, dither, directLightColor);
 
     #endif
 
@@ -217,13 +217,13 @@ void main() {
 
         blockColor = tintColor;
 
-        float shadow_c = abs((dayNightMix * 2.0) - 1.0);
+        float shadowValue = abs((dayNightMix * 2.0) - 1.0);
 
-        real_light = omniLight +
-            (directLightStrength * shadow_c * directLightColor) * (1.0 - rainStrength * 0.75) +
+        realLight = omniLight +
+            (directLightStrength * shadowValue * directLightColor) * (1.0 - rainStrength * 0.75) +
             candleColor;
 
-        blockColor.rgb *= mix(real_light, vec3(1.0), nightVision * .125);
+        blockColor.rgb *= mix(realLight, vec3(1.0), nightVision * .125);
     }
 
     #include "/src/finalcolor_dh.glsl"

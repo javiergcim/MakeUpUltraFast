@@ -2,7 +2,7 @@
 Fast volumetric clouds - MakeUp implementation
 */
 
-vec3 get_cloud_old(vec3 eyeDirection, vec3 blockColor, float bright, float dither, vec3 base_pos, int samples, float umbral, vec3 cloud_color, vec3 dark_cloud_color) {
+vec3 get_cloud_old(vec3 eyeDirection, vec3 blockColor, float bright, float dither, vec3 base_pos, int samples, float umbral, vec3 cloudColor, vec3 darkCloudColor) {
     float plane_distance;
     float cloud_value;
     float density;
@@ -126,18 +126,18 @@ vec3 get_cloud_old(vec3 eyeDirection, vec3 blockColor, float bright, float dithe
         float att_factor = mix(1.0, 0.75, bright * (1.0 - rainStrength));
 
         #if CLOUD_VOL_STYLE == 1
-            cloud_color = mix(cloud_color * att_factor, dark_cloud_color * att_factor, pow(density, 0.3) * 0.85);
+            cloudColor = mix(cloudColor * att_factor, darkCloudColor * att_factor, pow(density, 0.3) * 0.85);
         #else
-            cloud_color = mix(cloud_color * att_factor, dark_cloud_color * att_factor, pow(density, 0.4));
+            cloudColor = mix(cloudColor * att_factor, darkCloudColor * att_factor, pow(density, 0.4));
         #endif
 
         // Halo brillante de contra al sol
-        cloud_color =
-            mix(cloud_color, cloud_color * 13.0, (1.0 - pow(cloud_value, 0.2)) * bright * bright * (1.0 - rainStrength));
+        cloudColor =
+            mix(cloudColor, cloudColor * 13.0, (1.0 - pow(cloud_value, 0.2)) * bright * bright * (1.0 - rainStrength));
 
         blockColor = mix(
             blockColor,
-            cloud_color,
+            cloudColor,
             cloud_value * clamp((eyeDirection.y - 0.06) * 5.0, 0.0, 1.0)
         );
     }
@@ -145,7 +145,7 @@ vec3 get_cloud_old(vec3 eyeDirection, vec3 blockColor, float bright, float dithe
     return blockColor;
 }
 
-vec3 get_cloud(vec3 eyeDirection, vec3 blockColor, float bright, float dither, vec3 base_pos, int samples, float umbral, vec3 cloud_color, vec3 dark_cloud_color) {
+vec3 get_cloud(vec3 eyeDirection, vec3 blockColor, float bright, float dither, vec3 base_pos, int samples, float umbral, vec3 cloudColor, vec3 darkCloudColor) {
     #if VOL_LIGHT == 0
         blockColor.rgb *= clamp(bright + ((dither - .5) * .1), 0.0, 1.0) * .3 + 1.0;
     #endif
@@ -234,15 +234,15 @@ vec3 get_cloud(vec3 eyeDirection, vec3 blockColor, float bright, float dither, v
         float density_approx = sqrt(sqrt(density)); // x^0.25
         
         #if CLOUD_VOL_STYLE == 1
-            cloud_color = mix(cloud_color * att_factor, dark_cloud_color * att_factor, density_approx * 0.85);
+            cloudColor = mix(cloudColor * att_factor, darkCloudColor * att_factor, density_approx * 0.85);
         #else
-            cloud_color = mix(cloud_color * att_factor, dark_cloud_color * att_factor, sqrt(density));
+            cloudColor = mix(cloudColor * att_factor, darkCloudColor * att_factor, sqrt(density));
         #endif
 
         float cloud_value_approx = sqrt(sqrt(cloud_value));
-        cloud_color = mix(cloud_color, cloud_color * 13.0, (1.0 - cloud_value_approx) * bright * bright * (1.0 - rainStrength));
+        cloudColor = mix(cloudColor, cloudColor * 13.0, (1.0 - cloud_value_approx) * bright * bright * (1.0 - rainStrength));
 
-        blockColor = mix(blockColor, cloud_color, cloud_value * clamp((eyeDirection.y - 0.06) * 5.0, 0.0, 1.0));
+        blockColor = mix(blockColor, cloudColor, cloud_value * clamp((eyeDirection.y - 0.06) * 5.0, 0.0, 1.0));
     }
 
     return blockColor;

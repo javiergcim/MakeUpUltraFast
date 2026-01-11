@@ -1,6 +1,6 @@
 #ifdef UNKNOWN_DIM
     vec3 horizonSkyColorRGB = fogColor;
-    horizonSkyColor = rgb_to_xyz(horizonSkyColorRGB);
+    horizonSkyColor = rgbToXyz(horizonSkyColorRGB);
 #else
     vec3 horizonSkyColorRGB = dayBlend(
         HORIZON_SUNSET_COLOR,
@@ -14,5 +14,5 @@
         rainStrength
     );
 
-    horizonSkyColor = rgb_to_xyz(horizonSkyColorRGB);
+    horizonSkyColor = rgbToXyz(horizonSkyColorRGB);
 #endif

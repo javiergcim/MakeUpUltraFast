@@ -2,26 +2,26 @@
 
     // Fog intensity calculation
     #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
-        float fog_density_coeff = FOG_DENSITY * FOG_ADJUST;
+        float fogDensityCoeff = FOG_DENSITY * FOG_ADJUST;
     #else
-        float fog_density_coeff = dayBlendFloat(
+        float fogDensityCoeff = dayBlendFloat(
             FOG_SUNSET,
             FOG_DAY,
             FOG_NIGHT
         ) * FOG_ADJUST;
     #endif
 
-    float fogIntensityCoeff = max(eye_bright_smooth.y * 0.004166666666666667, visibleSky);
+    float fogIntensityCoeff = max(eyeBrightSmoothFloat.y * 0.004166666666666667, visibleSky);
 
     #ifdef DISTANT_HORIZONS
         frogAdjust = pow(
             clamp(gl_FogFragCoord / dhRenderDistance, 0.0, 1.0) * fogIntensityCoeff,
-            mix(fog_density_coeff * 0.15, 0.5, rainStrength)
+            mix(fogDensityCoeff * 0.15, 0.5, rainStrength)
         );
     #else
         frogAdjust = pow(
             clamp(gl_FogFragCoord / far, 0.0, 1.0) * fogIntensityCoeff,
-            mix(fog_density_coeff, 1.0, rainStrength)
+            mix(fogDensityCoeff, 1.0, rainStrength)
         );
     #endif
 

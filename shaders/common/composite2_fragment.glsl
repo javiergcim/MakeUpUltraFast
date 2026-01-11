@@ -58,7 +58,7 @@ void main() {
     #if AA_TYPE > 0 || defined MOTION_BLUR
         // Retrojection of previous frame
         float z_depth = texture2DLod(depthtex1, texcoord, 0).r;
-        vec2 texcoord_past;
+        vec2 texcoordPast;
         vec3 curr_view_pos;
         vec3 curr_feet_player_pos;
         vec3 prev_feet_player_pos;
@@ -66,7 +66,7 @@ void main() {
         vec2 final_pos;
 
         if(z_depth < 0.56) {
-            texcoord_past = texcoord;
+            texcoordPast = texcoord;
         } else {
             curr_view_pos =
                 vec3(vec2(gbufferProjectionInverse[0].x, gbufferProjectionInverse[1].y) * (texcoord * 2.0 - 1.0) + gbufferProjectionInverse[3].xy, gbufferProjectionInverse[3].z);
@@ -78,7 +78,7 @@ void main() {
             prev_view_pos = mat3(gbufferPreviousModelView) * prev_feet_player_pos + gbufferPreviousModelView[3].xyz;
             final_pos =
                 vec2(gbufferPreviousProjection[0].x, gbufferPreviousProjection[1].y) * prev_view_pos.xy + gbufferPreviousProjection[3].xy;
-            texcoord_past = (final_pos / -prev_view_pos.z) * 0.5 + 0.5;
+            texcoordPast = (final_pos / -prev_view_pos.z) * 0.5 + 0.5;
         }
 
     #endif
@@ -87,18 +87,18 @@ void main() {
         #if AA_TYPE > 0
            float dither = shiftedDitherMakeup(gl_FragCoord.xy);
         #else
-            float dither = ditherMakeup(gl_FragCoord.xy);
+           float dither = ditherMakeup(gl_FragCoord.xy);
         #endif
         // "Speed"
-        vec2 velocity = texcoord - texcoord_past;
-        blockColor.rgb = motion_blur(blockColor.rgb, z_depth, velocity, dither, colortex1);
+        vec2 velocity = texcoord - texcoordPast;
+        blockColor.rgb = motionBlur(blockColor.rgb, z_depth, velocity, dither, colortex1);
     #endif
 
     #if AA_TYPE > 0
         #ifdef DOF
-            blockColor = fast_taa_depth(blockColor, texcoord_past);
+            blockColor = fastTaaDepth(blockColor, texcoordPast);
         #else
-            blockColor.rgb = fast_taa(blockColor.rgb, texcoord_past);
+            blockColor.rgb = fastTaa(blockColor.rgb, texcoordPast);
         #endif
 
         blockColor = clamp(blockColor, vec4(0.0), vec4(vec3(50.0), 1.0));

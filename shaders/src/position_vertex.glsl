@@ -14,8 +14,8 @@ gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
         mc_Entity.x == ENTITY_SMALLENTS_NW
     );
 
-    vec4 sub_position = gl_ModelViewMatrix * gl_Vertex;
-    vec4 position = gbufferModelViewInverse * sub_position;
+    vec4 viewPosition = gl_ModelViewMatrix * gl_Vertex;
+    vec4 position = gbufferModelViewInverse * viewPosition;
     
     if (isFoliageEntity) {
         isFoliage = 0.4;
@@ -48,10 +48,10 @@ gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 
 #else // Lógica para cuando no es un shader con follaje (p. ej. entidades)
 
-    vec4 sub_position = gl_ModelViewMatrix * gl_Vertex;
+    vec4 viewPosition = gl_ModelViewMatrix * gl_Vertex;
     #ifndef NO_SHADOWS
         #ifdef SHADOW_CASTING
-            vec4 position = gbufferModelViewInverse * sub_position;
+            vec4 position = gbufferModelViewInverse * viewPosition;
         #endif
     #endif
     

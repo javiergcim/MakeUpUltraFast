@@ -1,4 +1,4 @@
-/* MakeUp Ultra Fast - fxaa_intel.glsl
+/* MakeUp Ultra Fast - fxaa.glsl
 FXAA 3.11 from Simon Rodriguez
 http://blog.simonrodriguez.fr/articles/30-07-2016_implementing_fxaa.html
 

@@ -4,31 +4,31 @@ Temporal antialiasing functions.
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-vec4 convex_hull(
+vec4 convexHull(
     vec3 c, vec3 previous, vec3 up, vec3 down, vec3 left, vec3 right, 
     vec3 ul, vec3 ur, vec3 dl, vec3 dr) {
 
     // Cálculo de varianza
     vec3 sum = c + up + down + left + right + ul + ur + dl + dr;
     vec3 sum_sq =
-        c*c +
-        up*up +
-        down*down +
-        left*left +
-        right*right +
-        ul*ul +
-        ur*ur +
-        dl*dl +
-        dr*dr;
+        c * c +
+        up * up +
+        down * down +
+        left * left +
+        right * right +
+        ul * ul +
+        ur * ur +
+        dl * dl +
+        dr * dr;
 
     vec3 mean = sum * 0.1111111111111111; // 1 / 9
     vec3 variance = abs(sum_sq * 0.1111111111111111 - mean * mean); // Varianza = E[x^2] - E[x]^2
 
-    vec3 std_dev = sqrt(variance);
-    vec3 min_valid = mean - std_dev;
-    vec3 max_valid = mean + std_dev;
+    vec3 stdDev = sqrt(variance);
+    vec3 minValid = mean - stdDev;
+    vec3 maxValid = mean + stdDev;
 
-    return vec4(clamp(previous, min_valid, max_valid), distance(min_valid, max_valid));
+    return vec4(clamp(previous, minValid, maxValid), distance(minValid, maxValid));
 }
 
 // float edge_detector(
@@ -93,13 +93,13 @@ vec4 convex_hull(
 //     return smoothstep(relative_threshold, relative_threshold + smoothness, max_lineness);
 // }
 
-vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
+vec3 fastTaa(vec3 currentColor, vec2 texcoordPast) {
     // Verificamos si proyección queda fuera de la pantalla actual
-    if (clamp(texcoord_past, 0.0, 1.0) != texcoord_past) {
-        return current_color;
+    if (clamp(texcoordPast, 0.0, 1.0) != texcoordPast) {
+        return currentColor;
     } else {
         // Previous color
-        vec3 previous = texture2DLod(colortex3, texcoord_past, 0.0).rgb;
+        vec3 previous = texture2DLod(colortex3, texcoordPast, 0.0).rgb;
 
         vec3 left = texture2DLod(colortex1, texcoord + vec2(-pixelSizeX, 0.0), 0.0).rgb;
         vec3 right = texture2DLod(colortex1, texcoord + vec2(pixelSizeX, 0.0), 0.0).rgb;
@@ -110,12 +110,12 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
         vec3 dl = texture2DLod(colortex1, texcoord + vec2(-pixelSizeX, -pixelSizeY), 0.0).rgb;
         vec3 dr = texture2DLod(colortex1, texcoord + vec2(pixelSizeX, -pixelSizeY), 0.0).rgb;
 
-        vec3 c_max = max(max(max(left, right), down),max(up, max(ul, max(ur, max(dl, max(dr, current_color))))));
-	    vec3 c_min = min(min(min(left, right), down),min(up, min(ul, min(ur, min(dl, min(dr, current_color))))));
+        vec3 colorMax = max(max(max(left, right), down),max(up, max(ul, max(ur, max(dl, max(dr, currentColor))))));
+	    vec3 colorMin = min(min(min(left, right), down),min(up, min(ul, min(ur, min(dl, min(dr, currentColor))))));
 
         // Clip 3
-        vec4 previous_cliped = convex_hull(
-            current_color,
+        vec4 previousClipped = convexHull(
+            currentColor,
             previous,
             up,
             down,
@@ -127,25 +127,25 @@ vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
             dr
         );
 
-        float ponderation = clamp((distance(c_max, c_min) - previous_cliped.a) / previous_cliped.a, 0.0, 1.0);
+        float ponderation = clamp((distance(colorMax, colorMin) - previousClipped.a) / previousClipped.a, 0.0, 1.0);
 
         #ifdef MOTION_BLUR
-            float velocity = length(texcoord - texcoord_past) * 10.0;
-            return mix(current_color, previous_cliped.rgb, clamp(0.99 - velocity - (smoothstep(0.0, 1.0, ponderation) * 0.33), 0.0, 1.0));
+            float velocity = length(texcoord - texcoordPast) * 10.0;
+            return mix(currentColor, previousClipped.rgb, clamp(0.99 - velocity - (smoothstep(0.0, 1.0, ponderation) * 0.33), 0.0, 1.0));
         #else
-            return mix(current_color, previous_cliped.rgb, 0.99 - (smoothstep(0.0, 1.0, ponderation) * 0.33));
+            return mix(currentColor, previousClipped.rgb, 0.99 - (smoothstep(0.0, 1.0, ponderation) * 0.33));
         #endif
-        // return mix(current_color, previous_cliped.rgb, 0.01);
+        // return mix(currentColor, previousClipped.rgb, 0.01);
     }
 }
 
-vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past) {
+vec4 fastTaaDepth(vec4 currentColor, vec2 texcoordPast) {
     // Verificamos si proyección queda fuera de la pantalla actual
-    if (clamp(texcoord_past, 0.0, 1.0) != texcoord_past) {
-        return current_color;
+    if (clamp(texcoordPast, 0.0, 1.0) != texcoordPast) {
+        return currentColor;
     } else {
         // Muestra del pasado
-        vec4 previous = texture2DLod(colortex3, texcoord_past, 0.0);
+        vec4 previous = texture2DLod(colortex3, texcoordPast, 0.0);
 
         vec4 left = texture2DLod(colortex1, texcoord + vec2(-pixelSizeX, 0.0), 0.0);
         vec4 right = texture2DLod(colortex1, texcoord + vec2(pixelSizeX, 0.0), 0.0);
@@ -156,12 +156,12 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past) {
         vec4 dl = texture2DLod(colortex1, texcoord + vec2(-pixelSizeX, -pixelSizeY), 0.0);
         vec4 dr = texture2DLod(colortex1, texcoord + vec2(pixelSizeX, -pixelSizeY), 0.0);
 
-        vec3 c_max = max(max(max(left.rgb, right.rgb), down.rgb),max(up.rgb, max(ul.rgb, max(ur.rgb, max(dl.rgb, max(dr.rgb, current_color.rgb))))));
-	    vec3 c_min = min(min(min(left.rgb, right.rgb), down.rgb),min(up.rgb, min(ul.rgb, min(ur.rgb, min(dl.rgb, min(dr.rgb, current_color.rgb))))));
+        vec3 colorMax = max(max(max(left.rgb, right.rgb), down.rgb),max(up.rgb, max(ul.rgb, max(ur.rgb, max(dl.rgb, max(dr.rgb, currentColor.rgb))))));
+	    vec3 colorMin = min(min(min(left.rgb, right.rgb), down.rgb),min(up.rgb, min(ul.rgb, min(ur.rgb, min(dl.rgb, min(dr.rgb, currentColor.rgb))))));
 
         // Clip 3
-        vec4 previous_cliped = convex_hull(
-            current_color.rgb,
+        vec4 previousClipped = convexHull(
+            currentColor.rgb,
             previous.rgb,
             up.rgb,
             down.rgb,
@@ -173,13 +173,13 @@ vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past) {
             dr.rgb
         );
 
-        float ponderation = clamp((distance(c_max, c_min) - previous_cliped.a) / previous_cliped.a, 0.0, 1.0);
+        float ponderation = clamp((distance(colorMax, colorMin) - previousClipped.a) / previousClipped.a, 0.0, 1.0);
 
         #ifdef MOTION_BLUR
-            float velocity = length(texcoord - texcoord_past) * 10.0;
-            return mix(current_color, vec4(previous_cliped.rgb, previous.a), clamp(0.99 - velocity - (smoothstep(0.0, 1.0, ponderation) * 0.33), 0.0, 1.0));
+            float velocity = length(texcoord - texcoordPast) * 10.0;
+            return mix(currentColor, vec4(previousClipped.rgb, previous.a), clamp(0.99 - velocity - (smoothstep(0.0, 1.0, ponderation) * 0.33), 0.0, 1.0));
         #else
-            return mix(current_color, vec4(previous_cliped.rgb, previous.a), 0.99 - (smoothstep(0.0, 1.0, ponderation) * 0.33));
+            return mix(currentColor, vec4(previousClipped.rgb, previous.a), 0.99 - (smoothstep(0.0, 1.0, ponderation) * 0.33));
         #endif
     }
 }

@@ -7,7 +7,6 @@ uniform mat4 gbufferProjectionInverse;
 /* Ins / Outs */
 
 varying vec2 texcoord;
-varying float var_fog_frag_coord;
 
 /* Utility functions */
 

@@ -1,5 +1,5 @@
 #if defined THE_END
-    float material_gloss(vec3 reflectedVector, vec2 lmcoordAlt, float glossPower, vec3 flatNormal) {
+    float materialGloss(vec3 reflectedVector, vec2 lmcoordAlt, float glossPower, vec3 flatNormal) {
         vec3 astroLightPos = (gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz;
         float astroAlignment =
             max(dot(normalize(reflectedVector), normalize(astroLightPos)), 0.0) * step(0.0001, dot(astroLightPos, flatNormal));
@@ -11,7 +11,7 @@
         );
     }
 #else
-    float material_gloss(vec3 reflectedVector, vec2 lmcoordAlt, float glossPower, vec3 flatNormal) {
+    float materialGloss(vec3 reflectedVector, vec2 lmcoordAlt, float glossPower, vec3 flatNormal) {
         vec3 astroLightPos = mix(-sunPosition, sunPosition, dayNightMix);
         float astroAlignment =
             max(dot(normalize(reflectedVector), normalize(astroLightPos)), 0.0) *

@@ -98,7 +98,7 @@ varying vec3 omniLight;
 
 #if defined MATERIAL_GLOSS && !defined NETHER
     varying vec3 flatNormal;
-    varying vec3 sub_position3_normalized;
+    varying vec3 viewPositionNormalized;
     varying vec2 lmcoordAlt;
     varying float glossFactor;
     varying float glossPower;
@@ -135,8 +135,8 @@ varying vec3 omniLight;
 // MAIN FUNCTION ------------------
 
 void main() {
-    vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
-    vec3 ZenithSkyColor;
+    vec2 eyeBrightSmoothFloat = vec2(eyeBrightnessSmooth);
+    vec3 zenithSkyColor;
     float visibleSky;
 
     #include "/src/basiccoords_vertex.glsl"
@@ -194,7 +194,7 @@ void main() {
         }
 
         flatNormal = normal;
-        sub_position3_normalized = normalize(sub_position.xyz);
+        viewPositionNormalized = normalize(viewPosition.xyz);
 
         lmcoordAlt = lmcoord;    
     #endif

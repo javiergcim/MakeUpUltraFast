@@ -20,16 +20,16 @@ uniform mat4 gbufferModelView;
 /* Ins / Outs */
 
 varying vec2 texcoord;
-varying vec3 up_vec;
+varying vec3 upVector;
 
 #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
     varying float umbral;
-    varying vec3 cloud_color;
-    varying vec3 dark_cloud_color;
+    varying vec3 cloudColor;
+    varying vec3 darkCloudColor;
 #endif
 
 #if AO == 1
-    varying float fog_density_coeff;
+    varying float fogDensityCoeff;
 #endif
 
 /* Utility functions */
@@ -43,13 +43,13 @@ varying vec3 up_vec;
 void main() {
     gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
     texcoord = gl_MultiTexCoord0.xy;
-    up_vec = normalize(gbufferModelView[1].xyz);
+    upVector = normalize(gbufferModelView[1].xyz);
 
     #if AO == 1
         #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
-            fog_density_coeff = FOG_DENSITY * FOG_ADJUST;
+            fogDensityCoeff = FOG_DENSITY * FOG_ADJUST;
         #else
-            fog_density_coeff = dayBlendFloat(FOG_SUNSET, FOG_DAY, FOG_NIGHT) * FOG_ADJUST;
+            fogDensityCoeff = dayBlendFloat(FOG_SUNSET, FOG_DAY, FOG_NIGHT) * FOG_ADJUST;
         #endif
     #endif
 

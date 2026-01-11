@@ -58,9 +58,9 @@ varying float frogAdjust;
 // MAIN FUNCTION ------------------
 
 void main() {
-    vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
+    vec2 eyeBrightSmoothFloat = vec2(eyeBrightnessSmooth);
     float visibleSky;
-    vec3 ZenithSkyColor;
+    vec3 zenithSkyColor;
 
     #include "/src/basiccoords_vertex_dh.glsl"
     #include "/src/position_vertex_dh.glsl"

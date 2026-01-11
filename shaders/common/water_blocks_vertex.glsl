@@ -54,7 +54,7 @@ varying vec2 lmcoord;
 varying vec4 tintColor;
 varying float frogAdjust;
 varying vec3 waterNormal;
-varying float block_type;
+varying float blockType;
 varying vec4 worldposition;
 varying vec3 fragposition;
 varying vec3 tangent;
@@ -64,8 +64,8 @@ varying vec3 candleColor;
 varying float directLightStrength;
 varying vec3 omniLight;
 varying float visibleSky;
-varying vec3 up_vec;
-varying vec3 ZenithSkyColor;
+varying vec3 upVector;
+varying vec3 zenithSkyColor;
 varying vec3 horizonSkyColor;
 
 #if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER
@@ -81,8 +81,8 @@ varying vec3 horizonSkyColor;
 
 #if (V_CLOUDS != 0 && !defined UNKNOWN_DIM) && !defined NO_CLOUDY_SKY
     varying float umbral;
-    varying vec3 cloud_color;
-    varying vec3 dark_cloud_color;
+    varying vec3 cloudColor;
+    varying vec3 darkCloudColor;
 #endif
 
 attribute vec4 mc_Entity;
@@ -107,7 +107,7 @@ attribute vec4 at_tangent;
 // MAIN FUNCTION ------------------
 
 void main() {
-    vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
+    vec2 eyeBrightSmoothFloat = vec2(eyeBrightnessSmooth);
 
     #include "/src/basiccoords_vertex.glsl"
     #include "/src/position_vertex_water.glsl"
@@ -124,14 +124,14 @@ void main() {
     binormal = normalize(gl_NormalMatrix * -cross(gl_Normal, at_tangent.xyz));
 
     // Special entities
-    block_type = 0.0;  // 3 - Water, 2 - Glass, ? - Other
+    blockType = 0.0;  // 3 - Water, 2 - Glass, ? - Other
     if(mc_Entity.x == ENTITY_WATER) {  // Water
-        block_type = 3.0;
+        blockType = 3.0;
     } else if(mc_Entity.x == ENTITY_STAINED) {  // Glass
-        block_type = 2.0;
+        blockType = 2.0;
     }
 
-    up_vec = normalize(gbufferModelView[1].xyz);
+    upVector = normalize(gbufferModelView[1].xyz);
 
     #include "/src/fog_vertex.glsl"
 

@@ -21,7 +21,7 @@ varying vec4 tintColor;
 
 void main() {
     tintColor = gl_Color;
-    gl_Position = mu_ftransform();
+    gl_Position = muFtransform();
 
     #if AA_TYPE > 1
         gl_Position.xy += taaOffset * gl_Position.w;

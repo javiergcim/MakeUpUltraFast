@@ -17,8 +17,8 @@ uniform float rainStrength;
 
 /* Ins / Outs */
 
-varying vec3 up_vec;
-varying vec3 ZenithSkyColor;
+varying vec3 upVector;
+varying vec3 zenithSkyColor;
 varying vec3 horizonSkyColor;
 
 /* Utility functions */
@@ -33,5 +33,5 @@ void main() {
     #include "/src/hi_sky.glsl"
     #include "/src/low_sky.glsl"
 
-    up_vec = normalize(gbufferModelView[1].xyz);
+    upVector = normalize(gbufferModelView[1].xyz);
 }
