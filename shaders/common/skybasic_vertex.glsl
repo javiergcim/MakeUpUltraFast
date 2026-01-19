@@ -23,9 +23,9 @@ uniform mat4 gbufferModelView;
 /* Ins / Outs */
 
 #if MC_VERSION < 11604
-    varying vec3 up_vec;
-    varying vec3 hi_sky_color;
-    varying vec3 low_sky_color;
+    varying vec3 upVector;
+    varying vec3 zenithSkyColor;
+    varying vec3 horizonSkyColor;
 #endif
 
 varying vec4 star_data;
@@ -60,7 +60,7 @@ void main() {
     #endif
 
     #if MC_VERSION < 11604
-        up_vec = normalize(gbufferModelView[1].xyz);
+        upVector = normalize(gbufferModelView[1].xyz);
 
         #include "/src/hi_sky.glsl"
         #include "/src/low_sky.glsl"

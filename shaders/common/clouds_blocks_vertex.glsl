@@ -16,7 +16,7 @@ uniform mat4 gbufferProjectionInverse;
 
 #if V_CLOUDS == 0 || defined UNKNOWN_DIM
     varying vec2 texcoord;
-    varying vec4 tint_color;
+    varying vec4 tintColor;
 #endif
 
 /* Utility functions */
@@ -34,7 +34,7 @@ uniform mat4 gbufferProjectionInverse;
 void main() {
     #if V_CLOUDS == 0 || defined UNKNOWN_DIM
         texcoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
-        tint_color = gl_Color;
+        tintColor = gl_Color;
     #endif
     #include "/src/position_vertex.glsl"
 }

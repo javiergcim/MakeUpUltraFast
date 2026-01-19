@@ -7,7 +7,7 @@ uniform float viewWidth;
 
 /* Ins / Outs */
 
-varying vec4 tint_color;
+varying vec4 tintColor;
 
 /* Utility functions */
 
@@ -20,8 +20,8 @@ varying vec4 tint_color;
 // MAIN FUNCTION ------------------
 
 void main() {
-    tint_color = gl_Color;
-    gl_Position = mu_ftransform();
+    tintColor = gl_Color;
+    gl_Position = muFtransform();
 
     #if AA_TYPE > 1
         gl_Position.xy += taaOffset * gl_Position.w;

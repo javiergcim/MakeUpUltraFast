@@ -12,8 +12,8 @@ uniform float blindness;
 #endif
 
 #if V_CLOUDS == 0 || defined UNKNOWN_DIM
-    uniform float pixel_size_x;
-    uniform float pixel_size_y;
+    uniform float pixelSizeX;
+    uniform float pixelSizeY;
     uniform sampler2D gaux4;
 #endif
 
@@ -21,14 +21,14 @@ uniform float blindness;
 
 #if V_CLOUDS == 0 || defined UNKNOWN_DIM
     varying vec2 texcoord;
-    varying vec4 tint_color;
+    varying vec4 tintColor;
 #endif
 
 // Main function ---------
 
 void main() {
     #if V_CLOUDS == 0 || defined UNKNOWN_DIM
-        vec4 blockColor = texture2D(tex, texcoord) * tint_color;
+        vec4 blockColor = texture2D(tex, texcoord) * tintColor;
         #include "/src/cloudfinalcolor.glsl"
         #include "/src/writebuffers.glsl"
     #elif MC_VERSION <= 11300

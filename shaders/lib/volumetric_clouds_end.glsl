@@ -15,8 +15,8 @@ vec3 get_end_cloud(vec3 eyeDirection, vec3 blockColor, float bright, float dithe
 
     if (eyeDirection.y > 0.0) {  // Vista sobre el horizonte
         float umbral = 0.25;
-        vec3 cloud_color = blockColor * 1.75;
-        vec3 dark_cloud_color = blockColor * 0.9;
+        vec3 cloudColor = blockColor * 1.75;
+        vec3 darkCloudColor = blockColor * 0.9;
 
         float view_y_inv = 1.0 / eyeDirection.y;
 
@@ -87,10 +87,10 @@ vec3 get_end_cloud(vec3 eyeDirection, vec3 blockColor, float bright, float dithe
         cloud_value = clamp(cloud_value / opacity_dist, 0.0, 1.0);
         density = clamp(density, 0.0001, 1.0);
 
-        cloud_color = mix(cloud_color, dark_cloud_color, sqrt(density));
-        cloud_color = mix(cloud_color, cloud_color * 2.0, (1.0 - cloud_value) * bright);
+        cloudColor = mix(cloudColor, darkCloudColor, sqrt(density));
+        cloudColor = mix(cloudColor, cloudColor * 2.0, (1.0 - cloud_value) * bright);
 
-        blockColor = mix(blockColor, cloud_color, cloud_value * clamp((eyeDirection.y - 0.06) * 5.0, 0.0, 1.0));
+        blockColor = mix(blockColor, cloudColor, cloud_value * clamp((eyeDirection.y - 0.06) * 5.0, 0.0, 1.0));
         blockColor = mix(blockColor, vec3(1.0), clamp(bright * .04, 0.0, 1.0));
     }
 

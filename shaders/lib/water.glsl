@@ -120,13 +120,13 @@ vec3 normal_waves(vec3 pos) {
     wave_3 *= 0.66;
 
     vec2 partialWave = wave_1 + wave_2 + wave_3;
-    vec3 finalWave = vec3(partialWave, WATER_TURBULENCE - (rainStrength * 0.6 * WATER_TURBULENCE * visible_sky));
+    vec3 finalWave = vec3(partialWave, WATER_TURBULENCE - (rainStrength * 0.6 * WATER_TURBULENCE * visibleSky));
 
     return normalize(finalWave);
 }
 
 vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
-    vec2 pos = gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y);
+    vec2 pos = gl_FragCoord.xy * vec2(pixelSizeX, pixelSizeY);
 
     #if REFRACTION == 1
         pos = pos + refraction.xy * (0.075 / (1.0 + length(fragpos) * 0.4));
@@ -203,7 +203,7 @@ vec3 water_shader(
     vec3 sky_reflect,
     vec3 reflected,
     float fresnel,
-    float visible_sky,
+    float visibleSky,
     float dither,
     vec3 lightColor
 ) {
@@ -216,7 +216,7 @@ vec3 water_shader(
     #endif
 
     reflection.rgb = mix(
-        sky_reflect * visible_sky,
+        sky_reflect * visibleSky,
         reflection.rgb,
         reflection.a
     );
@@ -229,7 +229,7 @@ vec3 water_shader(
         #ifndef NETHER
             #ifndef THE_END
                 return mix(color, reflection.rgb, fresnel * REFLEX_INDEX) +
-                    vec3(sun_reflection(reflect(normalize(fragpos), normal))) * lightColor * infinite * visible_sky;          
+                    vec3(sun_reflection(reflect(normalize(fragpos), normal))) * lightColor * infinite * visibleSky;          
             #else
                 return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
             #endif
@@ -264,8 +264,8 @@ vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal, inout float infinite, fl
         }
     #endif
 
-    float border_x = max(-fourth_pow(abs(2.0 * pos.x - 1.0)) + 1.0, 0.0);
-    float border_y = max(-fourth_pow(abs(2.0 * pos.y - 1.0)) + 1.0, 0.0);
+    float border_x = max(-fourthPow(abs(2.0 * pos.x - 1.0)) + 1.0, 0.0);
+    float border_y = max(-fourthPow(abs(2.0 * pos.y - 1.0)) + 1.0, 0.0);
     float border = min(border_x, border_y);
 
     return vec4(texture2D(gaux1, pos.xy, 0.0).rgb, border);
@@ -277,7 +277,7 @@ vec4 cristal_shader(
     vec4 color,
     vec3 skyReflectionColor,
     float fresnel,
-    float visible_sky,
+    float visibleSky,
     float dither,
     vec3 lightColor
 ) {
@@ -288,7 +288,7 @@ vec4 cristal_shader(
         reflection = cristal_reflection_calc(fragpos, normal, infinite, dither);
     #endif
 
-    skyReflectionColor = mix(color.rgb, skyReflectionColor, visible_sky * visible_sky);
+    skyReflectionColor = mix(color.rgb, skyReflectionColor, visibleSky * visibleSky);
 
     reflection.rgb = mix(
         skyReflectionColor,
@@ -306,7 +306,7 @@ vec4 cristal_shader(
         #ifndef THE_END
             return color + vec4(
                 mix(
-                    vec3(sun_reflection(reflect(normalize(fragpos), normal)) * lightColor * infinite * visible_sky),
+                    vec3(sun_reflection(reflect(normalize(fragpos), normal)) * lightColor * infinite * visibleSky),
                     vec3(0.0),
                     reflection.a
                 ),

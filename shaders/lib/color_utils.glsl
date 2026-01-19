@@ -4,9 +4,9 @@ Usefull data for color manipulation.
 Javier Garduño - GNU Lesser General Public License v3.0
 */
 
-uniform float day_moment;
-uniform float day_mixer;
-uniform float night_mixer;
+uniform float dayMoment;
+uniform float dayMixer;
+uniform float nightMixer;
 uniform int moonPhase;
 
 #ifdef UNKNOWN_DIM

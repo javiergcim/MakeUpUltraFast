@@ -65,9 +65,9 @@ void main() {
     gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
     texcoord = gl_MultiTexCoord0.xy;
 
-    vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
+    vec2 eyeBrightSmoothFloat = vec2(eyeBrightnessSmooth);
 
-    directLightColor = day_blend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR);
+    directLightColor = dayBlend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR);
     directLightColor = mix(directLightColor, ZENITH_SKY_RAIN_COLOR * luma(directLightColor), rainStrength);
 
     // Exposure
@@ -91,10 +91,10 @@ void main() {
         if(isEyeInWater == 0) {
             vol_attenuation = 1.0;
         } else {
-            vol_attenuation = 0.1 + (eye_bright_smooth.y * 0.002);
+            vol_attenuation = 0.1 + (eyeBrightSmoothFloat.y * 0.002);
         }
 
-        volumetricLightColor = day_blend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR) * 1.2 * vol_attenuation;
+        volumetricLightColor = dayBlend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR) * 1.2 * vol_attenuation;
     #endif
 
     #if VOL_LIGHT == 1 && !defined NETHER

@@ -1,10 +1,10 @@
 #if defined THE_END
     if(isEyeInWater == 0 && FOG_ADJUST < 15.0) {  // In the air
-        blockColor.rgb = mix(blockColor.rgb, ZENITH_DAY_COLOR, frog_adjust);
+        blockColor.rgb = mix(blockColor.rgb, ZENITH_DAY_COLOR, frogAdjust);
     }
 #elif defined NETHER
     if(isEyeInWater == 0 && FOG_ADJUST < 15.0) {  // In the air
-        blockColor.rgb = mix(blockColor.rgb, mix(fogColor * 0.1, vec3(1.0), 0.04), frog_adjust);
+        blockColor.rgb = mix(blockColor.rgb, mix(fogColor * 0.1, vec3(1.0), 0.04), frogAdjust);
     }
 #else
     #ifdef FOG_ACTIVE  // Fog active
@@ -13,18 +13,18 @@
             if(darknessFactor > .01) {
                 fog_texture = vec3(0.0);
             } else {
-                fog_texture = texture2D(gaux4, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).rgb;
+                fog_texture = texture2D(gaux4, gl_FragCoord.xy * vec2(pixelSizeX, pixelSizeY)).rgb;
             }
         #else
-            vec3 fog_texture = texture2D(gaux4, gl_FragCoord.xy * vec2(pixel_size_x, pixel_size_y)).rgb;
+            vec3 fog_texture = texture2D(gaux4, gl_FragCoord.xy * vec2(pixelSizeX, pixelSizeY)).rgb;
         #endif
         #if defined GBUFFER_ENTITIES
             if(isEyeInWater == 0 && entityId != 10101 && FOG_ADJUST < 15.0) {  // In the air
-                blockColor.rgb = mix(blockColor.rgb, fog_texture, frog_adjust);
+                blockColor.rgb = mix(blockColor.rgb, fog_texture, frogAdjust);
             }
         #else
             if(isEyeInWater == 0) {  // In the air
-                blockColor.rgb = mix(blockColor.rgb, fog_texture, frog_adjust);
+                blockColor.rgb = mix(blockColor.rgb, fog_texture, frogAdjust);
             }
         #endif
     #endif

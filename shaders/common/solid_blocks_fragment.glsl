@@ -18,8 +18,8 @@ uniform int isEyeInWater;
 uniform float nightVision;
 uniform float rainStrength;
 uniform float dayNightMix;
-uniform float pixel_size_x;
-uniform float pixel_size_y;
+uniform float pixelSizeX;
+uniform float pixelSizeY;
 uniform sampler2D gaux4;
 
 #if defined DISTANT_HORIZONS
@@ -75,12 +75,12 @@ uniform float blindness;
 /* Ins / Outs */
 
 varying vec2 texcoord;
-varying vec4 tint_color;
-varying float frog_adjust;
+varying vec4 tintColor;
+varying float frogAdjust;
 varying vec3 directLightColor;
-varying vec3 candle_color;
-varying float direct_light_strength;
-varying vec3 omni_light;
+varying vec3 candleColor;
+varying float directLightStrength;
+varying vec3 omniLight;
 
 #if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER
     varying vec3 vWorldPos;
@@ -88,27 +88,27 @@ varying vec3 omni_light;
     varying vec3 vBias;
 #endif
 
-#if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
-    varying float emmisive_type;
+#if defined GBUFFER_TERRAIN || defined GBUFFER_HAND || defined GBUFFER_ENTITIES
+    varying float isEmissiveEntity;
 #endif
 
 #ifdef FOLIAGE_V
-    varying float is_foliage;
+    varying float isFoliage;
 #endif
 
 #if defined SHADOW_CASTING && !defined NETHER
     varying vec3 shadowPos;
-    varying float shadow_diffuse;
+    varying float shadowDiffuse;
 #endif
 
 #if defined MATERIAL_GLOSS && !defined NETHER
-    varying vec3 flat_normal;
-    varying vec3 sub_position3_normalized;
-    varying vec2 lmcoord_alt;
-    varying float gloss_factor;
-    varying float gloss_power;
-    varying float luma_factor;
-    varying float luma_power;
+    varying vec3 flatNormal;
+    varying vec3 viewPositionNormalized;
+    varying vec2 lmcoordAlt;
+    varying float glossFactor;
+    varying float glossPower;
+    varying float lumaFactor;
+    varying float lumaPower;
 #endif
 
 /* Utility functions */
@@ -157,17 +157,17 @@ void main() {
         if(blockColor.a < 0.1 && entityId != 10101) {   // Black entities bug workaround
             discard;
         }
-        blockColor *= tint_color;
+        blockColor *= tintColor;
     #else
-        vec4 blockColor = texture2D(tex, texcoord) * tint_color;
+        vec4 blockColor = texture2D(tex, texcoord) * tintColor;
     #endif
 
         float block_luma = luma(blockColor.rgb);
 
-        vec3 final_candle_color = candle_color;
-    #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
-        if(emmisive_type > 0.5) {
-            final_candle_color *= block_luma * 1.5;
+        vec3 finalCandleColor = candleColor;
+    #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND || defined GBUFFER_ENTITIES
+        if(isEmissiveEntity > 0.5) {
+            finalCandleColor *= block_luma * 1.5;
         }
     #endif
 
@@ -198,14 +198,14 @@ void main() {
         #endif
 
         #if defined COLORED_SHADOW
-            vec3 shadow_c = get_colored_shadow(shadow_real_pos, dither);
-            shadow_c = mix(shadow_c, vec3(1.0), shadow_diffuse);
+            vec3 shadowValue = get_colored_shadow(shadow_real_pos, dither);
+            shadowValue = mix(shadowValue, vec3(1.0), shadowDiffuse);
         #else
-            float shadow_c = get_shadow(shadow_real_pos, dither);
-            shadow_c = mix(shadow_c, 1.0, shadow_diffuse);
+            float shadowValue = get_shadow(shadow_real_pos, dither);
+            shadowValue = mix(shadowValue, 1.0, shadowDiffuse);
         #endif
     #else
-        float shadow_c = abs((dayNightMix * 2.0) - 1.0);
+        float shadowValue = abs((dayNightMix * 2.0) - 1.0);
     #endif
 
     #if defined GBUFFER_BEACONBEAM
@@ -213,33 +213,33 @@ void main() {
     #elif defined GBUFFER_ENTITY_GLOW
         blockColor.rgb =
             clamp(vec3(luma(blockColor.rgb)) * vec3(0.75, 0.75, 1.5), vec3(0.3), vec3(1.0));
-        vec3 real_light = omni_light +
-                (shadow_c * directLightColor * direct_light_strength) * (1.0 - (rainStrength * 0.75)) +
-                final_candle_color;
+        vec3 realLight = omniLight +
+                (shadowValue * directLightColor * directLightStrength) * (1.0 - (rainStrength * 0.75)) +
+                finalCandleColor;
     #else
         #if defined MATERIAL_GLOSS && !defined NETHER
-            float final_gloss_power = gloss_power;
-            block_luma *= luma_factor;
+            float final_gloss_power = glossPower;
+            block_luma *= lumaFactor;
 
-            if(luma_power < 0.0) {  // Metallic
+            if(lumaPower < 0.0) {  // Metallic
                 final_gloss_power -= (block_luma * 73.334);
             } else {
-                block_luma = pow(block_luma, luma_power);
+                block_luma = pow(block_luma, lumaPower);
             }
 
-            float material_gloss_factor = material_gloss(reflect(sub_position3_normalized, flat_normal), lmcoord_alt, final_gloss_power, flat_normal) * gloss_factor;
+            float material_gloss_factor = materialGloss(reflect(viewPositionNormalized, flatNormal), lmcoordAlt, final_gloss_power, flatNormal) * glossFactor;
 
             float material = material_gloss_factor * block_luma;
-            vec3 real_light = omni_light +
-                (shadow_c * ((directLightColor * direct_light_strength) + (directLightColor * material))) * (1.0 - (rainStrength * 0.75)) +
-                final_candle_color;
+            vec3 realLight = omniLight +
+                (shadowValue * ((directLightColor * directLightStrength) + (directLightColor * material))) * (1.0 - (rainStrength * 0.75)) +
+                finalCandleColor;
         #else
-            vec3 real_light = omni_light +
-                (shadow_c * directLightColor * direct_light_strength) * (1.0 - (rainStrength * 0.75)) +
-                final_candle_color;
+            vec3 realLight = omniLight +
+                (shadowValue * directLightColor * directLightStrength) * (1.0 - (rainStrength * 0.75)) +
+                finalCandleColor;
         #endif
 
-        blockColor.rgb *= mix(real_light, vec3(1.0), nightVision * 0.125);
+        blockColor.rgb *= mix(realLight, vec3(1.0), nightVision * 0.125);
         blockColor.rgb *= mix(vec3(1.0, 1.0, 1.0), vec3(NV_COLOR_R, NV_COLOR_G, NV_COLOR_B), nightVision);
     #endif
 
@@ -248,7 +248,7 @@ void main() {
             // Thunderbolt render
             blockColor = vec4(1.0, 1.0, 1.0, 0.5);
         } else {
-            float entity_poderation = luma(real_light);  // Red damage bright ponderation
+            float entity_poderation = luma(realLight);  // Red damage bright ponderation
             blockColor.rgb = mix(blockColor.rgb, entityColor.rgb, entityColor.a * entity_poderation * 3.0);
         }
     #endif

@@ -38,23 +38,23 @@ uniform mat4 gbufferProjectionInverse;
 /* Ins / Outs */
 
 varying vec2 texcoord;
-varying vec4 tint_color;
+varying vec4 tintColor;
 varying vec3 directLightColor;
-varying vec3 candle_color;
-varying float direct_light_strength;
-varying vec3 omni_light;
+varying vec3 candleColor;
+varying float directLightStrength;
+varying vec3 omniLight;
 varying vec4 position;
 varying vec3 fragposition;
 varying vec3 tangent;
 varying vec3 binormal;
 varying vec3 waterNormal;
-varying vec3 hi_sky_color;
-varying vec3 low_sky_color;
-varying vec3 up_vec;
-varying float visible_sky;
+varying vec3 zenithSkyColor;
+varying vec3 horizonSkyColor;
+varying vec3 upVector;
+varying float visibleSky;
 varying vec2 lmcoord;
-varying float block_type;
-varying float frog_adjust;
+varying float blockType;
+varying float frogAdjust;
 
 /* Utility functions */
 
@@ -68,7 +68,7 @@ varying float frog_adjust;
 // MAIN FUNCTION ------------------
 
 void main() {
-    vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
+    vec2 eyeBrightSmoothFloat = vec2(eyeBrightnessSmooth);
     
     #include "/src/basiccoords_vertex_dh.glsl"
     #include "/src/position_vertex_dh.glsl"
@@ -84,9 +84,9 @@ void main() {
     tangent = normalize(gbufferModelView[0].xyz);
     waterNormal = normal;
 
-    up_vec = normalize(gbufferModelView[1].xyz);
+    upVector = normalize(gbufferModelView[1].xyz);
 
     if(dhMaterialId == DH_BLOCK_WATER) {  // Water
-        block_type = float(DH_BLOCK_WATER);
+        blockType = float(DH_BLOCK_WATER);
     }
 }

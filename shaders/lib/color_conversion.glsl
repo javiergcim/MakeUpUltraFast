@@ -1,20 +1,20 @@
-vec3 rgb_to_xyz(vec3 rgb) {
+vec3 rgbToXyz(vec3 rgb) {
     vec3 xyz;
     vec3 rgb2 = rgb;
     vec3 mask = vec3(greaterThan(rgb, vec3(0.04045)));
     rgb2 = mix(rgb2 / 12.92, pow((rgb2 + 0.055) / 1.055, vec3(2.4)), mask);
     
-    const mat3 rgb_to_xyz_matrix = mat3(
+    const mat3 rgbToXyzMatrix = mat3(
         0.4124564, 0.3575761, 0.1804375,
         0.2126729, 0.7151522, 0.0721750,
         0.0193339, 0.1191920, 0.9503041
     );
     
-    xyz = rgb_to_xyz_matrix * rgb2;
+    xyz = rgbToXyzMatrix * rgb2;
     return xyz;
 }
 
-vec3 xyz_to_lab(vec3 xyz) {
+vec3 xyzToLab(vec3 xyz) {
     vec3 xyz2 = xyz / vec3(0.95047, 1.0, 1.08883);
     vec3 mask = vec3(greaterThan(xyz2, vec3(0.008856)));
     xyz2 = mix(7.787 * xyz2 + 16.0 / 116.0, pow(xyz2, vec3(1.0 / 3.0)), mask);
@@ -26,7 +26,7 @@ vec3 xyz_to_lab(vec3 xyz) {
     return vec3(L, a, b);
 }
 
-vec3 lab_to_xyz(vec3 lab) {
+vec3 labToXyz(vec3 lab) {
     float L = lab.x;
     float a = lab.y;
     float b = lab.z;
@@ -42,21 +42,21 @@ vec3 lab_to_xyz(vec3 lab) {
     return xyz * vec3(0.95047, 1.0, 1.08883);
 }
 
-vec3 xyz_to_rgb(vec3 xyz) {
-    const mat3 xyz_to_rgb_matrix = mat3(
+vec3 xyzToRgb(vec3 xyz) {
+    const mat3 xyzToRgbMatrix = mat3(
         3.2404542, -1.5371385, -0.4985314,
         -0.9692660,  1.8760108,  0.0415560,
         0.0556434, -0.2040259,  1.0572252
     );
     
-    vec3 rgb = xyz_to_rgb_matrix * xyz;
+    vec3 rgb = xyzToRgbMatrix * xyz;
     vec3 mask = vec3(greaterThan(rgb, vec3(0.0031308)));
     rgb = mix(12.92 * rgb, 1.055 * pow(rgb, vec3(1.0 / 2.4)) - 0.055, mask);
     
     return clamp(rgb, 0.0, 1.0);
 }
 
-vec3 rgb2hsv(vec3 c) {
+vec3 rgbToHsv(vec3 c) {
     vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
     vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
     vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
@@ -65,7 +65,7 @@ vec3 rgb2hsv(vec3 c) {
     return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
 }
 
-vec3 hsv2rgb(vec3 c) {
+vec3 hsvToRgb(vec3 c) {
     vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
     vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
     return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
@@ -75,7 +75,7 @@ vec3 hsv2rgb(vec3 c) {
 
 // Funciones auxiliares para la corrección gamma (sRGB <-> Lineal)
 // Convierte un canal de sRGB a RGB lineal
-float srgb_to_linear(float c) {
+float srgbToLinear(float c) {
     if (c <= 0.04045) {
         return c / 12.92;
     } else {
@@ -84,16 +84,16 @@ float srgb_to_linear(float c) {
 }
 
 // Convierte un vector de sRGB a RGB lineal
-vec3 srgb_to_linear(vec3 c) {
+vec3 srgbToLinear(vec3 c) {
     return vec3(
-        srgb_to_linear(c.r),
-        srgb_to_linear(c.g),
-        srgb_to_linear(c.b)
+        srgbToLinear(c.r),
+        srgbToLinear(c.g),
+        srgbToLinear(c.b)
     );
 }
 
 // Convierte un canal de RGB lineal a sRGB
-float linear_to_srgb(float c) {
+float linearToSrgb(float c) {
     if (c <= 0.0031308) {
         return c * 12.92;
     } else {
@@ -102,11 +102,11 @@ float linear_to_srgb(float c) {
 }
 
 // Convierte un vector de RGB lineal a sRGB
-vec3 linear_to_srgb(vec3 c) {
+vec3 linearToSrgb(vec3 c) {
     return vec3(
-        linear_to_srgb(c.r),
-        linear_to_srgb(c.g),
-        linear_to_srgb(c.b)
+        linearToSrgb(c.r),
+        linearToSrgb(c.g),
+        linearToSrgb(c.b)
     );
 }
 
@@ -137,20 +137,20 @@ const mat3 INV_M2 = mat3(
 
 
 // ----- FUNCIÓN PRINCIPAL DE CONVERSIÓN RGB -> OKLAB -----
-vec3 rgb_to_oklab(vec3 c) {
+vec3 rgbToOklab(vec3 c) {
     // 1. Convertir de sRGB a RGB lineal
-    vec3 linear_rgb = srgb_to_linear(c);
-    vec3 lms = M1 * linear_rgb;
-    vec3 lms_cubed = pow(lms, vec3(1.0/3.0));
-    return M2 * lms_cubed;
+    vec3 linearRgb = srgbToLinear(c);
+    vec3 lms = M1 * linearRgb;
+    vec3 lmsCubed = pow(lms, vec3(1.0/3.0));
+    return M2 * lmsCubed;
 }
 
 
 // ----- FUNCIÓN PRINCIPAL DE CONVERSIÓN OKLAB -> RGB -----
-vec3 oklab_to_rgb(vec3 c) {
-    vec3 lms_cubed = INV_M2 * c;
-    vec3 lms = pow(lms_cubed, vec3(3.0));
-    vec3 linear_rgb = INV_M1 * lms;
+vec3 oklabToRgb(vec3 c) {
+    vec3 lmsCubed = INV_M2 * c;
+    vec3 lms = pow(lmsCubed, vec3(3.0));
+    vec3 linearRgb = INV_M1 * lms;
 
-    return linear_to_srgb(linear_rgb);
+    return linearToSrgb(linearRgb);
 }

@@ -21,9 +21,9 @@ uniform mat4 gbufferProjectionInverse;
 
 /* Ins / Outs */
 
-varying vec4 tint_color;
+varying vec4 tintColor;
 varying vec2 texcoord;
-varying vec3 basic_light;
+varying vec3 basicLight;
 
 /* Utility functions */
 
@@ -39,16 +39,16 @@ varying vec3 basic_light;
 void main() {
     #include "/src/basiccoords_vertex.glsl"
     #include "/src/position_vertex.glsl"
-    tint_color = gl_Color;
+    tintColor = gl_Color;
 
-    basic_light = day_blend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR);
-    basic_light = mix(basic_light, ZENITH_SKY_RAIN_COLOR * luma(basic_light), rainStrength);
+    basicLight = dayBlend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR);
+    basicLight = mix(basicLight, ZENITH_SKY_RAIN_COLOR * luma(basicLight), rainStrength);
 
     vec2 illumination = clamp(abs(lmcoord), 0.0, 1.0);  // Fix lines without correct illumination data
     illumination.y = (max(illumination.y, 0.065) - 0.065) * 1.06951871657754;
 
-    vec3 candle_color =
+    vec3 candleColor =
         CANDLE_BASELIGHT * ((illumination.x * illumination.x) + pow(illumination.x * 1.165, 6.0));
 
-    basic_light += candle_color;
+    basicLight += candleColor;
 }

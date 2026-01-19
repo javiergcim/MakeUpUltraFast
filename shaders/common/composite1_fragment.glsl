@@ -16,15 +16,15 @@ uniform float aspectRatioInverse;
 
 #ifdef DOF
     uniform float centerDepthSmooth;
-    uniform float pixel_size_x;
-    uniform float pixel_size_y;
+    uniform float pixelSizeX;
+    uniform float pixelSizeY;
     uniform float viewWidth;
     uniform float viewHeight;
     uniform float fovYInverse;
 #endif
 
 #ifdef BLOOM
-    uniform float soft_lod;
+    uniform float softLod;
 #endif
 
 /* Ins / Outs */
@@ -57,14 +57,14 @@ void main() {
     #endif
 
     #ifdef DOF
-        blockColor.rgb = noised_blur(blockColor, colortex1, texcoord, DOF_STRENGTH, dither);
+        blockColor.rgb = noisedBlur(blockColor, colortex1, texcoord, DOF_STRENGTH, dither);
     #endif
 
     #ifdef BLOOM
         vec3 bloom = mipmap_bloom(gaux1, texcoord, dither);
         blockColor.rgb += bloom;
 
-        // blockColor.rgb = texture2DLod(gaux1, texcoord, soft_lod).rgb;
+        // blockColor.rgb = texture2DLod(gaux1, texcoord, softLod).rgb;
     #endif
 
     blockColor = clamp(blockColor, vec4(0.0), vec4(vec3(50.0), 1.0));

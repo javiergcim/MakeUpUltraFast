@@ -100,7 +100,7 @@ void main() {
     float d = texture2DLod(depthtex0, texcoord, 0).r;
     float linearDepth = ld(d);
 
-    vec2 eye_bright_smooth = vec2(eyeBrightnessSmooth);
+    vec2 eyeBrightSmoothFloat = vec2(eyeBrightnessSmooth);
 
     // Depth to distance
     float screen_distance = linearDepth * far * 0.5;
@@ -110,7 +110,7 @@ void main() {
         float waterAbsorption = clamp(-pow((-linearDepth + 1.0), (4.0 + (WATER_ABSORPTION * 4.0))) + 1.0, 0.0, 1.0);
         
         blockColor.rgb =
-            mix(blockColor.rgb, WATER_COLOR * directLightColor * ((eye_bright_smooth.y * .8 + 48) * 0.004166666666666667), waterAbsorption);
+            mix(blockColor.rgb, WATER_COLOR * directLightColor * ((eyeBrightSmoothFloat.y * .8 + 48) * 0.004166666666666667), waterAbsorption);
 
     } else if(isEyeInWater == 2) {
         blockColor = mix(blockColor, vec4(1.0, .1, 0.0, 1.0), clamp(sqrt(linearDepth * far * 0.125), 0.0, 1.0));
@@ -199,7 +199,7 @@ void main() {
 
         #if defined THE_END
             volumetricIntensity =
-                ((square_pow(clamp((volumetricIntensity + .666667) * 0.6, 0.0, 1.0)) * 0.5));
+                ((squarePow(clamp((volumetricIntensity + .666667) * 0.6, 0.0, 1.0)) * 0.5));
             blockColor.rgb += (volumetricLightColor * volumetricLight * volumetricIntensity * 2.0);
         #else
             volumetricIntensity =

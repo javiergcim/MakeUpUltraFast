@@ -1,4 +1,4 @@
-/* MakeUp Ultra Fast - fxaa_intel.glsl
+/* MakeUp Ultra Fast - fxaa.glsl
 FXAA 3.11 from Simon Rodriguez
 http://blog.simonrodriguez.fr/articles/30-07-2016_implementing_fxaa.html
 
@@ -16,10 +16,10 @@ vec3 fxaa311(vec3 color, int iterations){
   // Luma at the current fragment
   float lumaCenter = luma(color);
   // Luma at the four direct neighbours of the current fragment.
-  float lumaDown = luma(texture2DLod(colortex1, texcoord.xy + vec2(0.0,-pixel_size_y), 0.0).rgb);
-  float lumaUp = luma(texture2DLod(colortex1, texcoord.xy + vec2(0.0,pixel_size_y), 0.0).rgb);
-  float lumaLeft = luma(texture2DLod(colortex1, texcoord.xy + vec2(-pixel_size_x, 0.0), 0.0).rgb);
-  float lumaRight = luma(texture2DLod(colortex1, texcoord.xy + vec2(pixel_size_x, 0.0), 0.0).rgb);
+  float lumaDown = luma(texture2DLod(colortex1, texcoord.xy + vec2(0.0,-pixelSizeY), 0.0).rgb);
+  float lumaUp = luma(texture2DLod(colortex1, texcoord.xy + vec2(0.0,pixelSizeY), 0.0).rgb);
+  float lumaLeft = luma(texture2DLod(colortex1, texcoord.xy + vec2(-pixelSizeX, 0.0), 0.0).rgb);
+  float lumaRight = luma(texture2DLod(colortex1, texcoord.xy + vec2(pixelSizeX, 0.0), 0.0).rgb);
 
   // Find the maximum and minimum luma around the current fragment.
   float lumaMin = min(lumaCenter, min(min(lumaDown, lumaUp), min(lumaLeft, lumaRight)));
@@ -31,10 +31,10 @@ vec3 fxaa311(vec3 color, int iterations){
   // If the luma variation is lower that a threshold (or if we are in a really dark area), we are not on an edge, don't perform any FXAA.
   if (lumaRange > max(edgeThresholdMin, lumaMax * edgeThresholdMax)) {
     // Query the 4 remaining corners lumas.
-    float lumaDownLeft = luma(texture2DLod(colortex1, texcoord.xy + vec2(-pixel_size_x, -pixel_size_y), 0.0).rgb);
-    float lumaUpRight = luma(texture2DLod(colortex1, texcoord.xy + vec2(pixel_size_x, pixel_size_y), 0.0).rgb);
-    float lumaUpLeft = luma(texture2DLod(colortex1, texcoord.xy + vec2(-pixel_size_x, pixel_size_y), 0.0).rgb);
-    float lumaDownRight = luma(texture2DLod(colortex1, texcoord.xy + vec2(pixel_size_x, -pixel_size_y), 0.0).rgb);
+    float lumaDownLeft = luma(texture2DLod(colortex1, texcoord.xy + vec2(-pixelSizeX, -pixelSizeY), 0.0).rgb);
+    float lumaUpRight = luma(texture2DLod(colortex1, texcoord.xy + vec2(pixelSizeX, pixelSizeY), 0.0).rgb);
+    float lumaUpLeft = luma(texture2DLod(colortex1, texcoord.xy + vec2(-pixelSizeX, pixelSizeY), 0.0).rgb);
+    float lumaDownRight = luma(texture2DLod(colortex1, texcoord.xy + vec2(pixelSizeX, -pixelSizeY), 0.0).rgb);
 
     // Combine the four edges lumas (using intermediary variables for future computations with the same values).
     float lumaDownUp = lumaDown + lumaUp;
@@ -66,7 +66,7 @@ vec3 fxaa311(vec3 color, int iterations){
     float gradientScaled = 0.25f*max(abs(gradient1), abs(gradient2));
 
     // Choose the step size (one pixel) according to the edge direction.
-    float stepLength = isHorizontal ? pixel_size_y : pixel_size_x;
+    float stepLength = isHorizontal ? pixelSizeY : pixelSizeX;
 
     // Average luma in the correct direction.
     float lumaLocalAverage = 0.0;
@@ -88,7 +88,7 @@ vec3 fxaa311(vec3 color, int iterations){
     }
 
     // Compute offset (for each iteration step) in the right direction.
-    vec2 offset = isHorizontal ? vec2(pixel_size_x, 0.0) : vec2(0.0, pixel_size_y);
+    vec2 offset = isHorizontal ? vec2(pixelSizeX, 0.0) : vec2(0.0, pixelSizeY);
 
     // Compute UVs to explore on each side of the edge, orthogonally. The QUALITY allows us to step faster.
     vec2 uv1 = currentUv - offset;

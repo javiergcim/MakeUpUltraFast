@@ -2,7 +2,7 @@ gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 
 #ifdef FOLIAGE_V  // Lógica optimizada para follaje y bloques generales
     
-    is_foliage = 0.0;
+    isFoliage = 0.0;
 
     // Comprobamos si la entidad actual es un tipo de follaje.
     bool isFoliageEntity = (
@@ -14,11 +14,11 @@ gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
         mc_Entity.x == ENTITY_SMALLENTS_NW
     );
 
-    vec4 sub_position = gl_ModelViewMatrix * gl_Vertex;
-    vec4 position = gbufferModelViewInverse * sub_position;
+    vec4 viewPosition = gl_ModelViewMatrix * gl_Vertex;
+    vec4 position = gbufferModelViewInverse * viewPosition;
     
     if (isFoliageEntity) {
-        is_foliage = 0.4;
+        isFoliage = 0.4;
 
         #if WAVING == 1
             if (mc_Entity.x != ENTITY_SMALLENTS_NW) {
@@ -38,27 +38,27 @@ gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
                 weight *= lmcoord.y * lmcoord.y;
                 
                 // Calculamos el DESPLAZAMIENTO y lo añadimos a la posición base ya calculada.
-                vec3 wave_offset_world = wave_move(worldpos.xzy) * weight * (0.03 + (rainStrength * .05));
-                vec4 wave_offset_clip = gl_ModelViewProjectionMatrix * vec4(wave_offset_world, 0.0);
+                vec3 waveOffsetWorld = wave_move(worldpos.xzy) * weight * (0.03 + (rainStrength * .05));
+                vec4 waveOffsetClip = gl_ModelViewProjectionMatrix * vec4(waveOffsetWorld, 0.0);
                 
-                gl_Position += wave_offset_clip;
+                gl_Position += waveOffsetClip;
             }
         #endif
     }
 
 #else // Lógica para cuando no es un shader con follaje (p. ej. entidades)
 
-    vec4 sub_position = gl_ModelViewMatrix * gl_Vertex;
+    vec4 viewPosition = gl_ModelViewMatrix * gl_Vertex;
     #ifndef NO_SHADOWS
         #ifdef SHADOW_CASTING
-            vec4 position = gbufferModelViewInverse * sub_position;
+            vec4 position = gbufferModelViewInverse * viewPosition;
         #endif
     #endif
     
 #endif
 
 #ifdef EMMISIVE_V
-    float is_fake_emmisor = float(mc_Entity.x == ENTITY_F_EMMISIVE);
+    float isFakeEmmisor = float(mc_Entity.x == ENTITY_F_EMMISIVE);
 #endif
 
 #if AA_TYPE > 1

@@ -21,7 +21,7 @@ uniform sampler2D tex;
 /* Ins / Outs */
 
 varying vec2 texcoord;
-varying vec4 tint_color;
+varying vec4 tintColor;
 varying float sky_luma_correction;  // Flat
 
 // MAIN FUNCTION ------------------
@@ -36,7 +36,7 @@ void main() {
         vec4 blockColor = vec4(background_color, 1.0);
     #else
         // Toma el color puro del bloque
-        vec4 blockColor = texture2D(tex, texcoord) * tint_color;
+        vec4 blockColor = texture2D(tex, texcoord) * tintColor;
         
         blockColor.rgb *= sky_luma_correction;
     #endif

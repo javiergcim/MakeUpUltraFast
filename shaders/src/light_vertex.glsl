@@ -1,121 +1,119 @@
-tint_color = gl_Color;
+tintColor = gl_Color;
 
 // Native light (lmcoord.x: candel, lmcoord.y: sky) ----
 vec2 illumination = lmcoord;
 illumination.y = max(illumination.y - 0.065, 0.0) * 1.06951871657754;
-visible_sky = clamp(illumination.y, 0.0, 1.0);
+visibleSky = clamp(illumination.y, 0.0, 1.0);
 
 // Underwater light adjust
 if (isEyeInWater == 1) {
-    visible_sky = (visible_sky * .95) + .05;
+    visibleSky = (visibleSky * .95) + .05;
 }
 
 #if defined UNKNOWN_DIM
-    visible_sky = (visible_sky * 0.99) + 0.01;
+    visibleSky = (visibleSky * 0.99) + 0.01;
 #endif
 
 // Candels color and intensity
-// Reemplazar pow(x, 1.5) por x * sqrt(x) ---
-candle_color = CANDLE_BASELIGHT * (illumination.x * sqrt(illumination.x) + sixth_pow(illumination.x * 1.17));
+candleColor = CANDLE_BASELIGHT * (illumination.x * sqrt(illumination.x) + sixthPow(illumination.x * 1.17));
 
 #ifdef DYN_HAND_LIGHT
     if (heldItemId == 11001 || heldItemId2 == 11001 || heldItemId == 11002 || heldItemId2 == 11002) {
-        float dist_offset = (heldItemId == 11001 || heldItemId2 == 11001) ? 0.0 : 0.5;
-        float hand_dist = (1.0 - clamp((gl_FogFragCoord * 0.06666666666666667) + dist_offset, 0.0, 1.0));
-        // --- OPTIMIZACIÓN #1 (de nuevo): Reemplazar pow(x, 1.5) ---
-        vec3 hand_light = CANDLE_BASELIGHT * (hand_dist * sqrt(hand_dist) + sixth_pow(hand_dist * 1.17));
-        candle_color = max(candle_color, hand_light);
+        float distanceOffset = (heldItemId == 11001 || heldItemId2 == 11001) ? 0.0 : 0.5;
+        float handDistance = (1.0 - clamp((gl_FogFragCoord * 0.06666666666666667) + distanceOffset, 0.0, 1.0));
+        vec3 handLight = CANDLE_BASELIGHT * (handDistance * sqrt(handDistance) + sixthPow(handDistance * 1.17));
+        candleColor = max(candleColor, handLight);
     }
 #endif
 
-candle_color = clamp(candle_color, vec3(0.0), vec3(4.0));
+candleColor = clamp(candleColor, vec3(0.0), vec3(4.0));
 
 // Atenuation by light angle ===================================
 #if defined THE_END || defined NETHER
-    vec3 sun_vec = normalize(gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz;
+    vec3 astroVector = normalize(gbufferModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz;
 #else
-    vec3 sun_vec = normalize(sunPosition);
+    vec3 astroVector = normalize(sunPosition);
 #endif
 
 vec3 normal = gl_NormalMatrix * gl_Normal;
-float sun_light_strength;
+float astroLightStrength;
 if (dot(normal, normal) > 0.0001) { // Workaround for undefined normals
     normal = normalize(normal);
-    sun_light_strength = dot(normal, sun_vec);
+    astroLightStrength = dot(normal, astroVector);
 } else {
     normal = vec3(0.0, 1.0, 0.0);
-    sun_light_strength = 1.0;
+    astroLightStrength = 1.0;
 }
 
 #if defined THE_END || defined NETHER
-    direct_light_strength = sun_light_strength;
+    directLightStrength = astroLightStrength;
 #else
-    direct_light_strength = mix(-sun_light_strength, sun_light_strength, dayNightMix);
+    directLightStrength = mix(-astroLightStrength, astroLightStrength, dayNightMix);
 #endif
 
 // Omni light intensity changes by angle
-// float omni_strength = (direct_light_strength * .125) + 1.0;
-// float omni_strength = (direct_light_strength) + 1.0;
+// float omniStrength = (directLightStrength * .125) + 1.0;
+// float omniStrength = (directLightStrength) + 1.0;
 
 // Direct light color
 #ifdef UNKNOWN_DIM
     directLightColor = texture2D(lightmap, vec2(0.0, lmcoord.y)).rgb;
 #else
-    directLightColor = day_blend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR);
+    directLightColor = dayBlend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR);
     #if defined IS_IRIS && defined THE_END && MC_VERSION >= 12109
         directLightColor += (endFlashIntensity * endFlashIntensity * 0.1);
     #endif
 #endif
 
 // Omni light intensity changes by angle
-float omni_strength = ((direct_light_strength + 1.0) * 0.25) + 0.75;
+float omniStrength = ((directLightStrength + 1.0) * 0.25) + 0.75;
 
 // Direct light strenght --
 #ifdef FOLIAGE_V  // This shader has foliage
     // --- CORRECCIÓN: La variable se declara y calcula aquí, fuera del if/else ---
-    // Esto asegura que 'far_direct_light_strength' esté siempre disponible después de este bloque.
-    float far_direct_light_strength = clamp(direct_light_strength, 0.0, 1.0);
+    // Esto asegura que 'farDirectLightStrength' esté siempre disponible después de este bloque.
+    float farDirectLightStrength = clamp(directLightStrength, 0.0, 1.0);
     if (mc_Entity.x != ENTITY_LEAVES) {
-        far_direct_light_strength = far_direct_light_strength * 0.75 + 0.25;
+        farDirectLightStrength = farDirectLightStrength * 0.75 + 0.25;
     }
     
-    // Ahora, la lógica del if/else solo modifica 'direct_light_strength' y 'omni_strength'.
-    if (is_foliage > .2) {  // It's foliage, light is atenuated by angle
+    // Ahora, la lógica del if/else solo modifica 'directLightStrength' y 'omniStrength'.
+    if (isFoliage > .2) {  // It's foliage, light is atenuated by angle
         #ifdef SHADOW_CASTING
-            direct_light_strength = sqrt(abs(direct_light_strength));
+            directLightStrength = sqrt(abs(directLightStrength));
         #else
-            direct_light_strength = (clamp(direct_light_strength, 0.0, 1.0) * 0.5 + 0.5) * 0.75;
+            directLightStrength = (clamp(directLightStrength, 0.0, 1.0) * 0.5 + 0.5) * 0.75;
         #endif
-        omni_strength = 1.0;
+        omniStrength = 1.0;
     } else {
-        direct_light_strength = clamp(direct_light_strength, 0.0, 1.0);
+        directLightStrength = clamp(directLightStrength, 0.0, 1.0);
     }
 #else
-    direct_light_strength = clamp(direct_light_strength, 0.0, 1.0);
+    directLightStrength = clamp(directLightStrength, 0.0, 1.0);
 #endif
 
 // Omni light color
 #if defined THE_END || defined NETHER
-    omni_light = LIGHT_DAY_COLOR * omni_strength;
+    omniLight = LIGHT_DAY_COLOR * omniStrength;
 #else
     directLightColor = mix(directLightColor, ZENITH_SKY_RAIN_COLOR * luma(directLightColor) * 0.4, rainStrength);
 
     // Minimal light
-    vec3 omni_color = mix(hi_sky_color_rgb, directLightColor * 0.45, OMNI_TINT);
-    float omni_color_luma = colorAverage(omni_color);
+    vec3 omniColor = mix(ZenithSkyColorRGB, directLightColor * 0.45, OMNI_TINT);
+    float omniColorLuma = colorAverage(omniColor);
     // --- OPTIMIZACIÓN #3: Prevenir división por cero ---
-    float luma_ratio = AVOID_DARK_LEVEL / max(omni_color_luma, 0.0001);
-    vec3 omni_color_min = omni_color * luma_ratio;
-    omni_color = max(omni_color, omni_color_min);
+    float lumaRatio = AVOID_DARK_LEVEL / max(omniColorLuma, 0.0001);
+    vec3 omniColorMin = omniColor * lumaRatio;
+    omniColor = max(omniColor, omniColorMin);
     
-    omni_light = mix(omni_color_min, omni_color, visible_sky) * omni_strength;
+    omniLight = mix(omniColorMin, omniColor, visibleSky) * omniStrength;
 #endif
 
 // Avoid flat illumination in caves for entities
 #ifdef CAVEENTITY_V
-    float candle_cave_strength = (direct_light_strength * .5) + .5;
-    candle_cave_strength = mix(candle_cave_strength, 1.0, visible_sky);
-    candle_color *= candle_cave_strength;
+    float candleCaveStrength = (directLightStrength * .5) + .5;
+    candleCaveStrength = mix(candleCaveStrength, 1.0, visibleSky);
+    candleColor *= candleCaveStrength;
 #endif
 
 #if !defined THE_END && !defined NETHER
@@ -123,20 +121,20 @@ float omni_strength = ((direct_light_strength + 1.0) * 0.25) + 0.75;
         // Fake shadows
         if (isEyeInWater == 0) {
             // Reemplazar pow(x, 10.0) con multiplicaciones ---
-            float vis_sky_2 = visible_sky * visible_sky;
-            float vis_sky_4 = vis_sky_2 * vis_sky_2;
-            float vis_sky_8 = vis_sky_4 * vis_sky_4;
-            direct_light_strength = mix(0.0, direct_light_strength, vis_sky_8 * vis_sky_2);
+            float visSky2 = visibleSky * visibleSky;
+            float visSky4 = visSky2 * visSky2;
+            float visSky8 = visSky4 * visSky4;
+            directLightStrength = mix(0.0, directLightStrength, visSky8 * visSky2);
         } else {
-            direct_light_strength = mix(0.0, direct_light_strength, visible_sky);
+            directLightStrength = mix(0.0, directLightStrength, visibleSky);
         }
     #else
-        direct_light_strength = mix(0.0, direct_light_strength, visible_sky);
+        directLightStrength = mix(0.0, directLightStrength, visibleSky);
     #endif
 #endif
 
 #ifdef EMMISIVE_V
-    if (is_fake_emmisor > 0.5) {
-        omni_light = vec3(0.45);
+    if (isFakeEmmisor > 0.5) {
+        omniLight = vec3(0.45);
     }
 #endif

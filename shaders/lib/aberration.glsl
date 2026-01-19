@@ -7,11 +7,11 @@ vec3 color_aberration() {
 
     offset *= vec2(0.125) * CHROMA_ABER_STRENGTH;
 
-    vec3 aberrated_color = vec3(0.0);
+    vec3 aberratedColor = vec3(0.0);
 
-    aberrated_color.r = texture2DLod(colortex1, texcoord - offset, 0.0).r;
-    aberrated_color.g = texture2DLod(colortex1, texcoord - (offset * 0.5), 0.0).g;
-    aberrated_color.b = texture2DLod(colortex1, texcoord, 0.0).b;
+    aberratedColor.r = texture2DLod(colortex1, texcoord - offset, 0.0).r;
+    aberratedColor.g = texture2DLod(colortex1, texcoord - (offset * 0.5), 0.0).g;
+    aberratedColor.b = texture2DLod(colortex1, texcoord, 0.0).b;
 
-    return aberrated_color;
+    return aberratedColor;
 }
