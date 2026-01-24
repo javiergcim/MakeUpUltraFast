@@ -152,12 +152,12 @@ void main() {
         }
     #endif
 
-    #if defined GBUFFER_ENTITIES
-        if (entityId == 10102) {
-            isEmissiveEntity = 1.0;
-            directLightStrength = 1.0;
-        }
-    #endif
+    // #if defined GBUFFER_ENTITIES
+    //     if (entityId == 10102) {
+    //         isEmissiveEntity = 1.0;
+    //         directLightStrength = 1.0;
+    //     }
+    // #endif
 
     #if defined SHADOW_CASTING && !defined NETHER
         #include "/src/shadow_src_vertex.glsl"
