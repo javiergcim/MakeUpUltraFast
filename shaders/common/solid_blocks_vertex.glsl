@@ -145,6 +145,7 @@ void main() {
     #include "/src/light_vertex.glsl"
     #include "/src/fog_vertex.glsl"
 
+    // Glowing blocks
     #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND
         isEmissiveEntity = 0.0;
         if(mc_Entity.x == ENTITY_NO_SHADOW_FIRE || mc_Entity.x == ENTITY_EMMISIVE || mc_Entity.x == ENTITY_S_EMMISIVE) {
@@ -152,12 +153,20 @@ void main() {
         }
     #endif
 
+    // Flame entities
     // #if defined GBUFFER_ENTITIES
     //     if (entityId == 10102) {
     //         isEmissiveEntity = 1.0;
     //         directLightStrength = 1.0;
     //     }
     // #endif
+
+    // Glowing entities
+    #if defined GBUFFER_ENTITIES
+        if (entityId == 10103) {
+            isEmissiveEntity = 1.0;
+        }
+    #endif
 
     #if defined SHADOW_CASTING && !defined NETHER
         #include "/src/shadow_src_vertex.glsl"
@@ -196,7 +205,7 @@ void main() {
         flatNormal = normal;
         viewPositionNormalized = normalize(viewPosition.xyz);
 
-        lmcoordAlt = lmcoord;    
+        lmcoordAlt = lmcoord;
     #endif
 
     #if defined GBUFFER_ENTITY_GLOW

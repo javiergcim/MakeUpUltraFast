@@ -133,7 +133,7 @@ varying vec3 omniLight;
 
 void main() {
     #if (defined SHADOW_CASTING && !defined NETHER) || defined DISTANT_HORIZONS
-        #if AA_TYPE > 0 
+        #if AA_TYPE > 0
             float dither = shiftedDither13(gl_FragCoord.xy);
         #else
             float dither = dither17(gl_FragCoord.xy);

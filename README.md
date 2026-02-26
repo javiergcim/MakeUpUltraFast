@@ -1,7 +1,7 @@
 # MakeUp Ultra Fast
 High performance Minecraft shader (Java).
 
-## Version: 9.4b
+## Version: 9.4c
 
 ### This version works in Optifine and Iris 1.5.1 or higher.
 
