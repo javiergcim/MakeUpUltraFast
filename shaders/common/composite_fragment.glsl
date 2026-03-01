@@ -107,8 +107,8 @@ void main() {
 
     // Underwater fog
     if(isEyeInWater == 1) {
-        float waterAbsorption = clamp(-pow((-linearDepth + 1.0), (4.0 + (WATER_ABSORPTION * 4.0))) + 1.0, 0.0, 1.0);
-        
+        float waterAbsorption = clamp(1.0 - pow(1.001 - linearDepth, 5.0 + (4.0 * WATER_ABSORPTION)), 0.0, 1.0);
+
         blockColor.rgb =
             mix(blockColor.rgb, WATER_COLOR * directLightColor * ((eyeBrightSmoothFloat.y * .8 + 48) * 0.004166666666666667), waterAbsorption);
 
@@ -227,7 +227,7 @@ void main() {
         // Bloom source
         float bloom_luma = smoothstep(0.85, 1.0, luma(blockColor.rgb * exposure)) * 0.5;
 
-        blockColor = clamp(blockColor, vec4(0.0), vec4(vec3(50.0), 1.0));     
+        blockColor = clamp(blockColor, vec4(0.0), vec4(vec3(50.0), 1.0));
         /* DRAWBUFFERS:146 */
         gl_FragData[0] = blockColor;
         gl_FragData[1] = blockColor * bloom_luma;

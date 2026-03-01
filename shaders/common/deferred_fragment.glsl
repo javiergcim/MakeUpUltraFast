@@ -76,7 +76,7 @@ varying vec3 upVector;  // Flat
     varying float fogDensityCoeff;
 #endif
 
-/* Utility functions */ 
+/* Utility functions */
 
 #include "/lib/depth.glsl"
 #include "/lib/luma.glsl"
