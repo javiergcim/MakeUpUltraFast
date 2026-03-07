@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "uniforms": [],
+  "samplers": {},
+  "opaqueDrawBuffers": [1, 7],
+  "translucentDrawBuffers": [1]
+}
