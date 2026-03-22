@@ -106,9 +106,11 @@ float eclecticDitherGradNoise(vec2 point) {
     return fract(52.9829189 * fract(dot(vec2(0.06711056, 0.00583715), point)) + p4);
 }
 
-float textureNoise64(vec2 point, sampler2D noise) {
-    return texture2DLod(noise, point * 0.015625, 0).r;
-}
+#if !defined VOXY
+    float textureNoise64(vec2 point, sampler2D noise) {
+        return texture2DLod(noise, point * 0.015625, 0).r;
+    }
+#endif
 
 float semiblue(vec2 point) {
     vec2 tile = floor(point * 0.25);
@@ -199,10 +201,12 @@ float shiftedEclecticDitherGradNoise(vec2 point) {
     return fract(52.9829189 * fract(dot(vec2(0.06711056, 0.00583715), point)) + ditherShift + p4);  
 }
 
-float shiftedTextureNoise64(vec2 point, sampler2D noise) {
-    float dither = texture2DLod(noise, point * 0.015625, 0).r;
-    return fract(ditherShift + dither);
-}
+#if !defined VOXY
+    float shiftedTextureNoise64(vec2 point, sampler2D noise) {
+        float dither = texture2DLod(noise, point * 0.015625, 0).r;
+        return fract(ditherShift + dither);
+    }
+#endif
 
 float shiftedSemiblue(vec2 point) {
     point = point + vec2(frameMod * 5.0, frameMod * 15.0);
