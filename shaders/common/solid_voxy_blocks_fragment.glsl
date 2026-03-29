@@ -34,6 +34,7 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
 
     uint face = parameters.face;
     uint customId = parameters.customId;
+    vec4 tintColor = parameters.tinting;
     
     // Includes
 
@@ -81,6 +82,7 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
 
     // vec3 normal = gl_NormalMatrix * gl_Normal;
     vec3 normal = vec3(uint((face>>1)==2), uint((face>>1)==0), uint((face>>1)==1)) * (float(int(face)&1)*2-1);
+    normal = mat3(vxModelView) * normal;
     float astroLightStrength;
 
     // Comprobar la longitud al cuadrado (dot product) es mucho más rápido que la longitud (sqrt).
@@ -183,9 +185,27 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
         float dither = rDither(gl_FragCoord.xy);
     #endif
 
+    vec4 blockColor = tintColor;
 
+    float block_luma = luma(tintColor.rgb);
 
+    vec3 finalCandleColor = candleColor;
 
-    gbufferData0 = parameters.sampledColour * parameters.tinting;
-    gbufferData1 = parameters.sampledColour * parameters.tinting;
+    float shadowValue = abs((dayNightMix * 2.0) - 1.0);
+
+    vec3 realLight =
+        omniLight +
+        (shadowValue * directLightColor * directLightStrength) * (1.0 - (rainStrength * 0.75)) +
+        finalCandleColor;
+
+    blockColor.rgb *= mix(realLight, vec3(1.0), nightVision * 0.125);
+    blockColor.rgb *= mix(vec3(1.0, 1.0, 1.0), vec3(NV_COLOR_R, NV_COLOR_G, NV_COLOR_B), nightVision);
+
+    blockColor = clamp(blockColor, vec4(0.0), vec4(vec3(50.0), 1.0));
+
+    gbufferData0 = vec4(directLightStrength, directLightStrength, directLightStrength, 1.0);
+    gbufferData1 = vec4(directLightStrength, directLightStrength, directLightStrength, 1.0);
+
+    // gbufferData0 = parameters.sampledColour * parameters.tinting;
+    // gbufferData1 = parameters.sampledColour * parameters.tinting;
 }
