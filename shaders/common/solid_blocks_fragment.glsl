@@ -241,6 +241,9 @@ void main() {
 
         blockColor.rgb *= mix(realLight, vec3(1.0), nightVision * 0.125);
         blockColor.rgb *= mix(vec3(1.0, 1.0, 1.0), vec3(NV_COLOR_R, NV_COLOR_G, NV_COLOR_B), nightVision);
+
+        // DEBUG
+        blockColor = vec4(vec3(directLightStrength), 1.0);
     #endif
 
     #if defined GBUFFER_ENTITIES
@@ -256,6 +259,10 @@ void main() {
     #if MC_VERSION < 11300 && defined GBUFFER_TEXTURED
         blockColor.rgb *= 1.5;
     #endif
+
+    // DEBUG
+    // blockColor = vec4(omniLight, 1.0);
+    // blockColor = vec4(vec3(directLightStrength), 1.0);
 
     #include "/src/finalcolor.glsl"
     #include "/src/writebuffers.glsl"

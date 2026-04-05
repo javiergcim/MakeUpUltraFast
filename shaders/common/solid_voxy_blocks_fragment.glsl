@@ -14,7 +14,7 @@
 #endif
 
 layout(location = 0) out vec4 gbufferData0;
-layout(location = 1) out vec4 gbufferData1;
+// layout(location = 1) out vec4 gbufferData1;
 
 /*
 struct VoxyFragmentParameters {
@@ -30,12 +30,35 @@ struct VoxyFragmentParameters {
 */
 
 void voxy_emitFragment(VoxyFragmentParameters parameters) {
+    // "Uniforms" Voxy no recalcula en cada frame algujnos uniforms
+    float hour_world = worldTime * 0.001;
+    float dayMomentV = hour_world * 0.04166666666666667;
+
+    float moment_aux = dayMomentV - 0.25;
+    float moment_aux_2 = moment_aux * moment_aux;
+    float dayMixerV = clamp(-moment_aux_2 * 20.0 + 1.25, 0.0, 1.0);
+
+    float moment_aux_3 = dayMomentV - 0.75;
+    float moment_aux_4 = moment_aux_3 * moment_aux_3;
+    float nightMixerV = clamp(-moment_aux_4 * 50.0 + 3.125, 0.0, 1.0);
+
     // Re-assign
 
     uint face = parameters.face;
     uint customId = parameters.customId;
     vec4 tintColor = parameters.tinting;
-    
+
+    // Banderas especiales
+
+    bool isFoliageEntity = (
+        customId == ENTITY_LOWERGRASS ||
+        customId == ENTITY_UPPERGRASS ||
+        customId == ENTITY_SMALLGRASS ||
+        customId == ENTITY_SMALLENTS ||
+        customId == ENTITY_LEAVES ||
+        customId == ENTITY_SMALLENTS_NW
+    );
+
     // Includes
 
     #include "/src/hi_sky_voxy.glsl"
@@ -45,10 +68,13 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
     #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
         float fogDensityCoeff = FOG_DENSITY * FOG_ADJUST;
     #else
-        float fogDensityCoeff = dayBlendFloat(
+        float fogDensityCoeff = dayBlendFloatVoxy(
             FOG_SUNSET,
             FOG_DAY,
-            FOG_NIGHT
+            FOG_NIGHT,
+            dayMixerV,
+            nightMixerV,
+            dayMomentV,
         ) * FOG_ADJUST;
     #endif
 
@@ -101,49 +127,61 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
     #endif
 
     // Omni light intensity changes by angle
-    float omniStrength = ((directLightStrength + 1.0) * 0.25) + 0.75;     
+    float omniStrength = ((directLightStrength + 1.0) * 0.25) + 0.75;
 
     // Calculamos color de luz directa
-    #ifdef UNKNOWN_DIM
+    #if defined UNKNOWN_DIM
         vec3 directLightColor = texture2D(lightmap, vec2(0.0, parameters.lightMap.y)).rgb;
     #else
-        vec3 directLightColor = dayBlend(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR);
+        vec3 directLightColor = dayBlendVoxy(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR, dayMixerV, nightMixerV, dayMomentV);
         #if defined IS_IRIS && defined THE_END && MC_VERSION >= 12109
             directLightColor += (endFlashIntensity * endFlashIntensity * 0.1);
         #endif
     #endif
 
-    directLightStrength = clamp(directLightStrength, 0.0, 1.0);
+    if (isFoliageEntity) {  // It's foliage, light is atenuated by angle
+        #ifdef SHADOW_CASTING
+            directLightStrength = sqrt(abs(directLightStrength));
+        #else
+            directLightStrength = (clamp(directLightStrength, 0.0, 1.0) * 0.5 + 0.5) * 0.75;
+        #endif
+        omniStrength = 1.0;
+    } else {
+        directLightStrength = clamp(directLightStrength, 0.0, 1.0);
+    }
 
     #if defined THE_END || defined NETHER
-        vec3 omniLight = LIGHT_DAY_COLOR;
+        vec3 omniLight = LIGHT_DAY_COLOR * omniStrength;
     #else
         directLightColor = mix(directLightColor, ZENITH_SKY_RAIN_COLOR * luma(directLightColor) * 0.4, rainStrength);
 
         // Minimal light
         vec3 omniColor = mix(ZenithSkyColorRGB, directLightColor * 0.45, OMNI_TINT);
         float omniColorLuma = colorAverage(omniColor);
-        
         // --- OPTIMIZACIÓN #3: Prevenir división por cero ---
         float lumaRatio = AVOID_DARK_LEVEL / max(omniColorLuma, 0.0001);
-        
         vec3 omniColorMin = omniColor * lumaRatio;
         omniColor = max(omniColor, omniColorMin);
-        
+
         vec3 omniLight = mix(omniColorMin, omniColor, visibleSky) * omniStrength;
     #endif
 
-    if (isEyeInWater == 0) {
-        // Reemplazar pow(x, 10.0) con multiplicaciones ---
-        // Esto es órdenes de magnitud más rápido. x^10 = (x^2)^2 * x^2
-        float visSky2 = visibleSky * visibleSky;     // x^2
-        float visSky4 = visSky2 * visSky2;       // x^4
-        float visSky8 = visSky4 * visSky4;       // x^8
-        float vis_sky_10 = visSky8 * visSky2;      // x^10
-        directLightStrength = mix(0.0, directLightStrength, vis_sky_10);
-    } else {
-        directLightStrength = mix(0.0, directLightStrength, visibleSky);
-    }
+    #if !defined THE_END && !defined NETHER
+        #ifndef SHADOW_CASTING
+            // Fake shadows
+            if (isEyeInWater == 0) {
+                // Reemplazar pow(x, 10.0) con multiplicaciones ---
+                float visSky2 = visibleSky * visibleSky;
+                float visSky4 = visSky2 * visSky2;
+                float visSky8 = visSky4 * visSky4;
+                directLightStrength = mix(0.0, directLightStrength, visSky8 * visSky2);
+            } else {
+                directLightStrength = mix(0.0, directLightStrength, visibleSky);
+            }
+        #else
+            directLightStrength = mix(0.0, directLightStrength, visibleSky);
+        #endif
+    #endif
 
     if (customId == ENTITY_EMMISIVE) {
         directLightStrength = 10.0;
@@ -179,7 +217,7 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
 
     // ---- Original Fragment Logic
 
-    #if AA_TYPE > 0 
+    #if AA_TYPE > 0
         float dither = shiftedRDither(gl_FragCoord.xy);
     #else
         float dither = rDither(gl_FragCoord.xy);
@@ -193,8 +231,7 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
 
     float shadowValue = abs((dayNightMix * 2.0) - 1.0);
 
-    vec3 realLight =
-        omniLight +
+    vec3 realLight = omniLight +
         (shadowValue * directLightColor * directLightStrength) * (1.0 - (rainStrength * 0.75)) +
         finalCandleColor;
 
@@ -203,9 +240,9 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
 
     blockColor = clamp(blockColor, vec4(0.0), vec4(vec3(50.0), 1.0));
 
-    gbufferData0 = vec4(directLightStrength, directLightStrength, directLightStrength, 1.0);
-    gbufferData1 = vec4(directLightStrength, directLightStrength, directLightStrength, 1.0);
+    // gbufferData0 = parameters.sampledColour * blockColor;
+    // gbufferData1 = parameters.sampledColour * blockColor;
 
-    // gbufferData0 = parameters.sampledColour * parameters.tinting;
-    // gbufferData1 = parameters.sampledColour * parameters.tinting;
+    gbufferData0 = vec4(vec3(directLightStrength), 1.0);
+    // gbufferData1 = vec4(visibleSky, visibleSky, visibleSky, 1.0);
 }

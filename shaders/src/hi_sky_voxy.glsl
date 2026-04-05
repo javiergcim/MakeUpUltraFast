@@ -2,10 +2,13 @@
     vec3 ZenithSkyColorRGB = skyColor;
     vec3 zenithSkyColor = rgbToXyz(ZenithSkyColorRGB);
 #else
-    vec3 ZenithSkyColorRGB = dayBlend(
+    vec3 ZenithSkyColorRGB = dayBlendVoxy(
         ZENITH_SUNSET_COLOR,
         ZENITH_DAY_COLOR,
-        ZENITH_NIGHT_COLOR
+        ZENITH_NIGHT_COLOR,
+        dayMixerV,
+        nightMixerV,
+        dayMomentV
     );
 
     ZenithSkyColorRGB = mix(

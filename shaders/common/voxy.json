@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "uniforms": ["sunPosition", "dayNightMix", "rainStrength", "skyColor", "isEyeInWater", "eyeBrightnessSmooth", "vxViewProjInv", "viewWidth", "viewHeight", "vxRenderDistance", "nightVision", "vxModelView"],
+  "uniforms": ["worldTime", "sunPosition", "dayNightMix", "rainStrength", "skyColor", "isEyeInWater", "eyeBrightnessSmooth", "vxViewProjInv", "viewWidth", "viewHeight", "vxRenderDistance", "nightVision", "vxModelView"],
   "samplers": {},
   "opaqueDrawBuffers": [1, 7],
   "translucentDrawBuffers": [1]

@@ -51,10 +51,6 @@ if (dot(normal, normal) > 0.0001) { // Workaround for undefined normals
     directLightStrength = mix(-astroLightStrength, astroLightStrength, dayNightMix);
 #endif
 
-// Omni light intensity changes by angle
-// float omniStrength = (directLightStrength * .125) + 1.0;
-// float omniStrength = (directLightStrength) + 1.0;
-
 // Direct light color
 #ifdef UNKNOWN_DIM
     directLightColor = texture2D(lightmap, vec2(0.0, lmcoord.y)).rgb;
@@ -76,7 +72,7 @@ float omniStrength = ((directLightStrength + 1.0) * 0.25) + 0.75;
     if (mc_Entity.x != ENTITY_LEAVES) {
         farDirectLightStrength = farDirectLightStrength * 0.75 + 0.25;
     }
-    
+
     // Ahora, la lógica del if/else solo modifica 'directLightStrength' y 'omniStrength'.
     if (isFoliage > .2) {  // It's foliage, light is atenuated by angle
         #ifdef SHADOW_CASTING
@@ -105,7 +101,7 @@ float omniStrength = ((directLightStrength + 1.0) * 0.25) + 0.75;
     float lumaRatio = AVOID_DARK_LEVEL / max(omniColorLuma, 0.0001);
     vec3 omniColorMin = omniColor * lumaRatio;
     omniColor = max(omniColor, omniColorMin);
-    
+
     omniLight = mix(omniColorMin, omniColor, visibleSky) * omniStrength;
 #endif
 
