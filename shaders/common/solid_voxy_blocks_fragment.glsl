@@ -139,7 +139,12 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
         #endif
     #endif
 
+    float farDirectLightStrength = clamp(directLightStrength, 0.0, 1.0);
     if (isFoliageEntity) {  // It's foliage, light is atenuated by angle
+        if (customId != ENTITY_LEAVES) {
+            farDirectLightStrength = farDirectLightStrength * 0.75 + 0.25;
+        }
+
         #ifdef SHADOW_CASTING
             directLightStrength = sqrt(abs(directLightStrength));
         #else
@@ -213,6 +218,21 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
         );
     #else
         float frogAdjust = sqrt(clamp(fogFragCoord / float(vxRenderDistance), 0.0, 1.0));
+    #endif
+
+    #if !defined NETHER
+        #ifdef SHADOW_CASTING
+            if (isFoliageEntity) {
+                // directLightStrength =
+                //     mix(
+                //         directLightStrength,
+                //         farDirectLightStrength,
+                //         clamp((gl_Position.z / SHADOW_LIMIT) * 2.0 - 0.5, 0.0, 1.0)
+                //     );
+
+                directLightStrength = farDirectLightStrength;
+            }
+        #endif
     #endif
 
     // ---- Original Fragment Logic
