@@ -213,11 +213,11 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
     #if !defined THE_END && !defined NETHER
         float fogIntensityCoeff = max(eyeBrightSmoothFloat.y * 0.004166666666666667, visibleSky);
         float frogAdjust = pow(
-            clamp(fogFragCoord / float(vxRenderDistance), 0.0, 1.0) * fogIntensityCoeff,
+            clamp(fogFragCoord / float(vxRenderDistance * 16), 0.0, 1.0) * fogIntensityCoeff,
             mix(fogDensityCoeff * 0.15, 0.5, rainStrength)
         );
     #else
-        float frogAdjust = sqrt(clamp(fogFragCoord / float(vxRenderDistance), 0.0, 1.0));
+        float frogAdjust = sqrt(clamp(fogFragCoord / float(vxRenderDistance * 16), 0.0, 1.0));
     #endif
 
     #if !defined NETHER
@@ -230,7 +230,7 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
                 //         clamp((gl_Position.z / SHADOW_LIMIT) * 2.0 - 0.5, 0.0, 1.0)
                 //     );
 
-                directLightStrength = farDirectLightStrength;
+                directLightStrength = farDirectLightStrength;  // Shortcut
             }
         #endif
     #endif
@@ -260,9 +260,10 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
 
     blockColor = clamp(blockColor, vec4(0.0), vec4(vec3(50.0), 1.0));
 
-    // gbufferData0 = parameters.sampledColour * blockColor;
-    // gbufferData1 = parameters.sampledColour * blockColor;
+    blockColor = parameters.sampledColour * blockColor;
 
-    gbufferData0 = vec4(vec3(directLightStrength), 1.0);
-    // gbufferData1 = vec4(visibleSky, visibleSky, visibleSky, 1.0);
+    #include "/src/finalcolor_voxy.glsl"
+
+    // Real color
+    gbufferData0 = blockColor;
 }

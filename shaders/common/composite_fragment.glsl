@@ -117,7 +117,8 @@ void main() {
     }
 
     #if MC_VERSION >= 11900
-        if((blindness > .01 || darknessFactor > .01) && linearDepth > 0.999) {
+        // if((blindness > .01 || darknessFactor > .01) && linearDepth > 0.999) {
+        if((blindness > .01 || darknessFactor > .01) && linearDepth > 0.9) {
             blockColor.rgb = vec3(0.0);
         }
     #else

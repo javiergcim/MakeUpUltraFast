@@ -243,7 +243,7 @@ void main() {
         blockColor.rgb *= mix(vec3(1.0, 1.0, 1.0), vec3(NV_COLOR_R, NV_COLOR_G, NV_COLOR_B), nightVision);
 
         // DEBUG
-        blockColor = vec4(vec3(directLightStrength), 1.0);
+        // blockColor = vec4(vec3(directLightStrength), 1.0);
     #endif
 
     #if defined GBUFFER_ENTITIES

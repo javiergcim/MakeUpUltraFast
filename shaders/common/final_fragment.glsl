@@ -6,7 +6,7 @@
 noisetex - Water normals
 colortex0 - Unused
 colortex1 - Antialiasing auxiliar
-colortex2 - Bluenoise 
+colortex2 - Bluenoise
 colortex3 - TAA Averages history
 gaux1 - Screen-Space-Reflection / Bloom auxiliar
 gaux2 - Clouds texture
@@ -110,7 +110,7 @@ void main() {
             blockColor = fxaa311(blockColor, 5);
         #endif
     #endif
-    
+
     // Exposure correction
     blockColor *= vec3(exposure);
     blockColor = custom_sigmoid(blockColor);

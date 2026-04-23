@@ -18,6 +18,11 @@
             clamp(gl_FogFragCoord / dhRenderDistance, 0.0, 1.0) * fogIntensityCoeff,
             mix(fogDensityCoeff * 0.15, 0.5, rainStrength)
         );
+    #elif defined VOXY
+        frogAdjust = pow(
+            clamp(gl_FogFragCoord / (vxRenderDistance * 16), 0.0, 1.0) * fogIntensityCoeff,
+            mix(fogDensityCoeff * 0.15, 0.5, rainStrength)
+        );
     #else
         frogAdjust = pow(
             clamp(gl_FogFragCoord / far, 0.0, 1.0) * fogIntensityCoeff,
@@ -32,6 +37,8 @@
         #else
         #if defined DISTANT_HORIZONS
             float sight = dhRenderDistance;
+        #elif defined VOXY
+            float sight = (vxRenderDistance * 16);
         #else
             float sight = NETHER_SIGHT;
         #endif
@@ -39,6 +46,8 @@
     #else
         #if defined DISTANT_HORIZONS
             float sight = dhRenderDistance;
+        #elif defined VOXY
+            float sight = (vxRenderDistance * 16);
         #else
             float sight = far;
         #endif
