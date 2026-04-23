@@ -1,1 +1,3 @@
+#define VOXY_BLOCK
+
 #include "/common/solid_voxy_blocks_fragment.glsl"
