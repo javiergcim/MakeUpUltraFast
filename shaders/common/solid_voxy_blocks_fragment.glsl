@@ -264,6 +264,10 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
 
     #include "/src/finalcolor_voxy.glsl"
 
+    if (blindness > .01) {
+        blockColor.rgb = vec3(0.0);
+    }
+
     // Real color
     gbufferData0 = blockColor;
 }
