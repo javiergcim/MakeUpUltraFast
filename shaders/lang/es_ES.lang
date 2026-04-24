@@ -15,7 +15,7 @@ profile.comment=Los perfiles "sin sombras" están pensados para máquinas de baj
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=¡Gracias por usar este shader! :). Configurá los controles de calidad nativos de Optifine en valores normales o predeterminados para mejor calidad.
-value.ACERCADE.0=v.9.4d
+value.ACERCADE.0=v.9.4e.beta
 
 # Opciones
 #############################
@@ -165,7 +165,7 @@ option.HORIZON_DAY_COLOR_B=Color del horizonte diurno B
 
 option.HORIZON_NIGHT_COLOR_R=Color del horizonte nocturno R
 option.HORIZON_NIGHT_COLOR_G=Color del horizonte nocturno G
-option.HORIZON_NIGHT_COLOR_B=Color del horizonte nocturno B 
+option.HORIZON_NIGHT_COLOR_B=Color del horizonte nocturno B
 
 option.WATER_COLOR_R=Color del agua R
 option.WATER_COLOR_G=Color del agua G
@@ -188,7 +188,7 @@ value.V_CLOUDS.2=Volumétricas dinámicas
 
 option.CLOUD_VOL_STYLE=Estilo de nube volumétrica
 value.CLOUD_VOL_STYLE.0=Natural
-value.CLOUD_VOL_STYLE.1=Cúbico 
+value.CLOUD_VOL_STYLE.1=Cúbico
 
 option.CLOUD_SPEED=Velocidad de nubes
 value.CLOUD_SPEED.0=Normal
@@ -243,7 +243,7 @@ option.USE_BASIC_SH=Shader básico para dimensiones personalizadas
 
 option.MATERIAL_GLOSS=Brillo del material
 
-option.DYN_HAND_LIGHT=Luz dinámica falsa 
+option.DYN_HAND_LIGHT=Luz dinámica falsa
 
 # Pantallas
 screen.ADVANCED_SCREEN=Opciones avanzadas
