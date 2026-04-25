@@ -162,11 +162,22 @@ void main() {
         vec4 blockColor = texture2D(tex, texcoord) * tintColor;
     #endif
 
-        float block_luma = luma(blockColor.rgb);
+    #if defined GBUFFER_ENTITIES
+        vec4 originalEntityColor = blockColor;
+    #endif
 
-        vec3 finalCandleColor = candleColor;
+    float block_luma = luma(blockColor.rgb);
+
+    float isEmissiveEntityLocal = 0.0;
+    #if defined GBUFFER_ENTITIES
+        if (isEmissiveEntity > 0.5 || entityId == 10202) {  // Custom lanterns
+            isEmissiveEntityLocal = 1.0;
+        }
+    #endif
+
+    vec3 finalCandleColor = candleColor;
     #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND || defined GBUFFER_ENTITIES
-        if(isEmissiveEntity > 0.5) {
+        if(isEmissiveEntityLocal > 0.5) {
             finalCandleColor *= block_luma * 1.5;
         }
     #endif
@@ -247,9 +258,11 @@ void main() {
     #endif
 
     #if defined GBUFFER_ENTITIES
-        if(entityId == 10101) {
-            // Thunderbolt render
+        if(entityId == 10101) {  // Thunderbolt render
             blockColor = vec4(1.0, 1.0, 1.0, 0.5);
+        } else if (entityId == 10201) {  // Flame entity
+            blockColor = originalEntityColor;
+            blockColor.rgb = blockColor.rgb * blockColor.rgb;
         } else {
             float entity_poderation = luma(realLight);  // Red damage bright ponderation
             blockColor.rgb = mix(blockColor.rgb, entityColor.rgb, entityColor.a * entity_poderation * 3.0);
