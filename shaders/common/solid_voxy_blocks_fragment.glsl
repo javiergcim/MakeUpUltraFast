@@ -30,7 +30,7 @@ struct VoxyFragmentParameters {
 */
 
 void voxy_emitFragment(VoxyFragmentParameters parameters) {
-    // "Uniforms" Voxy no recalcula en cada frame algujnos uniforms
+    // "Uniforms" Voxy no recalcula en cada frame algunos uniforms
     float hour_world = worldTime * 0.001;
     float dayMomentV = hour_world * 0.04166666666666667;
 
@@ -223,13 +223,6 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
     #if !defined NETHER
         #ifdef SHADOW_CASTING
             if (isFoliageEntity) {
-                // directLightStrength =
-                //     mix(
-                //         directLightStrength,
-                //         farDirectLightStrength,
-                //         clamp((gl_Position.z / SHADOW_LIMIT) * 2.0 - 0.5, 0.0, 1.0)
-                //     );
-
                 directLightStrength = farDirectLightStrength;  // Shortcut
             }
         #endif

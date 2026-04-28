@@ -2,7 +2,8 @@
   "version": 1,
   "uniforms": ["worldTime", "sunPosition", "dayNightMix", "rainStrength", "skyColor", "fogColor", "isEyeInWater", "eyeBrightnessSmooth", "vxViewProjInv", "viewWidth", "viewHeight", "vxRenderDistance", "nightVision", "vxModelView", "pixelSizeX", "pixelSizeY", "blindness"],
   "samplers": {
-    "gaux4": "sampler2D"
+    "gaux4": "sampler2D",
+    "noisetex": "sampler2D"
   },
   "opaqueDrawBuffers": [1, 7],
   "translucentDrawBuffers": [1]
