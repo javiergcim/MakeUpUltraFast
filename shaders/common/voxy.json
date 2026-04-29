@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "uniforms": ["worldTime", "sunPosition", "dayNightMix", "rainStrength", "skyColor", "fogColor", "isEyeInWater", "eyeBrightnessSmooth", "vxViewProjInv", "viewWidth", "viewHeight", "vxRenderDistance", "nightVision", "vxModelView", "pixelSizeX", "pixelSizeY", "blindness"],
+  "uniforms": ["worldTime", "sunPosition", "dayNightMix", "rainStrength", "skyColor", "fogColor", "isEyeInWater", "eyeBrightnessSmooth", "vxViewProjInv", "vxProjInv", "vxModelViewInv", "viewWidth", "viewHeight", "vxRenderDistance", "nightVision", "vxModelView", "pixelSizeX", "pixelSizeY", "blindness", "frameTimeCounter", "cameraPosition"],
   "samplers": {
     "gaux4": "sampler2D",
     "noisetex": "sampler2D"

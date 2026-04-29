@@ -97,6 +97,37 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
         vec3 astroVector = normalize(sunPosition);
     #endif
 
+    vec3 normal = vec3(uint((face>>1)==2), uint((face>>1)==0), uint((face>>1)==1)) * (float(int(face)&1)*2-1);
+    normal = mat3(vxModelView) * normal;
+    float astroLightStrength;
+
+    // Comprobar la longitud al cuadrado (dot product) es mucho más rápido que la longitud (sqrt).
+    if (dot(normal, normal) > 0.0001) {  // Workaround for undefined normals
+        normal = normalize(normal);
+        astroLightStrength = dot(normal, astroVector);
+    } else {
+        normal = vec3(0.0, 1.0, 0.0);
+        astroLightStrength = 1.0;
+    }
+
+    #if defined THE_END || defined NETHER
+        float directLightStrength = astroLightStrength;
+    #else
+        float directLightStrength = mix(-astroLightStrength, astroLightStrength, dayNightMix);
+    #endif
+
+    // Omni light intensity changes by angle
+    float omniStrength = ((directLightStrength + 1.0) * 0.25) + 0.75;
+
+    // Calculamos color de luz directa
+    #if defined UNKNOWN_DIM
+        vec3 directLightColor = texture2D(lightmap, vec2(0.0, parameters.lightMap.y)).rgb;
+    #else
+        vec3 directLightColor = dayBlendVoxy(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR, dayMixerV, nightMixerV, dayMomentV);
+        #if defined IS_IRIS && defined THE_END && MC_VERSION >= 12109
+            directLightColor += (endFlashIntensity * endFlashIntensity * 0.1);
+        #endif
+    #endif
 
 
 
@@ -104,23 +135,25 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
 
 
 
-
-
-
-
+    vec3 binormal = normalize(vxModelView[2].xyz);
+    vec3 tangent = normalize(vxModelView[0].xyz);
+    vec3 upVector = normalize(vxModelView[1].xyz);
 
     // Fog Vertex
 
-    // 1. Reconstruir posición en clip space
+    // 1. Reconstruir clip space (base común)
     vec2 ndc = (gl_FragCoord.xy / vec2(viewWidth, viewHeight)) * 2.0 - 1.0;
     float depth = gl_FragCoord.z * 2.0 - 1.0;
     vec4 clipPos = vec4(ndc, depth, 1.0);
 
-    // 2. Pasar a world space
-    vec4 worldPos = vxViewProjInv * clipPos;
-    worldPos /= worldPos.w;
+    // 2. View space
+    vec4 viewSpacePos4D = vxProjInv * clipPos;
+    viewSpacePos4D /= viewSpacePos4D.w;
+    vec3 fragposition = viewSpacePos4D.xyz;
 
-    vec4 worldposition = worldPos + vec4(cameraPosition, 0.0);  // Posición de mundo absoluta
+    // 3. World space derivado directamente de fragposition
+    vec4 worldPos = vxModelViewInv * viewSpacePos4D;
+    vec4 worldposition = worldPos + vec4(cameraPosition, 0.0);
 
     // 3. La distancia desde la cámara (equivalente a gl_FogFragCoord)
     float fogFragCoord = length(worldPos.xyz);
@@ -148,9 +181,84 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
         vec3 waterNormalBase = normal_waves_voxy(worldposition.xzy);
     #endif
 
+    vec3 surfaceNormal;
+    if(customId == ENTITY_WATER) {  // Water
+        surfaceNormal = get_normals_voxy(waterNormalBase, fragposition, tangent, binormal, normal);
+    } else {
+        surfaceNormal = get_normals_voxy(vec3(0.0, 0.0, 1.0), fragposition, tangent, binormal, normal);
+    }
 
+    float normalDotEye = dot(surfaceNormal, normalize(fragposition));
+    float fresnel = squarePow(1.0 + normalDotEye);
 
+    vec3 reflectWaterVector = reflect(fragposition, surfaceNormal);
+    vec3 normalizedReflectWaterVector = normalize(reflectWaterVector);
 
+    vec3 skyColorReflect;
+    if(isEyeInWater == 0 || isEyeInWater == 2) {
+        skyColorReflect = mix(horizonSkyColor, zenithSkyColor, smoothstep(0.0, 1.0, pow(clamp(dot(normalizedReflectWaterVector, upVector), 0.0001, 1.0), 0.333)));
+    } else {
+        skyColorReflect = zenithSkyColor * .5 * ((eyeBrightSmoothFloat.y * .8 + 48) * 0.004166666666666667);
+    }
+
+    skyColorReflect = xyzToRgb(skyColorReflect);
+
+    if(customId == ENTITY_WATER) {  // Water
+        #ifdef VANILLA_WATER
+            blockColor = parameters.sampledColour;
+
+            float shadowValue = abs((dayNightMix * 2.0) - 1.0);
+            float fresnelTex = luma(blockColor.rgb);
+
+            realLight = omniLight +
+                (directLightStrength * shadowValue * directLightColor) * (1.0 - rainStrength * 0.75) +
+                candleColor;
+        #else
+            #if WATER_TEXTURE == 1
+            #else
+                float waterTexture = 1.0;
+            #endif
+
+            #if WATER_COLOR_SOURCE == 0
+                // blockColor.rgb = waterTexture * realLight * WATER_COLOR;
+            #elif WATER_COLOR_SOURCE == 1
+                // blockColor.rgb = 0.3 * waterTexture * realLight * tintColor.rgb;
+            #endif
+
+            #if WATER_TEXTURE == 1
+                // waterTexture += 0.25;
+                // waterTexture *= waterTexture;
+                // waterTexture *= waterTexture;
+                // fresnel = clamp(fresnel * (waterTexture), 0.0, 1.0);
+            #endif
+        #endif
+    } else {  // Otros translúcidos
+        // blockColor = texture2D(tex, texcoord);
+
+        // blockColor *= tintColor;
+
+        #if defined SHADOW_CASTING && !defined NETHER
+        #if defined COLORED_SHADOW
+            // vec3 shadowValue = get_colored_shadow(shadowPos, dither);
+            // shadowValue = mix(shadowValue, vec3(1.0), shadowDiffuse);
+        #else
+            // float shadowValue = get_shadow(shadowPos, dither);
+            // shadowValue = mix(shadowValue, 1.0, shadowDiffuse);
+        #endif
+        #else
+            // float shadowValue = abs((dayNightMix * 2.0) - 1.0);
+        #endif
+
+        // realLight = omniLight +
+        //     (directLightStrength * shadowValue * directLightColor) * (1.0 - rainStrength * 0.75) +
+        //     candleColor;
+
+        // blockColor.rgb *= mix(realLight, vec3(1.0), nightVision * .125);
+
+        // if(blockType > 1.5) {  // Glass
+        //     blockColor = cristal_shader(fragposition, waterNormal, blockColor, skyColorReflect, fresnel * fresnel, visibleSky, dither, directLightColor);
+        // }
+    }
 
 
     // Temporal
