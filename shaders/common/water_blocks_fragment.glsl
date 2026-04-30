@@ -164,7 +164,7 @@ void main() {
     #else
         vec3 waterNormalBase = normal_waves(worldposition.xzy);
     #endif
-    
+
     vec3 surfaceNormal;
     if(blockType > 2.5) {  // Water
         surfaceNormal = get_normals(waterNormalBase, fragposition);
@@ -259,7 +259,7 @@ void main() {
             #endif
 
             blockColor.rgb = water_shader(fragposition, surfaceNormal, blockColor.rgb, skyColorReflect, normalizedReflectWaterVector, fresnel, visibleSky, dither, directLightColor);
-            
+
         #endif
 
     } else {  // Otros translúcidos
@@ -268,13 +268,13 @@ void main() {
         blockColor *= tintColor;
 
         #if defined SHADOW_CASTING && !defined NETHER
-        #if defined COLORED_SHADOW
-            vec3 shadowValue = get_colored_shadow(shadowPos, dither);
-            shadowValue = mix(shadowValue, vec3(1.0), shadowDiffuse);
-        #else
-            float shadowValue = get_shadow(shadowPos, dither);
-            shadowValue = mix(shadowValue, 1.0, shadowDiffuse);
-        #endif
+            #if defined COLORED_SHADOW
+                vec3 shadowValue = get_colored_shadow(shadowPos, dither);
+                shadowValue = mix(shadowValue, vec3(1.0), shadowDiffuse);
+            #else
+                float shadowValue = get_shadow(shadowPos, dither);
+                shadowValue = mix(shadowValue, 1.0, shadowDiffuse);
+            #endif
         #else
             float shadowValue = abs((dayNightMix * 2.0) - 1.0);
         #endif

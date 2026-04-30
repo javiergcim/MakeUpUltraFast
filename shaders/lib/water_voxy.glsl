@@ -89,47 +89,47 @@ vec3 get_normals_voxy(vec3 bump, vec3 fragpos, vec3 tangent, vec3 binormal, vec3
 //     return final_reflex;
 // }
 
-// vec3 water_shader_dh(
-//     vec3 fragpos,
-//     vec3 normal,
-//     vec3 color,
-//     vec3 sky_reflect,
-//     vec3 reflected,
-//     float fresnel,
-//     float visibleSky,
-//     float dither,
-//     vec3 lightColor
-// ) {
-//     vec4 reflection = vec4(0.0);
-//     float infinite = 1.0;
+vec3 water_shader_voxy(
+    vec3 fragpos,
+    vec3 normal,
+    vec3 color,
+    vec3 sky_reflect,
+    vec3 reflected,
+    float fresnel,
+    float visibleSky,
+    float dither,
+    vec3 lightColor
+) {
+    vec4 reflection = vec4(0.0);
+    float infinite = 1.0;
 
-//     #if REFLECTION == 1
-//         reflection =
-//             reflection_calc_dh(fragpos, normal, reflected, sky_reflect, dither);
-//     #endif
+    #if REFLECTION == 1
+        reflection =
+            reflection_calc_voxy(fragpos, normal, reflected, sky_reflect, dither);
+    #endif
 
-//     reflection.rgb = mix(
-//         sky_reflect * visibleSky,
-//         reflection.rgb,
-//         reflection.a
-//     );
+    reflection.rgb = mix(
+        sky_reflect * visibleSky,
+        reflection.rgb,
+        reflection.a
+    );
 
-//     #ifdef VANILLA_WATER
-//         fresnel *= 0.8;
-//     #endif
+    #ifdef VANILLA_WATER
+        fresnel *= 0.8;
+    #endif
 
-//     #if SUN_REFLECTION == 1
-//         #ifndef NETHER
-//             #ifndef THE_END
-//                 return mix(color, reflection.rgb, fresnel * REFLEX_INDEX) +
-//                     vec3(sun_reflection(reflect(normalize(fragpos), normal))) * lightColor * infinite * visibleSky;
-//             #else
-//                 return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
-//             #endif
-//         #else
-//             return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
-//         #endif
-//     #else
-//         return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
-//     #endif
-// }
+    #if SUN_REFLECTION == 1
+        #ifndef NETHER
+            #ifndef THE_END
+                return mix(color, reflection.rgb, fresnel * REFLEX_INDEX) +
+                    vec3(sun_reflection(reflect(normalize(fragpos), normal))) * lightColor * infinite * visibleSky;
+            #else
+                return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
+            #endif
+        #else
+            return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
+        #endif
+    #else
+        return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
+    #endif
+}

@@ -129,11 +129,46 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
         #endif
     #endif
 
+    directLightStrength = clamp(directLightStrength, 0.0, 1.0);
 
+    #if defined THE_END || defined NETHER
+        vec3 omniLight = LIGHT_DAY_COLOR * omniStrength;
+    #else
+        directLightColor = mix(directLightColor, ZENITH_SKY_RAIN_COLOR * luma(directLightColor) * 0.4, rainStrength);
 
+        // Minimal light
+        vec3 omniColor = mix(ZenithSkyColorRGB, directLightColor * 0.45, OMNI_TINT);
+        float omniColorLuma = colorAverage(omniColor);
+        // --- OPTIMIZACIÓN #3: Prevenir división por cero ---
+        float lumaRatio = AVOID_DARK_LEVEL / max(omniColorLuma, 0.0001);
+        vec3 omniColorMin = omniColor * lumaRatio;
+        omniColor = max(omniColor, omniColorMin);
 
+        vec3 omniLight = mix(omniColorMin, omniColor, visibleSky) * omniStrength;
+    #endif
 
+    #if !defined THE_END && !defined NETHER
+        #ifndef SHADOW_CASTING
+            // Fake shadows
+            if (isEyeInWater == 0) {
+                // Reemplazar pow(x, 10.0) con multiplicaciones ---
+                float visSky2 = visibleSky * visibleSky;
+                float visSky4 = visSky2 * visSky2;
+                float visSky8 = visSky4 * visSky4;
+                directLightStrength = mix(0.0, directLightStrength, visSky8 * visSky2);
+            } else {
+                directLightStrength = mix(0.0, directLightStrength, visibleSky);
+            }
+        #else
+            directLightStrength = mix(0.0, directLightStrength, visibleSky);
+        #endif
+    #endif
 
+    if (customId == ENTITY_EMMISIVE) {
+        directLightStrength = 10.0;
+    } else if (customId == ENTITY_S_EMMISIVE) {
+        directLightStrength = 1.0;
+    }
 
     vec3 binormal = normalize(vxModelView[2].xyz);
     vec3 tangent = normalize(vxModelView[0].xyz);
@@ -213,47 +248,51 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
             realLight = omniLight +
                 (directLightStrength * shadowValue * directLightColor) * (1.0 - rainStrength * 0.75) +
                 candleColor;
+
+            realLight *= (fresnelTex * 2.0) - 0.25;
+
+            blockColor.rgb *= mix(realLight, vec3(1.0), nightVision * .125) * tintColor.rgb;
+
+            // blockColor.rgb = water_shader(fragposition, surfaceNormal, blockColor.rgb, skyColorReflect, normalizedReflectWaterVector, fresnel, visibleSky, dither, directLightColor);
+
+            blockColor.a = sqrt(blockColor.a);
         #else
             #if WATER_TEXTURE == 1
+                blockColor = parameters.sampledColour;
+                float waterTexture = luma(blockColor.rgb);
             #else
                 float waterTexture = 1.0;
             #endif
 
+            realLight = omniLight +
+                (directLightStrength * visibleSky * directLightColor) * (1.0 - rainStrength * 0.75) +
+                candleColor;
+
             #if WATER_COLOR_SOURCE == 0
-                // blockColor.rgb = waterTexture * realLight * WATER_COLOR;
+                blockColor.rgb = waterTexture * realLight * WATER_COLOR;
             #elif WATER_COLOR_SOURCE == 1
-                // blockColor.rgb = 0.3 * waterTexture * realLight * tintColor.rgb;
+                blockColor.rgb = 0.3 * waterTexture * realLight * tintColor.rgb;
             #endif
 
             #if WATER_TEXTURE == 1
-                // waterTexture += 0.25;
-                // waterTexture *= waterTexture;
-                // waterTexture *= waterTexture;
-                // fresnel = clamp(fresnel * (waterTexture), 0.0, 1.0);
+                waterTexture += 0.25;
+                waterTexture *= waterTexture;
+                waterTexture *= waterTexture;
+                fresnel = clamp(fresnel * (waterTexture), 0.0, 1.0);
             #endif
         #endif
     } else {  // Otros translúcidos
-        // blockColor = texture2D(tex, texcoord);
+        blockColor = parameters.sampledColour;
 
-        // blockColor *= tintColor;
+        blockColor *= tintColor;
 
-        #if defined SHADOW_CASTING && !defined NETHER
-        #if defined COLORED_SHADOW
-            // vec3 shadowValue = get_colored_shadow(shadowPos, dither);
-            // shadowValue = mix(shadowValue, vec3(1.0), shadowDiffuse);
-        #else
-            // float shadowValue = get_shadow(shadowPos, dither);
-            // shadowValue = mix(shadowValue, 1.0, shadowDiffuse);
-        #endif
-        #else
-            // float shadowValue = abs((dayNightMix * 2.0) - 1.0);
-        #endif
+        float shadowValue = abs((dayNightMix * 2.0) - 1.0);
 
-        // realLight = omniLight +
-        //     (directLightStrength * shadowValue * directLightColor) * (1.0 - rainStrength * 0.75) +
-        //     candleColor;
+        realLight = omniLight +
+            (directLightStrength * shadowValue * directLightColor) * (1.0 - rainStrength * 0.75) +
+            candleColor;
 
-        // blockColor.rgb *= mix(realLight, vec3(1.0), nightVision * .125);
+        blockColor.rgb *= mix(realLight, vec3(1.0), nightVision * .125);
 
         // if(blockType > 1.5) {  // Glass
         //     blockColor = cristal_shader(fragposition, waterNormal, blockColor, skyColorReflect, fresnel * fresnel, visibleSky, dither, directLightColor);
@@ -262,7 +301,7 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
 
 
     // Temporal
-    blockColor = parameters.sampledColour * parameters.tinting;
+    // blockColor = parameters.sampledColour * parameters.tinting;
 
     #include "/src/finalcolor_voxy.glsl"
 
