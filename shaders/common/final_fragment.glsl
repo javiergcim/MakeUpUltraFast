@@ -4,11 +4,11 @@
 /*
 
 noisetex - Water normals
-colortex0 - Unused
+colortex0 - Bloom auxiliar
 colortex1 - Antialiasing auxiliar
-colortex2 - Bluenoise
+colortex2 - Unused
 colortex3 - TAA Averages history
-gaux1 - Screen-Space-Reflection / Bloom auxiliar
+gaux1 - Screen-Space-Reflection
 gaux2 - Clouds texture
 gaux3 - Exposure auxiliar
 gaux4 - Fog auxiliar
