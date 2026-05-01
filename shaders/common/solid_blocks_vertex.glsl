@@ -106,7 +106,7 @@ varying vec3 omniLight;
     varying float lumaPower;
 #endif
 
-#if defined FOLIAGE_V || defined GBUFFER_TERRAIN || defined GBUFFER_HAND || (defined MATERIAL_GLOSS && !defined NETHER)
+#if defined FOLIAGE_V || defined GBUFFER_TERRAIN || defined GBUFFER_HAND || defined MATERIAL_GLOSS
     attribute vec4 mc_Entity;
 #endif
 
