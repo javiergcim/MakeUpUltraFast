@@ -263,4 +263,5 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
 
     // Real color
     gbufferData0 = blockColor;
+    // gbufferData1 = blockColor;
 }

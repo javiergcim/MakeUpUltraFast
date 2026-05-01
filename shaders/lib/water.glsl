@@ -17,7 +17,7 @@ vec3 fastRaymarch(vec3 direction, vec3 hitPoint, inout float infinite, float dit
     bool outOfEyeFlag = false;
     bool toFar = false;
     vec3 lastScreenMarchPos;
-    
+
     int no_hidden_steps = 0;
     bool hiddens = false;
 
@@ -174,7 +174,7 @@ vec3 get_normals(vec3 bump, vec3 fragpos) {
 
 vec4 reflection_calc(vec3 fragpos, vec3 normal, vec3 reflected, inout float infinite, float dither) {
     #if SSR_TYPE == 0  // Flipped image
-        #if defined DISTANT_HORIZONS
+        #if defined DISTANT_HORIZONS || defined VOXY
             vec3 pos = camera_to_screen(fragpos + reflected * 768.0);
         #else
             vec3 pos = camera_to_screen(fragpos + reflected * 76.0);
@@ -229,7 +229,7 @@ vec3 water_shader(
         #ifndef NETHER
             #ifndef THE_END
                 return mix(color, reflection.rgb, fresnel * REFLEX_INDEX) +
-                    vec3(sun_reflection(reflect(normalize(fragpos), normal))) * lightColor * infinite * visibleSky;          
+                    vec3(sun_reflection(reflect(normalize(fragpos), normal))) * lightColor * infinite * visibleSky;
             #else
                 return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
             #endif

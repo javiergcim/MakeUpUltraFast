@@ -13,6 +13,7 @@
     #include "/lib/color_utils.glsl"
 #endif
 
+#include "/lib/projection_utils_voxy.glsl"
 #include "/lib/water_voxy.glsl"
 
 layout(location = 0) out vec4 gbufferData0;
@@ -48,6 +49,7 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
     uint face = parameters.face;
     uint customId = parameters.customId;
     vec4 tintColor = parameters.tinting;
+    vec2 lmcoord = parameters.lightMap;
 
     // Includes
 
@@ -73,9 +75,9 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
 
     // Luz nativa (lmcoord.x: candela, lmcoord.y: cielo) ----
     #if defined THE_END || defined NETHER
-        vec2 illumination = vec2(parameters.lightMap.x, 1.0);
+        vec2 illumination = vec2(lmcoord.x, 1.0);
     #else
-        vec2 illumination = parameters.lightMap;
+        vec2 illumination = lmcoord;
     #endif
 
     illumination.y = max(illumination.y - 0.065, 0.0) * 1.06951871657754;
@@ -121,7 +123,7 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
 
     // Calculamos color de luz directa
     #if defined UNKNOWN_DIM
-        vec3 directLightColor = texture2D(lightmap, vec2(0.0, parameters.lightMap.y)).rgb;
+        vec3 directLightColor = texture2D(lightmap, vec2(0.0, lmcoord.y)).rgb;
     #else
         vec3 directLightColor = dayBlendVoxy(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR, dayMixerV, nightMixerV, dayMomentV);
         #if defined IS_IRIS && defined THE_END && MC_VERSION >= 12109
@@ -253,7 +255,7 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
 
             blockColor.rgb *= mix(realLight, vec3(1.0), nightVision * .125) * tintColor.rgb;
 
-            // blockColor.rgb = water_shader(fragposition, surfaceNormal, blockColor.rgb, skyColorReflect, normalizedReflectWaterVector, fresnel, visibleSky, dither, directLightColor);
+            blockColor.rgb = water_shader_voxy(fragposition, surfaceNormal, blockColor.rgb, skyColorReflect, normalizedReflectWaterVector, fresnel, visibleSky, directLightColor, lmcoord);
 
             blockColor.a = sqrt(blockColor.a);
         #else

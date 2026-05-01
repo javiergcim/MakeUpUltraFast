@@ -1,10 +1,11 @@
 {
   "version": 1,
-  "uniforms": ["worldTime", "sunPosition", "dayNightMix", "rainStrength", "skyColor", "fogColor", "isEyeInWater", "eyeBrightnessSmooth", "vxViewProjInv", "vxProjInv", "vxModelViewInv", "viewWidth", "viewHeight", "vxRenderDistance", "nightVision", "vxModelView", "pixelSizeX", "pixelSizeY", "blindness", "frameTimeCounter", "cameraPosition"],
+  "uniforms": ["worldTime", "sunPosition", "moonPosition", "dayNightMix", "rainStrength", "skyColor", "fogColor", "isEyeInWater", "eyeBrightnessSmooth", "vxViewProjInv", "vxProj", "vxProjInv", "vxModelViewInv", "vxModelView", "viewWidth", "viewHeight", "vxRenderDistance", "nightVision", "pixelSizeX", "pixelSizeY", "blindness", "frameTimeCounter", "cameraPosition"],
   "samplers": {
+    "gaux1": "sampler2D",
     "gaux4": "sampler2D",
     "noisetex": "sampler2D"
   },
-  "opaqueDrawBuffers": [1, 7],
+  "opaqueDrawBuffers": [1, 4],
   "translucentDrawBuffers": [1]
 }

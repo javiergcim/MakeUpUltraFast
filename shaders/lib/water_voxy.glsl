@@ -2,20 +2,20 @@
 Water reflection and refraction related functions (dh).
 */
 
-// #if SUN_REFLECTION == 1
-//     #if !defined NETHER && !defined THE_END
-//         float sun_reflection(vec3 fragpos) {
-//         vec3 astroLightPos = worldTime > 12900 ? moonPosition : sunPosition;
-//         float astroAlignment =
-//             max(dot(normalize(fragpos), normalize(astroLightPos)), 0.0);
+#if SUN_REFLECTION == 1
+    #if !defined NETHER && !defined THE_END
+        float sun_reflection(vec3 fragpos, vec2 lmcoord) {
+        vec3 astroLightPos = worldTime > 12900 ? moonPosition : sunPosition;
+        float astroAlignment =
+            max(dot(normalize(fragpos), normalize(astroLightPos)), 0.0);
 
-//         return smoothstep(0.995, 1.0, astroAlignment) *
-//             clamp(lmcoord.y, 0.0, 1.0) *
-//             (1.0 - rainStrength) * 3.0;
-//         }
+        return smoothstep(0.995, 1.0, astroAlignment) *
+            clamp(lmcoord.y, 0.0, 1.0) *
+            (1.0 - rainStrength) * 3.0;
+        }
 
-//     #endif
-// #endif
+    #endif
+#endif
 
 vec3 normal_waves_voxy(vec3 pos) {
     vec2 wave_2 =
@@ -67,27 +67,22 @@ vec3 get_normals_voxy(vec3 bump, vec3 fragpos, vec3 tangent, vec3 binormal, vec3
     return normalize(bump * tbn_matrix);
 }
 
-// vec4 reflection_calc_dh(vec3 fragpos, vec3 normal, vec3 reflected, vec3 infinite_color, float dither) {
-//     vec3 pos = camera_to_screen(fragpos + reflected * 768.0);
+// vec4 reflection_calc_voxy(vec3 fragpos, vec3 normal, vec3 reflected, vec3 infinite_color, float dither) {
+vec4 reflection_calc_voxy(vec3 fragpos, vec3 normal, vec3 reflected, vec3 infinite_color) {
+    vec3 pos = camera_to_screen_voxy(fragpos + reflected * 768.0);
 
-//     float border =
-//         clamp((1.0 - (max(0.0, abs(pos.y - 0.5)) * 2.0)) * 50.0, 0.0, 1.0);
+    float border =
+        clamp((1.0 - (max(0.0, abs(pos.y - 0.5)) * 2.0)) * 50.0, 0.0, 1.0);
 
-//     border = clamp(border - pow(pos.y, 10.0), 0.0, 1.0);
+    border = clamp(border - pow(pos.y, 10.0), 0.0, 1.0);
 
-//     pos.x = abs(pos.x);
-//     if (pos.x > 1.0) {
-//         pos.x = 1.0 - (pos.x - 1.0);
-//     }
+    pos.x = abs(pos.x);
+    if (pos.x > 1.0) {
+        pos.x = 1.0 - (pos.x - 1.0);
+    }
 
-//     vec4 final_reflex;
-//     if (texture2D(depthtex0, pos.xy).r < 0.999) {
-//         final_reflex = vec4(infinite_color, border);
-//     } else {
-//         final_reflex = vec4(texture2D(gaux1, pos.xy).rgb, border);
-//     }
-//     return final_reflex;
-// }
+    return vec4(texture(gaux1, pos.xy).rgb, border);
+}
 
 vec3 water_shader_voxy(
     vec3 fragpos,
@@ -97,21 +92,28 @@ vec3 water_shader_voxy(
     vec3 reflected,
     float fresnel,
     float visibleSky,
-    float dither,
-    vec3 lightColor
+    // float dither,
+    vec3 lightColor,
+    vec2 lmcoord
 ) {
     vec4 reflection = vec4(0.0);
     float infinite = 1.0;
 
     #if REFLECTION == 1
         reflection =
-            reflection_calc_voxy(fragpos, normal, reflected, sky_reflect, dither);
+            // reflection_calc_voxy(fragpos, normal, reflected, sky_reflect, dither);
+            reflection_calc_voxy(fragpos, normal, reflected, sky_reflect);
+            // vec4(1.0, 0.0, 0.0, 1.0);
     #endif
+
+    // DEBUG
+    return reflection.rgb;
 
     reflection.rgb = mix(
         sky_reflect * visibleSky,
         reflection.rgb,
         reflection.a
+        // 1.0
     );
 
     #ifdef VANILLA_WATER
@@ -122,7 +124,7 @@ vec3 water_shader_voxy(
         #ifndef NETHER
             #ifndef THE_END
                 return mix(color, reflection.rgb, fresnel * REFLEX_INDEX) +
-                    vec3(sun_reflection(reflect(normalize(fragpos), normal))) * lightColor * infinite * visibleSky;
+                    vec3(sun_reflection(reflect(normalize(fragpos), normal), lmcoord)) * lightColor * infinite * visibleSky;
             #else
                 return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
             #endif
