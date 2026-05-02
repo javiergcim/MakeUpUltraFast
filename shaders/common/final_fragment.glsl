@@ -6,11 +6,7 @@
 noisetex - Water normals
 colortex0 - Bloom auxiliar
 colortex1 - Antialiasing auxiliar
-<<<<<<< HEAD
-colortex2 - Bluenoise
-=======
 colortex2 - Unused
->>>>>>> develop
 colortex3 - TAA Averages history
 gaux1 - Screen-Space-Reflection
 gaux2 - Clouds texture
