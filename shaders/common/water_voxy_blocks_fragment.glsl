@@ -276,6 +276,8 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
                 blockColor.rgb = 0.3 * waterTexture * realLight * tintColor.rgb;
             #endif
 
+            blockColor = vec4(refraction_voxy(fragposition, blockColor.rgb, waterNormalBase), 1.0);
+
             #if WATER_TEXTURE == 1
                 waterTexture += 0.25;
                 waterTexture *= waterTexture;

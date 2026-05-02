@@ -4,7 +4,8 @@
   "samplers": {
     "gaux1": "sampler2D",
     "gaux4": "sampler2D",
-    "noisetex": "sampler2D"
+    "noisetex": "sampler2D",
+    "vxDepthTexTrans": "sampler2D"
   },
   "opaqueDrawBuffers": [1, 4],
   "translucentDrawBuffers": [1]

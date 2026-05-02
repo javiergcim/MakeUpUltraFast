@@ -27,31 +27,38 @@ vec3 normal_waves_voxy(vec3 pos) {
     return normalize(finalWave);
 }
 
-// vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
-//     vec2 pos = gl_FragCoord.xy * vec2(pixelSizeX, pixelSizeY);
+vec3 refraction_voxy(vec3 fragpos, vec3 color, vec3 refraction) {
+    vec2 pos = gl_FragCoord.xy * vec2(pixelSizeX, pixelSizeY);
 
-//     #if REFRACTION == 1
-//         pos = pos + refraction.xy * (0.075 / (1.0 + length(fragpos) * 0.4));
-//     #endif
+    #if REFRACTION == 1
+        pos = pos + refraction.xy * (0.075 / (1.0 + length(fragpos) * 0.4));
+    #endif
 
-//     float water_absortion;
-//     if (isEyeInWater == 0) {
-//         float water_distance =
-//             2.0 * dhNearPlane * dhFarPlane / (dhFarPlane + dhNearPlane - (2.0 * gl_FragCoord.z - 1.0) * (dhFarPlane - dhNearPlane));
+    const float vxNear = 1.0;
+    const float vxFar  = vxRenderDistance;
+    // const float vxFar  = 48000; // 16 * 3000
 
-//         float earth_distance = texture2D(dhDepthTex1, pos.xy).r;
-//         earth_distance =
-//             2.0 * dhNearPlane * dhFarPlane / (dhFarPlane + dhNearPlane - (2.0 * earth_distance - 1.0) * (dhFarPlane - dhNearPlane));
+    float water_absortion;
 
-//         water_absortion = (earth_distance - water_distance) * 0.5;
-//         water_absortion *= water_absortion;
-//         water_absortion = (1.0 / -((water_absortion * WATER_ABSORPTION) + 1.125)) + 1.0;
-//     } else {
-//         water_absortion = 0.0;
-//     }
+    if (isEyeInWater == 0) {
 
-//     return mix(texture2D(gaux1, pos.xy).rgb, color, water_absortion);
-// }
+        float water_distance =
+            2.0 * vxNear * vxFar / (vxFar + vxNear - (2.0 * gl_FragCoord.z - 1.0) * (vxFar - vxNear));
+
+        float earth_depth = texture(vxDepthTexTrans, pos.xy).r;
+        float earth_distance =
+            2.0 * vxNear * vxFar / (vxFar + vxNear - (2.0 * earth_depth - 1.0) * (vxFar - vxNear));
+
+        water_absortion = (earth_distance - water_distance) * 0.5;
+        water_absortion *= water_absortion;
+        water_absortion = (1.0 / -((water_absortion * WATER_ABSORPTION) + 1.125)) + 1.0;
+
+    } else {
+        water_absortion = 0.0;
+    }
+
+    return mix(texture(gaux1, pos.xy).rgb, color, water_absortion);
+}
 
 vec3 get_normals_voxy(vec3 bump, vec3 fragpos, vec3 tangent, vec3 binormal, vec3 waterNormal) {
     float NdotE = abs(dot(waterNormal, normalize(fragpos)));
@@ -67,7 +74,6 @@ vec3 get_normals_voxy(vec3 bump, vec3 fragpos, vec3 tangent, vec3 binormal, vec3
     return normalize(bump * tbn_matrix);
 }
 
-// vec4 reflection_calc_voxy(vec3 fragpos, vec3 normal, vec3 reflected, vec3 infinite_color, float dither) {
 vec4 reflection_calc_voxy(vec3 fragpos, vec3 normal, vec3 reflected, vec3 infinite_color) {
     vec3 pos = camera_to_screen_voxy(fragpos + reflected * 768.0);
 
@@ -92,7 +98,6 @@ vec3 water_shader_voxy(
     vec3 reflected,
     float fresnel,
     float visibleSky,
-    // float dither,
     vec3 lightColor,
     vec2 lmcoord
 ) {
@@ -101,19 +106,13 @@ vec3 water_shader_voxy(
 
     #if REFLECTION == 1
         reflection =
-            // reflection_calc_voxy(fragpos, normal, reflected, sky_reflect, dither);
             reflection_calc_voxy(fragpos, normal, reflected, sky_reflect);
-            // vec4(1.0, 0.0, 0.0, 1.0);
     #endif
-
-    // DEBUG
-    return reflection.rgb;
 
     reflection.rgb = mix(
         sky_reflect * visibleSky,
         reflection.rgb,
         reflection.a
-        // 1.0
     );
 
     #ifdef VANILLA_WATER

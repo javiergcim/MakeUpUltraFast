@@ -14,7 +14,7 @@
 #endif
 
 layout(location = 0) out vec4 gbufferData0;
-// layout(location = 1) out vec4 gbufferData1;
+layout(location = 1) out vec4 gbufferData1;
 
 /*
 struct VoxyFragmentParameters {
@@ -263,5 +263,5 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
 
     // Real color
     gbufferData0 = blockColor;
-    // gbufferData1 = blockColor;
+    gbufferData1 = blockColor;
 }
