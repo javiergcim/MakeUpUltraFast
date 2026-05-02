@@ -88,7 +88,7 @@ void main() {
         #endif
     #endif
 
-    
+
     #if MC_VERSION >= 11604
         blockColor.rgba = vec4(texture2D(gaux4, gl_FragCoord.xy * vec2(pixelSizeX, pixelSizeY)).rgb, clamp(star_data.a * 2.0, 0.0, 1.0));
     #endif

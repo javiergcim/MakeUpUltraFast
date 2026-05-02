@@ -5,13 +5,13 @@
 #endif
 
 #ifdef BLOOM
-    const bool gaux1MipmapEnabled = true;
+    const bool colortex0MipmapEnabled = true;
 #endif
 
 /* Uniforms */
 
 uniform sampler2D colortex1;
-uniform sampler2D gaux1;
+uniform sampler2D colortex0;
 uniform float aspectRatioInverse;
 
 #ifdef DOF
@@ -31,7 +31,9 @@ uniform float aspectRatioInverse;
 
 varying vec2 texcoord;
 
-#include "/lib/bloom.glsl"
+#ifdef BLOOM
+    #include "/lib/bloom.glsl"
+#endif
 
 /* Utility functions */
 
@@ -61,10 +63,8 @@ void main() {
     #endif
 
     #ifdef BLOOM
-        vec3 bloom = mipmap_bloom(gaux1, texcoord, dither);
+        vec3 bloom = mipmap_bloom(colortex0, texcoord, dither);
         blockColor.rgb += bloom;
-
-        // blockColor.rgb = texture2DLod(gaux1, texcoord, softLod).rgb;
     #endif
 
     blockColor = clamp(blockColor, vec4(0.0), vec4(vec3(50.0), 1.0));

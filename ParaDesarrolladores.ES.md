@@ -26,7 +26,7 @@ Los archivos de traducción. Le dan nombre a las opciones en las pantallas de co
 
 ### shaders/lib
 
-Aquí se encuentran archivos con rutinas o declaraciones específicas que son empleadas en diversos lugares de las rutinas principales. 
+Aquí se encuentran archivos con rutinas o declaraciones específicas que son empleadas en diversos lugares de las rutinas principales.
 
 Los archivos que se encuentran en este directorio son tomados como "bibliotecas", y son llamados FUERA de la función principal del shader que los solicita (es decir, que no se insertan dentro de la función main del shader en cuestión). Usualmente porque declaran funciones o valores empleados por quien los solicita.
 
@@ -61,10 +61,10 @@ Los shaders que se emplean para cualquier otra dimensión no especificada son de
 Los buffers son utilizados y asignados de la siguiente manera:
 
 - noisetex: Almacena las normales del agua en dos canales, el tercer componente es calculado al momento. (RG8)
-- colortex0: Sin usar. (R8)
+- colortex0: Auxixialr para bloom. (R11F_G11F_B10F)
 - colortex1: Buffer principal. Cuando está actvo el DOF, es de cuatro canales, donde el cuarto canal almacena la profundidad de la escena para ser también suavizada por el antialias, y así evitar problemas en cambios de enfoque súbitos por la sacudida de la cámara. (Sin DOF: R11F_G11F_B10F, con DOF: RGBA16)
-- colortex2: Ruido azul (no cargado). (R8)
-- colortex3: Aquí se almacena el historial empleado por el muestreo temporal. Cuando está actvo el DOF, es de cuatro canales, donde el cuarto canal almacena la profundidad de la escena para ser también suavizada por el antialias, y así evitar problemas en cambios de enfoque súbitos por la sacudida de la cámara. (Sin DOF: R11F_G11F_B10F, con DOF: RGBA16) 
+- colortex2: No usado. (R8)
+- colortex3: Aquí se almacena el historial empleado por el muestreo temporal. Cuando está actvo el DOF, es de cuatro canales, donde el cuarto canal almacena la profundidad de la escena para ser también suavizada por el antialias, y así evitar problemas en cambios de enfoque súbitos por la sacudida de la cámara. (Sin DOF: R11F_G11F_B10F, con DOF: RGBA16)
 - gaux1: Aquí se almacena una versión de la escena que será empleada en los reflejos y refracciones de espacio de pantalla. Después de ser empleado para ello, se utiliza como auxiliar para almacenar el bloom de la escena. (R11F_G11F_B10F)
 - gaux2: Almacena el mapa para las nubes. (R8)
 - gaux3: Almacena el valor histórico de autoexposición de la escena. El valor de autoexposición se obtiene haciendo un promedio ponderado con el valor de este canal y el calculado en la escena actual, a fin de hacer una transición de autoexposición gradual en el tiempo. Sí, es un exceso usar un buffer entero para guardar un único valor flotante, pero es lo que hay. Sólo es usado si se usa el método de autoexposición predeterminado. (R16F)
@@ -95,14 +95,14 @@ El resultado se escribirá en:
 
 6. En Composite se calcula el nivel de autoexposure del cuadro actual, y se pondera con el valor histórico guardado en gaux3. Se calcula también la luz volumétrica, y se prepara el bloom. El auto exposure no toma en cuenta ninguno de estos últimos efectos ni los posteriores.
 "Preparar el bloom", significa guardar una versión de la escena actual con el nivel de exposición aplicado, en: gaux1.
-Se guarda también el valor calculado de la autoexposición en: gaux3. 
+Se guarda también el valor calculado de la autoexposición en: gaux3.
 
-7. En Composite1 se calcula el DOF, y se aplica el Bloom. Para aplicar el Bloom se lee un nivel de mipmap del buffer gaux3 calculado en el paso anterior. El resutado se escribe en: colortex1
+7. En Composite1 se calcula el DOF, y se aplica el Bloom. Para aplicar el Bloom se lee un nivel de mipmap del buffer gaux3 calculado en el paso anterior. El resultado se escribe en: colortex1
 
 8. En Composite2 se calcula el AA y el motion blur. El resultado se escribe en: colortex0. Si el supermuestreo temporal está activo, se escribe el histórico en colortex3.
 
 9. En Final, se aplican efectos de postprocesado, como aberración cromática, la autoexposición, el mapa de tonos, y ayudas para ceguera al color.
-Para terminar, la imagen es enviada a la pantalla. 
+Para terminar, la imagen es enviada a la pantalla.
 
 -----
 
