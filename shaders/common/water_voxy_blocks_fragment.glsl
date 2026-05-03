@@ -204,7 +204,7 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
             mix(fogDensityCoeff * 0.15, 0.5, rainStrength)
         );
     #else
-        float frogAdjust = sqrt(clamp(fogFragCoord / float(vxRenderDistance * 16), 0.0, 1.0));
+        float frogAdjust = sqrt(clamp(fogFragCoord / 48000.0, 0.0, 1.0));
     #endif
 
     // ---- Original Fragment Logic
@@ -284,6 +284,8 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
                 waterTexture *= waterTexture;
                 fresnel = clamp(fresnel * (waterTexture), 0.0, 1.0);
             #endif
+
+            blockColor.rgb = water_shader_voxy(fragposition, surfaceNormal, blockColor.rgb, skyColorReflect, normalizedReflectWaterVector, fresnel, visibleSky, directLightColor, lmcoord);
         #endif
     } else {  // Otros translúcidos
         blockColor = parameters.sampledColour;
