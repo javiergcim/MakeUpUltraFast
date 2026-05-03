@@ -245,12 +245,12 @@ vec3 water_shader(
 
 vec4 cristal_reflection_calc(vec3 fragpos, vec3 normal, inout float infinite, float dither) {
     #if SSR_TYPE == 0
-        #if defined DISTANT_HORIZONS
+        #if defined DISTANT_HORIZONS || defined VOXY
             vec3 reflectedVector = reflect(normalize(fragpos), normal) * 768.0;
         #else
             vec3 reflectedVector = reflect(normalize(fragpos), normal) * 76.0;
         #endif
-            vec3 pos = camera_to_screen(fragpos + reflectedVector);
+        vec3 pos = camera_to_screen(fragpos + reflectedVector);
     #else
         vec3 reflectedVector = reflect(normalize(fragpos), normal);
         vec3 pos = fastRaymarch(reflectedVector, fragpos, infinite, dither);

@@ -300,9 +300,9 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
 
         blockColor.rgb *= mix(realLight, vec3(1.0), nightVision * .125);
 
-        // if(blockType > 1.5) {  // Glass
-        //     blockColor = cristal_shader(fragposition, waterNormal, blockColor, skyColorReflect, fresnel * fresnel, visibleSky, dither, directLightColor);
-        // }
+        if(customId == ENTITY_STAINED) {  // Glass
+            blockColor = cristal_shader_voxy(fragposition, normal, blockColor, skyColorReflect, fresnel * fresnel, visibleSky, directLightColor, lmcoord);
+        }
     }
 
 

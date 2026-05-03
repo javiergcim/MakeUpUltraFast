@@ -1,5 +1,5 @@
-/* MakeUp - water_dh.glsl
-Water reflection and refraction related functions (dh).
+/* MakeUp - water_voxy.glsl
+Water reflection and refraction related functions (voxy).
 */
 
 #if SUN_REFLECTION == 1
@@ -73,7 +73,7 @@ vec3 get_normals_voxy(vec3 bump, vec3 fragpos, vec3 tangent, vec3 binormal, vec3
     return normalize(bump * tbn_matrix);
 }
 
-vec4 reflection_calc_voxy(vec3 fragpos, vec3 normal, vec3 reflected, vec3 infinite_color) {
+vec4 reflection_calc_voxy(vec3 fragpos, vec3 normal, vec3 reflected) {
     vec3 pos = camera_to_screen_voxy(fragpos + reflected * 768.0);
 
     float border =
@@ -105,7 +105,7 @@ vec3 water_shader_voxy(
 
     #if REFLECTION == 1
         reflection =
-            reflection_calc_voxy(fragpos, normal, reflected, sky_reflect);
+            reflection_calc_voxy(fragpos, normal, reflected);
     #endif
 
     reflection.rgb = mix(
@@ -131,5 +131,68 @@ vec3 water_shader_voxy(
         #endif
     #else
         return mix(color, reflection.rgb, fresnel * REFLEX_INDEX);
+    #endif
+}
+
+vec4 cristal_reflection_calc_voxy(vec3 fragpos, vec3 normal) {
+    vec3 reflectedVector = reflect(normalize(fragpos), normal) * 768.0;
+    vec3 pos = camera_to_screen_voxy(fragpos + reflectedVector);
+
+    float border_x = max(-fourthPow(abs(2.0 * pos.x - 1.0)) + 1.0, 0.0);
+    float border_y = max(-fourthPow(abs(2.0 * pos.y - 1.0)) + 1.0, 0.0);
+    float border = min(border_x, border_y);
+
+    return vec4(texture(gaux1, pos.xy, 0.0).rgb, border);
+}
+
+vec4 cristal_shader_voxy(
+    vec3 fragpos,
+    vec3 normal,
+    vec4 color,
+    vec3 skyReflectionColor,
+    float fresnel,
+    float visibleSky,
+    vec3 lightColor,
+    vec2 lmcoord
+) {
+    vec4 reflection = vec4(0.0);
+    float infinite = 0.0;
+
+    #if REFLECTION == 1
+        reflection = cristal_reflection_calc_voxy(fragpos, normal);
+    #endif
+
+    skyReflectionColor = mix(color.rgb, skyReflectionColor, visibleSky * visibleSky);
+
+    reflection.rgb = mix(
+        skyReflectionColor,
+        reflection.rgb,
+        reflection.a
+    );
+
+    color.rgb = mix(color.rgb, skyReflectionColor, fresnel);
+    color.rgb = mix(color.rgb, reflection.rgb, fresnel);
+
+    color.a = mix(color.a, 1.0, fresnel * .9);
+
+    #if SUN_REFLECTION == 1
+        #ifndef NETHER
+        #ifndef THE_END
+            return color + vec4(
+                mix(
+                    vec3(sun_reflection(reflect(normalize(fragpos), normal), lmcoord) * lightColor * infinite * visibleSky),
+                    vec3(0.0),
+                    reflection.a
+                ),
+                0.0
+            );
+        #else
+            return color;
+        #endif
+        #else
+            return color;
+        #endif
+    #else
+        return color;
     #endif
 }
