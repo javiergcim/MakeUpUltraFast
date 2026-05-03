@@ -67,7 +67,7 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
             FOG_NIGHT,
             dayMixerV,
             nightMixerV,
-            dayMomentV,
+            dayMomentV
         ) * FOG_ADJUST;
     #endif
 
@@ -80,7 +80,7 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
         vec2 illumination = lmcoord;
     #endif
 
-    illumination.y = max(illumination.y - 0.065, 0.0) * 1.06951871657754;
+    illumination.y *= 1.06951871657754;
     float visibleSky = clamp(illumination.y, 0.0, 1.0);
 
     #if defined UNKNOWN_DIM
@@ -305,11 +305,11 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
         }
     }
 
-
-    // Temporal
-    // blockColor = parameters.sampledColour * parameters.tinting;
-
     #include "/src/finalcolor_voxy.glsl"
+
+    if (blindness > .01) {
+        blockColor.rgb = vec3(0.0);
+    }
 
     gbufferData0 = blockColor;
 }

@@ -74,7 +74,7 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
             FOG_NIGHT,
             dayMixerV,
             nightMixerV,
-            dayMomentV,
+            dayMomentV
         ) * FOG_ADJUST;
     #endif
 
@@ -87,7 +87,7 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
         vec2 illumination = parameters.lightMap;
     #endif
 
-    illumination.y = max(illumination.y - 0.065, 0.0) * 1.06951871657754;
+    illumination.y *= 1.06951871657754;
     float visibleSky = clamp(illumination.y, 0.0, 1.0);
 
     #if defined UNKNOWN_DIM
