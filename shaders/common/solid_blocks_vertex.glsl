@@ -155,21 +155,6 @@ void main() {
         }
     #endif
 
-    // Flame entities
-    // #if defined GBUFFER_ENTITIES
-    //     if (entityId == 10201) {
-    //         isEmissiveEntity = 1.0;
-    //         directLightStrength = 1.0;
-    //     }
-    // #endif
-
-    // Glowing entities
-    // #if defined GBUFFER_ENTITIES
-    //     if (entityId == 10202) {
-    //         isEmissiveEntity = 1.0;
-    //     }
-    // #endif
-
     #if defined SHADOW_CASTING && !defined NETHER
         #include "/src/shadow_src_vertex.glsl"
     #endif

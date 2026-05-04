@@ -13,6 +13,10 @@
     #include "/lib/color_utils.glsl"
 #endif
 
+#if defined MATERIAL_GLOSS && !defined NETHER
+    #include "/lib/material_gloss_fragment_voxy.glsl"
+#endif
+
 layout(location = 0) out vec4 gbufferData0;
 layout(location = 1) out vec4 gbufferData1;
 
@@ -30,23 +34,10 @@ struct VoxyFragmentParameters {
 */
 
 void voxy_emitFragment(VoxyFragmentParameters parameters) {
-    // "Uniforms" Voxy no recalcula en cada frame algunos uniforms
-    float hour_world = worldTime * 0.001;
-    float dayMomentV = hour_world * 0.04166666666666667;
+    // Includes
 
-    float moment_aux = dayMomentV - 0.25;
-    float moment_aux_2 = moment_aux * moment_aux;
-    float dayMixerV = clamp(-moment_aux_2 * 20.0 + 1.25, 0.0, 1.0);
-
-    float moment_aux_3 = dayMomentV - 0.75;
-    float moment_aux_4 = moment_aux_3 * moment_aux_3;
-    float nightMixerV = clamp(-moment_aux_4 * 50.0 + 3.125, 0.0, 1.0);
-
-    // Re-assign
-
-    uint face = parameters.face;
-    uint customId = parameters.customId;
-    vec4 tintColor = parameters.tinting;
+    #include "/src/voxy_uniforms_replace.glsl"
+    #include "/src/hi_sky_voxy.glsl"
 
     // Banderas especiales
 
@@ -59,85 +50,7 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
         customId == ENTITY_SMALLENTS_NW
     );
 
-    // Includes
-
-    #include "/src/hi_sky_voxy.glsl"
-
-    // -- Position Vertex
-
-    #if (VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER)
-        float fogDensityCoeff = FOG_DENSITY * FOG_ADJUST;
-    #else
-        float fogDensityCoeff = dayBlendFloatVoxy(
-            FOG_SUNSET,
-            FOG_DAY,
-            FOG_NIGHT,
-            dayMixerV,
-            nightMixerV,
-            dayMomentV
-        ) * FOG_ADJUST;
-    #endif
-
-    // ---- Original Light Vertex Logic
-
-    // Luz nativa (lmcoord.x: candela, lmcoord.y: cielo) ----
-    #if defined THE_END || defined NETHER
-        vec2 illumination = vec2(parameters.lightMap.x, 1.0);
-    #else
-        vec2 illumination = parameters.lightMap;
-    #endif
-
-    illumination.y *= 1.06951871657754;
-    float visibleSky = clamp(illumination.y, 0.0, 1.0);
-
-    #if defined UNKNOWN_DIM
-        visibleSky = (visibleSky * 0.6) + 0.4;
-    #endif
-
-    // Intensidad y color de luz de candelas
-    float candle_luma = illumination.x * sqrt(illumination.x);
-    vec3 candleColor = CANDLE_BASELIGHT * (candle_luma + sixthPow(illumination.x * 1.17));
-    candleColor = clamp(candleColor, vec3(0.0), vec3(4.0));
-
-    // Atenuación por dirección de luz directa ===================================
-    #if defined THE_END || defined NETHER
-        vec3 astroVector = normalize(vxModelView * vec4(0.0, 0.89442719, 0.4472136, 0.0)).xyz;
-    #else
-        vec3 astroVector = normalize(sunPosition);
-    #endif
-
-    // vec3 normal = gl_NormalMatrix * gl_Normal;
-    vec3 normal = vec3(uint((face>>1)==2), uint((face>>1)==0), uint((face>>1)==1)) * (float(int(face)&1)*2-1);
-    normal = mat3(vxModelView) * normal;
-    float astroLightStrength;
-
-    // Comprobar la longitud al cuadrado (dot product) es mucho más rápido que la longitud (sqrt).
-    if (dot(normal, normal) > 0.0001) {  // Workaround for undefined normals
-        normal = normalize(normal);
-        astroLightStrength = dot(normal, astroVector);
-    } else {
-        normal = vec3(0.0, 1.0, 0.0);
-        astroLightStrength = 1.0;
-    }
-
-    #if defined THE_END || defined NETHER
-        float directLightStrength = astroLightStrength;
-    #else
-        float directLightStrength = mix(-astroLightStrength, astroLightStrength, dayNightMix);
-    #endif
-
-    // Omni light intensity changes by angle
-    float omniStrength = ((directLightStrength + 1.0) * 0.25) + 0.75;
-
-    // Calculamos color de luz directa
-    #if defined UNKNOWN_DIM
-        vec3 directLightColor = texture2D(lightmap, vec2(0.0, parameters.lightMap.y)).rgb;
-    #else
-        vec3 directLightColor = dayBlendVoxy(LIGHT_SUNSET_COLOR, LIGHT_DAY_COLOR, LIGHT_NIGHT_COLOR, dayMixerV, nightMixerV, dayMomentV);
-        #if defined IS_IRIS && defined THE_END && MC_VERSION >= 12109
-            directLightColor += (endFlashIntensity * endFlashIntensity * 0.1);
-        #endif
-    #endif
+    #include "/src/voxy_position_light.glsl"
 
     float farDirectLightStrength = clamp(directLightStrength, 0.0, 1.0);
     if (isFoliageEntity) {  // It's foliage, light is atenuated by angle
@@ -228,6 +141,28 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
         #endif
     #endif
 
+    #if defined MATERIAL_GLOSS && !defined NETHER
+        float lumaFactor = 1.0;
+        float lumaPower = 2.0;
+        float glossPower = 6.0;
+        float glossFactor = 1.05;
+
+        if(customId == ENTITY_SAND) {  // Sand-like block
+            lumaPower = 4.0;
+        } else if(customId == ENTITY_METAL) {  // Metal-like block
+            lumaFactor = 1.35;
+            lumaPower = -1.0;  // Metallic
+            glossPower = 100.0;
+        } else if(customId == ENTITY_FABRIC) {  // Fabric-like blocks
+            glossPower = 3.0;
+            glossFactor = 0.1;
+        }
+
+        vec4 viewPosition = vxProjInv * clipPos;
+        viewPosition /= viewPosition.w;
+        vec3 viewPositionNormalized = normalize(viewPosition.xyz);
+    #endif
+
     // ---- Original Fragment Logic
 
     #if AA_TYPE > 0
@@ -236,24 +171,39 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
         float dither = rDither(gl_FragCoord.xy);
     #endif
 
-    vec4 blockColor = tintColor;
+    vec4 blockColor = parameters.sampledColour * tintColor;
 
-    float block_luma = luma(tintColor.rgb);
+    float block_luma = luma(blockColor.rgb);
 
     vec3 finalCandleColor = candleColor;
 
     float shadowValue = abs((dayNightMix * 2.0) - 1.0);
 
-    vec3 realLight = omniLight +
-        (shadowValue * directLightColor * directLightStrength) * (1.0 - (rainStrength * 0.75)) +
-        finalCandleColor;
+    #if defined MATERIAL_GLOSS && !defined NETHER
+        block_luma *= lumaFactor;
+
+        if(lumaPower < 0.0) {  // Metallic
+            glossPower -= (block_luma * 73.334);
+        } else {
+            block_luma = pow(block_luma, lumaPower);
+        }
+
+        float material_gloss_factor = materialGloss(reflect(viewPositionNormalized, normal), lmcoord, glossPower, normal) * glossFactor;
+
+        float material = material_gloss_factor * block_luma;
+        vec3 realLight = omniLight +
+            (shadowValue * ((directLightColor * directLightStrength) + (directLightColor * material))) * (1.0 - (rainStrength * 0.75)) +
+            finalCandleColor;
+    #else
+        vec3 realLight = omniLight +
+            (shadowValue * directLightColor * directLightStrength) * (1.0 - (rainStrength * 0.75)) +
+            finalCandleColor;
+    #endif
 
     blockColor.rgb *= mix(realLight, vec3(1.0), nightVision * 0.125);
     blockColor.rgb *= mix(vec3(1.0, 1.0, 1.0), vec3(NV_COLOR_R, NV_COLOR_G, NV_COLOR_B), nightVision);
 
     blockColor = clamp(blockColor, vec4(0.0), vec4(vec3(50.0), 1.0));
-
-    blockColor = parameters.sampledColour * blockColor;
 
     #include "/src/finalcolor_voxy.glsl"
 
