@@ -2,6 +2,10 @@
 Water reflection and refraction related functions.
 */
 
+float linearizeDepth(float depth) {
+    return gbufferProjection[3][2] / (gbufferProjection[2][2] + 2.0 * depth - 1.0);
+}
+
 vec3 fastRaymarch(vec3 direction, vec3 hitPoint, inout float infinite, float dither) {
     vec3 pathIncrement;
     vec3 currentMarchPoint = hitPoint;
@@ -134,12 +138,9 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
 
     float water_absortion;
     if (isEyeInWater == 0) {
-        float water_distance =
-        2.0 * near * far / (far + near - (2.0 * gl_FragCoord.z - 1.0) * (far - near));
-
-        float earth_distance = texture2D(depthtex1, pos.xy).r;
-        earth_distance =
-            2.0 * near * far / (far + near - (2.0 * earth_distance - 1.0) * (far - near));
+        float water_distance = linearizeDepth(gl_FragCoord.z);
+        float earth_depth = texture2D(depthtex1, pos.xy).r;
+        float earth_distance = linearizeDepth(earth_depth);
 
         #if defined DISTANT_HORIZONS
             float earth_distance_dh = texture2D(dhDepthTex1, pos.xy).r;
