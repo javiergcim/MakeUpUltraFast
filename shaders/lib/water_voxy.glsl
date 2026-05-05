@@ -34,7 +34,7 @@ vec3 refraction_voxy(vec3 fragpos, vec3 color, vec3 refraction) {
         pos = pos + refraction.xy * (0.075 / (1.0 + length(fragpos) * 0.4));
     #endif
 
-    const float vxNear = 8.0;  // Must be 16.0, but 8.0 for fast non-linearity compensation in water-earth distance calculation
+    const float vxNear = 16.0;  // Must be 16.0, but 8.0 for fast non-linearity compensation in water-earth distance calculation
     const float vxFar  = 48000.0; // 16 * 3000  Documented farplane
 
     float water_absortion;

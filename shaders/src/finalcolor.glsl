@@ -21,10 +21,13 @@
         #if defined GBUFFER_ENTITIES
             if(isEyeInWater == 0 && entityId != 10101 && FOG_ADJUST < 15.0) {  // In the air
                 blockColor.rgb = mix(blockColor.rgb, fog_texture, frogAdjust);
+                // blockColor.rgb = mix(blockColor.rgb, mix(fogColor * 0.1, vec3(1.0), 0.04), frogAdjust);
             }
         #else
             if(isEyeInWater == 0) {  // In the air
                 blockColor.rgb = mix(blockColor.rgb, fog_texture, frogAdjust);
+                // DEBUG
+                // /blockColor.rgb = mix(blockColor.rgb, mix(fogColor * 0.1, vec3(1.0), 0.04), frogAdjust);
             }
         #endif
     #endif

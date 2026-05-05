@@ -101,11 +101,11 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
         #endif
     #endif
 
-    if (customId == ENTITY_EMMISIVE) {
-        directLightStrength = 10.0;
-    } else if (customId == ENTITY_S_EMMISIVE) {
-        directLightStrength = 1.0;
-    }
+    // if (customId == ENTITY_EMMISIVE) {
+    //     directLightStrength = 10.0;
+    // } else if (customId == ENTITY_S_EMMISIVE) {
+    //     directLightStrength = 1.0;
+    // }
 
     // Fog Vertex
 
@@ -176,6 +176,9 @@ void voxy_emitFragment(VoxyFragmentParameters parameters) {
     float block_luma = luma(blockColor.rgb);
 
     vec3 finalCandleColor = candleColor;
+    if (customId == ENTITY_EMMISIVE) {
+        finalCandleColor *= block_luma * 1.5;
+    }
 
     float shadowValue = abs((dayNightMix * 2.0) - 1.0);
 
