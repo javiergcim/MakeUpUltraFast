@@ -17,8 +17,15 @@
         gl_FragData[0] = blockColor;
         gl_FragData[1] = blockColor;
     #else
-        /* DRAWBUFFERS:1 */
-        blockColor = clamp(blockColor, vec4(0.0), vec4(vec3(50.0), 1.0));
-        gl_FragData[0] = blockColor;
+        #if defined GBUFFER_ENTITIES && MC_VERSION >= 260000  // Invisible skin behind water fix
+            /* DRAWBUFFERS:14 */
+            blockColor = clamp(blockColor, vec4(0.0), vec4(vec3(50.0), 1.0));
+            gl_FragData[0] = blockColor;
+            gl_FragData[1] = blockColor;
+        #else
+            /* DRAWBUFFERS:1 */
+            blockColor = clamp(blockColor, vec4(0.0), vec4(vec3(50.0), 1.0));
+            gl_FragData[0] = blockColor;
+        #endif
     #endif
 #endif
