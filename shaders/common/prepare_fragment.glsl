@@ -52,6 +52,6 @@ void main() {
 
         blockColor = xyzToRgb(blockColor);
     #endif
-    
+
     #include "/src/writebuffers.glsl"
 }
