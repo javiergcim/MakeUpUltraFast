@@ -15,7 +15,7 @@ profile.comment=“无阴影”配置文件是为低性能电脑设计的，不�
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=感谢你使用这款着色器！ :). 将高清修复的原生画质选项设为正常值/默认值，可获得更好的画质。
-value.ACERCADE.0=v.9.5c
+value.ACERCADE.0=v.9.5d
 
 #Options
 #############################
@@ -297,3 +297,6 @@ screen.CUSTOM_COLORS_SUNSET=日落/黎明的自定义颜色
 screen.CUSTOM_COLORS_NIGHT=夜晚的自定义颜色
 screen.CUSTOM_COLORS_WATER=水体的自定义颜色
 screen.CUSTOM_COLORS_NV=夜视的自定义颜色
+
+option.IMAGE_SHARPENING=图像锐化
+option.SHARPENING=锐化强度

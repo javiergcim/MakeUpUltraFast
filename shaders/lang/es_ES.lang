@@ -15,7 +15,7 @@ profile.comment=Los perfiles "sin sombras" están pensados para máquinas de baj
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=¡Gracias por usar este shader! :). Configurá los controles de calidad nativos de Optifine en valores normales o predeterminados para mejor calidad.
-value.ACERCADE.0=v.9.5c
+value.ACERCADE.0=v.9.5d
 
 # Opciones
 #############################
@@ -297,3 +297,6 @@ screen.CUSTOM_COLORS_SUNSET=Colores personalizados de atardecer/amanecer
 screen.CUSTOM_COLORS_NIGHT=Colores personalizados de noche
 screen.CUSTOM_COLORS_WATER=Color personalizado del agua
 screen.CUSTOM_COLORS_NV=Color personalizado para visión nocturna
+
+option.IMAGE_SHARPENING=Afilado de imagen
+option.SHARPENING=Fuerza de afilado

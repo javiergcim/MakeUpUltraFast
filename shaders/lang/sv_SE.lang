@@ -15,7 +15,7 @@ profile.comment=De "skugglösa" profilerna är designade för datorer med låg p
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=Tack för att du använder denna shader! :). Ändra Optifines inbyggda kvalitetsalternativ till normala värden eller dess standardvärden för bättre kvalitet.
-value.ACERCADE.0=v.9.5c
+value.ACERCADE.0=v.9.5d
 
 #Options
 #############################
@@ -295,3 +295,6 @@ screen.CUSTOM_COLORS_DAY=Dag anpassade färger
 screen.CUSTOM_COLORS_SUNSET=Solnedgång/gryning anpassade färger
 screen.CUSTOM_COLORS_NIGHT=Natt anpassade färger
 screen.CUSTOM_COLORS_WATER=Vatten anpassad färg
+
+option.IMAGE_SHARPENING=Skärpa
+option.SHARPENING=Skärpningsnivå

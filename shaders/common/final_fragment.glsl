@@ -68,7 +68,7 @@ uniform sampler2D gaux3;
 uniform sampler2D colortex1;
 uniform float viewWidth;
 
-#if AA_TYPE == 3
+#if AA_TYPE == 3 || defined IMAGE_SHARPENING
     uniform float pixelSizeX;
     uniform float pixelSizeY;
 #endif
@@ -97,6 +97,9 @@ varying float exposure;
     #include "/lib/aberration.glsl"
 #endif
 
+#ifdef IMAGE_SHARPENING
+    #include "/lib/cas.glsl"
+#endif
 
 
 // MAIN FUNCTION ------------------
@@ -105,7 +108,14 @@ void main() {
     #if CHROMA_ABER == 1
         vec3 blockColor = color_aberration();
     #else
-        vec3 blockColor = texture2D(colortex1, texcoord).rgb;
+        vec3 blockColor;
+
+        #ifdef IMAGE_SHARPENING
+            blockColor = CAS(texcoord);
+        #else
+            blockColor = texture(colortex1, texcoord).rgb;
+        #endif
+
         #if AA_TYPE == 3 && !defined DOF
             blockColor = fxaa311(blockColor, 5);
         #endif
