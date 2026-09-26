@@ -14,8 +14,8 @@ profile.comment=Профили "БТ (без теней)" предназначе
 #About
 #############################
 option.ACERCADE=MakeUp
-option.ACERCADE.comment=Спасибо, что используете этот шейдер! :). Для лучшего качества установите настройки OptiFine в значении "Быстро" или "Детально".
-value.ACERCADE.0=v.9.5f
+option.ACERCADE.comment=Спасибо, что используете этот шейдер! :). Для лучшего качества установите настройки OptiFine в значении "По умолчанию" или "Обычные".
+value.ACERCADE.0=v.9.5e
 
 #Options
 #############################
@@ -54,17 +54,17 @@ option.DOF=Глубина резкости
 
 option.DOF_STRENGTH=Сила глубины резкости
 
-option.DOF_SAMPLES_FACTOR=Коэффициент отсчётов глубины резкости
+option.DOF_SAMPLES_FACTOR=Коэффициент выборок глубины резкости
 
 option.AO=Окклюзия окружения
 value.AO.0=Выкл
 value.AO.1=Вкл
 
-option.AOSTEPS=Пары отсчётов окклюзии окружения
+option.AOSTEPS=Пары выборок окклюзии окружения
 
 option.AO_STRENGTH=Сила окклюзии окружения
 
-option.AA_TYPE=Временная дискретизация
+option.AA_TYPE=Временное сглаживание
 value.AA_TYPE.0=Выкл
 value.AA_TYPE.1=Шумоподавление
 value.AA_TYPE.2=TAA
@@ -72,7 +72,7 @@ value.AA_TYPE.3=TAA+
 
 option.MOTION_BLUR=Размытие в движении
 option.MOTION_BLUR_STRENGTH=Сила размытия в движении
-option.MOTION_BLUR_SAMPLES=Отсчёты размытия в движении
+option.MOTION_BLUR_SAMPLES=Выборки размытия в движении
 
 option.VANILLA_WATER=Вода как в ванилле
 
@@ -197,7 +197,7 @@ value.CLOUD_SPEED.2=Ускоренная 2
 
 option.END_CLOUDS=Облака в Энде
 
-option.CLOUD_STEPS_AVG=Отсчёты облаков
+option.CLOUD_STEPS_AVG=Выборки облаков
 
 option.BLOOM=Свечение
 
@@ -210,7 +210,7 @@ value.COLOR_BLIND_MODE.2=Тританопия
 
 option.DEBUG_MODE=Режим отладки
 
-option.BLOOM_SAMPLES=Пары отсчётов свечения
+option.BLOOM_SAMPLES=Пары выборок свечения
 
 option.BLACK_ENTITY_FIX=Исправление чёрных сущностей
 value.BLACK_ENTITY_FIX.0=Выкл
@@ -255,7 +255,7 @@ screen.COMPATIBILITY_SCREEN.comment=Настройки совместимост�
 screen.SHADOWS_SCREEN=Тени
 screen.SHADOWS_SCREEN.comment=Настройки теней.
 
-option.SHADOW_LOCK=Блокировка пикселей теней
+option.SHADOW_LOCK=Пиксельные тени
 value.SHADOW_LOCK.0=Выкл
 value.SHADOW_LOCK.16=16x16
 value.SHADOW_LOCK.32=32x32
@@ -272,8 +272,8 @@ screen.AO_SCREEN.comment=Настройки окклюзии окружения.
 screen.WATER_SCREEN=Вода
 screen.WATER_SCREEN.comment=Настройки воды.
 
-screen.POST_SCREEN=Пост-эффекты
-screen.POST_SCREEN.comment=Настройки пост-эффектов.
+screen.POST_SCREEN=Постобработка
+screen.POST_SCREEN.comment=Настройки постобработки.
 
 screen.LIGHT_SCREEN=Свет
 screen.LIGHT_SCREEN.comment=Настройки света.
