@@ -15,7 +15,7 @@ profile.comment=Профили "БТ (без теней)" предназначе
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=Спасибо, что используете этот шейдер! :). Для лучшего качества установите настройки OptiFine в значении "По умолчанию" или "Обычные".
-value.ACERCADE.0=v.9.5e
+value.ACERCADE.0=v.9.5f
 
 #Options
 #############################
@@ -92,10 +92,6 @@ option.REFRACTION=Преломление
 value.REFRACTION.0=Выкл
 value.REFRACTION.1=Вкл
 
-option.SSR_TYPE=Тип отражения
-value.SSR_TYPE.0=Отзеркаленный
-value.SSR_TYPE.1=Объёмный
-
 option.SUN_REFLECTION=Отражения солнца и луны
 value.SUN_REFLECTION.0=Выкл
 value.SUN_REFLECTION.1=Вкл
@@ -112,7 +108,7 @@ value.CHROMA_ABER.1=Вкл
 
 option.CHROMA_ABER_STRENGTH=Сила хроматической аберрации
 
-option.WATER_ABSORPTION=Индекс поглощения воды
+option.WATER_ABSORPTION=Степень поглощения воды
 
 option.WATER_TURBULENCE=Сила волн
 value.WATER_TURBULENCE.7.0=Очень низкая
@@ -126,7 +122,7 @@ value.COLOR_SCHEME.1=Новая шока
 value.COLOR_SCHEME.2=Шока
 value.COLOR_SCHEME.3=Классическая
 value.COLOR_SCHEME.4=Капитан
-value.COLOR_SCHEME.5=Психоделическая
+value.COLOR_SCHEME.5=Психоделика
 value.COLOR_SCHEME.6=Какао
 value.COLOR_SCHEME.7=Тестиго
 value.COLOR_SCHEME.99=Пользовательская
