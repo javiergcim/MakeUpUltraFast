@@ -54,15 +54,13 @@ option.DOF=Глубина резкости
 
 option.DOF_STRENGTH=Сила глубины резкости
 
-option.DOF_SAMPLES_FACTOR=Коэффициент выборок глубины резкости
-
-option.AO=Окклюзия окружения
+option.AO=Затенение от окружения
 value.AO.0=Выкл
 value.AO.1=Вкл
 
-option.AOSTEPS=Пары выборок окклюзии окружения
+option.AOSTEPS=Пары выборок затенения
 
-option.AO_STRENGTH=Сила окклюзии окружения
+option.AO_STRENGTH=Сила затенения
 
 option.AA_TYPE=Временное сглаживание
 value.AA_TYPE.0=Выкл
@@ -237,7 +235,7 @@ option.sunPathRotation=Угол солнца
 
 option.USE_BASIC_SH=Базовый шейдер для пользовательских измерений
 
-option.MATERIAL_GLOSS=Глянцевость материалов
+option.MATERIAL_GLOSS=Отражение материалов
 
 option.DYN_HAND_LIGHT=Ложный динамический свет
 
@@ -262,8 +260,8 @@ value.SHADOW_LOCK.256=256x256
 screen.DOF_SCREEN=Глубина резкости
 screen.DOF_SCREEN.comment=Настройки глубины резкости.
 
-screen.AO_SCREEN=Окклюзия окружения
-screen.AO_SCREEN.comment=Настройки окклюзии окружения.
+screen.AO_SCREEN=Затенение от окружения
+screen.AO_SCREEN.comment=Настройки затенения от окружения.
 
 screen.WATER_SCREEN=Вода
 screen.WATER_SCREEN.comment=Настройки воды.
