@@ -171,7 +171,7 @@ option.NV_COLOR_B=Ночное зрение B
 
 option.OMNI_TINT_CUSTOM=Общий оттенок
 
-option.AVOID_DARK_LEVEL=Яркость пещер
+option.AVOID_DARK_LEVEL=Яркость в пещерах
 
 option.NIGHT_BRIGHT=Ночная яркость
 
