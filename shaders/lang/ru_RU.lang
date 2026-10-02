@@ -52,7 +52,7 @@ value.VOL_LIGHT.2=Объёмные
 
 option.DOF=Глубина резкости
 
-option.DOF_STRENGTH=Сила глубины резкости
+option.DOF_STRENGTH=Сила резкости
 
 option.AO=Затенение от окружения
 value.AO.0=Выкл
@@ -69,8 +69,8 @@ value.AA_TYPE.2=TAA
 value.AA_TYPE.3=TAA+
 
 option.MOTION_BLUR=Размытие в движении
-option.MOTION_BLUR_STRENGTH=Сила размытия в движении
-option.MOTION_BLUR_SAMPLES=Выборки размытия в движении
+option.MOTION_BLUR_STRENGTH=Сила размытия
+option.MOTION_BLUR_SAMPLES=Выборки размытия
 
 option.VANILLA_WATER=Вода как в ванилле
 
@@ -104,7 +104,7 @@ option.CHROMA_ABER=Хроматическая аберрация
 value.CHROMA_ABER.0=Выкл
 value.CHROMA_ABER.1=Вкл
 
-option.CHROMA_ABER_STRENGTH=Сила хроматической аберрации
+option.CHROMA_ABER_STRENGTH=Сила аберрации
 
 option.WATER_ABSORPTION=Степень поглощения воды
 
@@ -165,9 +165,9 @@ option.WATER_COLOR_R=Цвет воды R
 option.WATER_COLOR_G=Цвет воды G
 option.WATER_COLOR_B=Цвет воды B
 
-option.NV_COLOR_R=Множитель ночного зрения R
-option.NV_COLOR_G=Множитель ночного зрения G
-option.NV_COLOR_B=Множитель ночного зрения B
+option.NV_COLOR_R=Множитель R
+option.NV_COLOR_G=Множитель G
+option.NV_COLOR_B=Множитель B
 
 option.OMNI_TINT_CUSTOM=Общий оттенок
 
