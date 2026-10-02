@@ -41,7 +41,7 @@ option.SHADOW_TYPE=Тип теней
 value.SHADOW_TYPE.0=Обычные
 value.SHADOW_TYPE.1=Сглаженные
 
-option.SHADOW_BLUR=Интенсивность размытия теней
+option.SHADOW_BLUR=Сила размытия теней
 
 option.COLORED_SHADOW=Цветные тени
 
@@ -72,7 +72,7 @@ option.MOTION_BLUR=Размытие в движении
 option.MOTION_BLUR_STRENGTH=Сила размытия
 option.MOTION_BLUR_SAMPLES=Выборки размытия
 
-option.VANILLA_WATER=Вода как в ванилле
+option.VANILLA_WATER=Ванильная вода
 
 option.WATER_TEXTURE=Текстура воды
 value.WATER_TEXTURE.0=Выкл
@@ -104,7 +104,7 @@ option.CHROMA_ABER=Хроматическая аберрация
 value.CHROMA_ABER.0=Выкл
 value.CHROMA_ABER.1=Вкл
 
-option.CHROMA_ABER_STRENGTH=Сила аберрации
+option.CHROMA_ABER_STRENGTH=Сила хроматической аберрации
 
 option.WATER_ABSORPTION=Степень поглощения воды
 
@@ -165,9 +165,9 @@ option.WATER_COLOR_R=Цвет воды R
 option.WATER_COLOR_G=Цвет воды G
 option.WATER_COLOR_B=Цвет воды B
 
-option.NV_COLOR_R=Ночное зрение R
-option.NV_COLOR_G=Ночное зрение G
-option.NV_COLOR_B=Ночное зрение B
+option.NV_COLOR_R=Цвет ночного зрения R
+option.NV_COLOR_G=Цвет ночного зрения G
+option.NV_COLOR_B=Цвет ночного зрения B
 
 option.OMNI_TINT_CUSTOM=Общий оттенок
 
@@ -212,7 +212,7 @@ value.BLACK_ENTITY_FIX.1=Вкл
 
 option.FOG_ACTIVE=Отображение тумана
 
-option.FOG_ADJUST=Интенсивность тумана
+option.FOG_ADJUST=Сила тумана
 value.FOG_ADJUST.20.0=Без тумана
 value.FOG_ADJUST.10.0=Сверхнизкая
 value.FOG_ADJUST.8.0=Очень низкая
