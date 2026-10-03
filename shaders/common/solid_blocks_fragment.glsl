@@ -193,6 +193,14 @@ void main() {
         }
     #endif
 
+    // NEW GLINT METHOD IN IRIS (MC >= 26.3)
+    #ifdef IRIS_INLINE_GLINT
+        if (mc_hasGlint()) {
+            vec3 glint = mc_sampleGlint();
+            blockColor.rgb += glint;
+        }
+    #endif
+
     #if defined SHADOW_CASTING && !defined NETHER
         #if SHADOW_LOCK > 0
             vec3 offsetVector = vNormal * 0.002;
@@ -223,7 +231,7 @@ void main() {
         blockColor.rgb *= 1.5;
     #elif defined GBUFFER_ENTITY_GLOW
         blockColor.rgb =
-            clamp(vec3(luma(blockColor.rgb)) * vec3(0.75, 0.75, 1.5), vec3(0.3), vec3(1.0));
+            clamp(vec3(luma(blockColor.rgb)) * vec3(0.75, 0.75, 1.5), vec3(0.3), vec3(1.0));        
         vec3 realLight = omniLight +
                 (shadowValue * directLightColor * directLightStrength) * (1.0 - (rainStrength * 0.75)) +
                 finalCandleColor;
@@ -252,9 +260,6 @@ void main() {
 
         blockColor.rgb *= mix(realLight, vec3(1.0), nightVision * 0.125);
         blockColor.rgb *= mix(vec3(1.0, 1.0, 1.0), vec3(NV_COLOR_R, NV_COLOR_G, NV_COLOR_B), nightVision);
-
-        // DEBUG
-        // blockColor = vec4(vec3(directLightStrength), 1.0);
     #endif
 
     #if defined GBUFFER_ENTITIES
@@ -272,10 +277,6 @@ void main() {
     #if MC_VERSION < 11300 && defined GBUFFER_TEXTURED
         blockColor.rgb *= 1.5;
     #endif
-
-    // DEBUG
-    // blockColor = vec4(omniLight, 1.0);
-    // blockColor = vec4(vec3(directLightStrength), 1.0);
 
     #include "/src/finalcolor.glsl"
     #include "/src/writebuffers.glsl"
