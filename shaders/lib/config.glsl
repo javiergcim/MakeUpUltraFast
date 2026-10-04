@@ -17,7 +17,7 @@ Javier Garduño - GNU Lesser General Public License v3.0
 #define ENTITY_F_EMMISIVE     10213.0  // Fake emissors
 #define ENTITY_NO_SHADOW_FIRE 10214.0  // Fire (no shadow)
 #define ENTITY_WATER          10008.0  // Water
-#define ENTITY_PORTAL         10090.0  // Portal
+#define ENTITY_PORTAL         10091.0  // End Portal like
 #define ENTITY_STAINED        10079.0  // Glass
 #define ENTITY_METAL          10400.0  // Metal-like glossy blocks
 #define ENTITY_SAND           10410.0  // Sand-like glossy blocks
