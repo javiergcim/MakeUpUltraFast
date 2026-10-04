@@ -15,7 +15,7 @@ profile.comment=Профили "БТ (без теней)" предназначе
 #############################
 option.ACERCADE=MakeUp
 option.ACERCADE.comment=Спасибо, что используете этот шейдер! :). Для лучшего качества установите настройки OptiFine в значении "По умолчанию" или "Обычные".
-value.ACERCADE.0=v.9.5e
+value.ACERCADE.0=v.9.5f
 
 #Options
 #############################
@@ -41,7 +41,7 @@ option.SHADOW_TYPE=Тип теней
 value.SHADOW_TYPE.0=Обычные
 value.SHADOW_TYPE.1=Сглаженные
 
-option.SHADOW_BLUR=Интенсивность размытия теней
+option.SHADOW_BLUR=Сила размытия теней
 
 option.COLORED_SHADOW=Цветные тени
 
@@ -52,17 +52,15 @@ value.VOL_LIGHT.2=Объёмные
 
 option.DOF=Глубина резкости
 
-option.DOF_STRENGTH=Сила глубины резкости
+option.DOF_STRENGTH=Сила резкости
 
-option.DOF_SAMPLES_FACTOR=Коэффициент выборок глубины резкости
-
-option.AO=Окклюзия окружения
+option.AO=Затенение от окружения
 value.AO.0=Выкл
 value.AO.1=Вкл
 
-option.AOSTEPS=Пары выборок окклюзии окружения
+option.AOSTEPS=Пары выборок затенения
 
-option.AO_STRENGTH=Сила окклюзии окружения
+option.AO_STRENGTH=Сила затенения
 
 option.AA_TYPE=Временное сглаживание
 value.AA_TYPE.0=Выкл
@@ -71,10 +69,10 @@ value.AA_TYPE.2=TAA
 value.AA_TYPE.3=TAA+
 
 option.MOTION_BLUR=Размытие в движении
-option.MOTION_BLUR_STRENGTH=Сила размытия в движении
-option.MOTION_BLUR_SAMPLES=Выборки размытия в движении
+option.MOTION_BLUR_STRENGTH=Сила размытия
+option.MOTION_BLUR_SAMPLES=Выборки размытия
 
-option.VANILLA_WATER=Вода как в ванилле
+option.VANILLA_WATER=Ванильная вода
 
 option.WATER_TEXTURE=Текстура воды
 value.WATER_TEXTURE.0=Выкл
@@ -92,10 +90,6 @@ option.REFRACTION=Преломление
 value.REFRACTION.0=Выкл
 value.REFRACTION.1=Вкл
 
-option.SSR_TYPE=Тип отражения
-value.SSR_TYPE.0=Отзеркаленный
-value.SSR_TYPE.1=Объёмный
-
 option.SUN_REFLECTION=Отражения солнца и луны
 value.SUN_REFLECTION.0=Выкл
 value.SUN_REFLECTION.1=Вкл
@@ -112,7 +106,7 @@ value.CHROMA_ABER.1=Вкл
 
 option.CHROMA_ABER_STRENGTH=Сила хроматической аберрации
 
-option.WATER_ABSORPTION=Индекс поглощения воды
+option.WATER_ABSORPTION=Степень поглощения воды
 
 option.WATER_TURBULENCE=Сила волн
 value.WATER_TURBULENCE.7.0=Очень низкая
@@ -126,7 +120,7 @@ value.COLOR_SCHEME.1=Новая шока
 value.COLOR_SCHEME.2=Шока
 value.COLOR_SCHEME.3=Классическая
 value.COLOR_SCHEME.4=Капитан
-value.COLOR_SCHEME.5=Психоделическая
+value.COLOR_SCHEME.5=Психоделика
 value.COLOR_SCHEME.6=Какао
 value.COLOR_SCHEME.7=Тестиго
 value.COLOR_SCHEME.99=Пользовательская
@@ -171,13 +165,13 @@ option.WATER_COLOR_R=Цвет воды R
 option.WATER_COLOR_G=Цвет воды G
 option.WATER_COLOR_B=Цвет воды B
 
-option.NV_COLOR_R=Множитель ночного зрения R
-option.NV_COLOR_G=Множитель ночного зрения G
-option.NV_COLOR_B=Множитель ночного зрения B
+option.NV_COLOR_R=Цвет ночного зрения R
+option.NV_COLOR_G=Цвет ночного зрения G
+option.NV_COLOR_B=Цвет ночного зрения B
 
 option.OMNI_TINT_CUSTOM=Общий оттенок
 
-option.AVOID_DARK_LEVEL=Яркость пещер
+option.AVOID_DARK_LEVEL=Яркость в пещерах
 
 option.NIGHT_BRIGHT=Ночная яркость
 
@@ -218,7 +212,7 @@ value.BLACK_ENTITY_FIX.1=Вкл
 
 option.FOG_ACTIVE=Отображение тумана
 
-option.FOG_ADJUST=Интенсивность тумана
+option.FOG_ADJUST=Сила тумана
 value.FOG_ADJUST.20.0=Без тумана
 value.FOG_ADJUST.10.0=Сверхнизкая
 value.FOG_ADJUST.8.0=Очень низкая
@@ -241,7 +235,7 @@ option.sunPathRotation=Угол солнца
 
 option.USE_BASIC_SH=Базовый шейдер для пользовательских измерений
 
-option.MATERIAL_GLOSS=Глянцевость материалов
+option.MATERIAL_GLOSS=Блеск материалов
 
 option.DYN_HAND_LIGHT=Ложный динамический свет
 
@@ -266,8 +260,8 @@ value.SHADOW_LOCK.256=256x256
 screen.DOF_SCREEN=Глубина резкости
 screen.DOF_SCREEN.comment=Настройки глубины резкости.
 
-screen.AO_SCREEN=Окклюзия окружения
-screen.AO_SCREEN.comment=Настройки окклюзии окружения.
+screen.AO_SCREEN=Затенение от окружения
+screen.AO_SCREEN.comment=Настройки затенения от окружения.
 
 screen.WATER_SCREEN=Вода
 screen.WATER_SCREEN.comment=Настройки воды.
