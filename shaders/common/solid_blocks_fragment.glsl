@@ -217,7 +217,7 @@ void main() {
 
     // END PORTAL LIKE
     if(isEndPortal > 0.5) {
-        blockColor.rgb = end_portal();
+        blockColor.rgb = endPortal();
     }
 
     #if defined SHADOW_CASTING && !defined NETHER

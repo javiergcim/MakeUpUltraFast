@@ -9,19 +9,19 @@ This code is adapted from:
 E-LITE shaders 5 - end_portal.glsl #include "/lib/end_portal.glsl"
 End portal render. - Renderização do portal do End. */
 
-float noise2D_grid(vec2 p) {
+float noise2DGrid(vec2 p) {
     vec2 i = floor(p); 
     return hash12(i);
 }
 
 vec3 reconstructWorldPosition(float depth, vec2 resolution) {
-    vec2 ndc_xy = (gl_FragCoord.xy / resolution) * 2.0 - 1.0;
-    vec4 frag_view_space = gbufferProjectionInverse * vec4(ndc_xy, depth, 1.0);
-    frag_view_space.xyz /= frag_view_space.w; 
-    return (gbufferModelViewInverse * frag_view_space).xyz - gbufferModelViewInverse[3].xyz;
+    vec2 ndcXY = (gl_FragCoord.xy / resolution) * 2.0 - 1.0;
+    vec4 fragViewSpace = gbufferProjectionInverse * vec4(ndcXY, depth, 1.0);
+    fragViewSpace.xyz /= fragViewSpace.w; 
+    return (gbufferModelViewInverse * fragViewSpace).xyz - gbufferModelViewInverse[3].xyz;
 }
 
-vec3 end_portal() {
+vec3 endPortal() {
     const int maxLayers = 10;
     const float depthFalloffSpeed = 4.0;
     const float layerScaleFactor = 20.0;
@@ -58,7 +58,7 @@ vec3 end_portal() {
         uvLayer -= (cameraPosition.xz * layerFactor * 50.0);
         uvLayer += (flowOffset * (inverseFactor * 10.0));
 
-        float noiseVal = noise2D_grid(uvLayer);
+        float noiseVal = noise2DGrid(uvLayer);
         float baseIntensity = fifthPow(noiseVal);
         float intensity = smoothstep(clipMin, clipMax, baseIntensity);
 
