@@ -66,6 +66,9 @@ const bool gaux4Clear = false;
 
 uniform sampler2D gaux3;
 uniform sampler2D colortex1;
+#ifdef SELECTIVE_TAA_V2
+uniform sampler2D colortex2;
+#endif
 uniform float viewWidth;
 
 #if AA_TYPE == 3 || defined IMAGE_SHARPENING
@@ -117,7 +120,11 @@ void main() {
         #endif
 
         #if AA_TYPE == 3 && !defined DOF
-            blockColor = fxaa311(blockColor, 5);
+#ifdef SELECTIVE_TAA_V2
+            if(texture2DLod(colortex2,texcoord,0.0).r<=0.5) blockColor=fxaa311(blockColor,5);
+#else
+            blockColor=fxaa311(blockColor,5);
+#endif
         #endif
     #endif
 
