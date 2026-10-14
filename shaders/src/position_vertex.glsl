@@ -61,7 +61,7 @@ gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
     float isFakeEmmisor = float(mc_Entity.x == ENTITY_F_EMMISIVE);
 #endif
 
-#if AA_TYPE > 1
+#if AA_TYPE > 1 && !defined GBUFFER_ENTITIES && !defined GBUFFER_ENTITIES_GLOW && !defined GBUFFER_BLOCK && !defined GBUFFER_BLOCK_TRANSLUCENT && !defined GBUFFER_TEXTURED && !defined GBUFFER_HAND && !defined GBUFFER_HAND_WATER && !defined GBUFFER_ARMOR_GLINT && !defined GBUFFER_SPIDEREYES && !defined GBUFFER_WEATHER && !defined GBUFFER_PARTICLES && !defined GBUFFER_PARTICLES_TRANSLUCENT
     gl_Position.xy += taaOffset * gl_Position.w;
 #endif
 
