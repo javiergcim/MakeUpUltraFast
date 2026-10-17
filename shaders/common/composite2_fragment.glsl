@@ -13,8 +13,8 @@ const bool gaux4Clear = false;
 
 uniform sampler2D colortex1;
 #ifdef SELECTIVE_TAA_V2
-uniform sampler2D colortex2;
-uniform sampler2D colortex5;
+    uniform sampler2D colortex2;
+    uniform sampler2D colortex5;
 #endif
 
 #if AA_TYPE > 0 || defined MOTION_BLUR
@@ -51,9 +51,11 @@ varying vec2 texcoord;
     #include "/lib/luma.glsl"
     #include "/lib/color_conversion.glsl"
     #include "/lib/fast_taa.glsl"
-#ifdef SELECTIVE_TAA_V2
-#include "/lib/fxaa.glsl"
-#endif
+
+    #ifdef SELECTIVE_TAA_V2
+        #include "/lib/fxaa.glsl"
+    #endif
+
 #endif
 
 // MAIN FUNCTION ------------------
@@ -102,37 +104,42 @@ void main() {
     #endif
 
     #if AA_TYPE > 0
-#ifdef SELECTIVE_TAA_V2
-        float objectMask=texture2DLod(colortex2,texcoord,0.0).r;
-        vec2 mp=vec2(pixelSizeX,pixelSizeY);
-        objectMask=max(objectMask,texture2DLod(colortex2,texcoord+vec2(mp.x,0.0),0.0).r);
-        objectMask=max(objectMask,texture2DLod(colortex2,texcoord-vec2(mp.x,0.0),0.0).r);
-        objectMask=max(objectMask,texture2DLod(colortex2,texcoord+vec2(0.0,mp.y),0.0).r);
-        objectMask=max(objectMask,texture2DLod(colortex2,texcoord-vec2(0.0,mp.y),0.0).r);
-        float previousObjectMask=texture2DLod(colortex5,texcoordPast,0.0).r;
-        if(objectMask>0.5 || previousObjectMask>0.5) {
-            blockColor.rgb=fxaa311(blockColor.rgb,5);
-        } else {
-#endif
+        #ifdef SELECTIVE_TAA_V2
+            float objectMask=texture2DLod(colortex2,texcoord,0.0).r;
+            vec2 mp=vec2(pixelSizeX,pixelSizeY);
+            objectMask=max(objectMask,texture2DLod(colortex2,texcoord+vec2(mp.x,0.0),0.0).r);
+            objectMask=max(objectMask,texture2DLod(colortex2,texcoord-vec2(mp.x,0.0),0.0).r);
+            objectMask=max(objectMask,texture2DLod(colortex2,texcoord+vec2(0.0,mp.y),0.0).r);
+            objectMask=max(objectMask,texture2DLod(colortex2,texcoord-vec2(0.0,mp.y),0.0).r);
+            float previousObjectMask=texture2DLod(colortex5,texcoordPast,0.0).r;
+            if(objectMask>0.5 || previousObjectMask>0.5) {
+                blockColor.rgb=fxaa311(blockColor.rgb,5);
+            } else {
+        #endif
+
         #ifdef DOF
             blockColor=fastTaaDepth(blockColor,texcoordPast);
         #else
             blockColor.rgb=fastTaa(blockColor.rgb,texcoordPast);
         #endif
-#ifdef SELECTIVE_TAA_V2
-        }
-#endif
+
+        #ifdef SELECTIVE_TAA_V2
+            }
+        #endif
+
         blockColor=clamp(blockColor,vec4(0.0),vec4(vec3(50.0),1.0));
-#ifdef SELECTIVE_TAA_V2
-        /* DRAWBUFFERS:135 */
-        gl_FragData[0]=blockColor;
-        gl_FragData[1]=blockColor;
-        gl_FragData[2]=texture2DLod(colortex2,texcoord,0.0);
-#else
-        /* DRAWBUFFERS:13 */
-        gl_FragData[0]=blockColor;
-        gl_FragData[1]=blockColor;
-#endif
+
+        #ifdef SELECTIVE_TAA_V2
+            /* DRAWBUFFERS:135 */
+            gl_FragData[0]=blockColor;
+            gl_FragData[1]=blockColor;
+            gl_FragData[2]=texture2DLod(colortex2,texcoord,0.0);
+        #else
+            /* DRAWBUFFERS:13 */
+            gl_FragData[0]=blockColor;
+            gl_FragData[1]=blockColor;
+        #endif
+        
     #else
         blockColor=clamp(blockColor,vec4(0.0),vec4(vec3(50.0),1.0));
         /* DRAWBUFFERS:1 */

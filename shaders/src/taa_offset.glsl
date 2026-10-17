@@ -1,4 +1,4 @@
-#if MC_VERSION >= 11300
+#if MC_VERSION >= 11604
     uniform vec2 taaOffset;
 #else
     uniform int frameMod;

@@ -116,7 +116,7 @@ void main() {
         #ifdef IMAGE_SHARPENING
             blockColor = CAS(texcoord);
         #else
-            blockColor = texture(colortex1, texcoord).rgb;
+            blockColor = texture2D(colortex1, texcoord).rgb;
         #endif
 
         #if AA_TYPE == 3 && !defined DOF

@@ -325,4 +325,7 @@ const float centerDepthHalflife = 0.66;
     #define TRANSITION_DH_SUP 0.05
     #define TRANSITION_DH_INF 0.90
 #endif
-#define SELECTIVE_TAA_V2
+
+#if MC_VERSION >= 11400
+    #define SELECTIVE_TAA_V2
+#endif
