@@ -19,13 +19,13 @@
     /* DRAWBUFFERS:1 */
     gl_FragData[0] = blockColor;
 #elif defined SET_FOG_COLOR
-    /* DRAWBUFFERS:172 */
+    /* DRAWBUFFERS:17 */
     blockColor = clamp(blockColor, vec3(0.0), vec3(50.0));
     gl_FragData[0] = vec4(blockColor,1.0);
     gl_FragData[1] = vec4(blockColor,1.0);
     // colortex2 is the selective-TAA entity mask. Prepare is a full-screen pass,
     // so clear it here before entity/hand programs mark their pixels.
-    gl_FragData[2] = vec4(0.0);
+    // gl_FragData[2] = vec4(0.0);
 #elif MC_VERSION < 11604 && defined GBUFFER_SKYBASIC
     /* DRAWBUFFERS:17 */
     blockColor = clamp(blockColor,vec4(0.0),vec4(vec3(50.0),1.0));

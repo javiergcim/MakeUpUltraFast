@@ -300,3 +300,5 @@ screen.CUSTOM_COLORS_NV=Color personalizado para visión nocturna
 
 option.IMAGE_SHARPENING=Afilado de imagen
 option.SHARPENING=Fuerza de afilado
+
+option.SELECTIVE_TAA_V2=TAA Selectivo

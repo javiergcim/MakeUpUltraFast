@@ -300,3 +300,5 @@ screen.CUSTOM_COLORS_NV=Цвет ночного зрения
 
 option.IMAGE_SHARPENING=Резкость изображения
 option.SHARPENING=Сила резкости
+
+option.SELECTIVE_TAA_V2=Выборочный TAA

@@ -300,3 +300,5 @@ screen.CUSTOM_COLORS_NV=Night vision custom color
 
 option.IMAGE_SHARPENING=Image sharpening
 option.SHARPENING=Sharpen strength
+
+option.SELECTIVE_TAA_V2=Selective TAA

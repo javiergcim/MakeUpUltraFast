@@ -298,3 +298,5 @@ screen.CUSTOM_COLORS_WATER=Vatten anpassad färg
 
 option.IMAGE_SHARPENING=Skärpa
 option.SHARPENING=Skärpningsnivå
+
+option.SELECTIVE_TAA_V2=Selektiv TAA

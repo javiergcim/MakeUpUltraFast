@@ -327,5 +327,5 @@ const float centerDepthHalflife = 0.66;
 #endif
 
 #if MC_VERSION >= 11400
-    #define SELECTIVE_TAA_V2
+    #define SELECTIVE_TAA_V2 // Applies TAA selectively to the environment and entities. Eliminates artifacts and ghosting associated with entities when TAA is enabled.
 #endif

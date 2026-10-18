@@ -295,3 +295,5 @@ screen.CUSTOM_COLORS_NV=Gece görüşü özel rengi
 
 option.IMAGE_SHARPENING=Görüntü Keskinleştirme
 option.SHARPENING=Keskinleştirme Şiddeti
+
+option.SELECTIVE_TAA_V2=Seçici TAA

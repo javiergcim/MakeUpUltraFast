@@ -299,3 +299,5 @@ screen.CUSTOM_COLORS_NV=야간 투시 커스텀 색상
 
 option.IMAGE_SHARPENING = 화면 선명화
 option.SHARPENING = 선명도 강도
+
+option.SELECTIVE_TAA_V2=선택적 TAA

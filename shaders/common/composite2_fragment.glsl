@@ -2,7 +2,11 @@
 
 const bool colortex0Clear = false;
 const bool colortex1Clear = false;
-const bool colortex2Clear = false;
+#ifdef SELECTIVE_TAA_V2
+    const bool colortex2Clear = true;
+#else
+    const bool colortex2Clear = false;
+#endif
 const bool colortex3Clear = false;
 const bool gaux1Clear = false;
 const bool gaux2Clear = false;
@@ -105,39 +109,40 @@ void main() {
 
     #if AA_TYPE > 0
         #ifdef SELECTIVE_TAA_V2
-            float objectMask=texture2DLod(colortex2,texcoord,0.0).r;
-            vec2 mp=vec2(pixelSizeX,pixelSizeY);
-            objectMask=max(objectMask,texture2DLod(colortex2,texcoord+vec2(mp.x,0.0),0.0).r);
-            objectMask=max(objectMask,texture2DLod(colortex2,texcoord-vec2(mp.x,0.0),0.0).r);
-            objectMask=max(objectMask,texture2DLod(colortex2,texcoord+vec2(0.0,mp.y),0.0).r);
-            objectMask=max(objectMask,texture2DLod(colortex2,texcoord-vec2(0.0,mp.y),0.0).r);
-            float previousObjectMask=texture2DLod(colortex5,texcoordPast,0.0).r;
-            if(objectMask>0.5 || previousObjectMask>0.5) {
-                blockColor.rgb=fxaa311(blockColor.rgb,5);
+            float objectMask = texture2DLod(colortex2, texcoord, 0.0).r;
+            float nextPreviousMask = objectMask;
+            vec2 mp = vec2(pixelSizeX, pixelSizeY);
+            objectMask = max(objectMask, texture2DLod(colortex2, texcoord + vec2(mp.x, 0.0), 0.0).r);
+            objectMask = max(objectMask, texture2DLod(colortex2, texcoord - vec2(mp.x, 0.0), 0.0).r);
+            objectMask = max(objectMask, texture2DLod(colortex2, texcoord + vec2(0.0, mp.y), 0.0).r);
+            objectMask = max(objectMask, texture2DLod(colortex2, texcoord - vec2(0.0, mp.y), 0.0).r);
+            float previousObjectMask = texture2DLod(colortex5, texcoordPast, 0.0).r;
+            if(objectMask > 0.5 || previousObjectMask > 0.5) {
+                blockColor.rgb = fxaa311(blockColor.rgb, 6);
             } else {
         #endif
 
         #ifdef DOF
-            blockColor=fastTaaDepth(blockColor,texcoordPast);
+            blockColor = fastTaaDepth(blockColor, texcoordPast);
         #else
-            blockColor.rgb=fastTaa(blockColor.rgb,texcoordPast);
+            blockColor.rgb = fastTaa(blockColor.rgb, texcoordPast);
         #endif
 
         #ifdef SELECTIVE_TAA_V2
             }
         #endif
 
-        blockColor=clamp(blockColor,vec4(0.0),vec4(vec3(50.0),1.0));
+        blockColor=clamp(blockColor, vec4(0.0), vec4(vec3(50.0), 1.0));
 
         #ifdef SELECTIVE_TAA_V2
             /* DRAWBUFFERS:135 */
-            gl_FragData[0]=blockColor;
-            gl_FragData[1]=blockColor;
-            gl_FragData[2]=texture2DLod(colortex2,texcoord,0.0);
+            gl_FragData[0] = blockColor;
+            gl_FragData[1] = blockColor;
+            gl_FragData[2] = vec4(nextPreviousMask);  // Current mask to next frame's previous mask
         #else
             /* DRAWBUFFERS:13 */
-            gl_FragData[0]=blockColor;
-            gl_FragData[1]=blockColor;
+            gl_FragData[0] = blockColor;
+            gl_FragData[1] = blockColor;
         #endif
         
     #else

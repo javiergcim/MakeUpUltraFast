@@ -6,7 +6,7 @@
 noisetex - Water normals
 colortex0 - Bloom auxiliar
 colortex1 - Antialiasing auxiliar
-colortex2 - Unused
+colortex2 - Selective TAA Mask (current frame)
 colortex3 - TAA Averages history
 gaux1 - Screen-Space-Reflection
 gaux2 - Clouds texture
@@ -120,11 +120,13 @@ void main() {
         #endif
 
         #if AA_TYPE == 3 && !defined DOF
-#ifdef SELECTIVE_TAA_V2
-            if(texture2DLod(colortex2,texcoord,0.0).r<=0.5) blockColor=fxaa311(blockColor,5);
-#else
-            blockColor=fxaa311(blockColor,5);
-#endif
+            #ifdef SELECTIVE_TAA_V2
+                if(texture2DLod(colortex2, texcoord,0.0).r<=0.5) {
+                    blockColor = fxaa311(blockColor, 5);
+                }
+            #else
+                blockColor=fxaa311(blockColor,5);
+            #endif
         #endif
     #endif
 

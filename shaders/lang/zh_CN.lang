@@ -300,3 +300,5 @@ screen.CUSTOM_COLORS_NV=夜视的自定义颜色
 
 option.IMAGE_SHARPENING=图像锐化
 option.SHARPENING=锐化强度
+
+option.SELECTIVE_TAA_V2=选择性 TAA
