@@ -302,3 +302,4 @@ option.IMAGE_SHARPENING=Afilado de imagen
 option.SHARPENING=Fuerza de afilado
 
 option.SELECTIVE_TAA_V2=TAA Selectivo
+option.SELECTIVE_TAA_V2.comment=Aplica de forma selectiva el supermuestreo temporal para evitar el efecto de ghosting que pueden producir las entidades. Impacto medio.

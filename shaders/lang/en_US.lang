@@ -301,4 +301,5 @@ screen.CUSTOM_COLORS_NV=Night vision custom color
 option.IMAGE_SHARPENING=Image sharpening
 option.SHARPENING=Sharpen strength
 
-option.SELECTIVE_TAA_V2=Selective TAA
+option.SELECTIVE_TAA_V2=Selective temporal sampling
+option.SELECTIVE_TAA_V2.comment=Selectively apply temporal supersampling to avoid the ghosting effect that entities can produce. Medium impact.

@@ -302,3 +302,4 @@ option.IMAGE_SHARPENING=图像锐化
 option.SHARPENING=锐化强度
 
 option.SELECTIVE_TAA_V2=选择性 TAA
+option.SELECTIVE_TAA_V2.comment=选择性地应用时间超采样,以避免实体可能产生的鬼影效应。影响程度:中等。

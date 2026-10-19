@@ -301,3 +301,4 @@ option.IMAGE_SHARPENING = 화면 선명화
 option.SHARPENING = 선명도 강도
 
 option.SELECTIVE_TAA_V2=선택적 TAA
+option.SELECTIVE_TAA_V2.comment=엔티티가 유발할 수 있는 고스팅 효과를 방지하려면 시간적 슈퍼샘플링을 선택적으로 적용하세요. 영향도: 중간.

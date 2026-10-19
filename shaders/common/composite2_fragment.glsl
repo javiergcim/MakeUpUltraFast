@@ -111,14 +111,17 @@ void main() {
         #ifdef SELECTIVE_TAA_V2
             float objectMask = texture2DLod(colortex2, texcoord, 0.0).r;
             float nextPreviousMask = objectMask;
-            vec2 mp = vec2(pixelSizeX, pixelSizeY);
-            objectMask = max(objectMask, texture2DLod(colortex2, texcoord + vec2(mp.x, 0.0), 0.0).r);
-            objectMask = max(objectMask, texture2DLod(colortex2, texcoord - vec2(mp.x, 0.0), 0.0).r);
-            objectMask = max(objectMask, texture2DLod(colortex2, texcoord + vec2(0.0, mp.y), 0.0).r);
-            objectMask = max(objectMask, texture2DLod(colortex2, texcoord - vec2(0.0, mp.y), 0.0).r);
+            
+            // Too expensive. More agressive FXAA instead
+            // vec2 mp = vec2(pixelSizeX, pixelSizeY);
+            // objectMask = max(objectMask, texture2DLod(colortex2, texcoord + vec2(mp.x, 0.0), 0.0).r);
+            // objectMask = max(objectMask, texture2DLod(colortex2, texcoord - vec2(mp.x, 0.0), 0.0).r);
+            // objectMask = max(objectMask, texture2DLod(colortex2, texcoord + vec2(0.0, mp.y), 0.0).r);
+            // objectMask = max(objectMask, texture2DLod(colortex2, texcoord - vec2(0.0, mp.y), 0.0).r);
+
             float previousObjectMask = texture2DLod(colortex5, texcoordPast, 0.0).r;
             if(objectMask > 0.5 || previousObjectMask > 0.5) {
-                blockColor.rgb = fxaa311(blockColor.rgb, 6);
+                blockColor.rgb = fxaa311(blockColor.rgb, 10);
             } else {
         #endif
 

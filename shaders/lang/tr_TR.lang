@@ -297,3 +297,4 @@ option.IMAGE_SHARPENING=Görüntü Keskinleştirme
 option.SHARPENING=Keskinleştirme Şiddeti
 
 option.SELECTIVE_TAA_V2=Seçici TAA
+option.SELECTIVE_TAA_V2.comment=Varlıkların oluşturabileceği hayalet görüntü (ghosting) etkisini önlemek için zamansal süper örneklemeyi seçici olarak uygulayın. Orta etki.

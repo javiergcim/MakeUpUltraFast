@@ -302,3 +302,4 @@ option.IMAGE_SHARPENING=Резкость изображения
 option.SHARPENING=Сила резкости
 
 option.SELECTIVE_TAA_V2=Выборочный TAA
+option.SELECTIVE_TAA_V2.comment=Выборочно применяйте временной суперсэмплинг, чтобы избежать эффекта «гостинга», который могут создавать сущности. Влияние: среднее.

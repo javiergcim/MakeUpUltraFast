@@ -300,3 +300,4 @@ option.IMAGE_SHARPENING=Skärpa
 option.SHARPENING=Skärpningsnivå
 
 option.SELECTIVE_TAA_V2=Selektiv TAA
+option.SELECTIVE_TAA_V2.comment=Tillämpa temporal supersampling selektivt för att undvika ghosting-effekten som entiteter kan orsaka. Medelhög påverkan.
