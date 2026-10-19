@@ -26,5 +26,5 @@
     );
 
     vec2 taaOffset = offsetArray[frameMod] * vec2(pixelSizeX, pixelSizeY);
-    vec2 fixedTaaCorrection = vec2(0.51, 0.51) * vec2(pixelSizeX, pixelSizeY);
+    vec2 fixedTaaCorrection = vec2(pixelSizeX, pixelSizeY) * 0.51;
 #endif

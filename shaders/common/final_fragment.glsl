@@ -49,7 +49,7 @@ const int shadowcolor0Format = RGBA8;
 // Buffers clear
 const bool colortex0Clear = false;
 const bool colortex1Clear = false;
-const bool colortex2Clear = false;
+const bool colortex2Clear = true;
 const bool colortex3Clear = false;
 const bool gaux1Clear = false;
 const bool gaux2Clear = false;
