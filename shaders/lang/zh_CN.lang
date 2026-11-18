@@ -255,8 +255,8 @@ screen.COMPATIBILITY_SCREEN.comment=设置兼容性选项
 screen.SHADOWS_SCREEN=阴影
 screen.SHADOWS_SCREEN.comment=设置阴影选项
 
-option.SHADOW_LOCK=Pixel locked shadows
-value.SHADOW_LOCK.0=Disabled
+option.SHADOW_LOCK=像素化阴影
+value.SHADOW_LOCK.0=关
 value.SHADOW_LOCK.16=16x16
 value.SHADOW_LOCK.32=32x32
 value.SHADOW_LOCK.64=64x64
