@@ -13,6 +13,6 @@
     // Re-assign
 
     uint face = parameters.face;
-    uint customId = parameters.customId;
+    float customId = float(parameters.customId);
     vec4 tintColor = parameters.tinting;
     vec2 lmcoord = parameters.lightMap;
